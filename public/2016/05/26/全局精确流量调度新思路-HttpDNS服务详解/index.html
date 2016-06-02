@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>全局精确流量调度新思路-HttpDNS服务详解 | 星空博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="&amp;#x4F46;&amp;#x51E1;&amp;#x4F7F;&amp;#x7528;&amp;#x57DF;&amp;#x540D;&amp;#x6765;&amp;#x7ED9;&amp;#x7528;&amp;#x6237;&amp;#x63D0;&amp;#x4F9B;&amp;#x670D;&amp;#x52A1;&amp;#x7684;&amp;#x4E92;&amp;#x8054;&amp;#x7F51;&amp;#x4F01;&amp;#x4E1A;&amp;#xFF0C;&amp;#x90FD;&amp;#x6216;&amp;#x591A;&amp;#x6216;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="全局精确流量调度新思路-HttpDNS服务详解">
+<meta property="og:url" content="http://www.wangxin123.com/2016/05/26/全局精确流量调度新思路-HttpDNS服务详解/index.html">
+<meta property="og:site_name" content="星空博客">
+<meta property="og:description" content="&amp;#x4F46;&amp;#x51E1;&amp;#x4F7F;&amp;#x7528;&amp;#x57DF;&amp;#x540D;&amp;#x6765;&amp;#x7ED9;&amp;#x7528;&amp;#x6237;&amp;#x63D0;&amp;#x4F9B;&amp;#x670D;&amp;#x52A1;&amp;#x7684;&amp;#x4E92;&amp;#x8054;&amp;#x7F51;&amp;#x4F01;&amp;#x4E1A;&amp;#xFF0C;&amp;#x90FD;&amp;#x6216;&amp;#x591A;&amp;#x6216;">
+<meta property="og:image" content="http://www.wangxin123.com/2016/05/26/&#x5168;&#x5C40;&#x7CBE;&#x786E;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x65B0;&#x601D;&#x8DEF;-HttpDNS&#x670D;&#x52A1;&#x8BE6;&#x89E3;/1.jpg">
+<meta property="og:updated_time" content="2016-06-02T17:25:58.631Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="全局精确流量调度新思路-HttpDNS服务详解">
+<meta name="twitter:description" content="&amp;#x4F46;&amp;#x51E1;&amp;#x4F7F;&amp;#x7528;&amp;#x57DF;&amp;#x540D;&amp;#x6765;&amp;#x7ED9;&amp;#x7528;&amp;#x6237;&amp;#x63D0;&amp;#x4F9B;&amp;#x670D;&amp;#x52A1;&amp;#x7684;&amp;#x4E92;&amp;#x8054;&amp;#x7F51;&amp;#x4F01;&amp;#x4E1A;&amp;#xFF0C;&amp;#x90FD;&amp;#x6216;&amp;#x591A;&amp;#x6216;">
+<meta name="twitter:image" content="http://www.wangxin123.com/2016/05/26/&#x5168;&#x5C40;&#x7CBE;&#x786E;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x65B0;&#x601D;&#x8DEF;-HttpDNS&#x670D;&#x52A1;&#x8BE6;&#x89E3;/1.jpg">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">星空博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/wk.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/wk.png" />
+            <h2 id="name">Wasim</h2>
+            <h3 id="title">Java Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>ShenZhen, China</span>
+            <a id="follow" target="_blank" href="https://github.com/Wasim37">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                2
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                3
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-全局精确流量调度新思路-HttpDNS服务详解" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            全局精确流量调度新思路-HttpDNS服务详解
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/05/26/全局精确流量调度新思路-HttpDNS服务详解/">
+            <time datetime="2016-05-26T14:22:00.000Z" itemprop="datePublished">2016-05-26</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/我的收藏/">我的收藏</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/HttpsDNS/">HttpsDNS</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>&#x4F46;&#x51E1;&#x4F7F;&#x7528;&#x57DF;&#x540D;&#x6765;&#x7ED9;&#x7528;&#x6237;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x7684;&#x4E92;&#x8054;&#x7F51;&#x4F01;&#x4E1A;&#xFF0C;&#x90FD;&#x6216;&#x591A;&#x6216;&#x5C11;&#x5730;&#x65E0;&#x6CD5;&#x907F;&#x514D;&#x5728;&#x6709;&#x4E2D;&#x56FD;&#x7279;&#x8272;&#x7684;&#x4E92;&#x8054;&#x7F51;&#x73AF;&#x5883;&#x4E2D;&#x906D;&#x9047;&#x5230;&#x5404;&#x79CD;&#x57DF;&#x540D;&#x88AB;&#x7F13;&#x5B58;&#x3001;&#x7528;&#x6237;&#x8DE8;&#x7F51;&#x8BBF;&#x95EE;&#x7F13;&#x6162;&#x7B49;&#x95EE;&#x9898;&#x3002;&#x90A3;&#x4E48;&#x5BF9;&#x4E8E;&#x817E;&#x8BAF;&#x8FD9;&#x6837;&#x7684;&#x57DF;&#x540D;&#x6570;&#x91CF;&#x5728;10&#x4E07;&#x7EA7;&#x522B;&#x7684;&#x4E92;&#x8054;&#x7F51;&#x516C;&#x53F8;&#x6765;&#x8BB2;&#xFF0C;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#x7684;&#x60C5;&#x51B5;&#x5230;&#x5E95;&#x6709;&#x591A;&#x4E25;&#x91CD;&#x5462;&#xFF1F;&#x6BCF;&#x5929;&#x817E;&#x8BAF;&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x76D1;&#x6D4B;&#x7CFB;&#x7EDF;&#x5728;&#x4E0D;&#x505C;&#x5730;&#x5BF9;&#x5168;&#x56FD;&#x6240;&#x6709;&#x7684;&#x91CD;&#x70B9;LocalDNS&#x8FDB;&#x884C;&#x63A2;&#x6D4B;&#xFF0C;&#x817E;&#x8BAF;&#x57DF;&#x540D;&#x5728;&#x5168;&#x56FD;&#x5404;&#x5730;&#x7684;&#x65E5;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#x91CF;&#x662F;&#x5DF2;&#x7ECF;&#x8D85;&#x8FC7;&#x4E86;80&#x4E07;&#x6761;&#x3002;&#x8FD9;&#x7ED9;&#x817E;&#x8BAF;&#x7684;&#x4E1A;&#x52A1;&#x5E26;&#x6765;&#x4E86;&#x5DE8;&#x5927;&#x7684;&#x635F;&#x5931;&#x3002;&#x4E3A;&#x6B64;&#x817E;&#x8BAF;&#x5EFA;&#x7ACB;&#x4E86;&#x4E13;&#x4E1A;&#x7684;&#x56E2;&#x961F;&#x4E0E;&#x5404;&#x4E2A;&#x8FD0;&#x8425;&#x5546;&#x8FDB;&#x884C;&#x4E86;&#x6DF1;&#x5EA6;&#x6C9F;&#x901A;&#xFF0C;&#x4F46;&#x662F;&#x7531;&#x4E8E;&#x5404;&#x79CD;&#x539F;&#x56E0;&#xFF0C;&#x5904;&#x7406;&#x6548;&#x7387;&#x53CA;&#x6548;&#x679C;&#x5747;&#x4E0D;&#x80FD;&#x8FBE;&#x5230;&#x817E;&#x8BAF;&#x5404;&#x4E1A;&#x52A1;&#x90E8;&#x95E8;&#x7684;&#x9700;&#x6C42;&#x3002;&#x9664;&#x4E86;&#x548C;&#x8FD0;&#x8425;&#x5546;&#x8FDB;&#x884C;&#x6C9F;&#x901A;&#xFF0C;&#x6709;&#x6CA1;&#x6709;&#x4E00;&#x79CD;&#x6280;&#x672F;&#x4E0A;&#x7684;&#x65B9;&#x6848;&#xFF0C;&#x80FD;&#x4ECE;&#x6839;&#x6E90;&#x4E0A;&#x89E3;&#x51B3;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#x53CA;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x8DE8;&#x7F51;&#x7684;&#x95EE;&#x9898;&#x5462;&#xFF1F;</p>
+<h2 id="&#x4E00;&#x3001;&#x95EE;&#x9898;&#x6839;&#x6E90;&#xFF1A;"><a href="#&#x4E00;&#x3001;&#x95EE;&#x9898;&#x6839;&#x6E90;&#xFF1A;" class="headerlink" title="&#x4E00;&#x3001;&#x95EE;&#x9898;&#x6839;&#x6E90;&#xFF1A;"></a>&#x4E00;&#x3001;&#x95EE;&#x9898;&#x6839;&#x6E90;&#xFF1A;</h2><p>&#x8981;&#x89E3;&#x51B3;&#x95EE;&#x9898;&#xFF0C;&#x6211;&#x4EEC;&#x5F97;&#x5148;&#x5F97;&#x4E86;&#x89E3;&#x4E0B;&#x73B0;&#x5728;&#x56FD;&#x5185;&#x5404;ISP&#x7684;LocalDNS&#x7684;&#x57FA;&#x672C;&#x60C5;&#x51B5;&#x3002;&#x56FD;&#x5185;&#x8FD0;&#x8425;&#x5546;LocalDNS&#x9020;&#x6210;&#x7684;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x5F02;&#x5E38;&#x53EF;&#x4EE5;&#x5F52;&#x4E3A;&#x4E0B;&#x4E09;&#x7C7B;&#xFF1A;</p>
+<h3 id="1&#x3001;&#x57DF;&#x540D;&#x7F13;&#x5B58;&#xFF1A;"><a href="#1&#x3001;&#x57DF;&#x540D;&#x7F13;&#x5B58;&#xFF1A;" class="headerlink" title="1&#x3001;&#x57DF;&#x540D;&#x7F13;&#x5B58;&#xFF1A;"></a>1&#x3001;&#x57DF;&#x540D;&#x7F13;&#x5B58;&#xFF1A;</h3><p>&#x57DF;&#x540D;&#x7F13;&#x5B58;&#x5F88;&#x597D;&#x7406;&#x89E3;&#xFF0C;&#x5C31;&#x662F;LocalDNS&#x7F13;&#x5B58;&#x4E86;&#x817E;&#x8BAF;&#x7684;&#x57DF;&#x540D;&#x7684;&#x89E3;&#x6790;&#x7ED3;&#x679C;&#xFF0C;&#x4E0D;&#x5411;&#x817E;&#x8BAF;&#x6743;&#x5A01;DNS&#x53D1;&#x8D77;&#x9012;&#x5F52;&#xFF0C;&#x793A;&#x610F;&#x56FE;&#x5982;&#x4E0B;&#xFF1A;  </p>
+<p><img src="/2016/05/26/&#x5168;&#x5C40;&#x7CBE;&#x786E;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x65B0;&#x601D;&#x8DEF;-HttpDNS&#x670D;&#x52A1;&#x8BE6;&#x89E3;/1.jpg" alt="&#x56FE;&#x7247;1">  </p>
+<p>&#x4E3A;&#x4F55;LocalDNS&#x8981;&#x628A;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x7ED3;&#x679C;&#x8FDB;&#x884C;&#x7F13;&#x5B58;&#x5462;&#xFF1F;&#x539F;&#x56E0;&#x6709;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#xFF1A;</p>
+<p>&#xFF08;1&#xFF09;&#x4FDD;&#x8BC1;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x6D41;&#x91CF;&#x5728;&#x672C;&#x7F51;&#x5185;&#x6D88;&#x5316;&#xFF1A;&#x56FD;&#x5185;&#x7684;&#x5404;&#x4E92;&#x8054;&#x7F51;&#x63A5;&#x5165;&#x8FD0;&#x8425;&#x5546;&#x7684;&#x5E26;&#x5BBD;&#x8D44;&#x6E90;&#x3001;&#x7F51;&#x95F4;&#x7ED3;&#x7B97;&#x8D39;&#x7528;&#x3001;IDC&#x673A;&#x623F;&#x5206;&#x5E03;&#x3001;&#x7F51;&#x5185;ICP&#x8D44;&#x6E90;&#x5206;&#x5E03;&#x7B49;&#x5B58;&#x5728;&#x8F83;&#x5927;&#x5DEE;&#x5F02;&#x3002;&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x7F51;&#x5185;&#x7528;&#x6237;&#x7684;&#x8BBF;&#x95EE;&#x8D28;&#x91CF;&#xFF0C;&#x540C;&#x65F6;&#x51CF;&#x5C11;&#x8DE8;&#x7F51;&#x7ED3;&#x7B97;&#xFF0C;&#x8FD0;&#x8425;&#x5546;&#x5728;&#x7F51;&#x5185;&#x642D;&#x5EFA;&#x4E86;&#x5185;&#x5BB9;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x901A;&#x8FC7;&#x628A;&#x57DF;&#x540D;&#x5F3A;&#x884C;&#x6307;&#x5411;&#x5185;&#x5BB9;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x5668;&#x7684;IP&#x5730;&#x5740;&#xFF0C;&#x5C31;&#x5B9E;&#x73B0;&#x4E86;&#x628A;&#x672C;&#x5730;&#x672C;&#x7F51;&#x6D41;&#x91CF;&#x5B8C;&#x5168;&#x7559;&#x5728;&#x4E86;&#x672C;&#x5730;&#x7684;&#x76EE;&#x7684;&#x3002;</p>
+<a id="more"></a>
+<p>&#xFF08;2&#xFF09;&#x63A8;&#x9001;&#x5E7F;&#x544A;&#xFF1A;&#x6709;&#x90E8;&#x5206;LocalDNS&#x4F1A;&#x628A;&#x90E8;&#x5206;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x7ED3;&#x679C;&#x7684;&#x6240;&#x6307;&#x5411;&#x7684;&#x5185;&#x5BB9;&#x7F13;&#x5B58;&#xFF0C;&#x5E76;&#x66FF;&#x6362;&#x6210;&#x7B2C;&#x4E09;&#x65B9;&#x5E7F;&#x544A;&#x8054;&#x76DF;&#x7684;&#x5E7F;&#x544A;&#x3002;</p>
+<p>&#x8FD9;&#x79CD;&#x7C7B;&#x578B;&#x7684;&#x884C;&#x4E3A;&#x5C31;&#x662F;&#x6211;&#x4EEC;&#x5E38;&#x8BF4;&#x7684;&#x57DF;&#x540D;&#x7F13;&#x5B58;&#xFF0C;&#x57DF;&#x540D;&#x7F13;&#x5B58;&#x4F1A;&#x5BFC;&#x81F4;&#x7528;&#x6237;&#x4EA7;&#x751F;&#x4EE5;&#x4E0B;&#x7684;&#x8BBF;&#x95EE;&#x5F02;&#x5E38;&#xFF1A;</p>
+<p>A&#x3001;&#x4EC5;&#x5BF9;80&#x7AEF;&#x53E3;&#x7684;http&#x670D;&#x52A1;&#x505A;&#x4E86;&#x7F13;&#x5B58;&#xFF0C;&#x5982;&#x679C;&#x57DF;&#x540D;&#x662F;&#x901A;&#x8FC7;https&#x534F;&#x8BAE;&#x6216;&#x5176;&#x5B83;&#x7AEF;&#x53E3;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x7684;&#xFF0C;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x5C31;&#x4F1A;&#x51FA;&#x73B0;&#x5931;&#x8D25;&#x3002;&#x6BD4;&#x5982;&#x652F;&#x4ED8;&#x670D;&#x52A1;&#x3001;&#x6E38;&#x620F;&#x901A;&#x8FC7;&#x6307;&#x5B9A;&#x7AEF;&#x53E3;&#x8FDE;&#x63A5;connect server&#x670D;&#x52A1;&#x7B49;&#x3002;</p>
+<p>B&#x3001;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x5668;&#x7684;&#x8FD0;&#x7EF4;&#x6C34;&#x5E73;&#x53C2;&#x5DEE;&#x4E0D;&#x9F50;&#xFF0C;&#x65F6;&#x6709;&#x51FA;&#x73B0;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x5668;&#x6545;&#x969C;&#x5BFC;&#x81F4;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x5F02;&#x5E38;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
+<h3 id="2&#x3001;&#x89E3;&#x6790;&#x8F6C;&#x53D1;&#xFF1A;"><a href="#2&#x3001;&#x89E3;&#x6790;&#x8F6C;&#x53D1;&#xFF1A;" class="headerlink" title="2&#x3001;&#x89E3;&#x6790;&#x8F6C;&#x53D1;&#xFF1A;"></a>2&#x3001;&#x89E3;&#x6790;&#x8F6C;&#x53D1;&#xFF1A;</h3><p>&#x9664;&#x4E86;&#x57DF;&#x540D;&#x7F13;&#x5B58;&#x4EE5;&#x5916;&#xFF0C;&#x8FD0;&#x8425;&#x5546;&#x7684;LocalDNS&#x8FD8;&#x5B58;&#x5728;&#x89E3;&#x6790;&#x8F6C;&#x53D1;&#x7684;&#x73B0;&#x8C61;&#x3002;&#x89E3;&#x6790;&#x8F6C;&#x53D1;&#x662F;&#x6307;&#x8FD0;&#x8425;&#x5546;&#x81EA;&#x8EAB;&#x4E0D;&#x8FDB;&#x884C;&#x57DF;&#x540D;&#x9012;&#x5F52;&#x89E3;&#x6790;&#xFF0C;&#x800C;&#x662F;&#x628A;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x8BF7;&#x6C42;&#x8F6C;&#x53D1;&#x5230;&#x5176;&#x5B83;&#x8FD0;&#x8425;&#x5546;&#x7684;&#x9012;&#x5F52;DNS&#x4E0A;&#x7684;&#x884C;&#x4E3A;&#x3002;&#x6B63;&#x5E38;&#x7684;LocalDNS&#x9012;&#x5F52;&#x89E3;&#x6790;&#x8FC7;&#x7A0B;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;</p>
+<p><img src="/2016/05/26/&#x5168;&#x5C40;&#x7CBE;&#x786E;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x65B0;&#x601D;&#x8DEF;-HttpDNS&#x670D;&#x52A1;&#x8BE6;&#x89E3;/2.jpg" alt="&#x56FE;&#x7247;2">  </p>
+<p>&#x800C;&#x90E8;&#x5206;&#x5C0F;&#x8FD0;&#x8425;&#x5546;&#x4E3A;&#x4E86;&#x8282;&#x7701;&#x8D44;&#x6E90;&#xFF0C;&#x5C31;&#x76F4;&#x63A5;&#x5C06;&#x89E3;&#x6790;&#x8BF7;&#x6C42;&#x8F6C;&#x53D1;&#x5230;&#x4E86;&#x5176;&#x5B83;&#x8FD0;&#x8425;&#x7684;&#x9012;&#x5F52;LocalDNS&#x4E0A;&#x53BB;&#x4E86;&#xFF1A;</p>
+<p><img src="/2016/05/26/&#x5168;&#x5C40;&#x7CBE;&#x786E;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x65B0;&#x601D;&#x8DEF;-HttpDNS&#x670D;&#x52A1;&#x8BE6;&#x89E3;/3.jpg" alt="&#x56FE;&#x7247;3">  </p>
+<p>&#x8FD9;&#x6837;&#x7684;&#x76F4;&#x63A5;&#x540E;&#x679C;&#x5C31;&#x662F;&#x817E;&#x8BAF;&#x6743;&#x5A01;DNS&#x6536;&#x5230;&#x7684;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x8BF7;&#x6C42;&#x7684;&#x6765;&#x6E90;IP&#x5C31;&#x6210;&#x4E86;&#x5176;&#x5B83;&#x8FD0;&#x8425;&#x5546;&#x7684;IP&#xFF0C;&#x6700;&#x7EC8;&#x5BFC;&#x81F4;&#x7528;&#x6237;&#x6D41;&#x91CF;&#x88AB;&#x5BFC;&#x5411;&#x4E86;&#x9519;&#x8BEF;&#x7684;IDC&#xFF0C;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x53D8;&#x6162;&#x3002;</p>
+<h3 id="3&#x3001;LocalDNS&#x9012;&#x5F52;&#x51FA;&#x53E3;NAT&#xFF1A;"><a href="#3&#x3001;LocalDNS&#x9012;&#x5F52;&#x51FA;&#x53E3;NAT&#xFF1A;" class="headerlink" title="3&#x3001;LocalDNS&#x9012;&#x5F52;&#x51FA;&#x53E3;NAT&#xFF1A;"></a>3&#x3001;LocalDNS&#x9012;&#x5F52;&#x51FA;&#x53E3;NAT&#xFF1A;</h3><p>LocalDNS&#x9012;&#x5F52;&#x51FA;&#x53E3;NAT&#x6307;&#x7684;&#x662F;&#x8FD0;&#x8425;&#x5546;&#x7684;LocalDNS&#x6309;&#x7167;&#x6807;&#x51C6;&#x7684;DNS&#x534F;&#x8BAE;&#x8FDB;&#x884C;&#x9012;&#x5F52;&#xFF0C;&#x4F46;&#x662F;&#x56E0;&#x4E3A;&#x5728;&#x7F51;&#x7EDC;&#x4E0A;&#x5B58;&#x5728;&#x591A;&#x51FA;&#x53E3;&#x4E14;&#x914D;&#x7F6E;&#x4E86;&#x76EE;&#x6807;&#x8DEF;&#x7531;NAT&#xFF0C;&#x7ED3;&#x679C;&#x5BFC;&#x81F4;LocalDNS&#x6700;&#x7EC8;&#x8FDB;&#x884C;&#x9012;&#x5F52;&#x89E3;&#x6790;&#x7684;&#x65F6;&#x5019;&#x7684;&#x51FA;&#x53E3;IP&#x5C31;&#x6709;&#x6982;&#x7387;&#x4E0D;&#x4E3A;&#x672C;&#x7F51;&#x7684;IP&#x5730;&#x5740;&#xFF1A;</p>
+<p><img src="/2016/05/26/&#x5168;&#x5C40;&#x7CBE;&#x786E;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x65B0;&#x601D;&#x8DEF;-HttpDNS&#x670D;&#x52A1;&#x8BE6;&#x89E3;/4.jpg" alt="&#x56FE;&#x7247;4">  </p>
+<p>&#x8FD9;&#x6837;&#x7684;&#x76F4;&#x63A5;&#x540E;&#x679C;&#x5C31;&#x662F;GSLB DNS&#x6536;&#x5230;&#x7684;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x8BF7;&#x6C42;&#x7684;&#x6765;&#x6E90;IP&#x8FD8;&#x662F;&#x6210;&#x4E86;&#x5176;&#x5B83;&#x8FD0;&#x8425;&#x5546;&#x7684;IP&#xFF0C;&#x6700;&#x7EC8;&#x5BFC;&#x81F4;&#x7528;&#x6237;&#x6D41;&#x91CF;&#x88AB;&#x5BFC;&#x5411;&#x4E86;&#x9519;&#x8BEF;&#x7684;IDC&#xFF0C;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x53D8;&#x6162;&#x3002;</p>
+<h2 id="&#x4E8C;&#x3001;&#x73B0;&#x6709;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x53CA;&#x5B58;&#x5728;&#x7684;&#x95EE;&#x9898;&#xFF1A;"><a href="#&#x4E8C;&#x3001;&#x73B0;&#x6709;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x53CA;&#x5B58;&#x5728;&#x7684;&#x95EE;&#x9898;&#xFF1A;" class="headerlink" title="&#x4E8C;&#x3001;&#x73B0;&#x6709;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x53CA;&#x5B58;&#x5728;&#x7684;&#x95EE;&#x9898;&#xFF1A;"></a>&#x4E8C;&#x3001;&#x73B0;&#x6709;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x53CA;&#x5B58;&#x5728;&#x7684;&#x95EE;&#x9898;&#xFF1A;</h2><p>&#x8FD0;&#x8425;&#x5546;&#x7684;LocalDNS&#x89E3;&#x6790;&#x57DF;&#x540D;&#x5F02;&#x5E38;&#xFF0C;&#x7ED9;&#x5BF9;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x817E;&#x8BAF;&#x4E1A;&#x52A1;&#x7684;&#x4F53;&#x9A8C;&#x9020;&#x6210;&#x4E86;&#x975E;&#x5E38;&#x5927;&#x7684;&#x635F;&#x5BB3;&#x3002;&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x662F;&#x5982;&#x4F55;&#x5904;&#x7406;&#x8FD9;&#x4E9B;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#x7684;&#x95EE;&#x9898;&#x7684;&#x5462;&#xFF1F;</p>
+<h3 id="1&#x3001;&#x5B9E;&#x65F6;&#x76D1;&#x63A7;-&#x5546;&#x52A1;&#x63A8;&#x52A8;&#xFF1A;"><a href="#1&#x3001;&#x5B9E;&#x65F6;&#x76D1;&#x63A7;-&#x5546;&#x52A1;&#x63A8;&#x52A8;&#xFF1A;" class="headerlink" title="1&#x3001;&#x5B9E;&#x65F6;&#x76D1;&#x63A7;+&#x5546;&#x52A1;&#x63A8;&#x52A8;&#xFF1A;"></a>1&#x3001;&#x5B9E;&#x65F6;&#x76D1;&#x63A7;+&#x5546;&#x52A1;&#x63A8;&#x52A8;&#xFF1A;</h3><p>&#x8FD9;&#x79CD;&#x65B9;&#x6848;&#x662F;&#x76EE;&#x524D;&#x817E;&#x8BAF;&#x7684;&#x8FD0;&#x8425;&#x56E2;&#x961F;&#x4E00;&#x76F4;&#x5728;&#x4F7F;&#x7528;&#x7684;&#x65B9;&#x6848;&#x3002;&#x8FD9;&#x79CD;&#x65B9;&#x6848;&#x5C31;&#x662F;&#x5468;&#x671F;&#x6BD4;&#x8F83;&#x957F;&#xFF0C;&#x6BD5;&#x7ADF;&#x901A;&#x8FC7;&#x884C;&#x653F;&#x624B;&#x6BB5;&#x6765;&#x63A8;&#x52A8;&#x8FD0;&#x8425;&#x5546;&#x6765;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x662F;&#x6BD4;&#x8F83;&#x8017;&#x65F6;&#x7684;&#x3002;&#x53E6;&#x5916;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x5927;&#x6570;&#x636E;&#x5206;&#x6790;&#xFF0C;&#x5F97;&#x51FA;&#x7684;&#x7ED3;&#x8BBA;&#x662F;Top 3&#x7684;&#x95EE;&#x9898;&#x7528;&#x6237;&#x5747;&#x4E3A;&#x79FB;&#x52A8;&#x4E92;&#x8054;&#x7F51;&#x7528;&#x6237;&#x3002;&#x5BF9;&#x4E8E;&#x8FD9;&#x90E8;&#x5206;&#x7528;&#x6237;&#xFF0C;&#x6211;&#x4EEC;&#x6709;&#x4EC0;&#x4E48;&#x6280;&#x672F;&#x624B;&#x6BB5;&#x53EF;&#x4EE5;&#x89E3;&#x51B3;&#x4EE5;&#x4E0A;&#x7684;&#x95EE;&#x9898;&#x5462;&#xFF1F;</p>
+<h3 id="2&#x3001;&#x7ED5;&#x8FC7;&#x81EA;&#x52A8;&#x5206;&#x914D;DNS&#xFF0C;&#x4F7F;&#x7528;114dns&#x6216;Google-public-DNS&#xFF1A;"><a href="#2&#x3001;&#x7ED5;&#x8FC7;&#x81EA;&#x52A8;&#x5206;&#x914D;DNS&#xFF0C;&#x4F7F;&#x7528;114dns&#x6216;Google-public-DNS&#xFF1A;" class="headerlink" title="2&#x3001;&#x7ED5;&#x8FC7;&#x81EA;&#x52A8;&#x5206;&#x914D;DNS&#xFF0C;&#x4F7F;&#x7528;114dns&#x6216;Google public DNS&#xFF1A;"></a>2&#x3001;&#x7ED5;&#x8FC7;&#x81EA;&#x52A8;&#x5206;&#x914D;DNS&#xFF0C;&#x4F7F;&#x7528;114dns&#x6216;Google public DNS&#xFF1A;</h3><p>&#x8FD9;&#x4E2A;&#x65B9;&#x6848;&#x770B;&#x4E0A;&#x53BB;&#x5F88;&#x7F8E;&#x597D;&#xFF0C;114dns&#x662F;&#x56FD;&#x5185;&#x6700;&#x5927;&#x7684;&#x4E2D;&#x7ACB;&#x7F13;&#x5B58;DNS&#xFF0C;&#x800C;Google&#x53C8;&#x662F;&#x79C9;&#x627F;&#x4E0D;&#x4F5C;&#x6076;&#x7406;&#x5FF5;&#x7684;&#x4E92;&#x8054;&#x7F51;&#x5DE5;&#x7A0B;&#x5E1D;&#x56FD;&#x5DE8;&#x9CC4;&#xFF0C;&#x800C;&#x4E14;&#x817E;&#x8BAF;&#x7684;&#x6743;&#x5A01;DNS&#x53C8;&#x652F;&#x6301;edns-client-subnet&#x529F;&#x80FD;&#xFF0C;&#x80FD;&#x76F4;&#x63A5;&#x8BC6;&#x522B;&#x4F7F;&#x7528;Google publicDNS&#x89E3;&#x6790;&#x817E;&#x8BAF;&#x57DF;&#x540D;&#x7684;&#x7528;&#x6237;&#x7684;IP&#x5730;&#x5740;&#xFF0C;&#x4E0D;&#x4F1A;&#x51FA;&#x73B0;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x5931;&#x6548;&#x3002;&#x4F46;&#x662F;&#x95EE;&#x9898;&#x6765;&#x4E86;&#xFF1A;</p>
+<p>&#xFF08;1&#xFF09;&#x5982;&#x4F55;&#x5728;&#x7528;&#x6237;&#x4FA7;&#x6784;&#x9020;&#x57DF;&#x540D;&#x8BF7;&#x6C42;&#xFF1A;&#x5BF9;&#x4E8E;PC&#x7AEF;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x6765;&#x8BF4;&#xFF0C;&#x6784;&#x9020;&#x4E00;&#x4E2A;&#x6807;&#x51C6;&#x7684;DNS&#x8BF7;&#x6C42;&#x5305;&#x5E76;&#x4E0D;&#x7B97;&#x4EC0;&#x4E48;&#x96BE;&#x4E8B;&#x3002;&#x4F46;&#x5728;&#x79FB;&#x52A8;&#x7AEF;&#x8981;&#x5411;&#x4E00;&#x4E2A;&#x6307;&#x5B9A;&#x7684;LocalDNS&#x4E0A;&#x53D1;&#x9001;&#x6807;&#x51C6;&#x7684;DNS&#x8BF7;&#x6C42;&#x5305;&#xFF0C;&#x800C;&#x4E14;&#x8981;&#x517C;&#x5BB9;&#x5404;&#x79CD;iOS&#x548C;Android&#x7684;&#x7248;&#x672C;&#x7684;&#x8BDD;&#xFF0C;&#x6280;&#x672F;&#x4E0A;&#x662F;&#x53EF;&#x884C;&#x7684;&#xFF0C;&#x53EA;&#x662F;&#x517C;&#x5BB9;&#x7684;&#x6210;&#x672C;&#x4F1A;&#x5F88;&#x9AD8;&#x3002;</p>
+<p>&#xFF08;2&#xFF09;&#x63A8;&#x52A8;&#x7528;&#x6237;&#x4FEE;&#x6539;&#x914D;&#x7F6E;&#x6781;&#x9AD8;&#xFF1A;&#x5982;&#x679C;&#x8981;&#x63A8;&#x52A8;&#x7528;&#x6237;&#x624B;&#x52A8;&#x4FEE;&#x6539;PC&#x7684;DNS&#x914D;&#x7F6E;&#x7684;&#x8BDD;&#xFF0C;&#x5728;PC&#x7AEF;&#x548C;&#x624B;&#x673A;&#x5BA2;&#x6237;&#x7AEF;&#x7684;WiFI&#x4E0B;&#x9762;&#x8FD8;&#x7B97;&#x52C9;&#x5F3A;&#x53EF;&#x884C;&#x3002;&#x4F46;&#x662F;&#x8981;&#x7528;&#x6237;&#x4FEE;&#x6539;&#x5728;&#x79FB;&#x52A8;&#x4E92;&#x8054;&#x7F51;&#x73AF;&#x5883;&#x4E0B;&#x7684;DNS&#x914D;&#x7F6E;&#xFF0C;&#x5176;&#x96BE;&#x5EA6;&#x4E0D;&#x8A00;&#x800C;&#x55BB;&#x3002;</p>
+<h3 id="3&#x3001;&#x5B8C;&#x5168;&#x629B;&#x5F03;&#x57DF;&#x540D;&#xFF0C;&#x81EA;&#x5EFA;connectcenter&#x8FDB;&#x884C;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#xFF1A;"><a href="#3&#x3001;&#x5B8C;&#x5168;&#x629B;&#x5F03;&#x57DF;&#x540D;&#xFF0C;&#x81EA;&#x5EFA;connectcenter&#x8FDB;&#x884C;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#xFF1A;" class="headerlink" title="3&#x3001;&#x5B8C;&#x5168;&#x629B;&#x5F03;&#x57DF;&#x540D;&#xFF0C;&#x81EA;&#x5EFA;connectcenter&#x8FDB;&#x884C;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#xFF1A;"></a>3&#x3001;&#x5B8C;&#x5168;&#x629B;&#x5F03;&#x57DF;&#x540D;&#xFF0C;&#x81EA;&#x5EFA;connectcenter&#x8FDB;&#x884C;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#xFF1A;</h3><p>&#x5982;&#x679C;&#x8981;&#x91C7;&#x7528;&#x8FD9;&#x79CD;&#x8FD9;&#x79CD;&#x65B9;&#x6848;&#x7684;&#x8BDD;&#xFF0C;&#x9996;&#x5148;&#x4F60;&#x5C31;&#x5F97;&#x8981;&#x62FF;&#x5230;&#x4E00;&#x4EFD;&#x51C6;&#x786E;&#x7684;IP&#x5730;&#x5740;&#x5E93;&#x6765;&#x5224;&#x65AD;&#x7528;&#x6237;&#x7684;&#x5F52;&#x5C5E;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x5236;&#x5B9A;&#x4E2A;&#x534F;&#x8BAE;&#x642D;&#x4E2A;connect center&#x6765;&#x505A;&#x8C03;&#x5EA6;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x5BF9;&#x63A5;&#x5165;&#x5C42;&#x505A;&#x8C03;&#x5EA6;&#x6539;&#x9020;&#x3002;&#x8FD9;&#x79CD;&#x65B9;&#x6848;&#x548C;2&#x79CD;&#x65B9;&#x6848;&#x4E00;&#x6837;&#xFF0C;&#x4E0D;&#x662F;&#x4E0D;&#x80FD;&#x505A;&#xFF0C;&#x53EA;&#x662F;&#x6210;&#x672C;&#x4F1A;&#x6BD4;&#x8F83;&#x9AD8;&#xFF0C;&#x5C24;&#x5176;&#x5BF9;&#x4E8E;&#x817E;&#x8BAF;&#x8FD9;&#x79CD;&#x4E1A;&#x52A1;&#x89C4;&#x6A21;&#x5982;&#x6B64;&#x5E9E;&#x5927;&#x7684;&#x516C;&#x53F8;&#x800C;&#x8A00;&#x3002;</p>
+<h2 id="&#x4E09;&#x3001;&#x5229;&#x7528;HttpDNS&#x89E3;&#x51B3;&#x7528;&#x6237;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#xFF1A;"><a href="#&#x4E09;&#x3001;&#x5229;&#x7528;HttpDNS&#x89E3;&#x51B3;&#x7528;&#x6237;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#xFF1A;" class="headerlink" title="&#x4E09;&#x3001;&#x5229;&#x7528;HttpDNS&#x89E3;&#x51B3;&#x7528;&#x6237;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#xFF1A;"></a>&#x4E09;&#x3001;&#x5229;&#x7528;HttpDNS&#x89E3;&#x51B3;&#x7528;&#x6237;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#xFF1A;</h2><p>&#x65E2;&#x7136;&#x4E0A;&#x9762;&#x7684;&#x65B9;&#x6848;&#x90FD;&#x5B58;&#x5728;&#x90A3;&#x4E48;&#x591A;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x90A3;&#x6709;&#x6CA1;&#x6709;&#x4E00;&#x79CD;&#x8C03;&#x5EA6;&#x7CBE;&#x51C6;&#x3001;&#x6210;&#x672C;&#x4F4E;&#x5EC9;&#x3001;&#x914D;&#x7F6E;&#x65B9;&#x4FBF;&#x7684;&#x57FA;&#x4E8E;&#x57DF;&#x540D;&#x7684;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x7CFB;&#x7EDF;&#x5462;&#xFF1F;&#x7B54;&#x6848;&#x662F;&#x80AF;&#x5B9A;&#x7684;&#x3002;&#x817E;&#x8BAF;&#x516C;&#x53F8;&#x7684;GSLB &#x56E2;&#x961F;&#x63A8;&#x51FA;&#x4E86;&#x4E00;&#x79CD;&#x5168;&#x65B0;&#x7684;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x8C03;&#x5EA6;&#x7CFB;&#x7EDF;&#xFF1A;HttpDNS&#x3002;HttpDNS&#x662F;&#x4E3A;&#x79FB;&#x52A8;&#x5BA2;&#x6237;&#x7AEF;&#x91CF;&#x8EAB;&#x5B9A;&#x505A;&#x7684;&#x57FA;&#x4E8E;Http&#x534F;&#x8BAE;&#x548C;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x7684;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#xFF0C;&#x4E13;&#x6CBB;LocalDNS&#x89E3;&#x6790;&#x5F02;&#x5E38;&#x4EE5;&#x53CA;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x4E0D;&#x51C6;&#x3002;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;&#x5982;&#x4E0B;&#xFF1A;</p>
+<h3 id="1&#x3001;HttpDNS&#x57FA;&#x672C;&#x539F;&#x7406;&#xFF1A;"><a href="#1&#x3001;HttpDNS&#x57FA;&#x672C;&#x539F;&#x7406;&#xFF1A;" class="headerlink" title="1&#x3001;HttpDNS&#x57FA;&#x672C;&#x539F;&#x7406;&#xFF1A;"></a>1&#x3001;HttpDNS&#x57FA;&#x672C;&#x539F;&#x7406;&#xFF1A;</h3><p><img src="/2016/05/26/&#x5168;&#x5C40;&#x7CBE;&#x786E;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x65B0;&#x601D;&#x8DEF;-HttpDNS&#x670D;&#x52A1;&#x8BE6;&#x89E3;/5.jpg" alt="&#x56FE;&#x7247;5">  </p>
+<p>HttpDNS&#x7684;&#x539F;&#x7406;&#x975E;&#x5E38;&#x7B80;&#x5355;&#xFF0C;&#x4E3B;&#x8981;&#x6709;&#x4E24;&#x6B65;&#xFF1A;</p>
+<p>A&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;HttpDNS&#x63A5;&#x53E3;&#xFF0C;&#x83B7;&#x53D6;&#x4E1A;&#x52A1;&#x5728;&#x57DF;&#x540D;&#x914D;&#x7F6E;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x4E0A;&#x914D;&#x7F6E;&#x7684;&#x8BBF;&#x95EE;&#x5EF6;&#x8FDF;&#x6700;&#x4F18;&#x7684;IP&#x3002;&#xFF08;&#x57FA;&#x4E8E;&#x5BB9;&#x707E;&#x8003;&#x8651;&#xFF0C;&#x8FD8;&#x662F;&#x4FDD;&#x7559;&#x6B21;&#x9009;&#x4F7F;&#x7528;&#x8FD0;&#x8425;&#x5546;LocalDNS&#x89E3;&#x6790;&#x57DF;&#x540D;&#x7684;&#x65B9;&#x5F0F;&#xFF09;</p>
+<p>B&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x5411;&#x83B7;&#x53D6;&#x5230;&#x7684;IP&#x540E;&#x5C31;&#x5411;&#x76F4;&#x63A5;&#x5F80;&#x6B64;IP&#x53D1;&#x9001;&#x4E1A;&#x52A1;&#x534F;&#x8BAE;&#x8BF7;&#x6C42;&#x3002;&#x4EE5;Http&#x8BF7;&#x6C42;&#x4E3A;&#x4F8B;&#xFF0C;&#x901A;&#x8FC7;&#x5728;header&#x4E2D;&#x6307;&#x5B9A;host&#x5B57;&#x6BB5;&#xFF0C;&#x5411;HttpDNS&#x8FD4;&#x56DE;&#x7684;IP&#x53D1;&#x9001;&#x6807;&#x51C6;&#x7684;Http&#x8BF7;&#x6C42;&#x5373;&#x53EF;&#x3002;</p>
+<h3 id="2&#x3001;HttpDNS&#x4F18;&#x52BF;&#xFF1A;"><a href="#2&#x3001;HttpDNS&#x4F18;&#x52BF;&#xFF1A;" class="headerlink" title="2&#x3001;HttpDNS&#x4F18;&#x52BF;&#xFF1A;"></a>2&#x3001;HttpDNS&#x4F18;&#x52BF;&#xFF1A;</h3><p>&#x4ECE;&#x539F;&#x7406;&#x4E0A;&#x6765;&#x8BB2;&#xFF0C;HttpDNS&#x53EA;&#x662F;&#x5C06;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x7684;&#x534F;&#x8BAE;&#x7531;DNS&#x534F;&#x8BAE;&#x6362;&#x6210;&#x4E86;Http&#x534F;&#x8BAE;&#xFF0C;&#x5E76;&#x4E0D;&#x590D;&#x6742;&#x3002;&#x4F46;&#x662F;&#x8FD9;&#x4E00;&#x5FAE;&#x5C0F;&#x7684;&#x8F6C;&#x6362;&#xFF0C;&#x5374;&#x5E26;&#x6765;&#x4E86;&#x65E0;&#x6570;&#x7684;&#x6536;&#x76CA;&#xFF1A;</p>
+<p>A&#x3001;&#x6839;&#x6CBB;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#xFF1A;&#x7531;&#x4E8E;&#x7ED5;&#x8FC7;&#x4E86;&#x8FD0;&#x8425;&#x5546;&#x7684;LocalDNS&#xFF0C;&#x7528;&#x6237;&#x89E3;&#x6790;&#x57DF;&#x540D;&#x7684;&#x8BF7;&#x6C42;&#x901A;&#x8FC7;Http&#x534F;&#x8BAE;&#x76F4;&#x63A5;&#x900F;&#x4F20;&#x5230;&#x4E86;&#x817E;&#x8BAF;&#x7684;HttpDNS&#x670D;&#x52A1;&#x5668;IP&#x4E0A;&#xFF0C;&#x7528;&#x6237;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x8BF7;&#x6C42;&#x5C06;&#x4E0D;&#x4F1A;&#x906D;&#x53D7;&#x5230;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#x7684;&#x56F0;&#x6270;&#x3002;</p>
+<p>B&#x3001;&#x8C03;&#x5EA6;&#x7CBE;&#x51C6;&#xFF1A;HttpDNS&#x80FD;&#x76F4;&#x63A5;&#x83B7;&#x53D6;&#x5230;&#x7528;&#x6237;IP&#xFF0C;&#x901A;&#x8FC7;&#x7ED3;&#x5408;&#x817E;&#x8BAF;&#x81EA;&#x6709;&#x4E13;&#x5229;&#x6280;&#x672F;&#x751F;&#x6210;&#x7684;IP&#x5730;&#x5740;&#x5E93;&#x4EE5;&#x53CA;&#x6D4B;&#x901F;&#x7CFB;&#x7EDF;&#xFF0C;&#x53EF;&#x4EE5;&#x4FDD;&#x8BC1;&#x5C06;&#x7528;&#x6237;&#x5F15;&#x5BFC;&#x7684;&#x8BBF;&#x95EE;&#x6700;&#x5FEB;&#x7684;IDC&#x8282;&#x70B9;&#x4E0A;&#x3002;</p>
+<p>C&#x3001;&#x5B9E;&#x73B0;&#x6210;&#x672C;&#x4F4E;&#x5EC9;&#xFF1A;&#x63A5;&#x5165;HttpDNS&#x7684;&#x4E1A;&#x52A1;&#x4EC5;&#x9700;&#x8981;&#x5BF9;&#x5BA2;&#x6237;&#x7AEF;&#x63A5;&#x5165;&#x5C42;&#x505A;&#x5C11;&#x91CF;&#x6539;&#x9020;&#xFF0C;&#x65E0;&#x9700;&#x7528;&#x6237;&#x624B;&#x673A;&#x8FDB;&#x884C;root&#x6216;&#x8D8A;&#x72F1;&#xFF1B;&#x800C;&#x4E14;&#x7531;&#x4E8E;Http&#x534F;&#x8BAE;&#x8BF7;&#x6C42;&#x6784;&#x9020;&#x975E;&#x5E38;&#x7B80;&#x5355;&#xFF0C;&#x517C;&#x5BB9;&#x5404;&#x7248;&#x672C;&#x7684;&#x79FB;&#x52A8;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x66F4;&#x4E0D;&#x6210;&#x95EE;&#x9898;&#xFF1B;&#x53E6;&#x5916;HttpDNS&#x7684;&#x540E;&#x7AEF;&#x914D;&#x7F6E;&#x5B8C;&#x5168;&#x590D;&#x7528;&#x73B0;&#x6709;&#x6743;&#x5A01;DNS&#x914D;&#x7F6E;&#xFF0C;&#x7BA1;&#x7406;&#x6210;&#x672C;&#x4E5F;&#x975E;&#x5E38;&#x4F4E;&#x3002;&#x603B;&#x800C;&#x8A00;&#x4E4B;&#xFF0C;&#x5C31;&#x662F;&#x4EE5;&#x6700;&#x5C0F;&#x7684;&#x6539;&#x9020;&#x6210;&#x672C;&#xFF0C;&#x89E3;&#x51B3;&#x4E86;&#x4E1A;&#x52A1;&#x906D;&#x53D7;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x5E76;&#x6EE1;&#x8DB3;&#x4E1A;&#x52A1;&#x7CBE;&#x786E;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x7684;&#x9700;&#x6C42;&#x3002;</p>
+<p>D&#x3001;&#x6269;&#x5C55;&#x6027;&#x5F3A;&#xFF1A;HttpDNS&#x63D0;&#x4F9B;&#x53EF;&#x9760;&#x7684;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x670D;&#x52A1;&#xFF0C;&#x4E1A;&#x52A1;&#x53EF;&#x5C06;&#x81EA;&#x6709;&#x8C03;&#x5EA6;&#x903B;&#x8F91;&#x4E0E;HttpDNS&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x7ED3;&#x5408;&#xFF0C;&#x5B9E;&#x73B0;&#x66F4;&#x7CBE;&#x7EC6;&#x5316;&#x7684;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x3002;&#x6BD4;&#x5982;&#x6307;&#x5B9A;&#x7248;&#x672C;&#x7684;&#x5BA2;&#x6237;&#x7AEF;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x7684;IP&#x5730;&#x5740;&#xFF0C;&#x6307;&#x5B9A;&#x7F51;&#x7EDC;&#x7C7B;&#x578B;&#x7684;&#x7528;&#x6237;&#x8FDE;&#x63A5;&#x6307;&#x5B9A;&#x7684;IP&#x5730;&#x5740;&#x7B49;&#x3002;</p>
+<p>&#x5F53;&#x7136;&#x5404;&#x4F4D;&#x53EF;&#x80FD;&#x4F1A;&#x95EE;&#xFF1A;&#x7528;&#x6237;&#x5C06;&#x9996;&#x9009;&#x7684;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x65B9;&#x5F0F;&#x5207;&#x6362;&#x5230;&#x4E86;HttpDNS&#xFF0C;&#x90A3;&#x4E48;HttpDNS&#x7684;&#x9AD8;&#x53EF;&#x7528;&#x53C8;&#x662F;&#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#x7684;&#x5462;&#xFF1F;&#x53E6;&#x5916;&#x4E0D;&#x540C;&#x8FD0;&#x8425;&#x5546;&#x7684;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x5230;&#x540C;&#x4E00;&#x4E2A;HttpDNS&#x7684;&#x670D;&#x52A1;IP&#xFF0C;&#x7528;&#x6237;&#x7684;&#x8BBF;&#x95EE;&#x5EF6;&#x8FDF;&#x5982;&#x4F55;&#x4FDD;&#x8BC1;&#xFF1F;</p>
+<p>&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x9AD8;&#x53EF;&#x7528;&#x53CA;&#x63D0;&#x5347;&#x7528;&#x6237;&#x4F53;&#x9A8C;&#xFF0C;HttpDNS&#x901A;&#x8FC7;&#x63A5;&#x5165;&#x4E86;&#x817E;&#x8BAF;&#x516C;&#x7F51;&#x4EA4;&#x6362;&#x5E73;&#x53F0;&#x7684;BGP Anycast&#x7F51;&#x7EDC;&#xFF0C;&#x4E0E;&#x5168;&#x56FD;&#x591A;&#x4E2A;&#x4E3B;&#x6D41;&#x8FD0;&#x8425;&#x5546;&#x5EFA;&#x7ACB;&#x4E86;BGP&#x4E92;&#x8054;&#xFF0C;&#x4FDD;&#x8BC1;&#x4E86;&#x8FD9;&#x4E9B;&#x8FD0;&#x8425;&#x5546;&#x7684;&#x7528;&#x6237;&#x80FD;&#x591F;&#x5FEB;&#x901F;&#x5730;&#x8BBF;&#x95EE;&#x5230;HttpDNS&#x670D;&#x52A1;&#xFF1B;&#x53E6;&#x5916;HttpDNS&#x5728;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x4E2D;&#x5FC3;&#x8FDB;&#x884C;&#x4E86;&#x90E8;&#x7F72;&#xFF0C;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x53D1;&#x751F;&#x6545;&#x969C;&#x65F6;&#x5747;&#x80FD;&#x65E0;&#x7F1D;&#x5207;&#x6362;&#x5230;&#x5907;&#x4EFD;&#x8282;&#x70B9;&#xFF0C;&#x4FDD;&#x8BC1;&#x7528;&#x6237;&#x89E3;&#x6790;&#x6B63;&#x5E38;&#x3002;</p>
+<h2 id="&#x56DB;&#x3001;&#x63A5;&#x5165;&#x6548;&#x679C;&#x53CA;&#x672A;&#x6765;&#x5C55;&#x671B;&#xFF1A;"><a href="#&#x56DB;&#x3001;&#x63A5;&#x5165;&#x6548;&#x679C;&#x53CA;&#x672A;&#x6765;&#x5C55;&#x671B;&#xFF1A;" class="headerlink" title="&#x56DB;&#x3001;&#x63A5;&#x5165;&#x6548;&#x679C;&#x53CA;&#x672A;&#x6765;&#x5C55;&#x671B;&#xFF1A;"></a>&#x56DB;&#x3001;&#x63A5;&#x5165;&#x6548;&#x679C;&#x53CA;&#x672A;&#x6765;&#x5C55;&#x671B;&#xFF1A;</h2><p>&#x5F53;&#x524D;HttpDNS&#x5DF2;&#x5728;&#x817E;&#x8BAF;&#x5185;&#x90E8;&#x63A5;&#x5165;&#x4E86;&#x591A;&#x4E2A;&#x4E1A;&#x52A1;&#xFF0C;&#x8986;&#x76D6;&#x6570;&#x4EBF;&#x7528;&#x6237;&#xFF0C;&#x5E76;&#x5DF2;&#x6301;&#x7EED;&#x7A33;&#x5B9A;&#x8FD0;&#x884C;&#x8D85;&#x8FC7;&#x4E00;&#x5E74;&#x65F6;&#x95F4;&#x3002;&#x800C;&#x63A5;&#x5165;&#x4E86;HttpDNS&#x7684;&#x4E1A;&#x52A1;&#x5728;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x4F53;&#x9A8C;&#x65B9;&#x9762;&#x90FD;&#x6709;&#x4E86;&#x975E;&#x5E38;&#x5927;&#x7684;&#x63D0;&#x5347;&#x3002;&#x4EE5;&#x67D0;&#x4E2A;&#x63A5;&#x5165;HttpDNS&#x7684;&#x4E1A;&#x52A1;&#x4E3A;&#x4F8B;&#xFF0C;&#x8BE5;&#x4E1A;&#x52A1;&#x4EC5;&#x901A;&#x8FC7;&#x63A5;&#x5165;HttpDNS&#xFF0C;&#x5728;&#x672A;&#x505A;&#x4EFB;&#x4F55;&#x5176;&#x5B83;&#x4F18;&#x5316;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x7528;&#x6237;&#x5E73;&#x5747;&#x8BBF;&#x95EE;&#x5EF6;&#x8FDF;&#x4E0B;&#x964D;&#x8D85;&#x8FC7;10%&#xFF0C;&#x8BBF;&#x95EE;&#x5931;&#x8D25;&#x7387;&#x4E0B;&#x964D;&#x4E86;&#x8D85;&#x8FC7;&#x4E94;&#x5206;&#x4E4B;&#x4E00;&#xFF0C;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x4F53;&#x9A8C;&#x7684;&#x6548;&#x679C;&#x63D0;&#x5347;&#x975E;&#x5E38;&#x663E;&#x8457;&#x3002;&#x53E6;&#x5916;&#x817E;&#x8BAF;&#x7684;HttpDNS&#x670D;&#x52A1;&#x9664;&#x4E86;&#x5728;&#x817E;&#x8BAF;&#x5185;&#x90E8;&#x88AB;&#x5E7F;&#x6CDB;&#x4F7F;&#x7528;&#x4EE5;&#x5916;&#xFF0C;&#x4E5F;&#x53D7;&#x5230;&#x4E86;&#x4E1A;&#x52A1;&#x540C;&#x884C;&#x7684;&#x80AF;&#x5B9A;&#x3002;&#x56FD;&#x5185;&#x6700;&#x5927;&#x7684;publicDNS&#x670D;&#x52A1;&#x5546;114dns&#x5728;&#x53D7;&#x5230;&#x817E;&#x8BAF;DNS&#x7684;&#x542F;&#x53D1;&#x4E0B;&#xFF0C;&#x4E5F;&#x63A8;&#x51FA;&#x4E86;HttpDNS&#x670D;&#x52A1;&#x3002;</p>
+<p>&#x5728;&#x672A;&#x6765;&#x7684;&#x65E5;&#x5B50;&#x91CC;&#xFF0C;&#x817E;&#x8BAF;GSLB&#x56E2;&#x961F;&#x5C06;&#x4F1A;&#x5728;&#x817E;&#x8BAF;&#x5185;&#x90E8;&#x8FDB;&#x4E00;&#x6B65;&#x63A8;&#x5E7F;HttpDNS&#x670D;&#x52A1;&#xFF0C;&#x5E76;&#x5C06;&#x5728;&#x5B9E;&#x9645;&#x4E1A;&#x52A1;&#x7684;&#x9700;&#x6C42;&#x4E0B;&#x5BF9;HttpDNS&#x670D;&#x52A1;&#x8FDB;&#x884C;&#x5347;&#x7EA7;&#xFF0C;&#x5982;&#x63D0;&#x4F9B;&#x66F4;&#x4E3A;&#x901A;&#x7528;&#x3001;&#x5B89;&#x5168;&#x3001;&#x7B80;&#x5355;&#x7684;&#x63A5;&#x5165;&#x534F;&#x8BAE;&#xFF0C;&#x8FDB;&#x4E00;&#x6B65;&#x63D0;&#x5347;&#x63A5;&#x5165;&#x7528;&#x6237;&#x7684;&#x7F51;&#x7EDC;&#x8BBF;&#x95EE;&#x4F53;&#x9A8C;&#x7B49;&#x7B49;&#x3002;&#x5E0C;&#x671B;HttpDNS&#x80FD;&#x4E3A;&#x5404;&#x4F4D;&#x5728;&#x89E3;&#x51B3;&#x57DF;&#x540D;&#x89E3;&#x6790;&#x5F02;&#x5E38;&#x53CA;&#x5168;&#x5C40;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x5931;&#x6548;&#x65B9;&#x9762;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x3001;&#x53EF;&#x884C;&#x7684;&#x601D;&#x8DEF;&#xFF0C;&#x4E5F;&#x6B22;&#x8FCE;&#x5404;&#x4F4D;&#x4E1A;&#x754C;&#x540C;&#x884C;&#x4E0E;&#x817E;&#x8BAF;&#x4E00;&#x8D77;&#xFF0C;&#x5C31;&#x5982;&#x4F55;&#x8FDB;&#x884C;&#x66F4;&#x7CBE;&#x51C6;&#x7684;&#x5168;&#x5C40;&#x6D41;&#x91CF;&#x8C03;&#x5EA6;&#x65B9;&#x9762;&#x8FDB;&#x884C;&#x66F4;&#x4E3A;&#x6DF1;&#x5165;&#x7684;&#x8BA8;&#x8BBA;&#x3002;</p>
+<p>&#x539F;&#x6587;&#x94FE;&#x63A5;&#xFF1A;<a href="http://www.zmke.com/i/8705.html" target="_blank" rel="external">http://www.zmke.com/i/8705.html</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/05/26/全局精确流量调度新思路-HttpDNS服务详解/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/05/26/全局精确流量调度新思路-HttpDNS服务详解/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/05/27/MySQL数据库优化方法/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    MySQL优化总结，百万级数据库优化方案
+                
+            </div>
+        </a>
+    
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/05/26/全局精确流量调度新思路-HttpDNS服务详解/" data-title="全局精确流量调度新思路-HttpDNS服务详解" data-url="http://www.wangxin123.com/2016/05/26/全局精确流量调度新思路-HttpDNS服务详解/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
+    </div>
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/我的收藏/">我的收藏</a></p>
+                            <p class="item-title"><a href="/2016/05/27/MySQL数据库优化方法/" class="title">MySQL优化总结，百万级数据库优化方案</a></p>
+                            <p class="item-date"><time datetime="2016-05-27T14:02:00.000Z" itemprop="datePublished">2016-05-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/我的收藏/">我的收藏</a></p>
+                            <p class="item-title"><a href="/2016/05/26/全局精确流量调度新思路-HttpDNS服务详解/" class="title">全局精确流量调度新思路-HttpDNS服务详解</a></p>
+                            <p class="item-date"><time datetime="2016-05-26T14:22:00.000Z" itemprop="datePublished">2016-05-26</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 Wasim<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'wangxin37'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

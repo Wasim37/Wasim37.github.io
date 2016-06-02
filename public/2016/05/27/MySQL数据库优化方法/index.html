@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>MySQL优化总结，百万级数据库优化方案 | 星空博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1&amp;#x3001;&amp;#x5BF9;&amp;#x67E5;&amp;#x8BE2;&amp;#x8FDB;&amp;#x884C;&amp;#x4F18;&amp;#x5316;&amp;#xFF0C;&amp;#x5E94;&amp;#x5C3D;&amp;#x91CF;&amp;#x907F;&amp;#x514D;&amp;#x5168;&amp;#x8868;&amp;#x626B;&amp;#x63CF;&amp;#xFF0C;&amp;#x9996;&amp;#x5148;&amp;#x5E94;&amp;#x8003;&amp;#x8651;&amp;#x5728">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL优化总结，百万级数据库优化方案">
+<meta property="og:url" content="http://www.wangxin123.com/2016/05/27/MySQL数据库优化方法/index.html">
+<meta property="og:site_name" content="星空博客">
+<meta property="og:description" content="1&amp;#x3001;&amp;#x5BF9;&amp;#x67E5;&amp;#x8BE2;&amp;#x8FDB;&amp;#x884C;&amp;#x4F18;&amp;#x5316;&amp;#xFF0C;&amp;#x5E94;&amp;#x5C3D;&amp;#x91CF;&amp;#x907F;&amp;#x514D;&amp;#x5168;&amp;#x8868;&amp;#x626B;&amp;#x63CF;&amp;#xFF0C;&amp;#x9996;&amp;#x5148;&amp;#x5E94;&amp;#x8003;&amp;#x8651;&amp;#x5728">
+<meta property="og:updated_time" content="2016-06-02T17:25:40.679Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL优化总结，百万级数据库优化方案">
+<meta name="twitter:description" content="1&amp;#x3001;&amp;#x5BF9;&amp;#x67E5;&amp;#x8BE2;&amp;#x8FDB;&amp;#x884C;&amp;#x4F18;&amp;#x5316;&amp;#xFF0C;&amp;#x5E94;&amp;#x5C3D;&amp;#x91CF;&amp;#x907F;&amp;#x514D;&amp;#x5168;&amp;#x8868;&amp;#x626B;&amp;#x63CF;&amp;#xFF0C;&amp;#x9996;&amp;#x5148;&amp;#x5E94;&amp;#x8003;&amp;#x8651;&amp;#x5728">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">星空博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/wk.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/wk.png" />
+            <h2 id="name">Wasim</h2>
+            <h3 id="title">Java Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>ShenZhen, China</span>
+            <a id="follow" target="_blank" href="https://github.com/Wasim37">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                2
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                3
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-MySQL数据库优化方法" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            MySQL优化总结，百万级数据库优化方案
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/05/27/MySQL数据库优化方法/">
+            <time datetime="2016-05-27T14:02:00.000Z" itemprop="datePublished">2016-05-27</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/我的收藏/">我的收藏</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/MySQL/">MySQL</a>, <a class="tag-link" href="/tags/性能调优/">性能调优</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>1&#x3001;&#x5BF9;&#x67E5;&#x8BE2;&#x8FDB;&#x884C;&#x4F18;&#x5316;&#xFF0C;&#x5E94;&#x5C3D;&#x91CF;&#x907F;&#x514D;&#x5168;&#x8868;&#x626B;&#x63CF;&#xFF0C;&#x9996;&#x5148;&#x5E94;&#x8003;&#x8651;&#x5728; where &#x53CA; order by &#x6D89;&#x53CA;&#x7684;&#x5217;&#x4E0A;&#x5EFA;&#x7ACB;&#x7D22;&#x5F15;&#x3002;</p>
+<p>2&#x3001;&#x5E94;&#x5C3D;&#x91CF;&#x907F;&#x514D;&#x5728; where &#x5B50;&#x53E5;&#x4E2D;&#x5BF9;&#x5B57;&#x6BB5;&#x8FDB;&#x884C; null &#x503C;&#x5224;&#x65AD;&#xFF0C;&#x5426;&#x5219;&#x5C06;&#x5BFC;&#x81F4;&#x5F15;&#x64CE;&#x653E;&#x5F03;&#x4F7F;&#x7528;&#x7D22;&#x5F15;&#x800C;&#x8FDB;&#x884C;&#x5168;&#x8868;&#x626B;&#x63CF;&#xFF0C;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> num is null;</span><br></pre></td></tr></table></figure></p>
+<p>&#x53EF;&#x4EE5;&#x5728; num &#x4E0A;&#x8BBE;&#x7F6E;&#x9ED8;&#x8BA4;&#x503C; 0,&#x786E;&#x4FDD;&#x8868;&#x4E2D; num &#x5217;&#x6CA1;&#x6709; null &#x503C;&#xFF0C;&#x7136;&#x540E;&#x8FD9;&#x6837;&#x67E5;&#x8BE2;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> num=0;</span><br></pre></td></tr></table></figure></p>
+<p>3&#x3001;&#x5E94;&#x5C3D;&#x91CF;&#x907F;&#x514D;&#x5728; where &#x5B50;&#x53E5;&#x4E2D;&#x4F7F;&#x7528;!=&#x6216;&lt;&gt;&#x64CD;&#x4F5C;&#x7B26;&#xFF0C;&#x5426;&#x5219;&#x5C06;&#x5F15;&#x64CE;&#x653E;&#x5F03;&#x4F7F;&#x7528;&#x7D22;&#x5F15;&#x800C;&#x8FDB;&#x884C;&#x5168;&#x8868;&#x626B;&#x63CF;&#x3002;</p>
+<p>4&#x3001;&#x5E94;&#x5C3D;&#x91CF;&#x907F;&#x514D;&#x5728; where &#x5B50;&#x53E5;&#x4E2D;&#x4F7F;&#x7528; or &#x6765;&#x8FDE;&#x63A5;&#x6761;&#x4EF6;&#xFF0C;&#x5426;&#x5219;&#x5C06;&#x5BFC;&#x81F4;&#x5F15;&#x64CE;&#x653E;&#x5F03;&#x4F7F;&#x7528;&#x7D22;&#x5F15;&#x800C;&#x8FDB;&#x884C;&#x5168;&#x8868;&#x626B;&#x63CF;&#xFF0C;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> num=10 or num=20;</span><br></pre></td></tr></table></figure></p>
+<p>&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x67E5;&#x8BE2;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> num=10 union all select id from t <span class="built_in">where</span> num=20;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>5&#x3001;in &#x548C; not in &#x4E5F;&#x8981;&#x614E;&#x7528;&#xFF0C;&#x5426;&#x5219;&#x4F1A;&#x5BFC;&#x81F4;&#x5168;&#x8868;&#x626B;&#x63CF;&#xFF0C;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> num <span class="keyword">in</span>(1,2,3);</span><br></pre></td></tr></table></figure></p>
+<p>&#x5BF9;&#x4E8E;&#x8FDE;&#x7EED;&#x7684;&#x6570;&#x503C;&#xFF0C;&#x80FD;&#x7528; between &#x5C31;&#x4E0D;&#x8981;&#x7528; in &#x4E86;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> num between 1 and 3;</span><br></pre></td></tr></table></figure></p>
+<p>6&#x3001;&#x4E0B;&#x9762;&#x7684;&#x67E5;&#x8BE2;&#x4E5F;&#x5C06;&#x5BFC;&#x81F4;&#x5168;&#x8868;&#x626B;&#x63CF;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> name like <span class="string">&apos;%c%&apos;</span>;</span><br></pre></td></tr></table></figure></p>
+<p>&#x82E5;&#x8981;&#x63D0;&#x9AD8;&#x6548;&#x7387;&#xFF0C;&#x53EF;&#x4EE5;&#x8003;&#x8651;&#x5168;&#x6587;&#x68C0;&#x7D22;&#x3002;</p>
+<p>7&#x3001;&#x5982;&#x679C;&#x5728; where &#x5B50;&#x53E5;&#x4E2D;&#x4F7F;&#x7528;&#x53C2;&#x6570;&#xFF0C;&#x4E5F;&#x4F1A;&#x5BFC;&#x81F4;&#x5168;&#x8868;&#x626B;&#x63CF;&#x3002;&#x56E0;&#x4E3A; SQL &#x53EA;&#x6709;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x624D;&#x4F1A;&#x89E3;&#x6790;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#xFF0C;&#x4F46;&#x4F18; &#x5316;&#x7A0B;&#x5E8F;&#x4E0D;&#x80FD;&#x5C06;&#x8BBF;&#x95EE;&#x8BA1;&#x5212;&#x7684;&#x9009;&#x62E9;&#x63A8;&#x8FDF;&#x5230;&#x8FD0;&#x884C;&#x65F6;;&#x5B83;&#x5FC5;&#x987B;&#x5728;&#x7F16;&#x8BD1;&#x65F6;&#x8FDB;&#x884C;&#x9009;&#x62E9;&#x3002;&#x7136; &#x800C;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x7F16;&#x8BD1;&#x65F6;&#x5EFA;&#x7ACB;&#x8BBF;&#x95EE;&#x8BA1; &#x5212;&#xFF0C;&#x53D8;&#x91CF;&#x7684;&#x503C;&#x8FD8;&#x662F;&#x672A;&#x77E5;&#x7684;&#xFF0C;&#x56E0;&#x800C;&#x65E0;&#x6CD5;&#x4F5C;&#x4E3A;&#x7D22;&#x5F15;&#x9009;&#x62E9;&#x7684;&#x8F93;&#x5165;&#x9879;&#x3002;&#x5982;&#x4E0B;&#x9762;&#x8BED;&#x53E5;&#x5C06;&#x8FDB;&#x884C;&#x5168;&#x8868;&#x626B;&#x63CF;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> num=@num ;</span><br></pre></td></tr></table></figure></p>
+<p>&#x53EF;&#x4EE5;&#x6539;&#x4E3A;&#x5F3A;&#x5236;&#x67E5;&#x8BE2;&#x4F7F;&#x7528;&#x7D22;&#x5F15;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t with(index(&#x7D22;&#x5F15;&#x540D;)) <span class="built_in">where</span> num=@num ;</span><br></pre></td></tr></table></figure></p>
+<p>8&#x3001;&#x5E94;&#x5C3D;&#x91CF;&#x907F;&#x514D;&#x5728; where &#x5B50;&#x53E5;&#x4E2D;&#x5BF9;&#x5B57;&#x6BB5;&#x8FDB;&#x884C;&#x8868;&#x8FBE;&#x5F0F;&#x64CD;&#x4F5C;&#xFF0C; &#x8FD9;&#x5C06;&#x5BFC;&#x81F4;&#x5F15;&#x64CE;&#x653E;&#x5F03;&#x4F7F;&#x7528;&#x7D22;&#x5F15;&#x800C;&#x8FDB;&#x884C;&#x5168;&#x8868;&#x626B;&#x63CF;&#x3002;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> num/2=100;</span><br></pre></td></tr></table></figure></p>
+<p>&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x67E5;&#x8BE2;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> num=100*2;</span><br></pre></td></tr></table></figure></p>
+<p>9&#x3001;&#x5E94;&#x5C3D;&#x91CF;&#x907F;&#x514D;&#x5728; where &#x5B50;&#x53E5;&#x4E2D;&#x5BF9;&#x5B57;&#x6BB5;&#x8FDB;&#x884C;&#x51FD;&#x6570;&#x64CD;&#x4F5C;&#xFF0C;&#x8FD9;&#x5C06;&#x5BFC;&#x81F4;&#x5F15;&#x64CE;&#x653E;&#x5F03;&#x4F7F;&#x7528;&#x7D22;&#x5F15;&#x800C;&#x8FDB;&#x884C;&#x5168;&#x8868;&#x626B;&#x63CF;&#x3002;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> substring(name,1,3)=<span class="string">&apos;abc&apos;</span>;<span class="comment">#name &#x4EE5; abc &#x5F00;&#x5934;&#x7684; id</span></span><br></pre></td></tr></table></figure></p>
+<p>&#x5E94;&#x6539;&#x4E3A;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select id from t <span class="built_in">where</span> name like <span class="string">&apos;abc%&apos;</span>;</span><br></pre></td></tr></table></figure></p>
+<p>10&#x3001;&#x4E0D;&#x8981;&#x5728; where &#x5B50;&#x53E5;&#x4E2D;&#x7684;&#x201C;=&#x201D;&#x5DE6;&#x8FB9;&#x8FDB;&#x884C;&#x51FD;&#x6570;&#x3001;&#x7B97;&#x672F;&#x8FD0;&#x7B97;&#x6216;&#x5176;&#x4ED6;&#x8868;&#x8FBE;&#x5F0F;&#x8FD0;&#x7B97;&#xFF0C;&#x5426;&#x5219;&#x7CFB;&#x7EDF;&#x5C06;&#x53EF;&#x80FD;&#x65E0;&#x6CD5;&#x6B63;&#x786E;&#x4F7F;&#x7528; &#x7D22;&#x5F15;&#x3002;</p>
+<p>11&#x3001;&#x5728;&#x4F7F;&#x7528;&#x7D22;&#x5F15;&#x5B57;&#x6BB5;&#x4F5C;&#x4E3A;&#x6761;&#x4EF6;&#x65F6;&#xFF0C;&#x5982;&#x679C;&#x8BE5;&#x7D22;&#x5F15;&#x662F;&#x590D;&#x5408;&#x7D22;&#x5F15;&#xFF0C;&#x90A3;&#x4E48;&#x5FC5;&#x987B;&#x4F7F;&#x7528;&#x5230;&#x8BE5;&#x7D22;&#x5F15;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x5B57;&#x6BB5;&#x4F5C;&#x4E3A;&#x6761;&#x4EF6; &#x65F6;&#x624D;&#x80FD;&#x4FDD;&#x8BC1;&#x7CFB;&#x7EDF;&#x4F7F;&#x7528;&#x8BE5;&#x7D22;&#x5F15;&#xFF0C; &#x5426;&#x5219;&#x8BE5;&#x7D22;&#x5F15;&#x5C06;&#x4E0D;&#x4F1A; &#x88AB;&#x4F7F;&#x7528;&#xFF0C; &#x5E76;&#x4E14;&#x5E94;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x8BA9;&#x5B57;&#x6BB5;&#x987A;&#x5E8F;&#x4E0E;&#x7D22;&#x5F15;&#x987A;&#x5E8F;&#x76F8;&#x4E00;&#x81F4;&#x3002;</p>
+<p>12&#x3001;&#x4E0D;&#x8981;&#x5199;&#x4E00;&#x4E9B;&#x6CA1;&#x6709;&#x610F;&#x4E49;&#x7684;&#x67E5;&#x8BE2;&#xFF0C;&#x5982;&#x9700;&#x8981;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x7A7A;&#x8868;&#x7ED3;&#x6784;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select col1,col2 into <span class="comment">#t from t where 1=0;</span></span><br></pre></td></tr></table></figure></p>
+<p>&#x8FD9;&#x7C7B;&#x4EE3;&#x7801;&#x4E0D;&#x4F1A;&#x8FD4;&#x56DE;&#x4EFB;&#x4F55;&#x7ED3;&#x679C;&#x96C6;&#xFF0C;&#x4F46;&#x662F;&#x4F1A;&#x6D88;&#x8017;&#x7CFB;&#x7EDF;&#x8D44;&#x6E90;&#x7684;&#xFF0C;&#x5E94;&#x6539;&#x6210;&#x8FD9;&#x6837;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : create table <span class="comment">#t(&#x2026;);</span></span><br></pre></td></tr></table></figure></p>
+<p>13&#x3001;&#x5F88;&#x591A;&#x65F6;&#x5019;&#x7528; exists &#x4EE3;&#x66FF; in &#x662F;&#x4E00;&#x4E2A;&#x597D;&#x7684;&#x9009;&#x62E9;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select num from a <span class="built_in">where</span> num <span class="keyword">in</span>(select num from b);</span><br></pre></td></tr></table></figure></p>
+<p>&#x7528;&#x4E0B;&#x9762;&#x7684;&#x8BED;&#x53E5;&#x66FF;&#x6362;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sql &#x4EE3;&#x7801; : select num from a <span class="built_in">where</span> exists(select 1 from b <span class="built_in">where</span> num=a&#x3001;num);</span><br></pre></td></tr></table></figure></p>
+<p>14&#x3001;&#x5E76;&#x4E0D;&#x662F;&#x6240;&#x6709;&#x7D22;&#x5F15;&#x5BF9;&#x67E5;&#x8BE2;&#x90FD;&#x6709;&#x6548;&#xFF0C;SQL &#x662F;&#x6839;&#x636E;&#x8868;&#x4E2D;&#x6570;&#x636E;&#x6765;&#x8FDB;&#x884C;&#x67E5;&#x8BE2;&#x4F18;&#x5316;&#x7684;&#xFF0C;&#x5F53;&#x7D22;&#x5F15;&#x5217;&#x6709;&#x5927;&#x91CF;&#x6570;&#x636E;&#x91CD;&#x590D;&#x65F6;&#xFF0C; SQL &#x67E5;&#x8BE2;&#x53EF;&#x80FD;&#x4E0D;&#x4F1A;&#x53BB;&#x5229;&#x7528;&#x7D22;&#x5F15;&#xFF0C;&#x5982;&#x4E00;&#x8868;&#x4E2D;&#x6709;&#x5B57;&#x6BB5; <strong><em>,male&#x3001;female &#x51E0;&#x4E4E;&#x5404;&#x4E00;&#x534A;&#xFF0C;&#x90A3;&#x4E48;&#x5373;&#x4F7F;&#x5728; </em></strong> &#x4E0A;&#x5EFA; &#x4E86;&#x7D22;&#x5F15;&#x4E5F;&#x5BF9;&#x67E5;&#x8BE2;&#x6548;&#x7387;&#x8D77;&#x4E0D;&#x4E86;&#x4F5C;&#x7528;&#x3002;</p>
+<p>15&#x3001;&#x7D22;&#x5F15;&#x5E76;&#x4E0D;&#x662F;&#x8D8A;&#x591A;&#x8D8A;&#x597D;&#xFF0C;&#x7D22;&#x5F15;&#x56FA;&#x7136;&#x53EF;&#x4EE5;&#x63D0;&#x9AD8;&#x76F8;&#x5E94;&#x7684; select &#x7684;&#x6548;&#x7387;&#xFF0C;&#x4F46;&#x540C;&#x65F6;&#x4E5F;&#x964D;&#x4F4E;&#x4E86; insert &#x53CA; update &#x7684;&#x6548;&#x7387;&#xFF0C;&#x56E0;&#x4E3A; insert &#x6216; update &#x65F6;&#x6709;&#x53EF;&#x80FD;&#x4F1A;&#x91CD;&#x5EFA;&#x7D22;&#x5F15;&#xFF0C;&#x6240;&#x4EE5;&#x600E;&#x6837;&#x5EFA;&#x7D22;&#x5F15;&#x9700;&#x8981;&#x614E;&#x91CD;&#x8003;&#x8651;&#xFF0C;&#x89C6;&#x5177;&#x4F53;&#x60C5;&#x51B5;&#x800C;&#x5B9A;&#x3002;&#x4E00;&#x4E2A;&#x8868;&#x7684;&#x7D22;&#x5F15;&#x6570;&#x6700;&#x597D;&#x4E0D;&#x8981;&#x8D85;&#x8FC7; 6 &#x4E2A;&#xFF0C;&#x82E5;&#x592A;&#x591A;&#x5219;&#x5E94;&#x8003;&#x8651;&#x4E00;&#x4E9B;&#x4E0D;&#x5E38;&#x4F7F;&#x7528;&#x5230;&#x7684;&#x5217;&#x4E0A;&#x5EFA;&#x7684;&#x7D22;&#x5F15;&#x662F;&#x5426;&#x6709;&#x5FC5;&#x8981;&#x3002;</p>
+<p>16&#x3001;&#x5E94;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x907F;&#x514D;&#x66F4;&#x65B0; clustered &#x7D22;&#x5F15;&#x6570;&#x636E;&#x5217;&#xFF0C; &#x56E0;&#x4E3A; clustered &#x7D22;&#x5F15;&#x6570;&#x636E;&#x5217;&#x7684;&#x987A;&#x5E8F;&#x5C31;&#x662F;&#x8868;&#x8BB0;&#x5F55;&#x7684;&#x7269;&#x7406;&#x5B58;&#x50A8;&#x987A;&#x5E8F;&#xFF0C;&#x4E00;&#x65E6;&#x8BE5;&#x5217;&#x503C;&#x6539;&#x53D8;&#x5C06;&#x5BFC;&#x81F4;&#x6574;&#x4E2A;&#x8868;&#x8BB0;&#x5F55;&#x7684;&#x987A;&#x5E8F;&#x7684;&#x8C03;&#x6574;&#xFF0C;&#x4F1A;&#x8017;&#x8D39;&#x76F8;&#x5F53;&#x5927;&#x7684;&#x8D44;&#x6E90;&#x3002;&#x82E5;&#x5E94;&#x7528;&#x7CFB;&#x7EDF;&#x9700;&#x8981;&#x9891;&#x7E41;&#x66F4;&#x65B0; clustered &#x7D22;&#x5F15;&#x6570;&#x636E;&#x5217;&#xFF0C;&#x90A3;&#x4E48;&#x9700;&#x8981;&#x8003;&#x8651;&#x662F;&#x5426;&#x5E94;&#x5C06;&#x8BE5;&#x7D22;&#x5F15;&#x5EFA;&#x4E3A; clustered &#x7D22;&#x5F15;&#x3002;</p>
+<p>17&#x3001;&#x5C3D;&#x91CF;&#x4F7F;&#x7528;&#x6570;&#x5B57;&#x578B;&#x5B57;&#x6BB5;&#xFF0C;&#x82E5;&#x53EA;&#x542B;&#x6570;&#x503C;&#x4FE1;&#x606F;&#x7684;&#x5B57;&#x6BB5;&#x5C3D;&#x91CF;&#x4E0D;&#x8981;&#x8BBE;&#x8BA1;&#x4E3A;&#x5B57;&#x7B26;&#x578B;&#xFF0C;&#x8FD9;&#x4F1A;&#x964D;&#x4F4E;&#x67E5;&#x8BE2;&#x548C;&#x8FDE;&#x63A5;&#x7684;&#x6027;&#x80FD;&#xFF0C;&#x5E76; &#x4F1A;&#x589E;&#x52A0;&#x5B58;&#x50A8;&#x5F00;&#x9500;&#x3002;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;&#x5F15;&#x64CE;&#x5728;&#x5904;&#x7406;&#x67E5;&#x8BE2;&#x548C;&#x8FDE;&#x63A5;&#x65F6;&#x4F1A;&#x9010;&#x4E2A;&#x6BD4;&#x8F83;&#x5B57;&#x7B26;&#x4E32;&#x4E2D;&#x6BCF;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#xFF0C;&#x800C;&#x5BF9;&#x4E8E;&#x6570;&#x5B57;&#x578B;&#x800C;&#x8A00; &#x53EA;&#x9700;&#x8981;&#x6BD4;&#x8F83;&#x4E00;&#x6B21;&#x5C31;&#x591F;&#x4E86;&#x3002;</p>
+<p>18&#x3001;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x4F7F;&#x7528; varchar/nvarchar &#x4EE3;&#x66FF; char/nchar , &#x56E0;&#x4E3A;&#x9996;&#x5148;&#x53D8;&#x957F;&#x5B57;&#x6BB5;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x5C0F;&#xFF0C; &#x53EF;&#x4EE5;&#x8282;&#x7701;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#xFF0C; &#x5176;&#x6B21;&#x5BF9;&#x4E8E;&#x67E5;&#x8BE2;&#x6765;&#x8BF4;&#xFF0C;&#x5728;&#x4E00;&#x4E2A;&#x76F8;&#x5BF9;&#x8F83;&#x5C0F;&#x7684;&#x5B57;&#x6BB5;&#x5185;&#x641C;&#x7D22;&#x6548;&#x7387;&#x663E;&#x7136;&#x8981;&#x9AD8;&#x4E9B;&#x3002;</p>
+<p>19&#x3001;&#x4EFB;&#x4F55;&#x5730;&#x65B9;&#x90FD;&#x4E0D;&#x8981;&#x4F7F;&#x7528; select <em> from t ,&#x7528;&#x5177;&#x4F53;&#x7684;&#x5B57;&#x6BB5;&#x5217;&#x8868;&#x4EE3;&#x66FF;&#x201C;</em>&#x201D;,&#x4E0D;&#x8981;&#x8FD4;&#x56DE;&#x7528;&#x4E0D;&#x5230;&#x7684;&#x4EFB;&#x4F55;&#x5B57;&#x6BB5;&#x3002;</p>
+<p>20&#x3001;&#x5C3D;&#x91CF;&#x4F7F;&#x7528;&#x8868;&#x53D8;&#x91CF;&#x6765;&#x4EE3;&#x66FF;&#x4E34;&#x65F6;&#x8868;&#x3002;&#x5982;&#x679C;&#x8868;&#x53D8;&#x91CF;&#x5305;&#x542B;&#x5927;&#x91CF;&#x6570;&#x636E;&#xFF0C;&#x8BF7;&#x6CE8;&#x610F;&#x7D22;&#x5F15;&#x975E;&#x5E38;&#x6709;&#x9650;(&#x53EA;&#x6709;&#x4E3B;&#x952E;&#x7D22;&#x5F15;)&#x3002;</p>
+<p>21&#x3001;&#x907F;&#x514D;&#x9891;&#x7E41;&#x521B;&#x5EFA;&#x548C;&#x5220;&#x9664;&#x4E34;&#x65F6;&#x8868;&#xFF0C;&#x4EE5;&#x51CF;&#x5C11;&#x7CFB;&#x7EDF;&#x8868;&#x8D44;&#x6E90;&#x7684;&#x6D88;&#x8017;&#x3002;</p>
+<p>22&#x3001;&#x4E34;&#x65F6;&#x8868;&#x5E76;&#x4E0D;&#x662F;&#x4E0D;&#x53EF;&#x4F7F;&#x7528;&#xFF0C;&#x9002;&#x5F53;&#x5730;&#x4F7F;&#x7528;&#x5B83;&#x4EEC;&#x53EF;&#x4EE5;&#x4F7F;&#x67D0;&#x4E9B;&#x4F8B;&#x7A0B;&#x66F4;&#x6709;&#x6548;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;&#x5F53;&#x9700;&#x8981;&#x91CD;&#x590D;&#x5F15;&#x7528;&#x5927;&#x578B;&#x8868;&#x6216;&#x5E38;&#x7528; &#x8868;&#x4E2D;&#x7684;&#x67D0;&#x4E2A;&#x6570;&#x636E;&#x96C6;&#x65F6;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x5BF9;&#x4E8E;&#x4E00;&#x6B21;&#x6027;&#x4E8B;&#x4EF6;&#xFF0C; &#x6700;&#x597D;&#x4F7F;&#x7528;&#x5BFC;&#x51FA;&#x8868;&#x3002;</p>
+<p>23&#x3001;&#x5728;&#x65B0;&#x5EFA;&#x4E34;&#x65F6;&#x8868;&#x65F6;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x6B21;&#x6027;&#x63D2;&#x5165;&#x6570;&#x636E;&#x91CF;&#x5F88;&#x5927;&#xFF0C;&#x90A3;&#x4E48;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; select into &#x4EE3;&#x66FF; create table,&#x907F;&#x514D;&#x9020;&#x6210;&#x5927;&#x91CF; log ,&#x4EE5;&#x63D0;&#x9AD8;&#x901F;&#x5EA6;;&#x5982;&#x679C;&#x6570;&#x636E;&#x91CF;&#x4E0D;&#x5927;&#xFF0C;&#x4E3A;&#x4E86;&#x7F13;&#x548C;&#x7CFB;&#x7EDF;&#x8868;&#x7684;&#x8D44;&#x6E90;&#xFF0C;&#x5E94;&#x5148; create table,&#x7136;&#x540E; insert&#x3001;</p>
+<p>24&#x3001;&#x5982;&#x679C;&#x4F7F;&#x7528;&#x5230;&#x4E86;&#x4E34;&#x65F6;&#x8868;&#xFF0C; &#x5728;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x7684;&#x6700;&#x540E;&#x52A1;&#x5FC5;&#x5C06;&#x6240;&#x6709;&#x7684;&#x4E34;&#x65F6;&#x8868;&#x663E;&#x5F0F;&#x5220;&#x9664;&#xFF0C; &#x5148; truncate table ,&#x7136;&#x540E; drop table ,&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x7CFB;&#x7EDF;&#x8868;&#x7684;&#x8F83;&#x957F;&#x65F6;&#x95F4;&#x9501;&#x5B9A;&#x3002;</p>
+<p>25&#x3001;&#x5C3D;&#x91CF;&#x907F;&#x514D;&#x4F7F;&#x7528;&#x6E38;&#x6807;&#xFF0C;&#x56E0;&#x4E3A;&#x6E38;&#x6807;&#x7684;&#x6548;&#x7387;&#x8F83;&#x5DEE;&#xFF0C;&#x5982;&#x679C;&#x6E38;&#x6807;&#x64CD;&#x4F5C;&#x7684;&#x6570;&#x636E;&#x8D85;&#x8FC7; 1 &#x4E07;&#x884C;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x5E94;&#x8BE5;&#x8003;&#x8651;&#x6539;&#x5199;&#x3002;</p>
+<p>26&#x3001;&#x4F7F;&#x7528;&#x57FA;&#x4E8E;&#x6E38;&#x6807;&#x7684;&#x65B9;&#x6CD5;&#x6216;&#x4E34;&#x65F6;&#x8868;&#x65B9;&#x6CD5;&#x4E4B;&#x524D;&#xFF0C;&#x5E94;&#x5148;&#x5BFB;&#x627E;&#x57FA;&#x4E8E;&#x96C6;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x6765;&#x89E3;&#x51B3;&#x95EE;&#x9898;&#xFF0C;&#x57FA;&#x4E8E;&#x96C6;&#x7684;&#x65B9;&#x6CD5;&#x901A;&#x5E38;&#x66F4; &#x6709;&#x6548;&#x3002;</p>
+<p>27&#x3001;&#x4E0E;&#x4E34;&#x65F6;&#x8868;&#x4E00;&#x6837;&#xFF0C;&#x6E38;&#x6807;&#x5E76;&#x4E0D;&#x662F;&#x4E0D;&#x53EF;&#x4F7F;&#x7528;&#x3002;&#x5BF9;&#x5C0F;&#x578B;&#x6570;&#x636E;&#x96C6;&#x4F7F;&#x7528; FAST_FORWARD &#x6E38;&#x6807;&#x901A;&#x5E38;&#x8981;&#x4F18;&#x4E8E;&#x5176;&#x4ED6;&#x9010;&#x884C;&#x5904;&#x7406;&#x65B9;&#x6CD5;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x5728;&#x5FC5;&#x987B;&#x5F15;&#x7528;&#x51E0;&#x4E2A;&#x8868;&#x624D;&#x80FD;&#x83B7;&#x5F97;&#x6240;&#x9700;&#x7684;&#x6570;&#x636E;&#x65F6;&#x3002;&#x5728;&#x7ED3;&#x679C;&#x96C6;&#x4E2D;&#x5305;&#x62EC;&#x201C;&#x5408;&#x8BA1;&#x201D;&#x7684;&#x4F8B;&#x7A0B;&#x901A;&#x5E38;&#x8981;&#x6BD4;&#x4F7F;&#x7528;&#x6E38;&#x6807;&#x6267;&#x884C;&#x7684;&#x901F;&#x5EA6;&#x5FEB;&#x3002;&#x5982;&#x679C;&#x5F00;&#x53D1;&#x65F6;&#x95F4;&#x5141;&#x8BB8;&#xFF0C;&#x57FA;&#x4E8E;&#x6E38;&#x6807;&#x7684;&#x65B9;&#x6CD5;&#x548C;&#x57FA;&#x4E8E;&#x96C6;&#x7684;&#x65B9;&#x6CD5;&#x90FD;&#x53EF;&#x4EE5;&#x5C1D;&#x8BD5;&#x4E00;&#x4E0B;&#xFF0C;&#x770B;&#x54EA;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#x7684;&#x6548;&#x679C;&#x66F4;&#x597D;&#x3002;</p>
+<p>28&#x3001;&#x5728;&#x6240;&#x6709;&#x7684;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x548C;&#x89E6;&#x53D1;&#x5668;&#x7684;&#x5F00;&#x59CB;&#x5904;&#x8BBE;&#x7F6E; SET NOCOUNT ON ,&#x5728;&#x7ED3;&#x675F;&#x65F6;&#x8BBE;&#x7F6E; SET NOCOUNT OFF &#x3001;&#x65E0;&#x9700;&#x5728;&#x6267;&#x884C;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x548C;&#x89E6;&#x53D1;&#x5668;&#x7684;&#x6BCF;&#x4E2A;&#x8BED;&#x53E5;&#x540E;&#x5411;&#x5BA2;&#x6237;&#x7AEF;&#x53D1;&#x9001; DONE_IN_PROC &#x6D88;&#x606F;&#x3002;</p>
+<p>29&#x3001;&#x5C3D;&#x91CF;&#x907F;&#x514D;&#x5927;&#x4E8B;&#x52A1;&#x64CD;&#x4F5C;&#xFF0C;&#x63D0;&#x9AD8;&#x7CFB;&#x7EDF;&#x5E76;&#x53D1;&#x80FD;&#x529B;&#x3002; sql &#x4F18;&#x5316;&#x65B9;&#x6CD5;&#x4F7F;&#x7528;&#x7D22;&#x5F15;&#x6765;&#x66F4;&#x5FEB;&#x5730;&#x904D;&#x5386;&#x8868;&#x3002; &#x7F3A;&#x7701;&#x60C5;&#x51B5;&#x4E0B;&#x5EFA;&#x7ACB;&#x7684;&#x7D22;&#x5F15;&#x662F;&#x975E;&#x7FA4;&#x96C6;&#x7D22;&#x5F15;&#xFF0C;&#x4F46;&#x6709;&#x65F6;&#x5B83;&#x5E76;&#x4E0D;&#x662F;&#x6700;&#x4F73;&#x7684;&#x3002;&#x5728;&#x975E;&#x7FA4;&#x96C6;&#x7D22;&#x5F15;&#x4E0B;&#xFF0C;&#x6570;&#x636E;&#x5728;&#x7269;&#x7406;&#x4E0A;&#x968F;&#x673A;&#x5B58;&#x653E;&#x5728;&#x6570;&#x636E;&#x9875;&#x4E0A;&#x3002;&#x5408;&#x7406;&#x7684;&#x7D22;&#x5F15;&#x8BBE;&#x8BA1;&#x8981;&#x5EFA;&#x7ACB;&#x5728;&#x5BF9;&#x5404;&#x79CD;&#x67E5;&#x8BE2;&#x7684;&#x5206;&#x6790;&#x548C;&#x9884;&#x6D4B;&#x4E0A;&#x3002;&#x4E00;&#x822C;&#x6765;&#x8BF4;&#xFF1A;</p>
+<p>a&#x3001;&#x6709;&#x5927;&#x91CF;&#x91CD;&#x590D;&#x503C;&#x3001;&#x4E14;&#x7ECF;&#x5E38;&#x6709;&#x8303;&#x56F4;&#x67E5;&#x8BE2;( &gt; ,&lt; ,&gt; =,&lt; =)&#x548C; order by&#x3001;group by &#x53D1;&#x751F;&#x7684;&#x5217;&#xFF0C;&#x53EF;&#x8003;&#x8651;&#x5EFA;&#x7ACB;&#x96C6;&#x7FA4;&#x7D22;&#x5F15;;</p>
+<p>b&#x3001;&#x7ECF;&#x5E38;&#x540C;&#x65F6;&#x5B58;&#x53D6;&#x591A;&#x5217;&#xFF0C;&#x4E14;&#x6BCF;&#x5217;&#x90FD;&#x542B;&#x6709;&#x91CD;&#x590D;&#x503C;&#x53EF;&#x8003;&#x8651;&#x5EFA;&#x7ACB;&#x7EC4;&#x5408;&#x7D22;&#x5F15;;</p>
+<p>c&#x3001;&#x7EC4;&#x5408;&#x7D22;&#x5F15;&#x8981;&#x5C3D;&#x91CF;&#x4F7F;&#x5173;&#x952E;&#x67E5;&#x8BE2;&#x5F62;&#x6210;&#x7D22;&#x5F15;&#x8986;&#x76D6;&#xFF0C;&#x5176;&#x524D;&#x5BFC;&#x5217;&#x4E00;&#x5B9A;&#x662F;&#x4F7F;&#x7528;&#x6700;&#x9891;&#x7E41;&#x7684;&#x5217;&#x3002;&#x7D22;&#x5F15;&#x867D;&#x6709;&#x52A9;&#x4E8E;&#x63D0;&#x9AD8;&#x6027;&#x80FD;&#x4F46; &#x4E0D;&#x662F;&#x7D22;&#x5F15;&#x8D8A;&#x591A;&#x8D8A;&#x597D;&#xFF0C;&#x6070;&#x597D;&#x76F8;&#x53CD;&#x8FC7;&#x591A;&#x7684;&#x7D22;&#x5F15;&#x4F1A;&#x5BFC;&#x81F4;&#x7CFB;&#x7EDF;&#x4F4E;&#x6548;&#x3002;&#x7528;&#x6237;&#x5728;&#x8868;&#x4E2D;&#x6BCF;&#x52A0;&#x8FDB;&#x4E00;&#x4E2A;&#x7D22;&#x5F15;&#xFF0C;&#x7EF4;&#x62A4;&#x7D22;&#x5F15;&#x96C6;&#x5408;&#x5C31; &#x8981;&#x505A;&#x76F8;&#x5E94;&#x7684;&#x66F4;&#x65B0;&#x5DE5;&#x4F5C;&#x3002;</p>
+<p>30&#x3001;&#x5B9A;&#x671F;&#x5206;&#x6790;&#x8868;&#x548C;&#x68C0;&#x67E5;&#x8868;&#x3002;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x5206;&#x6790;&#x8868;&#x7684;&#x8BED;&#x6CD5;&#xFF1A;ANALYZE [LOCAL | NO_WRITE_TO_BINLOG] TABLE tb1_name[, tbl_name]&#x3001;&#x3001;&#x3001;</span><br></pre></td></tr></table></figure></p>
+<p>&#x4EE5;&#x4E0A;&#x8BED;&#x53E5;&#x7528;&#x4E8E;&#x5206;&#x6790;&#x548C;&#x5B58;&#x50A8;&#x8868;&#x7684;&#x5173;&#x952E;&#x5B57;&#x5206;&#x5E03;&#xFF0C;&#x5206;&#x6790;&#x7684;&#x7ED3;&#x679C;&#x5C06;&#x53EF;&#x4EE5;&#x4F7F;&#x5F97;&#x7CFB;&#x7EDF;&#x5F97;&#x5230;&#x51C6;&#x786E;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x4F7F;&#x5F97;SQL&#x80FD;&#x591F;&#x751F;&#x6210;&#x6B63;&#x786E;&#x7684;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x3002;&#x5982;&#x679C;&#x7528;&#x6237;&#x611F;&#x89C9;&#x5B9E;&#x9645;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x5E76;&#x4E0D;&#x662F;&#x9884;&#x671F;&#x7684;&#x6267;&#x884C;&#x8BA1;&#x5212;&#xFF0C;&#x6267;&#x884C;&#x4E00;&#x6B21;&#x5206;&#x6790;&#x8868;&#x53EF;&#x80FD;&#x4F1A;&#x89E3;&#x51B3;&#x95EE;&#x9898;&#x3002;&#x5728;&#x5206;&#x6790;&#x671F;&#x95F4;&#xFF0C;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x8BFB;&#x53D6;&#x9501;&#x5B9A;&#x5BF9;&#x8868;&#x8FDB;&#x884C;&#x9501;&#x5B9A;&#x3002;&#x8FD9;&#x5BF9;&#x4E8E;MyISAM&#xFF0C;DBD&#x548C;InnoDB&#x8868;&#x6709;&#x4F5C;&#x7528;&#x3002;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x4F8B;&#x5982;&#x5206;&#x6790;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x8868;&#xFF1A;analyze table table_name</span><br><span class="line">&#x68C0;&#x67E5;&#x8868;&#x7684;&#x8BED;&#x6CD5;&#xFF1A;CHECK TABLE tb1_name[,tbl_name]&#x3001;&#x3001;&#x3001;[option]&#x3001;&#x3001;&#x3001;option = {QUICK | FAST | MEDIUM | EXTENDED | CHANGED}</span><br></pre></td></tr></table></figure></p>
+<p>&#x68C0;&#x67E5;&#x8868;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x68C0;&#x67E5;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x8868;&#x662F;&#x5426;&#x6709;&#x9519;&#x8BEF;&#xFF0C;CHECK TABLE &#x5BF9;MyISAM &#x548C; InnoDB&#x8868;&#x6709;&#x4F5C;&#x7528;&#xFF0C;&#x5BF9;&#x4E8E;MyISAM&#x8868;&#xFF0C;&#x5173;&#x952E;&#x5B57;&#x7EDF;&#x8BA1;&#x6570;&#x636E;&#x88AB;&#x66F4;&#x65B0;</p>
+<p>CHECK TABLE &#x4E5F;&#x53EF;&#x4EE5;&#x68C0;&#x67E5;&#x89C6;&#x56FE;&#x662F;&#x5426;&#x6709;&#x9519;&#x8BEF;&#xFF0C;&#x6BD4;&#x5982;&#x5728;&#x89C6;&#x56FE;&#x5B9A;&#x4E49;&#x4E2D;&#x88AB;&#x5F15;&#x7528;&#x7684;&#x8868;&#x4E0D;&#x5B58;&#x5728;&#x3002;</p>
+<p>31&#x3001;&#x5B9A;&#x671F;&#x4F18;&#x5316;&#x8868;&#x3002;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x4F18;&#x5316;&#x8868;&#x7684;&#x8BED;&#x6CD5;&#xFF1A;OPTIMIZE [LOCAL | NO_WRITE_TO_BINLOG] TABLE tb1_name [,tbl_name]&#x3001;&#x3001;&#x3001;</span><br></pre></td></tr></table></figure></p>
+<p>&#x5982;&#x679C;&#x5220;&#x9664;&#x4E86;&#x8868;&#x7684;&#x4E00;&#x5927;&#x90E8;&#x5206;&#xFF0C;&#x6216;&#x8005;&#x5982;&#x679C;&#x5DF2;&#x7ECF;&#x5BF9;&#x542B;&#x6709;&#x53EF;&#x53D8;&#x957F;&#x5EA6;&#x884C;&#x7684;&#x8868;(&#x542B;&#x6709; VARCHAR&#x3001;BLOB&#x6216;TEXT&#x5217;&#x7684;&#x8868;)&#x8FDB;&#x884C;&#x66F4;&#x591A;&#x66F4;&#x6539;&#xFF0C;&#x5219;&#x5E94;&#x4F7F;&#x7528;OPTIMIZE TABLE&#x547D;&#x4EE4;&#x6765;&#x8FDB;&#x884C;&#x8868;&#x4F18;&#x5316;&#x3002;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x5C06;&#x8868;&#x4E2D;&#x7684;&#x7A7A;&#x95F4;&#x788E;&#x7247;&#x8FDB;&#x884C;&#x5408;&#x5E76;&#xFF0C;&#x5E76;&#x4E14;&#x53EF;&#x4EE5;&#x6D88;&#x9664;&#x7531;&#x4E8E;&#x5220;&#x9664;&#x6216;&#x8005;&#x66F4;&#x65B0;&#x9020;&#x6210;&#x7684;&#x7A7A;&#x95F4;&#x6D6A;&#x8D39;&#xFF0C;&#x4F46;OPTIMIZE TABLE &#x547D;&#x4EE4;&#x53EA;&#x5BF9;MyISAM&#x3001; BDB &#x548C;InnoDB&#x8868;&#x8D77;&#x4F5C;&#x7528;&#x3002;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x4F8B;&#x5982;&#xFF1A; optimize table table_name</span><br></pre></td></tr></table></figure></p>
+<p>&#x6CE8;&#x610F;&#xFF1A; analyze&#x3001;check&#x3001;optimize&#x6267;&#x884C;&#x671F;&#x95F4;&#x5C06;&#x5BF9;&#x8868;&#x8FDB;&#x884C;&#x9501;&#x5B9A;&#xFF0C;&#x56E0;&#x6B64;&#x4E00;&#x5B9A;&#x6CE8;&#x610F;&#x8981;&#x5728;MySQL&#x6570;&#x636E;&#x5E93;&#x4E0D;&#x7E41;&#x5FD9;&#x7684;&#x65F6;&#x5019;&#x6267;&#x884C;&#x76F8;&#x5173;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
+<p>&#x8865;&#x5145;&#xFF1A;<br>1&#x3001;&#x5728;&#x6D77;&#x91CF;&#x67E5;&#x8BE2;&#x65F6;&#x5C3D;&#x91CF;&#x5C11;&#x7528;&#x683C;&#x5F0F;&#x8F6C;&#x6362;&#x3002;<br>2&#x3001;ORDER BY &#x548C; GROPU BY:&#x4F7F;&#x7528; ORDER BY &#x548C; GROUP BY &#x77ED;&#x8BED;&#xFF0C;&#x4EFB;&#x4F55;&#x4E00;&#x79CD;&#x7D22;&#x5F15;&#x90FD;&#x6709;&#x52A9;&#x4E8E; SELECT &#x7684;&#x6027;&#x80FD;&#x63D0;&#x9AD8;&#x3002;<br>3&#x3001;&#x4EFB;&#x4F55;&#x5BF9;&#x5217;&#x7684;&#x64CD;&#x4F5C;&#x90FD;&#x5C06;&#x5BFC;&#x81F4;&#x8868;&#x626B;&#x63CF;&#xFF0C;&#x5B83;&#x5305;&#x62EC;&#x6570;&#x636E;&#x5E93;&#x6559;&#x7A0B;&#x51FD;&#x6570;&#x3001;&#x8BA1;&#x7B97;&#x8868;&#x8FBE;&#x5F0F;&#x7B49;&#x7B49;&#xFF0C;&#x67E5;&#x8BE2;&#x65F6;&#x8981;&#x5C3D;&#x53EF;&#x80FD;&#x5C06;&#x64CD;&#x4F5C;&#x79FB; &#x81F3;&#x7B49;&#x53F7;&#x53F3;&#x8FB9;&#x3002;<br>4&#x3001;IN&#x3001;OR &#x5B50;&#x53E5;&#x5E38;&#x4F1A;&#x4F7F;&#x7528;&#x5DE5;&#x4F5C;&#x8868;&#xFF0C;&#x4F7F;&#x7D22;&#x5F15;&#x5931;&#x6548;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x4EA7;&#x751F;&#x5927;&#x91CF;&#x91CD;&#x590D;&#x503C;&#xFF0C;&#x53EF;&#x4EE5;&#x8003;&#x8651;&#x628A;&#x5B50;&#x53E5;&#x62C6;&#x5F00;&#x3002;&#x62C6;&#x5F00;&#x7684;&#x5B50; &#x53E5;&#x4E2D;&#x5E94;&#x8BE5;&#x5305;&#x542B;&#x7D22;&#x5F15;&#x3002;<br>5&#x3001;&#x53EA;&#x8981;&#x80FD;&#x6EE1;&#x8DB3;&#x4F60;&#x7684;&#x9700;&#x6C42;&#xFF0C;&#x5E94;&#x5C3D;&#x53EF;&#x80FD;&#x4F7F;&#x7528;&#x66F4;&#x5C0F;&#x7684;&#x6570;&#x636E;&#x7C7B;&#x578B;&#xFF1A;&#x4F8B;&#x5982;&#x4F7F;&#x7528; MEDIUMINT &#x4EE3;&#x66FF; INT<br>6&#x3001;&#x5C3D;&#x91CF;&#x628A;&#x6240;&#x6709;&#x7684;&#x5217;&#x8BBE;&#x7F6E;&#x4E3A; NOT NULL,&#x5982;&#x679C;&#x4F60;&#x8981;&#x4FDD;&#x5B58; NULL,&#x624B;&#x52A8;&#x53BB;&#x8BBE;&#x7F6E;&#x5B83;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x628A;&#x5B83;&#x8BBE;&#x4E3A;&#x9ED8;&#x8BA4;&#x503C;&#x3002;<br>7&#x3001;&#x5C3D;&#x91CF;&#x5C11;&#x7528; VARCHAR&#x3001;TEXT&#x3001;BLOB &#x7C7B;&#x578B;<br>8&#x3001;&#x5982;&#x679C;&#x4F60;&#x7684;&#x6570;&#x636E;&#x53EA;&#x6709;&#x4F60;&#x6240;&#x77E5;&#x7684;&#x5C11;&#x91CF;&#x7684;&#x51E0;&#x4E2A;&#x3002;&#x6700;&#x597D;&#x4F7F;&#x7528; ENUM &#x7C7B;&#x578B;<br>9&#x3001;&#x6B63;&#x5982; graymice &#x6240;&#x8BB2;&#x7684;&#x90A3;&#x6837;&#xFF0C;&#x5EFA;&#x7ACB;&#x7D22;&#x5F15;&#x3002;<br>10&#x3001;&#x5408;&#x7406;&#x7528;&#x8FD0;&#x5206;&#x8868;&#x4E0E;&#x5206;&#x533A;&#x8868;&#x63D0;&#x9AD8;&#x6570;&#x636E;&#x5B58;&#x653E;&#x548C;&#x63D0;&#x53D6;&#x901F;&#x5EA6;&#x3002;</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/05/27/MySQL数据库优化方法/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/05/27/MySQL数据库优化方法/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2016/05/26/全局精确流量调度新思路-HttpDNS服务详解/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">全局精确流量调度新思路-HttpDNS服务详解</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/05/27/MySQL数据库优化方法/" data-title="MySQL优化总结，百万级数据库优化方案" data-url="http://www.wangxin123.com/2016/05/27/MySQL数据库优化方法/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
+    </div>
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/我的收藏/">我的收藏</a></p>
+                            <p class="item-title"><a href="/2016/05/27/MySQL数据库优化方法/" class="title">MySQL优化总结，百万级数据库优化方案</a></p>
+                            <p class="item-date"><time datetime="2016-05-27T14:02:00.000Z" itemprop="datePublished">2016-05-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/我的收藏/">我的收藏</a></p>
+                            <p class="item-title"><a href="/2016/05/26/全局精确流量调度新思路-HttpDNS服务详解/" class="title">全局精确流量调度新思路-HttpDNS服务详解</a></p>
+                            <p class="item-date"><time datetime="2016-05-26T14:22:00.000Z" itemprop="datePublished">2016-05-26</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 Wasim<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'wangxin37'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

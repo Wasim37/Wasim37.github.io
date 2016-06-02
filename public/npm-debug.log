@@ -83,7 +83,7 @@
 32 verbose stack     at ChildProcess.emit (events.js:191:7)
 32 verbose stack     at maybeClose (internal/child_process.js:850:16)
 32 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
-33 verbose cwd F:\github_local\Wasim37
+33 verbose cwd F:\github_local\Wasim37\source
 34 error Windows_NT 6.1.7601
 35 error argv "D:\\Program Files\\nodejs\\node.exe" "D:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "https://github.com/CodeFalling/hexo-asset-image" "--save"
 36 error node v6.1.0
