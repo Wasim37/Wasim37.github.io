@@ -1,0 +1,98 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'D:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'D:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'https://github.com/CodeFalling/hexo-asset-image',
+1 verbose cli   '--save' ]
+2 info using npm@3.8.6
+3 info using node@v6.1.0
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData https://github.com/CodeFalling/hexo-asset-image
+8 silly fetchOtherPackageData https://github.com/CodeFalling/hexo-asset-image
+9 silly cache add args [ 'https://github.com/CodeFalling/hexo-asset-image', null ]
+10 verbose cache add spec https://github.com/CodeFalling/hexo-asset-image
+11 silly cache add parsed spec Result {
+11 silly cache add   raw: 'https://github.com/CodeFalling/hexo-asset-image',
+11 silly cache add   scope: null,
+11 silly cache add   name: null,
+11 silly cache add   rawSpec: 'https://github.com/CodeFalling/hexo-asset-image',
+11 silly cache add   spec: 'git+https://github.com/CodeFalling/hexo-asset-image.git',
+11 silly cache add   type: 'hosted',
+11 silly cache add   hosted:
+11 silly cache add    { type: 'github',
+11 silly cache add      ssh: 'git@github.com:CodeFalling/hexo-asset-image.git',
+11 silly cache add      sshUrl: 'git+ssh://git@github.com/CodeFalling/hexo-asset-image.git',
+11 silly cache add      httpsUrl: 'git+https://github.com/CodeFalling/hexo-asset-image.git',
+11 silly cache add      gitUrl: 'git://github.com/CodeFalling/hexo-asset-image.git',
+11 silly cache add      shortcut: 'github:CodeFalling/hexo-asset-image',
+11 silly cache add      directUrl: 'https://raw.githubusercontent.com/CodeFalling/hexo-asset-image/master/package.json' } }
+12 verbose addRemoteGit caching https://github.com/CodeFalling/hexo-asset-image
+13 verbose addRemoteGit git+https://github.com/CodeFalling/hexo-asset-image.git is a repository hosted by github
+14 silly tryClone cloning git+https://github.com/CodeFalling/hexo-asset-image.git via git+https://github.com/CodeFalling/hexo-asset-image.git
+15 verbose tryClone git-https-github-com-CodeFalling-hexo-asset-image-git-c3a33190 not in flight; caching
+16 verbose correctMkdir C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes correctMkdir not in flight; initializing
+17 info git [ 'config', '--get', 'remote.origin.url' ]
+18 silly validateExistingRemote git+https://github.com/CodeFalling/hexo-asset-image.git remote.origin.url: https://github.com/CodeFalling/hexo-asset-image.git
+19 verbose validateExistingRemote git+https://github.com/CodeFalling/hexo-asset-image.git is updating existing cached remote C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-https-github-com-CodeFalling-hexo-asset-image-git-c3a33190
+20 info git [ 'fetch', '-a', 'origin' ]
+21 verbose updateRemote git fetch -a origin (https://github.com/CodeFalling/hexo-asset-image.git)
+22 verbose setPermissions git+https://github.com/CodeFalling/hexo-asset-image.git skipping chownr on Windows
+23 verbose resolveHead git+https://github.com/CodeFalling/hexo-asset-image.git original treeish: master
+24 info git [ 'rev-list', '-n1', 'master' ]
+25 error git rev-list -n1 master: fatal: ambiguous argument 'master': unknown revision or path not in the working tree.
+25 error git rev-list -n1 master: Use '--' to separate paths from revisions, like this:
+25 error git rev-list -n1 master: 'git <command> [<revision>...] -- [<file>...]'
+26 silly fetchPackageMetaData Error: Command failed: git -c core.longpaths=true rev-list -n1 master
+26 silly fetchPackageMetaData fatal: ambiguous argument 'master': unknown revision or path not in the working tree.
+26 silly fetchPackageMetaData Use '--' to separate paths from revisions, like this:
+26 silly fetchPackageMetaData 'git <command> [<revision>...] -- [<file>...]'
+26 silly fetchPackageMetaData
+26 silly fetchPackageMetaData     at ChildProcess.exithandler (child_process.js:202:12)
+26 silly fetchPackageMetaData     at emitTwo (events.js:106:13)
+26 silly fetchPackageMetaData     at ChildProcess.emit (events.js:191:7)
+26 silly fetchPackageMetaData     at maybeClose (internal/child_process.js:850:16)
+26 silly fetchPackageMetaData     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
+26 silly fetchPackageMetaData  error for https://github.com/CodeFalling/hexo-asset-image { Error: Command failed: git -c core.longpaths=true rev-list -n1 master
+26 silly fetchPackageMetaData fatal: ambiguous argument 'master': unknown revision or path not in the working tree.
+26 silly fetchPackageMetaData Use '--' to separate paths from revisions, like this:
+26 silly fetchPackageMetaData 'git <command> [<revision>...] -- [<file>...]'
+26 silly fetchPackageMetaData
+26 silly fetchPackageMetaData     at ChildProcess.exithandler (child_process.js:202:12)
+26 silly fetchPackageMetaData     at emitTwo (events.js:106:13)
+26 silly fetchPackageMetaData     at ChildProcess.emit (events.js:191:7)
+26 silly fetchPackageMetaData     at maybeClose (internal/child_process.js:850:16)
+26 silly fetchPackageMetaData     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
+26 silly fetchPackageMetaData   killed: false,
+26 silly fetchPackageMetaData   code: 128,
+26 silly fetchPackageMetaData   signal: null,
+26 silly fetchPackageMetaData   cmd: 'git -c core.longpaths=true rev-list -n1 master' }
+27 silly rollbackFailedOptional Starting
+28 silly rollbackFailedOptional Finishing
+29 silly runTopLevelLifecycles Starting
+30 silly runTopLevelLifecycles Finishing
+31 silly install printInstalled
+32 verbose stack Error: Command failed: git -c core.longpaths=true rev-list -n1 master
+32 verbose stack fatal: ambiguous argument 'master': unknown revision or path not in the working tree.
+32 verbose stack Use '--' to separate paths from revisions, like this:
+32 verbose stack 'git <command> [<revision>...] -- [<file>...]'
+32 verbose stack
+32 verbose stack     at ChildProcess.exithandler (child_process.js:202:12)
+32 verbose stack     at emitTwo (events.js:106:13)
+32 verbose stack     at ChildProcess.emit (events.js:191:7)
+32 verbose stack     at maybeClose (internal/child_process.js:850:16)
+32 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
+33 verbose cwd F:\github_local\Wasim37
+34 error Windows_NT 6.1.7601
+35 error argv "D:\\Program Files\\nodejs\\node.exe" "D:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "https://github.com/CodeFalling/hexo-asset-image" "--save"
+36 error node v6.1.0
+37 error npm  v3.8.6
+38 error code 128
+39 error Command failed: git -c core.longpaths=true rev-list -n1 master
+39 error fatal: ambiguous argument 'master': unknown revision or path not in the working tree.
+39 error Use '--' to separate paths from revisions, like this:
+39 error 'git <command> [<revision>...] -- [<file>...]'
+40 error If you need help, you may report this error at:
+40 error     <https://github.com/npm/npm/issues>
+41 verbose exit [ 1, true ]
