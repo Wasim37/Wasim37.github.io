@@ -80,6 +80,12 @@ Caused by: org.sonar.api.utils.SonarException: No license for cpp
 **方案：** 相关链接：[http://www.360doc.com/content/13/0802/14/7811581_304255550.shtml](http://www.360doc.com/content/13/0802/14/7811581_304255550.shtml)
 **注意：** 如果用admin账户登录，在分配权限的时候，将admin权限全部置空，一旦退出，将无法使用 0.0！我当初的解决方法是修改远程配置文件，而如果配置文件一旦改乱，就只能重装了。
 
+### 运行结果
+**Sonar成功运行如图五图六所示，其中代码检测规则可以修改也可以自定义，对于图六显示出的具体错误，Sonar也可在页面直接分配给某个组员修改**
+
+![图片5](SonarQube+Jenkins,搭建持续交付平台/5.png)
+![图片6](SonarQube+Jenkins,搭建持续交付平台/6.png)
+
 <br/>
 #### 其它问题当时没有用有道云笔记详细记录，现在也无法记起，因此记录只有这么多了。此文仅供参考 ^.^
 <br/>
