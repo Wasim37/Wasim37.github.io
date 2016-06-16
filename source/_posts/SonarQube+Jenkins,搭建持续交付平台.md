@@ -5,7 +5,7 @@ tags:
   - jenkins
 categories:
   - 配置部署
-date: 2016-6-5 22:22:00
+date: 2016-6-2 22:22:00
 ---
 
 ### 前言
