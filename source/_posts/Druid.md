@@ -1,7 +1,7 @@
 ---
 title: Druid
 categories:
-  - 部署配置
+  - 配置部署
 tags:
   - Druid
 date: 2016-4-24 22:10:00
