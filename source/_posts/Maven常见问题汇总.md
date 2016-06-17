@@ -31,7 +31,7 @@ _最近使用maven过程中，遇到一些问题，记录如下，方便日后�
 ```bash
 <encoding>utf8</encoding>
 ```
-
+<!-- more -->
 * * *
 
 **问题3：执行package命令报错，某个xml文件提示如下错误**

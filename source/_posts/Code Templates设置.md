@@ -30,7 +30,7 @@ Window->Preferences->Java->Code Style->Code Templates
  * @Date: ${date} ${time}
  */
 ```
-
+<!-- more -->
 **comments-->methods:**
 ```
 /**
