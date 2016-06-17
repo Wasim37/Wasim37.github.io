@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>countDownLatch和cyclicBarrier | 星空博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="&amp;#x300A; Effecit In Java &amp;#x300B;&amp;#x8BF4;&amp;#x8FC7;&amp;#xFF0C;&amp;#x4ECE;java 1.5&amp;#x53D1;&amp;#x73B0;&amp;#x7248;&amp;#x672C;&amp;#x5F00;&amp;#x59CB;, &amp;#x5C31;&amp;#x4E0D;&amp;#x5EFA;&amp;#x8BAE;&amp;#x4F7F;&amp;#x7528;wait&amp;#x548C;notify&amp;#xFF0C;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="countDownLatch和cyclicBarrier">
+<meta property="og:url" content="http://www.wangxin123.com/2016/04/16/countDownLatch和cyclicBarrier/index.html">
+<meta property="og:site_name" content="星空博客">
+<meta property="og:description" content="&amp;#x300A; Effecit In Java &amp;#x300B;&amp;#x8BF4;&amp;#x8FC7;&amp;#xFF0C;&amp;#x4ECE;java 1.5&amp;#x53D1;&amp;#x73B0;&amp;#x7248;&amp;#x672C;&amp;#x5F00;&amp;#x59CB;, &amp;#x5C31;&amp;#x4E0D;&amp;#x5EFA;&amp;#x8BAE;&amp;#x4F7F;&amp;#x7528;wait&amp;#x548C;notify&amp;#xFF0C;&amp;#x">
+<meta property="og:image" content="http://www.wangxin123.com/2016/04/16/countDownLatch&#x548C;cyclicBarrier/1.png">
+<meta property="og:updated_time" content="2016-06-17T13:29:20.203Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="countDownLatch和cyclicBarrier">
+<meta name="twitter:description" content="&amp;#x300A; Effecit In Java &amp;#x300B;&amp;#x8BF4;&amp;#x8FC7;&amp;#xFF0C;&amp;#x4ECE;java 1.5&amp;#x53D1;&amp;#x73B0;&amp;#x7248;&amp;#x672C;&amp;#x5F00;&amp;#x59CB;, &amp;#x5C31;&amp;#x4E0D;&amp;#x5EFA;&amp;#x8BAE;&amp;#x4F7F;&amp;#x7528;wait&amp;#x548C;notify&amp;#xFF0C;&amp;#x">
+<meta name="twitter:image" content="http://www.wangxin123.com/2016/04/16/countDownLatch&#x548C;cyclicBarrier/1.png">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">星空博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/wk.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/wk.png" />
+            <h2 id="name">Wasim</h2>
+            <h3 id="title">Java Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>ShenZhen, China</span>
+            <a id="follow" target="_blank" href="https://github.com/Wasim37">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                15
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                23
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-countDownLatch和cyclicBarrier" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            countDownLatch和cyclicBarrier
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/04/16/countDownLatch和cyclicBarrier/">
+            <time datetime="2016-04-16T15:16:16.000Z" itemprop="datePublished">2016-04-16</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/WEB后端/">WEB后端</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/concurrent/">concurrent</a>, <a class="tag-link" href="/tags/countDownLatch/">countDownLatch</a>, <a class="tag-link" href="/tags/cyclicBarrier/">cyclicBarrier</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>&#x300A; Effecit In Java &#x300B;&#x8BF4;&#x8FC7;&#xFF0C;&#x4ECE;java 1.5&#x53D1;&#x73B0;&#x7248;&#x672C;&#x5F00;&#x59CB;, &#x5C31;&#x4E0D;&#x5EFA;&#x8BAE;&#x4F7F;&#x7528;wait&#x548C;notify&#xFF0C;&#x5B83;&#x4EEC;&#x4F7F;&#x7528;&#x6BD4;&#x8F83;&#x56F0;&#x96BE;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x66F4;&#x9AD8;&#x7EA7;&#x5E76;&#x53D1;&#x5DE5;&#x5177;&#x6765;&#x66FF;&#x4EE3;&#x3002;</p>
+<p><img src="/2016/04/16/countDownLatch&#x548C;cyclicBarrier/1.png" alt="&#x56FE;&#x7247;1"></p>
+<p>&#x56FE;&#x4E00;&#x6240;&#x8BF4;&#x7684;&#x540C;&#x6B65;&#x5668;&#x662F;&#x6307;&#x90A3;&#x4E9B;&#x80FD;&#x4F7F;&#x7EBF;&#x7A0B;&#x7B49;&#x5F85;&#x53E6;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5E38;&#x7528;&#x7684;&#x6709;cyclicBarrier&#x548C;&#x5012;&#x8BA1;&#x6570;&#x9501;&#x5B58;&#x5668;CountDownLatch&#x548C;semaphore&#x3002;</p>
+<h3 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h3><p>&#x4E00;&#x4E2A;&#x540C;&#x6B65;&#x8F85;&#x52A9;&#x7C7B;&#xFF0C;&#x5728;&#x5B8C;&#x6210;&#x4E00;&#x7EC4;&#x6B63;&#x5728;&#x5176;&#x4ED6;&#x7EBF;&#x7A0B;&#x4E2D;&#x6267;&#x884C;&#x7684;&#x64CD;&#x4F5C;&#x4E4B;&#x524D;&#xFF0C;&#x5B83;&#x5141;&#x8BB8;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x7EBF;&#x7A0B;&#x4E00;&#x76F4;&#x7B49;&#x5F85;&#x3002;&#x5B83;&#x7684;&#x5012;&#x8BA1;&#x6570;&#x7C7B;&#x4F3C;&#x4E8E;AutomicInteger&#x7684;getAndDecrement()&#x3002;&#x4F46;&#x5B83;&#x8FD8;&#x6709;&#x53E6;&#x4E00;&#x4E2A;&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#x7C7B;&#x4F3C;&#x4E8E; wait&#x548C;notify&#x3002;<br><a id="more"></a><br><strong>&#x4EE3;&#x7801;&#x793A;&#x4F8B;</strong>&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">package com.bbk.u001.handle;</span><br><span class="line"></span><br><span class="line">import java.util.concurrent.CountDownLatch;</span><br><span class="line"></span><br><span class="line">import javax.annotation.PostConstruct;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * CountDownLatch&#x7684;&#x4F7F;&#x7528;</span><br><span class="line"> * @ClassName: StatsSimilarKnowledgeHandle </span><br><span class="line"> * @Description: TODO</span><br><span class="line"> * @author wasim</span><br><span class="line"> * @create at 2015-8-12 &#x4E0B;&#x5348;8:44:51</span><br><span class="line"> *  </span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class CountDownLatchHandle {</span><br><span class="line">	</span><br><span class="line">	@Autowired</span><br><span class="line">	ThreadPoolTaskExecutor executor;</span><br><span class="line">	</span><br><span class="line">	@PostConstruct</span><br><span class="line">	public void handleStatsQuestionKnowledge(){</span><br><span class="line">		</span><br><span class="line">		CountDownLatch startSignal = new CountDownLatch(12);</span><br><span class="line">		</span><br><span class="line">		//&#x5BFC;&#x51FA;&#x6587;&#x4EF6; </span><br><span class="line">		executor.execute(new ExportStats(startSignal));</span><br><span class="line">		</span><br><span class="line">		//&#x5BFC;&#x51FA;&#x6587;&#x4EF6;&#x524D;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x5FAA;&#x73AF;&#x4E0B;&#x9762;12&#x4E2A;&#x7EBF;&#x7A0B;</span><br><span class="line">		for(int i=0;i&lt;12;i++){</span><br><span class="line">			executor.execute(new similarKnowledgeHandle(startSignal));</span><br><span class="line">		}</span><br><span class="line">		</span><br><span class="line">	}</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	public class similarKnowledgeHandle implements Runnable{</span><br><span class="line">		CountDownLatch startSignal;</span><br><span class="line">		</span><br><span class="line">		public similarKnowledgeHandle(CountDownLatch startSignal) {</span><br><span class="line">			this.startSignal =startSignal;</span><br><span class="line">		}</span><br><span class="line">		</span><br><span class="line">		@Override</span><br><span class="line">		public void run() {</span><br><span class="line">			startSignal.countDown();</span><br><span class="line">			System.out.println(startSignal.getCount()); //&#x663E;&#x793A;&#x5F53;&#x524D;&#x8BA1;&#x6570;</span><br><span class="line">		}</span><br><span class="line">	}</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	public class ExportStats implements Runnable{</span><br><span class="line">		</span><br><span class="line">		CountDownLatch startSignal;</span><br><span class="line">		</span><br><span class="line">		public ExportStats(CountDownLatch startSignal) {</span><br><span class="line">			this.startSignal =startSignal;</span><br><span class="line">		}</span><br><span class="line">		</span><br><span class="line">		@Override</span><br><span class="line">		public void run() {</span><br><span class="line">			try {</span><br><span class="line">				startSignal.await(); //&#x5F53;&#x8BA1;&#x6570;&#x4E3A;0&#x524D;&#xFF0C;&#x5BFC;&#x51FA;&#x6587;&#x4EF6;&#x7684;&#x7EBF;&#x7A0B;&#x4E00;&#x76F4;&#x5904;&#x4E8E;&#x7B49;&#x5F85;&#x72B6;&#x6001;</span><br><span class="line">				System.out.println(&quot;start export.......&quot;);</span><br><span class="line">			} catch (InterruptedException e) {</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			}</span><br><span class="line">		}</span><br><span class="line">		</span><br><span class="line">	}</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<p><br></p>
+<h3 id="cyclicBarrier"><a href="#cyclicBarrier" class="headerlink" title="cyclicBarrier"></a>cyclicBarrier</h3><p>&#x4E00;&#x4E2A;&#x540C;&#x6B65;&#x8F85;&#x52A9;&#x7C7B;&#xFF0C;&#x5B83;&#x5141;&#x8BB8;&#x4E00;&#x7EC4;&#x7EBF;&#x7A0B;&#x4E92;&#x76F8;&#x7B49;&#x5F85;&#xFF0C;&#x76F4;&#x5230;&#x5230;&#x8FBE;&#x67D0;&#x4E2A;&#x516C;&#x5171;&#x5C4F;&#x969C;&#x70B9; (common barrier point)&#x3002;&#x5728;&#x6D89;&#x53CA;&#x4E00;&#x7EC4;&#x56FA;&#x5B9A;&#x5927;&#x5C0F;&#x7684;&#x7EBF;&#x7A0B;&#x7684;&#x7A0B;&#x5E8F;&#x4E2D;&#xFF0C;&#x8FD9;&#x4E9B;&#x7EBF;&#x7A0B;&#x5FC5;&#x987B;&#x4E0D;&#x65F6;&#x5730;&#x4E92;&#x76F8;&#x7B49;&#x5F85;&#xFF0C;&#x6B64;&#x65F6; CyclicBarrier &#x5F88;&#x6709;&#x7528;&#x3002;&#x56E0;&#x4E3A;&#x8BE5; barrier &#x5728;&#x91CA;&#x653E;&#x7B49;&#x5F85;&#x7EBF;&#x7A0B;&#x540E;&#x53EF;&#x4EE5;&#x91CD;&#x7528;&#xFF0C;&#x6240;&#x4EE5;&#x79F0;&#x5B83;&#x4E3A;&#x5FAA;&#x73AF; &#x7684; barrier&#x3002;</p>
+<p><strong>&#x4EE3;&#x7801;&#x793A;&#x4F8B;&#xFF1A;</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">class Solver {</span><br><span class="line">   final int N;</span><br><span class="line">   final float[][] data;</span><br><span class="line">   final CyclicBarrier barrier;</span><br><span class="line">   </span><br><span class="line">   class Worker implements Runnable {</span><br><span class="line">     int myRow;</span><br><span class="line">     Worker(int row) { myRow = row; }</span><br><span class="line">     public void run() {</span><br><span class="line">       while (!done()) {</span><br><span class="line">         processRow(myRow);</span><br><span class="line"></span><br><span class="line">         try {</span><br><span class="line">           barrier.await(); </span><br><span class="line">         } catch (InterruptedException ex) { </span><br><span class="line">return; </span><br><span class="line">         } catch (BrokenBarrierException ex) { </span><br><span class="line">return; </span><br><span class="line">         }</span><br><span class="line">       }</span><br><span class="line">     }</span><br><span class="line">   }</span><br><span class="line"></span><br><span class="line">   public Solver(float[][] matrix) {</span><br><span class="line">     data = matrix;</span><br><span class="line">     N = matrix.length;</span><br><span class="line">     barrier = new CyclicBarrier(N, </span><br><span class="line">                                 new Runnable() {</span><br><span class="line">                                   public void run() { </span><br><span class="line">                                     mergeRows(...); </span><br><span class="line">                                   }</span><br><span class="line">                                 });</span><br><span class="line">     for (int i = 0; i &lt; N; ++i) </span><br><span class="line">       new Thread(new Worker(i)).start();</span><br><span class="line"></span><br><span class="line">     waitUntilDone();</span><br><span class="line">   }</span><br><span class="line"> }</span><br></pre></td></tr></table></figure></p>
+<h3 id="cyclicBarrier-&#x548C;-CountDownLatch-&#x7684;&#x533A;&#x522B;"><a href="#cyclicBarrier-&#x548C;-CountDownLatch-&#x7684;&#x533A;&#x522B;" class="headerlink" title="cyclicBarrier &#x548C;  CountDownLatch &#x7684;&#x533A;&#x522B;"></a>cyclicBarrier &#x548C;  CountDownLatch &#x7684;&#x533A;&#x522B;</h3><p><img src="/2016/04/16/countDownLatch&#x548C;cyclicBarrier/2.png" alt="&#x56FE;&#x7247;2"></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/04/16/countDownLatch和cyclicBarrier/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/04/16/countDownLatch和cyclicBarrier/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/04/16/DelayQueue使用/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    DelayQueue使用
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/04/16/AtomicInteger的使用/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">AtomicInteger的使用</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/04/16/countDownLatch和cyclicBarrier/" data-title="countDownLatch和cyclicBarrier" data-url="http://www.wangxin123.com/2016/04/16/countDownLatch和cyclicBarrier/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
+    </div>
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/WEB后端/">WEB后端</a></p>
+                            <p class="item-title"><a href="/2016/06/11/Java集合类从属关系/" class="title">Java集合类从属关系</a></p>
+                            <p class="item-date"><time datetime="2016-06-11T13:18:00.000Z" itemprop="datePublished">2016-06-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/我的收藏/">我的收藏</a></p>
+                            <p class="item-title"><a href="/2016/06/08/中小企业监控体系构建实战/" class="title">中小企业监控体系构建实战</a></p>
+                            <p class="item-date"><time datetime="2016-06-08T05:15:12.000Z" itemprop="datePublished">2016-06-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/WEB后端/">WEB后端</a></p>
+                            <p class="item-title"><a href="/2016/06/06/初始化块和静态初始化块的区别/" class="title">初始化块和静态初始化块的区别</a></p>
+                            <p class="item-date"><time datetime="2016-06-06T15:42:00.000Z" itemprop="datePublished">2016-06-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/相关感悟/">相关感悟</a></p>
+                            <p class="item-title"><a href="/2016/06/05/从SonarQube谈设计模式/" class="title">从SonarQube谈设计模式</a></p>
+                            <p class="item-date"><time datetime="2016-06-05T13:42:13.000Z" itemprop="datePublished">2016-06-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/配置部署/">配置部署</a></p>
+                            <p class="item-title"><a href="/2016/06/02/SonarQube+Jenkins,搭建持续交付平台/" class="title">SonarQube+Jenkins,搭建持续交付平台</a></p>
+                            <p class="item-date"><time datetime="2016-06-02T14:22:00.000Z" itemprop="datePublished">2016-06-02</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能调优/">性能调优</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/部署配置/">部署配置</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/配置部署/">配置部署</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/AtomicInteger/" style="font-size: 10px;">AtomicInteger</a> <a href="/tags/DelayQueue/" style="font-size: 10px;">DelayQueue</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/concurrent/" style="font-size: 20px;">concurrent</a> <a href="/tags/countDownLatch/" style="font-size: 10px;">countDownLatch</a> <a href="/tags/cyclicBarrier/" style="font-size: 10px;">cyclicBarrier</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/模板/" style="font-size: 10px;">模板</a> <a href="/tags/疑难杂症/" style="font-size: 15px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 Wasim<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'wangxin37'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
