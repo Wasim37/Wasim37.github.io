@@ -17,10 +17,11 @@ date: 2016-5-20 22:22:00
 搭建教程网上比比皆是，此处不累赘，仅记录搭建过程中用到的网站及遇到的问题
 
 ### 相关网站
-hexo中文网站：[https://hexo.io/zh-cn/docs/](https://hexo.io/zh-cn/docs/)
+hexo中文网站：[https://hexo.io/zh-cn/docs/](https://hexo.io/zh-cn/docs/)  
+hexo主题：[https://www.zhihu.com/question/24422335](https://www.zhihu.com/question/24422335)
 hexo+github搭建过程：[http://www.jianshu.com/p/df3edc4286d2](http://www.jianshu.com/p/df3edc4286d2)
 Markdown 语法说明：[http://www.appinn.com/markdown/](http://www.appinn.com/markdown/)
-github绑定域名：[http://www.jianshu.com/p/1d427e888dda](http://www.jianshu.com/p/1d427e888dda)
+github绑定域名：[http://www.jianshu.com/p/1d427e888dda](http://www.jianshu.com/p/1d427e888dda)  
 
 
 ### HEXO如何优化部署及管理
