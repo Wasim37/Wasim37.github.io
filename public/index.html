@@ -149,11 +149,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                15
+                16
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                23
+                24
                 <span>标签</span>
             </div>
         </div>
@@ -181,6 +181,110 @@
 
             
             <section id="main">
+    <article id="post-Jedis-returnResource使用注意事项" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/06/18/Jedis-returnResource使用注意事项/">Jedis-returnResource使用注意事项</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/06/18/Jedis-returnResource使用注意事项/">
+            <time datetime="2016-06-18T12:10:00.000Z" itemprop="datePublished">2016-06-18</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/错误集锦/">错误集锦</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/redis/">redis</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><blockquote>
+<p>&#x9047;&#x5230;&#x8FC7;&#x8FD9;&#x6837;&#x4E00;&#x4E2A;&#x4E25;&#x91CD;&#x95EE;&#x9898;&#xFF1A;<br>&#x53D1;&#x5E03;&#x7684;&#x9879;&#x76EE;&#x4E0D;&#x77E5;&#x4ECE;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x5F00;&#x59CB;&#xFF0C;&#x6BCF;&#x6708;&#x4F1A;&#x51FA;&#x73B0;&#x4E00;&#x4E24;&#x6B21;&#x4E32;&#x53F7;&#x95EE;&#x9898;&#x3002;&#x4E32;&#x53F7;&#x73B0;&#x8C61;&#x6307;&#x7684;&#x662F;&#xFF0C;&#x7528;&#x6237;&#x7528;&#x8D26;&#x53F7;A&#x767B;&#x5F55;&#x7CFB;&#x7EDF;&#xFF0C;&#x7136;&#x540E;&#x67D0;&#x4E2A;&#x65F6;&#x95F4;&#xFF0C;&#x767B;&#x5F55;&#x8D26;&#x53F7;&#x81EA;&#x52A8;&#x53D8;&#x6210;&#x4E86;B&#x3002;<br>&#x4E32;&#x53F7;&#x51FA;&#x73B0;&#x7684;&#x65F6;&#x95F4;&#x4E0D;&#x5B9A;&#xFF0C;&#x6D4B;&#x8BD5;&#x5E73;&#x53F0;&#x96BE;&#x4EE5;&#x91CD;&#x73B0;&#xFF0C;&#x4E14;&#x540E;&#x53F0;&#x68C0;&#x6D4B;&#x4E0D;&#x5230;&#x9519;&#x8BEF;&#xFF0C;&#x96BE;&#x4EE5;&#x5B9A;&#x4F4D;&#x3002;&#x5F53;&#x65F6;&#x5404;&#x79CD;&#x6392;&#x67E5;&#xFF0C;&#x6700;&#x540E;&#x53D1;&#x73B0;&#x95EE;&#x9898;&#x679C;&#x7136;&#x662F;&#x51FA;&#x5728;&#x7F13;&#x5B58;redis&#x4E0A;&#xFF0C;JedisPool&#x4F7F;&#x7528;&#x6709;&#x95EE;&#x9898;&#x3002;</p>
+</blockquote>
+<h3 id="JedisPool&#x4F7F;&#x7528;&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;"><a href="#JedisPool&#x4F7F;&#x7528;&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;" class="headerlink" title="JedisPool&#x4F7F;&#x7528;&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;"></a>JedisPool&#x4F7F;&#x7528;&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#xFF1A;</h3><p>1&#x3001;&#x6BCF;&#x6B21;&#x4ECE;pool&#x83B7;&#x53D6;&#x8D44;&#x6E90;&#x540E;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;try-finally&#x91CA;&#x653E;&#xFF0C;&#x5426;&#x5219;&#x4F1A;&#x51FA;&#x73B0;&#x5F88;&#x591A;&#x83AB;&#x540D;&#x5176;&#x5999;&#x7684;&#x9519;&#x8BEF;&#x3002;<br>2&#x3001;&#x8D44;&#x6E90;&#x91CA;&#x653E;&#x4E0D;&#x80FD;&#x4E00;&#x81F4;&#x4F7F;&#x7528;returnBrokenResource&#x3010;&#x9879;&#x76EE;&#x95EE;&#x9898;&#x5C31;&#x51FA;&#x5728;&#x7B2C;&#x4E8C;&#x6761;&#x6CE8;&#x610F;&#x4E8B;&#x9879;&#x4E0A;&#x3011;&#x3002;</p>
+<h3 id="&#x76F8;&#x5173;&#x4EE3;&#x7801;"><a href="#&#x76F8;&#x5173;&#x4EE3;&#x7801;" class="headerlink" title="&#x76F8;&#x5173;&#x4EE3;&#x7801;"></a>&#x76F8;&#x5173;&#x4EE3;&#x7801;</h3><p>&#x4EE3;&#x7801;&#x4FEE;&#x6539;&#x524D;&#x5927;&#x81F4;&#x5982;&#x4E0B;:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void closeResource(Jedis jedis) {  </span><br><span class="line">    if (null != jedis) { </span><br><span class="line">         jedisPool.returnResource(jedis);  </span><br><span class="line">    }  </span><br><span class="line">}</span><br></pre></td></tr></table></figure></p></p>
+            <p class="article-more-link">
+                <a href="/2016/06/18/Jedis-returnResource使用注意事项/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/06/18/Jedis-returnResource使用注意事项/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/06/18/Jedis-returnResource使用注意事项/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Java集合类从属关系" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -908,109 +1012,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-Maven常见问题汇总" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/05/20/Maven常见问题汇总/">Maven常见问题汇总</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/05/20/Maven常见问题汇总/">
-            <time datetime="2016-05-20T14:22:00.000Z" itemprop="datePublished">2016-05-20</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/错误集锦/">错误集锦</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Maven/">Maven</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p><em>&#x6700;&#x8FD1;&#x4F7F;&#x7528;maven&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x9047;&#x5230;&#x4E00;&#x4E9B;&#x95EE;&#x9898;&#xFF0C;&#x8BB0;&#x5F55;&#x5982;&#x4E0B;&#xFF0C;&#x65B9;&#x4FBF;&#x65E5;&#x540E;&#x67E5;&#x8BE2;&#x6240;&#x7528;</em></p>
-<p><strong>&#x95EE;&#x9898;1&#xFF1A;&#x6267;&#x884C;package&#x547D;&#x4EE4;&#x62A5;&#x9519;,&#x63D0;&#x793A;source-1.5&#x4E0D;&#x652F;&#x6301;diamond&#x8FD0;&#x7B97;&#x7B26;&#xFF0C;&#x5EFA;&#x8BAE;&#x6362;&#x6210;1.7</strong><br><strong>&#x539F;&#x56E0;&#xFF1A;</strong>&#x7F16;&#x8BD1;&#x7248;&#x672C;&#x51FA;&#x4E86;&#x95EE;&#x9898;&#xFF0C;&#x5728;pom.xml&#x76F8;&#x5E94;&#x4F4D;&#x7F6E;&#x6DFB;&#x52A0;1.7&#x6216;1.7&#x4EE5;&#x4E0A;&#x7684;source&#x548C;target&#x5373;&#x53EF;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugins&gt; </span><br><span class="line">  &lt;plugin&gt; </span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; </span><br><span class="line">	&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt; </span><br><span class="line">	&lt;configuration&gt; </span><br><span class="line">	  &lt;<span class="built_in">source</span>&gt;1.7&lt;/<span class="built_in">source</span>&gt; </span><br><span class="line">	  &lt;target&gt;1.7&lt;/target&gt; </span><br><span class="line">	&lt;/configuration&gt; </span><br><span class="line">  &lt;/plugin&gt; </span><br><span class="line">&lt;/plugins&gt;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong>&#x95EE;&#x9898;2&#xFF1A;&#x6267;&#x884C;package&#x547D;&#x4EE4;&#x62A5;&#x9519;&#xFF0C;&#x63D0;&#x793A;&#x7F16;&#x7801;GBK&#x7684;&#x4E0D;&#x53EF;&#x6620;&#x5C04;&#x5B57;&#x7B26;</strong><br><strong>&#x539F;&#x56E0;&#xFF1A;</strong>&#x5B57;&#x7B26;&#x7F16;&#x7801;&#x9519;&#x8BEF;&#xFF0C;&#x5728;&#x95EE;&#x9898;1&#x7684;target&#x4EE3;&#x7801;&#x4E0B;&#x589E;&#x52A0;&#x4E0B;&#x9762;&#x4E00;&#x884C;&#x5373;&#x53EF;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;encoding&gt;utf8&lt;/encoding&gt;</span><br></pre></td></tr></table></figure></p></p>
-            <p class="article-more-link">
-                <a href="/2016/05/20/Maven常见问题汇总/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2016/05/20/Maven常见问题汇总/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/05/20/Maven常见问题汇总/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <article id="post-Github+Hexo,搭建专有博客" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1118,7 +1119,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-Code Templates设置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Maven常见问题汇总" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -1127,7 +1128,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2016/05/18/Code Templates设置/">Code Templates设置</a>
+            <a class="article-title" href="/2016/05/20/Maven常见问题汇总/">Maven常见问题汇总</a>
         </h1>
     
 
@@ -1135,8 +1136,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/05/18/Code Templates设置/">
-            <time datetime="2016-05-18T11:13:52.000Z" itemprop="datePublished">2016-05-18</time>
+        <a href="/2016/05/20/Maven常见问题汇总/">
+            <time datetime="2016-05-20T14:22:00.000Z" itemprop="datePublished">2016-05-20</time>
         </a>
     </div>
 
@@ -1144,13 +1145,13 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/配置部署/">配置部署</a>
+        <a class="article-category-link" href="/categories/错误集锦/">错误集锦</a>
     </div>
 
                     
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/模板/">模板</a>
+        <a class="tag-link" href="/tags/Maven/">Maven</a>
     </div>
 
                 </div>
@@ -1158,11 +1159,12 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><h3 id="IDE&#x914D;&#x7F6E;&#x5730;&#x5740;&#xFF1A;"><a href="#IDE&#x914D;&#x7F6E;&#x5730;&#x5740;&#xFF1A;" class="headerlink" title="IDE&#x914D;&#x7F6E;&#x5730;&#x5740;&#xFF1A;"></a>IDE&#x914D;&#x7F6E;&#x5730;&#x5740;&#xFF1A;</h3><p>Window-&gt;Preferences-&gt;Java-&gt;Code Style-&gt;Code Templates</p>
-<h3 id="&#x6211;&#x7684;&#x9ED8;&#x8BA4;&#x914D;&#x7F6E;&#xFF1A;"><a href="#&#x6211;&#x7684;&#x9ED8;&#x8BA4;&#x914D;&#x7F6E;&#xFF1A;" class="headerlink" title="&#x6211;&#x7684;&#x9ED8;&#x8BA4;&#x914D;&#x7F6E;&#xFF1A;"></a>&#x6211;&#x7684;&#x9ED8;&#x8BA4;&#x914D;&#x7F6E;&#xFF1A;</h3><p><strong>comments&#x2013;&gt;files:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @Project Name:${project_name}</span><br><span class="line"> * @File Name:${file_name}</span><br><span class="line"> * @Package Name:${package_name}</span><br><span class="line"> * @Date:${date}${time}</span><br><span class="line"> */</span><br></pre></td></tr></table></figure></p>
-<p><strong>comments&#x2013;&gt;types:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @ClassName: ${type_name}</span><br><span class="line"> * @Description: ${todo}</span><br><span class="line"> * @author Wasim</span><br><span class="line"> * @Date: ${date} ${time}</span><br><span class="line"> */</span><br></pre></td></tr></table></figure></p></p>
+            <p><p><em>&#x6700;&#x8FD1;&#x4F7F;&#x7528;maven&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x9047;&#x5230;&#x4E00;&#x4E9B;&#x95EE;&#x9898;&#xFF0C;&#x8BB0;&#x5F55;&#x5982;&#x4E0B;&#xFF0C;&#x65B9;&#x4FBF;&#x65E5;&#x540E;&#x67E5;&#x8BE2;&#x6240;&#x7528;</em></p>
+<p><strong>&#x95EE;&#x9898;1&#xFF1A;&#x6267;&#x884C;package&#x547D;&#x4EE4;&#x62A5;&#x9519;,&#x63D0;&#x793A;source-1.5&#x4E0D;&#x652F;&#x6301;diamond&#x8FD0;&#x7B97;&#x7B26;&#xFF0C;&#x5EFA;&#x8BAE;&#x6362;&#x6210;1.7</strong><br><strong>&#x539F;&#x56E0;&#xFF1A;</strong>&#x7F16;&#x8BD1;&#x7248;&#x672C;&#x51FA;&#x4E86;&#x95EE;&#x9898;&#xFF0C;&#x5728;pom.xml&#x76F8;&#x5E94;&#x4F4D;&#x7F6E;&#x6DFB;&#x52A0;1.7&#x6216;1.7&#x4EE5;&#x4E0A;&#x7684;source&#x548C;target&#x5373;&#x53EF;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugins&gt; </span><br><span class="line">  &lt;plugin&gt; </span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; </span><br><span class="line">	&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt; </span><br><span class="line">	&lt;configuration&gt; </span><br><span class="line">	  &lt;<span class="built_in">source</span>&gt;1.7&lt;/<span class="built_in">source</span>&gt; </span><br><span class="line">	  &lt;target&gt;1.7&lt;/target&gt; </span><br><span class="line">	&lt;/configuration&gt; </span><br><span class="line">  &lt;/plugin&gt; </span><br><span class="line">&lt;/plugins&gt;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><strong>&#x95EE;&#x9898;2&#xFF1A;&#x6267;&#x884C;package&#x547D;&#x4EE4;&#x62A5;&#x9519;&#xFF0C;&#x63D0;&#x793A;&#x7F16;&#x7801;GBK&#x7684;&#x4E0D;&#x53EF;&#x6620;&#x5C04;&#x5B57;&#x7B26;</strong><br><strong>&#x539F;&#x56E0;&#xFF1A;</strong>&#x5B57;&#x7B26;&#x7F16;&#x7801;&#x9519;&#x8BEF;&#xFF0C;&#x5728;&#x95EE;&#x9898;1&#x7684;target&#x4EE3;&#x7801;&#x4E0B;&#x589E;&#x52A0;&#x4E0B;&#x9762;&#x4E00;&#x884C;&#x5373;&#x53EF;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;encoding&gt;utf8&lt;/encoding&gt;</span><br></pre></td></tr></table></figure></p></p>
             <p class="article-more-link">
-                <a href="/2016/05/18/Code Templates设置/#more">查看更多</a>
+                <a href="/2016/05/20/Maven常见问题汇总/#more">查看更多</a>
             </p>
         
         </div>
@@ -1210,7 +1212,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
             
     
-        <a href="http://www.wangxin123.com/2016/05/18/Code Templates设置/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/05/18/Code Templates设置/">评论</a>
+        <a href="http://www.wangxin123.com/2016/05/20/Maven常见问题汇总/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/05/20/Maven常见问题汇总/">评论</a>
     
 
         </footer>
@@ -1235,6 +1237,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/错误集锦/">错误集锦</a></p>
+                            <p class="item-title"><a href="/2016/06/18/Jedis-returnResource使用注意事项/" class="title">Jedis-returnResource使用注意事项</a></p>
+                            <p class="item-date"><time datetime="2016-06-18T12:10:00.000Z" itemprop="datePublished">2016-06-18</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         <div class="item-thumbnail">
@@ -1268,14 +1278,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                     </li>
                 
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/配置部署/">配置部署</a></p>
-                            <p class="item-title"><a href="/2016/06/02/SonarQube+Jenkins,搭建持续交付平台/" class="title">SonarQube+Jenkins,搭建持续交付平台</a></p>
-                            <p class="item-date"><time datetime="2016-06-02T14:22:00.000Z" itemprop="datePublished">2016-06-02</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1285,7 +1287,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能调优/">性能调优</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/配置部署/">配置部署</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能调优/">性能调优</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/配置部署/">配置部署</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">2</span></li></ul>
         </div>
     </div>
 
@@ -1294,7 +1296,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -1303,7 +1305,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/AtomicInteger/" style="font-size: 10px;">AtomicInteger</a> <a href="/tags/DelayQueue/" style="font-size: 10px;">DelayQueue</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/concurrent/" style="font-size: 20px;">concurrent</a> <a href="/tags/countDownLatch/" style="font-size: 10px;">countDownLatch</a> <a href="/tags/cyclicBarrier/" style="font-size: 10px;">cyclicBarrier</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/模板/" style="font-size: 10px;">模板</a> <a href="/tags/疑难杂症/" style="font-size: 15px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+            <a href="/tags/AtomicInteger/" style="font-size: 10px;">AtomicInteger</a> <a href="/tags/DelayQueue/" style="font-size: 10px;">DelayQueue</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/concurrent/" style="font-size: 20px;">concurrent</a> <a href="/tags/countDownLatch/" style="font-size: 10px;">countDownLatch</a> <a href="/tags/cyclicBarrier/" style="font-size: 10px;">cyclicBarrier</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/模板/" style="font-size: 10px;">模板</a> <a href="/tags/疑难杂症/" style="font-size: 15px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
         </div>
     </div>
 
