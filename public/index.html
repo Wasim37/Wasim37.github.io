@@ -149,11 +149,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                16
+                17
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                24
+                26
                 <span>标签</span>
             </div>
         </div>
@@ -181,6 +181,111 @@
 
             
             <section id="main">
+    <article id="post-酷狗音乐的大数据平台重构" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/06/20/酷狗音乐的大数据平台重构/">酷狗音乐的大数据平台重构</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/06/20/酷狗音乐的大数据平台重构/">
+            <time datetime="2016-06-20T13:18:00.000Z" itemprop="datePublished">2016-06-20</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/我的收藏/">我的收藏</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/hadoop/">hadoop</a>, <a class="tag-link" href="/tags/大数据/">大数据</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><blockquote>
+<p>&#x672C;&#x6587;&#x662F;&#x9177;&#x72D7;&#x97F3;&#x4E50;&#x7684;&#x67B6;&#x6784;&#x5E08;&#x738B;&#x52B2;&#x5BF9;&#x9177;&#x72D7;&#x5927;&#x6570;&#x636E;&#x67B6;&#x6784;&#x91CD;&#x6784;&#x7684;&#x603B;&#x7ED3;&#x3002;&#x9177;&#x72D7;&#x97F3;&#x4E50;&#x7684;&#x5927;&#x6570;&#x636E;&#x67B6;&#x6784;&#x672C;&#x8EAB;&#x5F88;&#x7ECF;&#x5178;&#xFF0C;&#x800C;&#x8FD9;&#x7BC7;&#x8BB2;&#x89E3;&#x4E86;&#x5BF9;&#x539F;&#x6765;&#x7684;&#x67B6;&#x6784;&#x4E0A;&#x8FDB;&#x884C;&#x91CD;&#x6784;&#x7684;&#x5DE5;&#x4F5C;&#x5185;&#x5BB9;&#xFF0C;&#x603B;&#x5171;&#x5206;&#x4E3A;<strong>&#x91CD;&#x6784;&#x7684;&#x539F;&#x56E0;&#x3001;&#x65B0;&#x4E00;&#x4EE3;&#x7684;&#x5927;&#x6570;&#x636E;&#x6280;&#x672F;&#x67B6;&#x6784;&#x3001;&#x8E29;&#x8FC7;&#x7684;&#x5751;&#x3001;&#x540E;&#x7EED;&#x6301;&#x7EED;&#x6539;&#x8FDB;</strong>&#x56DB;&#x4E2A;&#x90E8;&#x5206;&#x6765;&#x7ED9;&#x5927;&#x5BB6;&#x8C08;&#x9177;&#x72D7;&#x97F3;&#x4E50;&#x5927;&#x6570;&#x636E;&#x5E73;&#x53F0;&#x91CD;&#x6784;&#x7684;&#x8FC7;&#x7A0B;&#x3002;</p>
+</blockquote>
+<p>&#x7728;&#x773C;&#x5C31;&#x662F;&#x65B0;&#x7684;&#x4E00;&#x5E74;&#x4E86;&#xFF0C;&#x65F6;&#x95F4;&#x8FC7;&#x7684;&#x771F;&#x5FEB;&#xFF0C;&#x8D81;&#x8FD9;&#x6BB5;&#x65F6;&#x95F4;&#x4E00;&#x76F4;&#x5728;&#x5199;&#x603B;&#x7ED3;&#x7684;&#x673A;&#x4F1A;&#xFF0C;&#x4E5F;&#x603B;&#x7ED3;&#x4E0B;&#x4E0A;&#x4E00;&#x5E74;&#x7684;&#x5DE5;&#x4F5C;&#x7ECF;&#x9A8C;&#xFF0C;&#x907F;&#x514D;&#x91CD;&#x590D;&#x8E29;&#x5751;&#x3002;&#x9177;&#x72D7;&#x97F3;&#x4E50;&#x5927;&#x6570;&#x636E;&#x5E73;&#x53F0;&#x91CD;&#x6784;&#x6574;&#x6574;&#x7ECF;&#x5386;&#x4E86;&#x4E00;&#x5E74;&#x65F6;&#x95F4;&#xFF0C;&#x5927;&#x5934;&#x7684;&#x884C;&#x4E3A;&#x6D41;&#x6C34;&#x6570;&#x636E;&#x8FC1;&#x79FB;&#x5230;&#x65B0;&#x5E73;&#x53F0;&#x7A33;&#x5B9A;&#x8FD0;&#x884C;&#xFF0C;&#x5728;&#x8FD9;&#x8FC7;&#x7A0B;&#x4E2D;&#x586B;&#x8FC7;&#x5751;&#xFF0C;&#x6316;&#x8FC7;&#x5751;&#xFF0C;&#x4E3A;&#x540E;&#x7EED;&#x4E1A;&#x52A1;&#x7684;&#x5B9E;&#x65F6;&#x8BA1;&#x7B97;&#x9700;&#x6C42;&#x6253;&#x4E0B;&#x4E86;&#x5F88;&#x597D;&#x7684;&#x57FA;&#x7840;&#x3002;&#x5728;&#x6B64;&#x611F;&#x8C22;&#x9177;&#x72D7;&#x56E2;&#x961F;&#x6210;&#x5458;&#x7684;&#x4E0D;&#x61C8;&#x52AA;&#x529B;&#xFF0C;&#x5927;&#x90E8;&#x5206;&#x4ECE;&#x5F00;&#x59CB;&#x53EA;&#x77E5;&#x9053;&#x5927;&#x6570;&#x636E;&#x8FD9;&#x4E2A;&#x6982;&#x5FF5;&#xFF0C;&#x5230;&#x73B0;&#x5728;&#x6210;&#x4E3A;&#x56E2;&#x961F;&#x7684;&#x6280;&#x672F;&#x652F;&#x67F1;&#xFF0C;&#x611F;&#x5230;&#x5F88;&#x6B23;&#x6170;&#x3002;</p>
+<p>&#x4ECE;&#x91CD;&#x6784;&#x539F;&#x56E0;&#xFF0C;&#x6280;&#x672F;&#x67B6;&#x6784;&#xFF0C;&#x8E29;&#x8FC7;&#x7684;&#x5751;&#xFF0C;&#x540E;&#x7EED;&#x6301;&#x7EED;&#x6539;&#x8FDB;&#x56DB;&#x4E2A;&#x65B9;&#x9762;&#x6765;&#x63CF;&#x8FF0;&#x9177;&#x72D7;&#x97F3;&#x4E50;&#x5927;&#x6570;&#x636E;&#x5E73;&#x53F0;&#x91CD;&#x6784;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x5728;&#x6B64;&#x629B;&#x7816;&#x5F15;&#x7389;&#xFF0C;&#x8FD9;&#x6B21;&#x7684;&#x5185;&#x5BB9;&#x4E0E;6&#x6708;&#x4EFD;&#x5728;&#x9AD8;&#x53EF;&#x7528;&#x67B6;&#x6784;&#x7FA4;&#x5206;&#x4EAB;&#x7684;&#x5927;&#x6570;&#x636E;&#x6280;&#x672F;&#x5B9E;&#x8DF5;&#x7684;&#x6709;&#x70B9;&#x4E0D;&#x540C;&#xFF0C;&#x6280;&#x672F;&#x67B6;&#x6784;&#x505A;&#x4E86;&#x4E9B;&#x8C03;&#x6574;&#x3002;</p>
+<p>&#x5176;&#x5B9E;&#x5927;&#x6570;&#x636E;&#x5E73;&#x53F0;&#x662F;&#x4E00;&#x4E2A;&#x5E9E;&#x5927;&#x7684;&#x7CFB;&#x7EDF;&#x5DE5;&#x7A0B;&#xFF0C;&#x6574;&#x4E2A;&#x5EFA;&#x8BBE;&#x5468;&#x671F;&#x5F88;&#x957F;&#xFF0C;&#x6D89;&#x53CA;&#x7684;&#x751F;&#x6001;&#x94FE;&#x5F88;&#x957F;(&#x5305;&#x62EC;&#xFF1A;&#x6570;&#x636E;&#x91C7;&#x96C6;&#x3001;&#x63A5;&#x5165;&#xFF0C;&#x6E05;&#x6D17;&#x3001;&#x5B58;&#x50A8;&#x8BA1;&#x7B97;&#x3001;&#x6570;&#x636E;&#x6316;&#x6398;&#xFF0C;&#x53EF;&#x89C6;&#x5316;&#x7B49;&#x73AF;&#x8282;&#xFF0C;&#x6BCF;&#x4E2A;&#x73AF;&#x8282;&#x90FD;&#x5F53;&#x505A;&#x4E00;&#x4E2A;&#x590D;&#x6742;&#x7684;&#x7CFB;&#x7EDF;&#x6765;&#x5EFA;&#x8BBE;)&#xFF0C;&#x98CE;&#x9669;&#x4E5F;&#x5F88;&#x5927;&#x3002;<br></p></p>
+            <p class="article-more-link">
+                <a href="/2016/06/20/酷狗音乐的大数据平台重构/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/06/20/酷狗音乐的大数据平台重构/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/06/20/酷狗音乐的大数据平台重构/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Jedis-returnResource使用注意事项" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1119,109 +1224,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-Maven常见问题汇总" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/05/20/Maven常见问题汇总/">Maven常见问题汇总</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/05/20/Maven常见问题汇总/">
-            <time datetime="2016-05-20T14:22:00.000Z" itemprop="datePublished">2016-05-20</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/错误集锦/">错误集锦</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Maven/">Maven</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p><em>&#x6700;&#x8FD1;&#x4F7F;&#x7528;maven&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x9047;&#x5230;&#x4E00;&#x4E9B;&#x95EE;&#x9898;&#xFF0C;&#x8BB0;&#x5F55;&#x5982;&#x4E0B;&#xFF0C;&#x65B9;&#x4FBF;&#x65E5;&#x540E;&#x67E5;&#x8BE2;&#x6240;&#x7528;</em></p>
-<p><strong>&#x95EE;&#x9898;1&#xFF1A;&#x6267;&#x884C;package&#x547D;&#x4EE4;&#x62A5;&#x9519;,&#x63D0;&#x793A;source-1.5&#x4E0D;&#x652F;&#x6301;diamond&#x8FD0;&#x7B97;&#x7B26;&#xFF0C;&#x5EFA;&#x8BAE;&#x6362;&#x6210;1.7</strong><br><strong>&#x539F;&#x56E0;&#xFF1A;</strong>&#x7F16;&#x8BD1;&#x7248;&#x672C;&#x51FA;&#x4E86;&#x95EE;&#x9898;&#xFF0C;&#x5728;pom.xml&#x76F8;&#x5E94;&#x4F4D;&#x7F6E;&#x6DFB;&#x52A0;1.7&#x6216;1.7&#x4EE5;&#x4E0A;&#x7684;source&#x548C;target&#x5373;&#x53EF;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugins&gt; </span><br><span class="line">  &lt;plugin&gt; </span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; </span><br><span class="line">	&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt; </span><br><span class="line">	&lt;configuration&gt; </span><br><span class="line">	  &lt;<span class="built_in">source</span>&gt;1.7&lt;/<span class="built_in">source</span>&gt; </span><br><span class="line">	  &lt;target&gt;1.7&lt;/target&gt; </span><br><span class="line">	&lt;/configuration&gt; </span><br><span class="line">  &lt;/plugin&gt; </span><br><span class="line">&lt;/plugins&gt;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong>&#x95EE;&#x9898;2&#xFF1A;&#x6267;&#x884C;package&#x547D;&#x4EE4;&#x62A5;&#x9519;&#xFF0C;&#x63D0;&#x793A;&#x7F16;&#x7801;GBK&#x7684;&#x4E0D;&#x53EF;&#x6620;&#x5C04;&#x5B57;&#x7B26;</strong><br><strong>&#x539F;&#x56E0;&#xFF1A;</strong>&#x5B57;&#x7B26;&#x7F16;&#x7801;&#x9519;&#x8BEF;&#xFF0C;&#x5728;&#x95EE;&#x9898;1&#x7684;target&#x4EE3;&#x7801;&#x4E0B;&#x589E;&#x52A0;&#x4E0B;&#x9762;&#x4E00;&#x884C;&#x5373;&#x53EF;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;encoding&gt;utf8&lt;/encoding&gt;</span><br></pre></td></tr></table></figure></p></p>
-            <p class="article-more-link">
-                <a href="/2016/05/20/Maven常见问题汇总/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2016/05/20/Maven常见问题汇总/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/05/20/Maven常见问题汇总/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
     </nav>
@@ -1237,6 +1239,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/我的收藏/">我的收藏</a></p>
+                            <p class="item-title"><a href="/2016/06/20/酷狗音乐的大数据平台重构/" class="title">酷狗音乐的大数据平台重构</a></p>
+                            <p class="item-date"><time datetime="2016-06-20T13:18:00.000Z" itemprop="datePublished">2016-06-20</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         <div class="item-thumbnail">
@@ -1270,14 +1280,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                     </li>
                 
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/相关感悟/">相关感悟</a></p>
-                            <p class="item-title"><a href="/2016/06/05/从SonarQube谈设计模式/" class="title">从SonarQube谈设计模式</a></p>
-                            <p class="item-date"><time datetime="2016-06-05T13:42:13.000Z" itemprop="datePublished">2016-06-05</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1287,7 +1289,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能调优/">性能调优</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/配置部署/">配置部署</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">2</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能调优/">性能调优</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/配置部署/">配置部署</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">2</span></li></ul>
         </div>
     </div>
 
@@ -1296,7 +1298,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -1305,7 +1307,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/AtomicInteger/" style="font-size: 10px;">AtomicInteger</a> <a href="/tags/DelayQueue/" style="font-size: 10px;">DelayQueue</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/concurrent/" style="font-size: 20px;">concurrent</a> <a href="/tags/countDownLatch/" style="font-size: 10px;">countDownLatch</a> <a href="/tags/cyclicBarrier/" style="font-size: 10px;">cyclicBarrier</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/模板/" style="font-size: 10px;">模板</a> <a href="/tags/疑难杂症/" style="font-size: 15px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+            <a href="/tags/AtomicInteger/" style="font-size: 10px;">AtomicInteger</a> <a href="/tags/DelayQueue/" style="font-size: 10px;">DelayQueue</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/concurrent/" style="font-size: 20px;">concurrent</a> <a href="/tags/countDownLatch/" style="font-size: 10px;">countDownLatch</a> <a href="/tags/cyclicBarrier/" style="font-size: 10px;">cyclicBarrier</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 10px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/模板/" style="font-size: 10px;">模板</a> <a href="/tags/疑难杂症/" style="font-size: 15px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
         </div>
     </div>
 
