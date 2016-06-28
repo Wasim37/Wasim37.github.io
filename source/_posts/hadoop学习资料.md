@@ -1,7 +1,7 @@
 ---
 title: hadoop学习资料
 categories:
-  - 其他技术
+  - 其他文章
 tags:
   - hadoop
 date: 2016-5-16 21:18:00
