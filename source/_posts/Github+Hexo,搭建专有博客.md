@@ -61,4 +61,5 @@ github绑定域名：[http://www.jianshu.com/p/1d427e888dda](http://www.jianshu.
 
 ![效果图](1.png)
 
-(⊙o⊙)对了，文章图片如果不想托管在github，可以使用七牛云存储等工具。
+(⊙o⊙) 对了，我的博客主题使用的是icarus，不过我对源码进行了大量细节上的修改。
+其次文章图片如果不想托管在github，可以使用七牛云存储等工具。
