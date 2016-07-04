@@ -5,11 +5,11 @@ tags:
   - hexo
 categories:
   - 配置部署
-date: 2016-5-20 22:22:00
+date: 2016-6-23 22:22:00
 ---
 
 ### 前言
-记得从大二开始，就一直想搭个专属网站，当时使劲抠页面【QQ空间抠的前端页面，现在没这么容易了】，写代码，忙活半天才把程序弄好。
+记得从大二开始，就一直想搭个专属网站，当时使劲抠页面【前端页面是从QQ空间抠的，现在想抠估计没这么容易了】，写代码，忙活半天才把程序弄好。
 
 ![个人网站](2.png)
 
@@ -22,7 +22,7 @@ date: 2016-5-20 22:22:00
 
 ### 相关网站
 hexo中文网站：[https://hexo.io/zh-cn/docs/](https://hexo.io/zh-cn/docs/)  
-hexo主题：[https://www.zhihu.com/question/24422335](https://www.zhihu.com/question/24422335)
+hexo主题模板：[https://www.zhihu.com/question/24422335](https://www.zhihu.com/question/24422335)
 hexo+github搭建过程：[http://www.jianshu.com/p/df3edc4286d2](http://www.jianshu.com/p/df3edc4286d2)
 Markdown 语法说明：[http://www.appinn.com/markdown/](http://www.appinn.com/markdown/)
 github绑定域名：[http://www.jianshu.com/p/1d427e888dda](http://www.jianshu.com/p/1d427e888dda)  
