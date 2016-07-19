@@ -1,7 +1,7 @@
 ---
 title: TWaver 2D+GIS+3D的试用和在线Demo
 categories:
-  - 其他文章
+  - 其他技术
 date: 2016-5-10 21:18:00
 ---
 
