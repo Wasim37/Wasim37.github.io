@@ -3,8 +3,7 @@ title: MyBatis通用Mapper开发
 categories:
   - 其他技术
 tags:
-  - ES
-  - solr
+  - MyBatis
 date: 2016-7-9 21:18:00
 ---
 
