@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Zookeeper简介 | 星空博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="&amp;#x4EC0;&amp;#x4E48;&amp;#x662F;Zookeeper&amp;#xFF1F;ZooKeeper&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7684;&amp;#xFF0C;&amp;#x5F00;&amp;#x653E;&amp;#x6E90;&amp;#x7801;&amp;#x7684;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x5E94;&amp;#x7528;&amp;#x7A0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zookeeper简介">
+<meta property="og:url" content="http://www.wangxin123.com/2016/05/19/Zookeeper简介/index.html">
+<meta property="og:site_name" content="星空博客">
+<meta property="og:description" content="&amp;#x4EC0;&amp;#x4E48;&amp;#x662F;Zookeeper&amp;#xFF1F;ZooKeeper&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7684;&amp;#xFF0C;&amp;#x5F00;&amp;#x653E;&amp;#x6E90;&amp;#x7801;&amp;#x7684;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x5E94;&amp;#x7528;&amp;#x7A0">
+<meta property="og:image" content="http://www.wangxin123.com/2016/05/19/Zookeeper&#x7B80;&#x4ECB;/1.png">
+<meta property="og:updated_time" content="2016-07-20T03:48:49.980Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Zookeeper简介">
+<meta name="twitter:description" content="&amp;#x4EC0;&amp;#x4E48;&amp;#x662F;Zookeeper&amp;#xFF1F;ZooKeeper&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7684;&amp;#xFF0C;&amp;#x5F00;&amp;#x653E;&amp;#x6E90;&amp;#x7801;&amp;#x7684;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x5E94;&amp;#x7528;&amp;#x7A0">
+<meta name="twitter:image" content="http://www.wangxin123.com/2016/05/19/Zookeeper&#x7B80;&#x4ECB;/1.png">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/wu.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">星空博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/wk.gif" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/wk.gif" />
+            <h2 id="name">Wasim</h2>
+            <h3 id="title">Web Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>ShenZhen, China</span>
+            <a id="follow" target="_blank" href="https://github.com/Wasim37">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                29
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                31
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Zookeeper简介" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Zookeeper简介
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/05/19/Zookeeper简介/">
+            <time datetime="2016-05-19T13:18:00.000Z" itemprop="datePublished">2016-05-19</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/其他技术/">其他技术</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/大数据/">大数据</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="&#x4EC0;&#x4E48;&#x662F;Zookeeper&#xFF1F;"><a href="#&#x4EC0;&#x4E48;&#x662F;Zookeeper&#xFF1F;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;Zookeeper&#xFF1F;"></a>&#x4EC0;&#x4E48;&#x662F;Zookeeper&#xFF1F;</h3><p>ZooKeeper&#x662F;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x7684;&#xFF0C;&#x5F00;&#x653E;&#x6E90;&#x7801;&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x534F;&#x8C03;&#x670D;&#x52A1;&#xFF0C;&#x5B83;&#x5305;&#x542B;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x539F;&#x8BED;&#x96C6;&#xFF0C;&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x53EF;&#x4EE5;&#x57FA;&#x4E8E;&#x5B83;&#x5B9E;&#x73B0;&#x540C;&#x6B65;&#x670D;&#x52A1;&#xFF0C;&#x914D;&#x7F6E;&#x7EF4;&#x62A4;&#x548C;&#x547D;&#x540D;&#x670D;&#x52A1;&#x7B49;&#x3002;Zookeeper&#x662F;hadoop&#x7684;&#x4E00;&#x4E2A;&#x5B50;&#x9879;&#x76EE;&#xFF0C;&#x5176;&#x53D1;&#x5C55;&#x5386;&#x7A0B;&#x65E0;&#x9700;&#x8D58;&#x8FF0;&#x3002;&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x4E2D;&#xFF0C;&#x7531;&#x4E8E;&#x5DE5;&#x7A0B;&#x5E08;&#x4E0D;&#x80FD;&#x5F88;&#x597D;&#x5730;&#x4F7F;&#x7528;&#x9501;&#x673A;&#x5236;&#xFF0C;&#x4EE5;&#x53CA;&#x57FA;&#x4E8E;&#x6D88;&#x606F;&#x7684;&#x534F;&#x8C03;&#x673A;&#x5236;&#x4E0D;&#x9002;&#x5408;&#x5728;&#x67D0;&#x4E9B;&#x5E94;&#x7528;&#x4E2D;&#x4F7F;&#x7528;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x6709;&#x4E00;&#x79CD;&#x53EF;&#x9760;&#x7684;&#x3001;&#x53EF;&#x6269;&#x5C55;&#x7684;&#x3001;&#x5206;&#x5E03;&#x5F0F;&#x7684;&#x3001;&#x53EF;&#x914D;&#x7F6E;&#x7684;&#x534F;&#x8C03;&#x673A;&#x5236;&#x6765;&#x7EDF;&#x4E00;&#x7CFB;&#x7EDF;&#x7684;&#x72B6;&#x6001;&#x3002;Zookeeper&#x7684;&#x76EE;&#x7684;&#x5C31;&#x5728;&#x4E8E;&#x6B64;&#x3002;&#x672C;&#x6587;&#x7B80;&#x5355;&#x5206;&#x6790;zookeeper&#x7684;&#x5DE5;&#x4F5C;&#x539F;&#x7406;&#xFF0C;&#x5BF9;&#x4E8E;&#x5982;&#x4F55;&#x4F7F;&#x7528;zookeeper&#x4E0D;&#x662F;&#x672C;&#x6587;&#x8BA8;&#x8BBA;&#x7684;&#x91CD;&#x70B9;&#x3002;</p>
+<h3 id="Zookeeper&#x89D2;&#x8272;"><a href="#Zookeeper&#x89D2;&#x8272;" class="headerlink" title="Zookeeper&#x89D2;&#x8272;"></a>Zookeeper&#x89D2;&#x8272;</h3><p><img src="/2016/05/19/Zookeeper&#x7B80;&#x4ECB;/1.png" alt=""></p>
+<a id="more"></a>
+<p>&#x7CFB;&#x7EDF;&#x6A21;&#x578B;&#x5982;&#x56FE;&#x6240;&#x793A;&#xFF1A;<br><img src="/2016/05/19/Zookeeper&#x7B80;&#x4ECB;/2.png" alt=""></p>
+<h3 id="&#x8BBE;&#x8BA1;&#x76EE;&#x7684;"><a href="#&#x8BBE;&#x8BA1;&#x76EE;&#x7684;" class="headerlink" title="&#x8BBE;&#x8BA1;&#x76EE;&#x7684;"></a>&#x8BBE;&#x8BA1;&#x76EE;&#x7684;</h3><ul>
+<li>&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#xFF1A;client&#x4E0D;&#x8BBA;&#x8FDE;&#x63A5;&#x5230;&#x54EA;&#x4E2A;Server&#xFF0C;&#x5C55;&#x793A;&#x7ED9;&#x5B83;&#x90FD;&#x662F;&#x540C;&#x4E00;&#x4E2A;&#x89C6;&#x56FE;&#xFF0C;&#x8FD9;&#x662F;zookeeper&#x6700;&#x91CD;&#x8981;&#x7684;&#x6027;&#x80FD;&#x3002;</li>
+<li>&#x53EF;&#x9760;&#x6027;&#xFF1A;&#x5177;&#x6709;&#x7B80;&#x5355;&#x3001;&#x5065;&#x58EE;&#x3001;&#x826F;&#x597D;&#x7684;&#x6027;&#x80FD;&#xFF0C;&#x5982;&#x679C;&#x6D88;&#x606F;m&#x88AB;&#x5230;&#x4E00;&#x53F0;&#x670D;&#x52A1;&#x5668;&#x63A5;&#x53D7;&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x5C06;&#x88AB;&#x6240;&#x6709;&#x7684;&#x670D;&#x52A1;&#x5668;&#x63A5;&#x53D7;&#x3002;</li>
+<li>&#x5B9E;&#x65F6;&#x6027;&#xFF1A;Zookeeper&#x4FDD;&#x8BC1;&#x5BA2;&#x6237;&#x7AEF;&#x5C06;&#x5728;&#x4E00;&#x4E2A;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x8303;&#x56F4;&#x5185;&#x83B7;&#x5F97;&#x670D;&#x52A1;&#x5668;&#x7684;&#x66F4;&#x65B0;&#x4FE1;&#x606F;&#xFF0C;&#x6216;&#x8005;&#x670D;&#x52A1;&#x5668;&#x5931;&#x6548;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x4F46;&#x7531;&#x4E8E;&#x7F51;&#x7EDC;&#x5EF6;&#x65F6;&#x7B49;&#x539F;&#x56E0;&#xFF0C;Zookeeper&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;&#x4E24;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x80FD;&#x540C;&#x65F6;&#x5F97;&#x5230;&#x521A;&#x66F4;&#x65B0;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x6700;&#x65B0;&#x6570;&#x636E;&#xFF0C;&#x5E94;&#x8BE5;&#x5728;&#x8BFB;&#x6570;&#x636E;&#x4E4B;&#x524D;&#x8C03;&#x7528;sync()&#x63A5;&#x53E3;&#x3002;</li>
+<li>&#x7B49;&#x5F85;&#x65E0;&#x5173;&#xFF08;wait-free&#xFF09;&#xFF1A;&#x6162;&#x7684;&#x6216;&#x8005;&#x5931;&#x6548;&#x7684;client&#x4E0D;&#x5F97;&#x5E72;&#x9884;&#x5FEB;&#x901F;&#x7684;client&#x7684;&#x8BF7;&#x6C42;&#xFF0C;&#x4F7F;&#x5F97;&#x6BCF;&#x4E2A;client&#x90FD;&#x80FD;&#x6709;&#x6548;&#x7684;&#x7B49;&#x5F85;&#x3002;</li>
+<li>&#x539F;&#x5B50;&#x6027;&#xFF1A;&#x66F4;&#x65B0;&#x53EA;&#x80FD;&#x6210;&#x529F;&#x6216;&#x8005;&#x5931;&#x8D25;&#xFF0C;&#x6CA1;&#x6709;&#x4E2D;&#x95F4;&#x72B6;&#x6001;&#x3002;</li>
+<li>&#x987A;&#x5E8F;&#x6027;&#xFF1A;&#x5305;&#x62EC;&#x5168;&#x5C40;&#x6709;&#x5E8F;&#x548C;&#x504F;&#x5E8F;&#x4E24;&#x79CD;&#xFF1A;&#x5168;&#x5C40;&#x6709;&#x5E8F;&#x662F;&#x6307;&#x5982;&#x679C;&#x5728;&#x4E00;&#x53F0;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x6D88;&#x606F;a&#x5728;&#x6D88;&#x606F;b&#x524D;&#x53D1;&#x5E03;&#xFF0C;&#x5219;&#x5728;&#x6240;&#x6709;Server&#x4E0A;&#x6D88;&#x606F;a&#x90FD;&#x5C06;&#x5728;&#x6D88;&#x606F;b&#x524D;&#x88AB;&#x53D1;&#x5E03;&#xFF1B;&#x504F;&#x5E8F;&#x662F;&#x6307;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6D88;&#x606F;b&#x5728;&#x6D88;&#x606F;a&#x540E;&#x88AB;&#x540C;&#x4E00;&#x4E2A;&#x53D1;&#x9001;&#x8005;&#x53D1;&#x5E03;&#xFF0C;a&#x5FC5;&#x5C06;&#x6392;&#x5728;b&#x524D;&#x9762;&#x3002;</li>
+</ul>
+<h3 id="&#x5355;&#x673A;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;"><a href="#&#x5355;&#x673A;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;" class="headerlink" title="&#x5355;&#x673A;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;"></a>&#x5355;&#x673A;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;</h3><p>1&#x3001;&#x89E3;&#x538B;&#xFF1A;tar xzf zookeeper-3.4.5.tar.gz<br>2&#x3001;&#x5728;conf&#x76EE;&#x5F55;&#x4E0B;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;zoo.cfg&#xFF0C;dataDir=/usr/local/zk/data<br>3&#x3001;&#x542F;&#x52A8;ZooKeeper&#x7684;Server&#xFF1A;sh bin/zkServer.sh start, &#x5982;&#x679C;&#x60F3;&#x8981;&#x5173;&#x95ED;&#xFF0C;&#x8F93;&#x5165;&#xFF1A;zkServer.sh stop</p>
+<h3 id="&#x96C6;&#x7FA4;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;"><a href="#&#x96C6;&#x7FA4;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;" class="headerlink" title="&#x96C6;&#x7FA4;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;"></a>&#x96C6;&#x7FA4;&#x5B89;&#x88C5;&#x548C;&#x914D;&#x7F6E;</h3><p>1&#x3001;&#x521B;&#x5EFA;myid&#x6587;&#x4EF6;&#xFF0C;server1&#x673A;&#x5668;&#x7684;&#x5185;&#x5BB9;&#x4E3A;&#xFF1A;1&#xFF0C;server2&#x673A;&#x5668;&#x7684;&#x5185;&#x5BB9;&#x4E3A;&#xFF1A;2&#xFF0C;server3&#x673A;&#x5668;&#x7684;&#x5185;&#x5BB9;&#x4E3A;&#xFF1A;3<br>2&#x3001;&#x5728;conf&#x76EE;&#x5F55;&#x4E0B;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;zoo.cfg&#xFF0C;<br>dataDir=/usr/local/zk/data<br>server.1=server1:2888:3888<br>server.2=server2:2888:3888<br>server.3=server3:2888:3888</p>
+<h3 id="Zookeeper&#x7684;&#x6570;&#x636E;&#x6A21;&#x578B;"><a href="#Zookeeper&#x7684;&#x6570;&#x636E;&#x6A21;&#x578B;" class="headerlink" title="Zookeeper&#x7684;&#x6570;&#x636E;&#x6A21;&#x578B;"></a>Zookeeper&#x7684;&#x6570;&#x636E;&#x6A21;&#x578B;</h3><ul>
+<li>&#x5C42;&#x6B21;&#x5316;&#x7684;&#x76EE;&#x5F55;&#x7ED3;&#x6784;&#xFF0C;&#x547D;&#x540D;&#x7B26;&#x5408;&#x5E38;&#x89C4;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x89C4;&#x8303;</li>
+<li>&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x5728;zookeeper&#x4E2D;&#x53EB;&#x505A;znode,&#x5E76;&#x4E14;&#x5176;&#x6709;&#x4E00;&#x4E2A;&#x552F;&#x4E00;&#x7684;&#x8DEF;&#x5F84;&#x6807;&#x8BC6;</li>
+<li>&#x8282;&#x70B9;Znode&#x53EF;&#x4EE5;&#x5305;&#x542B;&#x6570;&#x636E;&#x548C;&#x5B50;&#x8282;&#x70B9;&#xFF0C;&#x4F46;&#x662F;EPHEMERAL&#x7C7B;&#x578B;&#x7684;&#x8282;&#x70B9;&#x4E0D;&#x80FD;&#x6709;&#x5B50;&#x8282;&#x70B9;</li>
+<li>Znode&#x4E2D;&#x7684;&#x6570;&#x636E;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x4E2A;&#x7248;&#x672C;&#xFF0C;&#x6BD4;&#x5982;&#x67D0;&#x4E00;&#x4E2A;&#x8DEF;&#x5F84;&#x4E0B;&#x5B58;&#x6709;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x7248;&#x672C;&#xFF0C;&#x90A3;&#x4E48;&#x67E5;&#x8BE2;&#x8FD9;&#x4E2A;&#x8DEF;&#x5F84;&#x4E0B;&#x7684;&#x6570;&#x636E;&#x5C31;&#x9700;&#x8981;&#x5E26;&#x4E0A;&#x7248;&#x672C;</li>
+<li>&#x5BA2;&#x6237;&#x7AEF;&#x5E94;&#x7528;&#x53EF;&#x4EE5;&#x5728;&#x8282;&#x70B9;&#x4E0A;&#x8BBE;&#x7F6E;&#x76D1;&#x89C6;&#x5668;</li>
+<li>&#x8282;&#x70B9;&#x4E0D;&#x652F;&#x6301;&#x90E8;&#x5206;&#x8BFB;&#x5199;&#xFF0C;&#x800C;&#x662F;&#x4E00;&#x6B21;&#x6027;&#x5B8C;&#x6574;&#x8BFB;&#x5199;</li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/05/19/Zookeeper简介/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/05/19/Zookeeper简介/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/05/20/Maven常见问题汇总/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Maven常见问题汇总
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/05/19/Zookeeper原理/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Zookeeper原理</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/05/19/Zookeeper简介/" data-title="Zookeeper简介" data-url="http://www.wangxin123.com/2016/05/19/Zookeeper简介/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
+    </div>
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/其他技术/">其他技术</a></p>
+                            <p class="item-title"><a href="/2016/07/18/git使用简易指南/" class="title">git使用简易指南</a></p>
+                            <p class="item-date"><time datetime="2016-07-18T13:18:00.000Z" itemprop="datePublished">2016-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/其他技术/">其他技术</a></p>
+                            <p class="item-title"><a href="/2016/07/12/Elasticsearch与Solr/" class="title">Elasticsearch与Solr</a></p>
+                            <p class="item-date"><time datetime="2016-07-12T13:18:00.000Z" itemprop="datePublished">2016-07-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/其他技术/">其他技术</a></p>
+                            <p class="item-title"><a href="/2016/07/09/MyBatis通用Mapper开发/" class="title">MyBatis通用Mapper开发</a></p>
+                            <p class="item-date"><time datetime="2016-07-09T13:18:00.000Z" itemprop="datePublished">2016-07-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/其他技术/">其他技术</a></p>
+                            <p class="item-title"><a href="/2016/07/03/使用Solr索引MySQL数据/" class="title">使用Solr索引MySQL数据</a></p>
+                            <p class="item-date"><time datetime="2016-07-03T13:18:00.000Z" itemprop="datePublished">2016-07-03</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/我的收藏/">我的收藏</a></p>
+                            <p class="item-title"><a href="/2016/06/29/酷狗音乐的大数据平台重构/" class="title">酷狗音乐的大数据平台重构</a></p>
+                            <p class="item-date"><time datetime="2016-06-29T13:18:00.000Z" itemprop="datePublished">2016-06-29</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/性能调优/">性能调优</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/配置部署/">配置部署</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/AtomicInteger/" style="font-size: 10px;">AtomicInteger</a> <a href="/tags/DelayQueue/" style="font-size: 10px;">DelayQueue</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 13.33px;">ES</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/concurrent/" style="font-size: 16.67px;">concurrent</a> <a href="/tags/countDownLatch/" style="font-size: 10px;">countDownLatch</a> <a href="/tags/cyclicBarrier/" style="font-size: 10px;">cyclicBarrier</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 13.33px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/solr/" style="font-size: 13.33px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 20px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/模板/" style="font-size: 10px;">模板</a> <a href="/tags/疑难杂症/" style="font-size: 13.33px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://wasim168.lofter.com/">慢生活</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 Wasim<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'wangxin37'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
