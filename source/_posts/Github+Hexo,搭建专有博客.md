@@ -61,5 +61,14 @@ github绑定域名：[http://www.jianshu.com/p/1d427e888dda](http://www.jianshu.
 
 ![效果图](1.png)
 
-(⊙o⊙) 对了，我的博客主题使用的是icarus，不过我对源码进行了大量细节上的修改。
-其次文章图片如果不想托管在github，可以使用七牛云存储等工具。
+**其次文章图片如果不想托管在github，可以使用七牛云存储等图床工具。**
+
+
+### 模板自定义
+我使用的博客主题为 **icarus**，对比可以发现，我在展示细节上做了一些自己的修改。
+
+比如页面展示可以分为左中右三个区域，分别为profile-column，main-column和sidebar-column。
+源代码三者宽度比例为3:7:3。为了突出正文，我改为了 2.3：8.4：2.3。
+源代码文件位置为：icarus\source\css\_variables.styl
+
+![](3.png)

@@ -3,8 +3,6 @@ title: countDownLatch和cyclicBarrier
 categories:
   - WEB后端
 tags:
-  - countDownLatch
-  - cyclicBarrier
   - concurrent
 date: 2016-4-16 23:16:16
 ---

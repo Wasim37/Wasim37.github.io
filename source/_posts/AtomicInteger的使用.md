@@ -3,7 +3,6 @@ title: AtomicInteger的使用
 categories:
   - WEB后端
 tags:
-  - AtomicInteger
   - concurrent
 date: 2016-4-16 22:41:19
 ---

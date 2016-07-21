@@ -3,7 +3,6 @@ title: DelayQueue使用
 categories:
   - WEB后端
 tags:
-  - DelayQueue
   - concurrent
 date: 2016-4-16 23:42:13
 ---
