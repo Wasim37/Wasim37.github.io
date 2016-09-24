@@ -69,6 +69,6 @@ theme: icarus
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: git@github.com:Wasim37/Wasim37.github.io.git
-  # https://github.com/Wasim37/Wasim37.github.io.git
+  #repository: git@github.com:Wasim37/Wasim37.github.io.git
+  repository: https://github.com/Wasim37/Wasim37.github.io.git
   branch: master
