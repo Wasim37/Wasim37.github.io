@@ -27,7 +27,6 @@ hexo+github搭建过程：[http://www.jianshu.com/p/df3edc4286d2](http://www.jia
 Markdown 语法说明：[http://www.appinn.com/markdown/](http://www.appinn.com/markdown/)
 github绑定域名：[http://www.jianshu.com/p/1d427e888dda](http://www.jianshu.com/p/1d427e888dda)  
 
-
 ### HEXO如何优化部署及管理
 **问题：使用hexo时，如果本地文件丢失或者想在其他电脑上修改博客怎么办？**
 **方案：**简单地说，每个想建立GitHub Pages的仓库，至少两个分支，一个hexo分支用来存放网站的原始文件，一个master分支用来存放生成的静态网页。  
@@ -52,6 +51,17 @@ github绑定域名：[http://www.jianshu.com/p/1d427e888dda](http://www.jianshu.
 **本地资料丢失或者想在其他电脑上修改博客**
 1、使用git clone git@github.com:Wasim37/Wasim37.github.io.git拷贝仓库（默认分支为hexo）；
 2、在本地新拷贝的Wasim37.github.io文件夹下通过Git bash依次执行下列指令：npm install hexo、npm install、npm install hexo-deployer-git（记得，不需要hexo init这条指令）。
+
+### 错误记录
+执行hexo d出现以下错误
+
+![](4.png)
+
+**解决方法：**
+_config.yml ——> deploy ——> repository
+https://github.com/{username}/{username}.github.io.git 修改为
+git@github.com:{username}/{username}.github.io.git
+
 
 ### 文章编辑工具
 文章编辑工具一开始我使用的是subline，但因为没有快捷键及预览功能，后来选择了MarkdownPad。可最近发现新版的有道云笔记支持Markdown语法，果断换成了有道。
