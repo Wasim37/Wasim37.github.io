@@ -1,7 +1,7 @@
 ---
 title: Druid
 categories:
-  - 配置部署
+  - WEB后端
 tags:
   - Druid
 date: 2016-4-24 22:10:00

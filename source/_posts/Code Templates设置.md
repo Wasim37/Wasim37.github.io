@@ -1,9 +1,7 @@
 ---
 title: Code Templates设置
-tags:
-  - 模板
 categories:
-  - 配置部署
+  - WEB后端
 date: 2016-5-18 19:13:52
 ---
 

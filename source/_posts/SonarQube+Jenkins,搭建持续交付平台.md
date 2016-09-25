@@ -4,7 +4,7 @@ tags:
   - sonar
   - jenkins
 categories:
-  - 配置部署
+  - Linux
 date: 2016-6-2 22:22:00
 ---
 

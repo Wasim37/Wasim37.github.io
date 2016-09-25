@@ -1,7 +1,7 @@
 ---
 title: MyBatis通用Mapper开发
 categories:
-  - 其他技术
+  - Web后端
 tags:
   - MyBatis
 date: 2016-7-9 21:18:00

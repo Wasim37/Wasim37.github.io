@@ -4,7 +4,7 @@ tags:
   - github
   - hexo
 categories:
-  - 配置部署
+  - 其他技术
 date: 2016-6-23 22:22:00
 ---
 
