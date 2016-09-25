@@ -3,20 +3,20 @@
 <head>
     <meta charset="utf-8">
     
-    <title>初始化块和静态初始化块的区别 | 星空博客</title>
+    <title>zabbix安装 | 星空博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x88AB;&amp;#x521D;&amp;#x59CB;&amp;#x5316;&amp;#x5FEB;&amp;#x548C;&amp;#x9759;&amp;#x6001;&amp;#x521D;&amp;#x59CB;&amp;#x5316;&amp;#x5FEB;&amp;#x6574;&amp;#x61F5;&amp;#x4E86;&amp;#xFF0C;&amp;#x73B0;&amp;#x6574;&amp;#x7406;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A; ps: &amp;#x">
+    <meta name="description" content="&amp;#x7B80;&amp;#x4ECB;zabbix&amp;#xFF08;&amp;#x97F3;&amp;#x540C; z&amp;#xE6;bix&amp;#xFF09;&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x57FA;&amp;#x4E8E;WEB&amp;#x754C;&amp;#x9762;&amp;#x7684;&amp;#x63D0;&amp;#x4F9B;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7CFB;&amp;#x7EDF;&amp;#x76D1;&amp;#x8">
 <meta property="og:type" content="article">
-<meta property="og:title" content="初始化块和静态初始化块的区别">
-<meta property="og:url" content="http://www.wangxin123.com/2016/06/06/初始化块和静态初始化块的区别/index.html">
+<meta property="og:title" content="zabbix安装">
+<meta property="og:url" content="http://www.wangxin123.com/2016/09/22/zabbix安装/index.html">
 <meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x88AB;&amp;#x521D;&amp;#x59CB;&amp;#x5316;&amp;#x5FEB;&amp;#x548C;&amp;#x9759;&amp;#x6001;&amp;#x521D;&amp;#x59CB;&amp;#x5316;&amp;#x5FEB;&amp;#x6574;&amp;#x61F5;&amp;#x4E86;&amp;#xFF0C;&amp;#x73B0;&amp;#x6574;&amp;#x7406;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A; ps: &amp;#x">
-<meta property="og:image" content="http://www.wangxin123.com/2016/06/06/&#x521D;&#x59CB;&#x5316;&#x5757;&#x548C;&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5757;&#x7684;&#x533A;&#x522B;/1.png">
-<meta property="og:updated_time" content="2016-06-17T13:31:59.028Z">
+<meta property="og:description" content="&amp;#x7B80;&amp;#x4ECB;zabbix&amp;#xFF08;&amp;#x97F3;&amp;#x540C; z&amp;#xE6;bix&amp;#xFF09;&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x57FA;&amp;#x4E8E;WEB&amp;#x754C;&amp;#x9762;&amp;#x7684;&amp;#x63D0;&amp;#x4F9B;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7CFB;&amp;#x7EDF;&amp;#x76D1;&amp;#x8">
+<meta property="og:image" content="http://www.wangxin123.com/2016/09/22/zabbix&#x5B89;&#x88C5;/1.png">
+<meta property="og:updated_time" content="2016-09-25T17:42:22.311Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="初始化块和静态初始化块的区别">
-<meta name="twitter:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x88AB;&amp;#x521D;&amp;#x59CB;&amp;#x5316;&amp;#x5FEB;&amp;#x548C;&amp;#x9759;&amp;#x6001;&amp;#x521D;&amp;#x59CB;&amp;#x5316;&amp;#x5FEB;&amp;#x6574;&amp;#x61F5;&amp;#x4E86;&amp;#xFF0C;&amp;#x73B0;&amp;#x6574;&amp;#x7406;&amp;#x5982;&amp;#x4E0B;&amp;#xFF1A; ps: &amp;#x">
-<meta name="twitter:image" content="http://www.wangxin123.com/2016/06/06/&#x521D;&#x59CB;&#x5316;&#x5757;&#x548C;&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5757;&#x7684;&#x533A;&#x522B;/1.png">
+<meta name="twitter:title" content="zabbix安装">
+<meta name="twitter:description" content="&amp;#x7B80;&amp;#x4ECB;zabbix&amp;#xFF08;&amp;#x97F3;&amp;#x540C; z&amp;#xE6;bix&amp;#xFF09;&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x57FA;&amp;#x4E8E;WEB&amp;#x754C;&amp;#x9762;&amp;#x7684;&amp;#x63D0;&amp;#x4F9B;&amp;#x5206;&amp;#x5E03;&amp;#x5F0F;&amp;#x7CFB;&amp;#x7EDF;&amp;#x76D1;&amp;#x8">
+<meta name="twitter:image" content="http://www.wangxin123.com/2016/09/22/zabbix&#x5B89;&#x88C5;/1.png">
     
 
     
@@ -185,7 +185,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-初始化块和静态初始化块的区别" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-zabbix安装" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -194,7 +194,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            初始化块和静态初始化块的区别
+            zabbix安装
         </h1>
     
 
@@ -202,8 +202,8 @@
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/06/06/初始化块和静态初始化块的区别/">
-            <time datetime="2016-06-06T15:42:00.000Z" itemprop="datePublished">2016-06-06</time>
+        <a href="/2016/09/22/zabbix安装/">
+            <time datetime="2016-09-22T14:41:19.000Z" itemprop="datePublished">2016-09-22</time>
         </a>
     </div>
 
@@ -211,27 +211,47 @@
                     
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/WEB后端/">WEB后端</a>
+        <a class="article-category-link" href="/categories/Linux/">Linux</a>
     </div>
 
                     
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/初始化块/">初始化块</a>, <a class="tag-link" href="/tags/疑难杂症/">疑难杂症</a>
-    </div>
-
                 </div>
             </header>
         
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h3 id="&#x6700;&#x8FD1;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x5FEB;&#x548C;&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5FEB;&#x6574;&#x61F5;&#x4E86;&#xFF0C;&#x73B0;&#x6574;&#x7406;&#x5982;&#x4E0B;&#xFF1A;"><a href="#&#x6700;&#x8FD1;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x5FEB;&#x548C;&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5FEB;&#x6574;&#x61F5;&#x4E86;&#xFF0C;&#x73B0;&#x6574;&#x7406;&#x5982;&#x4E0B;&#xFF1A;" class="headerlink" title="&#x6700;&#x8FD1;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x5FEB;&#x548C;&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5FEB;&#x6574;&#x61F5;&#x4E86;&#xFF0C;&#x73B0;&#x6574;&#x7406;&#x5982;&#x4E0B;&#xFF1A;"></a>&#x6700;&#x8FD1;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x5FEB;&#x548C;&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5FEB;&#x6574;&#x61F5;&#x4E86;&#xFF0C;&#x73B0;&#x6574;&#x7406;&#x5982;&#x4E0B;&#xFF1A;</h3><p><strong> ps: &#x5927;&#x5B66;&#x65F6;&#x7684;ppt&#x8BFE;&#x4EF6;&#x90FD;&#x88AB;&#x6211;&#x7FFB;&#x51FA;&#x6765;&#x4E86; (^&#x2207;^*) </strong><br><strong> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#x4E0D;&#x770B;&#x524D;&#x9762;&#x5185;&#x5BB9;&#xFF0C;&#x6211;&#x5199;&#x5728;&#x672C;&#x6587;&#x6700;&#x540E;&#x7684;&#x90A3;&#x9053;&#x6D4B;&#x8BD5;&#x9898;&#x7EDD;&#x5BF9;&#x8BA9;&#x5927;&#x90E8;&#x5206;&#x4EBA;&#x61F5;&#x903C; &lt;(&#xFFE3;&#xFE36;&#xFFE3;)&gt;</strong></p>
-<p><img src="/2016/06/06/&#x521D;&#x59CB;&#x5316;&#x5757;&#x548C;&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5757;&#x7684;&#x533A;&#x522B;/1.png" alt="&#x56FE;&#x7247;1-&#x521D;&#x59CB;&#x5316;&#x5FEB;"><br><img src="/2016/06/06/&#x521D;&#x59CB;&#x5316;&#x5757;&#x548C;&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5757;&#x7684;&#x533A;&#x522B;/2.png" alt="&#x56FE;&#x7247;2-&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5FEB;"><br><a id="more"></a><br><img src="/2016/06/06/&#x521D;&#x59CB;&#x5316;&#x5757;&#x548C;&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5757;&#x7684;&#x533A;&#x522B;/3.png" alt="&#x56FE;&#x7247;3-&#x6267;&#x884C;&#x987A;&#x5E8F;"></p>
-<h3 id="&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;"><a href="#&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;" class="headerlink" title="&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;"></a>&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;</h3><h4 id="1&#x3001;static&#x521D;&#x59CB;&#x5316;&#x5757;"><a href="#1&#x3001;static&#x521D;&#x59CB;&#x5316;&#x5757;" class="headerlink" title="1&#x3001;static&#x521D;&#x59CB;&#x5316;&#x5757;"></a>1&#x3001;static&#x521D;&#x59CB;&#x5316;&#x5757;</h4><p><strong>static&#x521D;&#x59CB;&#x5316;&#x5757;&#x662F;&#x5728;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E4B;&#x524D;&#x6267;&#x884C;&#x7684;&#xFF0C;&#x800C;&#x4E14;&#x53EA;&#x6267;&#x884C;&#x4E00;&#x6B21;&#xFF0C;&#x5373;&#x7C7B;&#x9996;&#x6B21;&#x52A0;&#x8F7D;&#x65F6;&#x3002;</strong></p>
-<p>&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;&#xFF1A;<br><img src="/2016/06/06/&#x521D;&#x59CB;&#x5316;&#x5757;&#x548C;&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5757;&#x7684;&#x533A;&#x522B;/4.png" alt="&#x56FE;&#x7247;4"></p>
-<h4 id="2&#x3001;&#x521D;&#x59CB;&#x5316;&#x5757;-lt-&#xFFE3;&#xFE36;&#xFFE3;-gt"><a href="#2&#x3001;&#x521D;&#x59CB;&#x5316;&#x5757;-lt-&#xFFE3;&#xFE36;&#xFFE3;-gt" class="headerlink" title="2&#x3001;&#x521D;&#x59CB;&#x5316;&#x5757;&lt;(&#xFFE3;&#xFE36;&#xFFE3;)&gt;"></a>2&#x3001;&#x521D;&#x59CB;&#x5316;&#x5757;&lt;(&#xFFE3;&#xFE36;&#xFFE3;)&gt;</h4><p>&#x6D4B;&#x8BD5;&#x4EE3;&#x7801;&#xFF1A;<br><img src="/2016/06/06/&#x521D;&#x59CB;&#x5316;&#x5757;&#x548C;&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5757;&#x7684;&#x533A;&#x522B;/5.png" alt="&#x56FE;&#x7247;5"></p>
-<p>&#x539F;&#x4EE3;&#x7801;&#xFF1A;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">package dem;</span><br><span class="line"></span><br><span class="line">public class A extends B {</span><br><span class="line">	public A() {</span><br><span class="line">		System.out.println(&quot;A&#x6784;&#x9020;&#x65B9;&#x6CD5;&quot;);</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	static {</span><br><span class="line">		System.out.println(&quot;A&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5757;&quot;);</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	{</span><br><span class="line">		System.out.println(&quot;A&#x521D;&#x59CB;&#x5316;&#x5757;&quot;);</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) {</span><br><span class="line">		new A();</span><br><span class="line">		System.out.println(&quot;--------&quot;);</span><br><span class="line">		new A();</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">class B {</span><br><span class="line">	public B() {</span><br><span class="line">		System.out.println(&quot;B&#x6784;&#x9020;&#x65B9;&#x6CD5;&quot;);</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	static {</span><br><span class="line">		System.out.println(&quot;B&#x9759;&#x6001;&#x521D;&#x59CB;&#x5316;&#x5757;&quot;);</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	{</span><br><span class="line">		System.out.println(&quot;B&#x521D;&#x59CB;&#x5316;&#x5757;&quot;);</span><br><span class="line">	}</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+            <h2 id="&#x7B80;&#x4ECB;"><a href="#&#x7B80;&#x4ECB;" class="headerlink" title="&#x7B80;&#x4ECB;"></a>&#x7B80;&#x4ECB;</h2><p>zabbix&#xFF08;&#x97F3;&#x540C; z&#xE6;bix&#xFF09;&#x662F;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;WEB&#x754C;&#x9762;&#x7684;&#x63D0;&#x4F9B;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x76D1;&#x89C6;&#x4EE5;&#x53CA;&#x7F51;&#x7EDC;&#x76D1;&#x89C6;&#x529F;&#x80FD;&#x7684;&#x4F01;&#x4E1A;&#x7EA7;&#x7684;&#x5F00;&#x6E90;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;<br>zabbix&#x80FD;&#x76D1;&#x89C6;&#x5404;&#x79CD;&#x7F51;&#x7EDC;&#x53C2;&#x6570;&#xFF0C;&#x4FDD;&#x8BC1;&#x670D;&#x52A1;&#x5668;&#x7CFB;&#x7EDF;&#x7684;&#x5B89;&#x5168;&#x8FD0;&#x8425;&#xFF1B;&#x5E76;&#x63D0;&#x4F9B;&#x7075;&#x6D3B;&#x7684;&#x901A;&#x77E5;&#x673A;&#x5236;&#x4EE5;&#x8BA9;&#x7CFB;&#x7EDF;&#x7BA1;&#x7406;&#x5458;&#x5FEB;&#x901F;&#x5B9A;&#x4F4D;/&#x89E3;&#x51B3;&#x5B58;&#x5728;&#x7684;&#x5404;&#x79CD;&#x95EE;&#x9898;&#x3002;</p>
+<p>zabbix&#x7531;2&#x90E8;&#x5206;&#x6784;&#x6210;&#xFF0C;zabbix server&#x4E0E;&#x53EF;&#x9009;&#x7EC4;&#x4EF6;zabbix agent&#x3002;<br>zabbix server&#x53EF;&#x4EE5;&#x901A;&#x8FC7;SNMP&#xFF0C;zabbix agent&#xFF0C;ping&#xFF0C;&#x7AEF;&#x53E3;&#x76D1;&#x89C6;&#x7B49;&#x65B9;&#x6CD5;&#x63D0;&#x4F9B;&#x5BF9;&#x8FDC;&#x7A0B;&#x670D;&#x52A1;&#x5668;/&#x7F51;&#x7EDC;&#x72B6;&#x6001;&#x7684;&#x76D1;&#x89C6;&#xFF0C;&#x6570;&#x636E;&#x6536;&#x96C6;&#x7B49;&#x529F;&#x80FD;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x8FD0;&#x884C;&#x5728;Linux&#xFF0C;Solaris&#xFF0C;HP-UX&#xFF0C;AIX&#xFF0C;Free BSD&#xFF0C;Open BSD&#xFF0C;OS X&#x7B49;&#x5E73;&#x53F0;&#x4E0A;&#x3002;</p>
+<hr>
+<h2 id="&#x5B89;&#x88C5;"><a href="#&#x5B89;&#x88C5;" class="headerlink" title="&#x5B89;&#x88C5;"></a>&#x5B89;&#x88C5;</h2><h3 id="Installing-repository-configuration-package"><a href="#Installing-repository-configuration-package" class="headerlink" title="Installing repository configuration package"></a>Installing repository configuration package</h3><p>Zabbix 2.2 for RHEL5, Oracle Linux 5, CentOS 5:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://repo.zabbix.com/zabbix/2.2/rhel/5/x86_64/zabbix-release-2.2-1.el5.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>Zabbix 2.2 for RHEL6, Oracle Linux 6, CentOS 6:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>Zabbix 2.2 for RHEL7, Oracle Linux 7, CentOS 7:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://repo.zabbix.com/zabbix/2.2/rhel/7/x86_64/zabbix-release-2.2-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure></p>
+<h3 id="Installing-Zabbix-packages"><a href="#Installing-Zabbix-packages" class="headerlink" title="Installing Zabbix packages"></a>Installing Zabbix packages</h3><p>Install Zabbix packages. Example for Zabbix server and web frontend with mysql database.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install zabbix-server-mysql zabbix-web-mysql</span><br></pre></td></tr></table></figure>
+<p>Example for installing Zabbix agent only.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install zabbix-agent</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>zabbix-agent&#x5B89;&#x88C5;&#x5728;&#x9700;&#x8981;&#x76D1;&#x63A7;&#x7684;&#x673A;&#x5668;&#x4E0A;</p>
+</blockquote>
+<h3 id="Creating-initial-database"><a href="#Creating-initial-database" class="headerlink" title="Creating initial database"></a>Creating initial database</h3><p>Create zabbix database and user on MySQL.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mysql -uroot</span></span><br><span class="line">mysql&gt; create database zabbix character <span class="built_in">set</span> utf8 collate utf8_bin;</span><br><span class="line">mysql&gt; grant all privileges on zabbix.* to zabbix@localhost identified by <span class="string">&apos;zabbix&apos;</span>;</span><br><span class="line">mysql&gt; <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<p>Import initial schema and data.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/share/doc/zabbix-server-mysql-2.2.0/create</span><br><span class="line">mysql -uroot zabbix &lt; schema.sql</span><br><span class="line">mysql -uroot zabbix &lt; images.sql</span><br><span class="line">mysql -uroot zabbix &lt; data.sql</span><br></pre></td></tr></table></figure></p>
+<h3 id="Starting-Zabbix-server-process"><a href="#Starting-Zabbix-server-process" class="headerlink" title="Starting Zabbix server process"></a>Starting Zabbix server process</h3><p>Edit database configuration in zabbix_server.conf<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi /etc/zabbix/zabbix_server.conf</span></span><br><span class="line">DBHost=localhost</span><br><span class="line">DBName=zabbix</span><br><span class="line">DBUser=zabbix</span><br><span class="line">DBPassword=zabbix</span><br></pre></td></tr></table></figure></p>
+<p>Start Zabbix server process.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service zabbix-server start</span><br></pre></td></tr></table></figure></p>
+<h3 id="Editing-PHP-configuration-for-Zabbix-frontend"><a href="#Editing-PHP-configuration-for-Zabbix-frontend" class="headerlink" title="Editing PHP configuration for Zabbix frontend"></a>Editing PHP configuration for Zabbix frontend</h3><p>Apache configuration file for Zabbix frontend is located in /etc/httpd/conf.d/zabbix.conf. Some PHP settings are already configured.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">php_value max_execution_time 300</span><br><span class="line">php_value memory_<span class="built_in">limit</span> 128M</span><br><span class="line">php_value post_max_size 16M</span><br><span class="line">php_value upload_max_filesize 2M</span><br><span class="line">php_value max_input_time 300</span><br><span class="line"><span class="comment"># php_value date.timezone Europe/Riga</span></span><br></pre></td></tr></table></figure>
+<p>It&#x2019;s necessary to uncomment the &#x201C;date.timezone&#x201D; setting and set the right timezone for you. After changing the configuration file restart the apache web server.</p>
+<blockquote>
+<p>&#x5982;&#x4E0A;&#x6240;&#x8FF0;&#xFF0C;&#x6B64;&#x5904;&#x65F6;&#x533A;&#x914D;&#x7F6E;&#x9879;&#x9700;&#x8981;&#x4FEE;&#x6539;&#xFF0C;&#x53EF;&#x6539;&#x4E3A; php_value date.timezone Asia/Shanghai</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service httpd restart</span><br></pre></td></tr></table></figure>
+<p>Zabbix frontend is available at <a href="http://zabbix-frontend-hostname/zabbix" target="_blank" rel="external">http://zabbix-frontend-hostname/zabbix</a> in the browser.<br>Default username/password is <strong>Admin/zabbix</strong>.</p>
+<hr>
+<h2 id="&#x5176;&#x4ED6;"><a href="#&#x5176;&#x4ED6;" class="headerlink" title="&#x5176;&#x4ED6;"></a>&#x5176;&#x4ED6;</h2><p><strong>&#x5B98;&#x7F51;&#x6559;&#x7A0B;&#xFF1A;</strong><br><a href="https://www.zabbix.com/documentation/2.2/manual/installation/install_from_packages#red_hat_enterprise_linux_centos" target="_blank" rel="external">https://www.zabbix.com/documentation/2.2/manual/installation/install_from_packages#red_hat_enterprise_linux_centos</a></p>
+<p><strong>zabbix&#x4E2D;&#x6587;&#x64CD;&#x4F5C;&#x624B;&#x518C;&#xFF1A;</strong><br><a href="http://pan.baidu.com/s/1i46GoQh" target="_blank" rel="external">http://pan.baidu.com/s/1i46GoQh</a> &#x5BC6;&#x7801;&#xFF1A;xw5n</p>
+<p><img src="/2016/09/22/zabbix&#x5B89;&#x88C5;/1.png" alt="zabbix&#x4E2D;&#x6587;&#x64CD;&#x4F5C;&#x624B;&#x518C;"></p>
 
         
         </div>
@@ -279,7 +299,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
             
     
-        <a href="http://www.wangxin123.com/2016/06/06/初始化块和静态初始化块的区别/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/06/06/初始化块和静态初始化块的区别/">评论</a>
+        <a href="http://www.wangxin123.com/2016/09/22/zabbix安装/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/09/22/zabbix安装/">评论</a>
     
 
         </footer>
@@ -288,19 +308,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
 <nav id="article-nav">
     
-        <a href="/2016/06/08/中小企业监控体系构建实战/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    中小企业监控体系构建实战
-                
-            </div>
-        </a>
     
-    
-        <a href="/2016/06/02/SonarQube+Jenkins,搭建持续交付平台/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2016/07/20/git使用简易指南/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">SonarQube+Jenkins,搭建持续交付平台</div>
+            <div class="article-nav-title">git使用简易指南</div>
         </a>
     
 </nav>
@@ -314,7 +325,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <section id="comments">
     
         
-    <div class="ds-thread" data-thread-key="2016/06/06/初始化块和静态初始化块的区别/" data-title="初始化块和静态初始化块的区别" data-url="http://www.wangxin123.com/2016/06/06/初始化块和静态初始化块的区别/"></div>
+    <div class="ds-thread" data-thread-key="2016/09/22/zabbix安装/" data-title="zabbix安装" data-url="http://www.wangxin123.com/2016/09/22/zabbix安装/"></div>
     <style>
         #ds-thread #ds-reset .ds-textarea-wrapper {
             background: none;
