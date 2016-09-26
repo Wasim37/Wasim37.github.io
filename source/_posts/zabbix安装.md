@@ -109,11 +109,19 @@ Default username/password is **Admin/zabbix**.
 ---
 ## 其他
 
-**官网教程：**
+**Zabbix官网安装教程：**
 https://www.zabbix.com/documentation/2.2/manual/installation/install_from_packages#red_hat_enterprise_linux_centos
 
 **zabbix中文操作手册：**
-http://pan.baidu.com/s/1i46GoQh 密码：xw5n
+http://pan.baidu.com/s/1i46GoQh 密码：xw5n (手册中有相关shell脚本下载地址)
 
 ![zabbix中文操作手册](1.png)
 
+**grafana-zabbix插件安装：**
+在grafana插件中心安装grafana-zabbix插件后，需要配置相关数据源：
+http://blog.csdn.net/zk673820543/article/details/50617412
+
+**grafana-zabbix使用教程：**
+https://github.com/alexanderzobnin/grafana-zabbix/wiki/Usage
+
+![](2.gif)
