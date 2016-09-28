@@ -1,7 +1,7 @@
 ---
 title: centos6安装redis-2.8.19.tar.gz
 categories:
-  - Linux
+  - 部署配置
 tags:
   - redis
 date: 2016-6-18 22:41:19

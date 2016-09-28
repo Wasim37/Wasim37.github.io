@@ -1,7 +1,7 @@
 ---
 title: zabbix安装
 categories:
-  - Linux
+  - 部署配置
 date: 2016-9-22 22:41:19
 ---
 

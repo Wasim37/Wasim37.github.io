@@ -1,7 +1,7 @@
 ---
 title: redis多实例及主从搭建
 categories:
-  - Linux
+  - 部署配置
 tags:
   - redis
 date: 2016-9-18 22:41:19
