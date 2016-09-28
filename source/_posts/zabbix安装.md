@@ -2,6 +2,8 @@
 title: zabbix安装
 categories:
   - 部署配置
+tags:
+  - zabbix
 date: 2016-9-22 22:41:19
 ---
 
@@ -47,7 +49,7 @@ Example for installing Zabbix agent only.
 ```bash
 yum install zabbix-agent
 ```
-> zabbix-agent安装在需要监控的机器上
+> zabbix-agent需要安装在被监控的机器上，详见另一篇文档《zabbix agent安装详解》
 
 ### Creating initial database
 Create zabbix database and user on MySQL.
@@ -121,7 +123,7 @@ http://pan.baidu.com/s/1i46GoQh 密码：xw5n (手册中有相关shell脚本下�
 在grafana插件中心安装grafana-zabbix插件后，需要配置相关数据源：
 http://blog.csdn.net/zk673820543/article/details/50617412
 
-**grafana-zabbix使用教程：**
+**grafana-zabbix使用教程【内含gif图】：**
 https://github.com/alexanderzobnin/grafana-zabbix/wiki/Usage
 
 ![](2.gif)

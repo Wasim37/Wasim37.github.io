@@ -2,6 +2,8 @@
 title: 外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常
 categories:
   - 错误集锦
+tags:
+  - shiro
 date: 2016-9-19 22:41:19
 ---
 
