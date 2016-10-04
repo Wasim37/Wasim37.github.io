@@ -154,6 +154,12 @@ http://pan.baidu.com/s/1i46GoQh 密码：xw5n (手册中有相关shell脚本下�
 
 ![zabbix中文操作手册](1.png)
 
+**zabbix_agentd.conf配置文件详解**
+http://www.ttlsa.com/zabbix/zabbix_agentd-conf-description/
+
+**zabbix_server.conf配置文件详解**
+http://www.ttlsa.com/zabbix/zabbix_server-conf-detail/
+
 **grafana-zabbix插件安装：**
 在grafana插件中心安装grafana-zabbix插件后，需要配置相关数据源：
 http://blog.csdn.net/zk673820543/article/details/50617412
