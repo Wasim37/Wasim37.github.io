@@ -108,10 +108,45 @@ service httpd restart
 Zabbix frontend is available at http://zabbix-frontend-hostname/zabbix in the browser. 
 Default username/password is **Admin/zabbix**.
 
+<br/>
+
 ---
+
+## 中文设置及中文乱码
+
+### 中文设置
+【登陆】->【profile】->【User】，language改为chinese[zh_CN].
+
+### 中文乱码
+由于zabbix的web前端默认没有中文字库，因此zabbix图形化显示时下面的中文都是方框。
+解决方法就是拷贝中文字体到zabbix前端。
+
+1.进入c:\Windows\Fonts，选择其中任意一种中文字库例如楷体文件simkai.ttf，将其拷贝至zabbix的web 前端页面字体/usr/share/zabbix/fonts 下
+```bash
+[root@iZ94ekimlddZ fonts]# ls
+graphfont.ttf  simkai.ttf
+```
+
+2.修改zabbix的web前端 defines.inc.php
+```bash
+# vim /usr/share/zabbix/include/defines.inc.php
+
+找到
+define('ZBX_FONT_NAME',                       'DejaVuSans');
+define('ZBX_GRAPH_FONT_NAME',                 'DejaVuSans'); 
+
+这2行修改为
+define('ZBX_FONT_NAME',                       'SIMKAI');
+define('ZBX_GRAPH_FONT_NAME',                 'SIMKAI'); 
+
+保存退出
+```
+
+---
+
 ## 其他
 
-**Zabbix官网安装教程：**
+**Zabbix官网安装教程(翻墙)：**
 https://www.zabbix.com/documentation/2.2/manual/installation/install_from_packages#red_hat_enterprise_linux_centos
 
 **zabbix中文操作手册：**
