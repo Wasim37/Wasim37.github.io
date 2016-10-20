@@ -147,15 +147,15 @@
             <h2 id="name">Wasim</h2>
             <h3 id="title">Web Developer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>ShenZhen, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">关注我</a>
+            <a id="follow" target="_blank" href="null">关注我</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                40
+                44
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                28
+                29
                 <span>标签</span>
             </div>
         </div>
@@ -164,7 +164,7 @@
             <table>
                 <tr>
                     
-                    <td><a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
                     
                     <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
                     
@@ -183,7 +183,7 @@
 
             
             <section id="main">
-    <article id="post-zabbix监控mysql" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-MySQL中间件Atlas安装及使用" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -192,7 +192,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2016/09/30/zabbix监控mysql/">zabbix监控mysql</a>
+            <a class="article-title" href="/2016/10/11/MySQL中间件Atlas安装及使用/">MySQL中间件Atlas安装及使用</a>
         </h1>
     
 
@@ -200,8 +200,8 @@
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/09/30/zabbix监控mysql/">
-            <time datetime="2016-09-30T10:24:17.000Z" itemprop="datePublished">2016-09-30</time>
+        <a href="/2016/10/11/MySQL中间件Atlas安装及使用/">
+            <time datetime="2016-10-11T10:24:17.000Z" itemprop="datePublished">2016-10-11</time>
         </a>
     </div>
 
@@ -215,7 +215,7 @@
                     
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/zabbix/">zabbix</a>
+        <a class="tag-link" href="/tags/atlas/">atlas</a>, <a class="tag-link" href="/tags/mysql/">mysql</a>
     </div>
 
                 </div>
@@ -223,13 +223,18 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><blockquote>
-<p>zabbix&#x81EA;&#x5E26;mysql&#x76D1;&#x63A7;&#x6A21;&#x677F;&#xFF0C;&#x53EF;&#x76D1;&#x63A7;mysql&#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x3001;&#x8BF7;&#x6C42;&#x6D41;&#x91CF;&#x5E26;&#x5BBD;&#x548C;&#x54CD;&#x5E94;&#x6D41;&#x91CF;&#x5E26;&#x5BBD;&#x7B49;&#x3002;</p>
-</blockquote>
-<h3 id="&#x76D1;&#x63A7;&#x6B65;&#x9AA4;"><a href="#&#x76D1;&#x63A7;&#x6B65;&#x9AA4;" class="headerlink" title="&#x76D1;&#x63A7;&#x6B65;&#x9AA4;"></a>&#x76D1;&#x63A7;&#x6B65;&#x9AA4;</h3><p>1&#x3001;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x5B89;&#x88C5;zabbix agent&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x5E76;&#x4FEE;&#x6539;zabbix_agentd.conf&#x6587;&#x4EF6;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /etc/zabbix/zabbix_agentd.conf</span></span><br><span class="line"></span><br><span class="line">EnableRemoteCommands=1  &#x6765;&#x81F3;zabbix&#x670D;&#x52A1;&#x5668;&#x7684;&#x8FDC;&#x7A0B;&#x547D;&#x4EE4;&#x662F;&#x5426;&#x5141;&#x8BB8;&#x88AB;&#x6267;&#x884C;</span><br><span class="line">Server=zabbix_server_IP  zabbix&#x670D;&#x52A1;&#x5668;ip&#x5730;&#x5740;</span><br><span class="line">ServerActive=zabbix_server_IP  &#x4E3B;&#x52A8;&#x5411;zabbix server&#x53D1;&#x9001;&#x76D1;&#x63A7;&#x5185;&#x5BB9;</span><br><span class="line">Hostname=name  name&#x914D;&#x7F6E;&#x7684;&#x5185;&#x5BB9;&#x8981;&#x548C;zabbix&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;&#x7684;Host name&#x4E00;&#x81F4;</span><br><span class="line">UnsafeUserParameters=1  &#x662F;&#x5426;&#x542F;&#x7528;&#x81EA;&#x5B9A;&#x4E49;key,zabbix&#x76D1;&#x63A7;mysql&#x3001;tomcat&#x7B49;&#x6570;&#x636E;&#x65F6;&#x9700;&#x8981;&#x81EA;&#x5B9A;&#x4E49;key</span><br></pre></td></tr></table></figure></p>
-<p>2&#x3001;&#x7F16;&#x5199;check_mysql.sh&#x811A;&#x672C;, &#x5B58;&#x653E;&#x8DEF;&#x5F84;&#xFF1A;/etc/zabbix/scripts&#x3002;<br>&#x5E76;&#x8D4B;&#x4E88;&#x811A;&#x672C;&#x6267;&#x884C;&#x6743;&#x9650;&#x3010;chmod +x check_mysql.sh&#x3011;&#x3002;</p></p>
+            <p><h3 id="&#x7B80;&#x4ECB;"><a href="#&#x7B80;&#x4ECB;" class="headerlink" title="&#x7B80;&#x4ECB;"></a>&#x7B80;&#x4ECB;</h3><p>Atlas&#x662F;&#x7531; Qihoo 360&#x516C;&#x53F8;Web&#x5E73;&#x53F0;&#x90E8;&#x57FA;&#x7840;&#x67B6;&#x6784;&#x56E2;&#x961F;&#x5F00;&#x53D1;&#x7EF4;&#x62A4;&#x7684;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;MySQL&#x534F;&#x8BAE;&#x7684;&#x6570;&#x636E;&#x4E2D;&#x95F4;&#x5C42;&#x9879;&#x76EE;&#x3002;&#x5B83;&#x5728;MySQL&#x5B98;&#x65B9;&#x63A8;&#x51FA;&#x7684;MySQL-Proxy 0.8.2&#x7248;&#x672C;&#x7684;&#x57FA;&#x7840;&#x4E0A;&#xFF0C;&#x4FEE;&#x6539;&#x4E86;&#x5927;&#x91CF;bug&#xFF0C;&#x6DFB;&#x52A0;&#x4E86;&#x5F88;&#x591A;&#x529F;&#x80FD;&#x7279;&#x6027;&#x3002;&#x800C;&#x4E14;&#x5B89;&#x88C5;&#x65B9;&#x4FBF;&#x3002;&#x914D;&#x7F6E;&#x7684;&#x6CE8;&#x91CA;&#x5199;&#x7684;&#x86EE;&#x8BE6;&#x7EC6;&#x7684;&#xFF0C;&#x90FD;&#x662F;&#x4E2D;&#x6587;&#x3002;</p>
+<h3 id="&#x4E3B;&#x8981;&#x529F;&#x80FD;"><a href="#&#x4E3B;&#x8981;&#x529F;&#x80FD;" class="headerlink" title="&#x4E3B;&#x8981;&#x529F;&#x80FD;"></a>&#x4E3B;&#x8981;&#x529F;&#x80FD;</h3><ul>
+<li>&#x8BFB;&#x5199;&#x5206;&#x79BB;</li>
+<li>&#x4ECE;&#x5E93;&#x8D1F;&#x8F7D;&#x5747;&#x8861;</li>
+<li>IP&#x8FC7;&#x6EE4;</li>
+<li>&#x81EA;&#x52A8;&#x5206;&#x8868;</li>
+<li>DBA&#x53EF;&#x5E73;&#x6ED1;&#x4E0A;&#x4E0B;&#x7EBF;DB</li>
+<li>&#x81EA;&#x52A8;&#x6458;&#x9664;&#x5B95;&#x673A;&#x7684;DB</li>
+</ul>
+<h3 id="&#x76F8;&#x5173;&#x94FE;&#x63A5;"><a href="#&#x76F8;&#x5173;&#x94FE;&#x63A5;" class="headerlink" title="&#x76F8;&#x5173;&#x94FE;&#x63A5;"></a>&#x76F8;&#x5173;&#x94FE;&#x63A5;</h3><p>Mysql&#x4E2D;&#x95F4;&#x4EF6;&#x4EA7;&#x54C1;&#x6BD4;&#x8F83;&#xFF1A;<a href="http://songwie.com/articlelist/44">http://songwie.com/articlelist/44</a><br>Atlas&#x7684;&#x5B89;&#x88C5;&#xFF1A;<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x5B89;&#x88C5;">https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x5B89;&#x88C5;</a><br>Atlas&#x529F;&#x80FD;&#x7279;&#x70B9;FAQ&#xFF1A;<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas&#x529F;&#x80FD;&#x7279;&#x70B9;FAQ">https://github.com/Qihoo360/Atlas/wiki/Atlas&#x529F;&#x80FD;&#x7279;&#x70B9;FAQ</a><br>Atlas&#x6027;&#x80FD;&#x7279;&#x70B9;&#xFF1A;<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x6027;&#x80FD;&#x6D4B;&#x8BD5;">https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x6027;&#x80FD;&#x6D4B;&#x8BD5;</a><br>Atlas&#x67B6;&#x6784;&#xFF1A;<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x67B6;&#x6784;">https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x67B6;&#x6784;</a><br>Atlas+Keepalived&#xFF1A;<a href="http://sofar.blog.51cto.com/353572/1601552">http://sofar.blog.51cto.com/353572/1601552</a><br>Atlas&#x5404;&#x9879;&#x529F;&#x80FD;&#x9A8C;&#x8BC1;&#xFF1A;<a href="http://blog.itpub.net/27000195/viewspace-1421262/">http://blog.itpub.net/27000195/viewspace-1421262/</a></p></p>
             <p class="article-more-link">
-                <a href="/2016/09/30/zabbix监控mysql/#more">查看更多</a>
+                <a href="/2016/10/11/MySQL中间件Atlas安装及使用/#more">查看更多</a>
             </p>
         
         </div>
@@ -277,7 +282,111 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
             
     
-        <a href="http://www.wangxin123.com/2016/09/30/zabbix监控mysql/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/09/30/zabbix监控mysql/">评论</a>
+        <a href="http://www.wangxin123.com/2016/10/11/MySQL中间件Atlas安装及使用/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/10/11/MySQL中间件Atlas安装及使用/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-zabbix监控mysql" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/10/08/zabbix监控mysql/">zabbix监控mysql</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/10/08/zabbix监控mysql/">
+            <time datetime="2016-10-08T10:24:17.000Z" itemprop="datePublished">2016-10-08</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/部署配置/">部署配置</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/mysql/">mysql</a>, <a class="tag-link" href="/tags/zabbix/">zabbix</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><blockquote>
+<p>zabbix&#x81EA;&#x5E26;mysql&#x76D1;&#x63A7;&#x6A21;&#x677F;&#xFF0C;&#x53EF;&#x76D1;&#x63A7;mysql&#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x3001;&#x8BF7;&#x6C42;&#x6D41;&#x91CF;&#x5E26;&#x5BBD;&#x548C;&#x54CD;&#x5E94;&#x6D41;&#x91CF;&#x5E26;&#x5BBD;&#x7B49;&#x3002;</p>
+</blockquote>
+<h3 id="&#x76D1;&#x63A7;&#x6B65;&#x9AA4;"><a href="#&#x76D1;&#x63A7;&#x6B65;&#x9AA4;" class="headerlink" title="&#x76D1;&#x63A7;&#x6B65;&#x9AA4;"></a>&#x76D1;&#x63A7;&#x6B65;&#x9AA4;</h3><p>1&#x3001;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x5B89;&#x88C5;zabbix agent&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x5E76;&#x4FEE;&#x6539;zabbix_agentd.conf&#x6587;&#x4EF6;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /etc/zabbix/zabbix_agentd.conf</span></span><br><span class="line"></span><br><span class="line">EnableRemoteCommands=1  &#x6765;&#x81F3;zabbix&#x670D;&#x52A1;&#x5668;&#x7684;&#x8FDC;&#x7A0B;&#x547D;&#x4EE4;&#x662F;&#x5426;&#x5141;&#x8BB8;&#x88AB;&#x6267;&#x884C;</span><br><span class="line">Server=zabbix_server_IP  zabbix&#x670D;&#x52A1;&#x5668;ip&#x5730;&#x5740;</span><br><span class="line">ServerActive=zabbix_server_IP  &#x4E3B;&#x52A8;&#x5411;zabbix server&#x53D1;&#x9001;&#x76D1;&#x63A7;&#x5185;&#x5BB9;</span><br><span class="line">Hostname=name  name&#x914D;&#x7F6E;&#x7684;&#x5185;&#x5BB9;&#x8981;&#x548C;zabbix&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;&#x7684;Host name&#x4E00;&#x81F4;</span><br><span class="line">UnsafeUserParameters=1  &#x662F;&#x5426;&#x542F;&#x7528;&#x81EA;&#x5B9A;&#x4E49;key,zabbix&#x76D1;&#x63A7;mysql&#x3001;tomcat&#x7B49;&#x6570;&#x636E;&#x65F6;&#x9700;&#x8981;&#x81EA;&#x5B9A;&#x4E49;key</span><br></pre></td></tr></table></figure></p>
+<p>2&#x3001;&#x7F16;&#x5199;check_mysql.sh&#x811A;&#x672C;, &#x5B58;&#x653E;&#x8DEF;&#x5F84;&#xFF1A;/etc/zabbix/scripts&#x3002;<br>&#x5E76;&#x8D4B;&#x4E88;&#x811A;&#x672C;&#x6267;&#x884C;&#x6743;&#x9650;&#x3010;chmod +x check_mysql.sh&#x3011;&#x3002;</p></p>
+            <p class="article-more-link">
+                <a href="/2016/10/08/zabbix监控mysql/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/10/08/zabbix监控mysql/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/10/08/zabbix监控mysql/">评论</a>
     
 
         </footer>
@@ -493,6 +602,109 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
+    <article id="post-zabbix agent安装详解" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/09/25/zabbix agent安装详解/">zabbix agent安装详解</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/09/25/zabbix agent安装详解/">
+            <time datetime="2016-09-25T10:24:17.000Z" itemprop="datePublished">2016-09-25</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/部署配置/">部署配置</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/zabbix/">zabbix</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h2 id="&#x5B89;&#x88C5;"><a href="#&#x5B89;&#x88C5;" class="headerlink" title="&#x5B89;&#x88C5;"></a>&#x5B89;&#x88C5;</h2><h3 id="Installing-repository-configuration-package"><a href="#Installing-repository-configuration-package" class="headerlink" title="Installing repository configuration package"></a>Installing repository configuration package</h3><p>Zabbix 2.2 for RHEL5, Oracle Linux 5, CentOS 5:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://repo.zabbix.com/zabbix/2.2/rhel/5/x86_64/zabbix-release-2.2-1.el5.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>Zabbix 2.2 for RHEL6, Oracle Linux 6, CentOS 6:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm</span><br></pre></td></tr></table></figure></p>
+<p>Zabbix 2.2 for RHEL7, Oracle Linux 7, CentOS 7:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://repo.zabbix.com/zabbix/2.2/rhel/7/x86_64/zabbix-release-2.2-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure></p></p>
+            <p class="article-more-link">
+                <a href="/2016/09/25/zabbix agent安装详解/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/09/25/zabbix agent安装详解/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/09/25/zabbix agent安装详解/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Not supported by Zabbix Agent &amp; zabbix agent重装" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -596,7 +808,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-zabbix agent安装详解" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Linux开机启动程序详解" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -605,7 +817,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2016/09/25/zabbix agent安装详解/">zabbix agent安装详解</a>
+            <a class="article-title" href="/2016/09/22/Linux开机启动程序详解/">Linux开机启动程序详解</a>
         </h1>
     
 
@@ -613,8 +825,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/09/25/zabbix agent安装详解/">
-            <time datetime="2016-09-25T10:24:17.000Z" itemprop="datePublished">2016-09-25</time>
+        <a href="/2016/09/22/Linux开机启动程序详解/">
+            <time datetime="2016-09-22T14:41:19.000Z" itemprop="datePublished">2016-09-22</time>
         </a>
     </div>
 
@@ -626,22 +838,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     </div>
 
                     
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/zabbix/">zabbix</a>
-    </div>
-
                 </div>
             </header>
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><h2 id="&#x5B89;&#x88C5;"><a href="#&#x5B89;&#x88C5;" class="headerlink" title="&#x5B89;&#x88C5;"></a>&#x5B89;&#x88C5;</h2><h3 id="Installing-repository-configuration-package"><a href="#Installing-repository-configuration-package" class="headerlink" title="Installing repository configuration package"></a>Installing repository configuration package</h3><p>Zabbix 2.2 for RHEL5, Oracle Linux 5, CentOS 5:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://repo.zabbix.com/zabbix/2.2/rhel/5/x86_64/zabbix-release-2.2-1.el5.noarch.rpm</span><br></pre></td></tr></table></figure>
-<p>Zabbix 2.2 for RHEL6, Oracle Linux 6, CentOS 6:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-release-2.2-1.el6.noarch.rpm</span><br></pre></td></tr></table></figure></p>
-<p>Zabbix 2.2 for RHEL7, Oracle Linux 7, CentOS 7:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh http://repo.zabbix.com/zabbix/2.2/rhel/7/x86_64/zabbix-release-2.2-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure></p></p>
+            <p><h3 id="init&#x8FDB;&#x7A0B;"><a href="#init&#x8FDB;&#x7A0B;" class="headerlink" title="init&#x8FDB;&#x7A0B;"></a>init&#x8FDB;&#x7A0B;</h3><p>init&#x8FDB;&#x7A0B;&#x662F;&#x975E;&#x5185;&#x6838;&#x8FDB;&#x7A0B;&#x4E2D;&#x7B2C;&#x4E00;&#x4E2A;&#x88AB;&#x542F;&#x52A8;&#x8FD0;&#x884C;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x5B83;&#x7684;&#x8FDB;&#x7A0B;&#x7F16;&#x53F7;PID&#x7684;&#x503C;&#x603B;&#x662F;1&#x3002;init&#x8BFB;&#x5B83;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;/etc/inittab&#xFF0C;&#x51B3;&#x5B9A;&#x9700;&#x8981;&#x542F;&#x52A8;&#x7684;&#x8FD0;&#x884C;&#x7EA7;&#x522B;(Runlevel)&#x3002;&#x4ECE;&#x6839;&#x672C;&#x4E0A;&#x8BF4;&#xFF0C;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x89C4;&#x5B9A;&#x4E86;&#x6574;&#x4E2A;&#x7CFB;&#x7EDF;&#x7684;&#x884C;&#x4E3A;&#xFF0C;&#x6BCF;&#x4E2A;&#x7EA7;&#x522B;(&#x5206;&#x522B;&#x7531;0&#x5230;6&#x7684;&#x6574;&#x6570;&#x8868;&#x793A;)&#x6EE1;&#x8DB3;&#x7279;&#x5B9A;&#x7684;&#x76EE;&#x7684;&#x3002;&#x5982;&#x679C;&#x5B9A;&#x4E49;&#x4E86;initdefault&#x7EA7;&#x522B;&#xFF0C;&#x8FD9;&#x4E2A;&#x503C;&#x5C31;&#x76F4;&#x63A5;&#x88AB;&#x9009;&#x4E2D;&#xFF0C;&#x5426;&#x5219;&#x9700;&#x8981;&#x7531;&#x7528;&#x6237;&#x8F93;&#x5165;&#x4E00;&#x4E2A;&#x4EE3;&#x8868;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x7684;&#x6570;&#x503C;&#x3002;<br>&#x8F93;&#x5165;&#x4EE3;&#x8868;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x7684;&#x6570;&#x5B57;&#x4E4B;&#x540E;&#xFF0C;init&#x6839;&#x636E;/etc/inittab&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x5B9A;&#x4E49;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x3002;&#x7F3A;&#x7701;&#x7684;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x53D6;&#x51B3;&#x4E8E;&#x5B89;&#x88C5;&#x9636;&#x6BB5;&#x5BF9;&#x767B;&#x5F55;&#x7A0B;&#x5E8F;&#x7684;&#x9009;&#x62E9;&#xFF1A;&#x662F;&#x4F7F;&#x7528;&#x57FA;&#x4E8E;&#x6587;&#x672C;&#x7684;&#xFF0C;&#x8FD8;&#x662F;&#x4F7F;&#x7528;&#x57FA;&#x4E8E;X-Window&#x7684;&#x767B;&#x5F55;&#x7A0B;&#x5E8F;&#x3002;<br>rc&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x77E5;&#x9053;&#xFF0C;&#x5F53;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x65F6;&#xFF0C;&#x5C06;&#x7531;/etc/inittab&#x6587;&#x4EF6;&#x5B9A;&#x4E49;&#x9700;&#x8981;&#x8FD0;&#x884C;&#x54EA;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x3002;&#x8FD9;&#x4E9B;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x8D1F;&#x8D23;&#x542F;&#x52A8;&#x6216;&#x8005;&#x505C;&#x6B62;&#x8BE5;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x7279;&#x5B9A;&#x7684;&#x5404;&#x79CD;&#x670D;&#x52A1;&#x3002;&#x7531;&#x4E8E;&#x9700;&#x8981;&#x7BA1;&#x7406;&#x7684;&#x670D;&#x52A1;&#x6570;&#x91CF;&#x5F88;&#x591A;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x4F7F;&#x7528;rc&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x3002;&#x5176;&#x4E2D;&#xFF0C;&#x6700;&#x4E3B;&#x8981;&#x7684;&#x4E00;&#x4E2A;&#x662F;/etc/rc.d/rc&#xFF0C;&#x5B83;&#x8D1F;&#x8D23;&#x4E3A;&#x6BCF;&#x4E00;&#x4E2A;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x6309;&#x7167;&#x6B63;&#x786E;&#x7684;&#x987A;&#x5E8F;&#x8C03;&#x7528;&#x76F8;&#x5E94;&#x7684;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x60F3;&#x8C61;&#xFF0C;&#x8FD9;&#x6837;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x5F88;&#x5BB9;&#x6613;&#x53D8;&#x5F97;&#x96BE;&#x4EE5;&#x63A7;&#x5236;&#xFF01;&#x4E3A;&#x4E86;&#x9632;&#x6B62;&#x8FD9;&#x7C7B;&#x4E8B;&#x4EF6;&#x7684;&#x53D1;&#x751F;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x7CBE;&#x5FC3;&#x8BBE;&#x8BA1;&#x7684;&#x65B9;&#x6848;&#x3002;</p></p>
             <p class="article-more-link">
-                <a href="/2016/09/25/zabbix agent安装详解/#more">查看更多</a>
+                <a href="/2016/09/22/Linux开机启动程序详解/#more">查看更多</a>
             </p>
         
         </div>
@@ -689,7 +893,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
             
     
-        <a href="http://www.wangxin123.com/2016/09/25/zabbix agent安装详解/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/09/25/zabbix agent安装详解/">评论</a>
+        <a href="http://www.wangxin123.com/2016/09/22/Linux开机启动程序详解/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/09/22/Linux开机启动程序详解/">评论</a>
     
 
         </footer>
@@ -1011,219 +1215,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/09/19/外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常/">外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/09/19/外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常/">
-            <time datetime="2016-09-19T14:41:19.000Z" itemprop="datePublished">2016-09-19</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/错误集锦/">错误集锦</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/shiro/">shiro</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>shiro&#x6743;&#x9650;&#x6846;&#x67B6;&#xFF0C;&#x7528;&#x6237;&#x767B;&#x5F55;&#x65B9;&#x6CD5;&#x7684;subject.login(token)&#x4F1A;&#x8FDB;&#x5165;&#x81EA;&#x5B9A;&#x4E49;&#x7684;UserNamePasswordRealm&#x7C7B;&#x7684;doGetAuthenticationInfo&#x8EAB;&#x4EFD;&#x9A8C;&#x8BC1;&#x65B9;&#x6CD5;</p>
-<p>&#x901A;&#x5E38;&#x60C5;&#x51B5;&#xFF0C;doGetAuthenticationInfo&#x5199;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected AuthenticationInfo <span class="keyword">do</span>GetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {</span><br><span class="line">	UsernamePasswordToken token = (UsernamePasswordToken) authcToken;</span><br><span class="line">	User loginUser = userService.getUserByName(token.getUsername());</span><br><span class="line">	<span class="keyword">if</span> (ObjectUtils.isEmpty(loginUser)) {</span><br><span class="line">		throw new UnknownAccountException();</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">if</span>(!loginUser.getPassWord().equals(MD5Util.md5s(String.valueOf(token.getPassword())))){</span><br><span class="line">		throw new IncorrectCredentialsException();</span><br><span class="line">	}</span><br><span class="line">	//&#x5176;&#x4ED6;&#x5404;&#x79CD;&#x9A8C;&#x8BC1;</span><br><span class="line">	&#x3002;&#x3002;&#x3002;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
-<p>login&#x767B;&#x5F55;&#x65B9;&#x6CD5;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = <span class="string">&quot;/login&quot;</span>, method = RequestMethod.POST)</span><br><span class="line">public String <span class="keyword">do</span>UserLogin(User user, HttpServletRequest request, Model model) {</span><br><span class="line">	...</span><br><span class="line">	Subject subject = SecurityUtils.getSubject();</span><br><span class="line">	UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassWord());</span><br><span class="line">	try {</span><br><span class="line">		subject.login(token);</span><br><span class="line">	} catch (UnknownAccountException uae) {</span><br><span class="line">		</span><br><span class="line">	} catch (IncorrectCredentialsException ice) {</span><br><span class="line">		</span><br><span class="line">	} catch (LockedAccountException lae) {</span><br><span class="line">		</span><br><span class="line">	} catch (ExcessiveAttemptsException eae) {</span><br><span class="line">		</span><br><span class="line">	} catch (AuthenticationException ae) {</span><br><span class="line">		</span><br><span class="line">	}</span><br><span class="line">	...</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
-<hr>
-<font style="color:red">&#x53EF;&#x662F;&#x6700;&#x8FD1;&#x4E00;&#x6B21;&#x9879;&#x76EE;&#xFF0C;&#x53D1;&#x73B0;&#x901A;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#x884C;&#x4E0D;&#x901A;&#x4E86;&#xFF0C;doGetAuthenticationInfo&#x65B9;&#x6CD5;&#x629B;&#x51FA;&#x7684;&#x5404;&#x79CD;&#x5F02;&#x5E38;&#x5982;UnknownAccountException(&#x5305;&#x62EC;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x5F02;&#x5E38;)&#xFF0C;&#x5916;&#x90E8;&#x90FD;&#x65E0;&#x6CD5;&#x51C6;&#x786E;&#x6355;&#x6349;&#x3002;<br><br></font></p>
-            <p class="article-more-link">
-                <a href="/2016/09/19/外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2016/09/19/外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/09/19/外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-redis多实例及主从搭建" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/09/18/redis多实例及主从搭建/">redis多实例及主从搭建</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/09/18/redis多实例及主从搭建/">
-            <time datetime="2016-09-18T14:41:19.000Z" itemprop="datePublished">2016-09-18</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/部署配置/">部署配置</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/redis/">redis</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><blockquote>
-<p>&#x5047;&#x8BBE;&#x6211;&#x4EEC;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x9762;&#x5DF2;&#x7ECF;&#x5B89;&#x88C5;&#x597D;&#x4E86;redis,<br>&#x53EF;&#x5728;&#x641C;&#x7D22;&#x680F;&#x641C;&#x7D22;&#x672C;&#x7AD9;&#x53E6;&#x4E00;&#x7BC7;&#x535A;&#x5BA2;&#xFF1A;centos6&#x5B89;&#x88C5;redis-2.8.19.tar.gz</p>
-</blockquote>
-<h3 id="redis&#x5355;&#x4E3B;&#x673A;&#x591A;&#x5B9E;&#x4F8B;"><a href="#redis&#x5355;&#x4E3B;&#x673A;&#x591A;&#x5B9E;&#x4F8B;" class="headerlink" title="redis&#x5355;&#x4E3B;&#x673A;&#x591A;&#x5B9E;&#x4F8B;"></a>redis&#x5355;&#x4E3B;&#x673A;&#x591A;&#x5B9E;&#x4F8B;</h3><p>&#x4E00;&#x3001;&#x6211;&#x4EEC;&#x9996;&#x5148;&#x62F7;&#x8D1D;&#x4E24;&#x4EFD;&#x6587;&#x4EF6;&#xFF1A;</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /etc/redis.conf /etc/redis6381.conf</span><br><span class="line">cp /etc/redis.conf /etc/redis6382.conf</span><br></pre></td></tr></table></figure>
-<p>&#x4E8C;&#x3001;&#x914D;&#x7F6E;6381&#x7AEF;&#x53E3;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/redis6381.conf</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2016/09/18/redis&#x591A;&#x5B9E;&#x4F8B;&#x53CA;&#x4E3B;&#x4ECE;&#x642D;&#x5EFA;/1.png" alt="&#x56FE;&#x7247;1"></p></p>
-            <p class="article-more-link">
-                <a href="/2016/09/18/redis多实例及主从搭建/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2016/09/18/redis多实例及主从搭建/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/09/18/redis多实例及主从搭建/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
     </nav>
 </section>
             
@@ -1241,8 +1234,16 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
-                            <p class="item-title"><a href="/2016/09/30/zabbix监控mysql/" class="title">zabbix监控mysql</a></p>
-                            <p class="item-date"><time datetime="2016-09-30T10:24:17.000Z" itemprop="datePublished">2016-09-30</time></p>
+                            <p class="item-title"><a href="/2016/10/11/MySQL中间件Atlas安装及使用/" class="title">MySQL中间件Atlas安装及使用</a></p>
+                            <p class="item-date"><time datetime="2016-10-11T10:24:17.000Z" itemprop="datePublished">2016-10-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
+                            <p class="item-title"><a href="/2016/10/08/zabbix监控mysql/" class="title">zabbix监控mysql</a></p>
+                            <p class="item-date"><time datetime="2016-10-08T10:24:17.000Z" itemprop="datePublished">2016-10-08</time></p>
                         </div>
                     </li>
                 
@@ -1265,14 +1266,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
-                            <p class="item-title"><a href="/2016/09/25/Not supported by Zabbix Agent & zabbix agent重装/" class="title">Not supported by Zabbix Agent &amp; zabbix agent重装</a></p>
-                            <p class="item-date"><time datetime="2016-09-25T10:24:17.000Z" itemprop="datePublished">2016-09-25</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
                             <p class="item-title"><a href="/2016/09/25/zabbix agent安装详解/" class="title">zabbix agent安装详解</a></p>
                             <p class="item-date"><time datetime="2016-09-25T10:24:17.000Z" itemprop="datePublished">2016-09-25</time></p>
                         </div>
@@ -1287,7 +1280,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/部署配置/">部署配置</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/部署配置/">部署配置</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -1296,7 +1289,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
         </div>
     </div -->
 
@@ -1305,7 +1298,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 12.5px;">ES</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/concurrent/" style="font-size: 15px;">concurrent</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 12.5px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 17.5px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 12.5px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/zabbix/" style="font-size: 20px;">zabbix</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 17.5px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/疑难杂症/" style="font-size: 12.5px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+            <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 14px;">concurrent</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 12px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/mysql/" style="font-size: 18px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 12px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/zabbix/" style="font-size: 20px;">zabbix</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 16px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/疑难杂症/" style="font-size: 12px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
         </div>
     </div -->
 
@@ -1329,7 +1322,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     </li>
                 
                     <li>
-                        <a href="http://www.iyunv.com/forum.php">运维网</a>
+                        <a href="http://www.iyunv.com/">运维网</a>
                     </li>
                 
                     <li>

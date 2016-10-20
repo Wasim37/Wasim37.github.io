@@ -145,4 +145,16 @@ mysql> show slave status\G
 ```
 
 **若Slave_IO_Running和Slave_SQL_Running均为Yes，则表示配置成功。**
+
+<br/>
+
+---
+
+## 相关链接
+**<font style="color:red">线上MySQL主从同步报错故障处理总结</font>**
+http://xstarcd.github.io/wiki/MySQL/online_mysqlrepl_error.html
+
+**不同场景下 MySQL 的迁移方案**
+https://dbarobin.com/2015/09/15/migration-of-mysql-on-different-scenes
+
 <br/>

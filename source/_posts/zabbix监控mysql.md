@@ -4,7 +4,8 @@ categories:
   - 部署配置
 tags:
   - zabbix
-date: 2016-9-30 18:24:17
+  - mysql
+date: 2016-10-8 18:24:17
 ---
 
 > zabbix自带mysql监控模板，可监控mysql的增删改查、请求流量带宽和响应流量带宽等。

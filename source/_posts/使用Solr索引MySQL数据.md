@@ -3,8 +3,8 @@ title: 使用Solr索引MySQL数据
 categories:
   - 其他技术
 tags:
-  - ES
   - solr
+  - mysql
 date: 2016-7-3 21:18:00
 ---
 

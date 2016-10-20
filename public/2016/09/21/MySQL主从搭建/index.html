@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://www.wangxin123.com/2016/09/21/MySQL主从搭建/index.html">
 <meta property="og:site_name" content="星空博客">
 <meta property="og:description" content="&amp;#x6CE8;&amp;#x610F;&amp;#x4E8B;&amp;#x9879;1&amp;#x3001;&amp;#x4E3B;&amp;#x4ECE;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x64CD;&amp;#x4F5C;&amp;#x7CFB;&amp;#x7EDF;&amp;#x7248;&amp;#x672C;&amp;#x548C;&amp;#x4F4D;&amp;#x6570;&amp;#x4E00;&amp;#x81F4;&amp;#x3002;2&amp;#x3001;MySQL&amp;#x7248;&amp;">
-<meta property="og:updated_time" content="2016-10-04T11:49:09.056Z">
+<meta property="og:updated_time" content="2016-10-20T03:58:58.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL主从搭建">
 <meta name="twitter:description" content="&amp;#x6CE8;&amp;#x610F;&amp;#x4E8B;&amp;#x9879;1&amp;#x3001;&amp;#x4E3B;&amp;#x4ECE;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x64CD;&amp;#x4F5C;&amp;#x7CFB;&amp;#x7EDF;&amp;#x7248;&amp;#x672C;&amp;#x548C;&amp;#x4F4D;&amp;#x6570;&amp;#x4E00;&amp;#x81F4;&amp;#x3002;2&amp;#x3001;MySQL&amp;#x7248;&amp;">
@@ -148,15 +148,15 @@
             <h2 id="name">Wasim</h2>
             <h3 id="title">Web Developer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>ShenZhen, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">关注我</a>
+            <a id="follow" target="_blank" href="null">关注我</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                40
+                44
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                28
+                29
                 <span>标签</span>
             </div>
         </div>
@@ -165,7 +165,7 @@
             <table>
                 <tr>
                     
-                    <td><a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
                     
                     <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
                     
@@ -241,7 +241,12 @@
 <p><strong>&#x53C2;&#x6570;&#x8BE6;&#x89E3;&#xFF1A;</strong><br>master_host:&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x7684;IP&#x3002;<br>master_user&#xFF1A;&#x914D;&#x7F6E;&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x65F6;&#x5EFA;&#x7ACB;&#x7684;&#x7528;&#x6237;&#x540D;<br>master_password&#xFF1A;&#x7528;&#x6237;&#x5BC6;&#x7801;<br>master_port&#xFF1A;&#x4E3B;&#x670D;&#x52A1;&#x5668;mysql&#x7AEF;&#x53E3;&#xFF0C;&#x5982;&#x679C;&#x672A;&#x66FE;&#x4FEE;&#x6539;&#xFF0C;&#x9ED8;&#x8BA4;&#x5373;&#x53EF;&#x3002;<br>master_log_file&#xFF1A;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x540D;&#x79F0;&#xFF0C;<strong>&#x586B;&#x5199;&#x67E5;&#x770B;master&#x72B6;&#x6001;&#x65F6;&#x663E;&#x793A;&#x7684;File</strong><br>master_log_pos&#xFF1A;&#x65E5;&#x5FD7;&#x4F4D;&#x7F6E;&#xFF0C;<strong>&#x586B;&#x5199;&#x67E5;&#x770B;master&#x72B6;&#x6001;&#x65F6;&#x663E;&#x793A;&#x7684;Position</strong><br>master_connect_retry&#xFF1A;&#x91CD;&#x8FDE;&#x6B21;&#x6570;</p>
 <p>4&#x3001;&#x542F;&#x52A8;&#x8FDB;&#x7A0B;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; start slave;</span><br></pre></td></tr></table></figure></p>
 <p>5&#x3001;&#x68C0;&#x67E5;&#x4E3B;&#x4ECE;&#x590D;&#x5236;&#x72B6;&#x6001;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show slave status\G  </span><br><span class="line">*************************** 1. row ***************************  </span><br><span class="line">               Slave_IO_State: Waiting <span class="keyword">for</span> master to send event  </span><br><span class="line">                  Master_Host: 192.168.1.18  </span><br><span class="line">                  Master_User: mastj  </span><br><span class="line">                  Master_Port: 3306  </span><br><span class="line">                Connect_Retry: 10  </span><br><span class="line">              Master_Log_File: mysql-bin.000003  </span><br><span class="line">          Read_Master_Log_Pos: 2369  </span><br><span class="line">               Relay_Log_File: jhq0113-relay-bin.000002  </span><br><span class="line">                Relay_Log_Pos: 647  </span><br><span class="line">        Relay_Master_Log_File: mysql-bin.000003  </span><br><span class="line">             Slave_IO_Running: Yes  </span><br><span class="line">            Slave_SQL_Running: Yes</span><br></pre></td></tr></table></figure></p>
-<p><strong>&#x82E5;Slave_IO_Running&#x548C;Slave_SQL_Running&#x5747;&#x4E3A;Yes&#xFF0C;&#x5219;&#x8868;&#x793A;&#x914D;&#x7F6E;&#x6210;&#x529F;&#x3002;</strong><br><br></p>
+<p><strong>&#x82E5;Slave_IO_Running&#x548C;Slave_SQL_Running&#x5747;&#x4E3A;Yes&#xFF0C;&#x5219;&#x8868;&#x793A;&#x914D;&#x7F6E;&#x6210;&#x529F;&#x3002;</strong></p>
+<p><br></p>
+<hr>
+<h2 id="&#x76F8;&#x5173;&#x94FE;&#x63A5;"><a href="#&#x76F8;&#x5173;&#x94FE;&#x63A5;" class="headerlink" title="&#x76F8;&#x5173;&#x94FE;&#x63A5;"></a>&#x76F8;&#x5173;&#x94FE;&#x63A5;</h2><p><strong><font style="color:red">&#x7EBF;&#x4E0A;MySQL&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#x62A5;&#x9519;&#x6545;&#x969C;&#x5904;&#x7406;&#x603B;&#x7ED3;</font></strong><br><a href="http://xstarcd.github.io/wiki/MySQL/online_mysqlrepl_error.html" target="_blank" rel="external">http://xstarcd.github.io/wiki/MySQL/online_mysqlrepl_error.html</a></p>
+<p><strong>&#x4E0D;&#x540C;&#x573A;&#x666F;&#x4E0B; MySQL &#x7684;&#x8FC1;&#x79FB;&#x65B9;&#x6848;</strong><br><a href="https://dbarobin.com/2015/09/15/migration-of-mysql-on-different-scenes" target="_blank" rel="external">https://dbarobin.com/2015/09/15/migration-of-mysql-on-different-scenes</a></p>
+<p><br></p>
 
         
         </div>
@@ -382,8 +387,16 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
-                            <p class="item-title"><a href="/2016/09/30/zabbix监控mysql/" class="title">zabbix监控mysql</a></p>
-                            <p class="item-date"><time datetime="2016-09-30T10:24:17.000Z" itemprop="datePublished">2016-09-30</time></p>
+                            <p class="item-title"><a href="/2016/10/11/MySQL中间件Atlas安装及使用/" class="title">MySQL中间件Atlas安装及使用</a></p>
+                            <p class="item-date"><time datetime="2016-10-11T10:24:17.000Z" itemprop="datePublished">2016-10-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
+                            <p class="item-title"><a href="/2016/10/08/zabbix监控mysql/" class="title">zabbix监控mysql</a></p>
+                            <p class="item-date"><time datetime="2016-10-08T10:24:17.000Z" itemprop="datePublished">2016-10-08</time></p>
                         </div>
                     </li>
                 
@@ -406,14 +419,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
-                            <p class="item-title"><a href="/2016/09/25/Not supported by Zabbix Agent & zabbix agent重装/" class="title">Not supported by Zabbix Agent &amp; zabbix agent重装</a></p>
-                            <p class="item-date"><time datetime="2016-09-25T10:24:17.000Z" itemprop="datePublished">2016-09-25</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
                             <p class="item-title"><a href="/2016/09/25/zabbix agent安装详解/" class="title">zabbix agent安装详解</a></p>
                             <p class="item-date"><time datetime="2016-09-25T10:24:17.000Z" itemprop="datePublished">2016-09-25</time></p>
                         </div>
@@ -428,7 +433,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/部署配置/">部署配置</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/部署配置/">部署配置</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -437,7 +442,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
         </div>
     </div -->
 
@@ -446,7 +451,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 12.5px;">ES</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/concurrent/" style="font-size: 15px;">concurrent</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 12.5px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 17.5px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 12.5px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/zabbix/" style="font-size: 20px;">zabbix</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 17.5px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/疑难杂症/" style="font-size: 12.5px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+            <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 14px;">concurrent</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 12px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/mysql/" style="font-size: 18px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 12px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/zabbix/" style="font-size: 20px;">zabbix</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 16px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/疑难杂症/" style="font-size: 12px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
         </div>
     </div -->
 
@@ -470,7 +475,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     </li>
                 
                     <li>
-                        <a href="http://www.iyunv.com/forum.php">运维网</a>
+                        <a href="http://www.iyunv.com/">运维网</a>
                     </li>
                 
                     <li>
