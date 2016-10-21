@@ -12,7 +12,6 @@ date: 2016-4-16 23:42:13
 - 目前岗位：Web后端开发攻城狮
 - 兴趣爱好：折腾，记录，然后使劲折腾
 - 邮箱：wasim37@163.com、wasimV537@gmail.com
-- GitHub：https://github.com/Wasim37
 
 * * *
 **如果文章对你有帮助，请用<font style="color:red;"> 微信 </font>扫一扫随意打赏**
