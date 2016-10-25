@@ -32,6 +32,81 @@ Atlas各项功能验证：http://blog.itpub.net/27000195/viewspace-1421262/
 
 > 官网教程很详细，且是中文，这里就不详述相关安装过程了
 
+### 设置开机自启动
+```bash
+echo "/usr/local/mysql-proxy/bin/mysql-proxyd test start" >> /etc/rc.local
+```
+
+### 添加atlas服务
+```bash
+# 编写简单的Atlas启动脚本
+vim /etc/init.d/atlas
+
+#!/bin/sh  
+
+start()  
+{  
+        /usr/local/mysql-proxy/bin/mysql-proxyd test start
+}  
+stop()  
+{  
+        /usr/local/mysql-proxy/bin/mysql-proxyd test stop
+}
+status()  
+{       
+        /usr/local/mysql-proxy/bin/mysql-proxyd test status  
+}
+restart()  
+{  
+        /usr/local/mysql-proxy/bin/mysql-proxyd test restart
+} 
+ATLAS="/usr/local/mysql-proxy/bin/mysql-proxyd"  
+[ -f $ATLAS ] || exit 1  
+# See how we were called.  
+case "$1" in  
+        start)  
+                start  
+                ;;  
+        stop)  
+                stop  
+                ;;  
+        restart)  
+                restart
+                ;;  
+        status)  
+                status 
+                ;;  
+                # stop    sleep 3   start  ;;  
+        *)  
+                echo $"Usage: $0 {start|stop|status|restart}"  
+                exit 1  
+esac  
+exit 0 
+
+# atlas服务验证
+service atlas status
+service atlas start
+service atlas restart
+service atlas stop
+```
+
+### 查看MySQL监听端口
+```bash
+etstat -tanlp | grep mysql
+tcp        0      0 0.0.0.0:2345            0.0.0.0:*               LISTEN      21449/mysql-proxy   
+tcp        0      0 0.0.0.0:3306            0.0.0.0:*               LISTEN      24096/mysqld        
+tcp        0      0 0.0.0.0:1234            0.0.0.0:*               LISTEN      21449/mysql-proxy
+```
+
+### Atlas安装及卸载
+```bash
+# 安装
+sudo rpm -i Atlas-2.2.1.el6.x86_64.rpm
+
+# 卸载
+sudo rpm -e Atlas-2.2.1.el6.x86_64
+```
+
 ### 系列问题
 
 **问题：atlas安装后，读写分离测试，为什么读一直走主库 **

@@ -17,7 +17,9 @@ Kurt Bittner曾说过，如果敏捷仅仅只是开始，那持续交付就是�
 
 再搭建SonarQube代码质量检测工具，单位时间定时扫描代码库最新代码，检测出代码中的存在的阻断错误、严重错误、主要错误、次要错误和相关提示信息。通过SonarQube能有效简洁统一代码风格，利于大家更好的相互理解和后期排查。
 
-以下是搭建过程中用到的相关网站及碰到的坑，此处记录供以后查询所用。
+以下是搭建过程中用到的相关网站及碰到的坑。
+
+---
 
 ### 相关网站
 Sonar官方网站：[http://www.sonarqube.org/](http://www.sonarqube.org/)
@@ -30,7 +32,94 @@ Jenkins和Sonar整合地址1：[https://lasithapetthawadu.wordpress.com/2014/05/
 Jenkins和Sonar整合地址2：[http://www.cnblogs.com/zhuhongbao/p/4197974.html](http://www.cnblogs.com/zhuhongbao/p/4197974.html)
 搭建过程中涉及到的 JDK、Tomcat、Mysql、Redis、Maven等系列安装链接省略  0.0！
 
+---
 
+### sonar添加service服务
+```bash
+# 编写简单的sonar启动脚本
+vim /etc/init.d/sonar
+
+[sonar]
+#!/bin/sh  
+start()  
+{  
+        /data/sonar/sonarqube-5.6.1/bin/linux-x86-64/sonar.sh start
+}  
+stop()  
+{  
+        /data/sonar/sonarqube-5.6.1/bin/linux-x86-64/sonar.sh stop
+}
+status()  
+{       
+        /data/sonar/sonarqube-5.6.1/bin/linux-x86-64/sonar.sh status
+}
+restart()  
+{  
+        /data/sonar/sonarqube-5.6.1/bin/linux-x86-64/sonar.sh restart
+} 
+SONAR="/data/sonar/sonarqube-5.6.1/bin/linux-x86-64/sonar.sh"
+[ -f $SONAR ] || exit 1  
+# See how we were called.  
+case "$1" in  
+        start)  
+                start  
+                ;;  
+        stop)  
+                stop  
+                ;;  
+        restart)  
+                restart
+                ;;  
+        status)  
+                status 
+                ;;  
+                # stop    sleep 3   start  ;;  
+        *)  
+                echo $"Usage: $0 {start|stop|status|restart}"  
+                exit 1  
+esac  
+exit 0 
+
+
+# sonar服务验证
+service sonar status
+service sonar start
+service sonar restart
+service sonar stop
+
+```
+
+**问题：**<font style="color:red">验证service服务时，发现四个命令唯独 service sonar start 命令失败，但是手动输入下面命令却可以启动成功【添加sonar自启动服务时也出现同样问题】。</font>
+```bash
+/data/sonar/sonarqube-5.6.1/bin/linux-x86-64/sonar.sh start
+```
+
+我们查看相关日志：
+```bash
+#tail -f /data/sonar/sonarqube-5.6.1/logs
+--> Wrapper Started as Daemon
+Launching a JVM...
+Unable to start JVM: No such file or directory (2)
+JVM exited while loading the application.
+JVM Restarts disabled.  Shutting down.
+<-- Wrapper Stopped
+```
+
+log提示不能加载JVM，接着查看sonar的wrapper.conf文件
+```bash
+vim /data/sonar/sonarqube-5.6.1/conf/wrapper.conf
+
+# Path to JVM executable. By default it must be available in PATH.
+# Can be an absolute path, for example:
+#wrapper.java.command=/path/to/my/jdk/bin/java
+wrapper.java.command=/java
+```
+
+wrapper.conf文件提示wrapper.java.command需要配置java路径，默认路径显然有误，修改后，再次运行【service sonar start】，操作成功。
+```bash
+wrapper.java.command=/usr/java/jdk1.8.0_31/bin/java
+```
+---
 
 ### 系列问题
 **问题：通过命令直接安装Jenkins，连接被拒绝时**
@@ -86,6 +175,4 @@ Caused by: org.sonar.api.utils.SonarException: No license for cpp
 ![图片5](SonarQube+Jenkins,搭建持续交付平台/5.png)
 ![图片6](SonarQube+Jenkins,搭建持续交付平台/6.png)
 
-<br/>
-#### 其它问题当时没有用有道云笔记详细记录，现在也无法记起，因此记录只有这么多了。此文仅供参考 ^.^
 <br/>

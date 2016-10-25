@@ -59,6 +59,12 @@ Hostname=name  name配置的内容要和zabbix服务器配置的Host name一致
 UnsafeUserParameters=1  是否启用自定义key,zabbix监控mysql、tomcat等数据时需要自定义key
 ```
 
+开机自启动
+```bash
+chkconfig zabbix-agent on
+chkconfig --list|grep zabbix-agent
+```
+
 启动客户端
 ```bash
 service zabbix-agent start
