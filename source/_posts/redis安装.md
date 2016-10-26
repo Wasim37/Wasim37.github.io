@@ -1,5 +1,5 @@
 ---
-title: centos6安装redis-2.8.19.tar.gz
+title: redis安装
 categories:
   - 部署配置
 tags:
@@ -16,13 +16,13 @@ yum install wget
 
 获取安装文件
 ```bash
-wget http://download.redis.io/releases/redis-2.8.13.tar.gz
+wget http://download.redis.io/releases/redis-2.8.24.tar.gz
 ```
 
 解压文件
 ```bash
-tar -xzvf redis-2.8.19.tar.gz
-mv redis-2.8.19 /usr/local/redis
+tar -xzvf redis-2.8.24.tar.gz
+mv redis-2.8.24 /usr/local/redis
 ```
 
 <!-- more -->
@@ -41,12 +41,13 @@ make install
 设置配置文件路径
 ```bash
 mkdir -p /etc/redis
-cp redis.conf/etc/redis
+cp redis.conf /etc/redis
+mv redis.conf redis-6379.conf
 ```
 
 修改配置文件
 ```bash
-vi /etc/redis/redis.conf
+vim /etc/redis/redis.conf
 ```
 仅修改： daemonize yes （no-->yes）
 
@@ -77,4 +78,9 @@ redis-cli shutdown
 开机启动配置
 ```bash
 echo "/usr/local/bin/redis-server /etc/redis/redis.conf &" >> /etc/rc.local
+```
+
+查看redis版本
+```bash
+redis-server --version
 ```

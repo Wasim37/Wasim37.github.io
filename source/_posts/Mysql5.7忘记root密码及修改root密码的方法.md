@@ -42,8 +42,6 @@ Enter password: <输入新设的密码newpassword>
 UPDATE user SET Password=PASSWORD('newpassword') where USER='root';
 ```
 
-<br/>
-
 ---
 
 <br/>
@@ -84,7 +82,10 @@ Policy | Tests Performed
 **默认是1，即MEDIUM，所以刚开始设置的密码必须符合长度，且必须含有数字，小写或大写字母，特殊字符。
 所以用alter user语句重设一个复杂的密码，发现设置成功。**
 
-> 如果不想密码设置过于复杂，只想设置root的密码为123456，需要修改默认规则，
+> 如果不想密码设置过于复杂，只想设置root的密码为123456，需要修改默认规则
+set global validate_password_policy=0;
+set global validate_password_length=1;
+select @@validate_password_length;
 方法详见http://www.cnblogs.com/ivictor/p/5142809.html
 
 

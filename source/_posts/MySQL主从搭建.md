@@ -17,7 +17,7 @@ date: 2016-10-7 22:22:00
 
 ---
 
-### Master(192.168.1.18)服务器配置
+### <font style="color:red">Master(192.168.1.18)服务器配置</font>
 1、编辑配置文件
 
 ```bash
@@ -61,10 +61,10 @@ mysql -uroot -p
 Enter password: 
 
 #创建用户
-mysql> create user 'mastj'@'192.168.1.16' identified by '123456';
+mysql> create user 'mastj'@'192.168.1.16(从机ip)' identified by '123456';
         
 #配置主从复制权限
-mysql> grant replication slave on *.* to 'mastj'@'192.168.1.16' identified by '123456';
+mysql> grant replication slave on *.* to 'mastj'@'192.168.1.16(从机ip)' identified by '123456';
 ```
 
 4、若orders中已有数据，还需要锁定主服务器数据库，然后将数据导入到从数据库
@@ -86,7 +86,7 @@ mysql> unlock tables;
 
 ---
 
-## Slave(192.168.1.16)服务器配置
+## <font style="color:red">Slave(192.168.1.16)服务器配置<font>
 1、配置服务ID
 ```bash
 vim /etc/my.cnf 
