@@ -32,6 +32,8 @@ Jenkins和Sonar整合地址1：[https://lasithapetthawadu.wordpress.com/2014/05/
 Jenkins和Sonar整合地址2：[http://www.cnblogs.com/zhuhongbao/p/4197974.html](http://www.cnblogs.com/zhuhongbao/p/4197974.html)
 搭建过程中涉及到的 JDK、Tomcat、Mysql、Redis、Maven等系列安装链接省略  0.0！
 
+<!-- more -->
+
 ---
 
 ### sonar添加service服务
