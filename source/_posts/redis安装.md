@@ -1,7 +1,7 @@
 ---
 title: redis安装
 categories:
-  - 部署配置
+  - 运维部署
 tags:
   - redis
 date: 2016-6-18 22:41:19

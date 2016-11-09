@@ -1,7 +1,7 @@
 ---
 title: zabbix监控nginx
 categories:
-  - 部署配置
+  - 运维部署
 tags:
   - zabbix
   - nginx

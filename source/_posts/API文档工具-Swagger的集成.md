@@ -1,7 +1,7 @@
 ---
 title: API文档工具-Swagger的集成
 categories:
-  - 部署配置
+  - 运维部署
 tags:
   - Swagger
 date: 2016-9-16 18:24:17

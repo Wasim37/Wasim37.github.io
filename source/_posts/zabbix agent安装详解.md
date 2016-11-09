@@ -1,7 +1,7 @@
 ---
 title: zabbix agent安装详解
 categories:
-  - 部署配置
+  - 运维部署
 tags:
   - zabbix
 date: 2016-9-25 18:24:17

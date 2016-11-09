@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://www.wangxin123.com/2016/09/20/Mysql5.7忘记root密码及修改root密码的方法/index.html">
 <meta property="og:site_name" content="星空博客">
 <meta property="og:description" content="Mysql &amp;#x5B89;&amp;#x88C5;&amp;#x6210;&amp;#x529F;&amp;#x540E;&amp;#xFF0C;&amp;#x8F93;&amp;#x5165; mysql &amp;#x2013;version &amp;#x663E;&amp;#x793A;&amp;#x7248;&amp;#x672C;&amp;#x5982;&amp;#x4E0B;1mysql  Ver 14.14 Distrib 5.7.13-6, for Linux (x86_64) usin">
-<meta property="og:updated_time" content="2016-09-28T03:34:51.032Z">
+<meta property="og:updated_time" content="2016-10-26T01:27:00.165Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql5.7忘记root密码及修改root密码的方法">
 <meta name="twitter:description" content="Mysql &amp;#x5B89;&amp;#x88C5;&amp;#x6210;&amp;#x529F;&amp;#x540E;&amp;#xFF0C;&amp;#x8F93;&amp;#x5165; mysql &amp;#x2013;version &amp;#x663E;&amp;#x793A;&amp;#x7248;&amp;#x672C;&amp;#x5982;&amp;#x4E0B;1mysql  Ver 14.14 Distrib 5.7.13-6, for Linux (x86_64) usin">
@@ -152,7 +152,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                46
+                47
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -231,7 +231,6 @@
 <blockquote>
 <p>&#x6CE8;&#x610F;&#xFF1A;mysql5.7&#x7248;&#x672C;mysql&#x6570;&#x636E;&#x5E93;user&#x8868;&#x7684;&#x5BC6;&#x7801;&#x5B57;&#x6BB5;&#x4E3A;authentication_string, &#x5176;&#x4ED6;&#x7248;&#x672C;&#x5927;&#x90E8;&#x5206;&#x4E3A;password&#xFF0C;update&#x8BED;&#x53E5;&#x76F8;&#x5E94;&#x4E3A;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE user SET Password=PASSWORD(<span class="string">&apos;newpassword&apos;</span>) <span class="built_in">where</span> USER=<span class="string">&apos;root&apos;</span>;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<p><br></p>
 <hr>
 <p><br></p>
 <p>&#x7528;&#x91CD;&#x7F6E;&#x7684;&#x5BC6;&#x7801;&#x7EC8;&#x4E8E;&#x767B;&#x5F55;&#x6210;&#x529F;&#xFF0C;&#x7ED3;&#x679C;&#x53D1;&#x73B0;&#x64CD;&#x4F5C;&#x4EFB;&#x4F55;sql&#x8BED;&#x53E5;&#x90FD;&#x62A5;&#x5982;&#x4E0B;&#x9519;&#x8BEF;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You must reset your password using ALTER USER statement before executing this statement.</span><br></pre></td></tr></table></figure></p>
@@ -297,7 +296,7 @@
 </table>
 <p><strong>&#x9ED8;&#x8BA4;&#x662F;1&#xFF0C;&#x5373;MEDIUM&#xFF0C;&#x6240;&#x4EE5;&#x521A;&#x5F00;&#x59CB;&#x8BBE;&#x7F6E;&#x7684;&#x5BC6;&#x7801;&#x5FC5;&#x987B;&#x7B26;&#x5408;&#x957F;&#x5EA6;&#xFF0C;&#x4E14;&#x5FC5;&#x987B;&#x542B;&#x6709;&#x6570;&#x5B57;&#xFF0C;&#x5C0F;&#x5199;&#x6216;&#x5927;&#x5199;&#x5B57;&#x6BCD;&#xFF0C;&#x7279;&#x6B8A;&#x5B57;&#x7B26;&#x3002;<br>&#x6240;&#x4EE5;&#x7528;alter user&#x8BED;&#x53E5;&#x91CD;&#x8BBE;&#x4E00;&#x4E2A;&#x590D;&#x6742;&#x7684;&#x5BC6;&#x7801;&#xFF0C;&#x53D1;&#x73B0;&#x8BBE;&#x7F6E;&#x6210;&#x529F;&#x3002;</strong></p>
 <blockquote>
-<p>&#x5982;&#x679C;&#x4E0D;&#x60F3;&#x5BC6;&#x7801;&#x8BBE;&#x7F6E;&#x8FC7;&#x4E8E;&#x590D;&#x6742;&#xFF0C;&#x53EA;&#x60F3;&#x8BBE;&#x7F6E;root&#x7684;&#x5BC6;&#x7801;&#x4E3A;123456&#xFF0C;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x9ED8;&#x8BA4;&#x89C4;&#x5219;&#xFF0C;<br>&#x65B9;&#x6CD5;&#x8BE6;&#x89C1;<a href="http://www.cnblogs.com/ivictor/p/5142809.html" target="_blank" rel="external">http://www.cnblogs.com/ivictor/p/5142809.html</a></p>
+<p>&#x5982;&#x679C;&#x4E0D;&#x60F3;&#x5BC6;&#x7801;&#x8BBE;&#x7F6E;&#x8FC7;&#x4E8E;&#x590D;&#x6742;&#xFF0C;&#x53EA;&#x60F3;&#x8BBE;&#x7F6E;root&#x7684;&#x5BC6;&#x7801;&#x4E3A;123456&#xFF0C;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x9ED8;&#x8BA4;&#x89C4;&#x5219;<br>set global validate_password_policy=0;<br>set global validate_password_length=1;<br>select @@validate_password_length;<br>&#x65B9;&#x6CD5;&#x8BE6;&#x89C1;<a href="http://www.cnblogs.com/ivictor/p/5142809.html" target="_blank" rel="external">http://www.cnblogs.com/ivictor/p/5142809.html</a></p>
 </blockquote>
 <p>&#x6700;&#x540E;&#x6388;&#x6743;root&#x8FDC;&#x7A0B;&#x767B;&#x5F55;&#x6743;&#x9650;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; Grant all privileges on *.* to <span class="string">&apos;root&apos;</span>@<span class="string">&apos;%&apos;</span> identified by <span class="string">&apos;newpassword&apos;</span> with grant option;</span><br></pre></td></tr></table></figure></p>
 
@@ -440,6 +439,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/错误集锦/">错误集锦</a></p>
+                            <p class="item-title"><a href="/2016/10/26/彻底清除Linux centos minerd木马/" class="title">彻底清除Linux centos minerd木马</a></p>
+                            <p class="item-date"><time datetime="2016-10-26T14:41:19.000Z" itemprop="datePublished">2016-10-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/错误集锦/">错误集锦</a></p>
                             <p class="item-title"><a href="/2016/10/20/MySQL同步报错故障处理集锦/" class="title">MySQL同步报错故障处理集锦</a></p>
                             <p class="item-date"><time datetime="2016-10-20T13:18:00.000Z" itemprop="datePublished">2016-10-20</time></p>
                         </div>
@@ -447,7 +454,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                 
                     <li>
                         <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/运维部署/">运维部署</a></p>
                             <p class="item-title"><a href="/2016/10/18/MySQL中间件Atlas安装及使用/" class="title">MySQL中间件Atlas安装及使用</a></p>
                             <p class="item-date"><time datetime="2016-10-18T10:24:17.000Z" itemprop="datePublished">2016-10-18</time></p>
                         </div>
@@ -455,7 +462,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                 
                     <li>
                         <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/运维部署/">运维部署</a></p>
                             <p class="item-title"><a href="/2016/10/17/zabbix安装/" class="title">zabbix安装</a></p>
                             <p class="item-date"><time datetime="2016-10-17T14:41:19.000Z" itemprop="datePublished">2016-10-17</time></p>
                         </div>
@@ -463,17 +470,9 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                 
                     <li>
                         <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/运维部署/">运维部署</a></p>
                             <p class="item-title"><a href="/2016/10/14/MySQL主从切换/" class="title">MySQL主从切换</a></p>
                             <p class="item-date"><time datetime="2016-10-14T14:22:00.000Z" itemprop="datePublished">2016-10-14</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/部署配置/">部署配置</a></p>
-                            <p class="item-title"><a href="/2016/10/11/zabbix监控mysql/" class="title">zabbix监控mysql</a></p>
-                            <p class="item-date"><time datetime="2016-10-11T10:24:17.000Z" itemprop="datePublished">2016-10-11</time></p>
                         </div>
                     </li>
                 
@@ -486,7 +485,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/部署配置/">部署配置</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">7</span></li></ul>
         </div>
     </div>
 
@@ -495,7 +494,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
         </div>
     </div -->
 
@@ -504,7 +503,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 14px;">concurrent</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 12px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 12px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/zabbix/" style="font-size: 18px;">zabbix</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 16px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/疑难杂症/" style="font-size: 12px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+            <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 11.67px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 11.67px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 15px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
         </div>
     </div -->
 

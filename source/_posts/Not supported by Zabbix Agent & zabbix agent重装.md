@@ -1,7 +1,7 @@
 ---
 title: Not supported by Zabbix Agent & zabbix agent重装
 categories:
-  - 部署配置
+  - 运维部署
 tags:
   - zabbix
 date: 2016-9-25 18:24:17

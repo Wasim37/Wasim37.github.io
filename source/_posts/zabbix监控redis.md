@@ -4,7 +4,7 @@ tags:
   - zabbix
   - redis
 categories:
-  - 部署配置
+  - 运维部署
 date: 2016-9-26 22:22:00
 ---
 

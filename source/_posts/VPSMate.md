@@ -1,7 +1,7 @@
 ---
 title: VPSMate
 categories:
-  - 部署配置
+  - 运维部署
 date: 2016-8-30 18:24:17
 ---
 

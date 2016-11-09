@@ -1,7 +1,7 @@
 ---
 title: zabbix安装
 categories:
-  - 部署配置
+  - 运维部署
 tags:
   - zabbix
 date: 2016-10-17 22:41:19

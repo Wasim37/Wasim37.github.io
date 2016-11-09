@@ -4,7 +4,7 @@ tags:
   - sonar
   - jenkins
 categories:
-  - 部署配置
+  - 运维部署
 date: 2016-6-2 22:22:00
 ---
 
