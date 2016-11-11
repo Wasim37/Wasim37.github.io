@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Java常用算法 | 星空博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="&amp;#x5E38;&amp;#x89C1;&amp;#x6392;&amp;#x5E8F;&amp;#x4E4B;&amp;#x95F4;&amp;#x7684;&amp;#x5173;&amp;#x7CFB;:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java常用算法">
+<meta property="og:url" content="http://www.wangxin123.com/2016/07/29/Java常用算法/index.html">
+<meta property="og:site_name" content="星空博客">
+<meta property="og:description" content="&amp;#x5E38;&amp;#x89C1;&amp;#x6392;&amp;#x5E8F;&amp;#x4E4B;&amp;#x95F4;&amp;#x7684;&amp;#x5173;&amp;#x7CFB;:">
+<meta property="og:image" content="http://www.wangxin123.com/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/1.png">
+<meta property="og:updated_time" content="2016-11-11T06:49:49.845Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java常用算法">
+<meta name="twitter:description" content="&amp;#x5E38;&amp;#x89C1;&amp;#x6392;&amp;#x5E8F;&amp;#x4E4B;&amp;#x95F4;&amp;#x7684;&amp;#x5173;&amp;#x7CFB;:">
+<meta name="twitter:image" content="http://www.wangxin123.com/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/1.png">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/wu.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">星空博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/wk.gif" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/wk.gif" />
+            <h2 id="name">Wasim</h2>
+            <h3 id="title">Web Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>ShenZhen, China</span>
+            <a id="follow" target="_blank" href="null">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                50
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                29
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Java常用算法" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Java常用算法
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/07/29/Java常用算法/">
+            <time datetime="2016-07-29T10:53:00.000Z" itemprop="datePublished">2016-07-29</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/算法/">算法</a>
+    </div>
+
+                    
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="&#x5E38;&#x89C1;&#x6392;&#x5E8F;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;"><a href="#&#x5E38;&#x89C1;&#x6392;&#x5E8F;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;" class="headerlink" title="&#x5E38;&#x89C1;&#x6392;&#x5E8F;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;:"></a>&#x5E38;&#x89C1;&#x6392;&#x5E8F;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;:</h3><p><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/1.png" alt=""><br><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/2.png" alt=""></p>
+<a id="more"></a>
+<h3 id="1&#x3001;&#x76F4;&#x63A5;&#x63D2;&#x5165;&#x6392;&#x5E8F;"><a href="#1&#x3001;&#x76F4;&#x63A5;&#x63D2;&#x5165;&#x6392;&#x5E8F;" class="headerlink" title="1&#x3001;&#x76F4;&#x63A5;&#x63D2;&#x5165;&#x6392;&#x5E8F;"></a>1&#x3001;&#x76F4;&#x63A5;&#x63D2;&#x5165;&#x6392;&#x5E8F;</h3><p>&#xFF08;1&#xFF09;&#x57FA;&#x672C;&#x601D;&#x60F3;&#xFF1A;&#x5728;&#x8981;&#x6392;&#x5E8F;&#x7684;&#x4E00;&#x7EC4;&#x6570;&#x4E2D;&#xFF0C;&#x5047;&#x8BBE;&#x524D;&#x9762;(n-1)[n&gt;=2] &#x4E2A;&#x6570;&#x5DF2;&#x7ECF;&#x662F;&#x6392;<br>&#x597D;&#x987A;&#x5E8F;&#x7684;&#xFF0C;&#x73B0;&#x5728;&#x8981;&#x628A;&#x7B2C;n&#x4E2A;&#x6570;&#x63D2;&#x5230;&#x524D;&#x9762;&#x7684;&#x6709;&#x5E8F;&#x6570;&#x4E2D;&#xFF0C;&#x4F7F;&#x5F97;&#x8FD9;n&#x4E2A;&#x6570;<br>&#x4E5F;&#x662F;&#x6392;&#x597D;&#x987A;&#x5E8F;&#x7684;&#x3002;&#x5982;&#x6B64;&#x53CD;&#x590D;&#x5FAA;&#x73AF;&#xFF0C;&#x76F4;&#x5230;&#x5168;&#x90E8;&#x6392;&#x597D;&#x987A;&#x5E8F;&#x3002;<br>&#xFF08;2&#xFF09;&#x5B9E;&#x4F8B;<br><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/3.png" alt=""><br>&#xFF08;3&#xFF09;&#x7528;java&#x5B9E;&#x73B0;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> package com.njue;  </span><br><span class="line"></span><br><span class="line">public class insertSort {  </span><br><span class="line">public <span class="function"><span class="title">insertSort</span></span>(){  </span><br><span class="line">    inta[]={49,38,65,97,76,13,27,49,78,34,12,64,5,4,62,99,98,54,56,17,18,23,34,15,35,25,53,51};  </span><br><span class="line">    int temp=0;  </span><br><span class="line">    <span class="keyword">for</span>(int i=1;i&lt;a.length;i++){  </span><br><span class="line">       int j=i-1;  </span><br><span class="line">       temp=a[i];  </span><br><span class="line">       <span class="keyword">for</span>(;j&gt;=0&amp;&amp;temp&lt;a[j];j--){  </span><br><span class="line">       a[j+1]=a[j];                       //&#x5C06;&#x5927;&#x4E8E;temp&#x7684;&#x503C;&#x6574;&#x4F53;&#x540E;&#x79FB;&#x4E00;&#x4E2A;&#x5355;&#x4F4D;  </span><br><span class="line">       }  </span><br><span class="line">       a[j+1]=temp;  </span><br><span class="line">    }  </span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;a.length;i++)  </span><br><span class="line">       System.out.println(a[i]);  </span><br><span class="line">}  </span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<h3 id="2&#x3001;&#x5E0C;&#x5C14;&#x6392;&#x5E8F;&#xFF08;&#x6700;&#x5C0F;&#x589E;&#x91CF;&#x6392;&#x5E8F;&#xFF09;"><a href="#2&#x3001;&#x5E0C;&#x5C14;&#x6392;&#x5E8F;&#xFF08;&#x6700;&#x5C0F;&#x589E;&#x91CF;&#x6392;&#x5E8F;&#xFF09;" class="headerlink" title="2&#x3001;&#x5E0C;&#x5C14;&#x6392;&#x5E8F;&#xFF08;&#x6700;&#x5C0F;&#x589E;&#x91CF;&#x6392;&#x5E8F;&#xFF09;"></a>2&#x3001;&#x5E0C;&#x5C14;&#x6392;&#x5E8F;&#xFF08;&#x6700;&#x5C0F;&#x589E;&#x91CF;&#x6392;&#x5E8F;&#xFF09;</h3><p>&#xFF08;1&#xFF09;&#x57FA;&#x672C;&#x601D;&#x60F3;&#xFF1A;&#x7B97;&#x6CD5;&#x5148;&#x5C06;&#x8981;&#x6392;&#x5E8F;&#x7684;&#x4E00;&#x7EC4;&#x6570;&#x6309;&#x67D0;&#x4E2A;&#x589E;&#x91CF;d&#xFF08;n/2,n&#x4E3A;&#x8981;&#x6392;&#x5E8F;&#x6570;&#x7684;&#x4E2A;&#x6570;&#xFF09;&#x5206;&#x6210;&#x82E5;&#x5E72;&#x7EC4;&#xFF0C;&#x6BCF;&#x7EC4;&#x4E2D;&#x8BB0;&#x5F55;&#x7684;&#x4E0B;&#x6807;&#x76F8;&#x5DEE;d.&#x5BF9;&#x6BCF;&#x7EC4;&#x4E2D;&#x5168;&#x90E8;&#x5143;&#x7D20;&#x8FDB;&#x884C;&#x76F4;&#x63A5;&#x63D2;&#x5165;&#x6392;&#x5E8F;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x7528;&#x4E00;&#x4E2A;&#x8F83;&#x5C0F;&#x7684;&#x589E;&#x91CF;&#xFF08;d/2&#xFF09;&#x5BF9;&#x5B83;&#x8FDB;&#x884C;&#x5206;&#x7EC4;&#xFF0C;&#x5728;&#x6BCF;&#x7EC4;&#x4E2D;&#x518D;&#x8FDB;&#x884C;&#x76F4;&#x63A5;&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x3002;&#x5F53;&#x589E;&#x91CF;&#x51CF;&#x5230;1&#x65F6;&#xFF0C;&#x8FDB;&#x884C;&#x76F4;&#x63A5;&#x63D2;&#x5165;&#x6392;&#x5E8F;&#x540E;&#xFF0C;&#x6392;&#x5E8F;&#x5B8C;&#x6210;&#x3002;<br>&#xFF08;2&#xFF09;&#x5B9E;&#x4F8B;&#xFF1A;<br><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/4.png" alt=""><br>&#xFF08;3&#xFF09;&#x7528;java&#x5B9E;&#x73B0;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class shellSort {  </span><br><span class="line">public  <span class="function"><span class="title">shellSort</span></span>(){  </span><br><span class="line">    int a[]={1,54,6,3,78,34,12,45,56,100};  </span><br><span class="line">    double d1=a.length;  </span><br><span class="line">    int temp=0;  </span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>){  </span><br><span class="line">        d1= Math.ceil(d1/2);  </span><br><span class="line">        int d=(int) d1;  </span><br><span class="line">        <span class="keyword">for</span>(int x=0;x&lt;d;x++){  </span><br><span class="line">            <span class="keyword">for</span>(int i=x+d;i&lt;a.length;i+=d){  </span><br><span class="line">                int j=i<span class="_">-d</span>;  </span><br><span class="line">                temp=a[i];  </span><br><span class="line">                <span class="keyword">for</span>(;j&gt;=0&amp;&amp;temp&lt;a[j];j-=d){  </span><br><span class="line">                a[j+d]=a[j];  </span><br><span class="line">                }  </span><br><span class="line">                a[j+d]=temp;  </span><br><span class="line">            }  </span><br><span class="line">        }  </span><br><span class="line">        <span class="keyword">if</span>(d==1)  </span><br><span class="line">            <span class="built_in">break</span>;  </span><br><span class="line">    }  </span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;a.length;i++)  </span><br><span class="line">        System.out.println(a[i]);  </span><br><span class="line">}  </span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<h3 id="3&#x3001;&#x7B80;&#x5355;&#x9009;&#x62E9;&#x6392;&#x5E8F;"><a href="#3&#x3001;&#x7B80;&#x5355;&#x9009;&#x62E9;&#x6392;&#x5E8F;" class="headerlink" title="3&#x3001;&#x7B80;&#x5355;&#x9009;&#x62E9;&#x6392;&#x5E8F;"></a>3&#x3001;&#x7B80;&#x5355;&#x9009;&#x62E9;&#x6392;&#x5E8F;</h3><p>&#xFF08;1&#xFF09;&#x57FA;&#x672C;&#x601D;&#x60F3;&#xFF1A;&#x5728;&#x8981;&#x6392;&#x5E8F;&#x7684;&#x4E00;&#x7EC4;&#x6570;&#x4E2D;&#xFF0C;&#x9009;&#x51FA;&#x6700;&#x5C0F;&#x7684;&#x4E00;&#x4E2A;&#x6570;&#x4E0E;&#x7B2C;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x7684;&#x6570;&#x4EA4;&#x6362;&#xFF1B;<br>&#x7136;&#x540E;&#x5728;&#x5269;&#x4E0B;&#x7684;&#x6570;&#x5F53;&#x4E2D;&#x518D;&#x627E;&#x6700;&#x5C0F;&#x7684;&#x4E0E;&#x7B2C;&#x4E8C;&#x4E2A;&#x4F4D;&#x7F6E;&#x7684;&#x6570;&#x4EA4;&#x6362;&#xFF0C;&#x5982;&#x6B64;&#x5FAA;&#x73AF;&#x5230;&#x5012;&#x6570;&#x7B2C;&#x4E8C;&#x4E2A;&#x6570;&#x548C;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x6570;&#x6BD4;&#x8F83;&#x4E3A;&#x6B62;&#x3002;<br>&#xFF08;2&#xFF09;&#x5B9E;&#x4F8B;&#xFF1A;<br><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/5.png" alt=""><br>&#xFF08;3&#xFF09;&#x7528;java&#x5B9E;&#x73B0;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public class selectSort {  </span><br><span class="line">    public <span class="function"><span class="title">selectSort</span></span>(){  </span><br><span class="line">        int a[]={1,54,6,3,78,34,12,45};  </span><br><span class="line">        int position=0;  </span><br><span class="line">        <span class="keyword">for</span>(int i=0;i&lt;a.length;i++){  </span><br><span class="line"></span><br><span class="line">            int j=i+1;  </span><br><span class="line">            position=i;  </span><br><span class="line">            int temp=a[i];  </span><br><span class="line">            <span class="keyword">for</span>(;j&lt;a.length;j++){  </span><br><span class="line">            <span class="keyword">if</span>(a[j]&lt;temp){  </span><br><span class="line">                temp=a[j];  </span><br><span class="line">                position=j;  </span><br><span class="line">            }  </span><br><span class="line">            }  </span><br><span class="line">            a[position]=a[i];  </span><br><span class="line">            a[i]=temp;  </span><br><span class="line">        }  </span><br><span class="line">        <span class="keyword">for</span>(int i=0;i&lt;a.length;i++)  </span><br><span class="line">            System.out.println(a[i]);  </span><br><span class="line">    }  </span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<h3 id="4&#x3001;&#x5806;&#x6392;&#x5E8F;"><a href="#4&#x3001;&#x5806;&#x6392;&#x5E8F;" class="headerlink" title="4&#x3001;&#x5806;&#x6392;&#x5E8F;"></a>4&#x3001;&#x5806;&#x6392;&#x5E8F;</h3><p>&#xFF08;1&#xFF09;&#x57FA;&#x672C;&#x601D;&#x60F3;&#xFF1A;&#x5806;&#x6392;&#x5E8F;&#x662F;&#x4E00;&#x79CD;&#x6811;&#x5F62;&#x9009;&#x62E9;&#x6392;&#x5E8F;&#xFF0C;&#x662F;&#x5BF9;&#x76F4;&#x63A5;&#x9009;&#x62E9;&#x6392;&#x5E8F;&#x7684;&#x6709;&#x6548;&#x6539;&#x8FDB;&#x3002;<br>&#x5806;&#x7684;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;&#x5177;&#x6709;n&#x4E2A;&#x5143;&#x7D20;&#x7684;&#x5E8F;&#x5217;&#xFF08;h1,h2,&#x2026;,hn),&#x5F53;&#x4E14;&#x4EC5;&#x5F53;&#x6EE1;&#x8DB3;&#xFF08;hi&gt;=h2i,hi&gt;=2i+1&#xFF09;&#x6216;&#xFF08;hi&lt;=h2i,hi&lt;=2i+1&#xFF09; (i=1,2,&#x2026;,n/2)&#x65F6;&#x79F0;&#x4E4B;&#x4E3A;&#x5806;&#x3002;&#x5728;&#x8FD9;&#x91CC;&#x53EA;&#x8BA8;&#x8BBA;&#x6EE1;&#x8DB3;&#x524D;&#x8005;&#x6761;&#x4EF6;&#x7684;&#x5806;&#x3002;&#x7531;&#x5806;&#x7684;&#x5B9A;&#x4E49;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x5806;&#x9876;&#x5143;&#x7D20;&#xFF08;&#x5373;&#x7B2C;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#xFF09;&#x5FC5;&#x4E3A;&#x6700;&#x5927;&#x9879;&#xFF08;&#x5927;&#x9876;&#x5806;&#xFF09;&#x3002;&#x5B8C;&#x5168;&#x4E8C;&#x53C9;&#x6811;&#x53EF;&#x4EE5;&#x5F88;&#x76F4;&#x89C2;&#x5730;&#x8868;&#x793A;&#x5806;&#x7684;&#x7ED3;&#x6784;&#x3002;&#x5806;&#x9876;&#x4E3A;&#x6839;&#xFF0C;&#x5176;&#x5B83;&#x4E3A;&#x5DE6;&#x5B50;&#x6811;&#x3001;&#x53F3;&#x5B50;&#x6811;&#x3002;&#x521D;&#x59CB;&#x65F6;&#x628A;&#x8981;&#x6392;&#x5E8F;&#x7684;&#x6570;&#x7684;&#x5E8F;&#x5217;&#x770B;&#x4F5C;&#x662F;&#x4E00;&#x68F5;&#x987A;&#x5E8F;&#x5B58;&#x50A8;&#x7684;&#x4E8C;&#x53C9;&#x6811;&#xFF0C;&#x8C03;&#x6574;&#x5B83;&#x4EEC;&#x7684;&#x5B58;&#x50A8;&#x5E8F;&#xFF0C;&#x4F7F;&#x4E4B;&#x6210;&#x4E3A;&#x4E00;&#x4E2A;&#x5806;&#xFF0C;&#x8FD9;&#x65F6;&#x5806;&#x7684;&#x6839;&#x8282;&#x70B9;&#x7684;&#x6570;&#x6700;&#x5927;&#x3002;&#x7136;&#x540E;&#x5C06;&#x6839;&#x8282;&#x70B9;&#x4E0E;&#x5806;&#x7684;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x4EA4;&#x6362;&#x3002;&#x7136;&#x540E;&#x5BF9;&#x524D;&#x9762;(n-1)&#x4E2A;&#x6570;&#x91CD;&#x65B0;&#x8C03;&#x6574;&#x4F7F;&#x4E4B;&#x6210;&#x4E3A;&#x5806;&#x3002;&#x4F9D;&#x6B64;&#x7C7B;&#x63A8;&#xFF0C;&#x76F4;&#x5230;&#x53EA;&#x6709;&#x4E24;&#x4E2A;&#x8282;&#x70B9;&#x7684;&#x5806;&#xFF0C;&#x5E76;&#x5BF9;&#x5B83;&#x4EEC;&#x4F5C;&#x4EA4;&#x6362;&#xFF0C;&#x6700;&#x540E;&#x5F97;&#x5230;&#x6709;n&#x4E2A;&#x8282;&#x70B9;&#x7684;&#x6709;&#x5E8F;&#x5E8F;&#x5217;&#x3002;&#x4ECE;&#x7B97;&#x6CD5;&#x63CF;&#x8FF0;&#x6765;&#x770B;&#xFF0C;&#x5806;&#x6392;&#x5E8F;&#x9700;&#x8981;&#x4E24;&#x4E2A;&#x8FC7;&#x7A0B;&#xFF0C;&#x4E00;&#x662F;&#x5EFA;&#x7ACB;&#x5806;&#xFF0C;&#x4E8C;&#x662F;&#x5806;&#x9876;&#x4E0E;&#x5806;&#x7684;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#x4EA4;&#x6362;&#x4F4D;&#x7F6E;&#x3002;&#x6240;&#x4EE5;&#x5806;&#x6392;&#x5E8F;&#x6709;&#x4E24;&#x4E2A;&#x51FD;&#x6570;&#x7EC4;&#x6210;&#x3002;&#x4E00;&#x662F;&#x5EFA;&#x5806;&#x7684;&#x6E17;&#x900F;&#x51FD;&#x6570;&#xFF0C;&#x4E8C;&#x662F;&#x53CD;&#x590D;&#x8C03;&#x7528;&#x6E17;&#x900F;&#x51FD;&#x6570;&#x5B9E;&#x73B0;&#x6392;&#x5E8F;&#x7684;&#x51FD;&#x6570;&#x3002;<br>&#xFF08;2&#xFF09;&#x5B9E;&#x4F8B;&#xFF1A;<br>&#x521D;&#x59CB;&#x5E8F;&#x5217;&#xFF1A;46,79,56,38,40,84<br>&#x5EFA;&#x5806;&#xFF1A;<br><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/6.png" alt=""><br>&#x4EA4;&#x6362;&#xFF0C;&#x4ECE;&#x5806;&#x4E2D;&#x8E22;&#x51FA;&#x6700;&#x5927;&#x6570;<br><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/7.png" alt=""><br><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/8.png" alt=""><br>&#x4F9D;&#x6B21;&#x7C7B;&#x63A8;&#xFF1A;&#x6700;&#x540E;&#x5806;&#x4E2D;&#x5269;&#x4F59;&#x7684;&#x6700;&#x540E;&#x4E24;&#x4E2A;&#x7ED3;&#x70B9;&#x4EA4;&#x6362;&#xFF0C;&#x8E22;&#x51FA;&#x4E00;&#x4E2A;&#xFF0C;&#x6392;&#x5E8F;&#x5B8C;&#x6210;&#x3002;<br>&#xFF08;3&#xFF09;&#x7528;java&#x5B9E;&#x73B0;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Arrays;  </span><br><span class="line"></span><br><span class="line">public class HeapSort {  </span><br><span class="line">     int a[]={49,38,65,97,76,13,27,49,78,34,12,64,5,4,62,99,98,54,56,17,18,23,34,15,35,25,53,51};  </span><br><span class="line">    public  <span class="function"><span class="title">HeapSort</span></span>(){  </span><br><span class="line">        heapSort(a);  </span><br><span class="line">    }  </span><br><span class="line">    public  void heapSort(int[] a){  </span><br><span class="line">        System.out.println(<span class="string">&quot;&#x5F00;&#x59CB;&#x6392;&#x5E8F;&quot;</span>);  </span><br><span class="line">        int arrayLength=a.length;  </span><br><span class="line">        //&#x5FAA;&#x73AF;&#x5EFA;&#x5806;  </span><br><span class="line">        <span class="keyword">for</span>(int i=0;i&lt;arrayLength-1;i++){  </span><br><span class="line">            //&#x5EFA;&#x5806;  </span><br><span class="line"></span><br><span class="line">      buildMaxHeap(a,arrayLength-1-i);  </span><br><span class="line">            //&#x4EA4;&#x6362;&#x5806;&#x9876;&#x548C;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5143;&#x7D20;  </span><br><span class="line">            swap(a,0,arrayLength-1-i);  </span><br><span class="line">            System.out.println(Arrays.toString(a));  </span><br><span class="line">        }  </span><br><span class="line">    }  </span><br><span class="line"></span><br><span class="line">    private  void swap(int[] data, int i, int j) {  </span><br><span class="line">        // TODO Auto-generated method stub  </span><br><span class="line">        int tmp=data[i];  </span><br><span class="line">        data[i]=data[j];  </span><br><span class="line">        data[j]=tmp;  </span><br><span class="line">    }  </span><br><span class="line">    //&#x5BF9;data&#x6570;&#x7EC4;&#x4ECE;0&#x5230;lastIndex&#x5EFA;&#x5927;&#x9876;&#x5806;  </span><br><span class="line">    private void buildMaxHeap(int[] data, int lastIndex) {  </span><br><span class="line">        // TODO Auto-generated method stub  </span><br><span class="line">        //&#x4ECE;lastIndex&#x5904;&#x8282;&#x70B9;&#xFF08;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#xFF09;&#x7684;&#x7236;&#x8282;&#x70B9;&#x5F00;&#x59CB;  </span><br><span class="line">        <span class="keyword">for</span>(int i=(lastIndex-1)/2;i&gt;=0;i--){  </span><br><span class="line">            //k&#x4FDD;&#x5B58;&#x6B63;&#x5728;&#x5224;&#x65AD;&#x7684;&#x8282;&#x70B9;  </span><br><span class="line">            int k=i;  </span><br><span class="line">            //&#x5982;&#x679C;&#x5F53;&#x524D;k&#x8282;&#x70B9;&#x7684;&#x5B50;&#x8282;&#x70B9;&#x5B58;&#x5728;  </span><br><span class="line">            <span class="keyword">while</span>(k*2+1&lt;=lastIndex){  </span><br><span class="line">                //k&#x8282;&#x70B9;&#x7684;&#x5DE6;&#x5B50;&#x8282;&#x70B9;&#x7684;&#x7D22;&#x5F15;  </span><br><span class="line">                int biggerIndex=2*k+1;  </span><br><span class="line">                //&#x5982;&#x679C;biggerIndex&#x5C0F;&#x4E8E;lastIndex&#xFF0C;&#x5373;biggerIndex+1&#x4EE3;&#x8868;&#x7684;k&#x8282;&#x70B9;&#x7684;&#x53F3;&#x5B50;&#x8282;&#x70B9;&#x5B58;&#x5728;  </span><br><span class="line">                <span class="keyword">if</span>(biggerIndex&lt;lastIndex){  </span><br><span class="line">                    //&#x82E5;&#x679C;&#x53F3;&#x5B50;&#x8282;&#x70B9;&#x7684;&#x503C;&#x8F83;&#x5927;  </span><br><span class="line">                    <span class="keyword">if</span>(data[biggerIndex]&lt;data[biggerIndex+1]){  </span><br><span class="line">                        //biggerIndex&#x603B;&#x662F;&#x8BB0;&#x5F55;&#x8F83;&#x5927;&#x5B50;&#x8282;&#x70B9;&#x7684;&#x7D22;&#x5F15;  </span><br><span class="line">                        biggerIndex++;  </span><br><span class="line">                    }  </span><br><span class="line">                }  </span><br><span class="line">                //&#x5982;&#x679C;k&#x8282;&#x70B9;&#x7684;&#x503C;&#x5C0F;&#x4E8E;&#x5176;&#x8F83;&#x5927;&#x7684;&#x5B50;&#x8282;&#x70B9;&#x7684;&#x503C;  </span><br><span class="line">                <span class="keyword">if</span>(data[k]&lt;data[biggerIndex]){  </span><br><span class="line">                    //&#x4EA4;&#x6362;&#x4ED6;&#x4EEC;  </span><br><span class="line">                    swap(data,k,biggerIndex);  </span><br><span class="line">                    //&#x5C06;biggerIndex&#x8D4B;&#x4E88;k&#xFF0C;&#x5F00;&#x59CB;<span class="keyword">while</span>&#x5FAA;&#x73AF;&#x7684;&#x4E0B;&#x4E00;&#x6B21;&#x5FAA;&#x73AF;&#xFF0C;&#x91CD;&#x65B0;&#x4FDD;&#x8BC1;k&#x8282;&#x70B9;&#x7684;&#x503C;&#x5927;&#x4E8E;&#x5176;&#x5DE6;&#x53F3;&#x5B50;&#x8282;&#x70B9;&#x7684;&#x503C;  </span><br><span class="line">                    k=biggerIndex;  </span><br><span class="line">                }<span class="keyword">else</span>{  </span><br><span class="line">                    <span class="built_in">break</span>;  </span><br><span class="line">                }  </span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<h3 id="5&#x3001;&#x5192;&#x6CE1;&#x6392;&#x5E8F;"><a href="#5&#x3001;&#x5192;&#x6CE1;&#x6392;&#x5E8F;" class="headerlink" title="5&#x3001;&#x5192;&#x6CE1;&#x6392;&#x5E8F;"></a>5&#x3001;&#x5192;&#x6CE1;&#x6392;&#x5E8F;</h3><p>&#xFF08;1&#xFF09;&#x57FA;&#x672C;&#x601D;&#x60F3;&#xFF1A;&#x5728;&#x8981;&#x6392;&#x5E8F;&#x7684;&#x4E00;&#x7EC4;&#x6570;&#x4E2D;&#xFF0C;&#x5BF9;&#x5F53;&#x524D;&#x8FD8;&#x672A;&#x6392;&#x597D;&#x5E8F;&#x7684;&#x8303;&#x56F4;&#x5185;&#x7684;&#x5168;&#x90E8;&#x6570;&#xFF0C;&#x81EA;&#x4E0A;&#x800C;&#x4E0B;&#x5BF9;&#x76F8;&#x90BB;&#x7684;&#x4E24;&#x4E2A;&#x6570;&#x4F9D;&#x6B21;&#x8FDB;&#x884C;&#x6BD4;&#x8F83;&#x548C;&#x8C03;&#x6574;&#xFF0C;&#x8BA9;&#x8F83;&#x5927;&#x7684;&#x6570;&#x5F80;&#x4E0B;&#x6C89;&#xFF0C;&#x8F83;&#x5C0F;&#x7684;&#x5F80;&#x4E0A;&#x5192;&#x3002;&#x5373;&#xFF1A;&#x6BCF;&#x5F53;&#x4E24;&#x76F8;&#x90BB;&#x7684;&#x6570;&#x6BD4;&#x8F83;&#x540E;&#x53D1;&#x73B0;&#x5B83;&#x4EEC;&#x7684;&#x6392;&#x5E8F;&#x4E0E;&#x6392;&#x5E8F;&#x8981;&#x6C42;&#x76F8;&#x53CD;&#x65F6;&#xFF0C;&#x5C31;&#x5C06;&#x5B83;&#x4EEC;&#x4E92;&#x6362;&#x3002;<br>&#xFF08;2&#xFF09;&#x5B9E;&#x4F8B;&#xFF1A;<br><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/9.png" alt=""><br>&#xFF08;3&#xFF09;&#x7528;java&#x5B9E;&#x73B0;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class bubbleSort {  </span><br><span class="line">public  <span class="function"><span class="title">bubbleSort</span></span>(){  </span><br><span class="line">     int a[]={49,38,65,97,76,13,27,49,78,34,12,64,5,4,62,99,98,54,56,17,18,23,34,15,35,25,53,51};  </span><br><span class="line">    int temp=0;  </span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;a.length-1;i++){  </span><br><span class="line">        <span class="keyword">for</span>(int j=0;j&lt;a.length-1-i;j++){  </span><br><span class="line">        <span class="keyword">if</span>(a[j]&gt;a[j+1]){  </span><br><span class="line">            temp=a[j];  </span><br><span class="line">            a[j]=a[j+1];  </span><br><span class="line">            a[j+1]=temp;  </span><br><span class="line">        }  </span><br><span class="line">        }  </span><br><span class="line">    }  </span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;a.length;i++)  </span><br><span class="line">    System.out.println(a[i]);     </span><br><span class="line">}  </span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<h3 id="6&#x3001;&#x5FEB;&#x901F;&#x6392;&#x5E8F;"><a href="#6&#x3001;&#x5FEB;&#x901F;&#x6392;&#x5E8F;" class="headerlink" title="6&#x3001;&#x5FEB;&#x901F;&#x6392;&#x5E8F;"></a>6&#x3001;&#x5FEB;&#x901F;&#x6392;&#x5E8F;</h3><p>&#xFF08;1&#xFF09;&#x57FA;&#x672C;&#x601D;&#x60F3;&#xFF1A;&#x9009;&#x62E9;&#x4E00;&#x4E2A;&#x57FA;&#x51C6;&#x5143;&#x7D20;,&#x901A;&#x5E38;&#x9009;&#x62E9;&#x7B2C;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#x6216;&#x8005;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5143;&#x7D20;,&#x901A;&#x8FC7;&#x4E00;&#x8D9F;&#x626B;&#x63CF;&#xFF0C;&#x5C06;&#x5F85;&#x6392;&#x5E8F;&#x5217;&#x5206;&#x6210;&#x4E24;&#x90E8;&#x5206;,&#x4E00;&#x90E8;&#x5206;&#x6BD4;&#x57FA;&#x51C6;&#x5143;&#x7D20;&#x5C0F;,&#x4E00;&#x90E8;&#x5206;&#x5927;&#x4E8E;&#x7B49;&#x4E8E;&#x57FA;&#x51C6;&#x5143;&#x7D20;,&#x6B64;&#x65F6;&#x57FA;&#x51C6;&#x5143;&#x7D20;&#x5728;&#x5176;&#x6392;&#x597D;&#x5E8F;&#x540E;&#x7684;&#x6B63;&#x786E;&#x4F4D;&#x7F6E;,&#x7136;&#x540E;&#x518D;&#x7528;&#x540C;&#x6837;&#x7684;&#x65B9;&#x6CD5;&#x9012;&#x5F52;&#x5730;&#x6392;&#x5E8F;&#x5212;&#x5206;&#x7684;&#x4E24;&#x90E8;&#x5206;&#x3002;<br>&#xFF08;2&#xFF09;&#x5B9E;&#x4F8B;&#xFF1A;<br><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/10.png" alt=""><br>&#xFF08;3&#xFF09;&#x7528;java&#x5B9E;&#x73B0;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public class quickSort {  </span><br><span class="line">  int a[]={49,38,65,97,76,13,27,49,78,34,12,64,5,4,62,99,98,54,56,17,18,23,34,15,35,25,53,51};  </span><br><span class="line">public  <span class="function"><span class="title">quickSort</span></span>(){  </span><br><span class="line">    quick(a);  </span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;a.length;i++)  </span><br><span class="line">        System.out.println(a[i]);  </span><br><span class="line">}  </span><br><span class="line">public int getMiddle(int[] list, int low, int high) {     </span><br><span class="line">            int tmp = list[low];    //&#x6570;&#x7EC4;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x4F5C;&#x4E3A;&#x4E2D;&#x8F74;     </span><br><span class="line">            <span class="keyword">while</span> (low &lt; high) {     </span><br><span class="line">                <span class="keyword">while</span> (low &lt; high &amp;&amp; list[high] &gt;= tmp) {     </span><br><span class="line"></span><br><span class="line">      high--;     </span><br><span class="line">                }     </span><br><span class="line">                list[low] = list[high];   //&#x6BD4;&#x4E2D;&#x8F74;&#x5C0F;&#x7684;&#x8BB0;&#x5F55;&#x79FB;&#x5230;&#x4F4E;&#x7AEF;     </span><br><span class="line">                <span class="keyword">while</span> (low &lt; high &amp;&amp; list[low] &lt;= tmp) {     </span><br><span class="line">                    low++;     </span><br><span class="line">                }     </span><br><span class="line">                list[high] = list[low];   //&#x6BD4;&#x4E2D;&#x8F74;&#x5927;&#x7684;&#x8BB0;&#x5F55;&#x79FB;&#x5230;&#x9AD8;&#x7AEF;     </span><br><span class="line">            }     </span><br><span class="line">           list[low] = tmp;              //&#x4E2D;&#x8F74;&#x8BB0;&#x5F55;&#x5230;&#x5C3E;     </span><br><span class="line">            <span class="built_in">return</span> low;                   //&#x8FD4;&#x56DE;&#x4E2D;&#x8F74;&#x7684;&#x4F4D;&#x7F6E;     </span><br><span class="line">        }    </span><br><span class="line">public void _quickSort(int[] list, int low, int high) {     </span><br><span class="line">            <span class="keyword">if</span> (low &lt; high) {     </span><br><span class="line">               int middle = getMiddle(list, low, high);  //&#x5C06;list&#x6570;&#x7EC4;&#x8FDB;&#x884C;&#x4E00;&#x5206;&#x4E3A;&#x4E8C;     </span><br><span class="line">                _quickSort(list, low, middle - 1);        //&#x5BF9;&#x4F4E;&#x5B57;&#x8868;&#x8FDB;&#x884C;&#x9012;&#x5F52;&#x6392;&#x5E8F;     </span><br><span class="line">               _quickSort(list, middle + 1, high);       //&#x5BF9;&#x9AD8;&#x5B57;&#x8868;&#x8FDB;&#x884C;&#x9012;&#x5F52;&#x6392;&#x5E8F;     </span><br><span class="line">            }     </span><br><span class="line">        }   </span><br><span class="line">public void quick(int[] a2) {     </span><br><span class="line">            <span class="keyword">if</span> (a2.length &gt; 0) {    //&#x67E5;&#x770B;&#x6570;&#x7EC4;&#x662F;&#x5426;&#x4E3A;&#x7A7A;     </span><br><span class="line">                _quickSort(a2, 0, a2.length - 1);     </span><br><span class="line">        }     </span><br><span class="line">       }   </span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<h3 id="7&#x3001;&#x5F52;&#x5E76;&#x6392;&#x5E8F;"><a href="#7&#x3001;&#x5F52;&#x5E76;&#x6392;&#x5E8F;" class="headerlink" title="7&#x3001;&#x5F52;&#x5E76;&#x6392;&#x5E8F;"></a>7&#x3001;&#x5F52;&#x5E76;&#x6392;&#x5E8F;</h3><p>&#xFF08;1&#xFF09;&#x57FA;&#x672C;&#x6392;&#x5E8F;&#xFF1A;&#x5F52;&#x5E76;&#xFF08;Merge&#xFF09;&#x6392;&#x5E8F;&#x6CD5;&#x662F;&#x5C06;&#x4E24;&#x4E2A;&#xFF08;&#x6216;&#x4E24;&#x4E2A;&#x4EE5;&#x4E0A;&#xFF09;&#x6709;&#x5E8F;&#x8868;&#x5408;&#x5E76;&#x6210;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x6709;&#x5E8F;&#x8868;&#xFF0C;&#x5373;&#x628A;&#x5F85;&#x6392;&#x5E8F;&#x5E8F;&#x5217;&#x5206;&#x4E3A;&#x82E5;&#x5E72;&#x4E2A;&#x5B50;&#x5E8F;&#x5217;&#xFF0C;&#x6BCF;&#x4E2A;&#x5B50;&#x5E8F;&#x5217;&#x662F;&#x6709;&#x5E8F;&#x7684;&#x3002;&#x7136;&#x540E;&#x518D;&#x628A;&#x6709;&#x5E8F;&#x5B50;&#x5E8F;&#x5217;&#x5408;&#x5E76;&#x4E3A;&#x6574;&#x4F53;&#x6709;&#x5E8F;&#x5E8F;&#x5217;&#x3002;<br>&#xFF08;2&#xFF09;&#x5B9E;&#x4F8B;&#xFF1A;<br><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/11.png" alt=""><br>&#xFF08;3&#xFF09;&#x7528;java&#x5B9E;&#x73B0;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Arrays;  </span><br><span class="line"></span><br><span class="line">public class mergingSort {  </span><br><span class="line">int a[]={49,38,65,97,76,13,27,49,78,34,12,64,5,4,62,99,98,54,56,17,18,23,34,15,35,25,53,51};  </span><br><span class="line">public  <span class="function"><span class="title">mergingSort</span></span>(){  </span><br><span class="line">    sort(a,0,a.length-1);  </span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;a.length;i++)  </span><br><span class="line">        System.out.println(a[i]);  </span><br><span class="line">}  </span><br><span class="line">public void sort(int[] data, int left, int right) {  </span><br><span class="line">    // TODO Auto-generated method stub  </span><br><span class="line">    <span class="keyword">if</span>(left&lt;right){  </span><br><span class="line">        //&#x627E;&#x51FA;&#x4E2D;&#x95F4;&#x7D22;&#x5F15;  </span><br><span class="line">        int center=(left+right)/2;  </span><br><span class="line">        //&#x5BF9;&#x5DE6;&#x8FB9;&#x6570;&#x7EC4;&#x8FDB;&#x884C;&#x9012;&#x5F52;  </span><br><span class="line">        sort(data,left,center);  </span><br><span class="line">        //&#x5BF9;&#x53F3;&#x8FB9;&#x6570;&#x7EC4;&#x8FDB;&#x884C;&#x9012;&#x5F52;  </span><br><span class="line">        sort(data,center+1,right);  </span><br><span class="line">        //&#x5408;&#x5E76;  </span><br><span class="line">        merge(data,left,center,right);  </span><br><span class="line"></span><br><span class="line">    }  </span><br><span class="line">}  </span><br><span class="line">public void merge(int[] data, int left, int center, int right) {  </span><br><span class="line">    // TODO Auto-generated method stub  </span><br><span class="line">    int [] tmpArr=new int[data.length];  </span><br><span class="line">    int mid=center+1;  </span><br><span class="line">    //third&#x8BB0;&#x5F55;&#x4E2D;&#x95F4;&#x6570;&#x7EC4;&#x7684;&#x7D22;&#x5F15;  </span><br><span class="line">    int third=left;  </span><br><span class="line">    int tmp=left;  </span><br><span class="line">    <span class="keyword">while</span>(left&lt;=center&amp;&amp;mid&lt;=right){  </span><br><span class="line"></span><br><span class="line">   //&#x4ECE;&#x4E24;&#x4E2A;&#x6570;&#x7EC4;&#x4E2D;&#x53D6;&#x51FA;&#x6700;&#x5C0F;&#x7684;&#x653E;&#x5165;&#x4E2D;&#x95F4;&#x6570;&#x7EC4;  </span><br><span class="line">        <span class="keyword">if</span>(data[left]&lt;=data[mid]){  </span><br><span class="line">            tmpArr[third++]=data[left++];  </span><br><span class="line">        }<span class="keyword">else</span>{  </span><br><span class="line">            tmpArr[third++]=data[mid++];  </span><br><span class="line">        }  </span><br><span class="line">    }  </span><br><span class="line">    //&#x5269;&#x4F59;&#x90E8;&#x5206;&#x4F9D;&#x6B21;&#x653E;&#x5165;&#x4E2D;&#x95F4;&#x6570;&#x7EC4;  </span><br><span class="line">    <span class="keyword">while</span>(mid&lt;=right){  </span><br><span class="line">        tmpArr[third++]=data[mid++];  </span><br><span class="line">    }  </span><br><span class="line">    <span class="keyword">while</span>(left&lt;=center){  </span><br><span class="line">        tmpArr[third++]=data[left++];  </span><br><span class="line">    }  </span><br><span class="line">    //&#x5C06;&#x4E2D;&#x95F4;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x590D;&#x5236;&#x56DE;&#x539F;&#x6570;&#x7EC4;  </span><br><span class="line">    <span class="keyword">while</span>(tmp&lt;=right){  </span><br><span class="line">        data[tmp]=tmpArr[tmp++];  </span><br><span class="line">    }  </span><br><span class="line">    System.out.println(Arrays.toString(data));  </span><br><span class="line">}  </span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<h3 id="8&#x3001;&#x57FA;&#x6570;&#x6392;&#x5E8F;"><a href="#8&#x3001;&#x57FA;&#x6570;&#x6392;&#x5E8F;" class="headerlink" title="8&#x3001;&#x57FA;&#x6570;&#x6392;&#x5E8F;"></a>8&#x3001;&#x57FA;&#x6570;&#x6392;&#x5E8F;</h3><p>&#xFF08;1&#xFF09;&#x57FA;&#x672C;&#x601D;&#x60F3;&#xFF1A;&#x5C06;&#x6240;&#x6709;&#x5F85;&#x6BD4;&#x8F83;&#x6570;&#x503C;&#xFF08;&#x6B63;&#x6574;&#x6570;&#xFF09;&#x7EDF;&#x4E00;&#x4E3A;&#x540C;&#x6837;&#x7684;&#x6570;&#x4F4D;&#x957F;&#x5EA6;&#xFF0C;&#x6570;&#x4F4D;&#x8F83;&#x77ED;&#x7684;&#x6570;&#x524D;&#x9762;&#x8865;&#x96F6;&#x3002;&#x7136;&#x540E;&#xFF0C;&#x4ECE;&#x6700;&#x4F4E;&#x4F4D;&#x5F00;&#x59CB;&#xFF0C;&#x4F9D;&#x6B21;&#x8FDB;&#x884C;&#x4E00;&#x6B21;&#x6392;&#x5E8F;&#x3002;&#x8FD9;&#x6837;&#x4ECE;&#x6700;&#x4F4E;&#x4F4D;&#x6392;&#x5E8F;&#x4E00;&#x76F4;&#x5230;&#x6700;&#x9AD8;&#x4F4D;&#x6392;&#x5E8F;&#x5B8C;&#x6210;&#x4EE5;&#x540E;,&#x6570;&#x5217;&#x5C31;&#x53D8;&#x6210;&#x4E00;&#x4E2A;&#x6709;&#x5E8F;&#x5E8F;&#x5217;&#x3002;<br>&#xFF08;2&#xFF09;&#x5B9E;&#x4F8B;&#xFF1A;<br><img src="/2016/07/29/Java&#x5E38;&#x7528;&#x7B97;&#x6CD5;/12.png" alt=""><br>&#xFF08;3&#xFF09;&#x7528;java&#x5B9E;&#x73B0;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;  </span><br><span class="line">import java.util.List;  </span><br><span class="line"></span><br><span class="line">public class radixSort {  </span><br><span class="line">    int a[]={49,38,65,97,76,13,27,49,78,34,12,64,5,4,62,99,98,54,101,56,17,18,23,34,15,35,25,53,51};  </span><br><span class="line">public <span class="function"><span class="title">radixSort</span></span>(){  </span><br><span class="line">    sort(a);  </span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;a.length;i++)  </span><br><span class="line">        System.out.println(a[i]);  </span><br><span class="line">}  </span><br><span class="line">public  void sort(int[] array){     </span><br><span class="line"></span><br><span class="line">            //&#x9996;&#x5148;&#x786E;&#x5B9A;&#x6392;&#x5E8F;&#x7684;&#x8D9F;&#x6570;;     </span><br><span class="line">        int max=array[0];     </span><br><span class="line">        <span class="keyword">for</span>(int i=1;i&lt;array.length;i++){     </span><br><span class="line">               <span class="keyword">if</span>(array[i]&gt;max){     </span><br><span class="line">               max=array[i];     </span><br><span class="line">               }     </span><br><span class="line">            }     </span><br><span class="line"></span><br><span class="line">    int time=0;     </span><br><span class="line">           //&#x5224;&#x65AD;&#x4F4D;&#x6570;;     </span><br><span class="line">            <span class="keyword">while</span>(max&gt;0){     </span><br><span class="line">               max/=10;     </span><br><span class="line">                time++;     </span><br><span class="line">            }     </span><br><span class="line"></span><br><span class="line">        //&#x5EFA;&#x7ACB;10&#x4E2A;&#x961F;&#x5217;;     </span><br><span class="line">            List&lt;ArrayList&gt; queue=new ArrayList&lt;ArrayList&gt;();     </span><br><span class="line">            <span class="keyword">for</span>(int i=0;i&lt;10;i++){     </span><br><span class="line">                ArrayList&lt;Integer&gt; queue1=new ArrayList&lt;Integer&gt;();   </span><br><span class="line">                queue.add(queue1);     </span><br><span class="line">        }     </span><br><span class="line"></span><br><span class="line">            //&#x8FDB;&#x884C;time&#x6B21;&#x5206;&#x914D;&#x548C;&#x6536;&#x96C6;;     </span><br><span class="line">            <span class="keyword">for</span>(int i=0;i&lt;time;i++){     </span><br><span class="line"></span><br><span class="line">                //&#x5206;&#x914D;&#x6570;&#x7EC4;&#x5143;&#x7D20;;     </span><br><span class="line">               <span class="keyword">for</span>(int j=0;j&lt;array.length;j++){     </span><br><span class="line">                    //&#x5F97;&#x5230;&#x6570;&#x5B57;&#x7684;&#x7B2C;time+1&#x4F4D;&#x6570;;   </span><br><span class="line">                   int x=array[j]%(int)Math.pow(10, i+1)/(int)Math.pow(10, i);  </span><br><span class="line">                   ArrayList&lt;Integer&gt; queue2=queue.get(x);  </span><br><span class="line">                   queue2.add(array[j]);  </span><br><span class="line">                   queue.set(x, queue2);  </span><br><span class="line">            }     </span><br><span class="line">                int count=0;//&#x5143;&#x7D20;&#x8BA1;&#x6570;&#x5668;;     </span><br><span class="line">            //&#x6536;&#x96C6;&#x961F;&#x5217;&#x5143;&#x7D20;;     </span><br><span class="line">                <span class="keyword">for</span>(int k=0;k&lt;10;k++){   </span><br><span class="line">                <span class="keyword">while</span>(queue.get(k).size()&gt;0){  </span><br><span class="line">                    ArrayList&lt;Integer&gt; queue3=queue.get(k);  </span><br><span class="line">                        array[count]=queue3.get(0);     </span><br><span class="line">                        queue3.remove(0);  </span><br><span class="line">                    count++;  </span><br><span class="line">              }     </span><br><span class="line">            }     </span><br><span class="line">          }     </span><br><span class="line"></span><br><span class="line">   }    </span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/07/29/Java常用算法/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/07/29/Java常用算法/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/08/30/关于使用HttpServletRequest来获取MultipartFile的问题/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    关于使用HttpServletRequest来获取MultipartFile的问题
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/07/20/git使用简易指南/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">git使用简易指南</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/07/29/Java常用算法/" data-title="Java常用算法" data-url="http://www.wangxin123.com/2016/07/29/Java常用算法/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
+    </div>
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/运维部署/">运维部署</a></p>
+                            <p class="item-title"><a href="/2016/11/01/zabbix邮件报警/" class="title">zabbix邮件报警</a></p>
+                            <p class="item-date"><time datetime="2016-11-01T10:53:00.000Z" itemprop="datePublished">2016-11-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/错误集锦/">错误集锦</a></p>
+                            <p class="item-title"><a href="/2016/10/26/彻底清除Linux centos minerd木马/" class="title">彻底清除Linux centos minerd木马</a></p>
+                            <p class="item-date"><time datetime="2016-10-26T14:41:19.000Z" itemprop="datePublished">2016-10-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/错误集锦/">错误集锦</a></p>
+                            <p class="item-title"><a href="/2016/10/20/MySQL同步报错故障处理集锦/" class="title">MySQL同步报错故障处理集锦</a></p>
+                            <p class="item-date"><time datetime="2016-10-20T13:18:00.000Z" itemprop="datePublished">2016-10-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/运维部署/">运维部署</a></p>
+                            <p class="item-title"><a href="/2016/10/18/MySQL中间件Atlas安装及使用/" class="title">MySQL中间件Atlas安装及使用</a></p>
+                            <p class="item-date"><time datetime="2016-10-18T10:24:17.000Z" itemprop="datePublished">2016-10-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/运维部署/">运维部署</a></p>
+                            <p class="item-title"><a href="/2016/10/17/zabbix安装/" class="title">zabbix安装</a></p>
+                            <p class="item-date"><time datetime="2016-10-17T14:41:19.000Z" itemprop="datePublished">2016-10-17</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">16</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">7</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">5</span></li></ul>
+        </div>
+    </div -->
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 11.67px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 11.67px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 15px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://yq.aliyun.com/articles">云栖社区</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.aboutyun.com/">大数据虾米工作室</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.iyunv.com/">运维网</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.whycss.com/">前端网址导航</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.jianshu.com/users/4762d2980c91/latest_articles">静卧人间</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 Wasim<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'wangxin37'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

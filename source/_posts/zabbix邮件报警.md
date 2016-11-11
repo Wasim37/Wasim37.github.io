@@ -1,7 +1,7 @@
 ---
 title: zabbix邮件报警
 categories:
-  - 算法
+  - 运维部署
 date: 2016-11-1 18:53:00
 ---
 
