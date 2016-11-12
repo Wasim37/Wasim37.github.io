@@ -4,7 +4,7 @@ tags:
   - github
   - hexo
 categories:
-  - 其他技术
+  - 运维部署
 date: 2016-6-23 22:22:00
 ---
 

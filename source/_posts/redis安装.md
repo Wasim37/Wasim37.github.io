@@ -95,3 +95,6 @@ http://redisbook.readthedocs.org/en/latest/index.html
 
 redis使用场景
 http://www.360doc.com/content/15/0510/20/23016082_469494498.shtml
+
+redis conf配置详解
+http://www.cnblogs.com/kreo/p/4423362.html

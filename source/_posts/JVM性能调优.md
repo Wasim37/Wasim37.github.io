@@ -2,8 +2,6 @@
 title: JVM性能调优
 tags:
   - JVM
-categories:
-  - 性能调优
 date: 2016-4-20 18:24:17
 ---
 
