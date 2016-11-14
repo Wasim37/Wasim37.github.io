@@ -5,6 +5,8 @@ categories:
 tags:
   - 大数据
 date: 2016-5-17 21:18:00
+toc: false
+
 ---
 
 ### 分析MapReduce执行过程

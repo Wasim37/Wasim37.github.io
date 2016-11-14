@@ -5,6 +5,7 @@ categories:
 tags:
   - 分布式算法
 date: 2016-11-7 22:41:19
+toc: false
 ---
 
 > Paxos算法是莱斯利·兰伯特（英语：Leslie Lamport，LaTeX中的“La”）于1990年提出的一种基于消息传递且具有高度容错特性的一致性算法。

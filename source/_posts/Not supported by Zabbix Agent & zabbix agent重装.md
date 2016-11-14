@@ -5,6 +5,7 @@ categories:
 tags:
   - zabbix
 date: 2016-9-25 18:24:17
+toc: false
 ---
 
 > zabbix服务器显示一些监控项不起效，提示错误【Not supported by Zabbix Agent】，

@@ -5,6 +5,8 @@ categories:
 tags:
   - Swagger
 date: 2016-9-16 18:24:17
+toc: false
+
 ---
 
 > 最近安装了API文档工具swagger，因为Github上已有详细安装教程，且安装过程中没有碰到大的阻碍，所以此文仅对这次安装做一份大致记录

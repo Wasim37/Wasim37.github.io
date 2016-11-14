@@ -5,6 +5,7 @@ categories:
 tags:
   - redis
 date: 2016-10-26 22:41:19
+toc: false
 ---
 
 >前几天，公司两台linux服务器，一台访问速度很慢，cpu跑满，一台免密码登录失效，公钥文件被改写成redis的key。用htop命令查询发现了minerd木马进程，初步猜测是redis没有配访问权限造成的。网上查询minerd木马，发现这是一个很常见的挖矿程序，相关猜测也得到了验证。

@@ -5,6 +5,7 @@ categories:
 tags:
   - redis
 date: 2016-9-18 22:41:19
+toc: false
 ---
 
 > 前提是服务器上已经安装好了redis,

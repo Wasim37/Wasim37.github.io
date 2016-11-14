@@ -3,6 +3,7 @@ title: sh脚本异常,binsh^M bad interpreter No such file or directory
 categories:
   - 错误集锦
 date: 2016-6-18 18:24:17
+toc: false
 ---
 
 ### 错误

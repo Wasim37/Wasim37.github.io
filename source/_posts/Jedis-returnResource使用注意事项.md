@@ -5,6 +5,8 @@ categories:
 tags:
   - redis
 date: 2016-6-18 20:10:00
+toc: false
+
 ---
 
 > 遇到过这样一个严重问题：

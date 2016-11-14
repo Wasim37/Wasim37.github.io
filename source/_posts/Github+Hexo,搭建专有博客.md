@@ -6,6 +6,8 @@ tags:
 categories:
   - 运维部署
 date: 2016-6-23 22:22:00
+toc: false
+
 ---
 
 ### 前言
@@ -18,14 +20,19 @@ date: 2016-6-23 22:22:00
 - 需要运维管理【麻烦且危险，服务器宕了可能丢失数据】。
 
 最近了解到 github + hexo 能完美解决上述问题，啥也不说了，直接开干 ^.^
-搭建教程网上比比皆是，此处不累赘，仅记录搭建过程中用到的网站及遇到的问题
+
+---
 
 ### 相关网站
+搭建教程网上比比皆是，此处不累赘，下面是搭建过程中用到的相关网站：
+
 hexo中文网站：[https://hexo.io/zh-cn/docs/](https://hexo.io/zh-cn/docs/)  
 hexo主题模板：[https://www.zhihu.com/question/24422335](https://www.zhihu.com/question/24422335)
 hexo+github搭建过程：[http://www.jianshu.com/p/df3edc4286d2](http://www.jianshu.com/p/df3edc4286d2)
 Markdown 语法说明：[http://www.appinn.com/markdown/](http://www.appinn.com/markdown/)
 github绑定域名：[http://www.jianshu.com/p/1d427e888dda](http://www.jianshu.com/p/1d427e888dda)  
+
+---
 
 ### HEXO如何优化部署及管理
 **问题：使用hexo时，如果本地文件丢失或者想在其他电脑上修改博客怎么办？**
@@ -52,7 +59,9 @@ github绑定域名：[http://www.jianshu.com/p/1d427e888dda](http://www.jianshu.
 1、使用git clone git@github.com:Wasim37/Wasim37.github.io.git拷贝仓库（默认分支为hexo）；
 2、在本地新拷贝的Wasim37.github.io文件夹下通过Git bash依次执行下列指令：npm install hexo、npm install、npm install hexo-deployer-git（记得，不需要hexo init这条指令）。
 
-### 错误记录
+---
+
+### 安装错误记录
 执行hexo d出现以下错误
 
 ![](4.png)
@@ -62,6 +71,7 @@ _config.yml ——> deploy ——> repository
 https://github.com/{username}/{username}.github.io.git 修改为
 git@github.com:{username}/{username}.github.io.git
 
+---
 
 ### 文章编辑工具
 文章编辑工具一开始我使用的是subline，但因为没有快捷键及预览功能，后来选择了MarkdownPad。可最近发现新版的有道云笔记支持Markdown语法，果断换成了有道。
@@ -73,6 +83,7 @@ git@github.com:{username}/{username}.github.io.git
 
 **其次文章图片如果不想托管在github，可以使用七牛云存储等图床工具。**
 
+---
 
 ### 模板自定义
 我使用的博客主题为 **icarus**，对比可以发现，我在展示细节上做了一些自己的修改。
@@ -82,3 +93,26 @@ git@github.com:{username}/{username}.github.io.git
 源代码文件位置为：icarus\source\css\_variables.styl
 
 ![](3.png)
+
+---
+
+### 文章目录
+icarus主题模板的文章详细展示默认是不带有文章目录的
+如果需要添加文章目录，可以参考http://www.jianshu.com/p/72408c410904
+
+icarus主题添加文章目录，修改themes\icarus\layout\common\article.ejs文件即可。
+```bash
+<% if (!index && post.toc) { %>
+修改为
+<% if (!index && post.toc != false) { %>
+```
+
+每篇文章可以选择是否开放目录功能
+```bash
+...
+title: Github+Hexo,搭建专属网站
+categories:
+  - demo
+toc: false
+...
+```

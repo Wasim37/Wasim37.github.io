@@ -5,6 +5,7 @@ categories:
 tags:
   - redis
 date: 2016-6-18 22:41:19
+toc: false
 ---
 
 ### redis简介

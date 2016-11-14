@@ -5,6 +5,7 @@ categories:
 tags:
   - zabbix
 date: 2016-9-25 18:24:17
+toc: false
 ---
 
 ## 安装

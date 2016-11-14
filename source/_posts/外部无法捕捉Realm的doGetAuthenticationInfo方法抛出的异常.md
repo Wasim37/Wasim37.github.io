@@ -5,6 +5,7 @@ categories:
 tags:
   - shiro
 date: 2016-9-19 22:41:19
+toc: false
 ---
 
 shiro权限框架，用户登录方法的subject.login(token)会进入自定义的UserNamePasswordRealm类的doGetAuthenticationInfo身份验证方法

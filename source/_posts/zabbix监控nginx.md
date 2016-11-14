@@ -6,6 +6,7 @@ tags:
   - zabbix
   - nginx
 date: 2016-9-28 18:24:17
+toc: false
 ---
 
 > zabbix监控nginx，首先需要配置ngx_status

@@ -5,6 +5,8 @@ categories:
 tags:
   - concurrent
 date: 2016-4-16 23:16:16
+toc: false
+
 ---
 
 《 Effecit In Java 》说过，从java 1.5发现版本开始, 就不建议使用wait和notify，它们使用比较困难，可以使用更高级并发工具来替代。

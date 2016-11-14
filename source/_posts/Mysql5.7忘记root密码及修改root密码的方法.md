@@ -5,6 +5,8 @@ categories:
 tags:
   - mysql
 date: 2016-9-20 22:41:19
+toc: false
+
 ---
 
 Mysql 安装成功后，输入 mysql --version 显示版本如下
