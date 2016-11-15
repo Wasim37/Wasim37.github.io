@@ -50,5 +50,5 @@ java.lang.NoClassDefFoundError: Lorg/apache/log4j/Logger错误
 ```
 **原因：**maven install生成的jar包没有自动引入，按下图配置即可
 
-![图片1](1.jpg)
+![图片1](http://7xvfir.com1.z0.glb.clouddn.com/Maven%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/1.jpg)
 

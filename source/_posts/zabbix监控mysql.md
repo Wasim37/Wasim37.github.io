@@ -123,13 +123,13 @@ service zabbix-agent restart
 
 5、在zabbix服务器上添加监控主机和mysql模板，然后点击【图形】->【预览】，查看相关监控图像。
 
-![](1.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E7%9B%91%E6%8E%A7mysql/1.png)
 
-![](2.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E7%9B%91%E6%8E%A7mysql/2.png)
 
 6、安装grafana-zabbix插件，通过grafana监控相关数据。
 
-![](3.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E7%9B%91%E6%8E%A7mysql/3.png)
 
 <br/>
 

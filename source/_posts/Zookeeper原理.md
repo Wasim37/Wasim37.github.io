@@ -33,11 +33,11 @@ Zookeeper的核心是原子广播，这个机制保证了各个Server之间的�
 
 每个Server启动后都会重复以上流程。在恢复模式下，如果是刚从崩溃状态恢复的或者刚启动的server还会从磁盘快照中恢复数据和会话信息，zk会记录事务日志并定期进行快照，方便在恢复时进行状态恢复。选主的具体流程图如下所示：
 
-![](1.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Zookeeper%E5%8E%9F%E7%90%86/1.png)
 
 fast paxos流程是在选举过程中，某Server首先向所有Server提议自己要成为leader，当其它Server收到提议以后，解决epoch和zxid的冲突，并接受对方的提议，然后向对方发送接受提议完成的消息，重复这个流程，最后一定能选举出Leader。其流程图如下所示：
 
-![](2.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Zookeeper%E5%8E%9F%E7%90%86/2.png)
 
 - - -
 ### 同步流程
@@ -51,7 +51,7 @@ fast paxos流程是在选举过程中，某Server首先向所有Server提议自�
 
 流程图如下所示：
 
-![](3.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Zookeeper%E5%8E%9F%E7%90%86/3.png)
 
 - - -
 ### 工作流程
@@ -66,7 +66,7 @@ PING消息是指Learner的心跳信息；REQUEST消息是Follower发送的提议
 
 Leader的工作流程简图如下所示，在实际实现中，流程要比下图复杂得多，启动了三个线程来实现功能。
 
-![](4.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Zookeeper%E5%8E%9F%E7%90%86/4.png)
 
 #### Follower工作流程
 
@@ -87,7 +87,7 @@ Follower的消息循环处理如下几种来自Leader的消息：
 
 Follower的工作流程简图如下所示，在实际实现中，Follower是通过5个线程来实现功能的。
 
-![](5.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Zookeeper%E5%8E%9F%E7%90%86/5.png)
 
 对于observer的流程不再叙述，observer流程和Follower的唯一不同的地方就是observer不会参加leader发起的投票。
 
@@ -102,7 +102,7 @@ Zookeeper的主流应用场景实现思路（除去官方示例）
 Zookeeper很容易实现这种集中式的配置管理，比如将APP1的所有配置配置到/APP1 znode下，APP1所有机器一启动就对/APP1这个节点进行监控(zk.exist("/APP1",true)),并且实现回调方法Watcher，那么在zookeeper上/APP1 znode节点下数据发生变化的时候，每个机器都会收到通知，Watcher方法将会被执行，那么应用再取下数据即可(zk.getData("/APP1",false,null));
 
 以上这个例子只是简单的粗颗粒度配置监控，细颗粒度的数据可以进行分层级监控，这一切都是可以设计和控制的。
-![](6.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Zookeeper%E5%8E%9F%E7%90%86/6.png)
 
 #### 集群管理 
 应用集群中，我们常常需要让每一个机器知道集群中（或依赖的其他某一个集群）哪些机器是活着的，并且在集群机器因为宕机，网络断链等原因能够不在人工介入的情况下迅速通知到每一个机器。

@@ -38,15 +38,15 @@ http://www.cnblogs.com/softidea/p/5728952.html
 
 配置完并成功启动项目后，报如下错误：
 
-![](1.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/API%E6%96%87%E6%A1%A3%E5%B7%A5%E5%85%B7-Swagger%E7%9A%84%E9%9B%86%E6%88%90/1.png)
 
 **原因**：在修改配置文件index.html时，ip和端口中间多了一个斜杠，去掉斜杠即可。
 
-![](2.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/API%E6%96%87%E6%A1%A3%E5%B7%A5%E5%85%B7-Swagger%E7%9A%84%E9%9B%86%E6%88%90/2.png)
 
 PS：果不是以上原因造成，请移步 https://github.com/swagger-api/swagger-ui 查看此错误详细介绍:
 
-![](3.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/API%E6%96%87%E6%A1%A3%E5%B7%A5%E5%85%B7-Swagger%E7%9A%84%E9%9B%86%E6%88%90/3.png)
 
 
 

@@ -78,56 +78,56 @@ chown zabbix.zabbix sendEmail.sh
 进入zabbix管理页面
 点击管理->报警媒介类型 点击最右边的创建媒体类型
 
-![](1.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/1.png)
 输入脚本名称，类型选择脚本
 添加以下3个参数，分别对应sendEmail.sh脚本需要的3个参数：收件人地址、主题、详细内容
 {ALERT.SENDTO}
 {ALERT.SUBJECT}
 {ALERT.MESSAGE}
 
-![](2.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/2.png)
 解释:很多人安装zabbix 3.0之后，写的脚本一直发信不成功,手动执行时可以的。
 那是因为zabbix3.0之后，可以自定义参数了。所以不写参数，它是不会传参数的。
 在2.x版本不存在这个问题，默认会传3个参数。
 
 点击Admin用户
 
-![](3.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/3.png)
 点击添加
 
-![](4.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/4.png)
 选择sendEmail.sh脚本，输入收件人的邮箱地址
 
-![](5.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/5.png)
 点击用户群组，点击zabbix administrator后面的调用模式，点击一下，就启用了
 
-![](6.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/6.png)
 点权限->添加
 
-![](7.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/7.png)
 
 选择所有
 
-![](8.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/8.png)
 点击更新
 
-![](9.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/9.png)
 点击配置->动作 点击默认的动作
 
-![](10.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/10.png)
 点击操作->编辑
 
-![](11.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/11.png)
 修改持续时间为60秒
 修改步骤为3,表示触发3次动作
 选择用户Admin
 选择仅送到sendEmail.sh
 点击更新
 
-![](12.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/12.png)
 点击更新
 
-![](13.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/13.png)
 解释:默认的步骤是1-1,也即是从1开始到1结束。一旦故障发生，就是执行sendEmail.sh脚本发生报警邮件给Admin用户和zabbix administrator组。
 假如故障持续了1个小时，它也只发送一次。如果改成1-0，0是表示不限制.无限发送
 间隔就是默认持续时间60秒。那么一个小时，就会发送60封邮件。
@@ -137,13 +137,13 @@ chown zabbix.zabbix sendEmail.sh
 先添加一台主机test，不存在的IP地址
 等待几分钟，可以看到是红色状态
 
-![](14.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/14.png)
 等待几分钟，就会收到邮件报警了
 
-![](15.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/15.png)
 点击报表->动作日志 可以看到触发动作的次数。只会有3次，除非test主机状态改变，也就是正常的时候，会触发一次,否则不会再触发。
 
-![](16.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/16.png)
 大家可以看到邮件里面内容都堆到一起了，没有换行，且是英文，可以自行修改【组态-动作-动作】里的配置。
 
 下面是我修改后的配置信息:

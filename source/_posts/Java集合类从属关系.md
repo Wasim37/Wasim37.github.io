@@ -14,11 +14,11 @@ toc: false
 
 ### 1、集合关系图
 
-![图片1](1.png)
-![图片2](2.png)
+![图片1](http://7xvfir.com1.z0.glb.clouddn.com/Java%E9%9B%86%E5%90%88%E7%B1%BB%E4%BB%8E%E5%B1%9E%E5%85%B3%E7%B3%BB/1.png)
+![图片2](http://7xvfir.com1.z0.glb.clouddn.com/Java%E9%9B%86%E5%90%88%E7%B1%BB%E4%BB%8E%E5%B1%9E%E5%85%B3%E7%B3%BB/2.png)
 <!-- more -->
-![图片3](3.png)
-![图片4](4.png)
+![图片3](http://7xvfir.com1.z0.glb.clouddn.com/Java%E9%9B%86%E5%90%88%E7%B1%BB%E4%BB%8E%E5%B1%9E%E5%85%B3%E7%B3%BB/3.png)
+![图片4](http://7xvfir.com1.z0.glb.clouddn.com/Java%E9%9B%86%E5%90%88%E7%B1%BB%E4%BB%8E%E5%B1%9E%E5%85%B3%E7%B3%BB/4.png)
 
 **Java的集合分为了四类：List Set Queue Map**，每类都有不同的实现，有基于数组实现的，有基于链表实现的，有基于xx树实现的，不同的实现虽在功能上可以相互替代但都有各自的应用场景，如基于数组的实现擅长快速遍历，基于链表的实现擅长随机写，基于树的实现可排序等等。
 
@@ -35,8 +35,8 @@ JDK1.5及以后还添加了很多实用的功能，如ConcurrentMap、CopyOnWrit
 另外，LinkedList同时实现了List、Deque、Queue接口，用其来实现Stack也是可以的。
 
 ### 2、《编程思想》相关概念
-![图片5](5.png)
-![图片6](6.png)
+![图片5](http://7xvfir.com1.z0.glb.clouddn.com/Java%E9%9B%86%E5%90%88%E7%B1%BB%E4%BB%8E%E5%B1%9E%E5%85%B3%E7%B3%BB/5.png)
+![图片6](http://7xvfir.com1.z0.glb.clouddn.com/Java%E9%9B%86%E5%90%88%E7%B1%BB%E4%BB%8E%E5%B1%9E%E5%85%B3%E7%B3%BB/6.png)
 
 #### 3、集合类为什么也称为容器类？
-![图片7](7.png)
+![图片7](http://7xvfir.com1.z0.glb.clouddn.com/Java%E9%9B%86%E5%90%88%E7%B1%BB%E4%BB%8E%E5%B1%9E%E5%85%B3%E7%B3%BB/7.png)

@@ -38,4 +38,4 @@ TWaver 2D for Java试用下载：
 TWaver GIS for Java试用下载：
 [http://download.servasoft.com/dl/twaver/sssyuwyeriUR/k/twavergis-java-4.5.6.zip](http://download.servasoft.com/dl/twaver/sssyuwyeriUR/k/twavergis-java-4.5.6.zip)
 
-![示例图片](1.png)
+![示例图片](http://7xvfir.com1.z0.glb.clouddn.com/TWaver%202D+GIS+3D%E7%9A%84%E8%AF%95%E7%94%A8%E5%92%8C%E5%9C%A8%E7%BA%BFDemo/1.png)

@@ -79,15 +79,15 @@ Solr强大的外部配置功能使得无需进行Java编码，便可对其进行
 
 ## Elasticsearch与Solr的比较
 当单纯的对已有数据进行搜索时，Solr更快。
-![图片1](1.png)
+![图片1](http://7xvfir.com1.z0.glb.clouddn.com/Elasticsearch%E4%B8%8ESolr/1.png)
 当实时建立索引时, Solr会产生io阻塞，查询性能较差, Elasticsearch具有明显的优势。
-![图片2](2.png)
+![图片2](http://7xvfir.com1.z0.glb.clouddn.com/Elasticsearch%E4%B8%8ESolr/2.png)
 随着数据量的增加，Solr的搜索效率会变得更低，而Elasticsearch却没有明显的变化。
-![图片3](3.png)
+![图片3](http://7xvfir.com1.z0.glb.clouddn.com/Elasticsearch%E4%B8%8ESolr/3.png)
 综上所述，Solr的架构不适合实时搜索的应用。
 
 下图为将搜索引擎从Solr转到Elasticsearch以后的平均查询速度有了50倍的提升。
-![图片4](4.png)
+![图片4](http://7xvfir.com1.z0.glb.clouddn.com/Elasticsearch%E4%B8%8ESolr/4.png)
 
 #### Elasticsearch 与 Solr 的比较总结
 - 二者安装都很简单；

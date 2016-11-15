@@ -34,7 +34,7 @@ git clone username@host:/path/to/repository
 ### 工作流
 你的本地仓库由 git 维护的三棵“树”组成。第一个是你的**工作目录**，它持有实际文件；第二个是 **缓存区（Index）**，它像个缓存区域，临时保存你的改动；最后是**HEAD**，指向你最近一次提交后的结果。
 
-![](1.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/git%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%93%E6%8C%87%E5%8D%97/1.png)
 <!-- more -->
 
 ### 添加与提交
@@ -65,7 +65,7 @@ git remote add origin <server>
 ### 分支
 分支是用来将特性开发绝缘开来的。在你创建仓库的时候，master 是“默认的”。在其他分支上进行开发，完成后再将它们合并到主分支上。
 
-![](2.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/git%E4%BD%BF%E7%94%A8%E7%AE%80%E6%98%93%E6%8C%87%E5%8D%97/2.png)
 
 创建一个叫做“feature_x”的分支，并切换过去：
 ```bash

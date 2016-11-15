@@ -8,8 +8,8 @@ toc: false
 ---
 
 ### 常见排序之间的关系:
-![](1.png)
-![](2.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/1.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/2.png)
 
 <!-- more -->
 
@@ -19,7 +19,7 @@ toc: false
 好顺序的，现在要把第n个数插到前面的有序数中，使得这n个数
 也是排好顺序的。如此反复循环，直到全部排好顺序。
 （2）实例
-![](3.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/3.png)
 （3）用java实现
 ```bash
  package com.njue;  
@@ -46,7 +46,7 @@ public insertSort(){
 
 （1）基本思想：算法先将要排序的一组数按某个增量d（n/2,n为要排序数的个数）分成若干组，每组中记录的下标相差d.对每组中全部元素进行直接插入排序，然后再用一个较小的增量（d/2）对它进行分组，在每组中再进行直接插入排序。当增量减到1时，进行直接插入排序后，排序完成。
 （2）实例：
-![](4.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/4.png)
 （3）用java实现
 ```bash
 public class shellSort {  
@@ -80,7 +80,7 @@ public  shellSort(){
 （1）基本思想：在要排序的一组数中，选出最小的一个数与第一个位置的数交换；
 然后在剩下的数当中再找最小的与第二个位置的数交换，如此循环到倒数第二个数和最后一个数比较为止。
 （2）实例：
-![](5.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/5.png)
 （3）用java实现
 ```bash
 public class selectSort {  
@@ -113,10 +113,10 @@ public class selectSort {
 （2）实例：
 初始序列：46,79,56,38,40,84
 建堆：
-![](6.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/6.png)
 交换，从堆中踢出最大数
-![](7.png)
-![](8.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/7.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/8.png)
 依次类推：最后堆中剩余的最后两个结点交换，踢出一个，排序完成。
 （3）用java实现
 ```bash
@@ -185,7 +185,7 @@ public class HeapSort {
 
 （1）基本思想：在要排序的一组数中，对当前还未排好序的范围内的全部数，自上而下对相邻的两个数依次进行比较和调整，让较大的数往下沉，较小的往上冒。即：每当两相邻的数比较后发现它们的排序与排序要求相反时，就将它们互换。
 （2）实例：
-![](9.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/9.png)
 （3）用java实现
 ```bash
 public class bubbleSort {  
@@ -211,7 +211,7 @@ public  bubbleSort(){
 
 （1）基本思想：选择一个基准元素,通常选择第一个元素或者最后一个元素,通过一趟扫描，将待排序列分成两部分,一部分比基准元素小,一部分大于等于基准元素,此时基准元素在其排好序后的正确位置,然后再用同样的方法递归地排序划分的两部分。
 （2）实例：
-![](10.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/10.png)
 （3）用java实现
 ```bash
 public class quickSort {  
@@ -256,7 +256,7 @@ public void quick(int[] a2) {
 
 （1）基本排序：归并（Merge）排序法是将两个（或两个以上）有序表合并成一个新的有序表，即把待排序序列分为若干个子序列，每个子序列是有序的。然后再把有序子序列合并为整体有序序列。
 （2）实例：
-![](11.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/11.png)
 （3）用java实现
 ```bash
 import java.util.Arrays;  
@@ -319,7 +319,7 @@ public void merge(int[] data, int left, int center, int right) {
 
 （1）基本思想：将所有待比较数值（正整数）统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后,数列就变成一个有序序列。
 （2）实例：
-![](12.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/12.png)
 （3）用java实现
 ```bash
 import java.util.ArrayList;  

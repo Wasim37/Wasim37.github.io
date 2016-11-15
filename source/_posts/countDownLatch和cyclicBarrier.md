@@ -11,7 +11,7 @@ toc: false
 
 《 Effecit In Java 》说过，从java 1.5发现版本开始, 就不建议使用wait和notify，它们使用比较困难，可以使用更高级并发工具来替代。
 
-![图片1](1.png)
+![图片1](http://7xvfir.com1.z0.glb.clouddn.com/countDownLatch%E5%92%8CcyclicBarrier/1.png)
 
 图一所说的同步器是指那些能使线程等待另一个线程的对象，常用的有cyclicBarrier和倒计数锁存器CountDownLatch和semaphore。
 
@@ -146,4 +146,4 @@ return;
 
 ### cyclicBarrier 和  CountDownLatch 的区别
 
-![图片2](2.png)
+![图片2](http://7xvfir.com1.z0.glb.clouddn.com/countDownLatch%E5%92%8CcyclicBarrier/2.png)

@@ -12,10 +12,10 @@ toc: false
 ### JDK API 1.7相关介绍
 可以用原子方式更新的 int 值。有关原子变量属性的描述，请参阅 java.util.concurrent.atomic 包规范。AtomicInteger 可用在应用程序中（如以原子方式增加的计数器），并且不能用于替换 Integer。但是，此类确实扩展了 Number，允许那些处理基于数字类的工具和实用工具进行统一访问。
 
-![图片1](1.png)
+![图片1](http://7xvfir.com1.z0.glb.clouddn.com/AtomicInteger%E7%9A%84%E4%BD%BF%E7%94%A8/1.png)
 
 <!-- more -->
-![图片2](2.png)
+![图片2](http://7xvfir.com1.z0.glb.clouddn.com/AtomicInteger%E7%9A%84%E4%BD%BF%E7%94%A8/2.png)
 
 **AtomicInteger 是线程安全的，多线程对同一个数加100次，结果一定是100.  相关代码示例：**
 

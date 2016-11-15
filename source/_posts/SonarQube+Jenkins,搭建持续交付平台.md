@@ -130,14 +130,14 @@ wrapper.java.command=/usr/java/jdk1.8.0_31/bin/java
 
 **问题：Jenkins安装完成后启动报错**
 
-![图片1](SonarQube+Jenkins,搭建持续交付平台/1.png)
+![图片1](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/1.png)
 **方案：**通过"vi /etc/init.d/jenkins"，把JDK的java路径加上即可
 **注意：**Jenkins启动后自动部署Tomcat，Tomcat需先启动
 <!--more-->
 
 **问题：Sonar中文乱码问题**
 **方案：**sonar-run配置有问题，里面的jdbc配置是：
-![图片2](SonarQube+Jenkins,搭建持续交付平台/2.png)
+![图片2](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/2.png)
 
 
 **问题：Sonar某个版本安装成功后，启动却总只显示一个页面，并提示Sonar正在维护中**
@@ -161,12 +161,12 @@ Caused by: org.sonar.api.utils.SonarException: No license for cpp
 ```
 原以为是需要安装cpp插件，后来才发现重点是No license，意思就是需要付费购买许可证。
 网上搜索免费许可证无果，然后点击"Get trial key", 结果立马收到官方邮件回复被拒，终放弃。
-![图片3](SonarQube+Jenkins,搭建持续交付平台/3.png)
+![图片3](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/3.png)
 
 **问题：Jenkins集成Sonar后，Jenkins自动化脚本执行失败，并报如下错误**
 **方案：**更换插件版本即可，下次安装需要注意。
 
-![图片4](SonarQube+Jenkins,搭建持续交付平台/4.png)
+![图片4](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/4.png)
 
 **问题：Jenkins账户权限如何分配**
 **方案：** 相关链接：[http://www.360doc.com/content/13/0802/14/7811581_304255550.shtml](http://www.360doc.com/content/13/0802/14/7811581_304255550.shtml)
@@ -175,7 +175,7 @@ Caused by: org.sonar.api.utils.SonarException: No license for cpp
 ### 运行结果
 **Sonar成功运行如图五图六所示，其中代码检测规则可以修改也可以自定义，对于图六显示出的具体错误，Sonar也可在页面直接分配给某个组员修改**
 
-![图片5](SonarQube+Jenkins,搭建持续交付平台/5.png)
-![图片6](SonarQube+Jenkins,搭建持续交付平台/6.png)
+![图片5](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/5.png)
+![图片6](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/6.png)
 
 <br/>

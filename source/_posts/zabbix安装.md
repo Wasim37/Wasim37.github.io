@@ -153,7 +153,7 @@ https://www.zabbix.com/documentation/2.2/manual/installation/install_from_packag
 **zabbix中文操作手册：**
 http://pan.baidu.com/s/1i46GoQh 密码：xw5n (手册中有相关shell脚本下载地址)
 
-![zabbix中文操作手册](1.png)
+![zabbix中文操作手册](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E5%AE%89%E8%A3%85/1.png)
 
 **zabbix_agentd.conf配置文件详解**
 http://www.ttlsa.com/zabbix/zabbix_agentd-conf-description/
@@ -168,4 +168,4 @@ http://blog.csdn.net/zk673820543/article/details/50617412
 **grafana-zabbix使用教程【内含gif图】：**
 https://github.com/alexanderzobnin/grafana-zabbix/wiki/Usage
 
-![](2.gif)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E5%AE%89%E8%A3%85/2.gif)

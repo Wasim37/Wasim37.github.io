@@ -43,7 +43,7 @@ public void closeResource(Jedis jedis, boolean isOK) {
 ```
 相关源码：
 
-![图片1](1.png)
+![图片1](http://7xvfir.com1.z0.glb.clouddn.com/Jedis-returnResource%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/1.png)
 分析源代码，可以知道本来应该执行returnBrokenResourceObject方法，结果却执行了returnResourceObject，并且执行returnResourceObject过程中没有报错。
 
 具体原因应该就在方法体里面，可惜点进去并没有分析出具体是哪几行代码导致了串号的出现  = =! 

@@ -62,7 +62,7 @@ src/redis-server /etc/redis6381.conf
 
 三、同理我们配置6382配置文件, 成功启动服务后，查看进程：
 
-![图片3](3.png)
+![图片3](http://7xvfir.com1.z0.glb.clouddn.com/redis%E5%A4%9A%E5%AE%9E%E4%BE%8B%E5%8F%8A%E4%B8%BB%E4%BB%8E%E6%90%AD%E5%BB%BA/3.png)
 
 
 --- 
@@ -75,11 +75,11 @@ vim /etc/redis/redis6381.conf
 vim /etc/redis/redis6382.conf
 ```
 
-![图片4](4.png)
+![图片4](http://7xvfir.com1.z0.glb.clouddn.com/redis%E5%A4%9A%E5%AE%9E%E4%BE%8B%E5%8F%8A%E4%B8%BB%E4%BB%8E%E6%90%AD%E5%BB%BA/4.png)
 
 重启6379、6381、6382服务，可以看到主从数据实现同步
 
-![图片5](5.png)
+![图片5](http://7xvfir.com1.z0.glb.clouddn.com/redis%E5%A4%9A%E5%AE%9E%E4%BE%8B%E5%8F%8A%E4%B8%BB%E4%BB%8E%E6%90%AD%E5%BB%BA/5.png)
 
 用客户端登录相关主从服务器，输入info查看主从配置信息
 ```bash

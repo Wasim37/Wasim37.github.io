@@ -18,7 +18,7 @@ toc: false
 
 域名缓存很好理解，就是LocalDNS缓存了腾讯的域名的解析结果，不向腾讯权威DNS发起递归，示意图如下：  
 
-![图片1](全局精确流量调度新思路-HttpDNS服务详解/1.jpg)  
+![图片1](http://7xvfir.com1.z0.glb.clouddn.com/%E5%85%A8%E5%B1%80%E7%B2%BE%E7%A1%AE%E6%B5%81%E9%87%8F%E8%B0%83%E5%BA%A6%E6%96%B0%E6%80%9D%E8%B7%AF-HttpDNS%E6%9C%8D%E5%8A%A1%E8%AF%A6%E8%A7%A3/1.jpg)  
 
 为何LocalDNS要把域名解析结果进行缓存呢？原因有以下几个：
 
@@ -38,12 +38,12 @@ B、缓存服务器的运维水平参差不齐，时有出现缓存服务器故�
 
 除了域名缓存以外，运营商的LocalDNS还存在解析转发的现象。解析转发是指运营商自身不进行域名递归解析，而是把域名解析请求转发到其它运营商的递归DNS上的行为。正常的LocalDNS递归解析过程是这样的：
 
-![图片2](全局精确流量调度新思路-HttpDNS服务详解/2.jpg)  
+![图片2](http://7xvfir.com1.z0.glb.clouddn.com/%E5%85%A8%E5%B1%80%E7%B2%BE%E7%A1%AE%E6%B5%81%E9%87%8F%E8%B0%83%E5%BA%A6%E6%96%B0%E6%80%9D%E8%B7%AF-HttpDNS%E6%9C%8D%E5%8A%A1%E8%AF%A6%E8%A7%A3/2.jpg)  
 
 
 而部分小运营商为了节省资源，就直接将解析请求转发到了其它运营的递归LocalDNS上去了：
 
-![图片3](全局精确流量调度新思路-HttpDNS服务详解/3.jpg)  
+![图片3](http://7xvfir.com1.z0.glb.clouddn.com/%E5%85%A8%E5%B1%80%E7%B2%BE%E7%A1%AE%E6%B5%81%E9%87%8F%E8%B0%83%E5%BA%A6%E6%96%B0%E6%80%9D%E8%B7%AF-HttpDNS%E6%9C%8D%E5%8A%A1%E8%AF%A6%E8%A7%A3/3.jpg)  
 
 
 这样的直接后果就是腾讯权威DNS收到的域名解析请求的来源IP就成了其它运营商的IP，最终导致用户流量被导向了错误的IDC，用户访问变慢。
@@ -52,7 +52,7 @@ B、缓存服务器的运维水平参差不齐，时有出现缓存服务器故�
 
 LocalDNS递归出口NAT指的是运营商的LocalDNS按照标准的DNS协议进行递归，但是因为在网络上存在多出口且配置了目标路由NAT，结果导致LocalDNS最终进行递归解析的时候的出口IP就有概率不为本网的IP地址：
 
-![图片4](全局精确流量调度新思路-HttpDNS服务详解/4.jpg)  
+![图片4](http://7xvfir.com1.z0.glb.clouddn.com/%E5%85%A8%E5%B1%80%E7%B2%BE%E7%A1%AE%E6%B5%81%E9%87%8F%E8%B0%83%E5%BA%A6%E6%96%B0%E6%80%9D%E8%B7%AF-HttpDNS%E6%9C%8D%E5%8A%A1%E8%AF%A6%E8%A7%A3/4.jpg)  
 
 
 这样的直接后果就是GSLB DNS收到的域名解析请求的来源IP还是成了其它运营商的IP，最终导致用户流量被导向了错误的IDC，用户访问变慢。
@@ -83,7 +83,7 @@ LocalDNS递归出口NAT指的是运营商的LocalDNS按照标准的DNS协议进�
 
 ### 1、HttpDNS基本原理：
 
-![图片5](全局精确流量调度新思路-HttpDNS服务详解/5.jpg)  
+![图片5](http://7xvfir.com1.z0.glb.clouddn.com/%E5%85%A8%E5%B1%80%E7%B2%BE%E7%A1%AE%E6%B5%81%E9%87%8F%E8%B0%83%E5%BA%A6%E6%96%B0%E6%80%9D%E8%B7%AF-HttpDNS%E6%9C%8D%E5%8A%A1%E8%AF%A6%E8%A7%A3/5.jpg)  
 
 
 HttpDNS的原理非常简单，主要有两步：

@@ -78,27 +78,27 @@ service zabbix-agent start
 ## 服务器添加被监控主机
 登陆 http://zabbix_server_ip/zabbix, 点击 【组态】->【主机】->【创建主机】
 
-![](1.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%20agent%E5%AE%89%E8%A3%85%E8%AF%A6%E8%A7%A3/1.png)
 
 配置主机名称【host name】、群组、被监控主机ip
 
-![](2.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%20agent%E5%AE%89%E8%A3%85%E8%AF%A6%E8%A7%A3/2.png)
 
 添加监控模板并保存
 
-![](3.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%20agent%E5%AE%89%E8%A3%85%E8%AF%A6%E8%A7%A3/3.png)
 
 回到被监控的主机列表，点击【项目】
 
-![](4.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%20agent%E5%AE%89%E8%A3%85%E8%AF%A6%E8%A7%A3/4.png)
 
 查看刚才添加的模板所对应的监控项是否生效，绿色代表成功。
 
-![](5.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%20agent%E5%AE%89%E8%A3%85%E8%AF%A6%E8%A7%A3/5.png)
 
 也可以在主机列表点击【图形】, 进入某个具体监控项后，再点击【预览】，查看相关监控图像。
 
-![](6.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%20agent%E5%AE%89%E8%A3%85%E8%AF%A6%E8%A7%A3/6.png)
 
 <br/>
 

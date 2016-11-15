@@ -63,26 +63,26 @@ public String doUserLogin(User user, HttpServletRequest request, Model model) {
 外部login捕捉的异常统一被改写为 AuthenticationException异常(IncorrectCredentialsException等异常的父类)，且异常的msg内容也被改写。内容如下：</font>
 
 
-![图1](1.png)
+![图1](http://7xvfir.com1.z0.glb.clouddn.com/%E5%A4%96%E9%83%A8%E6%97%A0%E6%B3%95%E6%8D%95%E6%8D%89Realm%E7%9A%84doGetAuthenticationInfo%E6%96%B9%E6%B3%95%E6%8A%9B%E5%87%BA%E7%9A%84%E5%BC%82%E5%B8%B8/1.png)
 
 原因在subject.login(token)的源码里，源码有这么一段：
 
-![图2](2.png)
+![图2](http://7xvfir.com1.z0.glb.clouddn.com/%E5%A4%96%E9%83%A8%E6%97%A0%E6%B3%95%E6%8D%95%E6%8D%89Realm%E7%9A%84doGetAuthenticationInfo%E6%96%B9%E6%B3%95%E6%8A%9B%E5%87%BA%E7%9A%84%E5%BC%82%E5%B8%B8/2.png)
 
 我们进入doSingleRealmAuthentication方法，可以看见方法里面外抛了UnknownAccountException等异常。
 所以如果项目中只定义了一个realm，比如用来进行登录的身份验证，外部是可以正常捕捉的。
 
-![图3](3.png)
+![图3](http://7xvfir.com1.z0.glb.clouddn.com/%E5%A4%96%E9%83%A8%E6%97%A0%E6%B3%95%E6%8D%95%E6%8D%89Realm%E7%9A%84doGetAuthenticationInfo%E6%96%B9%E6%B3%95%E6%8A%9B%E5%87%BA%E7%9A%84%E5%BC%82%E5%B8%B8/3.png)
 
 <font style="color:red">但是此次项目我定义了两个realm，一个用来进行登录的身份验证，另一个用来登录后，验证各种请求携带的的token。</font>
 我们进入doMultiRealmAuthentication方法，内容如下
 
-![图4](4.png)
+![图4](http://7xvfir.com1.z0.glb.clouddn.com/%E5%A4%96%E9%83%A8%E6%97%A0%E6%B3%95%E6%8D%95%E6%8D%89Realm%E7%9A%84doGetAuthenticationInfo%E6%96%B9%E6%B3%95%E6%8A%9B%E5%87%BA%E7%9A%84%E5%BC%82%E5%B8%B8/4.png)
 
 再进入afterAllAttempts的实现类，如图5。
 发现抛出的异常都被统一改为AuthenticationException异常，且msg也被改写，正如图1所示。
 
-![图5](5.png)
+![图5](http://7xvfir.com1.z0.glb.clouddn.com/%E5%A4%96%E9%83%A8%E6%97%A0%E6%B3%95%E6%8D%95%E6%8D%89Realm%E7%9A%84doGetAuthenticationInfo%E6%96%B9%E6%B3%95%E6%8A%9B%E5%87%BA%E7%9A%84%E5%BC%82%E5%B8%B8/5.png)
 
 
 ### 结论

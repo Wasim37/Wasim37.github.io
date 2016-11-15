@@ -13,7 +13,7 @@ toc: false
 ### 前言
 记得从大二开始，就一直想搭个专属网站，当时使劲抠页面【前端页面是从QQ空间抠的，现在想抠估计没这么容易了】，写代码，忙活半天才把程序弄好。
 
-![个人网站](2.png)
+![个人网站](http://7xvfir.com1.z0.glb.clouddn.com/Github+Hexo,%E6%90%AD%E5%BB%BA%E4%B8%93%E6%9C%89%E5%8D%9A%E5%AE%A2/2.png)
 
 可惜最终项目还是没上线，因为当时有两问题绕不开
 - 需要购买服务器【服务器太贵，现在便宜的阿里云服务器每月都需100左右】。
@@ -64,7 +64,7 @@ github绑定域名：[http://www.jianshu.com/p/1d427e888dda](http://www.jianshu.
 ### 安装错误记录
 执行hexo d出现以下错误
 
-![](4.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Github+Hexo,%E6%90%AD%E5%BB%BA%E4%B8%93%E6%9C%89%E5%8D%9A%E5%AE%A2/4.png)
 
 **解决方法：**
 _config.yml ——> deploy ——> repository
@@ -79,7 +79,7 @@ git@github.com:{username}/{username}.github.io.git
 
 有道云笔记MarkDown使用教程： [http://note.youdao.com/iyoudao/?p=1895](http://note.youdao.com/iyoudao/?p=1895)
 
-![效果图](1.png)
+![效果图](http://7xvfir.com1.z0.glb.clouddn.com/Github+Hexo,%E6%90%AD%E5%BB%BA%E4%B8%93%E6%9C%89%E5%8D%9A%E5%AE%A2/1.png)
 
 **其次文章图片如果不想托管在github，可以使用七牛云存储等图床工具。**
 
@@ -92,7 +92,7 @@ git@github.com:{username}/{username}.github.io.git
 源代码三者宽度比例为3:7:3。为了突出正文，我改为了 2.3：8.4：2.3。
 源代码文件位置为：icarus\source\css\_variables.styl
 
-![](3.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/Github+Hexo,%E6%90%AD%E5%BB%BA%E4%B8%93%E6%9C%89%E5%8D%9A%E5%AE%A2/3.png)
 
 ---
 
