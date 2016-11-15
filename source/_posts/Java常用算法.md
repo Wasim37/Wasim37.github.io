@@ -1,7 +1,7 @@
 ---
 title: Java常用算法
 categories:
-  - 算法
+  - 算法及理论
 date: 2016-7-29 18:53:00
 toc: false
 

@@ -1,7 +1,7 @@
 ---
 title: Paxos算法
 categories:
-  - 算法
+  - 算法及理论
 tags:
   - 分布式算法
 date: 2016-11-7 22:41:19

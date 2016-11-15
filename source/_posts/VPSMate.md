@@ -3,6 +3,8 @@ title: VPSMate
 categories:
   - 运维部署
 date: 2016-8-30 18:24:17
+tags:
+  - VPSMate
 toc: false
 ---
 
