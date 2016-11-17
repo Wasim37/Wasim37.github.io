@@ -3,6 +3,8 @@ title: "About"
 layout: "page"
 comments: false
 date: 2016-4-16 23:42:13
+toc: false
+
 ---
 
 ### 博主那些事儿
@@ -15,5 +17,5 @@ date: 2016-4-16 23:42:13
 
 * * *
 **如果文章对你有帮助，请用<font style="color:red;"> 微信 </font>扫一扫随意打赏**
-<div style="text-align:center;width:320px;height:320px;"><img src="\..\wx.gif"/></div>
+<div style="text-align:center;width:320px;height:320px;">![](http://7xvfir.com1.z0.glb.clouddn.com/about/wx.gif)</div>
 <br/>
