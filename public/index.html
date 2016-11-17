@@ -151,11 +151,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                55
+                56
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                35
+                38
                 <span>标签</span>
             </div>
         </div>
@@ -278,6 +278,112 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             
     
         <a href="http://www.wangxin123.com/2016/11/12/一致哈希/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/11/12/一致哈希/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-两阶段提交协议、三阶段提交协议" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/11/11/两阶段提交协议、三阶段提交协议/">两阶段提交协议、三阶段提交协议</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/11/11/两阶段提交协议、三阶段提交协议/">
+            <time datetime="2016-11-11T14:10:00.000Z" itemprop="datePublished">2016-11-11</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/算法及理论/">算法及理论</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/2pc/">2pc</a>, <a class="tag-link" href="/tags/3pc/">3pc</a>, <a class="tag-link" href="/tags/分布式事务/">分布式事务</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="&#x5206;&#x5E03;&#x5F0F;&#x4E00;&#x81F4;&#x6027;&#x95EE;&#x9898;"><a href="#&#x5206;&#x5E03;&#x5F0F;&#x4E00;&#x81F4;&#x6027;&#x95EE;&#x9898;" class="headerlink" title="&#x5206;&#x5E03;&#x5F0F;&#x4E00;&#x81F4;&#x6027;&#x95EE;&#x9898;"></a>&#x5206;&#x5E03;&#x5F0F;&#x4E00;&#x81F4;&#x6027;&#x95EE;&#x9898;</h3><p>&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x6570;&#x636E;&#x7684;&#x9AD8;&#x53EF;&#x7528;&#xFF0C;&#x901A;&#x5E38;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x5C06;&#x6570;&#x636E;&#x4FDD;&#x7559;&#x591A;&#x4E2A;&#x526F;&#x672C;(replica)&#xFF0C;&#x8FD9;&#x4E9B;&#x526F;&#x672C;&#x4F1A;&#x653E;&#x7F6E;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x7269;&#x7406;&#x7684;&#x673A;&#x5668;&#x4E0A;&#x3002;&#x4E3A;&#x4E86;&#x5BF9;&#x7528;&#x6237;&#x63D0;&#x4F9B;&#x6B63;&#x786E;&#x7684;&#x589E;&#x3001;&#x5220;&#x3001;&#x6539;&#x3001;&#x67E5;&#x7B49;&#x8BED;&#x4E49;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4FDD;&#x8BC1;&#x8FD9;&#x4E9B;&#x653E;&#x7F6E;&#x5728;&#x4E0D;&#x540C;&#x7269;&#x7406;&#x673A;&#x5668;&#x4E0A;&#x7684;&#x526F;&#x672C;&#x662F;&#x4E00;&#x81F4;&#x7684;&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x8FD9;&#x79CD;&#x5206;&#x5E03;&#x5F0F;&#x4E00;&#x81F4;&#x6027;&#x95EE;&#x9898;&#xFF0C;&#x5728;&#x6027;&#x80FD;&#x548C;&#x6570;&#x636E;&#x4E00;&#x81F4;&#x6027;&#x7684;&#x53CD;&#x53CD;&#x590D;&#x590D;&#x6743;&#x8861;&#x8FC7;&#x7A0B;&#x4E2D;&#x603B;&#x7ED3;&#x4E86;&#x8BB8;&#x591A;&#x5178;&#x578B;&#x7684;&#x534F;&#x8BAE;&#x548C;&#x7B97;&#x6CD5;&#x3002;<strong>&#x5176;&#x4E2D;&#x6BD4;&#x8F83;&#x8457;&#x540D;&#x7684;&#x6709;&#x4E8C;&#x9636;&#x63D0;&#x4EA4;&#x534F;&#x8BAE;&#xFF08;Two Phase Commitment Protocol&#xFF09;&#x3001;&#x4E09;&#x9636;&#x63D0;&#x4EA4;&#x534F;&#x8BAE;&#xFF08;Three Phase Commitment Protocol&#xFF09;&#x548C;Paxos&#x7B97;&#x6CD5;&#x3002;</strong></p>
+<hr>
+<h3 id="&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;"><a href="#&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;" class="headerlink" title="&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;"></a>&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;</h3><blockquote>
+<p>&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;&#x662F;&#x6307;&#x4F1A;&#x6D89;&#x53CA;&#x5230;&#x64CD;&#x4F5C;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x7684;&#x4E8B;&#x52A1;&#x3002;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x5C06;&#x5BF9;&#x540C;&#x4E00;&#x5E93;&#x4E8B;&#x52A1;&#x7684;&#x6982;&#x5FF5;&#x6269;&#x5927;&#x5230;&#x4E86;&#x5BF9;&#x591A;&#x4E2A;&#x5E93;&#x7684;&#x4E8B;&#x52A1;&#x3002;&#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x4E00;&#x81F4;&#x6027;&#x3002;&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x5173;&#x952E;&#x662F;&#x5FC5;&#x987B;&#x6709;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#x4E8B;&#x52A1;&#x5728;&#x4EFB;&#x4F55;&#x5730;&#x65B9;&#x6240;&#x505A;&#x7684;&#x6240;&#x6709;&#x52A8;&#x4F5C;&#xFF0C;&#x63D0;&#x4EA4;&#x6216;&#x56DE;&#x6EDA;&#x4E8B;&#x52A1;&#x7684;&#x51B3;&#x5B9A;&#x5FC5;&#x987B;&#x4EA7;&#x751F;&#x7EDF;&#x4E00;&#x7684;&#x7ED3;&#x679C;&#xFF08;&#x5168;&#x90E8;&#x63D0;&#x4EA4;&#x6216;&#x5168;&#x90E8;&#x56DE;&#x6EDA;&#xFF09;</p>
+</blockquote>
+<p>&#x5982;&#x679C;&#x60F3;&#x8BA9;&#x5206;&#x5E03;&#x5F0F;&#x90E8;&#x7F72;&#x7684;&#x591A;&#x53F0;&#x673A;&#x5668;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x8981;&#x4FDD;&#x8BC1;&#x5728;&#x6240;&#x6709;&#x8282;&#x70B9;&#x7684;&#x6570;&#x636E;&#x5199;&#x64CD;&#x4F5C;&#xFF0C;&#x8981;&#x4E0D;&#x5168;&#x90E8;&#x90FD;&#x6267;&#x884C;&#xFF0C;&#x8981;&#x4E48;&#x5168;&#x90E8;&#x7684;&#x90FD;&#x4E0D;&#x6267;&#x884C;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x4E00;&#x53F0;&#x673A;&#x5668;&#x5728;&#x6267;&#x884C;&#x672C;&#x5730;&#x4E8B;&#x52A1;&#x7684;&#x65F6;&#x5019;&#x65E0;&#x6CD5;&#x77E5;&#x9053;&#x5176;&#x4ED6;&#x673A;&#x5668;&#x4E2D;&#x7684;&#x672C;&#x5730;&#x4E8B;&#x52A1;&#x7684;&#x6267;&#x884C;&#x7ED3;&#x679C;&#x3002;&#x6240;&#x4EE5;&#x4ED6;&#x4E5F;&#x5C31;&#x4E0D;&#x77E5;&#x9053;&#x672C;&#x6B21;&#x4E8B;&#x52A1;&#x5230;&#x5E95;&#x5E94;&#x8BE5;commit&#x8FD8;&#x662F; roolback&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x5E38;&#x89C4;&#x7684;&#x89E3;&#x51B3;&#x529E;&#x6CD5;&#x5C31;&#x662F;&#x5F15;&#x5165;&#x4E00;&#x4E2A;&#x201C;&#x534F;&#x8C03;&#x8005;&#x201D;&#x7684;&#x7EC4;&#x4EF6;&#x6765;&#x7EDF;&#x4E00;&#x8C03;&#x5EA6;&#x6240;&#x6709;&#x5206;&#x5E03;&#x5F0F;&#x8282;&#x70B9;&#x7684;&#x6267;&#x884C;&#x3002;</p></p>
+            <p class="article-more-link">
+                <a href="/2016/11/11/两阶段提交协议、三阶段提交协议/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/11/11/两阶段提交协议、三阶段提交协议/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/11/11/两阶段提交协议、三阶段提交协议/">评论</a>
     
 
         </footer>
@@ -425,29 +531,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><blockquote>
-<p>Paxos&#x7B97;&#x6CD5;&#x662F;&#x83B1;&#x65AF;&#x5229;&#xB7;&#x5170;&#x4F2F;&#x7279;&#xFF08;&#x82F1;&#x8BED;&#xFF1A;Leslie Lamport&#xFF0C;LaTeX&#x4E2D;&#x7684;&#x201C;La&#x201D;&#xFF09;&#x4E8E;1990&#x5E74;&#x63D0;&#x51FA;&#x7684;&#x4E00;&#x79CD;&#x57FA;&#x4E8E;&#x6D88;&#x606F;&#x4F20;&#x9012;&#x4E14;&#x5177;&#x6709;&#x9AD8;&#x5EA6;&#x5BB9;&#x9519;&#x7279;&#x6027;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x7B97;&#x6CD5;&#x3002;</p>
-</blockquote>
-<ul>
-<li>1    &#x95EE;&#x9898;&#x548C;&#x5047;&#x8BBE;</li>
-<li>2    &#x7B97;&#x6CD5;<ul>
-<li>2.1    &#x7B97;&#x6CD5;&#x7684;&#x63D0;&#x51FA;&#x4E0E;&#x8BC1;&#x660E;</li>
-<li>2.2    &#x7B97;&#x6CD5;&#x7684;&#x5185;&#x5BB9;<ul>
-<li>2.2.1    &#x51B3;&#x8BAE;&#x7684;&#x63D0;&#x51FA;&#x4E0E;&#x6279;&#x51C6;</li>
-<li>2.2.2    &#x5B9E;&#x4F8B;<ul>
-<li>2.2.2.1    &#x60C5;&#x51B5;&#x4E00;</li>
-<li>2.2.2.2    &#x60C5;&#x51B5;&#x4E8C;</li>
-<li>2.2.2.3    &#x60C5;&#x51B5;&#x4E09;</li>
-</ul>
-</li>
-<li>2.2.3    &#x51B3;&#x8BAE;&#x7684;&#x53D1;&#x5E03;</li>
-<li>2.2.4    Progress&#x7684;&#x4FDD;&#x8BC1;</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="1-&#x95EE;&#x9898;&#x548C;&#x5047;&#x8BBE;"><a href="#1-&#x95EE;&#x9898;&#x548C;&#x5047;&#x8BBE;" class="headerlink" title="1 &#x95EE;&#x9898;&#x548C;&#x5047;&#x8BBE;"></a>1 &#x95EE;&#x9898;&#x548C;&#x5047;&#x8BBE;</h2><p><strong>&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x8282;&#x70B9;&#x901A;&#x4FE1;&#x5B58;&#x5728;&#x4E24;&#x79CD;&#x6A21;&#x578B;&#xFF1A;&#x5171;&#x4EAB;&#x5185;&#x5B58;&#xFF08;Shared memory&#xFF09;&#x548C;&#x6D88;&#x606F;&#x4F20;&#x9012;&#xFF08;Messages passing&#xFF09;</strong>&#x3002;&#x57FA;&#x4E8E;&#x6D88;&#x606F;&#x4F20;&#x9012;&#x901A;&#x4FE1;&#x6A21;&#x578B;&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#xFF0C;&#x4E0D;&#x53EF;&#x907F;&#x514D;&#x7684;&#x4F1A;&#x53D1;&#x751F;&#x4EE5;&#x4E0B;&#x9519;&#x8BEF;&#xFF1A;&#x8FDB;&#x7A0B;&#x53EF;&#x80FD;&#x4F1A;&#x6162;&#x3001;&#x88AB;&#x6740;&#x6B7B;&#x6216;&#x8005;&#x91CD;&#x542F;&#xFF0C;&#x6D88;&#x606F;&#x53EF;&#x80FD;&#x4F1A;&#x5EF6;&#x8FDF;&#x3001;&#x4E22;&#x5931;&#x3001;&#x91CD;&#x590D;&#xFF0C;&#x5728;&#x57FA;&#x7840;Paxos&#x573A;&#x666F;&#x4E2D;&#xFF0C;&#x5148;&#x4E0D;&#x8003;&#x8651;&#x53EF;&#x80FD;&#x51FA;&#x73B0;&#x6D88;&#x606F;&#x7BE1;&#x6539;&#x5373;<a href="https://zh.wikipedia.org/wiki/&#x62DC;&#x5360;&#x5EAD;&#x5C06;&#x519B;&#x95EE;&#x9898;">&#x62DC;&#x5360;&#x5EAD;&#x9519;&#x8BEF;</a>&#x7684;&#x60C5;&#x51B5;&#x3002;Paxos&#x7B97;&#x6CD5;&#x89E3;&#x51B3;&#x7684;&#x95EE;&#x9898;&#x662F;&#x5728;&#x4E00;&#x4E2A;&#x53EF;&#x80FD;&#x53D1;&#x751F;&#x4E0A;&#x8FF0;&#x5F02;&#x5E38;&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D;&#x5982;&#x4F55;&#x5C31;&#x67D0;&#x4E2A;&#x503C;&#x8FBE;&#x6210;&#x4E00;&#x81F4;&#xFF0C;&#x4FDD;&#x8BC1;&#x4E0D;&#x8BBA;&#x53D1;&#x751F;&#x4EE5;&#x4E0A;&#x4EFB;&#x4F55;&#x5F02;&#x5E38;&#xFF0C;&#x90FD;&#x4E0D;&#x4F1A;&#x7834;&#x574F;&#x51B3;&#x8BAE;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x3002;<strong>&#x4E00;&#x4E2A;&#x5178;&#x578B;&#x7684;&#x573A;&#x666F;&#x662F;&#xFF0C;&#x5728;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x6570;&#x636E;&#x5E93;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x5404;&#x8282;&#x70B9;&#x7684;&#x521D;&#x59CB;&#x72B6;&#x6001;&#x4E00;&#x81F4;&#xFF0C;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x90FD;&#x6267;&#x884C;&#x76F8;&#x540C;&#x7684;&#x64CD;&#x4F5C;&#x5E8F;&#x5217;&#xFF0C;&#x90A3;&#x4E48;&#x4ED6;&#x4EEC;&#x6700;&#x540E;&#x80FD;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x4E00;&#x81F4;&#x7684;&#x72B6;&#x6001;&#x3002;</strong>&#x4E3A;&#x4FDD;&#x8BC1;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x6267;&#x884C;&#x76F8;&#x540C;&#x7684;&#x547D;&#x4EE4;&#x5E8F;&#x5217;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x6BCF;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#x4E0A;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x201C;&#x4E00;&#x81F4;&#x6027;&#x7B97;&#x6CD5;&#x201D;&#x4EE5;&#x4FDD;&#x8BC1;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x770B;&#x5230;&#x7684;&#x6307;&#x4EE4;&#x4E00;&#x81F4;&#x3002;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x7B97;&#x6CD5;&#x53EF;&#x4EE5;&#x5E94;&#x7528;&#x5728;&#x8BB8;&#x591A;&#x573A;&#x666F;&#x4E2D;&#xFF0C;&#x662F;&#x5206;&#x5E03;&#x5F0F;&#x8BA1;&#x7B97;&#x4E2D;&#x7684;&#x91CD;&#x8981;&#x95EE;&#x9898;&#x3002;&#x56E0;&#x6B64;&#x4ECE;20&#x4E16;&#x7EAA;80&#x5E74;&#x4EE3;&#x8D77;&#x5BF9;&#x4E8E;&#x4E00;&#x81F4;&#x6027;&#x7B97;&#x6CD5;&#x7684;&#x7814;&#x7A76;&#x5C31;&#x6CA1;&#x6709;&#x505C;&#x6B62;&#x8FC7;&#x3002;</p></p>
+            <p><p>Paxos&#x7B97;&#x6CD5;&#x662F;&#x83B1;&#x65AF;&#x5229;&#xB7;&#x5170;&#x4F2F;&#x7279;&#xFF08;&#x82F1;&#x8BED;&#xFF1A;Leslie Lamport&#xFF0C;LaTeX&#x4E2D;&#x7684;&#x201C;La&#x201D;&#xFF09;&#x4E8E;1990&#x5E74;&#x63D0;&#x51FA;&#x7684;&#x4E00;&#x79CD;&#x57FA;&#x4E8E;&#x6D88;&#x606F;&#x4F20;&#x9012;&#x4E14;&#x5177;&#x6709;&#x9AD8;&#x5EA6;&#x5BB9;&#x9519;&#x7279;&#x6027;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x7B97;&#x6CD5;&#x3002;</p>
+<h2 id="&#x95EE;&#x9898;&#x548C;&#x5047;&#x8BBE;"><a href="#&#x95EE;&#x9898;&#x548C;&#x5047;&#x8BBE;" class="headerlink" title="&#x95EE;&#x9898;&#x548C;&#x5047;&#x8BBE;"></a>&#x95EE;&#x9898;&#x548C;&#x5047;&#x8BBE;</h2><p><strong>&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x8282;&#x70B9;&#x901A;&#x4FE1;&#x5B58;&#x5728;&#x4E24;&#x79CD;&#x6A21;&#x578B;&#xFF1A;&#x5171;&#x4EAB;&#x5185;&#x5B58;&#xFF08;Shared memory&#xFF09;&#x548C;&#x6D88;&#x606F;&#x4F20;&#x9012;&#xFF08;Messages passing&#xFF09;</strong>&#x3002;&#x57FA;&#x4E8E;&#x6D88;&#x606F;&#x4F20;&#x9012;&#x901A;&#x4FE1;&#x6A21;&#x578B;&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#xFF0C;&#x4E0D;&#x53EF;&#x907F;&#x514D;&#x7684;&#x4F1A;&#x53D1;&#x751F;&#x4EE5;&#x4E0B;&#x9519;&#x8BEF;&#xFF1A;&#x8FDB;&#x7A0B;&#x53EF;&#x80FD;&#x4F1A;&#x6162;&#x3001;&#x88AB;&#x6740;&#x6B7B;&#x6216;&#x8005;&#x91CD;&#x542F;&#xFF0C;&#x6D88;&#x606F;&#x53EF;&#x80FD;&#x4F1A;&#x5EF6;&#x8FDF;&#x3001;&#x4E22;&#x5931;&#x3001;&#x91CD;&#x590D;&#xFF0C;&#x5728;&#x57FA;&#x7840;Paxos&#x573A;&#x666F;&#x4E2D;&#xFF0C;&#x5148;&#x4E0D;&#x8003;&#x8651;&#x53EF;&#x80FD;&#x51FA;&#x73B0;&#x6D88;&#x606F;&#x7BE1;&#x6539;&#x5373;<a href="https://zh.wikipedia.org/wiki/&#x62DC;&#x5360;&#x5EAD;&#x5C06;&#x519B;&#x95EE;&#x9898;">&#x62DC;&#x5360;&#x5EAD;&#x9519;&#x8BEF;</a>&#x7684;&#x60C5;&#x51B5;&#x3002;Paxos&#x7B97;&#x6CD5;&#x89E3;&#x51B3;&#x7684;&#x95EE;&#x9898;&#x662F;&#x5728;&#x4E00;&#x4E2A;&#x53EF;&#x80FD;&#x53D1;&#x751F;&#x4E0A;&#x8FF0;&#x5F02;&#x5E38;&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D;&#x5982;&#x4F55;&#x5C31;&#x67D0;&#x4E2A;&#x503C;&#x8FBE;&#x6210;&#x4E00;&#x81F4;&#xFF0C;&#x4FDD;&#x8BC1;&#x4E0D;&#x8BBA;&#x53D1;&#x751F;&#x4EE5;&#x4E0A;&#x4EFB;&#x4F55;&#x5F02;&#x5E38;&#xFF0C;&#x90FD;&#x4E0D;&#x4F1A;&#x7834;&#x574F;&#x51B3;&#x8BAE;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x3002;<strong>&#x4E00;&#x4E2A;&#x5178;&#x578B;&#x7684;&#x573A;&#x666F;&#x662F;&#xFF0C;&#x5728;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x6570;&#x636E;&#x5E93;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x5404;&#x8282;&#x70B9;&#x7684;&#x521D;&#x59CB;&#x72B6;&#x6001;&#x4E00;&#x81F4;&#xFF0C;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x90FD;&#x6267;&#x884C;&#x76F8;&#x540C;&#x7684;&#x64CD;&#x4F5C;&#x5E8F;&#x5217;&#xFF0C;&#x90A3;&#x4E48;&#x4ED6;&#x4EEC;&#x6700;&#x540E;&#x80FD;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x4E00;&#x81F4;&#x7684;&#x72B6;&#x6001;&#x3002;</strong>&#x4E3A;&#x4FDD;&#x8BC1;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x6267;&#x884C;&#x76F8;&#x540C;&#x7684;&#x547D;&#x4EE4;&#x5E8F;&#x5217;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x6BCF;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#x4E0A;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x201C;&#x4E00;&#x81F4;&#x6027;&#x7B97;&#x6CD5;&#x201D;&#x4EE5;&#x4FDD;&#x8BC1;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x770B;&#x5230;&#x7684;&#x6307;&#x4EE4;&#x4E00;&#x81F4;&#x3002;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x7B97;&#x6CD5;&#x53EF;&#x4EE5;&#x5E94;&#x7528;&#x5728;&#x8BB8;&#x591A;&#x573A;&#x666F;&#x4E2D;&#xFF0C;&#x662F;&#x5206;&#x5E03;&#x5F0F;&#x8BA1;&#x7B97;&#x4E2D;&#x7684;&#x91CD;&#x8981;&#x95EE;&#x9898;&#x3002;&#x56E0;&#x6B64;&#x4ECE;20&#x4E16;&#x7EAA;80&#x5E74;&#x4EE3;&#x8D77;&#x5BF9;&#x4E8E;&#x4E00;&#x81F4;&#x6027;&#x7B97;&#x6CD5;&#x7684;&#x7814;&#x7A76;&#x5C31;&#x6CA1;&#x6709;&#x505C;&#x6B62;&#x8FC7;&#x3002;</p></p>
             <p class="article-more-link">
                 <a href="/2016/11/07/Paxos算法/#more">查看更多</a>
             </p>
@@ -1131,111 +1216,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-MySQL主从切换" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/10/14/MySQL主从切换/">MySQL主从切换</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/10/14/MySQL主从切换/">
-            <time datetime="2016-10-14T14:22:00.000Z" itemprop="datePublished">2016-10-14</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/运维部署/">运维部署</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/mysql/">mysql</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x4E2D;&#xFF0C;&#x67B6;&#x6784;&#x5F88;&#x591A;&#x4E3A;&#x4E00;&#x4E3B;&#x591A;&#x4ECE;&#x3002;&#x6BD4;&#x5982;&#x4E00;&#x4E2A;&#x4E3B;&#x6570;&#x636E;&#x5E93;M&#xFF0C;&#x4E24;&#x4E2A;&#x4ECE;&#x6570;&#x636E;&#x5E93;S1&#xFF0C;S2&#x540C;&#x65F6;&#x6307;&#x5411;&#x4E3B;&#x6570;&#x636E;&#x5E93;M&#x3002;</p>
-<p>&#x5F53;&#x4E3B;&#x670D;&#x52A1;&#x5668;M&#x56E0;&#x4E3A;&#x610F;&#x5916;&#x60C5;&#x51B5;&#x5B95;&#x673A;&#xFF0C;&#x9700;&#x8981;&#x5C06;&#x5176;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x4ECE;&#x6570;&#x636E;&#x5E93;&#x670D;&#x52A1;&#x5668;&#xFF08;&#x5047;&#x8BBE;&#x9009;&#x62E9;S1&#xFF09;&#x5207;&#x6362;&#x6210;&#x4E3B;&#x6570;&#x636E;&#x5E93;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x540C;&#x65F6;&#x4FEE;&#x6539;&#x53E6;&#x4E00;&#x4E2A;&#x4ECE;&#x6570;&#x636E;&#x5E93;&#xFF08;S2&#xFF09;&#x7684;&#x914D;&#x7F6E;&#xFF0C;&#x4F7F;&#x5176;&#x6307;&#x5411;&#x65B0;&#x7684;&#x4E3B;&#x6570;&#x636E;&#x5E93;&#xFF08;S1&#xFF09;&#x3002;</p>
-<p>&#x6B64;&#x5916;&#x8FD8;&#x9700;&#x8981;&#x901A;&#x77E5;&#x5E94;&#x7528;&#x4FEE;&#x6539;&#x4E3B;&#x6570;&#x636E;&#x5E93;&#x7684;IP&#x5730;&#x5740;&#xFF0C;&#x5982;&#x679C;&#x53EF;&#x80FD;&#xFF0C;&#x5C06;&#x51FA;&#x73B0;&#x6545;&#x969C;&#x7684;&#x4E3B;&#x6570;&#x636E;&#x5E93;(M)&#x4FEE;&#x590D;&#x6216;&#x8005;&#x91CD;&#x7F6E;&#x6210;&#x65B0;&#x7684;&#x4ECE;&#x6570;&#x636E;&#x5E93;&#x3002;<br>&#x901A;&#x5E38;&#x6211;&#x4EEC;&#x8FD8;&#x6709;&#x5176;&#x4ED6;&#x7684;&#x65B9;&#x6848;&#x6765;&#x5B9E;&#x73B0;&#x9AD8;&#x53EF;&#x7528;&#xFF0C;&#x6BD4;&#x5982;MHA&#xFF0C;MySQL Cluster&#xFF0C;MMM&#xFF0C;&#x8FD9;&#x4E9B;&#x6682;&#x4E0D;&#x8BA8;&#x8BBA;&#x3002;</p>
-<h3 id="&#x64CD;&#x4F5C;&#x6B65;&#x9AA4;"><a href="#&#x64CD;&#x4F5C;&#x6B65;&#x9AA4;" class="headerlink" title="&#x64CD;&#x4F5C;&#x6B65;&#x9AA4;"></a>&#x64CD;&#x4F5C;&#x6B65;&#x9AA4;</h3><font style="color:red">1&#x3001;&#x9996;&#x5148;&#x8981;&#x786E;&#x4FDD;&#x6240;&#x6709;&#x7684;&#x4ECE;&#x6570;&#x636E;&#x5E93;&#x90FD;&#x5DF2;&#x7ECF;&#x6267;&#x884C;&#x4E86;relay log&#x4E2D;&#x7684;&#x5168;&#x90E8;&#x66F4;&#x65B0;&#xFF0C;&#x5728;&#x6BCF;&#x4E2A;&#x4ECE;&#x5E93;&#x4E0A;&#xFF0C;&#x6267;&#x884C;stop slave io_thread&#xFF0C;&#x505C;&#x6B62;IO&#x7EBF;&#x7A0B;&#xFF0C;&#x7136;&#x540E;&#x68C0;&#x67E5;show processlist&#x7684;&#x8F93;&#x51FA;&#xFF0C;&#x76F4;&#x5230;&#x770B;&#x5230;&#x72B6;&#x6001;&#x662F;Slave has read all relay log; waiting for the slave I/O thread to update it&#xFF0C;&#x8868;&#x793A;&#x66F4;&#x65B0;&#x90FD;&#x6267;&#x884C;&#x5B8C;&#x6BD5;</font>
-
-<p>S1(&#x4ECE;&#x5E93;1&#x64CD;&#x4F5C;)&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; stop slave io_thread;</span><br><span class="line">Query OK, 0 rows affected (0.06 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show processlist\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">     Id: 3</span><br><span class="line">   User: system user</span><br><span class="line">   Host: </span><br><span class="line">     db: NULL</span><br><span class="line">Command: Connect</span><br><span class="line">   Time: 2601</span><br><span class="line">  State: Slave has <span class="built_in">read</span> all relay <span class="built_in">log</span>; waiting <span class="keyword">for</span> the slave I/O thread to update it</span><br><span class="line">   Info: NULL</span><br><span class="line">*************************** 2. row ***************************</span><br><span class="line">     Id: 4</span><br><span class="line">   User: root</span><br><span class="line">   Host: localhost</span><br><span class="line">     db: NULL</span><br><span class="line">Command: Query</span><br><span class="line">   Time: 0</span><br><span class="line">  State: NULL</span><br><span class="line">   Info: show processlist</span><br><span class="line">rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure></p></p>
-            <p class="article-more-link">
-                <a href="/2016/10/14/MySQL主从切换/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2016/10/14/MySQL主从切换/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/10/14/MySQL主从切换/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
     </nav>
@@ -1257,6 +1237,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                             <p class="item-category"><a class="article-category-link" href="/categories/算法及理论/">算法及理论</a></p>
                             <p class="item-title"><a href="/2016/11/12/一致哈希/" class="title">一致哈希</a></p>
                             <p class="item-date"><time datetime="2016-11-12T10:53:00.000Z" itemprop="datePublished">2016-11-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/算法及理论/">算法及理论</a></p>
+                            <p class="item-title"><a href="/2016/11/11/两阶段提交协议、三阶段提交协议/" class="title">两阶段提交协议、三阶段提交协议</a></p>
+                            <p class="item-date"><time datetime="2016-11-11T14:10:00.000Z" itemprop="datePublished">2016-11-11</time></p>
                         </div>
                     </li>
                 
@@ -1284,14 +1272,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                     </li>
                 
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/算法及理论/">算法及理论</a></p>
-                            <p class="item-title"><a href="/2016/10/29/TCP三次握手与四次分手/" class="title">TCP三次握手与四次分手</a></p>
-                            <p class="item-date"><time datetime="2016-10-29T14:10:00.000Z" itemprop="datePublished">2016-10-29</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1301,7 +1281,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">8</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">8</span></li></ul>
         </div>
     </div>
 
@@ -1310,7 +1290,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div -->
 
@@ -1319,7 +1299,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 11.67px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 11.67px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 15px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
+            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/MyBatis/" style="font-size: 10px;">MyBatis</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 11.67px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 11.67px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/大数据/" style="font-size: 15px;">大数据</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a>
         </div>
     </div -->
 
