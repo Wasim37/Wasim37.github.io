@@ -2,7 +2,7 @@
 title: Linux开机启动程序详解
 categories:
   - 运维部署
-date: 2016-9-22 22:41:19
+date: 2016-9-6 22:41:19
 toc: false
 
 ---
