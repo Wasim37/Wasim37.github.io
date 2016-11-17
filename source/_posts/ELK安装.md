@@ -18,6 +18,8 @@ ELK由ElasticSearch、Logstash和Kiabana三个开源工具组成：
 - Logstash是一个完全开源的工具，他可以对你的日志进行收集、过滤，并将其存储供以后使用（如，搜索）。
 - Kibana 也是一个开源和免费的工具，它Kibana可以为 Logstash 和 ElasticSearch 提供的日志分析友好的 Web 界面，可以帮助您汇总、分析和搜索重要数据日志。
 
+<!-- more -->
+
 ## ELK安装
 ### 安装jdk
 
