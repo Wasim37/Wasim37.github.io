@@ -1,13 +1,15 @@
 ---
 title: MapReduce详解
 categories:
-  - 其他技术
+  - 算法及理论
 tags:
   - 大数据
 date: 2016-5-17 21:18:00
-toc: false
 
 ---
+
+### MapReduce
+MapReduce是一种编程模型，用于大规模数据集（大于1TB）的并行运算。概念"Map（映射）"和"Reduce（归约）"，是它们的主要思想，都是从函数式编程语言里借来的，还有从矢量编程语言里借来的特性。**它极大地方便了编程人员在不会分布式并行编程的情况下，将自己的程序运行在分布式系统上。**
 
 ### 分析MapReduce执行过程
 
@@ -16,7 +18,7 @@ MapReduce运行的时候，会通过Mapper运行的任务读取HDFS中的数据�
 ![](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/1.png)
 
 - - -
-### Mapper任务的执行过程详解
+### Mapper任务详解
 
 **每个Mapper任务是一个java进程**，它会读取HDFS中的文件，解析成很多的键值对，经过我们覆盖的map方法处理后，转换为很多的键值对再输出。整个Mapper任务的处理过程又可以分为以下几个阶段，如图所示。
 
@@ -39,7 +41,7 @@ MapReduce运行的时候，会通过Mapper运行的任务读取HDFS中的数据�
 - 第六阶段是对数据进行归约处理，也就是reduce处理。**键相等的键值对会调用一次reduce方法。**经过这一阶段，数据量会减少。归约后的数据输出到本地的linxu文件中。**本阶段默认是没有的，需要用户自己增加这一阶段的代码。**
 
 - - -
-### Reducer任务的执行过程详解
+### Reducer任务详解
 
 每个Reducer任务是一个java进程。Reducer任务接收Mapper任务的输出，归约处理后写入到HDFS中，可以分为如下图所示的几个阶段。
 
@@ -52,7 +54,7 @@ MapReduce运行的时候，会通过Mapper运行的任务读取HDFS中的数据�
 - 第三阶段是对排序后的键值对调用reduce方法。**键相等的键值对调用一次reduce方法**，每次调用会产生零个或者多个键值对。最后把这些输出的键值对写入到HDFS文件中。
 
 - - -
-### Shuffle
+### Shuffle——MapReduce核心
 
 **Shuffle过程是MapReduce的核心，也被称为奇迹发生的地方。**
 Shuffle过程：将map的输出作为reduce的输入的过程。
