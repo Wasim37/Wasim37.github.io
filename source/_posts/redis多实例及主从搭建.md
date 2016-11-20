@@ -1,5 +1,5 @@
 ---
-title: redis多实例及主从搭建
+title: Redis多实例及主从搭建
 categories:
   - 运维部署
 tags:

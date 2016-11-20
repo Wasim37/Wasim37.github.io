@@ -1,5 +1,5 @@
 ---
-title: redis安装
+title: Redis安装
 categories:
   - 运维部署
 tags:

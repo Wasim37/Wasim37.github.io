@@ -29,7 +29,8 @@ toc: false
 
 ################################ 常用 #####################################
 
-# daemonize no 默认情况下，redis不是在后台运行的，如果需要在后台运行，把该项的值更改为yes
+# daemonize no 默认情况下redis不是作为守护进程运行的
+# 如果你想让它在后台运行，你就把它改成 yes
 daemonize yes
 
 # 当redis在后台运行的时候，默认会把pid文件放在/var/run/redis.pid，你可以配置到其他地址。
@@ -91,7 +92,7 @@ tcp-keepalive 0
 # warning 只有非常重要或者严重的信息会记录到日志
 loglevel debug
 
-# 配置log文件地址
+# 配置log文件地址，不同的redis实例设置不同的日志文件，便于问题定位
 # 默认值为stdout，标准输出，若后台模式会输出到/dev/null
 # logfile stdout
 logfile /var/log/redis/redis.log
@@ -152,6 +153,7 @@ rdbcompression yes
 rdbchecksum yes
 
 # 本地持久化数据库文件名，默认值为dump.rdb
+# 不同的redis实例设置不同的db文件，便于问题定位
 dbfilename dump.rdb
 
 # 工作目录
@@ -163,6 +165,11 @@ dbfilename dump.rdb
 # AOF文件也会存放在这个目录下面
 # 
 # 注意这里必须制定一个目录而不是文件
+#
+# 这个配置项默认值为“./”，最好改相对路径为绝对路径
+# 如果为相对路径，redis在哪里启动，dump.rdb文件就会产生在启动的目录
+# 这也就是有些人重启redis后key值消失的原因
+#
 dir ./
 
 ################################# 主从复制 #################################

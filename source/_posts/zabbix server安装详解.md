@@ -1,5 +1,5 @@
 ---
-title: zabbix监控平台搭建
+title: zabbix server安装详解
 categories:
   - 运维部署
 tags:
