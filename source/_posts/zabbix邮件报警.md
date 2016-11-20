@@ -3,7 +3,6 @@ title: zabbix邮件报警
 categories:
   - 运维部署
 date: 2016-11-1 18:53:00
-toc: false
 ---
 
 ### 示警媒介
@@ -133,6 +132,10 @@ chown zabbix.zabbix sendEmail.sh
 间隔就是默认持续时间60秒。那么一个小时，就会发送60封邮件。
 如果需要短信报警的话,可以再创建一条新的动作，选择短信脚本。
 
+---
+
+### 邮件测试及模板修改
+
 下面开始测试邮件报警
 先添加一台主机test，不存在的IP地址
 等待几分钟，可以看到是红色状态
@@ -201,3 +204,8 @@ chown zabbix.zabbix sendEmail.sh
 事件ID:{EVENT.ID}<br/>
 ```
 
+更改后，收到的邮件样式如下：
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/17.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/18.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/19.png)
