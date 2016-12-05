@@ -99,7 +99,7 @@ service sonar stop
 
 我们查看相关日志：
 ```bash
-#tail -f /data/sonar/sonarqube-5.6.1/logs
+#tail -f /data/sonar/sonarqube-5.6.1/logs/sonar.log
 --> Wrapper Started as Daemon
 Launching a JVM...
 Unable to start JVM: No such file or directory (2)
@@ -134,6 +134,9 @@ wrapper.java.command=/usr/java/jdk1.8.0_31/bin/java
 **方案：**通过"vi /etc/init.d/jenkins"，把JDK的java路径加上即可
 **注意：**Jenkins启动后自动部署Tomcat，Tomcat需先启动
 <!--more-->
+
+**问题：Sonar无法启动，Failed to start SonarQube.**
+**方案：**切换成root用户启动试试，可能是没有权限。
 
 **问题：Sonar中文乱码问题**
 **方案：**sonar-run配置有问题，里面的jdbc配置是：
