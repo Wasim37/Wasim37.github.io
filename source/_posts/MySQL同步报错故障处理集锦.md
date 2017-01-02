@@ -1,7 +1,7 @@
 ---
 title: MySQL同步报错故障处理集锦
 categories:
-  - 错误集锦
+  - 数据库
 tags:
   - mysql
 date: 2016-10-20 21:18:00

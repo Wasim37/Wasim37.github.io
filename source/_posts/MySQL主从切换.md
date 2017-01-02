@@ -3,7 +3,7 @@ title: MySQL主从切换
 tags:
   - mysql
 categories:
-  - 运维部署
+  - 数据库
 date: 2016-10-14 22:22:00
 toc: false
 ---

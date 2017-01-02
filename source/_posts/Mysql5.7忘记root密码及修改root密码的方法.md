@@ -1,7 +1,7 @@
 ---
 title: Mysql5.7忘记root密码及修改root密码的方法
 categories:
-  - 错误集锦
+  - 数据库
 tags:
   - mysql
 date: 2016-9-20 22:41:19

@@ -4,7 +4,7 @@ tags:
   - MySQL
   - 性能调优
 categories:
-  - 我的收藏
+  - 数据库
 toc: false
 date: 2016-5-27 22:02:00
 ---

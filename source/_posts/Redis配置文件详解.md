@@ -1,7 +1,7 @@
 ---
 title: Redis配置文件详解
 categories:
-  - 运维部署
+  - 数据库
 tags:
   - redis
 date: 2016-9-20 22:10:00
