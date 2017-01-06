@@ -151,7 +151,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                64
+                65
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -279,6 +279,101 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             
     
         <a href="http://www.wangxin123.com/2017/01/05/zabbix监控Elasticsearch集群/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/01/05/zabbix监控Elasticsearch集群/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-MyBatis双数据源" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/12/20/MyBatis双数据源/">MyBatis双数据源配置</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/12/20/MyBatis双数据源/">
+            <time datetime="2016-12-20T10:53:00.000Z" itemprop="datePublished">2016-12-20</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/WEB后端/">WEB后端</a>
+    </div>
+
+                    
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="&#x914D;&#x7F6E;&#x76F8;&#x5173;"><a href="#&#x914D;&#x7F6E;&#x76F8;&#x5173;" class="headerlink" title="&#x914D;&#x7F6E;&#x76F8;&#x5173;"></a>&#x914D;&#x7F6E;&#x76F8;&#x5173;</h3><h4 id="jdbc-&#x914D;&#x7F6E;"><a href="#jdbc-&#x914D;&#x7F6E;" class="headerlink" title="jdbc &#x914D;&#x7F6E;"></a>jdbc &#x914D;&#x7F6E;</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#============================================================================</span></span><br><span class="line"><span class="comment"># MySQL</span></span><br><span class="line"><span class="comment">#============================================================================</span></span><br><span class="line">jdbc.mysql.driver=com.mysql.jdbc.Driver</span><br><span class="line">jdbc.mysql.url=jdbc:mysql://127.0.0.1:3306/<span class="built_in">test</span>?useUnicode=<span class="literal">true</span>&amp;characterEncoding=UTF-8&amp;allowMultiQueries=<span class="literal">true</span></span><br><span class="line">jdbc.mysql.username=root</span><br><span class="line">jdbc.mysql.password=root</span><br><span class="line"></span><br><span class="line"><span class="comment">#============================================================================</span></span><br><span class="line"><span class="comment"># MS SQL Server (JTDS)</span></span><br><span class="line"><span class="comment">#============================================================================</span></span><br><span class="line">jdbc.sqlserver.driver=net.sourceforge.jtds.jdbc.Driver</span><br><span class="line">jdbc.sqlserver.url=jdbc:jtds:sqlserver://127.0.0.1:1433/<span class="built_in">test</span></span><br><span class="line">jdbc.sqlserver.username=sa</span><br><span class="line">jdbc.sqlserver.password=sa</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#============================================================================</span></span><br><span class="line"><span class="comment"># &#x901A;&#x7528;&#x914D;&#x7F6E;</span></span><br><span class="line"><span class="comment">#============================================================================</span></span><br><span class="line">jdbc.initialSize=5</span><br><span class="line">jdbc.minIdle=5</span><br><span class="line">jdbc.maxIdle=20</span><br><span class="line">jdbc.maxActive=100</span><br><span class="line">jdbc.maxWait=100000</span><br><span class="line">jdbc.defaultAutoCommit=<span class="literal">false</span></span><br><span class="line">jdbc.removeAbandoned=<span class="literal">true</span></span><br><span class="line">jdbc.removeAbandonedTimeout=600</span><br><span class="line">jdbc.testWhileIdle=<span class="literal">true</span></span><br><span class="line">jdbc.timeBetweenEvictionRunsMillis=60000</span><br><span class="line">jdbc.numTestsPerEvictionRun=20</span><br><span class="line">jdbc.minEvictableIdleTimeMillis=300000</span><br><span class="line"></span><br><span class="line">jdbc.properties</span><br></pre></td></tr></table></figure></p>
+            <p class="article-more-link">
+                <a href="/2016/12/20/MyBatis双数据源/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/12/20/MyBatis双数据源/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/12/20/MyBatis双数据源/">评论</a>
     
 
         </footer>
@@ -1123,111 +1218,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-彻底清除Linux centos minerd木马" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/10/26/彻底清除Linux centos minerd木马/">彻底清除Linux centos minerd木马</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/10/26/彻底清除Linux centos minerd木马/">
-            <time datetime="2016-10-26T14:41:19.000Z" itemprop="datePublished">2016-10-26</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/错误集锦/">错误集锦</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/redis/">redis</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><blockquote>
-<p>&#x524D;&#x51E0;&#x5929;&#xFF0C;&#x516C;&#x53F8;&#x4E24;&#x53F0;linux&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x4E00;&#x53F0;&#x8BBF;&#x95EE;&#x901F;&#x5EA6;&#x5F88;&#x6162;&#xFF0C;cpu&#x8DD1;&#x6EE1;&#xFF0C;&#x4E00;&#x53F0;&#x514D;&#x5BC6;&#x7801;&#x767B;&#x5F55;&#x5931;&#x6548;&#xFF0C;&#x516C;&#x94A5;&#x6587;&#x4EF6;&#x88AB;&#x6539;&#x5199;&#x6210;redis&#x7684;key&#x3002;&#x7528;htop&#x547D;&#x4EE4;&#x67E5;&#x8BE2;&#x53D1;&#x73B0;&#x4E86;minerd&#x6728;&#x9A6C;&#x8FDB;&#x7A0B;&#xFF0C;&#x521D;&#x6B65;&#x731C;&#x6D4B;&#x662F;redis&#x6CA1;&#x6709;&#x914D;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#x9020;&#x6210;&#x7684;&#x3002;&#x7F51;&#x4E0A;&#x67E5;&#x8BE2;minerd&#x6728;&#x9A6C;&#xFF0C;&#x53D1;&#x73B0;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x5F88;&#x5E38;&#x89C1;&#x7684;&#x6316;&#x77FF;&#x7A0B;&#x5E8F;&#xFF0C;&#x76F8;&#x5173;&#x731C;&#x6D4B;&#x4E5F;&#x5F97;&#x5230;&#x4E86;&#x9A8C;&#x8BC1;&#x3002;</p>
-</blockquote>
-<p>&#x4E0B;&#x6587;&#x662F;&#x7F51;&#x4E0A;&#x641C;&#x7D22;&#x5230;&#x7684;&#x6E05;&#x9664;minerd&#x6728;&#x9A6C;&#x65B9;&#x6CD5;&#x3002;</p>
-<h2 id="&#x73B0;&#x72B6;&#x63CF;&#x8FF0;"><a href="#&#x73B0;&#x72B6;&#x63CF;&#x8FF0;" class="headerlink" title="&#x73B0;&#x72B6;&#x63CF;&#x8FF0;"></a>&#x73B0;&#x72B6;&#x63CF;&#x8FF0;</h2><p>1&#x3001;top&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x8FD9;&#x4E2A;minerd &#x7A0B;&#x5E8F;&#x628A;cpu&#x8DD1;&#x6EE1;&#x4E86;</p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BD%BB%E5%BA%95%E6%B8%85%E9%99%A4Linux%20centos%20minerd%E6%9C%A8%E9%A9%AC/1.jpg" alt="1.jpg"><br>2&#x3001;ps aux | grep minerd<br>&#x53EF;&#x77E5;&#x662F;&#x8FD9;&#x4E2A;&#x7A0B;&#x5E8F;: /opt/minerd</p></p>
-            <p class="article-more-link">
-                <a href="/2016/10/26/彻底清除Linux centos minerd木马/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2016/10/26/彻底清除Linux centos minerd木马/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/10/26/彻底清除Linux centos minerd木马/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
     </nav>
@@ -1249,6 +1239,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                             <p class="item-category"><a class="article-category-link" href="/categories/运维部署/">运维部署</a></p>
                             <p class="item-title"><a href="/2017/01/05/zabbix监控Elasticsearch集群/" class="title">zabbix监控Elasticsearch集群</a></p>
                             <p class="item-date"><time datetime="2017-01-05T10:24:17.000Z" itemprop="datePublished">2017-01-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/WEB后端/">WEB后端</a></p>
+                            <p class="item-title"><a href="/2016/12/20/MyBatis双数据源/" class="title">MyBatis双数据源配置</a></p>
+                            <p class="item-date"><time datetime="2016-12-20T10:53:00.000Z" itemprop="datePublished">2016-12-20</time></p>
                         </div>
                     </li>
                 
@@ -1276,14 +1274,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                     </li>
                 
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/算法及理论/">算法及理论</a></p>
-                            <p class="item-title"><a href="/2016/11/11/两阶段提交协议、三阶段提交协议/" class="title">两阶段提交协议、三阶段提交协议</a></p>
-                            <p class="item-date"><time datetime="2016-11-11T14:10:00.000Z" itemprop="datePublished">2016-11-11</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1293,7 +1283,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li></ul>
         </div>
     </div>
 
@@ -1302,7 +1292,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div -->
 

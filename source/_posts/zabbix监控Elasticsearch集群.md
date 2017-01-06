@@ -84,7 +84,7 @@ Total number of records
 
 Elasticsearch Cluster模板下都是集群总体情况的监控项，所以，运用在一台有 ES 集群读取权限的主机上即可，比如 zabbix server。
 
-zabbix监控成功后，可以在grafana上进行相关配置，展示图像。
+zabbix监控成功后，可以在grafana上进行相关配置，展示图像。下面是我初步搭建的界面：
 
 ![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E7%9B%91%E6%8E%A7Elasticsearch%E9%9B%86%E7%BE%A4/3.jpg)
 
