@@ -1,9 +1,9 @@
 ---
 title: Zookeeper原理
 categories:
-  - 其他技术
-tags:
   - 大数据
+tags:
+  - Zookeeper
 date: 2016-5-19 21:18:00
 toc: false
 ---

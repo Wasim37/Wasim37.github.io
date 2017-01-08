@@ -1,9 +1,9 @@
 ---
 title: MapReduce详解
 categories:
-  - 算法及理论
-tags:
   - 大数据
+tags:
+  - MapReduce
 date: 2016-5-17 21:18:00
 
 ---
