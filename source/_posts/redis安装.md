@@ -5,13 +5,15 @@ categories:
 tags:
   - redis
 date: 2016-9-16 22:41:19
-toc: false
+toc: true
 ---
 
 ### redis简介
 redis是一个性能非常优秀的内存数据库，通过key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set --有序集合)和hashs（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步。
 
 Redis 是一个高性能的key-value数据库。 redis的出现，很大程度补偿了memcached这类key/value存储的不足，在部 分场合可以对关系数据库起到很好的补充作用。它提供了Python，Ruby，Erlang，PHP客户端，使用很方便。redis的安装配置，比较简单，详见官方网站。
+
+---
 
 ### 安装
 
@@ -85,6 +87,13 @@ PS：如果要卸载redis，把/usr/local/bin/目录下的redis删除即可。
 ```bash
 echo "/usr/local/bin/redis-server /etc/redis/redis.conf &" >> /etc/rc.local
 ```
+
+---
+
+### 自动化部署脚本
+JDK：https://github.com/Wasim37/deployment-scripts/tree/master/java
+Tomcat：https://github.com/Wasim37/deployment-scripts/tree/master/tomcat
+
 ---
 
 ### 相关链接
@@ -99,3 +108,5 @@ http://www.360doc.com/content/15/0510/20/23016082_469494498.shtml
 
 redis conf配置详解
 http://www.cnblogs.com/kreo/p/4423362.html
+
+---

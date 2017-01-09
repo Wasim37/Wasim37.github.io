@@ -5,11 +5,12 @@ categories:
 tags:
   - jdk
 date: 2016-5-29 22:10:00
+toc: false
 
 ---
 
 ### JDK安装
-登录网址：http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 下载对应jdk版本，比如 jdk-7u80-linux-x64.tar.gz。
 
 ```bash
@@ -49,3 +50,9 @@ cd /opt/tomcat/tomcat6.0/bin
 ./startup.sh
 ```
 再打开浏览器测试一下，输入http:localhost:8080，猫的页面出来，说明安装成功了。
+
+---
+
+### 自动化部署脚本
+JDK：https://github.com/Wasim37/deployment-scripts/tree/master/java
+Tomcat：https://github.com/Wasim37/deployment-scripts/tree/master/tomcat

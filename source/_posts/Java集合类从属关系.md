@@ -10,8 +10,6 @@ toc: false
 
 ---
 
-> 有些东西不整理，实在太容易忘了。
-
 ### 1、集合关系图
 
 ![图片1](http://7xvfir.com1.z0.glb.clouddn.com/Java%E9%9B%86%E5%90%88%E7%B1%BB%E4%BB%8E%E5%B1%9E%E5%85%B3%E7%B3%BB/1.png)
