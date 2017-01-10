@@ -15,7 +15,11 @@ toc: false
 
 两台被监控的服务器，配置文件设置都一样，但是其中一台某些监控项失效，初步怀疑是版本不一致
 ```bash
+#查看agent版本
 /usr/sbin/zabbix_agentd -V
+
+#或者通过yum命令查看已经安装的包
+yum list installed | grep zabbix-agent
 ```
 
 <!-- more -->

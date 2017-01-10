@@ -91,8 +91,7 @@ echo "/usr/local/bin/redis-server /etc/redis/redis.conf &" >> /etc/rc.local
 ---
 
 ### 自动化部署脚本
-JDK：https://github.com/Wasim37/deployment-scripts/tree/master/java
-Tomcat：https://github.com/Wasim37/deployment-scripts/tree/master/tomcat
+https://github.com/Wasim37/deployment-scripts/tree/master/redis
 
 ---
 
