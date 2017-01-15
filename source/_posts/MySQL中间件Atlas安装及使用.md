@@ -6,7 +6,7 @@ tags:
   - atlas
   - mysql
 date: 2016-10-18 18:24:17
-toc: false
+toc: true
 ---
 
 ### 简介
@@ -37,6 +37,8 @@ Atlas各项功能验证：http://blog.itpub.net/27000195/viewspace-1421262/
 ```bash
 echo "/usr/local/mysql-proxy/bin/mysql-proxyd test start" >> /etc/rc.local
 ```
+
+---
 
 ### 添加atlas服务
 ```bash
@@ -91,13 +93,15 @@ service atlas restart
 service atlas stop
 ```
 
-### 查看MySQL监听端口
+查看MySQL监听端口
 ```bash
 etstat -tanlp | grep mysql
 tcp        0      0 0.0.0.0:2345            0.0.0.0:*               LISTEN      21449/mysql-proxy   
 tcp        0      0 0.0.0.0:3306            0.0.0.0:*               LISTEN      24096/mysqld        
 tcp        0      0 0.0.0.0:1234            0.0.0.0:*               LISTEN      21449/mysql-proxy
 ```
+
+---
 
 ### Atlas安装及卸载
 ```bash
@@ -108,7 +112,9 @@ sudo rpm -i Atlas-2.2.1.el6.x86_64.rpm
 sudo rpm -e Atlas-2.2.1.el6.x86_64
 ```
 
-### 系列问题
+---
+
+### 问题相关
 
 **问题：atlas安装后，读写分离测试，为什么读一直走主库 **
 回答：有事务存在的情况下，会强制走主库。解决方法，添加注解[@Transactional(propagation=Propagation.NOT_SUPPORTED)];

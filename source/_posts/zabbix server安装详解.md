@@ -109,6 +109,12 @@ service httpd restart
 Zabbix frontend is available at http://zabbix-frontend-hostname/zabbix in the browser. 
 Default username/password is **Admin/zabbix**.
 
+```bash
+# 设置自启动
+chkconfig httpd on
+chkconfig --list|grep httpd
+```
+
 <br/>
 
 ---

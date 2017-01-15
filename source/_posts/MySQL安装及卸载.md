@@ -147,3 +147,8 @@ rm -rf XXX
 
 ### 自动化部署脚本
 https://github.com/Wasim37/deployment-scripts/tree/master/mysql
+
+---
+
+### 相关链接
+my.cnf配置文件：https://blog.linuxeye.com/379.html
