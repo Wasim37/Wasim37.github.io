@@ -4,17 +4,16 @@ categories:
   - 数据库
 tags:
   - mysql
-date: 2016-10-20 21:18:00
-toc: false
+date: 2017-1-15 21:18:00
+toc: true
 ---
 
 ### 前言
 在发生故障切换后，经常遇到的问题就是同步报错，下面是最近收集的报错信息。
 
-
 ---
 
-### 删除失败
+### 记录删除失败
 **在master上删除一条记录，而slave上找不到**
 ```bash
 Last_SQL_Error: Could not execute Delete_rows event on table hcy.t1; 
@@ -73,9 +72,7 @@ mysql> select * from t1 where id=2;
 ```
 在master上和slave上再分别确认一下。
 
-
 ---
-
 
 ### 更新丢失
 在master上更新一条记录，而slave上找不到，丢失了数据。
@@ -149,9 +146,47 @@ mysql> show slave status\G;
 ……
 ```
 
-
 ---
 
+### 1236错误, 二进制文件缺失
+误删二进制文件等各种原因，导致主库mysql-bin.000012文件丢失，从库同步失败。
+```bash
+Master_Log_File: mysql-bin.000012
+Slave_IO_Running: No
+Slave_SQL_Running: Yes
+Last_IO_Error: Got fatal error 1236 from master when reading data from binary log: 'Could not find first log file name in binary log index file'
+```
+
+- 首先停止从库同步
+```bash
+slave stop;
+```
+- 查看主库日志文件和位置
+```bash
+mysql> show master logs;
++------------------+-----------+
+| Log_name         | File_size |
++------------------+-----------+
+| mysql-bin.000013 |       154 |
++------------------+-----------+
+```
+- 回从库，使日志文件和位置对应主库
+```bash
+CHANGE MASTER TO MASTER_LOG_FILE='log-bin.000013',MASTER_LOG_POS=154;
+```
+- 最后，启动从库：
+```bash
+slave start;
+
+show slave status\G;
+
+Master_Log_File: mysql-bin.000013
+Slave_IO_Running: Yes
+Slave_SQL_Running: Yes
+Last_IO_Error:
+```
+
+---
 
 ### 中继日志损坏
 slave的中继日志relay-bin损坏。
@@ -161,7 +196,7 @@ Last_SQL_Error: Error initializing relay log position: Binlog has bad magic numb
 It's not a binary log file that can be used by  this version of MySQL
 ```
 
-#### 1、手工修复
+1、手工修复
 解决方法：找到同步的binlog和POS点，然后重新做同步，这样就可以有新的中继日值了。
 
 例子：
@@ -254,7 +289,7 @@ Master_SSL_Verify_Server_Cert: No
                Last_SQL_Error: 
 ```
 
-#### 2、Ibbackup
+2、Ibbackup
 各种大招都用上了，无奈slave数据丢失过多，ibbackup（需要银子）该你登场了。
 
 Ibbackup热备份工具，是付费的。xtrabackup是免费的，功能上一样。
