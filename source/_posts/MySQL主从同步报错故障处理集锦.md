@@ -1,5 +1,5 @@
 ---
-title: MySQL同步报错故障处理集锦
+title: MySQL主从同步报错故障处理集锦
 categories:
   - 数据库
 tags:

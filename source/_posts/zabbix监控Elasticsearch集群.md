@@ -4,7 +4,7 @@ categories:
   - 运维部署
 tags:
   - zabbix
-  - mysql
+  - es
 date: 2017-1-5 18:24:17
 toc: false
 ---
