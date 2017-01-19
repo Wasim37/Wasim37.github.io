@@ -11,6 +11,8 @@ toc: false
 
 ---
 
-最近整理的MySQL备份与恢复思维导图：
+最近整理了下MySQL备份与恢复的相关知识点，还在持续更新中，访问地址：
+https://www.processon.com/view/link/58805970e4b098bf4cddc5cd
 
 ![](http://7xvfir.com1.z0.glb.clouddn.com/MySQL%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D.png)
+

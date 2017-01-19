@@ -90,7 +90,7 @@ git@github.com:{username}/{username}.github.io.git
 
 比如页面展示可以分为左中右三个区域，分别为profile-column，main-column和sidebar-column。
 源代码三者宽度比例为3:7:3。为了突出正文，我改为了 2.3：8.4：2.3。
-源代码文件位置为：icarus\source\css\_variables.styl
+源代码文件位置为：icarus\source\css\ _variables.styl
 
 ![](http://7xvfir.com1.z0.glb.clouddn.com/Github+Hexo,%E6%90%AD%E5%BB%BA%E4%B8%93%E6%9C%89%E5%8D%9A%E5%AE%A2/3.png)
 
