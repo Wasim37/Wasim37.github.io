@@ -151,7 +151,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                74
+                75
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -183,6 +183,112 @@
 
             
             <section id="main">
+    <article id="post-两阶段提交协议、三阶段提交协议" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/11/11/两阶段提交协议、三阶段提交协议/">两阶段提交协议、三阶段提交协议</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/11/11/两阶段提交协议、三阶段提交协议/">
+            <time datetime="2016-11-11T14:10:00.000Z" itemprop="datePublished">2016-11-11</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/算法及理论/">算法及理论</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/2pc/">2pc</a>, <a class="tag-link" href="/tags/3pc/">3pc</a>, <a class="tag-link" href="/tags/分布式事务/">分布式事务</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="&#x5206;&#x5E03;&#x5F0F;&#x4E00;&#x81F4;&#x6027;&#x95EE;&#x9898;"><a href="#&#x5206;&#x5E03;&#x5F0F;&#x4E00;&#x81F4;&#x6027;&#x95EE;&#x9898;" class="headerlink" title="&#x5206;&#x5E03;&#x5F0F;&#x4E00;&#x81F4;&#x6027;&#x95EE;&#x9898;"></a>&#x5206;&#x5E03;&#x5F0F;&#x4E00;&#x81F4;&#x6027;&#x95EE;&#x9898;</h3><p>&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x6570;&#x636E;&#x7684;&#x9AD8;&#x53EF;&#x7528;&#xFF0C;&#x901A;&#x5E38;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x5C06;&#x6570;&#x636E;&#x4FDD;&#x7559;&#x591A;&#x4E2A;&#x526F;&#x672C;(replica)&#xFF0C;&#x8FD9;&#x4E9B;&#x526F;&#x672C;&#x4F1A;&#x653E;&#x7F6E;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x7269;&#x7406;&#x7684;&#x673A;&#x5668;&#x4E0A;&#x3002;&#x4E3A;&#x4E86;&#x5BF9;&#x7528;&#x6237;&#x63D0;&#x4F9B;&#x6B63;&#x786E;&#x7684;&#x589E;&#x3001;&#x5220;&#x3001;&#x6539;&#x3001;&#x67E5;&#x7B49;&#x8BED;&#x4E49;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4FDD;&#x8BC1;&#x8FD9;&#x4E9B;&#x653E;&#x7F6E;&#x5728;&#x4E0D;&#x540C;&#x7269;&#x7406;&#x673A;&#x5668;&#x4E0A;&#x7684;&#x526F;&#x672C;&#x662F;&#x4E00;&#x81F4;&#x7684;&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x8FD9;&#x79CD;&#x5206;&#x5E03;&#x5F0F;&#x4E00;&#x81F4;&#x6027;&#x95EE;&#x9898;&#xFF0C;&#x5728;&#x6027;&#x80FD;&#x548C;&#x6570;&#x636E;&#x4E00;&#x81F4;&#x6027;&#x7684;&#x53CD;&#x53CD;&#x590D;&#x590D;&#x6743;&#x8861;&#x8FC7;&#x7A0B;&#x4E2D;&#x603B;&#x7ED3;&#x4E86;&#x8BB8;&#x591A;&#x5178;&#x578B;&#x7684;&#x534F;&#x8BAE;&#x548C;&#x7B97;&#x6CD5;&#x3002;<strong>&#x5176;&#x4E2D;&#x6BD4;&#x8F83;&#x8457;&#x540D;&#x7684;&#x6709;&#x4E8C;&#x9636;&#x63D0;&#x4EA4;&#x534F;&#x8BAE;&#xFF08;Two Phase Commitment Protocol&#xFF09;&#x3001;&#x4E09;&#x9636;&#x63D0;&#x4EA4;&#x534F;&#x8BAE;&#xFF08;Three Phase Commitment Protocol&#xFF09;&#x548C;Paxos&#x7B97;&#x6CD5;&#x3002;</strong></p>
+<hr>
+<h3 id="&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;"><a href="#&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;" class="headerlink" title="&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;"></a>&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;</h3><blockquote>
+<p>&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;&#x662F;&#x6307;&#x4F1A;&#x6D89;&#x53CA;&#x5230;&#x64CD;&#x4F5C;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x7684;&#x4E8B;&#x52A1;&#x3002;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x5C06;&#x5BF9;&#x540C;&#x4E00;&#x5E93;&#x4E8B;&#x52A1;&#x7684;&#x6982;&#x5FF5;&#x6269;&#x5927;&#x5230;&#x4E86;&#x5BF9;&#x591A;&#x4E2A;&#x5E93;&#x7684;&#x4E8B;&#x52A1;&#x3002;&#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x4E00;&#x81F4;&#x6027;&#x3002;&#x5206;&#x5E03;&#x5F0F;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x5173;&#x952E;&#x662F;&#x5FC5;&#x987B;&#x6709;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#x4E8B;&#x52A1;&#x5728;&#x4EFB;&#x4F55;&#x5730;&#x65B9;&#x6240;&#x505A;&#x7684;&#x6240;&#x6709;&#x52A8;&#x4F5C;&#xFF0C;&#x63D0;&#x4EA4;&#x6216;&#x56DE;&#x6EDA;&#x4E8B;&#x52A1;&#x7684;&#x51B3;&#x5B9A;&#x5FC5;&#x987B;&#x4EA7;&#x751F;&#x7EDF;&#x4E00;&#x7684;&#x7ED3;&#x679C;&#xFF08;&#x5168;&#x90E8;&#x63D0;&#x4EA4;&#x6216;&#x5168;&#x90E8;&#x56DE;&#x6EDA;&#xFF09;</p>
+</blockquote>
+<p>&#x5982;&#x679C;&#x60F3;&#x8BA9;&#x5206;&#x5E03;&#x5F0F;&#x90E8;&#x7F72;&#x7684;&#x591A;&#x53F0;&#x673A;&#x5668;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x8981;&#x4FDD;&#x8BC1;&#x5728;&#x6240;&#x6709;&#x8282;&#x70B9;&#x7684;&#x6570;&#x636E;&#x5199;&#x64CD;&#x4F5C;&#xFF0C;&#x8981;&#x4E0D;&#x5168;&#x90E8;&#x90FD;&#x6267;&#x884C;&#xFF0C;&#x8981;&#x4E48;&#x5168;&#x90E8;&#x7684;&#x90FD;&#x4E0D;&#x6267;&#x884C;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x4E00;&#x53F0;&#x673A;&#x5668;&#x5728;&#x6267;&#x884C;&#x672C;&#x5730;&#x4E8B;&#x52A1;&#x7684;&#x65F6;&#x5019;&#x65E0;&#x6CD5;&#x77E5;&#x9053;&#x5176;&#x4ED6;&#x673A;&#x5668;&#x4E2D;&#x7684;&#x672C;&#x5730;&#x4E8B;&#x52A1;&#x7684;&#x6267;&#x884C;&#x7ED3;&#x679C;&#x3002;&#x6240;&#x4EE5;&#x4ED6;&#x4E5F;&#x5C31;&#x4E0D;&#x77E5;&#x9053;&#x672C;&#x6B21;&#x4E8B;&#x52A1;&#x5230;&#x5E95;&#x5E94;&#x8BE5;commit&#x8FD8;&#x662F; roolback&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x5E38;&#x89C4;&#x7684;&#x89E3;&#x51B3;&#x529E;&#x6CD5;&#x5C31;&#x662F;&#x5F15;&#x5165;&#x4E00;&#x4E2A;&#x201C;&#x534F;&#x8C03;&#x8005;&#x201D;&#x7684;&#x7EC4;&#x4EF6;&#x6765;&#x7EDF;&#x4E00;&#x8C03;&#x5EA6;&#x6240;&#x6709;&#x5206;&#x5E03;&#x5F0F;&#x8282;&#x70B9;&#x7684;&#x6267;&#x884C;&#x3002;</p></p>
+            <p class="article-more-link">
+                <a href="/2016/11/11/两阶段提交协议、三阶段提交协议/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/11/11/两阶段提交协议、三阶段提交协议/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/11/11/两阶段提交协议、三阶段提交协议/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-根据源码用HttpServletRequest获取MultipartFile的问题" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1109,107 +1215,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-MySQL定时逻辑备份" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/10/15/MySQL定时逻辑备份/">MySQL定时逻辑备份</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/10/15/MySQL定时逻辑备份/">
-            <time datetime="2016-10-15T14:22:00.000Z" itemprop="datePublished">2016-10-15</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/数据库/">数据库</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/mysql/">mysql</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="cron&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;"><a href="#cron&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;" class="headerlink" title="cron&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;"></a>cron&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;</h3><p>cron&#x662F;&#x4E00;&#x4E2A;linux&#x4E0B;&#x7684;&#x5B9A;&#x65F6;&#x6267;&#x884C;&#x5DE5;&#x5177;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x65E0;&#x9700;&#x4EBA;&#x5DE5;&#x5E72;&#x9884;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x8FD0;&#x884C;&#x4F5C;&#x4E1A;&#x3002;<br>Linux&#x4E0B;&#x7684;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;&#x4FBF;&#x662F;&#x5728;crontab&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x5165;&#x5B9A;&#x5236;&#x8BA1;&#x5212;&#x6765;&#x6267;&#x884C;&#x3002;</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /etc/crontab </span></span><br><span class="line"></span><br><span class="line">SHELL=/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin</span><br><span class="line">MAILTO=root</span><br><span class="line">HOME=/</span><br><span class="line"></span><br><span class="line"><span class="comment"># Example of job definition:</span></span><br><span class="line"><span class="comment"># .---------------- minute (0 - 59)</span></span><br><span class="line"><span class="comment"># |  .------------- hour (0 - 23)</span></span><br><span class="line"><span class="comment"># |  |  .---------- day of month (1 - 31)</span></span><br><span class="line"><span class="comment"># |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span></span><br><span class="line"><span class="comment"># |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span></span><br><span class="line"><span class="comment"># |  |  |  |  |</span></span><br><span class="line"><span class="comment"># *  *  *  *  * user-name command to be executed</span></span><br><span class="line">0 3 * * * root sh /data/mysqlbackup/all-databases-backup.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># run-parts</span></span><br><span class="line">01 * * * * root run-parts /etc/cron.hourly //&#x6BCF;&#x5C0F;&#x65F6;&#x6267;&#x884C;/etc/cron.hourly&#x5185;&#x7684;&#x811A;&#x672C;</span><br><span class="line">02 4 * * * root run-parts /etc/cron.daily //&#x6BCF;&#x5929;&#x6267;&#x884C;/etc/cron.daily&#x5185;&#x7684;&#x811A;&#x672C;</span><br><span class="line">22 4 * * 0 root run-parts /etc/cron.weekly //&#x6BCF;&#x661F;&#x671F;&#x6267;&#x884C;/etc/cron.weekly&#x5185;&#x7684;&#x811A;&#x672C;</span><br><span class="line">42 4 1 * * root run-parts /etc/cron.monthly //&#x6BCF;&#x6708;&#x53BB;&#x6267;&#x884C;/etc/cron.monthly&#x5185;&#x7684;&#x811A;&#x672C;</span><br></pre></td></tr></table></figure></p>
-            <p class="article-more-link">
-                <a href="/2016/10/15/MySQL定时逻辑备份/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2016/10/15/MySQL定时逻辑备份/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/10/15/MySQL定时逻辑备份/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
     </nav>
@@ -1225,6 +1230,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/数据库/">数据库</a></p>
+                            <p class="item-title"><a href="/2017/01/19/Percona Xtrabackup的安装及使用/" class="title">Percona Xtrabackup的安装及使用</a></p>
+                            <p class="item-date"><time datetime="2017-01-19T14:22:00.000Z" itemprop="datePublished">2017-01-19</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         <div class="item-thumbnail">
@@ -1258,14 +1271,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                     </li>
                 
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/其他技术/">其他技术</a></p>
-                            <p class="item-title"><a href="/2016/12/21/爬虫、反爬虫、反反爬虫/" class="title">爬虫、反爬虫、反反爬虫</a></p>
-                            <p class="item-date"><time datetime="2016-12-21T10:53:00.000Z" itemprop="datePublished">2016-12-21</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1275,7 +1280,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/微信相关/">微信相关</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB后端/">WEB后端</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/微信相关/">微信相关</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/相关感悟/">相关感悟</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li></ul>
         </div>
     </div>
 
@@ -1284,7 +1289,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div -->
 
