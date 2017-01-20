@@ -89,7 +89,7 @@ rm -rf ${JIRA_FILE_NAME}.sql
 
 # 保留10天数据
 remove_file_day=`date --date='10 days ago' +%Y%m%d`
-rm -f all-$tomcat_remove_day*
+rm -f all-$remove_file_day*
 
 ```
 
