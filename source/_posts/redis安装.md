@@ -66,7 +66,10 @@ daemonize yes
 启动
 ```bash
 /usr/local/bin/redis-server /etc/redis/redis.conf
+
 ps -ef | grep redis
+root      8033     1  0 19:36 ?        00:00:00 /usr/local/bin/redis-server *:6379               
+root      8084  4991  0 19:46 pts/0    00:00:00 grep redis
 ```
 
 使用客户端
@@ -80,6 +83,67 @@ OK
 
 PS：如果要卸载redis，把/usr/local/bin/目录下的redis删除即可。
 为了卸载干净，你还可以把解压和编译的redis包及配置的redis.conf也删除。
+
+</br>
+
+---
+
+### 安全配置
+#### 设置密码
+redis的默认安装是不设置密码的，可以在redis.conf中进行配置
+```bash
+# vim /etc/redis/redis.conf
+requirepass CWWmCeM79Sgz2imp
+```
+或者通过命令设置
+```bash
+CONFIG set requirepass "CWWmCeM79Sgz2imp" 
+```
+由于Redis的性能极高，并且输入错误密码后Redis并不会进行主动延迟（考虑到Redis的单线程模型），所以攻击者可以通过穷举法破解Redis的密码（1秒内能够尝试十几万个密码），<font style="color:red;">因此在设置时一定要选择复杂的密码，</font>可以用随机密码生成器生成。
+
+<font style="color:red;">注意：配置Redis复制的时候如果主数据库设置了密码，需要在从数据库的配置文件中通过masterauth参数设置主数据库的密码，以使从数据库连接主数据库时自动使用AUTH命令认证。详见本站的另一篇文章《Redis多实例及主从搭建》。</font>
+
+#### 禁止高危命令
+```bash
+# vim /etc/redis/redis.conf
+rename-command FLUSHALL ""
+rename-command CONFIG   ""
+rename-command EVAL     ""
+
+# 保存，重启redis，进入客户端，输入flushall等命令，出现如下提示
+# (error) ERR unknown command 'flushall'
+```
+<font style="color:red;">曾经我的测试服务器发生过一次这样的事故，由于安装的redis没有设置密码，被人通过扫描ip加默认的6379端口，进入了redis，然后通过config命令修改了我的免密码登录文件，导致所有人无法登录服务器。所以为了安全，你还可以修改你的默认redis端口。事故详情见本站另一篇文章《彻底清除Linux centos minerd木马》</font>
+
+#### 绑定只能本机连接
+Redis的默认配置会接受来自任何地址发送来的请求。
+即在任何一个拥有公网IP的服务器上启动Redis服务器，都可以被外界直接访问到。
+<font style="color:red;">如果只允许本机应用连接Redis，</font>可在配置文件中修改bind参数。
+
+```bash
+# vim /etc/redis/redis.conf
+bind 127.0.0.1
+```
+
+#### 使用linux nobody启动redis
+在root账户下使用nobody用户启动程序xxx的方法：
+```bash
+su -m nobody -c xxx
+```
+nobody账户默认是无法登陆的，直接使用su -nobody会出现
+```bash
+This account is currently not available. 
+```
+需要修改配置文件etc/passwd实现登陆
+```bash
+vim /etc/passwd  
+
+# 找到 nobody:x:99:99:Nobody:/:/sbin/nologin，改成如下
+nobody:x:99:99:Nobody:/:/bin/bash  
+
+# 保存执行
+su -nobody  
+```
 
 ---
 
