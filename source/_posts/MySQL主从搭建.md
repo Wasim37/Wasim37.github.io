@@ -38,6 +38,15 @@ server-id=1
 # 如果你需要从你最后的备份中做基于时间点的恢复,你也同样需要二进制日志.   
 log-bin=master-bin
 log-bin-index=master-bin.index
+# 表明距离当前时间正好n天前的二进制文件会被系统自动删除
+# 二进制文件千万不要手动删除
+expire-logs-days=14
+# binlog有三种日志格式, Statement、Row、Mixed, mysql默认采用statement, 建议使用mixed
+binlog_format=mixed
+# sync_binlog=0，当事务提交之后，MySQL不做fsync之类的磁盘同步指令刷新binlog_cache中的信息到磁盘，而让Filesystem自行决定什么时候来做同步，或者cache满了之后才同步到磁盘。
+# sync_binlog=n，当每进行n次事务提交之后，MySQL将进行一次fsync之类的磁盘同步指令来将binlog_cache中的数据强制写入磁盘
+# 设置为0和设置为1的系统写入性能差距有时候高达5倍甚至更多。
+sync-binlog=1
 
 #需要备份的数据库  
 binlog-do-db=orders
