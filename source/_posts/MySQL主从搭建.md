@@ -5,20 +5,15 @@ tags:
 categories:
   - 数据库
 date: 2016-10-7 22:22:00
-toc: false
+toc: true
 ---
 
-### 注意事项
-1、主从服务器操作系统版本和位数一致。
-2、MySQL版本一致。
-
-### 服务器配置
-**Master**: 192.168.1.18
-**Slave**: 192.168.1.16
+**主服务器**: 192.168.1.100
+**从服务器**: 192.168.1.101
 
 ---
 
-### <font style="color:red">Master(192.168.1.18)服务器配置</font>
+### 主服务器配置
 1、编辑配置文件
 
 ```bash
@@ -71,10 +66,10 @@ mysql -uroot -p
 Enter password: 
 
 #创建用户
-mysql> create user 'mastj'@'192.168.1.16(从机ip)' identified by '123456';
+mysql> create user 'mast_repl'@'192.168.1.101(从机ip)' identified by '123456';
         
 #配置主从复制权限
-mysql> grant replication slave on *.* to 'mastj'@'192.168.1.16(从机ip)' identified by '123456';
+mysql> grant replication slave on *.* to 'mast_repl'@'192.168.1.101(从机ip)' identified by '123456';
 ```
 
 4、若orders中已有数据，还需要锁定主服务器数据库，然后将数据导入到从数据库
@@ -96,7 +91,7 @@ mysql> unlock tables;
 
 ---
 
-## <font style="color:red">Slave(192.168.1.16)服务器配置<font>
+### 从服务器配置
 1、配置服务ID
 ```bash
 vim /etc/my.cnf 
@@ -133,8 +128,8 @@ mysql -uroot -p
 Enter password: 
        
 #执行
-mysql> change master to master_host='192.168.1.18',
-                master_user='mastj',
+mysql> change master to master_host='192.168.1.100',
+                master_user='mast_repl',
                 master_password='123456',
                 master_port=3306,
                 master_log_file='mysql-bin.000003',
@@ -161,8 +156,8 @@ mysql> start slave;
 mysql> show slave status\G  
 *************************** 1. row ***************************  
                Slave_IO_State: Waiting for master to send event  
-                  Master_Host: 192.168.1.18  
-                  Master_User: mastj  
+                  Master_Host: 192.168.1.100  
+                  Master_User: mast_repl  
                   Master_Port: 3306  
                 Connect_Retry: 10  
               Master_Log_File: mysql-bin.000003  
@@ -179,8 +174,24 @@ mysql> show slave status\G
 
 ---
 
-## MySQL复制过程
-MySQL主从复制过程主要由三个线程来完成，其中两个线程(Sql线程和IO线程)在Slave端，另外一个线程(IO线程)在Master端。
+### 常见配置错误
+Q：报错如下
+```bash
+ Slave_IO_Running: Connecting
+Slave_SQL_Running: Yes
+    Last_IO_Error: error connecting to master 'mast_repl@192.168.1.100:3306' - retry-time: 10  retries: 66
+```
+A：可能原因如下
+1、mast_repl用户没有复制权限，在主库通过【show grants for 'mast_repl'@'192.168.1.100'】命令查询。
+2、change master to命令中的master_password错误，即mast_repl用户密码错误。
+3、change master to命令中的master_log_pos错误，在主库通过【show master status】命名查询。
+
+
+---
+
+### 主从复制原理
+MySQL主从复制过程主要由三个线程来完成。
+其中两个线程(Sql线程和IO线程)在Slave端，另外一个线程(IO线程)在Master端。
 - Slave 上面的IO线程连接上 Master，并请求从指定日志文件的指定位置(或者从最开始的日志)之后的日志内容；
 - Master 接收到来自 Slave 的 IO 线程的请求后，通过负责复制的 IO 线程根据请求信息读取指定日志指定位置之后的日志信息，返回给 Slave 端的 IO 线程。返回信息中除了日志所包含的信息之外，还包括本次返回的信息在 Master 端的 Binary Log 文件的名称以及在 Binary Log 中的位置；
 - Slave 的 IO 线程接收到信息后，将接收到的日志内容依次写入到 Slave 端的Relay Log文件(mysql-relay-bin.xxxxxx)的最末端，并将读取到的Master端的bin-log的文件名和位置记录到master- info文件中，以便在下一次读取的时候能够清楚的高速Master“我需要从某个bin-log的哪个位置开始往后的日志内容，请发给我”
@@ -188,7 +199,53 @@ MySQL主从复制过程主要由三个线程来完成，其中两个线程(Sql�
 
 ---
 
-## 相关链接
+### 主从切换
+
+主变从，从变主
+**主服务器**: 192.168.1.101
+**从服务器**: 192.168.1.100
+
+```bash
+# 准备工作
+1、确认从库是否已经同步完成。
+在原有的从机101上，通过命令【show slave status\G;】查看【Slave_SQL_Running_State】的状态是否为【Slave has read all relay log; waiting for more updates】。
+2、打开从库的binlog相关配置，注释掉主库的binlog配置。
+3、在从库创建账号并赋予复制的权限
+create user 'mastj'@'192.168.1.100(新的从机ip)' identified by '123456';
+grant replication slave on *.* to 'mastj'@'192.168.1.100(新的从机ip)' identified by '123456';
+FLUSH PRIVILEGES;
+
+# 从变主(以下为101上的操作)
+4、停止从库的复制。stop slave。
+5、换从库为主库
+RESET MASTER
+6、重启服务器，查看主状态，记录File和Position值。
+service mysql restart
+show master status;
++-------------------+----------+--------------+------------------+-------------------+
+| File              | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
++-------------------+----------+--------------+------------------+-------------------+
+| master-bin.000001 |      154 | 略           | mysql            |                   |
++-------------------+----------+--------------+------------------+-------------------+
+
+# 主变从(以下为100上的操作)
+7、RESET SLAVE;
+8、change master to master_host='192.168.1.101',
+                master_user='mast_repl',
+                master_password='123456',
+                master_port=3306,
+                master_log_file='mysql-bin.000001',
+                master_log_pos=154,
+                master_connect_retry=10;
+9、重启数据库，并检查Slave_IO_Running和Slave_SQL_Running的值。
+如果都为yes，表名主从切换成功
+service mysql restart
+show slave status;
+```
+
+---
+
+### 链接相关
 
 **my.cnf参数详解**
 https://my.oschina.net/eduosi/blog/270535
