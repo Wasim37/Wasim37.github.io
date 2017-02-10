@@ -97,6 +97,7 @@ rm -f all-$remove_file_day*
 
 ### mysqldump参数详解
 
+http://doc.mysql.cn/mysql5/refman-5.1-zh.html-chapter/client-side-scripts.html#mysqldump
 
 ```java
 --all-databases  , -A

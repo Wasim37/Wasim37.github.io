@@ -27,12 +27,14 @@ vim /etc/my.cnf
 # 此值在master和slave上都需要设置.
 # 如果 “master-host” 没有被设置,则默认为1, 但是如果忽略此选项,MySQL不会作为master生效.
 server-id=1
-  
 # 打开二进制日志功能.
 # 在复制(replication)配置中,作为 MASTER 主服务器必须打开此项
 # 如果你需要从你最后的备份中做基于时间点的恢复,你也同样需要二进制日志.   
 log-bin=master-bin
 log-bin-index=master-bin.index
+
+# 以下为非必须设置的选项
+
 # 表明距离当前时间正好n天前的二进制文件会被系统自动删除
 # 二进制文件千万不要手动删除
 expire-logs-days=14
@@ -42,10 +44,11 @@ binlog_format=mixed
 # sync_binlog=n，当每进行n次事务提交之后，MySQL将进行一次fsync之类的磁盘同步指令来将binlog_cache中的数据强制写入磁盘
 # 设置为0和设置为1的系统写入性能差距有时候高达5倍甚至更多。
 sync-binlog=1
-
+# 单个日志文件最大字节设置最大100MB（单位：字节） 
+# 日志默认值是1GB，由于事务，一般文件都大于1GB
+max_binlog_size=104857600 
 #需要备份的数据库  
 binlog-do-db=orders
-
 #不需要备份的数据库
 #若没有配置binlog-do-db和binlog_ignore_db，表示备份全部数据库。
 binlog-ignore-db=mysql
@@ -246,6 +249,9 @@ show slave status;
 ---
 
 ### 链接相关
+
+**mysql中文手册**
+http://doc.mysql.cn/mysql5/refman-5.1-zh.html-chapter/
 
 **my.cnf参数详解**
 https://my.oschina.net/eduosi/blog/270535
