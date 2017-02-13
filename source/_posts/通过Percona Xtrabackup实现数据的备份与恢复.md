@@ -26,10 +26,6 @@ Percona XtraBackup是一个开源、免费的MySQL热备份软件,能够为InnoD
 xtrabackup 本身只能备份 InnoDB 和 XtraDB ，不能备份 MyISAM；
 innobackupex 本身是 Hot Backup 脚本修改而来，同时可以备份 MyISAM 和 InnoDB，但是备份 MyISAM 需要加读锁。
 
-
-**什么是流备份？**
-流备份是指备份的数据通过标准输出STDOUT传输给tar程序进行归档，而不是单纯的将数据文件保存到指定的备份目录中，参数--stream=tar表示开启流备份功能并打包。同时也可以利用流备份到远程服务器上。
-
 <!-- more -->
 
 **为什么说Xtrabackup是针对InnoDB引擎的备份工具？**
@@ -57,6 +53,9 @@ Xtrabackup在启动时会记住log sequence number（LSN），并且复制所有
 备份MyISAM和InnoDB表最终会处于一致，在准备（prepare）过程结束后，InnoDB表数据已经前滚到整个备份结束的点，而不是回滚到xtrabackup刚开始时的点。这个时间点与执行FLUSH TABLES WITH READ LOCK的时间点相同，所以myisam表数据与InnoDB表数据是同步的。类似oracle的，InnoDB的prepare过程可以称为recover（恢复），myisam的数据复制过程可以称为restore（还原）。
 
 Xtrabackup和innobackupex这两个工具都提供了许多前文没有提到的功能特点。手册上有对各个功能都有详细的介绍。简单介绍下，这些工具提供了如流（streaming）备份，增量（incremental）备份等，通过复制数据文件，复制日志文件和提交日志到数据文件（前滚）实现了各种复合备份方式。
+
+**什么是流备份？**
+流备份是指备份的数据通过标准输出STDOUT传输给tar程序进行归档，而不是单纯的将数据文件保存到指定的备份目录中，参数--stream=tar表示开启流备份功能并打包。同时也可以利用流备份到远程服务器上。
 
 ---
 

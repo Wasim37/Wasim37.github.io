@@ -6,10 +6,10 @@ tags:
   - zabbix
   - mysql
 date: 2016-9-29 18:24:17
-toc: false
+toc: true
 ---
 
-> zabbix自带mysql监控模板，可监控mysql的增删改查、请求流量带宽和响应流量带宽等。
+zabbix自带mysql监控模板，可监控mysql的增删改查、请求流量带宽和响应流量带宽等。
 
 ### 监控步骤
 
@@ -135,7 +135,7 @@ service zabbix-agent restart
 
 ---
 
-### 问题排查思路
+### 问题排查
 
 如果发现监控没有数据，请排查如下问题：
 - abbix客户端是否重启
