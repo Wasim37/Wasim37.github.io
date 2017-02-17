@@ -180,7 +180,7 @@ innobackupex --defaults-file=/data/mysql/my.cnf --user=root --password=passwd --
 ---
 
 ### 备份恢复常见错误
-**错误：针对增量备份已经执行了增量恢复，再次执行相关恢复命令时，报如下错误**
+**Q：针对增量备份已经执行了增量恢复，再次执行相关恢复命令时，报如下错误**
 ```bash
 xtrabackup: ########################################################
 xtrabackup: # !!WARNING!!                                          #
@@ -190,17 +190,17 @@ xtrabackup: ########################################################
 xtrabackup: The intended lsn is 1614986
 xtrabackup: starting shutdown with innodb_fast_shutdown = 1
 ```
-**方案：**此错误是提示你日志已损坏，即上次的恢复命令已经对日志进行了回滚。所以每次对增量备份执行恢复时，可事先备份数据，以防万一。
+**A：**此错误是提示你日志已损坏，即上次的恢复命令已经对日志进行了回滚。所以每次对增量备份执行恢复时，可事先备份数据，以防万一。
 
-**错误：对备份文件执行恢复命令时，报错如下：**
+**Q：对备份文件执行恢复命令时，报错如下：**
 ```bash
 innobackupex: Connecting to MySQL server with DSN 'dbi:mysql:;mysql_read_default_group=xtrabackup' as 'root'  (using password: YES).
 innobackupex: Error: Failed to connect to MySQL server: DBI connect(';mysql_read_default_group=xtrabackup','root',...) failed: Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2) at /usr/bin/innobackupex line 2995
 ```
-**方案：** 说明没有读取到my.cnf中的socket路径，也说明备份连接数据库时候走的是socket接口形式，我们可以换做走tcp/ip，执行命令中新增参数--host=127.0.0.1即可。如果仍然报错，检查相关命令是否有拼错的单词，检查datadir目录是否有【mysql:mysql】权限等。
+**A：** 说明没有读取到my.cnf中的socket路径，也说明备份连接数据库时候走的是socket接口形式，我们可以换做走tcp/ip，执行命令中新增参数--host=127.0.0.1即可。如果仍然报错，检查相关命令是否有拼错的单词，检查datadir目录是否有【mysql:mysql】权限等。
 
-**错误：xtrabackup Error: datadir must be specified.**
-**方案：**--defaults-file 对应的 my.cnf 文件没有指明datadir目录。如果指明了目录，执行相关命令仍然报错。把命令中的 --defaults-file 顺序从 --password后移至innobackupex后试试。innobackupex查找datadir不够智能。
+**Q：xtrabackup Error: datadir must be specified.**
+**A：**--defaults-file 对应的 my.cnf 文件没有指明datadir目录。如果指明了目录，执行相关命令仍然报错。把命令中的 --defaults-file 顺序从 --password后移至innobackupex后试试。innobackupex查找datadir不够智能。
 
 ---
 

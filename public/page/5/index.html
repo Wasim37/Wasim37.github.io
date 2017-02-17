@@ -183,6 +183,114 @@
 
             
             <section id="main">
+    <article id="post-Java虚拟机原理" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/09/10/Java虚拟机原理/">Java虚拟机原理</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/09/10/Java虚拟机原理/">
+            <time datetime="2016-09-10T13:18:00.000Z" itemprop="datePublished">2016-09-10</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/WEB后端/">WEB后端</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/虚拟机/">虚拟机</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="1&#x3001;&#x7F16;&#x8BD1;&#x673A;&#x5236;"><a href="#1&#x3001;&#x7F16;&#x8BD1;&#x673A;&#x5236;" class="headerlink" title="1&#x3001;&#x7F16;&#x8BD1;&#x673A;&#x5236;"></a>1&#x3001;&#x7F16;&#x8BD1;&#x673A;&#x5236;</h3><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8E%9F%E7%90%86/1.png" alt=""></p>
+<ul>
+<li><p>&#x5206;&#x6790;&#x548C;&#x8F93;&#x5165;&#x5230;&#x7B26;&#x53F7;&#x8868;&#xFF1A;<br>&#x8BCD;&#x6CD5;&#x5206;&#x6790;&#xFF1A;&#x5C06;&#x4EE3;&#x7801;&#x8F6C;&#x5316;&#x4E3A;token&#x5E8F;&#x5217;<br>&#x8BED;&#x6CD5;&#x5206;&#x6790;&#xFF1A;&#x7531;token&#x5E8F;&#x5217;&#x751F;&#x6210;&#x62BD;&#x8C61;&#x8BED;&#x6CD5;&#x6811;<br>&#x8F93;&#x5165;&#x5230;&#x7B26;&#x53F7;&#x8868;&#xFF1A;&#x5C06;&#x7C7B;&#x4E2D;&#x51FA;&#x73B0;&#x7684;&#x7B26;&#x53F7;&#x8F93;&#x5165;&#x5230;&#x7C7B;&#x7684;&#x7B26;&#x53F7;&#x8868;</p>
+</li>
+<li><p>&#x6CE8;&#x89E3;&#x5904;&#x7406;&#xFF1A;<br>&#x5904;&#x7406;&#x7528;&#x6237;&#x81EA;&#x5B9A;&#x4E49;&#x6CE8;&#x89E3;&#xFF0C;&#x4E4B;&#x540E;&#x7EE7;&#x7EED;&#x7B2C;&#x4E00;&#x6B65;</p>
+</li>
+<li><p>&#x6839;&#x636E;&#x7B26;&#x53F7;&#x8868;&#x8FDB;&#x884C;&#x8BED;&#x4E49;&#x5206;&#x6790;&#x5E76;&#x751F;&#x6210;class&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x8FDB;&#x884C;&#x76F8;&#x5173;&#x4F18;&#x5316;</p>
+</li>
+</ul></p>
+            <p class="article-more-link">
+                <a href="/2016/09/10/Java虚拟机原理/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/09/10/Java虚拟机原理/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/09/10/Java虚拟机原理/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Java解析word文档" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1148,106 +1256,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-MyBatis通用Mapper开发" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/07/09/MyBatis通用Mapper开发/">MyBatis通用Mapper开发</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/07/09/MyBatis通用Mapper开发/">
-            <time datetime="2016-07-09T13:18:00.000Z" itemprop="datePublished">2016-07-09</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/WEB后端/">WEB后端</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/MyBatis/">MyBatis</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>&#x901A;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;MyBatis &#x7684;&#x589E;&#x5220;&#x6539;&#x67E5;&#x64CD;&#x4F5C;&#x9700;&#x8981;&#x81EA;&#x5DF1;&#x5728;&#x76F8;&#x5E94;xml&#x4E2D;&#x5199;&#x76F8;&#x5173;&#x8BED;&#x53E5;&#xFF0C;<br>&#x4F46;&#x662F;&#x8FD0;&#x7528;&#x76F8;&#x5173;&#x5DE5;&#x5177;&#xFF0C;&#x5176;&#x5B9E;&#x53EF;&#x4EE5;&#x5F88;&#x65B9;&#x4FBF;&#x7684;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x5355;&#x8868;&#x7684;&#x6240;&#x6709;&#x589E;&#x5220;&#x6539;&#x67E5;(&#x901A;&#x7528;&#x7684;&#x591A;&#x8868;&#x8054;&#x5408;&#x67E5;&#x8BE2;&#x8FD8;&#x662F;&#x9700;&#x8981;&#x81EA;&#x5DF1;&#x5199;)&#x3002;<br>&#x4E5F;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x5177;&#x4F53;&#x73AF;&#x5883;&#xFF0C;&#x8BBE;&#x8BA1;&#x76F8;&#x5173;&#x6A21;&#x677F;&#xFF0C;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7B26;&#x5408;&#x8981;&#x6C42;&#x7684;controller&#x548C;service&#x3002;</p>
-<p><strong>&#x4F7F;&#x7528;&#x6559;&#x7A0B;</strong>&#xFF1A;<a href="http://git.oschina.net/free/Mapper#mybatis&#x901A;&#x7528;mapper3" target="_blank" rel="external">http://git.oschina.net/free/Mapper#mybatis&#x901A;&#x7528;mapper3</a><br><strong>&#x5177;&#x4F53;&#x5B9E;&#x8DF5;</strong>&#xFF1A;<a href="https://github.com/Wasim37/springmvc-mybatis-redis-beanstalkd-druid-bootstrap-shiro-maven-demo" target="_blank" rel="external">&#x540E;&#x53F0;&#x6743;&#x9650;&#x901A;&#x7528;&#x6846;&#x67B6;</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2016/07/09/MyBatis通用Mapper开发/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/07/09/MyBatis通用Mapper开发/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/4/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">下一页 &raquo;</a>
     </nav>
@@ -1263,6 +1271,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2017/02/16/MapReduce详解/" class="title">MapReduce详解</a></p>
+                            <p class="item-date"><time datetime="2017-02-16T13:18:00.000Z" itemprop="datePublished">2017-02-16</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         <div class="item-thumbnail">
@@ -1296,14 +1312,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                     </li>
                 
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/数据库/">数据库</a></p>
-                            <p class="item-title"><a href="/2017/01/15/MySQL主从同步报错故障处理集锦/" class="title">MySQL主从同步报错故障处理集锦</a></p>
-                            <p class="item-date"><time datetime="2017-01-15T13:18:00.000Z" itemprop="datePublished">2017-01-15</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1322,7 +1330,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div -->
 
