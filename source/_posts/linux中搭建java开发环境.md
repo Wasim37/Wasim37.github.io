@@ -15,17 +15,15 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.h
 
 ```bash
 # 执行下面命令安装JDK
-mkdir -p /opt/java
-tar -xvf jdk-7u80-linux-x64.tar.gz -C /opt/java
-
-# 创建一个链接
-ln -s /opt/java/jdk1.7.0_80 /opt/java/jdk 
+tar -xvf jdk-7u80-linux-x64.tar.gz -C /usr/local
+cd /usr/local
+mv jdk1.7.0_79/ jdk
 
 # 设置环境变量
-vi /etc/frofile   
+vim /etc/profile   
 
 export JAVA_HOME=/opt/java/jdk
-exprot PATH=$JAVA_HOME/bin:$PATH
+export PATH=$JAVA_HOME/bin:$PATH
 export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 
 # 使配置文件生效
@@ -33,7 +31,6 @@ source /etc/profile
 ```
 
 执行java -version命令，测试一下是否安装成功。
-
 ---
 
 ### Tomcat安装
