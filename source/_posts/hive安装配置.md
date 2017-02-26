@@ -63,7 +63,27 @@ cd /data/hive/conf
 cp hive-default.xml.template hive-site.xml
 ```
 
-hive-site.xml文件默认不需要修改，文件配置详解移步：
+hive-site.xml的主要配置有
+```bash
+<property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>/user/hive/warehouse</value>
+    <description>location of default database for the warehouse</description>
+</property>
+..
+<property>
+    <name>hive.exec.scratchdir</name>
+    <value>/tmp/hive</value>
+    <description>HDFS root scratch dir for Hive jobs which gets created with write all (733) permission. For each connecting user, an HDFS scratch dir: ${hive.exec.scratchdir}/&lt;username&gt; is created, with ${hive.scratch.dir.permission}.</description>
+</property>
+```
+
+- hive.metastore.warehouse.dir
+该参数指定了 Hive 的数据存储目录，默认位置在 HDFS 上面的 /user/hive/warehouse 路径下。
+- hive.exec.scratchdir
+该参数指定了 Hive 的数据临时文件目录，默认位置为 HDFS 上面的 /tmp/hive 路径下。
+
+hive-site.xml文件内容不需修改，文件配置详解移步：https://my.oschina.net/HIJAY/blog/503842?p=1
 
 接下来我们还要修改Hive目录下的/conf/hive-env.sh 文件，该文件默认也不存在，同样是拷贝它的模版来修改：
 
@@ -85,13 +105,8 @@ export HIVE_AUX_JARS_PATH=/data/hive/lib
 
 （2）创建必要目录
 
-前面我们看到 hive-site.xml 文件中有两个重要的路径，切换到 hadoop 用户下查看 HDFS 是否有这些路径：
-```bash
-$ hadoop dfs -ls /
-```
-图片描述信息
-
-没有发现上面提到的路径，因此我们需要自己新建这些目录，并且给它们赋予用户写（W）权限。
+前面我们看到 hive-site.xml 文件中有两个重要的路径【/user/hive/warehouse】与【/tmp/hive】。
+切换到hadoop 用户下查看HDFS是否有这些路径，如果没有，就新建目录，并且给它们赋予用户写权限。
 ```bash
 $ hadoop dfs -mkdir /user/hive/warehouse
 $ hadoop dfs -mkdir /tmp/hive
@@ -105,69 +120,75 @@ $ hadoop dfs -mkdir /tmp
 $ hadoop dfs -mkdir /tmp/hive
 ```
 
-检查是否新建成功 hadoop dfs -ls / 以及 hadoop dfs -ls /user/hive/ ：
+然后通过相关命令检查是否新建成功，比如【hdfs dfs -lsr /】。
 
-图片描述信息
-
-（3）修改 io.tmpdir 路径
-
-同时，要修改 hive-site.xml 中所有包含 ${system:java.io.tmpdir} 字段的 value 即路径（vim下 / 表示搜索，后面跟你的关键词，比如搜索 hello，则为 /hello , 再回车即可），你可以自己新建一个目录来替换它，例如 /home/hive/iotmp . 同样注意修改写权限。如果不修改这个，你很可能会出现如下错误：
-
-图片描述信息
-
-（4）运行 Hive
+（3）运行 Hive
 
 前面我们已经提到过，内嵌模式使用默认配置和 Derby 数据库，所以无需其它特别修改，先 ./start-all.sh 启动 Hadoop, 然后直接运行 hive：
+```bash
+[root@iZwz9b62gfdv0s2e67yo8kZ /]$ cd /data/hive/bin/
+[root@iZwz9b62gfdv0s2e67yo8kZ bin]$ hive
+```
 
-你很可能会遇到这个错误：
+你很可能会遇到与【${system:java.io.tmpdir}】有关的这个错误：
+```bash
+Exception in thread "main"Java.lang.RuntimeException: java.lang.IllegalArgumentException:java.NET.URISyntaxException: Relative path in absolute URI:${system:java.io.tmpdir%7D/$%7Bsystem:user.name%7D
+        atorg.apache.Hadoop.Hive.ql.session.SessionState.start(SessionState.java:444)
+        atorg.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:672)
+        atorg.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:616)
+        atsun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+```
 
-图片描述信息
+解决方法是修改 hive-site.xml 中所有包含 ${system:java.io.tmpdir} 字段的 value。
+可自己新建一个目录来替换它，例如 /data/hive/iotmp，同时赋予相关写权限。
 
-这是因为 Hive 中的 Jline jar 包和 Hadoop 中的 Jline 冲突了，在路径：$HADOOP_HOME/share/hadoop/yarn/lib/jline-0.9.94.jar 将其删除。
+修改后再次启动 hive，可能又遇到数据库未初始化的错误：
+```bash
+Exception in thread "main" java.lang.RuntimeException: Hive metastore database is not initialized. 
+Please use schematool (e.g. ./schematool -initSchema -dbType ...) to create the schema. 
+If needed, don't forget to include the option to auto-create the underlying database in your JDBC connection string (e.g. ?createDatabaseIfNotExist=true for derby)
+```
 
-再次启动 hive，就OK了:
+执行以下命令初始化即可
+```bash
+cd /data/hive/bin
+./schematool -initSchema -dbType derby
+```
 
-图片描述信息
+继续报错：
+```bash
+Initialization script hive-schema-2.0.0.derby.sql
+Error: FUNCTION 'NUCLEUS_ASCII' already exists. (state=X0Y68,code=30000)
+org.apache.hadoop.hive.metastore.HiveMetaException: Schema initialization FAILED! Metastore state would be inconsistent !!
+*** schemaTool failed ***
+```
 
-show tables; 注意不要漏写了 分号。
+这个function的构建是数据库初始化的一部分，既然存在了，就直接去hive-schema-2.0.0-derby.sql里面注释掉【CREATE FUNCTION】的相关语句好了。
 
-图片描述信息
+注释后再次启动hive，就ok了
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/hive%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/1.png)
 
 ---
 
 ### 本地模式
 
-现在我们替换默认的 Derby 数据库为 MySQL数据库。
+（1）安装 MySQL
+成功安装mysql后启动服务，并创建名为hive的数据库，再创建一个hive用户为HIVE所用。
+mysql安装方法详见：[MySQL安装及卸载](http://wangxin123.com/2016/09/27/MySQL%E5%AE%89%E8%A3%85%E5%8F%8A%E5%8D%B8%E8%BD%BD/)
 
-（1）下载安装 MySQL
-
-mysql安装详见：
-http://wangxin123.com/2016/09/27/MySQL%E5%AE%89%E8%A3%85%E5%8F%8A%E5%8D%B8%E8%BD%BD/
-本实验环境下默认是安装了 MySQL 的，直接启动它：
+MySQL安装后，还需要下载一个MySQL的JDBC驱动包。
+这里使用的是mysql-connector-java-5.1.40-bin.jar，需将其复制到$HIVE_HOME/lib目录下。
 ```bash
-$ service mysql start
-```
-
-创建 hive 数据库，赋予相关用户远程登录权限
-
-图片描述信息
-
-图片描述信息
-
-虽然 MySQL 已经默认安装，但我们还需要下载一个 MySQL 的 JDBC 驱动包。这里使用的是 mysql-connector-java-5.1.40.tar.gz，你需要将其复制到 $HIVE_HOME/lib 目录下面：
-```bash
-$ wget http://labfile.oss.aliyuncs.com/mysql-connector-java-5.1.40.tar.gz
-
-$ tar zxvf mysql-connector-java-5.1.35.tar.gz
-
-$ cd mysql-connector-java-5.1.35
-
-$ mv mysql-connector-java-5.1.35-bin.jar /usr/local/hadoop/hive/lib/
+$ tar -zxvf mysql-connector-java-5.1.40.tar.gz
+$ cd mysql-connector-java-5.1.40
+$ mv mysql-connector-java-5.1.40-bin.jar /data/hive/lib/
 ```
 
 （2）修改 hive-site.xml 配置文件
 
 最后，依然是修改 $HIVE_HOME/conf 下的 hive-site.xml 文件，把默认的 Derby 修改为 MySQL :
+
 ```bash
 <property>
     <name>javax.jdo.option.ConnectionURL</name>
@@ -195,6 +216,43 @@ $ mv mysql-connector-java-5.1.35-bin.jar /usr/local/hadoop/hive/lib/
 ```
 （3）启动 Hive
 
-启动 Hive 的方式同内嵌模式一样：
+启动 Hive 的方式同内嵌模式一样，需先初始化数据库.
+```bash
+cd /data/hive/bin
+./schematool -initSchema -dbType mysql
+```
 
-图片描述信息
+然后运行HIVE，可能发现运行不成功，并一直收到警告
+```bash
+Sun Feb 26 23:20:20 CST 2017 WARN: Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+```
+
+修改hive-site.xml文件的javax.jdo.option.ConnectionURL选项即可
+```bash
+<property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    //所连接的MySQL数据库实例
+    <value>jdbc:mysql://localhost:3306/hive?characterEncoding=utf8&useSSL=false</value>
+</property>
+```
+
+再次启动HIVE，仍然报错
+```bash
+[Fatal Error] hive-site.xml:493:77: The reference to entity "useSSL" must end with the ';' delimiter.
+Exception in thread "main" java.lang.RuntimeException: org.xml.sax.SAXParseException; systemId: file:/data/hive/conf/hive-site.xml; lineNumber: 493; columnNumber: 77; The reference to entity "useSSL" must end with the ';' delimiter.
+```
+
+经查，再次修改javax.jdo.option.ConnectionURL选项，然后启动HIVE，发现启动成功。
+```bash
+<property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    //所连接的MySQL数据库实例
+    <value>jdbc:mysql://localhost:3306/hive?characterEncoding=utf8&amp;useSSL=false</value>
+</property>
+```
+
+---
+
+### 链接相关
+大数据进阶计划
+http://wangxin123.com/2017/02/18/%E5%A4%A7%E6%95%B0%E6%8D%AE%E8%BF%9B%E9%98%B6%E8%AE%A1%E5%88%92/
