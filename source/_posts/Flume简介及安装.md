@@ -9,7 +9,7 @@ toc: true
 
 ---
 
-在具体介绍本文内容之前，先给大家看一下Hadoop业务的整体开发流程： 
+Hadoop业务的大致开发流程以及Flume在业务中的地位：
 
 ![](http://7xvfir.com1.z0.glb.clouddn.com/Flume%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85/1.jpg) 
 从Hadoop的业务开发流程图中可以看出，在大数据的业务处理过程中，对于数据的采集是十分重要的一步，也是不可避免的一步，从而引出我们本文的主角—Flume。
