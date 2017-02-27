@@ -131,23 +131,15 @@ $ hadoop dfs -mkdir /tmp/hive
 ```
 
 你很可能会遇到与【${system:java.io.tmpdir}】有关的这个错误：
-```bash
-Exception in thread "main"Java.lang.RuntimeException: java.lang.IllegalArgumentException:java.NET.URISyntaxException: Relative path in absolute URI:${system:java.io.tmpdir%7D/$%7Bsystem:user.name%7D
-        atorg.apache.Hadoop.Hive.ql.session.SessionState.start(SessionState.java:444)
-        atorg.apache.hadoop.hive.cli.CliDriver.run(CliDriver.java:672)
-        atorg.apache.hadoop.hive.cli.CliDriver.main(CliDriver.java:616)
-        atsun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-```
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/2.jpg)
 
 解决方法是修改 hive-site.xml 中所有包含 ${system:java.io.tmpdir} 字段的 value。
 可自己新建一个目录来替换它，例如 /data/hive/iotmp，同时赋予相关写权限。
 
 修改后再次启动 hive，可能又遇到数据库未初始化的错误：
-```bash
-Exception in thread "main" java.lang.RuntimeException: Hive metastore database is not initialized. 
-Please use schematool (e.g. ./schematool -initSchema -dbType ...) to create the schema. 
-If needed, don't forget to include the option to auto-create the underlying database in your JDBC connection string (e.g. ?createDatabaseIfNotExist=true for derby)
-```
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/3.jpg)
 
 执行以下命令初始化即可
 ```bash
@@ -223,9 +215,8 @@ cd /data/hive/bin
 ```
 
 然后运行HIVE，可能发现运行不成功，并一直收到警告
-```bash
-Sun Feb 26 23:20:20 CST 2017 WARN: Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
-```
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/4.jpg)
 
 修改hive-site.xml文件的javax.jdo.option.ConnectionURL选项即可
 ```bash
@@ -237,10 +228,8 @@ Sun Feb 26 23:20:20 CST 2017 WARN: Establishing SSL connection without server's 
 ```
 
 再次启动HIVE，仍然报错
-```bash
-[Fatal Error] hive-site.xml:493:77: The reference to entity "useSSL" must end with the ';' delimiter.
-Exception in thread "main" java.lang.RuntimeException: org.xml.sax.SAXParseException; systemId: file:/data/hive/conf/hive-site.xml; lineNumber: 493; columnNumber: 77; The reference to entity "useSSL" must end with the ';' delimiter.
-```
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/5.jpg)
 
 经查，再次修改javax.jdo.option.ConnectionURL选项，然后启动HIVE，发现启动成功。
 ```bash
@@ -256,3 +245,6 @@ Exception in thread "main" java.lang.RuntimeException: org.xml.sax.SAXParseExcep
 ### 链接相关
 大数据进阶计划
 http://wangxin123.com/2017/02/18/%E5%A4%A7%E6%95%B0%E6%8D%AE%E8%BF%9B%E9%98%B6%E8%AE%A1%E5%88%92/
+
+Hive下载地址
+http://mirrors.hust.edu.cn/apache/hive/hive-2.0.1/
