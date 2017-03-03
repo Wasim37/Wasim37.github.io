@@ -183,6 +183,109 @@
 
             
             <section id="main">
+    <article id="post-MySQL主从搭建" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/10/07/MySQL主从搭建/">MySQL主从搭建</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/10/07/MySQL主从搭建/">
+            <time datetime="2016-10-07T14:22:00.000Z" itemprop="datePublished">2016-10-07</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/数据库/">数据库</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/mysql/">mysql</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p><strong>&#x4E3B;&#x670D;&#x52A1;&#x5668;</strong>: 192.168.1.100<br><strong>&#x4ECE;&#x670D;&#x52A1;&#x5668;</strong>: 192.168.1.101</p>
+<hr>
+<h3 id="&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;"><a href="#&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;" class="headerlink" title="&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;"></a>&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;</h3><p>1&#x3001;&#x7F16;&#x8F91;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x5982;&#x679C;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x5C31;&#x624B;&#x52A8;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;</span></span><br><span class="line">vim /etc/my.cnf</span><br><span class="line"></span><br><span class="line">&#x5728;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x52A0;&#x5165;&#x5982;&#x4E0B;&#x503C;&#xFF1A;</span><br><span class="line"></span><br><span class="line">[mysqld]  </span><br><span class="line"><span class="comment"># &#x552F;&#x4E00;&#x7684;&#x670D;&#x52A1;&#x8FA8;&#x8BC6;&#x53F7;,&#x6570;&#x503C;&#x4F4D;&#x4E8E; 1 &#x5230; 2^32-1&#x4E4B;&#x95F4;.</span></span><br><span class="line"><span class="comment"># &#x6B64;&#x503C;&#x5728;master&#x548C;slave&#x4E0A;&#x90FD;&#x9700;&#x8981;&#x8BBE;&#x7F6E;.</span></span><br><span class="line"><span class="comment"># &#x5982;&#x679C; &#x201C;master-host&#x201D; &#x6CA1;&#x6709;&#x88AB;&#x8BBE;&#x7F6E;,&#x5219;&#x9ED8;&#x8BA4;&#x4E3A;1, &#x4F46;&#x662F;&#x5982;&#x679C;&#x5FFD;&#x7565;&#x6B64;&#x9009;&#x9879;,MySQL&#x4E0D;&#x4F1A;&#x4F5C;&#x4E3A;master&#x751F;&#x6548;.</span></span><br><span class="line">server-id=1</span><br><span class="line"><span class="comment"># &#x6253;&#x5F00;&#x4E8C;&#x8FDB;&#x5236;&#x65E5;&#x5FD7;&#x529F;&#x80FD;.</span></span><br><span class="line"><span class="comment"># &#x5728;&#x590D;&#x5236;(replication)&#x914D;&#x7F6E;&#x4E2D;,&#x4F5C;&#x4E3A; MASTER &#x4E3B;&#x670D;&#x52A1;&#x5668;&#x5FC5;&#x987B;&#x6253;&#x5F00;&#x6B64;&#x9879;</span></span><br><span class="line"><span class="comment"># &#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4ECE;&#x4F60;&#x6700;&#x540E;&#x7684;&#x5907;&#x4EFD;&#x4E2D;&#x505A;&#x57FA;&#x4E8E;&#x65F6;&#x95F4;&#x70B9;&#x7684;&#x6062;&#x590D;,&#x4F60;&#x4E5F;&#x540C;&#x6837;&#x9700;&#x8981;&#x4E8C;&#x8FDB;&#x5236;&#x65E5;&#x5FD7;.   </span></span><br><span class="line"><span class="built_in">log</span>-bin=master-bin</span><br><span class="line"><span class="built_in">log</span>-bin-index=master-bin.index</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x4EE5;&#x4E0B;&#x4E3A;&#x975E;&#x5FC5;&#x987B;&#x8BBE;&#x7F6E;&#x7684;&#x9009;&#x9879;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x8868;&#x660E;&#x8DDD;&#x79BB;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x6B63;&#x597D;n&#x5929;&#x524D;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x4F1A;&#x88AB;&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;&#x5220;&#x9664;</span></span><br><span class="line"><span class="comment"># &#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x5343;&#x4E07;&#x4E0D;&#x8981;&#x624B;&#x52A8;&#x5220;&#x9664;</span></span><br><span class="line">expire-logs-days=14</span><br><span class="line"><span class="comment"># binlog&#x6709;&#x4E09;&#x79CD;&#x65E5;&#x5FD7;&#x683C;&#x5F0F;, Statement&#x3001;Row&#x3001;Mixed, mysql&#x9ED8;&#x8BA4;&#x91C7;&#x7528;statement, &#x5EFA;&#x8BAE;&#x4F7F;&#x7528;mixed</span></span><br><span class="line">binlog_format=mixed</span><br><span class="line"><span class="comment"># sync_binlog=0&#xFF0C;&#x5F53;&#x4E8B;&#x52A1;&#x63D0;&#x4EA4;&#x4E4B;&#x540E;&#xFF0C;MySQL&#x4E0D;&#x505A;fsync&#x4E4B;&#x7C7B;&#x7684;&#x78C1;&#x76D8;&#x540C;&#x6B65;&#x6307;&#x4EE4;&#x5237;&#x65B0;binlog_cache&#x4E2D;&#x7684;&#x4FE1;&#x606F;&#x5230;&#x78C1;&#x76D8;&#xFF0C;&#x800C;&#x8BA9;Filesystem&#x81EA;&#x884C;&#x51B3;&#x5B9A;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x6765;&#x505A;&#x540C;&#x6B65;&#xFF0C;&#x6216;&#x8005;cache&#x6EE1;&#x4E86;&#x4E4B;&#x540E;&#x624D;&#x540C;&#x6B65;&#x5230;&#x78C1;&#x76D8;&#x3002;</span></span><br><span class="line"><span class="comment"># sync_binlog=n&#xFF0C;&#x5F53;&#x6BCF;&#x8FDB;&#x884C;n&#x6B21;&#x4E8B;&#x52A1;&#x63D0;&#x4EA4;&#x4E4B;&#x540E;&#xFF0C;MySQL&#x5C06;&#x8FDB;&#x884C;&#x4E00;&#x6B21;fsync&#x4E4B;&#x7C7B;&#x7684;&#x78C1;&#x76D8;&#x540C;&#x6B65;&#x6307;&#x4EE4;&#x6765;&#x5C06;binlog_cache&#x4E2D;&#x7684;&#x6570;&#x636E;&#x5F3A;&#x5236;&#x5199;&#x5165;&#x78C1;&#x76D8;</span></span><br><span class="line"><span class="comment"># &#x8BBE;&#x7F6E;&#x4E3A;0&#x548C;&#x8BBE;&#x7F6E;&#x4E3A;1&#x7684;&#x7CFB;&#x7EDF;&#x5199;&#x5165;&#x6027;&#x80FD;&#x5DEE;&#x8DDD;&#x6709;&#x65F6;&#x5019;&#x9AD8;&#x8FBE;5&#x500D;&#x751A;&#x81F3;&#x66F4;&#x591A;&#x3002;</span></span><br><span class="line">sync-binlog=1</span><br><span class="line"><span class="comment"># &#x5355;&#x4E2A;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x6700;&#x5927;&#x5B57;&#x8282;&#x8BBE;&#x7F6E;&#x6700;&#x5927;100MB&#xFF08;&#x5355;&#x4F4D;&#xFF1A;&#x5B57;&#x8282;&#xFF09; </span></span><br><span class="line"><span class="comment"># &#x65E5;&#x5FD7;&#x9ED8;&#x8BA4;&#x503C;&#x662F;1GB&#xFF0C;&#x7531;&#x4E8E;&#x4E8B;&#x52A1;&#xFF0C;&#x4E00;&#x822C;&#x6587;&#x4EF6;&#x90FD;&#x5927;&#x4E8E;1GB</span></span><br><span class="line">max_binlog_size=104857600 </span><br><span class="line"><span class="comment">#&#x9700;&#x8981;&#x5907;&#x4EFD;&#x7684;&#x6570;&#x636E;&#x5E93;  </span></span><br><span class="line">binlog-do-db=orders</span><br><span class="line"><span class="comment">#&#x4E0D;&#x9700;&#x8981;&#x5907;&#x4EFD;&#x7684;&#x6570;&#x636E;&#x5E93;</span></span><br><span class="line"><span class="comment">#&#x82E5;&#x6CA1;&#x6709;&#x914D;&#x7F6E;binlog-do-db&#x548C;binlog_ignore_db&#xFF0C;&#x8868;&#x793A;&#x5907;&#x4EFD;&#x5168;&#x90E8;&#x6570;&#x636E;&#x5E93;&#x3002;</span></span><br><span class="line">binlog-ignore-db=mysql</span><br></pre></td></tr></table></figure></p>
+            <p class="article-more-link">
+                <a href="/2016/10/07/MySQL主从搭建/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/10/07/MySQL主从搭建/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/10/07/MySQL主从搭建/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-zabbix监控nginx" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1105,111 +1208,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/09/19/外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常/">外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/09/19/外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常/">
-            <time datetime="2016-09-19T14:41:19.000Z" itemprop="datePublished">2016-09-19</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/错误集锦/">错误集锦</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/shiro/">shiro</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>shiro&#x6743;&#x9650;&#x6846;&#x67B6;&#xFF0C;&#x7528;&#x6237;&#x767B;&#x5F55;&#x65B9;&#x6CD5;&#x7684;subject.login(token)&#x4F1A;&#x8FDB;&#x5165;&#x81EA;&#x5B9A;&#x4E49;&#x7684;UserNamePasswordRealm&#x7C7B;&#x7684;doGetAuthenticationInfo&#x8EAB;&#x4EFD;&#x9A8C;&#x8BC1;&#x65B9;&#x6CD5;</p>
-<p>&#x901A;&#x5E38;&#x60C5;&#x51B5;&#xFF0C;doGetAuthenticationInfo&#x5199;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected AuthenticationInfo <span class="keyword">do</span>GetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {</span><br><span class="line">	UsernamePasswordToken token = (UsernamePasswordToken) authcToken;</span><br><span class="line">	User loginUser = userService.getUserByName(token.getUsername());</span><br><span class="line">	<span class="keyword">if</span> (ObjectUtils.isEmpty(loginUser)) {</span><br><span class="line">		throw new UnknownAccountException();</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">if</span>(!loginUser.getPassWord().equals(MD5Util.md5s(String.valueOf(token.getPassword())))){</span><br><span class="line">		throw new IncorrectCredentialsException();</span><br><span class="line">	}</span><br><span class="line">	//&#x5176;&#x4ED6;&#x5404;&#x79CD;&#x9A8C;&#x8BC1;</span><br><span class="line">	&#x3002;&#x3002;&#x3002;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
-<p>login&#x767B;&#x5F55;&#x65B9;&#x6CD5;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@ResponseBody</span><br><span class="line">@RequestMapping(value = <span class="string">&quot;/login&quot;</span>, method = RequestMethod.POST)</span><br><span class="line">public String <span class="keyword">do</span>UserLogin(User user, HttpServletRequest request, Model model) {</span><br><span class="line">	...</span><br><span class="line">	Subject subject = SecurityUtils.getSubject();</span><br><span class="line">	UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassWord());</span><br><span class="line">	try {</span><br><span class="line">		subject.login(token);</span><br><span class="line">	} catch (UnknownAccountException uae) {</span><br><span class="line">		</span><br><span class="line">	} catch (IncorrectCredentialsException ice) {</span><br><span class="line">		</span><br><span class="line">	} catch (LockedAccountException lae) {</span><br><span class="line">		</span><br><span class="line">	} catch (ExcessiveAttemptsException eae) {</span><br><span class="line">		</span><br><span class="line">	} catch (AuthenticationException ae) {</span><br><span class="line">		</span><br><span class="line">	}</span><br><span class="line">	...</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
-<hr>
-<font style="color:red">&#x53EF;&#x662F;&#x6700;&#x8FD1;&#x4E00;&#x6B21;&#x9879;&#x76EE;&#xFF0C;&#x53D1;&#x73B0;&#x901A;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#x884C;&#x4E0D;&#x901A;&#x4E86;&#xFF0C;doGetAuthenticationInfo&#x65B9;&#x6CD5;&#x629B;&#x51FA;&#x7684;&#x5404;&#x79CD;&#x5F02;&#x5E38;&#x5982;UnknownAccountException(&#x5305;&#x62EC;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x5F02;&#x5E38;)&#xFF0C;&#x5916;&#x90E8;&#x90FD;&#x65E0;&#x6CD5;&#x51C6;&#x786E;&#x6355;&#x6349;&#x3002;<br><br></font></p>
-            <p class="article-more-link">
-                <a href="/2016/09/19/外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2016/09/19/外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/09/19/外部无法捕捉Realm的doGetAuthenticationInfo方法抛出的异常/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">下一页 &raquo;</a>
     </nav>
@@ -1229,8 +1227,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2017/02/27/Sqoop简介及安装/" class="title">Sqoop简介及安装</a></p>
-                            <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
+                            <p class="item-title"><a href="/2017/03/01/MapReduce详解/" class="title">MapReduce详解</a></p>
+                            <p class="item-date"><time datetime="2017-03-01T13:18:00.000Z" itemprop="datePublished">2017-03-01</time></p>
                         </div>
                     </li>
                 
@@ -1238,6 +1236,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
                             <p class="item-title"><a href="/2017/02/27/Flume简介及安装/" class="title">Flume简介及安装</a></p>
+                            <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2017/02/27/Sqoop简介及安装/" class="title">Sqoop简介及安装</a></p>
                             <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
                         </div>
                     </li>
@@ -1255,14 +1261,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                             <p class="item-category"><a class="article-category-link" href="/categories/思维导图/">思维导图</a></p>
                             <p class="item-title"><a href="/2017/02/24/薛兆丰的北大经济学课/" class="title">薛兆丰的北大经济学课</a></p>
                             <p class="item-date"><time datetime="2017-02-24T13:18:00.000Z" itemprop="datePublished">2017-02-24</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2017/02/21/hadoop2.7.2单机与伪分布式安装/" class="title">hadoop2.7.2单机与伪分布式安装</a></p>
-                            <p class="item-date"><time datetime="2017-02-21T13:18:00.000Z" itemprop="datePublished">2017-02-21</time></p>
                         </div>
                     </li>
                 
@@ -1284,7 +1282,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div -->
 
@@ -1317,7 +1315,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     </li>
                 
                     <li>
-                        <a href="http://wy.hx99.net/">乌云漏洞搜索系统</a>
+                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
                     </li>
                 
                     <li>

@@ -4,12 +4,32 @@ categories:
   - 大数据
 tags:
   - MapReduce
-date: 2016-5-17 21:18:00
+date: 2017-3-1 21:18:00
 
 ---
 
-### MapReduce
-MapReduce是一种编程模型，用于大规模数据集（大于1TB）的并行运算。概念"Map（映射）"和"Reduce（归约）"，是它们的主要思想，都是从函数式编程语言里借来的，还有从矢量编程语言里借来的特性。**它极大地方便了编程人员在不会分布式并行编程的情况下，将自己的程序运行在分布式系统上。**
+### MapReduce简介
+MapReduce是一种编程模型，用于大规模数据集（大于1TB）的并行运算。概念"Map（映射）"和"Reduce（归约）"，是它们的主要思想。
+
+**MapReduce极大地方便了编程人员在不会分布式并行编程的情况下，将自己的程序运行在分布式系统上。**
+
+---
+
+### WordCount单词计数
+单词计数是最简单也是最能体现MapReduce思想的程序之一，可以称为MapReduce版"Hello World"。
+词计数主要完成功能是：**统计一系列文本文件中每个单词出现的次数。**
+
+以下是WordCount过程图解，可以先大致浏览下，然后结合下文的Mapper和Reduce任务详解进行理解。
+
+![分片后解析为键值对](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/4.png)
+
+<!-- more -->
+
+![map](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/5.png)
+![分区排序合并](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/6.png)
+![reduce](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/7.png)
+
+---
 
 ### 分析MapReduce执行过程
 
@@ -17,12 +37,11 @@ MapReduce运行的时候，会通过Mapper运行的任务读取HDFS中的数据�
 
 ![](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/1.png)
 
-- - -
+---
+
 ### Mapper任务详解
 
 **每个Mapper任务是一个java进程**，它会读取HDFS中的文件，解析成很多的键值对，经过我们覆盖的map方法处理后，转换为很多的键值对再输出。整个Mapper任务的处理过程又可以分为以下几个阶段，如图所示。
-
-<!-- more -->
 
 ![](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/2.png)
 
@@ -40,7 +59,8 @@ MapReduce运行的时候，会通过Mapper运行的任务读取HDFS中的数据�
 
 - 第六阶段是对数据进行归约处理，也就是reduce处理。**键相等的键值对会调用一次reduce方法。**经过这一阶段，数据量会减少。归约后的数据输出到本地的linxu文件中。**本阶段默认是没有的，需要用户自己增加这一阶段的代码。**
 
-- - -
+---
+
 ### Reducer任务详解
 
 每个Reducer任务是一个java进程。Reducer任务接收Mapper任务的输出，归约处理后写入到HDFS中，可以分为如下图所示的几个阶段。
@@ -53,23 +73,29 @@ MapReduce运行的时候，会通过Mapper运行的任务读取HDFS中的数据�
 
 - 第三阶段是对排序后的键值对调用reduce方法。**键相等的键值对调用一次reduce方法**，每次调用会产生零个或者多个键值对。最后把这些输出的键值对写入到HDFS文件中。
 
-- - -
-### Shuffle——MapReduce核心
+---
+
+### Shuffle--MapReduce心脏
 
 **Shuffle过程是MapReduce的核心，也被称为奇迹发生的地方。**
-Shuffle过程：将map的输出作为reduce的输入的过程。
 
-下面这些文章可能对大家有所帮助：
+![](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/8.jpg)
+
+
+上面这张图是官方对Shuffle过程的描述，可以肯定的是，单从这张图基本不可能明白Shuffle的过程，因为它与事实相差挺多，细节也是错乱的。**Shuffle可以大致理解成怎样把map task的输出结果有效地传送到reduce端。也可以这样理解， Shuffle描述着数据从map task输出到reduce task输入的这段过程。**
+
+在Hadoop这样的集群环境中，大部分map task与reduce task的执行是在不同的节点上。很多时候Reduce执行时需要跨节点去拉取其它节点上的map task结果**【注意：Map输出总是写到本地磁盘，但是Reduce输出不是，一般是写到HDFS】**。
+
+如果集群正在运行的job有很多，那么task的正常执行对集群内部的网络资源消耗会很严重。这种网络消耗是正常的，我们不能限制，能做的 就是最大化地减少不必要的消耗。还有在节点内，相比于内存，磁盘IO对job完成时间的影响也是可观的。从最基本的要求来说，我们对Shuffle过程的 期望可以有：
+
+- 完整地从map task端拉取数据到reduce 端。
+- 在跨节点拉取数据时，尽可能地减少对带宽的不必要消耗。
+- 减少磁盘IO对task执行的影响。
+
+比如为了减少磁盘IO的消耗，我们可以调节io.sort.mb的属性。每个Map任务都有一个用来写入输出数据的循环内存缓冲区，这个缓冲区默认大小是100M，可以通过io.sort.mb设置，当缓冲区中的数据量达到一个特定的阀值(io.sort.mb * io.sort.spill.percent，其中io.sort.spill.percent 默认是0.80)时，系统将会启动一个后台线程把缓冲区中的内容spill 到磁盘。在spill过程中，Map的输出将会继续写入到缓冲区，但如果缓冲区已经满了，Map就会被阻塞直道spill完成。
+
+spill线程在把缓冲区的数据写到磁盘前，会对他进行一个二次排序，首先根据数据所属的partition排序，然后每个partition中再按Key排序。输出包括一个索引文件和数据文件，如果设定了Combiner，将在排序输出的基础上进行。Combiner就是一个Mini Reducer，它在执行Map任务的节点本身运行，先对Map的输出作一次简单的Reduce，使得Map的输出更紧凑，更少的数据会被写入磁盘和传送到Reducer。**Spill文件保存在由mapred.local.dir指定的目录中，Map任务结束后删除。**
+
+Shuffle其他细节这里不再详述，下面这些文章可能对大家有所帮助：
 http://my.oschina.net/u/2003855/blog/310301
 http://blog.csdn.net/thomas0yang/article/details/8562910
-
-- - -
-### WordCount单词计数
-单词计数是最简单也是最能体现MapReduce思想的程序之一，可以称为MapReduce版"Hello World"。
-单词计数主要完成功能是：统计一系列文本文件中每个单词出现的次数。
-**以下是相关图解，可以结合上文执行过程进行理解。**
-
-![分片后解析为键值对](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/4.png)
-![map](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/5.png)
-![分区排序合并](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/6.png)
-![reduce](http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/7.png)

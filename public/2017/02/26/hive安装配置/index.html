@@ -5,20 +5,17 @@
     
     <title>HIVE安装配置 | 星空博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Hive&amp;#x73AF;&amp;#x5883;&amp;#x6A21;&amp;#x5F0F;
-&amp;#x5185;&amp;#x5D4C;&amp;#x6A21;&amp;#x5F0F;&amp;#x5C06;&amp;#x5143;&amp;#x6570;&amp;#x636E;&amp;#x4FDD;&amp;#x5B58;&amp;#x5728;&amp;#x672C;&amp;#x5730;&amp;#x5185;&amp;#x5D4C;&amp;#x7684; Derby &amp;#x6570;&amp;#x636E;&amp;#x5E93;&amp;#x4">
+    <meta name="description" content="Hive&amp;#x7B80;&amp;#x4ECB;Hive &amp;#x57FA;&amp;#x672C;&amp;#x4ECB;&amp;#x7ECD;Hive &amp;#x5B9E;&amp;#x73B0;&amp;#x673A;&amp;#x5236;Hive &amp;#x6570;&amp;#x636E;&amp;#x6A21;&amp;#x578B;Hive &amp;#x5982;&amp;#x4F55;&amp;#x8F6C;&amp;#x6362;&amp;#x6210;MapReduceHive &amp;#x4E0E;&amp;#">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HIVE安装配置">
 <meta property="og:url" content="http://www.wangxin123.com/2017/02/26/HIVE安装配置/index.html">
 <meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="Hive&amp;#x73AF;&amp;#x5883;&amp;#x6A21;&amp;#x5F0F;
-&amp;#x5185;&amp;#x5D4C;&amp;#x6A21;&amp;#x5F0F;&amp;#x5C06;&amp;#x5143;&amp;#x6570;&amp;#x636E;&amp;#x4FDD;&amp;#x5B58;&amp;#x5728;&amp;#x672C;&amp;#x5730;&amp;#x5185;&amp;#x5D4C;&amp;#x7684; Derby &amp;#x6570;&amp;#x636E;&amp;#x5E93;&amp;#x4">
+<meta property="og:description" content="Hive&amp;#x7B80;&amp;#x4ECB;Hive &amp;#x57FA;&amp;#x672C;&amp;#x4ECB;&amp;#x7ECD;Hive &amp;#x5B9E;&amp;#x73B0;&amp;#x673A;&amp;#x5236;Hive &amp;#x6570;&amp;#x636E;&amp;#x6A21;&amp;#x578B;Hive &amp;#x5982;&amp;#x4F55;&amp;#x8F6C;&amp;#x6362;&amp;#x6210;MapReduceHive &amp;#x4E0E;&amp;#">
 <meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/2.jpg">
-<meta property="og:updated_time" content="2017-02-27T02:06:44.391Z">
+<meta property="og:updated_time" content="2017-02-28T06:45:24.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HIVE安装配置">
-<meta name="twitter:description" content="Hive&amp;#x73AF;&amp;#x5883;&amp;#x6A21;&amp;#x5F0F;
-&amp;#x5185;&amp;#x5D4C;&amp;#x6A21;&amp;#x5F0F;&amp;#x5C06;&amp;#x5143;&amp;#x6570;&amp;#x636E;&amp;#x4FDD;&amp;#x5B58;&amp;#x5728;&amp;#x672C;&amp;#x5730;&amp;#x5185;&amp;#x5D4C;&amp;#x7684; Derby &amp;#x6570;&amp;#x636E;&amp;#x5E93;&amp;#x4">
+<meta name="twitter:description" content="Hive&amp;#x7B80;&amp;#x4ECB;Hive &amp;#x57FA;&amp;#x672C;&amp;#x4ECB;&amp;#x7ECD;Hive &amp;#x5B9E;&amp;#x73B0;&amp;#x673A;&amp;#x5236;Hive &amp;#x6570;&amp;#x636E;&amp;#x6A21;&amp;#x578B;Hive &amp;#x5982;&amp;#x4F55;&amp;#x8F6C;&amp;#x6362;&amp;#x6210;MapReduceHive &amp;#x4E0E;&amp;#">
 <meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/2.jpg">
     
 
@@ -231,10 +228,13 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hive环境模式"><span class="toc-number">1.</span> <span class="toc-text">Hive环境模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载安装HIVE"><span class="toc-number">2.</span> <span class="toc-text">下载安装HIVE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置环境变量"><span class="toc-number">3.</span> <span class="toc-text">配置环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内嵌模式"><span class="toc-number">4.</span> <span class="toc-text">内嵌模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本地模式"><span class="toc-number">5.</span> <span class="toc-text">本地模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接相关"><span class="toc-number">6.</span> <span class="toc-text">链接相关</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hive简介"><span class="toc-number">1.</span> <span class="toc-text">Hive简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hive环境模式"><span class="toc-number">2.</span> <span class="toc-text">Hive环境模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载安装HIVE"><span class="toc-number">3.</span> <span class="toc-text">下载安装HIVE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置环境变量"><span class="toc-number">4.</span> <span class="toc-text">配置环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内嵌模式"><span class="toc-number">5.</span> <span class="toc-text">内嵌模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本地模式"><span class="toc-number">6.</span> <span class="toc-text">本地模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接相关"><span class="toc-number">7.</span> <span class="toc-text">链接相关</span></a></li></ol>
                 </div>
             
-            <h3 id="Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;"><a href="#Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;" class="headerlink" title="Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;"></a>Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;</h3><ul>
+            <h3 id="Hive&#x7B80;&#x4ECB;"><a href="#Hive&#x7B80;&#x4ECB;" class="headerlink" title="Hive&#x7B80;&#x4ECB;"></a>Hive&#x7B80;&#x4ECB;</h3><p>Hive &#x57FA;&#x672C;&#x4ECB;&#x7ECD;<br>Hive &#x5B9E;&#x73B0;&#x673A;&#x5236;<br>Hive &#x6570;&#x636E;&#x6A21;&#x578B;<br>Hive &#x5982;&#x4F55;&#x8F6C;&#x6362;&#x6210;MapReduce<br>Hive &#x4E0E;&#x5176;&#x4ED6;&#x6570;&#x636E;&#x5E93;&#x7684;&#x533A;&#x522B;<br>&#x4EE5;&#x4E0A;&#x8BE6;&#x89C1;&#xFF1A;<a href="https://chu888chu888.gitbooks.io/hadoopstudy/content/Content/8/chapter8.html" target="_blank" rel="external">https://chu888chu888.gitbooks.io/hadoopstudy/content/Content/8/chapter8.html</a></p>
+<p>Hive &#x548C; Hbase &#x7684;&#x533A;&#x522B;<br>&#x8BE6;&#x89C1;&#xFF1A;<a href="http://www.cnblogs.com/justinzhang/p/4273470.html" target="_blank" rel="external">http://www.cnblogs.com/justinzhang/p/4273470.html</a></p>
+<hr>
+<h3 id="Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;"><a href="#Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;" class="headerlink" title="Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;"></a>Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;</h3><ul>
 <li><p>&#x5185;&#x5D4C;&#x6A21;&#x5F0F;<br>&#x5C06;&#x5143;&#x6570;&#x636E;&#x4FDD;&#x5B58;&#x5728;&#x672C;&#x5730;&#x5185;&#x5D4C;&#x7684; Derby &#x6570;&#x636E;&#x5E93;&#x4E2D;&#xFF0C;&#x8FD9;&#x662F;&#x4F7F;&#x7528; Hive &#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x4F46;&#x662F;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x7F3A;&#x70B9;&#x4E5F;&#x6BD4;&#x8F83;&#x660E;&#x663E;&#xFF0C;&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;&#x5185;&#x5D4C;&#x7684; Derby &#x6570;&#x636E;&#x5E93;&#x6BCF;&#x6B21;&#x53EA;&#x80FD;&#x8BBF;&#x95EE;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x8FD9;&#x4E5F;&#x5C31;&#x610F;&#x5473;&#x7740;&#x5B83;&#x4E0D;&#x652F;&#x6301;&#x591A;&#x4F1A;&#x8BDD;&#x8FDE;&#x63A5;&#x3002;</p>
 </li>
 <li><p>&#x672C;&#x5730;&#x6A21;&#x5F0F;<br>&#x8FD9;&#x79CD;&#x6A21;&#x5F0F;&#x662F;&#x5C06;&#x5143;&#x6570;&#x636E;&#x4FDD;&#x5B58;&#x5728;&#x672C;&#x5730;&#x72EC;&#x7ACB;&#x7684;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#xFF08;&#x4E00;&#x822C;&#x662F; MySQL&#xFF09;&#xFF0C;&#x8FD9;&#x7528;&#x5C31;&#x53EF;&#x4EE5;&#x652F;&#x6301;&#x591A;&#x4F1A;&#x8BDD;&#x548C;&#x591A;&#x7528;&#x6237;&#x8FDE;&#x63A5;&#x4E86;&#x3002;</p>
@@ -349,11 +349,11 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
 <nav id="article-nav">
     
-        <a href="/2017/02/27/Flume简介及安装/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2017/02/27/Sqoop简介及安装/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    Flume简介及安装
+                    Sqoop简介及安装
                 
             </div>
         </a>
@@ -433,8 +433,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2017/02/27/Sqoop简介及安装/" class="title">Sqoop简介及安装</a></p>
-                            <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
+                            <p class="item-title"><a href="/2017/03/01/MapReduce详解/" class="title">MapReduce详解</a></p>
+                            <p class="item-date"><time datetime="2017-03-01T13:18:00.000Z" itemprop="datePublished">2017-03-01</time></p>
                         </div>
                     </li>
                 
@@ -442,6 +442,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
                             <p class="item-title"><a href="/2017/02/27/Flume简介及安装/" class="title">Flume简介及安装</a></p>
+                            <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2017/02/27/Sqoop简介及安装/" class="title">Sqoop简介及安装</a></p>
                             <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
                         </div>
                     </li>
@@ -459,14 +467,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                             <p class="item-category"><a class="article-category-link" href="/categories/思维导图/">思维导图</a></p>
                             <p class="item-title"><a href="/2017/02/24/薛兆丰的北大经济学课/" class="title">薛兆丰的北大经济学课</a></p>
                             <p class="item-date"><time datetime="2017-02-24T13:18:00.000Z" itemprop="datePublished">2017-02-24</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2017/02/21/hadoop2.7.2单机与伪分布式安装/" class="title">hadoop2.7.2单机与伪分布式安装</a></p>
-                            <p class="item-date"><time datetime="2017-02-21T13:18:00.000Z" itemprop="datePublished">2017-02-21</time></p>
                         </div>
                     </li>
                 
@@ -488,7 +488,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div -->
 
@@ -521,7 +521,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     </li>
                 
                     <li>
-                        <a href="http://wy.hx99.net/">乌云漏洞搜索系统</a>
+                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
                     </li>
                 
                     <li>

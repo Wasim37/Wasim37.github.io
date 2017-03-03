@@ -5,18 +5,18 @@
     
     <title>MapReduce详解 | 星空博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="MapReduceMapReduce&amp;#x662F;&amp;#x4E00;&amp;#x79CD;&amp;#x7F16;&amp;#x7A0B;&amp;#x6A21;&amp;#x578B;&amp;#xFF0C;&amp;#x7528;&amp;#x4E8E;&amp;#x5927;&amp;#x89C4;&amp;#x6A21;&amp;#x6570;&amp;#x636E;&amp;#x96C6;&amp;#xFF08;&amp;#x5927;&amp;#x4E8E;1TB&amp;#xFF09;&amp;#x7684;&amp;#x5E76;&amp;#x">
+    <meta name="description" content="MapReduce&amp;#x7B80;&amp;#x4ECB;MapReduce&amp;#x662F;&amp;#x4E00;&amp;#x79CD;&amp;#x7F16;&amp;#x7A0B;&amp;#x6A21;&amp;#x578B;&amp;#xFF0C;&amp;#x7528;&amp;#x4E8E;&amp;#x5927;&amp;#x89C4;&amp;#x6A21;&amp;#x6570;&amp;#x636E;&amp;#x96C6;&amp;#xFF08;&amp;#x5927;&amp;#x4E8E;1TB&amp;#xFF09;&amp;#x">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MapReduce详解">
-<meta property="og:url" content="http://www.wangxin123.com/2016/05/17/MapReduce详解/index.html">
+<meta property="og:url" content="http://www.wangxin123.com/2017/03/01/MapReduce详解/index.html">
 <meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="MapReduceMapReduce&amp;#x662F;&amp;#x4E00;&amp;#x79CD;&amp;#x7F16;&amp;#x7A0B;&amp;#x6A21;&amp;#x578B;&amp;#xFF0C;&amp;#x7528;&amp;#x4E8E;&amp;#x5927;&amp;#x89C4;&amp;#x6A21;&amp;#x6570;&amp;#x636E;&amp;#x96C6;&amp;#xFF08;&amp;#x5927;&amp;#x4E8E;1TB&amp;#xFF09;&amp;#x7684;&amp;#x5E76;&amp;#x">
-<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/1.png">
-<meta property="og:updated_time" content="2017-02-18T09:22:20.225Z">
+<meta property="og:description" content="MapReduce&amp;#x7B80;&amp;#x4ECB;MapReduce&amp;#x662F;&amp;#x4E00;&amp;#x79CD;&amp;#x7F16;&amp;#x7A0B;&amp;#x6A21;&amp;#x578B;&amp;#xFF0C;&amp;#x7528;&amp;#x4E8E;&amp;#x5927;&amp;#x89C4;&amp;#x6A21;&amp;#x6570;&amp;#x636E;&amp;#x96C6;&amp;#xFF08;&amp;#x5927;&amp;#x4E8E;1TB&amp;#xFF09;&amp;#x">
+<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/4.png">
+<meta property="og:updated_time" content="2017-03-03T03:28:10.590Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MapReduce详解">
-<meta name="twitter:description" content="MapReduceMapReduce&amp;#x662F;&amp;#x4E00;&amp;#x79CD;&amp;#x7F16;&amp;#x7A0B;&amp;#x6A21;&amp;#x578B;&amp;#xFF0C;&amp;#x7528;&amp;#x4E8E;&amp;#x5927;&amp;#x89C4;&amp;#x6A21;&amp;#x6570;&amp;#x636E;&amp;#x96C6;&amp;#xFF08;&amp;#x5927;&amp;#x4E8E;1TB&amp;#xFF09;&amp;#x7684;&amp;#x5E76;&amp;#x">
-<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/1.png">
+<meta name="twitter:description" content="MapReduce&amp;#x7B80;&amp;#x4ECB;MapReduce&amp;#x662F;&amp;#x4E00;&amp;#x79CD;&amp;#x7F16;&amp;#x7A0B;&amp;#x6A21;&amp;#x578B;&amp;#xFF0C;&amp;#x7528;&amp;#x4E8E;&amp;#x5927;&amp;#x89C4;&amp;#x6A21;&amp;#x6570;&amp;#x636E;&amp;#x96C6;&amp;#xFF08;&amp;#x5927;&amp;#x4E8E;1TB&amp;#xFF09;&amp;#x">
+<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/4.png">
     
 
     
@@ -202,8 +202,8 @@
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/05/17/MapReduce详解/">
-            <time datetime="2016-05-17T13:18:00.000Z" itemprop="datePublished">2016-05-17</time>
+        <a href="/2017/03/01/MapReduce详解/">
+            <time datetime="2017-03-01T13:18:00.000Z" itemprop="datePublished">2017-03-01</time>
         </a>
     </div>
 
@@ -228,15 +228,22 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#MapReduce"><span class="toc-number">1.</span> <span class="toc-text">MapReduce</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析MapReduce执行过程"><span class="toc-number">2.</span> <span class="toc-text">分析MapReduce执行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mapper任务详解"><span class="toc-number">3.</span> <span class="toc-text">Mapper任务详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reducer任务详解"><span class="toc-number">4.</span> <span class="toc-text">Reducer任务详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shuffle——MapReduce核心"><span class="toc-number">5.</span> <span class="toc-text">Shuffle——MapReduce核心</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WordCount单词计数"><span class="toc-number">6.</span> <span class="toc-text">WordCount单词计数</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#MapReduce简介"><span class="toc-number">1.</span> <span class="toc-text">MapReduce简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WordCount单词计数"><span class="toc-number">2.</span> <span class="toc-text">WordCount单词计数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析MapReduce执行过程"><span class="toc-number">3.</span> <span class="toc-text">分析MapReduce执行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mapper任务详解"><span class="toc-number">4.</span> <span class="toc-text">Mapper任务详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reducer任务详解"><span class="toc-number">5.</span> <span class="toc-text">Reducer任务详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shuffle–MapReduce心脏"><span class="toc-number">6.</span> <span class="toc-text">Shuffle–MapReduce心脏</span></a></li></ol>
                 </div>
             
-            <h3 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h3><p>MapReduce&#x662F;&#x4E00;&#x79CD;&#x7F16;&#x7A0B;&#x6A21;&#x578B;&#xFF0C;&#x7528;&#x4E8E;&#x5927;&#x89C4;&#x6A21;&#x6570;&#x636E;&#x96C6;&#xFF08;&#x5927;&#x4E8E;1TB&#xFF09;&#x7684;&#x5E76;&#x884C;&#x8FD0;&#x7B97;&#x3002;&#x6982;&#x5FF5;&#x201D;Map&#xFF08;&#x6620;&#x5C04;&#xFF09;&#x201D;&#x548C;&#x201D;Reduce&#xFF08;&#x5F52;&#x7EA6;&#xFF09;&#x201D;&#xFF0C;&#x662F;&#x5B83;&#x4EEC;&#x7684;&#x4E3B;&#x8981;&#x601D;&#x60F3;&#xFF0C;&#x90FD;&#x662F;&#x4ECE;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x91CC;&#x501F;&#x6765;&#x7684;&#xFF0C;&#x8FD8;&#x6709;&#x4ECE;&#x77E2;&#x91CF;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x91CC;&#x501F;&#x6765;&#x7684;&#x7279;&#x6027;&#x3002;<strong>&#x5B83;&#x6781;&#x5927;&#x5730;&#x65B9;&#x4FBF;&#x4E86;&#x7F16;&#x7A0B;&#x4EBA;&#x5458;&#x5728;&#x4E0D;&#x4F1A;&#x5206;&#x5E03;&#x5F0F;&#x5E76;&#x884C;&#x7F16;&#x7A0B;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5C06;&#x81EA;&#x5DF1;&#x7684;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E0A;&#x3002;</strong></p>
+            <h3 id="MapReduce&#x7B80;&#x4ECB;"><a href="#MapReduce&#x7B80;&#x4ECB;" class="headerlink" title="MapReduce&#x7B80;&#x4ECB;"></a>MapReduce&#x7B80;&#x4ECB;</h3><p>MapReduce&#x662F;&#x4E00;&#x79CD;&#x7F16;&#x7A0B;&#x6A21;&#x578B;&#xFF0C;&#x7528;&#x4E8E;&#x5927;&#x89C4;&#x6A21;&#x6570;&#x636E;&#x96C6;&#xFF08;&#x5927;&#x4E8E;1TB&#xFF09;&#x7684;&#x5E76;&#x884C;&#x8FD0;&#x7B97;&#x3002;&#x6982;&#x5FF5;&#x201D;Map&#xFF08;&#x6620;&#x5C04;&#xFF09;&#x201D;&#x548C;&#x201D;Reduce&#xFF08;&#x5F52;&#x7EA6;&#xFF09;&#x201D;&#xFF0C;&#x662F;&#x5B83;&#x4EEC;&#x7684;&#x4E3B;&#x8981;&#x601D;&#x60F3;&#x3002;</p>
+<p><strong>MapReduce&#x6781;&#x5927;&#x5730;&#x65B9;&#x4FBF;&#x4E86;&#x7F16;&#x7A0B;&#x4EBA;&#x5458;&#x5728;&#x4E0D;&#x4F1A;&#x5206;&#x5E03;&#x5F0F;&#x5E76;&#x884C;&#x7F16;&#x7A0B;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5C06;&#x81EA;&#x5DF1;&#x7684;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E0A;&#x3002;</strong></p>
+<hr>
+<h3 id="WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;"><a href="#WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;" class="headerlink" title="WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;"></a>WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;</h3><p>&#x5355;&#x8BCD;&#x8BA1;&#x6570;&#x662F;&#x6700;&#x7B80;&#x5355;&#x4E5F;&#x662F;&#x6700;&#x80FD;&#x4F53;&#x73B0;MapReduce&#x601D;&#x60F3;&#x7684;&#x7A0B;&#x5E8F;&#x4E4B;&#x4E00;&#xFF0C;&#x53EF;&#x4EE5;&#x79F0;&#x4E3A;MapReduce&#x7248;&#x201D;Hello World&#x201D;&#x3002;<br>&#x8BCD;&#x8BA1;&#x6570;&#x4E3B;&#x8981;&#x5B8C;&#x6210;&#x529F;&#x80FD;&#x662F;&#xFF1A;<strong>&#x7EDF;&#x8BA1;&#x4E00;&#x7CFB;&#x5217;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x4E2D;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x51FA;&#x73B0;&#x7684;&#x6B21;&#x6570;&#x3002;</strong></p>
+<p>&#x4EE5;&#x4E0B;&#x662F;WordCount&#x8FC7;&#x7A0B;&#x56FE;&#x89E3;&#xFF0C;&#x53EF;&#x4EE5;&#x5148;&#x5927;&#x81F4;&#x6D4F;&#x89C8;&#x4E0B;&#xFF0C;&#x7136;&#x540E;&#x7ED3;&#x5408;&#x4E0B;&#x6587;&#x7684;Mapper&#x548C;Reduce&#x4EFB;&#x52A1;&#x8BE6;&#x89E3;&#x8FDB;&#x884C;&#x7406;&#x89E3;&#x3002;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/4.png" alt="&#x5206;&#x7247;&#x540E;&#x89E3;&#x6790;&#x4E3A;&#x952E;&#x503C;&#x5BF9;"></p>
+<a id="more"></a>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/5.png" alt="map"><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/6.png" alt="&#x5206;&#x533A;&#x6392;&#x5E8F;&#x5408;&#x5E76;"><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/7.png" alt="reduce"></p>
+<hr>
 <h3 id="&#x5206;&#x6790;MapReduce&#x6267;&#x884C;&#x8FC7;&#x7A0B;"><a href="#&#x5206;&#x6790;MapReduce&#x6267;&#x884C;&#x8FC7;&#x7A0B;" class="headerlink" title="&#x5206;&#x6790;MapReduce&#x6267;&#x884C;&#x8FC7;&#x7A0B;"></a>&#x5206;&#x6790;MapReduce&#x6267;&#x884C;&#x8FC7;&#x7A0B;</h3><p>MapReduce&#x8FD0;&#x884C;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4F1A;&#x901A;&#x8FC7;Mapper&#x8FD0;&#x884C;&#x7684;&#x4EFB;&#x52A1;&#x8BFB;&#x53D6;HDFS&#x4E2D;&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x7136;&#x540E;&#x8C03;&#x7528;&#x81EA;&#x5DF1;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5904;&#x7406;&#x6570;&#x636E;&#xFF0C;&#x6700;&#x540E;&#x8F93;&#x51FA;&#x3002;Reducer&#x4EFB;&#x52A1;&#x4F1A;&#x63A5;&#x6536;Mapper&#x4EFB;&#x52A1;&#x8F93;&#x51FA;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x4F5C;&#x4E3A;&#x81EA;&#x5DF1;&#x7684;&#x8F93;&#x5165;&#x6570;&#x636E;&#xFF0C;&#x8C03;&#x7528;&#x81EA;&#x5DF1;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x6700;&#x540E;&#x8F93;&#x51FA;&#x5230;HDFS&#x7684;&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x6574;&#x4E2A;&#x6D41;&#x7A0B;&#x5982;&#x56FE;&#xFF1A;</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/1.png" alt=""></p>
 <hr>
 <h3 id="Mapper&#x4EFB;&#x52A1;&#x8BE6;&#x89E3;"><a href="#Mapper&#x4EFB;&#x52A1;&#x8BE6;&#x89E3;" class="headerlink" title="Mapper&#x4EFB;&#x52A1;&#x8BE6;&#x89E3;"></a>Mapper&#x4EFB;&#x52A1;&#x8BE6;&#x89E3;</h3><p><strong>&#x6BCF;&#x4E2A;Mapper&#x4EFB;&#x52A1;&#x662F;&#x4E00;&#x4E2A;java&#x8FDB;&#x7A0B;</strong>&#xFF0C;&#x5B83;&#x4F1A;&#x8BFB;&#x53D6;HDFS&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x89E3;&#x6790;&#x6210;&#x5F88;&#x591A;&#x7684;&#x952E;&#x503C;&#x5BF9;&#xFF0C;&#x7ECF;&#x8FC7;&#x6211;&#x4EEC;&#x8986;&#x76D6;&#x7684;map&#x65B9;&#x6CD5;&#x5904;&#x7406;&#x540E;&#xFF0C;&#x8F6C;&#x6362;&#x4E3A;&#x5F88;&#x591A;&#x7684;&#x952E;&#x503C;&#x5BF9;&#x518D;&#x8F93;&#x51FA;&#x3002;&#x6574;&#x4E2A;Mapper&#x4EFB;&#x52A1;&#x7684;&#x5904;&#x7406;&#x8FC7;&#x7A0B;&#x53C8;&#x53EF;&#x4EE5;&#x5206;&#x4E3A;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x9636;&#x6BB5;&#xFF0C;&#x5982;&#x56FE;&#x6240;&#x793A;&#x3002;</p>
-<a id="more"></a>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/2.png" alt=""></p>
 <p>&#x5728;&#x4E0A;&#x56FE;&#x4E2D;&#xFF0C;&#x628A;Mapper&#x4EFB;&#x52A1;&#x7684;&#x8FD0;&#x884C;&#x8FC7;&#x7A0B;&#x5206;&#x4E3A;&#x516D;&#x4E2A;&#x9636;&#x6BB5;&#x3002;</p>
 <ul>
@@ -265,11 +272,19 @@
 </li>
 </ul>
 <hr>
-<h3 id="Shuffle&#x2014;&#x2014;MapReduce&#x6838;&#x5FC3;"><a href="#Shuffle&#x2014;&#x2014;MapReduce&#x6838;&#x5FC3;" class="headerlink" title="Shuffle&#x2014;&#x2014;MapReduce&#x6838;&#x5FC3;"></a>Shuffle&#x2014;&#x2014;MapReduce&#x6838;&#x5FC3;</h3><p><strong>Shuffle&#x8FC7;&#x7A0B;&#x662F;MapReduce&#x7684;&#x6838;&#x5FC3;&#xFF0C;&#x4E5F;&#x88AB;&#x79F0;&#x4E3A;&#x5947;&#x8FF9;&#x53D1;&#x751F;&#x7684;&#x5730;&#x65B9;&#x3002;</strong><br>Shuffle&#x8FC7;&#x7A0B;&#xFF1A;&#x5C06;map&#x7684;&#x8F93;&#x51FA;&#x4F5C;&#x4E3A;reduce&#x7684;&#x8F93;&#x5165;&#x7684;&#x8FC7;&#x7A0B;&#x3002;</p>
-<p>&#x4E0B;&#x9762;&#x8FD9;&#x4E9B;&#x6587;&#x7AE0;&#x53EF;&#x80FD;&#x5BF9;&#x5927;&#x5BB6;&#x6709;&#x6240;&#x5E2E;&#x52A9;&#xFF1A;<br><a href="http://my.oschina.net/u/2003855/blog/310301" target="_blank" rel="external">http://my.oschina.net/u/2003855/blog/310301</a><br><a href="http://blog.csdn.net/thomas0yang/article/details/8562910" target="_blank" rel="external">http://blog.csdn.net/thomas0yang/article/details/8562910</a></p>
-<hr>
-<h3 id="WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;"><a href="#WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;" class="headerlink" title="WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;"></a>WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;</h3><p>&#x5355;&#x8BCD;&#x8BA1;&#x6570;&#x662F;&#x6700;&#x7B80;&#x5355;&#x4E5F;&#x662F;&#x6700;&#x80FD;&#x4F53;&#x73B0;MapReduce&#x601D;&#x60F3;&#x7684;&#x7A0B;&#x5E8F;&#x4E4B;&#x4E00;&#xFF0C;&#x53EF;&#x4EE5;&#x79F0;&#x4E3A;MapReduce&#x7248;&#x201D;Hello World&#x201D;&#x3002;<br>&#x5355;&#x8BCD;&#x8BA1;&#x6570;&#x4E3B;&#x8981;&#x5B8C;&#x6210;&#x529F;&#x80FD;&#x662F;&#xFF1A;&#x7EDF;&#x8BA1;&#x4E00;&#x7CFB;&#x5217;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x4E2D;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x51FA;&#x73B0;&#x7684;&#x6B21;&#x6570;&#x3002;<br><strong>&#x4EE5;&#x4E0B;&#x662F;&#x76F8;&#x5173;&#x56FE;&#x89E3;&#xFF0C;&#x53EF;&#x4EE5;&#x7ED3;&#x5408;&#x4E0A;&#x6587;&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x8FDB;&#x884C;&#x7406;&#x89E3;&#x3002;</strong></p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/4.png" alt="&#x5206;&#x7247;&#x540E;&#x89E3;&#x6790;&#x4E3A;&#x952E;&#x503C;&#x5BF9;"><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/5.png" alt="map"><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/6.png" alt="&#x5206;&#x533A;&#x6392;&#x5E8F;&#x5408;&#x5E76;"><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/7.png" alt="reduce"></p>
+<h3 id="Shuffle&#x2013;MapReduce&#x5FC3;&#x810F;"><a href="#Shuffle&#x2013;MapReduce&#x5FC3;&#x810F;" class="headerlink" title="Shuffle&#x2013;MapReduce&#x5FC3;&#x810F;"></a>Shuffle&#x2013;MapReduce&#x5FC3;&#x810F;</h3><p><strong>Shuffle&#x8FC7;&#x7A0B;&#x662F;MapReduce&#x7684;&#x6838;&#x5FC3;&#xFF0C;&#x4E5F;&#x88AB;&#x79F0;&#x4E3A;&#x5947;&#x8FF9;&#x53D1;&#x751F;&#x7684;&#x5730;&#x65B9;&#x3002;</strong></p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/8.jpg" alt=""></p>
+<p>&#x4E0A;&#x9762;&#x8FD9;&#x5F20;&#x56FE;&#x662F;&#x5B98;&#x65B9;&#x5BF9;Shuffle&#x8FC7;&#x7A0B;&#x7684;&#x63CF;&#x8FF0;&#xFF0C;&#x53EF;&#x4EE5;&#x80AF;&#x5B9A;&#x7684;&#x662F;&#xFF0C;&#x5355;&#x4ECE;&#x8FD9;&#x5F20;&#x56FE;&#x57FA;&#x672C;&#x4E0D;&#x53EF;&#x80FD;&#x660E;&#x767D;Shuffle&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x4E0E;&#x4E8B;&#x5B9E;&#x76F8;&#x5DEE;&#x633A;&#x591A;&#xFF0C;&#x7EC6;&#x8282;&#x4E5F;&#x662F;&#x9519;&#x4E71;&#x7684;&#x3002;<strong>Shuffle&#x53EF;&#x4EE5;&#x5927;&#x81F4;&#x7406;&#x89E3;&#x6210;&#x600E;&#x6837;&#x628A;map task&#x7684;&#x8F93;&#x51FA;&#x7ED3;&#x679C;&#x6709;&#x6548;&#x5730;&#x4F20;&#x9001;&#x5230;reduce&#x7AEF;&#x3002;&#x4E5F;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x7406;&#x89E3;&#xFF0C; Shuffle&#x63CF;&#x8FF0;&#x7740;&#x6570;&#x636E;&#x4ECE;map task&#x8F93;&#x51FA;&#x5230;reduce task&#x8F93;&#x5165;&#x7684;&#x8FD9;&#x6BB5;&#x8FC7;&#x7A0B;&#x3002;</strong></p>
+<p>&#x5728;Hadoop&#x8FD9;&#x6837;&#x7684;&#x96C6;&#x7FA4;&#x73AF;&#x5883;&#x4E2D;&#xFF0C;&#x5927;&#x90E8;&#x5206;map task&#x4E0E;reduce task&#x7684;&#x6267;&#x884C;&#x662F;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x8282;&#x70B9;&#x4E0A;&#x3002;&#x5F88;&#x591A;&#x65F6;&#x5019;Reduce&#x6267;&#x884C;&#x65F6;&#x9700;&#x8981;&#x8DE8;&#x8282;&#x70B9;&#x53BB;&#x62C9;&#x53D6;&#x5176;&#x5B83;&#x8282;&#x70B9;&#x4E0A;&#x7684;map task&#x7ED3;&#x679C;<strong>&#x3010;&#x6CE8;&#x610F;&#xFF1A;Map&#x8F93;&#x51FA;&#x603B;&#x662F;&#x5199;&#x5230;&#x672C;&#x5730;&#x78C1;&#x76D8;&#xFF0C;&#x4F46;&#x662F;Reduce&#x8F93;&#x51FA;&#x4E0D;&#x662F;&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x5199;&#x5230;HDFS&#x3011;</strong>&#x3002;</p>
+<p>&#x5982;&#x679C;&#x96C6;&#x7FA4;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;job&#x6709;&#x5F88;&#x591A;&#xFF0C;&#x90A3;&#x4E48;task&#x7684;&#x6B63;&#x5E38;&#x6267;&#x884C;&#x5BF9;&#x96C6;&#x7FA4;&#x5185;&#x90E8;&#x7684;&#x7F51;&#x7EDC;&#x8D44;&#x6E90;&#x6D88;&#x8017;&#x4F1A;&#x5F88;&#x4E25;&#x91CD;&#x3002;&#x8FD9;&#x79CD;&#x7F51;&#x7EDC;&#x6D88;&#x8017;&#x662F;&#x6B63;&#x5E38;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x4E0D;&#x80FD;&#x9650;&#x5236;&#xFF0C;&#x80FD;&#x505A;&#x7684; &#x5C31;&#x662F;&#x6700;&#x5927;&#x5316;&#x5730;&#x51CF;&#x5C11;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x6D88;&#x8017;&#x3002;&#x8FD8;&#x6709;&#x5728;&#x8282;&#x70B9;&#x5185;&#xFF0C;&#x76F8;&#x6BD4;&#x4E8E;&#x5185;&#x5B58;&#xFF0C;&#x78C1;&#x76D8;IO&#x5BF9;job&#x5B8C;&#x6210;&#x65F6;&#x95F4;&#x7684;&#x5F71;&#x54CD;&#x4E5F;&#x662F;&#x53EF;&#x89C2;&#x7684;&#x3002;&#x4ECE;&#x6700;&#x57FA;&#x672C;&#x7684;&#x8981;&#x6C42;&#x6765;&#x8BF4;&#xFF0C;&#x6211;&#x4EEC;&#x5BF9;Shuffle&#x8FC7;&#x7A0B;&#x7684; &#x671F;&#x671B;&#x53EF;&#x4EE5;&#x6709;&#xFF1A;</p>
+<ul>
+<li>&#x5B8C;&#x6574;&#x5730;&#x4ECE;map task&#x7AEF;&#x62C9;&#x53D6;&#x6570;&#x636E;&#x5230;reduce &#x7AEF;&#x3002;</li>
+<li>&#x5728;&#x8DE8;&#x8282;&#x70B9;&#x62C9;&#x53D6;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x5C3D;&#x53EF;&#x80FD;&#x5730;&#x51CF;&#x5C11;&#x5BF9;&#x5E26;&#x5BBD;&#x7684;&#x4E0D;&#x5FC5;&#x8981;&#x6D88;&#x8017;&#x3002;</li>
+<li>&#x51CF;&#x5C11;&#x78C1;&#x76D8;IO&#x5BF9;task&#x6267;&#x884C;&#x7684;&#x5F71;&#x54CD;&#x3002;</li>
+</ul>
+<p>&#x6BD4;&#x5982;&#x4E3A;&#x4E86;&#x51CF;&#x5C11;&#x78C1;&#x76D8;IO&#x7684;&#x6D88;&#x8017;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8C03;&#x8282;io.sort.mb&#x7684;&#x5C5E;&#x6027;&#x3002;&#x6BCF;&#x4E2A;Map&#x4EFB;&#x52A1;&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x7528;&#x6765;&#x5199;&#x5165;&#x8F93;&#x51FA;&#x6570;&#x636E;&#x7684;&#x5FAA;&#x73AF;&#x5185;&#x5B58;&#x7F13;&#x51B2;&#x533A;&#xFF0C;&#x8FD9;&#x4E2A;&#x7F13;&#x51B2;&#x533A;&#x9ED8;&#x8BA4;&#x5927;&#x5C0F;&#x662F;100M&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;io.sort.mb&#x8BBE;&#x7F6E;&#xFF0C;&#x5F53;&#x7F13;&#x51B2;&#x533A;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x91CF;&#x8FBE;&#x5230;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x9600;&#x503C;(io.sort.mb * io.sort.spill.percent&#xFF0C;&#x5176;&#x4E2D;io.sort.spill.percent &#x9ED8;&#x8BA4;&#x662F;0.80)&#x65F6;&#xFF0C;&#x7CFB;&#x7EDF;&#x5C06;&#x4F1A;&#x542F;&#x52A8;&#x4E00;&#x4E2A;&#x540E;&#x53F0;&#x7EBF;&#x7A0B;&#x628A;&#x7F13;&#x51B2;&#x533A;&#x4E2D;&#x7684;&#x5185;&#x5BB9;spill &#x5230;&#x78C1;&#x76D8;&#x3002;&#x5728;spill&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;Map&#x7684;&#x8F93;&#x51FA;&#x5C06;&#x4F1A;&#x7EE7;&#x7EED;&#x5199;&#x5165;&#x5230;&#x7F13;&#x51B2;&#x533A;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x7F13;&#x51B2;&#x533A;&#x5DF2;&#x7ECF;&#x6EE1;&#x4E86;&#xFF0C;Map&#x5C31;&#x4F1A;&#x88AB;&#x963B;&#x585E;&#x76F4;&#x9053;spill&#x5B8C;&#x6210;&#x3002;</p>
+<p>spill&#x7EBF;&#x7A0B;&#x5728;&#x628A;&#x7F13;&#x51B2;&#x533A;&#x7684;&#x6570;&#x636E;&#x5199;&#x5230;&#x78C1;&#x76D8;&#x524D;&#xFF0C;&#x4F1A;&#x5BF9;&#x4ED6;&#x8FDB;&#x884C;&#x4E00;&#x4E2A;&#x4E8C;&#x6B21;&#x6392;&#x5E8F;&#xFF0C;&#x9996;&#x5148;&#x6839;&#x636E;&#x6570;&#x636E;&#x6240;&#x5C5E;&#x7684;partition&#x6392;&#x5E8F;&#xFF0C;&#x7136;&#x540E;&#x6BCF;&#x4E2A;partition&#x4E2D;&#x518D;&#x6309;Key&#x6392;&#x5E8F;&#x3002;&#x8F93;&#x51FA;&#x5305;&#x62EC;&#x4E00;&#x4E2A;&#x7D22;&#x5F15;&#x6587;&#x4EF6;&#x548C;&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x5982;&#x679C;&#x8BBE;&#x5B9A;&#x4E86;Combiner&#xFF0C;&#x5C06;&#x5728;&#x6392;&#x5E8F;&#x8F93;&#x51FA;&#x7684;&#x57FA;&#x7840;&#x4E0A;&#x8FDB;&#x884C;&#x3002;Combiner&#x5C31;&#x662F;&#x4E00;&#x4E2A;Mini Reducer&#xFF0C;&#x5B83;&#x5728;&#x6267;&#x884C;Map&#x4EFB;&#x52A1;&#x7684;&#x8282;&#x70B9;&#x672C;&#x8EAB;&#x8FD0;&#x884C;&#xFF0C;&#x5148;&#x5BF9;Map&#x7684;&#x8F93;&#x51FA;&#x4F5C;&#x4E00;&#x6B21;&#x7B80;&#x5355;&#x7684;Reduce&#xFF0C;&#x4F7F;&#x5F97;Map&#x7684;&#x8F93;&#x51FA;&#x66F4;&#x7D27;&#x51D1;&#xFF0C;&#x66F4;&#x5C11;&#x7684;&#x6570;&#x636E;&#x4F1A;&#x88AB;&#x5199;&#x5165;&#x78C1;&#x76D8;&#x548C;&#x4F20;&#x9001;&#x5230;Reducer&#x3002;<strong>Spill&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x5728;&#x7531;mapred.local.dir&#x6307;&#x5B9A;&#x7684;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;Map&#x4EFB;&#x52A1;&#x7ED3;&#x675F;&#x540E;&#x5220;&#x9664;&#x3002;</strong></p>
+<p>Shuffle&#x5176;&#x4ED6;&#x7EC6;&#x8282;&#x8FD9;&#x91CC;&#x4E0D;&#x518D;&#x8BE6;&#x8FF0;&#xFF0C;&#x4E0B;&#x9762;&#x8FD9;&#x4E9B;&#x6587;&#x7AE0;&#x53EF;&#x80FD;&#x5BF9;&#x5927;&#x5BB6;&#x6709;&#x6240;&#x5E2E;&#x52A9;&#xFF1A;<br><a href="http://my.oschina.net/u/2003855/blog/310301" target="_blank" rel="external">http://my.oschina.net/u/2003855/blog/310301</a><br><a href="http://blog.csdn.net/thomas0yang/article/details/8562910" target="_blank" rel="external">http://blog.csdn.net/thomas0yang/article/details/8562910</a></p>
 
         
         </div>
@@ -317,7 +332,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
             
     
-        <a href="http://www.wangxin123.com/2016/05/17/MapReduce详解/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/05/17/MapReduce详解/">评论</a>
+        <a href="http://www.wangxin123.com/2017/03/01/MapReduce详解/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/03/01/MapReduce详解/">评论</a>
     
 
         </footer>
@@ -326,19 +341,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
 <nav id="article-nav">
     
-        <a href="/2016/05/19/Zookeeper原理/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    Zookeeper原理
-                
-            </div>
-        </a>
     
-    
-        <a href="/2016/05/14/自定义二维码/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/02/27/Flume简介及安装/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">自定义二维码</div>
+            <div class="article-nav-title">Flume简介及安装</div>
         </a>
     
 </nav>
@@ -352,7 +358,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <section id="comments">
     
         
-    <div class="ds-thread" data-thread-key="2016/05/17/MapReduce详解/" data-title="MapReduce详解" data-url="http://www.wangxin123.com/2016/05/17/MapReduce详解/"></div>
+    <div class="ds-thread" data-thread-key="2017/03/01/MapReduce详解/" data-title="MapReduce详解" data-url="http://www.wangxin123.com/2017/03/01/MapReduce详解/"></div>
     <style>
         #ds-thread #ds-reset .ds-textarea-wrapper {
             background: none;
@@ -410,8 +416,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2017/02/27/Sqoop简介及安装/" class="title">Sqoop简介及安装</a></p>
-                            <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
+                            <p class="item-title"><a href="/2017/03/01/MapReduce详解/" class="title">MapReduce详解</a></p>
+                            <p class="item-date"><time datetime="2017-03-01T13:18:00.000Z" itemprop="datePublished">2017-03-01</time></p>
                         </div>
                     </li>
                 
@@ -419,6 +425,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
                             <p class="item-title"><a href="/2017/02/27/Flume简介及安装/" class="title">Flume简介及安装</a></p>
+                            <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2017/02/27/Sqoop简介及安装/" class="title">Sqoop简介及安装</a></p>
                             <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
                         </div>
                     </li>
@@ -436,14 +450,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                             <p class="item-category"><a class="article-category-link" href="/categories/思维导图/">思维导图</a></p>
                             <p class="item-title"><a href="/2017/02/24/薛兆丰的北大经济学课/" class="title">薛兆丰的北大经济学课</a></p>
                             <p class="item-date"><time datetime="2017-02-24T13:18:00.000Z" itemprop="datePublished">2017-02-24</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2017/02/21/hadoop2.7.2单机与伪分布式安装/" class="title">hadoop2.7.2单机与伪分布式安装</a></p>
-                            <p class="item-date"><time datetime="2017-02-21T13:18:00.000Z" itemprop="datePublished">2017-02-21</time></p>
                         </div>
                     </li>
                 
@@ -465,7 +471,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div -->
 
@@ -498,7 +504,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     </li>
                 
                     <li>
-                        <a href="http://wy.hx99.net/">乌云漏洞搜索系统</a>
+                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
                     </li>
                 
                     <li>

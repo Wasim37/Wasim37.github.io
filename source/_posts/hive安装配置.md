@@ -9,6 +9,19 @@ toc: true
 
 ---
 
+### Hive简介
+Hive 基本介绍
+Hive 实现机制
+Hive 数据模型
+Hive 如何转换成MapReduce
+Hive 与其他数据库的区别
+以上详见：https://chu888chu888.gitbooks.io/hadoopstudy/content/Content/8/chapter8.html
+
+Hive 和 Hbase 的区别
+详见：http://www.cnblogs.com/justinzhang/p/4273470.html
+
+---
+
 ### Hive环境模式
 - 内嵌模式
 将元数据保存在本地内嵌的 Derby 数据库中，这是使用 Hive 最简单的方式。但是这种方式缺点也比较明显，因为一个内嵌的 Derby 数据库每次只能访问一个数据文件，这也就意味着它不支持多会话连接。
@@ -248,3 +261,5 @@ http://wangxin123.com/2017/02/18/%E5%A4%A7%E6%95%B0%E6%8D%AE%E8%BF%9B%E9%98%B6%E
 
 Hive下载地址
 http://mirrors.hust.edu.cn/apache/hive/hive-2.0.1/
+
+

@@ -183,7 +183,7 @@
 
             
             <section id="main">
-    <article id="post-Sqoop简介及安装" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-MapReduce详解" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -192,7 +192,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/02/27/Sqoop简介及安装/">Sqoop简介及安装</a>
+            <a class="article-title" href="/2017/03/01/MapReduce详解/">MapReduce详解</a>
         </h1>
     
 
@@ -200,8 +200,8 @@
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/02/27/Sqoop简介及安装/">
-            <time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time>
+        <a href="/2017/03/01/MapReduce详解/">
+            <time datetime="2017-03-01T13:18:00.000Z" itemprop="datePublished">2017-03-01</time>
         </a>
     </div>
 
@@ -215,7 +215,7 @@
                     
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Sqoop/">Sqoop</a>
+        <a class="tag-link" href="/tags/MapReduce/">MapReduce</a>
     </div>
 
                 </div>
@@ -223,13 +223,14 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p>Hadoop&#x4E1A;&#x52A1;&#x7684;&#x5927;&#x81F4;&#x5F00;&#x53D1;&#x6D41;&#x7A0B;&#x4EE5;&#x53CA;Sqoop&#x5728;&#x4E1A;&#x52A1;&#x4E2D;&#x7684;&#x5730;&#x4F4D;&#xFF1A;</p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/Sqoop%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85/1.jpg" alt=""></p>
+            <p><h3 id="MapReduce&#x7B80;&#x4ECB;"><a href="#MapReduce&#x7B80;&#x4ECB;" class="headerlink" title="MapReduce&#x7B80;&#x4ECB;"></a>MapReduce&#x7B80;&#x4ECB;</h3><p>MapReduce&#x662F;&#x4E00;&#x79CD;&#x7F16;&#x7A0B;&#x6A21;&#x578B;&#xFF0C;&#x7528;&#x4E8E;&#x5927;&#x89C4;&#x6A21;&#x6570;&#x636E;&#x96C6;&#xFF08;&#x5927;&#x4E8E;1TB&#xFF09;&#x7684;&#x5E76;&#x884C;&#x8FD0;&#x7B97;&#x3002;&#x6982;&#x5FF5;&#x201D;Map&#xFF08;&#x6620;&#x5C04;&#xFF09;&#x201D;&#x548C;&#x201D;Reduce&#xFF08;&#x5F52;&#x7EA6;&#xFF09;&#x201D;&#xFF0C;&#x662F;&#x5B83;&#x4EEC;&#x7684;&#x4E3B;&#x8981;&#x601D;&#x60F3;&#x3002;</p>
+<p><strong>MapReduce&#x6781;&#x5927;&#x5730;&#x65B9;&#x4FBF;&#x4E86;&#x7F16;&#x7A0B;&#x4EBA;&#x5458;&#x5728;&#x4E0D;&#x4F1A;&#x5206;&#x5E03;&#x5F0F;&#x5E76;&#x884C;&#x7F16;&#x7A0B;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5C06;&#x81EA;&#x5DF1;&#x7684;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E0A;&#x3002;</strong></p>
 <hr>
-<h3 id="Sqoop&#x6982;&#x5FF5;"><a href="#Sqoop&#x6982;&#x5FF5;" class="headerlink" title="Sqoop&#x6982;&#x5FF5;"></a>Sqoop&#x6982;&#x5FF5;</h3><p>Sqoop&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x3010;SQL&#x2013;to&#x2013;Hadoop&#x3011;&#xFF0C;&#x6B63;&#x5982;&#x540D;&#x5B57;&#x6240;&#x793A;&#xFF0C;Sqoop&#x662F;&#x4E00;&#x4E2A;&#x7528;&#x6765;&#x5C06;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;&#x548C;Hadoop&#x4E2D;&#x7684;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x76F8;&#x4E92;&#x8F6C;&#x79FB;&#x7684;&#x5DE5;&#x5177;&#x3002;&#x5B83;&#x53EF;&#x4EE5;&#x5C06;&#x4E00;&#x4E2A;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;(&#x4F8B;&#x5982;Mysql&#x3001;Oracle)&#x4E2D;&#x7684;&#x6570;&#x636E;&#x5BFC;&#x5165;&#x5230;Hadoop(&#x4F8B;&#x5982;HDFS&#x3001;Hive&#x3001;Hbase)&#x4E2D;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5C06;Hadoop(&#x4F8B;&#x5982;HDFS&#x3001;Hive&#x3001;Hbase)&#x4E2D;&#x7684;&#x6570;&#x636E;&#x5BFC;&#x5165;&#x5230;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;(&#x4F8B;&#x5982;Mysql&#x3001;Oracle)&#x4E2D;&#x3002;</p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/Sqoop%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85/2.jpg" alt=""></p></p>
+<h3 id="WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;"><a href="#WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;" class="headerlink" title="WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;"></a>WordCount&#x5355;&#x8BCD;&#x8BA1;&#x6570;</h3><p>&#x5355;&#x8BCD;&#x8BA1;&#x6570;&#x662F;&#x6700;&#x7B80;&#x5355;&#x4E5F;&#x662F;&#x6700;&#x80FD;&#x4F53;&#x73B0;MapReduce&#x601D;&#x60F3;&#x7684;&#x7A0B;&#x5E8F;&#x4E4B;&#x4E00;&#xFF0C;&#x53EF;&#x4EE5;&#x79F0;&#x4E3A;MapReduce&#x7248;&#x201D;Hello World&#x201D;&#x3002;<br>&#x8BCD;&#x8BA1;&#x6570;&#x4E3B;&#x8981;&#x5B8C;&#x6210;&#x529F;&#x80FD;&#x662F;&#xFF1A;<strong>&#x7EDF;&#x8BA1;&#x4E00;&#x7CFB;&#x5217;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x4E2D;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x51FA;&#x73B0;&#x7684;&#x6B21;&#x6570;&#x3002;</strong></p>
+<p>&#x4EE5;&#x4E0B;&#x662F;WordCount&#x8FC7;&#x7A0B;&#x56FE;&#x89E3;&#xFF0C;&#x53EF;&#x4EE5;&#x5148;&#x5927;&#x81F4;&#x6D4F;&#x89C8;&#x4E0B;&#xFF0C;&#x7136;&#x540E;&#x7ED3;&#x5408;&#x4E0B;&#x6587;&#x7684;Mapper&#x548C;Reduce&#x4EFB;&#x52A1;&#x8BE6;&#x89E3;&#x8FDB;&#x884C;&#x7406;&#x89E3;&#x3002;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/MapReduce%E8%AF%A6%E8%A7%A3/4.png" alt="&#x5206;&#x7247;&#x540E;&#x89E3;&#x6790;&#x4E3A;&#x952E;&#x503C;&#x5BF9;"></p></p>
             <p class="article-more-link">
-                <a href="/2017/02/27/Sqoop简介及安装/#more">查看更多</a>
+                <a href="/2017/03/01/MapReduce详解/#more">查看更多</a>
             </p>
         
         </div>
@@ -277,7 +278,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
             
     
-        <a href="http://www.wangxin123.com/2017/02/27/Sqoop简介及安装/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/02/27/Sqoop简介及安装/">评论</a>
+        <a href="http://www.wangxin123.com/2017/03/01/MapReduce详解/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/03/01/MapReduce详解/">评论</a>
     
 
         </footer>
@@ -390,6 +391,110 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
+    <article id="post-Sqoop简介及安装" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/02/27/Sqoop简介及安装/">Sqoop简介及安装</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/02/27/Sqoop简介及安装/">
+            <time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/大数据/">大数据</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Sqoop/">Sqoop</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>Hadoop&#x4E1A;&#x52A1;&#x7684;&#x5927;&#x81F4;&#x5F00;&#x53D1;&#x6D41;&#x7A0B;&#x4EE5;&#x53CA;Sqoop&#x5728;&#x4E1A;&#x52A1;&#x4E2D;&#x7684;&#x5730;&#x4F4D;&#xFF1A;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/Sqoop%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85/1.jpg" alt=""></p>
+<hr>
+<h3 id="Sqoop&#x6982;&#x5FF5;"><a href="#Sqoop&#x6982;&#x5FF5;" class="headerlink" title="Sqoop&#x6982;&#x5FF5;"></a>Sqoop&#x6982;&#x5FF5;</h3><p>Sqoop&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x3010;SQL&#x2013;to&#x2013;Hadoop&#x3011;&#xFF0C;&#x6B63;&#x5982;&#x540D;&#x5B57;&#x6240;&#x793A;&#xFF0C;Sqoop&#x662F;&#x4E00;&#x4E2A;&#x7528;&#x6765;&#x5C06;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;&#x548C;Hadoop&#x4E2D;&#x7684;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x76F8;&#x4E92;&#x8F6C;&#x79FB;&#x7684;&#x5DE5;&#x5177;&#x3002;&#x5B83;&#x53EF;&#x4EE5;&#x5C06;&#x4E00;&#x4E2A;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;(&#x4F8B;&#x5982;Mysql&#x3001;Oracle)&#x4E2D;&#x7684;&#x6570;&#x636E;&#x5BFC;&#x5165;&#x5230;Hadoop(&#x4F8B;&#x5982;HDFS&#x3001;Hive&#x3001;Hbase)&#x4E2D;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5C06;Hadoop(&#x4F8B;&#x5982;HDFS&#x3001;Hive&#x3001;Hbase)&#x4E2D;&#x7684;&#x6570;&#x636E;&#x5BFC;&#x5165;&#x5230;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;(&#x4F8B;&#x5982;Mysql&#x3001;Oracle)&#x4E2D;&#x3002;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/Sqoop%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85/2.jpg" alt=""></p></p>
+            <p class="article-more-link">
+                <a href="/2017/02/27/Sqoop简介及安装/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2017/02/27/Sqoop简介及安装/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/02/27/Sqoop简介及安装/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-HIVE安装配置" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -430,7 +535,10 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><h3 id="Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;"><a href="#Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;" class="headerlink" title="Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;"></a>Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;</h3><ul>
+            <p><h3 id="Hive&#x7B80;&#x4ECB;"><a href="#Hive&#x7B80;&#x4ECB;" class="headerlink" title="Hive&#x7B80;&#x4ECB;"></a>Hive&#x7B80;&#x4ECB;</h3><p>Hive &#x57FA;&#x672C;&#x4ECB;&#x7ECD;<br>Hive &#x5B9E;&#x73B0;&#x673A;&#x5236;<br>Hive &#x6570;&#x636E;&#x6A21;&#x578B;<br>Hive &#x5982;&#x4F55;&#x8F6C;&#x6362;&#x6210;MapReduce<br>Hive &#x4E0E;&#x5176;&#x4ED6;&#x6570;&#x636E;&#x5E93;&#x7684;&#x533A;&#x522B;<br>&#x4EE5;&#x4E0A;&#x8BE6;&#x89C1;&#xFF1A;<a href="https://chu888chu888.gitbooks.io/hadoopstudy/content/Content/8/chapter8.html">https://chu888chu888.gitbooks.io/hadoopstudy/content/Content/8/chapter8.html</a></p>
+<p>Hive &#x548C; Hbase &#x7684;&#x533A;&#x522B;<br>&#x8BE6;&#x89C1;&#xFF1A;<a href="http://www.cnblogs.com/justinzhang/p/4273470.html">http://www.cnblogs.com/justinzhang/p/4273470.html</a></p>
+<hr>
+<h3 id="Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;"><a href="#Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;" class="headerlink" title="Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;"></a>Hive&#x73AF;&#x5883;&#x6A21;&#x5F0F;</h3><ul>
 <li><p>&#x5185;&#x5D4C;&#x6A21;&#x5F0F;<br>&#x5C06;&#x5143;&#x6570;&#x636E;&#x4FDD;&#x5B58;&#x5728;&#x672C;&#x5730;&#x5185;&#x5D4C;&#x7684; Derby &#x6570;&#x636E;&#x5E93;&#x4E2D;&#xFF0C;&#x8FD9;&#x662F;&#x4F7F;&#x7528; Hive &#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x4F46;&#x662F;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x7F3A;&#x70B9;&#x4E5F;&#x6BD4;&#x8F83;&#x660E;&#x663E;&#xFF0C;&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;&#x5185;&#x5D4C;&#x7684; Derby &#x6570;&#x636E;&#x5E93;&#x6BCF;&#x6B21;&#x53EA;&#x80FD;&#x8BBF;&#x95EE;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x8FD9;&#x4E5F;&#x5C31;&#x610F;&#x5473;&#x7740;&#x5B83;&#x4E0D;&#x652F;&#x6301;&#x591A;&#x4F1A;&#x8BDD;&#x8FDE;&#x63A5;&#x3002;</p>
 </li>
 <li><p>&#x672C;&#x5730;&#x6A21;&#x5F0F;<br>&#x8FD9;&#x79CD;&#x6A21;&#x5F0F;&#x662F;&#x5C06;&#x5143;&#x6570;&#x636E;&#x4FDD;&#x5B58;&#x5728;&#x672C;&#x5730;&#x72EC;&#x7ACB;&#x7684;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#xFF08;&#x4E00;&#x822C;&#x662F; MySQL&#xFF09;&#xFF0C;&#x8FD9;&#x7528;&#x5C31;&#x53EF;&#x4EE5;&#x652F;&#x6301;&#x591A;&#x4F1A;&#x8BDD;&#x548C;&#x591A;&#x7528;&#x6237;&#x8FDE;&#x63A5;&#x4E86;&#x3002;</p>
@@ -1144,110 +1252,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-MySQL主从同步报错故障处理集锦" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/01/15/MySQL主从同步报错故障处理集锦/">MySQL主从同步报错故障处理集锦</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/01/15/MySQL主从同步报错故障处理集锦/">
-            <time datetime="2017-01-15T13:18:00.000Z" itemprop="datePublished">2017-01-15</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/数据库/">数据库</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/mysql/">mysql</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="&#x524D;&#x8A00;"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</h3><p>&#x5728;&#x53D1;&#x751F;&#x6545;&#x969C;&#x5207;&#x6362;&#x540E;&#xFF0C;&#x7ECF;&#x5E38;&#x9047;&#x5230;&#x7684;&#x95EE;&#x9898;&#x5C31;&#x662F;&#x540C;&#x6B65;&#x62A5;&#x9519;&#xFF0C;&#x4E0B;&#x9762;&#x662F;&#x6700;&#x8FD1;&#x6536;&#x96C6;&#x7684;&#x62A5;&#x9519;&#x4FE1;&#x606F;&#x3002;</p>
-<hr>
-<h3 id="&#x8BB0;&#x5F55;&#x5220;&#x9664;&#x5931;&#x8D25;"><a href="#&#x8BB0;&#x5F55;&#x5220;&#x9664;&#x5931;&#x8D25;" class="headerlink" title="&#x8BB0;&#x5F55;&#x5220;&#x9664;&#x5931;&#x8D25;"></a>&#x8BB0;&#x5F55;&#x5220;&#x9664;&#x5931;&#x8D25;</h3><p><strong>&#x5728;master&#x4E0A;&#x5220;&#x9664;&#x4E00;&#x6761;&#x8BB0;&#x5F55;&#xFF0C;&#x800C;slave&#x4E0A;&#x627E;&#x4E0D;&#x5230;</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Last_SQL_Error: Could not execute Delete_rows event on table hcy.t1; </span><br><span class="line">Can<span class="string">&apos;t find record in &apos;</span>t1<span class="string">&apos;, </span><br><span class="line">Error_code: 1032; handler error HA_ERR_KEY_NOT_FOUND; </span><br><span class="line">the event&apos;</span>s master <span class="built_in">log</span> mysql-bin.000006, end_<span class="built_in">log</span>_pos 254</span><br></pre></td></tr></table></figure></p>
-<p>&#x89E3;&#x51B3;&#x65B9;&#x6CD5;&#xFF1A;master&#x8981;&#x5220;&#x9664;&#x4E00;&#x6761;&#x8BB0;&#x5F55;&#xFF0C;&#x800C;slave&#x4E0A;&#x627E;&#x4E0D;&#x5230;&#x62A5;&#x9519;&#xFF0C;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E3B;&#x90FD;&#x5DF2;&#x7ECF;&#x5220;&#x9664;&#x4E86;&#xFF0C;&#x90A3;&#x4E48;&#x4ECE;&#x673A;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8DF3;&#x8FC7;&#x3002;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stop slave;</span><br><span class="line"><span class="built_in">set</span> global sql_slave_skip_counter=1;</span><br><span class="line">start slave;</span><br></pre></td></tr></table></figure></p>
-<p>&#x5982;&#x679C;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x5F88;&#x591A;&#xFF0C;&#x9700;&#x8981;&#x9488;&#x5BF9;&#x8FD9;&#x79CD;&#x9519;&#x8BEF;&#x4E13;&#x95E8;&#x5199;&#x76F8;&#x5173;&#x811A;&#x672C;&#x3002;</p></p>
-            <p class="article-more-link">
-                <a href="/2017/01/15/MySQL主从同步报错故障处理集锦/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2017/01/15/MySQL主从同步报错故障处理集锦/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/01/15/MySQL主从同步报错故障处理集锦/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
     </nav>
@@ -1267,8 +1271,8 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2017/02/27/Sqoop简介及安装/" class="title">Sqoop简介及安装</a></p>
-                            <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
+                            <p class="item-title"><a href="/2017/03/01/MapReduce详解/" class="title">MapReduce详解</a></p>
+                            <p class="item-date"><time datetime="2017-03-01T13:18:00.000Z" itemprop="datePublished">2017-03-01</time></p>
                         </div>
                     </li>
                 
@@ -1276,6 +1280,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
                             <p class="item-title"><a href="/2017/02/27/Flume简介及安装/" class="title">Flume简介及安装</a></p>
+                            <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
+                            <p class="item-title"><a href="/2017/02/27/Sqoop简介及安装/" class="title">Sqoop简介及安装</a></p>
                             <p class="item-date"><time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time></p>
                         </div>
                     </li>
@@ -1293,14 +1305,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                             <p class="item-category"><a class="article-category-link" href="/categories/思维导图/">思维导图</a></p>
                             <p class="item-title"><a href="/2017/02/24/薛兆丰的北大经济学课/" class="title">薛兆丰的北大经济学课</a></p>
                             <p class="item-date"><time datetime="2017-02-24T13:18:00.000Z" itemprop="datePublished">2017-02-24</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/大数据/">大数据</a></p>
-                            <p class="item-title"><a href="/2017/02/21/hadoop2.7.2单机与伪分布式安装/" class="title">hadoop2.7.2单机与伪分布式安装</a></p>
-                            <p class="item-date"><time datetime="2017-02-21T13:18:00.000Z" itemprop="datePublished">2017-02-21</time></p>
                         </div>
                     </li>
                 
@@ -1322,7 +1326,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div -->
 
@@ -1355,7 +1359,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     </li>
                 
                     <li>
-                        <a href="http://wy.hx99.net/">乌云漏洞搜索系统</a>
+                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
                     </li>
                 
                     <li>
