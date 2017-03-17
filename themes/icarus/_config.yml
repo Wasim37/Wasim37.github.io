@@ -20,7 +20,7 @@ customize:
         author: Wasim
         author_title: Full Stack Developer
         location: GuangZhou, China
-        follow: 
+        follow: https://github.com/Wasim37
     highlight: monokai
     sidebar: right # sidebar position, options: left, right
     thumbnail: true # enable posts thumbnail, options: true, false
