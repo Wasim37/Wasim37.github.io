@@ -1,7 +1,7 @@
 ---
 title: MyBatis双数据源配置
 categories:
-  - WEB后端
+  - JAVA
 date: 2016-10-20 18:53:00
 toc: false
 

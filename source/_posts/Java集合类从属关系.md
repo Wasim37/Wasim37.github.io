@@ -1,7 +1,7 @@
 ---
 title: Java集合类从属关系
 categories:
-  - WEB后端
+  - JAVA
 tags:
   - 集合
   - 疑难杂症

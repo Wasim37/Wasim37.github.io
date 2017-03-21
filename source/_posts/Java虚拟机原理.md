@@ -1,7 +1,7 @@
 ---
 title: Java虚拟机原理
 categories:
-  - WEB后端
+  - JAVA
 tags:
   - 虚拟机
 date: 2016-9-10 21:18:00

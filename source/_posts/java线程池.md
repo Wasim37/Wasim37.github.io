@@ -1,7 +1,7 @@
 ---
 title: Java线程池
 categories:
-  - WEB后端
+  - JAVA
 tags:
   - 线程池
 date: 2016-6-20 18:53:00

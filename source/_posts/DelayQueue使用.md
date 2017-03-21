@@ -1,7 +1,7 @@
 ---
 title: DelayQueue使用
 categories:
-  - WEB后端
+  - JAVA
 tags:
   - concurrent
 date: 2016-4-16 23:42:13

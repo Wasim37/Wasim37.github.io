@@ -1,7 +1,7 @@
 ---
 title: countDownLatch和cyclicBarrier
 categories:
-  - WEB后端
+  - JAVA
 tags:
   - concurrent
 date: 2016-4-16 23:16:16

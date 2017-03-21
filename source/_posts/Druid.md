@@ -1,7 +1,7 @@
 ---
 title: Druid
 categories:
-  - WEB后端
+  - JAVA
 tags:
   - Druid
 date: 2016-4-24 22:10:00

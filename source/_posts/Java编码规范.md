@@ -1,7 +1,7 @@
 ---
-title: 编码规范
+title: Java 编码规范
 categories:
-  - WEB后端
+  - JAVA
 tags:
   - 编码规范
 date: 2016-12-25 22:10:00

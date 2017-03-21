@@ -1,7 +1,7 @@
 ---
 title: 使用Post方法模拟登陆爬取网页
 categories:
-  - WEB后端
+  - JAVA
 tags:
   - 爬虫
 date: 2016-12-19 22:10:00

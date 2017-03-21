@@ -1,7 +1,7 @@
 ---
 title: AtomicInteger的使用
 categories:
-  - WEB后端
+  - JAVA
 tags:
   - concurrent
 date: 2016-4-16 22:41:19
