@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://www.wangxin123.com/2017/03/20/Python 一切皆对象/index.html">
 <meta property="og:site_name" content="星空博客">
 <meta property="og:description" content="Python&amp;#x4ECE;&amp;#x8BBE;&amp;#x8BA1;&amp;#x4E4B;&amp;#x521D;&amp;#x5C31;&amp;#x662F;&amp;#x4E00;&amp;#x95E8;&amp;#x9762;&amp;#x5411;&amp;#x5BF9;&amp;#x8C61;&amp;#x7684;&amp;#x8BED;&amp;#x8A00;&amp;#xFF0C;&amp;#x5B83;&amp;#x6709;&amp;#x4E00;&amp;#x4E2A;&amp;#x91CD;&amp;#x8981;&amp;#x7684;&amp;#">
-<meta property="og:updated_time" content="2017-03-21T12:42:48.190Z">
+<meta property="og:updated_time" content="2017-03-22T02:14:54.196Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python 一切皆对象">
 <meta name="twitter:description" content="Python&amp;#x4ECE;&amp;#x8BBE;&amp;#x8BA1;&amp;#x4E4B;&amp;#x521D;&amp;#x5C31;&amp;#x662F;&amp;#x4E00;&amp;#x95E8;&amp;#x9762;&amp;#x5411;&amp;#x5BF9;&amp;#x8C61;&amp;#x7684;&amp;#x8BED;&amp;#x8A00;&amp;#xFF0C;&amp;#x5B83;&amp;#x6709;&amp;#x4E00;&amp;#x4E2A;&amp;#x91CD;&amp;#x8981;&amp;#x7684;&amp;#">
@@ -223,6 +223,11 @@
         
         <div class="article-entry" itemprop="articleBody">
         
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#对象的概念"><span class="toc-number">1.</span> <span class="toc-text">对象的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象的创建和引用"><span class="toc-number">2.</span> <span class="toc-text">对象的创建和引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共享引用"><span class="toc-number">3.</span> <span class="toc-text">共享引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象相等"><span class="toc-number">4.</span> <span class="toc-text">对象相等</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象回收机制"><span class="toc-number">5.</span> <span class="toc-text">对象回收机制</span></a></li></ol>
+                </div>
             
             <p>Python&#x4ECE;&#x8BBE;&#x8BA1;&#x4E4B;&#x521D;&#x5C31;&#x662F;&#x4E00;&#x95E8;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7684;&#x8BED;&#x8A00;&#xFF0C;&#x5B83;&#x6709;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x5373;&#x4E00;&#x5207;&#x7686;&#x5BF9;&#x8C61;&#x3002;</p>
 <p>Java&#x867D;&#x7136;&#x4E5F;&#x662F;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x7684;&#x8BED;&#x8A00;&#xFF0C;&#x4F46;&#x662F;&#x8840;&#x7EDF;&#x6CA1;&#x6709;Python&#x7EAF;&#x6B63;&#x3002;&#x6BD4;&#x5982;Java&#x7684;&#x516B;&#x79CD;&#x57FA;&#x672C;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x4E4B;&#x4E00;int&#xFF0C;&#x5728;&#x6301;&#x4E45;&#x5316;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x9700;&#x8981;&#x5305;&#x88C5;&#x6210;Integer&#x7C7B;&#x5BF9;&#x8C61;&#x3002;&#x4F46;&#x662F;&#x5728;python&#x4E2D;&#xFF0C;&#x4E00;&#x5207;&#x7686;&#x5BF9;&#x8C61;&#x3002;&#x6570;&#x5B57;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x3001;&#x5143;&#x7EC4;&#x3001;&#x5217;&#x8868;&#x3001;&#x5B57;&#x5178;&#x3001;&#x51FD;&#x6570;&#x3001;&#x65B9;&#x6CD5;&#x3001;&#x7C7B;&#x3001;&#x6A21;&#x5757;&#x7B49;&#x7B49;&#x90FD;&#x662F;&#x5BF9;&#x8C61;&#xFF0C;&#x5305;&#x62EC;&#x4F60;&#x7684;&#x4EE3;&#x7801;&#x3002;</p>
