@@ -5,10 +5,20 @@ tags:
 categories:
   - 数据库
 date: 2016-10-15 22:22:00
-toc: false
+toc: true
+---
+
+当项目数据量不大时，备份可以采用逻辑备份。
+数据库可以搭建一主一从，从库每天凌晨三点全量逻辑备份。
+然后同时记录二进制文件，用来进行基于时间点的数据恢复。
+
+其他备份方案详见我的思维导图：[MySQL备份与恢复](https://www.processon.com/view/link/58805970e4b098bf4cddc5cd)
+
 ---
 
 ### cron定时任务
+数据库每天凌晨三点的备份使用的是cron工具。
+
 cron是一个linux下的定时执行工具，可以在无需人工干预的情况下运行作业。
 Linux下的定时任务便是在crontab文件中加入定制计划来执行。
 
@@ -31,10 +41,10 @@ HOME=/
 0 3 * * * root sh /data/mysqlbackup/all-databases-backup.sh
 
 # run-parts
-01 * * * * root run-parts /etc/cron.hourly //每小时执行/etc/cron.hourly内的脚本
-02 4 * * * root run-parts /etc/cron.daily //每天执行/etc/cron.daily内的脚本
-22 4 * * 0 root run-parts /etc/cron.weekly //每星期执行/etc/cron.weekly内的脚本
-42 4 1 * * root run-parts /etc/cron.monthly //每月去执行/etc/cron.monthly内的脚本
+# 01 * * * * root run-parts /etc/cron.hourly //每小时执行/etc/cron.hourly内的脚本
+# 02 4 * * * root run-parts /etc/cron.daily //每天执行/etc/cron.daily内的脚本
+# 22 4 * * 0 root run-parts /etc/cron.weekly //每星期执行/etc/cron.weekly内的脚本
+# 42 4 1 * * root run-parts /etc/cron.monthly //每月去执行/etc/cron.monthly内的脚本
 
 ```
 
@@ -58,15 +68,13 @@ HOME=/
 
 ---
 
-### 逻辑备份脚本范例
+### 逻辑备份脚本
+shell脚本范例：
+
 ```bash
 # vim /data/mysqlbackup/all-databases-backup.sh
 
 #!/bin/sh
-
-# 用来备份数据库的用户名和密码
-mysql_user=root
-mysql_pwd=pwd
 
 # 全量备份文件名称
 JIRA_FILE_NAME=all-`date +%Y%m%d%H%M%S`;
@@ -81,7 +89,7 @@ fi
 
 # 全库备份
 cd $backupDir
-/usr/bin/mysqldump -u$mysql_user -p$mysql_pwd --all-databases > ${JIRA_FILE_NAME}.sql
+/usr/bin/mysqldump --all-databases > ${JIRA_FILE_NAME}.sql
 
 # 压缩文件，并删除sql
 tar -zcvf ${JIRA_FILE_NAME}.sql.tar.gz ${JIRA_FILE_NAME}.sql
@@ -92,6 +100,13 @@ remove_file_day=`date --date='10 days ago' +%Y%m%d`
 rm -f all-$remove_file_day*
 
 ```
+
+直接运行脚本的同学可能会发现数据库报错，连接不上。
+因为全量逻辑备份的命令正常为  【mysqldump  -uroot -ppwd --all-databases】，
+但是上面的脚本为了安全问题省去了用户名和密码，防止他人得到脚本后直接获取用户密码。
+那脚本执行时，是自动从哪获取的用户和密码呢，其实用户密码配置在 ~/.my.cnf 中。
+具体配置详见另一篇文章：[MySQL安全输入密码的一些操作介绍](http://www.jb51.net/article/68697.htm)
+其中配置最重要的一步就是：一定要保证【.my.cnf】别的用户/组不能读取(chmod 400)...
 
 ---
 
