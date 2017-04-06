@@ -123,13 +123,13 @@ service zabbix-agent restart
 
 5、在zabbix服务器上添加监控主机和mysql模板，然后点击【图形】->【预览】，查看相关监控图像。
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E7%9B%91%E6%8E%A7mysql/1.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E7%9B%91%E6%8E%A7mysql/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E7%9B%91%E6%8E%A7mysql/2.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E7%9B%91%E6%8E%A7mysql/2.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 6、安装grafana-zabbix插件，通过grafana监控相关数据。
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E7%9B%91%E6%8E%A7mysql/3.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E7%9B%91%E6%8E%A7mysql/3.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 <br/>
 

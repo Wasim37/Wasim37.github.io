@@ -164,7 +164,7 @@ Caused by: org.sonar.api.utils.SonarException: No license for cpp
 ```
 原以为是需要安装cpp插件，后来才发现重点是No license，意思就是需要付费购买许可证。
 网上搜索免费许可证无果，然后点击"Get trial key", 结果立马收到官方邮件回复被拒，终放弃。
-![图片3](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/3.png)
+![图片3](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/3.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/NorthEast/dx/10/dy/10|imageslim)
 
 **问题：Jenkins集成Sonar后，Jenkins自动化脚本执行失败，并报如下错误**
 **方案：**更换插件版本即可，下次安装需要注意。
@@ -178,7 +178,7 @@ Caused by: org.sonar.api.utils.SonarException: No license for cpp
 ### 运行结果
 **Sonar成功运行如图五图六所示，其中代码检测规则可以修改也可以自定义，对于图六显示出的具体错误，Sonar也可在页面直接分配给某个组员修改**
 
-![图片5](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/5.png)
-![图片6](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/6.png)
+![图片5](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/5.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
+![图片6](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/6.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 <br/>

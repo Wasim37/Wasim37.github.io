@@ -225,7 +225,7 @@ http://10.0.90.24:9200/  --会显示如下：
 
 至于之前安装的head插件，它是一个用浏览器跟ES集群交互的插件，可以查看集群状态、集群的doc内容、执行搜索和普通的Rest请求等。可以如下地址 http://ip:9200/_plugin/head 查看ES集群状态：
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/ELK%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/1.jpg)
+![](http://7xvfir.com1.z0.glb.clouddn.com/ELK%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/1.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 ---
 
@@ -569,11 +569,11 @@ elasticsearch.shardTimeout: 0
 
 登录之后，首先配置一个索引，默认kibana的数据被指向Elasticsearch，使用默认的logstash-*的索引名称，并且是基于时间（@timestamp）的，如下
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/ELK%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/2.jpg)
+![](http://7xvfir.com1.z0.glb.clouddn.com/ELK%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/2.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 点击“Create”，如果能看到如下类似界面，说明索引创建完成。
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/ELK%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/3.jpg)
+![](http://7xvfir.com1.z0.glb.clouddn.com/ELK%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/3.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
   
 点击“Discover”，可以搜索和浏览Elasticsearch中的数据，默认搜索的是最近15分钟的数据，可以自定义选择时间。
 到此，说明你的ELK平台安装部署完成。
