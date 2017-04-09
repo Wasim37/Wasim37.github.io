@@ -159,7 +159,7 @@ https://www.zabbix.com/documentation/2.2/manual/installation/install_from_packag
 **zabbix中文操作手册：**
 http://pan.baidu.com/s/1i46GoQh 密码：xw5n (手册中有相关shell脚本下载地址)
 
-![zabbix中文操作手册](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E5%AE%89%E8%A3%85/1.png)
+![zabbix中文操作手册](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E5%AE%89%E8%A3%85/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 **zabbix_agentd.conf配置文件详解**
 http://www.ttlsa.com/zabbix/zabbix_agentd-conf-description/

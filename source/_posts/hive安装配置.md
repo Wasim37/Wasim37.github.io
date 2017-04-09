@@ -145,14 +145,14 @@ $ hadoop dfs -mkdir /tmp/hive
 
 你很可能会遇到与【${system:java.io.tmpdir}】有关的这个错误：
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/2.jpg)
+![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/2.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwXyVFNyU5OSVCRCVFOCU4OSVCMi5wbmc=/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 解决方法是修改 hive-site.xml 中所有包含 ${system:java.io.tmpdir} 字段的 value。
 可自己新建一个目录来替换它，例如 /data/hive/iotmp，同时赋予相关写权限。
 
 修改后再次启动 hive，可能又遇到数据库未初始化的错误：
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/3.jpg)
+![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/3.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwXyVFNyU5OSVCRCVFOCU4OSVCMi5wbmc=/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 执行以下命令初始化即可
 ```bash
@@ -172,7 +172,7 @@ org.apache.hadoop.hive.metastore.HiveMetaException: Schema initialization FAILED
 
 注释后再次启动hive，就ok了
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/hive%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/1.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/hive%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwXyVFNyU5OSVCRCVFOCU4OSVCMi5wbmc=/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 ---
 
@@ -229,7 +229,7 @@ cd /data/hive/bin
 
 然后运行HIVE，可能发现运行不成功，并一直收到警告
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/4.jpg)
+![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/4.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwXyVFNyU5OSVCRCVFOCU4OSVCMi5wbmc=/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 修改hive-site.xml文件的javax.jdo.option.ConnectionURL选项即可
 ```bash
@@ -242,7 +242,7 @@ cd /data/hive/bin
 
 再次启动HIVE，仍然报错
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/5.jpg)
+![](http://7xvfir.com1.z0.glb.clouddn.com/HIVE%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/5.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwXyVFNyU5OSVCRCVFOCU4OSVCMi5wbmc=/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 经查，再次修改javax.jdo.option.ConnectionURL选项，然后启动HIVE，发现启动成功。
 ```bash

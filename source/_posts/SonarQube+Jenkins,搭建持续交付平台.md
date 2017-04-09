@@ -169,7 +169,7 @@ Caused by: org.sonar.api.utils.SonarException: No license for cpp
 **问题：Jenkins集成Sonar后，Jenkins自动化脚本执行失败，并报如下错误**
 **方案：**更换插件版本即可，下次安装需要注意。
 
-![图片4](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/4.png)
+![图片4](http://7xvfir.com1.z0.glb.clouddn.com/SonarQube+Jenkins,%E6%90%AD%E5%BB%BA%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98%E5%B9%B3%E5%8F%B0/4.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwXyVFNyU5OSVCRCVFOCU4OSVCMi5wbmc=/dissolve/100/gravity/NorthEast/dx/10/dy/10|imageslim)
 
 **问题：Jenkins账户权限如何分配**
 **方案：** 相关链接：[http://www.360doc.com/content/13/0802/14/7811581_304255550.shtml](http://www.360doc.com/content/13/0802/14/7811581_304255550.shtml)

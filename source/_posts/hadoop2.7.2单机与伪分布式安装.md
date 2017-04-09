@@ -138,7 +138,7 @@ md5sum hadoop-2.7.2.tar.gz | tr "a-z" "A-Z"
 
 若hadoop-2.x.y.tar.gz不完整，则这两个值差别很大
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/hadoop2.7.2%E5%8D%95%E6%9C%BA%E4%B8%8E%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%89%E8%A3%85/1.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/hadoop2.7.2%E5%8D%95%E6%9C%BA%E4%B8%8E%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%89%E8%A3%85/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwXyVFNyU5OSVCRCVFOCU4OSVCMi5wbmc=/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 我们选择将 Hadoop 安装至 /data/hadoop/ 中
 ```bash
@@ -151,7 +151,7 @@ sudo chown -R hadoop:hadoop ./hadoop
 
 Hadoop 解压后即可使用。输入hadoop version，成功会显示版本信息
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/hadoop2.7.2%E5%8D%95%E6%9C%BA%E4%B8%8E%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%89%E8%A3%85/2.jpg)
+![](http://7xvfir.com1.z0.glb.clouddn.com/hadoop2.7.2%E5%8D%95%E6%9C%BA%E4%B8%8E%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%89%E8%A3%85/2.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwXyVFNyU5OSVCRCVFOCU4OSVCMi5wbmc=/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 ---
 
@@ -160,7 +160,7 @@ Hadoop 默认为非分布式模式，非分布式即单 Java 进程。
 
 Hadoop 默认附带了丰富的例子，包括 wordcount、terasort、join、grep 等。执行下面命令可以查看：
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/hadoop2.7.2%E5%8D%95%E6%9C%BA%E4%B8%8E%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%89%E8%A3%85/3.jpg)
+![](http://7xvfir.com1.z0.glb.clouddn.com/hadoop2.7.2%E5%8D%95%E6%9C%BA%E4%B8%8E%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%89%E8%A3%85/3.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwXyVFNyU5OSVCRCVFOCU4OSVCMi5wbmc=/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 在此我们选择运行 grep 例子，将 input 文件夹中的所有文件作为输入，筛选当中符合正则表达式 dfs[a-z.]+ 的单词并统计出现的次数，最后输出结果到 output 文件夹中。
 ```bash
@@ -285,7 +285,7 @@ source /etc/profile
 
 成功启动后，可以访问 Web 界面 http://ip:50070 查看 NameNode 和 Datanode 信息，还可以在线查看 HDFS 中的文件。
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/hadoop2.7.2%E5%8D%95%E6%9C%BA%E4%B8%8E%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%89%E8%A3%85/4.jpg)
+![](http://7xvfir.com1.z0.glb.clouddn.com/hadoop2.7.2%E5%8D%95%E6%9C%BA%E4%B8%8E%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%89%E8%A3%85/4.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 ---
 
