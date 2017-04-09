@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Spark学习资料共享 | 星空博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="&amp;#x94FE;&amp;#x63A5;&amp;#x76F8;&amp;#x5173;&amp;#x8BFE;&amp;#x4EF6;&amp;#x4EE3;&amp;#x7801;&amp;#xFF1A;http://pan.baidu.com/s/1nvbkRSt&amp;#x6559;&amp;#x5B66;&amp;#x89C6;&amp;#x9891;&amp;#xFF1A;http://pan.baidu.com/s/1c12XsIG&amp;#x8FD9;&amp;#x662F;&amp;#x6700;&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark学习资料共享">
+<meta property="og:url" content="http://www.wangxin123.com/2017/04/09/Spark学习资料共享/index.html">
+<meta property="og:site_name" content="星空博客">
+<meta property="og:description" content="&amp;#x94FE;&amp;#x63A5;&amp;#x76F8;&amp;#x5173;&amp;#x8BFE;&amp;#x4EF6;&amp;#x4EE3;&amp;#x7801;&amp;#xFF1A;http://pan.baidu.com/s/1nvbkRSt&amp;#x6559;&amp;#x5B66;&amp;#x89C6;&amp;#x9891;&amp;#xFF1A;http://pan.baidu.com/s/1c12XsIG&amp;#x8FD9;&amp;#x662F;&amp;#x6700;&amp;#">
+<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/Spark%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%E5%85%B1%E4%BA%AB/1.png">
+<meta property="og:updated_time" content="2017-04-09T17:26:08.722Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spark学习资料共享">
+<meta name="twitter:description" content="&amp;#x94FE;&amp;#x63A5;&amp;#x76F8;&amp;#x5173;&amp;#x8BFE;&amp;#x4EF6;&amp;#x4EE3;&amp;#x7801;&amp;#xFF1A;http://pan.baidu.com/s/1nvbkRSt&amp;#x6559;&amp;#x5B66;&amp;#x89C6;&amp;#x9891;&amp;#xFF1A;http://pan.baidu.com/s/1c12XsIG&amp;#x8FD9;&amp;#x662F;&amp;#x6700;&amp;#">
+<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/Spark%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%E5%85%B1%E4%BA%AB/1.png">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/wu.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">星空博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/wk.gif" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/wk.gif" />
+            <h2 id="name">Wasim</h2>
+            <h3 id="title">Full Stack Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
+            <a id="follow" target="_blank" href="https://github.com/Wasim37">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                89
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                69
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Spark学习资料共享" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Spark学习资料共享
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/04/09/Spark学习资料共享/">
+            <time datetime="2017-04-09T13:18:00.000Z" itemprop="datePublished">2017-04-09</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/资源共享/">资源共享</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/大数据教程/">大数据教程</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#链接相关"><span class="toc-number">1.</span> <span class="toc-text">链接相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#课程简介"><span class="toc-number">2.</span> <span class="toc-text">课程简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#课程优化"><span class="toc-number">3.</span> <span class="toc-text">课程优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#面向人群"><span class="toc-number">4.</span> <span class="toc-text">面向人群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#学习收益"><span class="toc-number">5.</span> <span class="toc-text">学习收益</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#课程大纲"><span class="toc-number">6.</span> <span class="toc-text">课程大纲</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片相关"><span class="toc-number">7.</span> <span class="toc-text">图片相关</span></a></li></ol>
+                </div>
+            
+            <h3 id="&#x94FE;&#x63A5;&#x76F8;&#x5173;"><a href="#&#x94FE;&#x63A5;&#x76F8;&#x5173;" class="headerlink" title="&#x94FE;&#x63A5;&#x76F8;&#x5173;"></a>&#x94FE;&#x63A5;&#x76F8;&#x5173;</h3><p>&#x8BFE;&#x4EF6;&#x4EE3;&#x7801;&#xFF1A;<a href="http://pan.baidu.com/s/1nvbkRSt" target="_blank" rel="external">http://pan.baidu.com/s/1nvbkRSt</a><br>&#x6559;&#x5B66;&#x89C6;&#x9891;&#xFF1A;<a href="http://pan.baidu.com/s/1c12XsIG" target="_blank" rel="external">http://pan.baidu.com/s/1c12XsIG</a><br>&#x8FD9;&#x662F;&#x6700;&#x8FD1;&#x4E70;&#x7684;&#x4ED8;&#x8D39;&#x6559;&#x7A0B;&#xFF0C;&#x5BF9;&#x8D44;&#x6599;&#x611F;&#x5174;&#x8DA3;&#x7684;&#x53EF;&#x4EE5;&#x5728;&#x4E0B;&#x65B9;&#x7559;&#x4E0B;&#x90AE;&#x4EF6;&#x5730;&#x5740;&#xFF0C;&#x6211;&#x4F1A;&#x5B9A;&#x671F;&#x8FDB;&#x884C;&#x5BC6;&#x7801;&#x53D1;&#x9001;&#x3002;</p>
+<hr>
+<h3 id="&#x8BFE;&#x7A0B;&#x7B80;&#x4ECB;"><a href="#&#x8BFE;&#x7A0B;&#x7B80;&#x4ECB;" class="headerlink" title="&#x8BFE;&#x7A0B;&#x7B80;&#x4ECB;"></a>&#x8BFE;&#x7A0B;&#x7B80;&#x4ECB;</h3><p>&#x4EE5;&#x76EE;&#x524D;&#x4E3B;&#x6D41;&#x7684;&#xFF0C;&#x6700;&#x65B0;&#x7684;spark&#x7A33;&#x5B9A;&#x7248;2.1.x&#x4E3A;&#x57FA;&#x7840;&#xFF0C;&#x6DF1;&#x5165;&#x6D45;&#x51FA;&#x5730;&#x4ECB;&#x7ECD;Spark&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x539F;&#x7406;&#x53CA;&#x5E94;&#x7528;&#xFF0C;&#x5185;&#x5BB9;&#x5305;&#x62EC;Spark&#x5404;&#x7EC4;&#x4EF6;(Spark Core/SQL/Streaming/MLlib)&#x57FA;&#x672C;&#x539F;&#x7406;&#xFF0C;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#xFF0C;&#x5B9E;&#x6218;&#x7ECF;&#x9A8C;&#x4EE5;&#x53CA;&#x5728;&#x7EBF;&#x6F14;&#x793A;&#x3002;&#x672C;&#x8BFE;&#x7A0B;&#x7CBE;&#x5FC3;&#x8BBE;&#x8BA1;&#x4E86;&#x4E94;&#x4E2A;&#x4F01;&#x4E1A;&#x7EA7;&#x5E94;&#x7528;&#x6848;&#x4F8B;&#xFF0C;&#x5E2E;&#x52A9;&#x5927;&#x5BB6;&#x5728;&#x7406;&#x89E3;&#x7406;&#x8BBA;&#x7684;&#x57FA;&#x7840;&#x4E0A;&#xFF0C;&#x4EB2;&#x624B;&#x5B9E;&#x8DF5;&#x548C;&#x5E94;&#x7528;spark&#x3002;</p>
+<hr>
+<h3 id="&#x8BFE;&#x7A0B;&#x4F18;&#x5316;"><a href="#&#x8BFE;&#x7A0B;&#x4F18;&#x5316;" class="headerlink" title="&#x8BFE;&#x7A0B;&#x4F18;&#x5316;"></a>&#x8BFE;&#x7A0B;&#x4F18;&#x5316;</h3><ol>
+<li>&#x8BB2;&#x8FF0;&#x6700;&#x65B0;&#x3001;&#x6700;&#x7A33;&#x5B9A;&#x7684;Spark2.1.X&#x7248;&#x672C;</li>
+<li>&#x7CBE;&#x5FC3;&#x8BBE;&#x8BA1;5&#x4E2A;&#x4F01;&#x4E1A;&#x7EA7;&#x5E94;&#x7528;&#x6848;&#x4F8B;&#xFF0C;&#x66F4;&#x597D;&#x5730;&#x5B9E;&#x8DF5;&#x3001;&#x5E94;&#x7528;Spark</li>
+</ol>
+<a id="more"></a>
+<hr>
+<h3 id="&#x9762;&#x5411;&#x4EBA;&#x7FA4;"><a href="#&#x9762;&#x5411;&#x4EBA;&#x7FA4;" class="headerlink" title="&#x9762;&#x5411;&#x4EBA;&#x7FA4;"></a>&#x9762;&#x5411;&#x4EBA;&#x7FA4;</h3><ol>
+<li>&#x5927;&#x6570;&#x636E;&#x7231;&#x597D;&#x8005;</li>
+<li>Spark&#x521D;&#x4E2D;&#x7EA7;&#x5B66;&#x8005;</li>
+<li>&#x5BF9;Spark&#x611F;&#x5174;&#x8DA3;&#x3001;&#x60F3;&#x7CFB;&#x7EDF;&#x6027;&#x5B66;&#x4E60;&#x8005;</li>
+</ol>
+<hr>
+<h3 id="&#x5B66;&#x4E60;&#x6536;&#x76CA;"><a href="#&#x5B66;&#x4E60;&#x6536;&#x76CA;" class="headerlink" title="&#x5B66;&#x4E60;&#x6536;&#x76CA;"></a>&#x5B66;&#x4E60;&#x6536;&#x76CA;</h3><ol>
+<li>&#x719F;&#x7EC3;&#x4F7F;&#x7528;Spark&#xFF0C; &#x7406;&#x89E3;Spark&#x539F;&#x7406;&#xFF0C;&#x719F;&#x77E5;Spark&#x5185;&#x5E55;</li>
+<li>&#x638C;&#x63E1;Spark 2.1&#x65B0;&#x589E;&#x7279;&#x6027;&#x5E76;&#x719F;&#x7EC3;&#x4F7F;&#x7528;</li>
+<li>&#x7528;&#x6709;&#x4E30;&#x5BCC;&#x7684;Spark&#x4F01;&#x4E1A;&#x5B9E;&#x6218;&#x7ECF;&#x9A8C;</li>
+</ol>
+<hr>
+<h3 id="&#x8BFE;&#x7A0B;&#x5927;&#x7EB2;"><a href="#&#x8BFE;&#x7A0B;&#x5927;&#x7EB2;" class="headerlink" title="&#x8BFE;&#x7A0B;&#x5927;&#x7EB2;"></a>&#x8BFE;&#x7A0B;&#x5927;&#x7EB2;</h3><p>&#x7B2C;&#x4E00;&#x90E8;&#x5206;: Spark &#x6982;&#x8FF0;</p>
+<ul>
+<li>&#x7B2C;&#x4E00;&#x8BFE;&#xFF1A;Spark 2.1&#x6982;&#x8FF0;<ul>
+<li><ol>
+<li>Spark&#x4EA7;&#x751F;&#x80CC;&#x666F;<br>&#x5305;&#x62EC;mapreduce&#x7F3A;&#x9677;&#xFF0C;&#x591A;&#x8BA1;&#x7B97;&#x6846;&#x67B6;&#x5E76;&#x5B58;&#x7B49;</li>
+</ol>
+<ul>
+<li><ol>
+<li>Spark &#x57FA;&#x672C;&#x7279;&#x70B9;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark&#x7248;&#x672C;&#x6F14;&#x5316;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark&#x6838;&#x5FC3;&#x6982;&#x5FF5;<br>&#x5305;&#x62EC;RDD, transformation, action, cache&#x7B49;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark&#x751F;&#x6001;&#x7CFB;&#x7EDF;<br>&#x5305;&#x62EC;Spark&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x6784;&#x6210;&#xFF0C;&#x4EE5;&#x53CA;&#x4E0E;Hadoop&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x5173;&#x7CFB;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark&#x5728;&#x4E92;&#x8054;&#x7F51;&#x516C;&#x53F8;&#x4E2D;&#x7684;&#x5730;&#x4F4D;&#x4E0E;&#x5E94;&#x7528;<br>&#x4ECB;&#x7ECD;&#x5F53;&#x524D;&#x4E92;&#x8054;&#x7F51;&#x516C;&#x53F8;&#x7684;Spark&#x5E94;&#x7528;&#x6848;&#x4F8B;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark&#x96C6;&#x7FA4;&#x642D;&#x5EFA;<br>&#x5305;&#x62EC;&#x6D4B;&#x8BD5;&#x96C6;&#x7FA4;&#x642D;&#x5EFA;&#x548C;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x4E2D;&#x96C6;&#x7FA4;&#x642D;&#x5EFA;&#x65B9;&#x6CD5;&#xFF0C;&#x5E76;&#x4EB2;&#x624B;&#x6F14;&#x793A;&#x6574;&#x4E2A;&#x8FC7;&#x7A0B;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x80CC;&#x666F;&#x77E5;&#x8BC6;&#x8865;&#x5145;&#x4ECB;&#x7ECD;</li>
+</ol>
+<ul>
+<li>a.  Hadoop&#x57FA;&#x7840;</li>
+<li>b.  HDFS&#x7B80;&#x4ECB;&#xFF08;&#x7279;&#x70B9;&#x3001;&#x67B6;&#x6784;&#x4E0E;&#x5E94;&#x7528;&#xFF09;</li>
+<li>c.  YARN&#x7B80;&#x4ECB;&#xFF08;&#x67B6;&#x6784;&#xFF09;</li>
+<li>d.  MapReduce&#x7B80;&#x4ECB;&#xFF08;&#x7F16;&#x7A0B;&#x6A21;&#x578B;&#x4E0E;&#x5E94;&#x7528;&#xFF09;<ul>
+<li>I.  Eclipse&#x4E0E;Intellij IDEA</li>
+<li>II. Maven</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>&#x7B2C;&#x4E8C;&#x90E8;&#x5206;: Spark Core</p>
+<ul>
+<li><p>&#x7B2C;&#x4E8C;&#x8BFE;&#xFF1A;Spark  &#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#x4E0E;&#x4F01;&#x4E1A;&#x7EA7;&#x5E94;&#x7528;&#x6848;&#x4F8B;</p>
+<ul>
+<li><ol>
+<li>Spark&#x8FD0;&#x884C;&#x6A21;&#x5F0F;&#x4ECB;&#x7ECD;<br> Spark&#x8FD0;&#x884C;&#x7EC4;&#x4EF6;&#x6784;&#x6210;&#xFF0C;spark&#x8FD0;&#x884C;&#x6A21;&#x5F0F;&#xFF08;local&#x3001;standalone&#x3001;mesos/yarn&#x7B49;&#xFF09;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x6784;&#x5EFA;<br> &#x96C6;&#x6210;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x9009;&#x62E9;&#xFF0C;&#x4EB2;&#x624B;&#x6F14;&#x793A;spark&#x7A0B;&#x5E8F;&#x5F00;&#x53D1;&#x4E0E;&#x8C03;&#x8BD5;&#xFF0C;spark&#x8FD0;&#x884C;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x5E38;&#x89C1;transformation&#x4E0E;action&#x7528;&#x6CD5;<br> &#x4ECB;&#x7ECD;&#x5E38;&#x89C1;transformation&#x4E0E;action&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#xFF0C;&#x4EE5;&#x53CA;&#x4EE3;&#x7801;&#x7247;&#x6BB5;&#x5256;&#x6790;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x5E38;&#x89C1;&#x63A7;&#x5236;&#x51FD;&#x6570;&#x4ECB;&#x7ECD;<br> &#x5305;&#x62EC;cache&#x3001;broadcast&#x3001;accumulator&#x7B49;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark &#x5E94;&#x7528;&#x6848;&#x4F8B;&#xFF1A;&#x7535;&#x5F71;&#x53D7;&#x4F17;&#x5206;&#x6790;&#x7CFB;&#x7EDF;<br> &#x5305;&#x62EC;&#xFF1A;&#x80CC;&#x666F;&#x4ECB;&#x7ECD;&#xFF0C;&#x6570;&#x636E;&#x5BFC;&#x5165;&#xFF0C;&#x6570;&#x636E;&#x5206;&#x6790;&#xFF0C;&#x5E38;&#x89C1;Spark transformation&#x548C;action&#x7528;&#x6CD5;&#x5728;&#x7EBF;&#x6F14;&#x793A;</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>&#x7B2C;&#x4E09;&#x8BFE;&#xFF1A;Spark  &#x5185;&#x90E8;&#x539F;&#x7406;&#x5256;&#x6790;&#x4E0E;&#x6E90;&#x7801;&#x9605;&#x8BFB;</p>
+<ul>
+<li><ol>
+<li>Spark&#x8FD0;&#x884C;&#x6A21;&#x5F0F;&#x5256;&#x6790;<br> &#x6DF1;&#x5165;&#x5206;&#x6790;spark&#x8FD0;&#x884C;&#x6A21;&#x5F0F;&#xFF0C;&#x5305;&#x62EC;local&#xFF0C;standalone&#x4EE5;&#x53CA;spark on yarn</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark&#x8FD0;&#x884C;&#x6D41;&#x7A0B;&#x5256;&#x6790;<br> &#x5305;&#x62EC;spark&#x903B;&#x8F91;&#x67E5;&#x8BE2;&#x8BA1;&#x5212;&#xFF0C;&#x7269;&#x7406;&#x67E5;&#x8BE2;&#x8BA1;&#x5212;&#x4EE5;&#x53CA;&#x5206;&#x5E03;&#x5F0F;&#x6267;&#x884C;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark shuffle&#x5256;&#x6790;<br> &#x6DF1;&#x5165;&#x4ECB;&#x7ECD;spark shuffle&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x4E3B;&#x8981;&#x4ECB;&#x7ECD;hash-based&#x548C;sort-based&#x4E24;&#x79CD;&#x5B9E;&#x73B0;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark &#x6E90;&#x7801;&#x9605;&#x8BFB;<br> Spark&#x6E90;&#x7801;&#x6784;&#x6210;&#x4EE5;&#x53CA;&#x9605;&#x8BFB;&#x65B9;&#x6CD5;</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>&#x7B2C;&#x56DB;&#x8BFE;&#xFF1A;Spark  &#x7A0B;&#x5E8F;&#x8C03;&#x4F18;&#x6280;&#x5DE7;</p>
+<ul>
+<li><ol>
+<li>&#x6570;&#x636E;&#x5B58;&#x50A8;&#x683C;&#x5F0F;&#x8C03;&#x4F18;<br>&#x6570;&#x636E;&#x5B58;&#x50A8;&#x683C;&#x5F0F;&#x9009;&#x62E9;&#xFF0C;&#x6570;&#x636E;&#x538B;&#x7F29;&#x7B97;&#x6CD5;&#x9009;&#x62E9;&#x7B49;</li>
+</ol>
+<ul>
+<li><ol>
+<li>&#x8D44;&#x6E90;&#x8C03;&#x4F18;<br>&#x5982;&#x4F55;&#x8BBE;&#x7F6E;&#x5408;&#x7406;&#x7684;executor&#x3001;cpu&#x548C;&#x5185;&#x5B58;&#x6570;&#x76EE;&#xFF0C;YARN&#x591A;&#x79DF;&#x6237;&#x8C03;&#x5EA6;&#x5668;&#x5408;&#x7406;&#x8BBE;&#x7F6E;&#xFF0C;&#x542F;&#x7528;YARN&#x7684;&#x6807;&#x7B7E;&#x8C03;&#x5EA6;&#x7B56;&#x7565;&#x7B49;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x7A0B;&#x5E8F;&#x53C2;&#x6570;&#x8C03;&#x4F18;<br>&#x4ECB;&#x7ECD;&#x5E38;&#x89C1;&#x7684;&#x8C03;&#x4F18;&#x53C2;&#x6570;&#xFF0C;&#x5305;&#x62EC;&#x907F;&#x514D;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x6587;&#x4EF6;&#x5206;&#x53D1;&#xFF0C;&#x8C03;&#x6574;&#x4EFB;&#x52A1;&#x5E76;&#x53D1;&#x5EA6;&#xFF0C;&#x63D0;&#x9AD8;&#x6570;&#x636E;&#x672C;&#x5730;&#x6027;&#xFF0C;JVM&#x53C2;&#x6570;&#x8C03;&#x4F18;&#xFF0C;&#x5E8F;&#x5217;&#x5316;&#x7B49;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x7A0B;&#x5E8F;&#x5B9E;&#x73B0;&#x8C03;&#x4F18;<br>&#x5982;&#x4F55;&#x9009;&#x62E9;&#x6700;&#x5408;&#x9002;&#x7684;transformation&#x4E0E;action&#x51FD;&#x6570;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x8C03;&#x4F18;&#x6848;&#x4F8B;&#x5206;&#x4EAB;&#x4E0E;&#x6F14;&#x793A;<br>&#x6F14;&#x793A;&#x4E00;&#x4E2A;&#x8C03;&#x4F18;&#x6848;&#x4F8B;&#xFF0C;&#x5982;&#x4F55;&#x5C06;&#x4E00;&#x4E2A;spark&#x7A0B;&#x5E8F;&#x7684;&#x6027;&#x80FD;&#x9010;&#x6B65;&#x4F18;&#x5316;20&#x500D;&#x4EE5;&#x4E0A;&#x3002;</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>&#x7B2C;&#x4E09;&#x90E8;&#x5206;   Spark SQL 2.1</p>
+<ul>
+<li><p>&#x7B2C;&#x4E94;&#x8BFE;&#xFF1A;Spark  SQL&#x57FA;&#x672C;&#x539F;&#x7406;</p>
+<ul>
+<li><ol>
+<li>Spark SQL&#x662F;&#x4EC0;&#x4E48;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark SQL&#x57FA;&#x672C;&#x539F;&#x7406;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark  Dataframe&#x4E0E;DataSet</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark SQL&#x4E0E;Spark Core&#x7684;&#x5173;&#x7CFB;</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>&#x7B2C;&#x516D;&#x8BFE;&#xFF1A;Spark  SQL&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#x4E0E;&#x4F01;&#x4E1A;&#x7EA7;&#x5E94;&#x7528;&#x6848;&#x4F8B;</p>
+<ul>
+<li><ol>
+<li>Spark SQL&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;<ul>
+<li>a.  &#x5982;&#x4F55;&#x8BBF;&#x95EE;MySQL&#x3001;HDFS&#x7B49;&#x6570;&#x636E;&#x6E90;&#xFF0C;&#x5982;&#x4F55;&#x5904;&#x7406;parquet&#x683C;&#x5F0F;&#x6570;&#x636E;</li>
+<li>b.  &#x5E38;&#x7528;&#x7684;DSL&#x8BED;&#x6CD5;&#x6709;&#x54EA;&#x4E9B;&#xFF0C;&#x5982;&#x4F55;&#x4F7F;&#x7528;</li>
+<li>c.  Spark SQL&#x8C03;&#x4F18;&#x6280;&#x5DE7;</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark SQL&#x5E94;&#x7528;&#x6848;&#x4F8B;&#xFF1A;&#x7BEE;&#x7403;&#x8FD0;&#x52A8;&#x5458;&#x8BC4;&#x4F30;&#x7CFB;&#x7EDF;<ul>
+<li>a.  &#x80CC;&#x666F;&#x4ECB;&#x7ECD;</li>
+<li>b.  &#x6570;&#x636E;&#x5BFC;&#x5165;</li>
+<li>c.  &#x6570;&#x636E;&#x5206;&#x6790;</li>
+<li>d.  &#x7ED3;&#x8BBA;</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<p>&#x7B2C;&#x56DB;&#x90E8;&#x5206;   Spark Streaming</p>
+<ul>
+<li>&#x7B2C;&#x4E03;&#x8BFE;&#xFF1A;Spark  Streaming&#x3001;&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#x53CA;&#x5E94;&#x7528;&#x6848;&#x4F8B;<ul>
+<li>1.Spark  Streaming&#x57FA;&#x672C;&#x539F;&#x7406;<ul>
+<li>a.  Spark Streaming&#x662F;&#x4EC0;&#x4E48;</li>
+<li>b.  Spark Streaming&#x57FA;&#x672C;&#x539F;&#x7406;</li>
+<li>c.  Structured Streaming</li>
+<li>d.  Spark  Streaming &#x7F16;&#x7A0B;&#x63A5;&#x53E3;&#x4ECB;&#x7ECD;</li>
+<li>e.  Spark Streaming&#x5E94;&#x7528;&#x6848;&#x4F8B;</li>
+</ul>
+</li>
+<li><ol>
+<li>Spark  Streaming&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#x4E0E;&#x4F01;&#x4E1A;&#x7EA7;&#x5E94;&#x7528;&#x6848;&#x4F8B;<ul>
+<li>a.  &#x5E38;&#x89C1;&#x6D41;&#x5F0F;&#x6570;&#x636E;&#x5904;&#x7406;&#x6A21;&#x5F0F;</li>
+<li>b.  Spark Streaming&#x4E0E;Kafka &#x4EA4;&#x4E92;</li>
+<li>c.  Spark Streaming&#x4E0E;Redis&#x4EA4;&#x4E92;</li>
+<li>d.  Spark Streaming&#x90E8;&#x7F72;&#x4E0E;&#x8FD0;&#x884C;</li>
+<li>e.  Spark Streaming&#x4F01;&#x4E1A;&#x7EA7;&#x6848;&#x4F8B;&#xFF1A;&#x7528;&#x6237;&#x884C;&#x4E3A;&#x5B9E;&#x65F6;&#x5206;&#x6790;&#x7CFB;&#x7EDF;</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<p>&#x7B2C;&#x4E94;&#x90E8;&#x5206;   Spark MLlib</p>
+<ul>
+<li>&#x7B2C;&#x516B;&#x8BFE;&#xFF1A; Spark MLlib&#x53CA;&#x4F01;&#x4E1A;&#x7EA7;&#x6848;&#x4F8B;<ul>
+<li><ol>
+<li>Spark MLlib&#x7B80;&#x4ECB;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x6570;&#x636E;&#x8868;&#x793A;&#x65B9;&#x5F0F;</li>
+</ol>
+</li>
+<li><ol>
+<li>MLlib&#x4E2D;&#x7684;&#x805A;&#x7C7B;&#x3001;&#x5206;&#x7C7B;&#x548C;&#x63A8;&#x8350;&#x7B97;&#x6CD5;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x5982;&#x4F55;&#x4F7F;&#x7528;MLlib&#x7684;&#x7B97;&#x6CD5;</li>
+</ol>
+</li>
+<li><ol>
+<li>Spark MLLib&#x4F01;&#x4E1A;&#x7EA7;&#x6848;&#x4F8B;&#xFF1A;&#x4FE1;&#x7528;&#x5361;&#x6B3A;&#x8BC8;&#x68C0;&#x6D4B;&#x7CFB;&#x7EDF;</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<p>&#x7B2C;&#x516D;&#x90E8;&#x5206;Spark&#x7EFC;&#x5408;&#x6848;&#x4F8B;</p>
+<ul>
+<li>&#x7B2C;&#x4E5D;&#x8BFE;&#xFF1A;&#x7B80;&#x6613;&#x7535;&#x5F71;&#x63A8;&#x8350;&#x7CFB;&#x7EDF;<ul>
+<li><ol>
+<li>&#x80CC;&#x666F;&#x4ECB;&#x7ECD;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x4EC0;&#x4E48;&#x662F;Lambda architecture</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x5229;&#x7528;HDFS+Spark Core+MLlib+Redis&#x6784;&#x5EFA;&#x6279;&#x5904;&#x7406;&#x7EBF;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x5229;&#x7528;Kafka+Spark Streaming+Redis&#x6784;&#x5EFA;&#x5B9E;&#x65F6;&#x5904;&#x7406;&#x7EBF;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x6574;&#x5408;&#x6279;&#x5904;&#x7406;&#x548C;&#x5B9E;&#x65F6;&#x5904;&#x7406;&#x7EBF;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x6269;&#x5C55;&#x4ECB;&#x7ECD;&#xFF1A;Apache beam&#xFF1A;&#x7EDF;&#x4E00;&#x7F16;&#x7A0B;&#x6A21;&#x578B;&#x53CA;&#x5E94;&#x7528;</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="&#x56FE;&#x7247;&#x76F8;&#x5173;"><a href="#&#x56FE;&#x7247;&#x76F8;&#x5173;" class="headerlink" title="&#x56FE;&#x7247;&#x76F8;&#x5173;"></a>&#x56FE;&#x7247;&#x76F8;&#x5173;</h3><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/Spark%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%E5%85%B1%E4%BA%AB/1.png" alt=""></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2017/04/09/Spark学习资料共享/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/04/09/Spark学习资料共享/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2017/03/20/Python 一切皆对象/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Python 一切皆对象</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2017/04/09/Spark学习资料共享/" data-title="Spark学习资料共享" data-url="http://www.wangxin123.com/2017/04/09/Spark学习资料共享/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
+    </div>
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/资源共享/">资源共享</a></p>
+                            <p class="item-title"><a href="/2017/04/09/Spark学习资料共享/" class="title">Spark学习资料共享</a></p>
+                            <p class="item-date"><time datetime="2017-04-09T13:18:00.000Z" itemprop="datePublished">2017-04-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2017/03/20/Python 一切皆对象/" class="title">Python 一切皆对象</a></p>
+                            <p class="item-date"><time datetime="2017-03-20T13:18:00.000Z" itemprop="datePublished">2017-03-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2017/03/17/Python编码规范/" class="title">Python 编码规范</a></p>
+                            <p class="item-date"><time datetime="2017-03-17T13:18:00.000Z" itemprop="datePublished">2017-03-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/资源共享/">资源共享</a></p>
+                            <p class="item-title"><a href="/2017/03/15/机器学习资料共享/" class="title">机器学习资料共享</a></p>
+                            <p class="item-date"><time datetime="2017-03-15T13:18:00.000Z" itemprop="datePublished">2017-03-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/资源共享/">资源共享</a></p>
+                            <p class="item-title"><a href="/2017/03/10/微服务学习资料共享/" class="title">微服务学习资料共享</a></p>
+                            <p class="item-date"><time datetime="2017-03-10T13:18:00.000Z" itemprop="datePublished">2017-03-10</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思维导图/">思维导图</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/搜索/">搜索</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+        </div>
+    </div -->
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/Zookeeper/" style="font-size: 12px;">Zookeeper</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 14px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 12px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18px;">zabbix</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 12px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 12px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 12px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 12px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/机器学习/" style="font-size: 10px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/爬虫/" style="font-size: 12px;">爬虫</a> <a href="/tags/疑难杂症/" style="font-size: 12px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/编码规范/" style="font-size: 12px;">编码规范</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 14px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.36dsj.com/">36大数据</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.jiemodui.com/">芥末堆</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 Wasim<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'wangxin37'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
