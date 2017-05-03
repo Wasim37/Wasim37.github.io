@@ -36,9 +36,7 @@ SecondaryNameNode负责定时默认1小时，从namenode上，获取fsimage和ed
 
 ---
 
-### 工作原理
-
-写操作：
+### 写操作
 
 ![](http://7xvfir.com1.z0.glb.clouddn.com/HDFS%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/2.jpg)
 
@@ -100,7 +98,7 @@ block2：host7,host8,host4
 
 ---
 
-### HDFS中常用到的命令
+### HDFS常用命令
 
 1、hadoop fs
 ```bash

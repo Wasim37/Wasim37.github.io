@@ -546,7 +546,7 @@ Ctrl+c 结束执行！
 
 ---
 
-### 修改kibana端口
+### kibana端索引配置
 ```bash
 #cd /usr/local/kibana/config
 
@@ -577,3 +577,11 @@ elasticsearch.shardTimeout: 0
   
 点击“Discover”，可以搜索和浏览Elasticsearch中的数据，默认搜索的是最近15分钟的数据，可以自定义选择时间。
 到此，说明你的ELK平台安装部署完成。
+
+<font style="color:red">**ELK还可以通过索引进行可视化数据监控**</font>
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/ELK%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/4.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/ELK%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/5.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/ELK%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/6.jpg?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
