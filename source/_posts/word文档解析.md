@@ -23,9 +23,9 @@ word解析可以预见的困难主要有以下几个方面:
 - **word 版本问题** —— word有03、07等好几个版本，还有WPS版本，解析是否要全部兼容？后缀名有docx和doc，是否全部兼容？当然，前提是已经成功解析一种类型。
 - **word 规范问题** —— 有些word可能是早期制作的，返工代价太大，所以格式内容多样化。而且就算制定word格式规范，新制作的word也无法保证格式一定正确，除非是程序自动生成的文档。举个例子，试题的题序，肉眼无法区分的格式就有好几种。程序只可能尽量覆盖绝大部分情况，考虑的情况越多，解析正确率越高，当然程序也更复杂。
 
-![MathType公式编辑器](http://7xvfir.com1.z0.glb.clouddn.com/word%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90/1.png)
-![word自带公式编辑器](http://7xvfir.com1.z0.glb.clouddn.com/word%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90/2.png)
-![word自带图表](http://7xvfir.com1.z0.glb.clouddn.com/word%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90/3.png)
+![MathType公式编辑器](http://7xvfir.com1.z0.glb.clouddn.com/word%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
+![word自带公式编辑器](http://7xvfir.com1.z0.glb.clouddn.com/word%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90/2.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
+![word自带图表](http://7xvfir.com1.z0.glb.clouddn.com/word%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90/3.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 <!-- more -->
 
@@ -96,7 +96,7 @@ public class test {
 然后发现了个好东东，名为 [Open XML SDK 2.0 Productivity Tool](https://www.microsoft.com/en-us/download/details.aspx?id=5124)。
 下载安装后，把一个word文档拖进面板，就可以看见word层级结构了 ~(～￣▽￣)～
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/word%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90/4.png)
+![](http://7xvfir.com1.z0.glb.clouddn.com/word%E6%96%87%E6%A1%A3%E8%A7%A3%E6%9E%90/4.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 知道层级结构就可以着手解决解析问题了，其它核心细节这里不方便透露，感兴趣的可以私聊，哈哈 ~~
 
@@ -104,5 +104,6 @@ public class test {
 
 ### 其他
 
-最后分享一篇不错的文章 —— [菁优网、梯子网、猿题库的数学公式是如何实现的？](http://www.jianshu.com/p/285737195278)
+word中的公式处理是一个比较大的门槛，这里分享一篇不错的文章：
+[菁优网、梯子网、猿题库的数学公式是如何实现的？](http://www.jianshu.com/p/285737195278)
 
