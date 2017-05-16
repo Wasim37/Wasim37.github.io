@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>word文档解析 | 星空博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="&amp;#x80CC;&amp;#x666F;&amp;#x5728;&amp;#x4E92;&amp;#x8054;&amp;#x7F51;K12&amp;#x9886;&amp;#x57DF;&amp;#xFF0C;&amp;#x505A;&amp;#x5185;&amp;#x5BB9;&amp;#x76F8;&amp;#x5173;&amp;#x7684;&amp;#x9879;&amp;#x76EE;&amp;#x7ECF;&amp;#x5E38;&amp;#x78B0;&amp;#x5230;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x95">
+<meta property="og:type" content="article">
+<meta property="og:title" content="word文档解析">
+<meta property="og:url" content="http://www.wangxin123.com/2016/09/10/word文档解析/index.html">
+<meta property="og:site_name" content="星空博客">
+<meta property="og:description" content="&amp;#x80CC;&amp;#x666F;&amp;#x5728;&amp;#x4E92;&amp;#x8054;&amp;#x7F51;K12&amp;#x9886;&amp;#x57DF;&amp;#xFF0C;&amp;#x505A;&amp;#x5185;&amp;#x5BB9;&amp;#x76F8;&amp;#x5173;&amp;#x7684;&amp;#x9879;&amp;#x76EE;&amp;#x7ECF;&amp;#x5E38;&amp;#x78B0;&amp;#x5230;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x95">
+<meta property="og:updated_time" content="2017-05-16T06:08:58.940Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="word文档解析">
+<meta name="twitter:description" content="&amp;#x80CC;&amp;#x666F;&amp;#x5728;&amp;#x4E92;&amp;#x8054;&amp;#x7F51;K12&amp;#x9886;&amp;#x57DF;&amp;#xFF0C;&amp;#x505A;&amp;#x5185;&amp;#x5BB9;&amp;#x76F8;&amp;#x5173;&amp;#x7684;&amp;#x9879;&amp;#x76EE;&amp;#x7ECF;&amp;#x5E38;&amp;#x78B0;&amp;#x5230;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x95">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/wu.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">星空博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/wk.gif" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/wk.gif" />
+            <h2 id="name">Wasim</h2>
+            <h3 id="title">Full Stack Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
+            <a id="follow" target="_blank" href="https://github.com/Wasim37">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                94
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                72
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-word文档解析" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            word文档解析
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/09/10/word文档解析/">
+            <time datetime="2016-09-10T10:53:00.000Z" itemprop="datePublished">2016-09-10</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/其他技术/">其他技术</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/word解析/">word解析</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="&#x80CC;&#x666F;"><a href="#&#x80CC;&#x666F;" class="headerlink" title="&#x80CC;&#x666F;"></a>&#x80CC;&#x666F;</h3><p>&#x5728;&#x4E92;&#x8054;&#x7F51;K12&#x9886;&#x57DF;&#xFF0C;&#x505A;&#x5185;&#x5BB9;&#x76F8;&#x5173;&#x7684;&#x9879;&#x76EE;&#x7ECF;&#x5E38;&#x78B0;&#x5230;&#x7684;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x5C31;&#x662F;&#x5982;&#x4F55;&#x89E3;&#x6790;word&#x6587;&#x6863;&#x3002;<br>&#x56E0;&#x4E3A;&#x7CFB;&#x7EDF;&#x5982;&#x679C;&#x65E0;&#x6CD5;&#x667A;&#x80FD;&#x7684;&#x89E3;&#x6790;word&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x53EA;&#x80FD;&#x901A;&#x8FC7;&#x5176;&#x4ED6;&#x65B9;&#x5F0F;&#x624B;&#x52A8;&#x5F55;&#x5165;word&#x5185;&#x5BB9;&#xFF0C;&#x8FC7;&#x7A0B;&#x7E41;&#x7410;&#x4E14;&#x5931;&#x8BEF;&#x7387;&#x8F83;&#x9AD8;&#x3002;</p>
+<hr>
+<h3 id="&#x56F0;&#x96BE;&#x70B9;"><a href="#&#x56F0;&#x96BE;&#x70B9;" class="headerlink" title="&#x56F0;&#x96BE;&#x70B9;"></a>&#x56F0;&#x96BE;&#x70B9;</h3><p>word&#x89E3;&#x6790;&#x53EF;&#x4EE5;&#x9884;&#x89C1;&#x7684;&#x56F0;&#x96BE;&#x4E3B;&#x8981;&#x6709;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x65B9;&#x9762;:</p>
+<ul>
+<li><strong>word &#x7ED3;&#x6784;&#x95EE;&#x9898;</strong> &#x2014;&#x2014; word&#x4E0D;&#x5F00;&#x6E90;&#xFF0C;&#x4E14;&#x542B;&#x6709;&#x5F88;&#x591A;&#x975E;&#x6587;&#x672C;&#x5185;&#x5BB9;&#xFF0C;&#x6BD4;&#x5982;&#x56FE;&#x8868;&#xFF0C;&#x800C;&#x5DF2;&#x77E5;&#x7684;&#x5E38;&#x89C4;&#x65B9;&#x6CD5;&#x53EA;&#x80FD;&#x89E3;&#x6790;&#x7EAF;&#x6587;&#x672C;&#x5185;&#x5BB9;&#xFF0C;&#x6240;&#x4EE5;&#x5982;&#x679C;&#x4E0D;&#x77E5;&#x9053;word&#x5185;&#x90E8;&#x5C42;&#x7EA7;&#x7ED3;&#x6784;&#xFF0C;&#x89E3;&#x6790;&#x5C06;&#x96BE;&#x4EE5;&#x8FDB;&#x884C;&#x3002;</li>
+<li><strong>word &#x516C;&#x5F0F;&#x95EE;&#x9898;</strong> &#x2014;&#x2014; word&#x516C;&#x5F0F;&#x6765;&#x6E90;&#x5E76;&#x975E;&#x5355;&#x4E00;&#xFF0C;&#x53EF;&#x80FD;&#x662F;&#x7528;MathType&#x63D2;&#x4EF6;&#x751F;&#x6210;&#x7684;latex&#x516C;&#x5F0F;&#xFF0C;&#x4E5F;&#x53EF;&#x80FD;&#x662F;&#x7528;word&#x81EA;&#x5E26;&#x516C;&#x5F0F;&#x7F16;&#x8F91;&#x5668;&#x751F;&#x6210;&#x7684;&#xFF0C;&#x4E5F;&#x6709;&#x53EF;&#x80FD;&#x90E8;&#x5206;&#x624B;&#x6572;&#xFF0C;&#x90E8;&#x5206;&#x4F7F;&#x7528;&#x641C;&#x72D7;&#x8F93;&#x5165;&#x6CD5;&#x6216;&#x8005;&#x5176;&#x5B83;&#x7F16;&#x8F91;&#x5668;&#x3002;&#x4E0D;&#x540C;&#x6765;&#x6E90;&#x5904;&#x7406;&#x65B9;&#x5F0F;&#x662F;&#x5426;&#x4E00;&#x6837;&#xFF1F;&#x4E14;&#x80FD;&#x5426;&#x6709;&#x6548;&#x8BFB;&#x53D6;&#x6587;&#x6863;&#x5404;&#x79CD;&#x4E0A;&#x4E0B;&#x811A;&#x6807;&#xFF1F;&#x65B9;&#x4FBF;&#x540E;&#x671F;&#x5C55;&#x793A;&#xFF1F;</li>
+<li><strong>word &#x975E;&#x6587;&#x672C;&#x95EE;&#x9898;</strong> &#x2014;&#x2014; word&#x542B;&#x6709;&#x5F88;&#x591A;&#x7684;&#x975E;&#x6587;&#x672C;&#x5185;&#x5BB9;&#xFF0C;&#x6BD4;&#x5982;&#x56FE;&#x8868;&#xFF0C;&#x6765;&#x6E90;&#x4E5F;&#x591A;&#x6837;&#xFF0C;&#x53EF;&#x80FD;&#x662F;&#x7528;word&#x81EA;&#x5E26;&#x7684;&#x753B;&#x56FE;&#x5DE5;&#x5177;&#x751F;&#x6210;&#x7684;&#xFF0C;&#x4E5F;&#x6709;&#x53EF;&#x80FD;&#x662F;&#x590D;&#x5236;&#x7C98;&#x8D34;&#x7684;&#xFF0C;&#x4E0D;&#x540C;&#x6765;&#x6E90;&#x89E3;&#x6790;&#x65B9;&#x5F0F;&#x662F;&#x5426;&#x4E00;&#x6837;&#xFF1F;&#x4E14;&#x8BFB;&#x53D6;&#x7684;&#x65F6;&#x5019;&#x662F;&#x5426;&#x80FD;&#x6709;&#x6548;&#x83B7;&#x53D6;&#x56FE;&#x7247;&#x7684;&#x4F4D;&#x7F6E;&#x53CA;&#x5927;&#x5C0F;&#x4FE1;&#x606F;&#xFF1F;&#x65B9;&#x4FBF;&#x6587;&#x6863;&#x5185;&#x5BB9;&#x540E;&#x671F;&#x5728;PC&#x7AEF;&#x548C;&#x79FB;&#x52A8;&#x7AEF;&#x5C55;&#x793A;&#x3002;&#x65E0;&#x8BBA;&#x6700;&#x7EC8;&#x65B9;&#x6848;&#x662F;&#x4EC0;&#x4E48;&#xFF0C;&#x80AF;&#x5B9A;&#x662F;&#x5C06;&#x6240;&#x6709;&#x7684;&#x4E14;&#x9700;&#x8981;&#x7684;&#x975E;&#x6587;&#x672C;&#x4FE1;&#x606F;&#x8F6C;&#x6362;&#x4E3A;&#x6587;&#x672C;&#x4FE1;&#x606F;&#x3002;</li>
+<li><strong>word &#x89C4;&#x8303;&#x95EE;&#x9898;</strong> &#x2014;&#x2014; &#x6709;&#x4E9B;word&#x53EF;&#x80FD;&#x662F;&#x65E9;&#x671F;&#x5236;&#x4F5C;&#x7684;&#xFF0C;&#x8FD4;&#x5DE5;&#x4EE3;&#x4EF7;&#x592A;&#x5927;&#xFF0C;&#x6240;&#x4EE5;&#x683C;&#x5F0F;&#x5185;&#x5BB9;&#x591A;&#x6837;&#x5316;&#x3002;&#x800C;&#x4E14;&#x5C31;&#x7B97;&#x5236;&#x5B9A;word&#x683C;&#x5F0F;&#x89C4;&#x8303;&#xFF0C;&#x65B0;&#x5236;&#x4F5C;&#x7684;word&#x4E5F;&#x65E0;&#x6CD5;&#x4FDD;&#x8BC1;&#x683C;&#x5F0F;&#x4E00;&#x5B9A;&#x6B63;&#x786E;&#xFF0C;&#x9664;&#x975E;&#x662F;&#x7A0B;&#x5E8F;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x7684;&#x6587;&#x6863;&#x3002;&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x8BD5;&#x9898;&#x7684;&#x9898;&#x5E8F;&#xFF0C;&#x8089;&#x773C;&#x65E0;&#x6CD5;&#x533A;&#x5206;&#x7684;&#x683C;&#x5F0F;&#x5C31;&#x6709;&#x597D;&#x51E0;&#x79CD;&#x3002;&#x7A0B;&#x5E8F;&#x53EA;&#x53EF;&#x80FD;&#x5C3D;&#x91CF;&#x8986;&#x76D6;&#x7EDD;&#x5927;&#x90E8;&#x5206;&#x60C5;&#x51B5;&#xFF0C;&#x8003;&#x8651;&#x7684;&#x60C5;&#x51B5;&#x8D8A;&#x591A;&#xFF0C;&#x89E3;&#x6790;&#x6B63;&#x786E;&#x7387;&#x8D8A;&#x9AD8;&#x3002;</li>
+</ul>
+<a id="more"></a>
+<hr>
+<h3 id="Java&#x89E3;&#x51B3;&#x8FC7;&#x7A0B;"><a href="#Java&#x89E3;&#x51B3;&#x8FC7;&#x7A0B;" class="headerlink" title="Java&#x89E3;&#x51B3;&#x8FC7;&#x7A0B;"></a>Java&#x89E3;&#x51B3;&#x8FC7;&#x7A0B;</h3><p>&#x4EE5;&#x524D;&#x66FE;&#x7528;Java&#x89E3;&#x6790;&#x8FC7;word&#x6587;&#x6863;&#xFF0C;&#x6240;&#x4EE5;&#x6700;&#x5148;&#x8003;&#x8651;&#x7528;Java&#x6765;&#x89E3;&#x51B3;&#x95EE;&#x9898;&#xFF0C;&#x7F51;&#x4E0A;&#x641C;&#x7D22;&#x65B9;&#x6848;&#x4E3B;&#x8981;&#x6709;&#x5982;&#x4E0B;&#x51E0;&#x79CD;&#xFF1A;</p>
+<ul>
+<li><a href="http://www.cnblogs.com/x_wukong/p/4270867.html" target="_blank" rel="external">jacob</a>&#xFF1A;&#x7F51;&#x4E0A;&#x8D44;&#x6599;&#x8F83;&#x5C11;&#xFF0C;&#x76EE;&#x524D;&#x5DF2;&#x7ECF;&#x5B9E;&#x73B0;&#x7684;&#x662F;&#x7528;jacob&#x89E3;&#x6790;mathtype&#x8F93;&#x5165;&#x7684;&#x516C;&#x5F0F;&#xFF0C;&#x7136;&#x540E;&#x8C03;&#x7528;word&#x5B8F;&#x547D;&#x4EE4;&#x8F6C;&#x6210;latex&#xFF0C;&#x4F46;jacob&#x65E0;&#x6CD5;&#x89E3;&#x6790;word&#x81EA;&#x5E26;&#x7684;&#x516C;&#x5F0F;&#x3002;jacob&#x4E5F;&#x53EF;&#x4EE5;&#x5B9A;&#x4F4D;word&#x56FE;&#x7247;&#x603B;&#x6570;&#x53CA;word&#x56FE;&#x7247;&#x4F4D;&#x7F6E;&#xFF0C;&#x4F46;&#x76EE;&#x524D;&#x6CA1;&#x627E;&#x5230;&#x5C06;&#x56FE;&#x7247;&#x53E6;&#x5B58;&#x672C;&#x5730;&#x7684;&#x65B9;&#x6CD5;&#x3002;</li>
+<li><a href="http://poi.apache.org/apidocs/index.html" target="_blank" rel="external">poi</a>&#xFF1A;&#x60C5;&#x51B5;&#x4E0E;jacob&#x7C7B;&#x4F3C;&#x3002;</li>
+<li><a href="http://www.aspose.com/" target="_blank" rel="external">Aspose.words</a>&#xFF1A;&#x4E00;&#x4E2A;&#x5546;&#x4E1A;&#x6536;&#x8D39;&#x7C7B;&#x5E93;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5904;&#x7406;&#x5927;&#x91CF;&#x7684;&#x6587;&#x4EF6;&#x4EFB;&#x52A1;&#xFF0C;&#x652F;&#x6301;word&#x3001;pdf&#x7B49;&#x5404;&#x79CD;&#x683C;&#x5F0F;&#x64CD;&#x4F5C;&#x3002;&#x4F46;&#x662F;&#x770B;&#x6587;&#x6863;&#x4ECB;&#x7ECD;&#x6CA1;&#x6709;&#x5173;&#x4E8E;&#x516C;&#x5F0F;&#x7684;&#x5904;&#x7406;&#x65B9;&#x6848;&#x3002;</li>
+</ul>
+<p>Java&#x4F7F;&#x7528;&#x4EE5;&#x4E0A;&#x51E0;&#x79CD;&#x65B9;&#x6848;&#x7684;&#x786E;&#x89E3;&#x51B3;&#x4E86;&#x90E8;&#x5206;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x5F88;&#x591A;&#x5F02;&#x5E38;&#x60C5;&#x51B5;&#x8FD8;&#x662F;&#x65E0;&#x6CD5;&#x5904;&#x7406;&#xFF0C;&#x6BD4;&#x5982;&#x65E0;&#x6CD5;&#x5B9A;&#x4F4D;word&#x7684;&#x6279;&#x6CE8;&#x7B49;&#x3002;<br>&#x4EE5;&#x4E0B;&#x662F;&#x4F7F;&#x7528;Java&#x5B9A;&#x4F4D;word&#x56FE;&#x7247;&#x603B;&#x6570;&#x53CA;&#x5176;&#x4F4D;&#x7F6E;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x66F4;&#x591A;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x8BF7;&#x6233; <a href="http://www.cnblogs.com/x_wukong/p/4270867.html" target="_blank" rel="external">http://www.cnblogs.com/x_wukong/p/4270867.html</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">package com.latex.test;</span><br><span class="line"></span><br><span class="line">import com.jacob.activeX.ActiveXComponent;</span><br><span class="line">import com.jacob.com.Dispatch;</span><br><span class="line">import com.jacob.com.Variant;</span><br><span class="line"></span><br><span class="line">public class <span class="built_in">test</span> {</span><br><span class="line">	public static void main(String[] args) {</span><br><span class="line">		long time1 = System.currentTimeMillis();</span><br><span class="line">		ActiveXComponent word = new ActiveXComponent(<span class="string">&quot;word.Application&quot;</span>);</span><br><span class="line">		Dispatch wordObject = (Dispatch) word.getObject();</span><br><span class="line">		Dispatch.put((Dispatch) wordObject, <span class="string">&quot;Visible&quot;</span>, new Variant(<span class="literal">false</span>));</span><br><span class="line">		Dispatch documents = word.getProperty(<span class="string">&quot;Documents&quot;</span>).toDispatch();</span><br><span class="line">		Dispatch document = Dispatch.call(documents, <span class="string">&quot;Open&quot;</span>, <span class="string">&quot;D://test.docx&quot;</span>).toDispatch();</span><br><span class="line">		Dispatch wordContent = Dispatch.get(document, <span class="string">&quot;Content&quot;</span>).toDispatch();</span><br><span class="line">		Dispatch paragraphs = Dispatch.get(wordContent, <span class="string">&quot;Paragraphs&quot;</span>).toDispatch();</span><br><span class="line">		</span><br><span class="line">		int paragraphCount = Dispatch.get(paragraphs, <span class="string">&quot;Count&quot;</span>).getInt();// &#x603B;&#x884C;&#x6570;</span><br><span class="line">		<span class="keyword">for</span> (int i = 1; i &lt;= paragraphCount; i++) {</span><br><span class="line">			Dispatch paragraph = Dispatch.call(paragraphs, <span class="string">&quot;Item&quot;</span>, new Variant(i)).toDispatch();</span><br><span class="line">			Dispatch paragraphRange = Dispatch.get(paragraph, <span class="string">&quot;Range&quot;</span>).toDispatch();</span><br><span class="line">			String paragraphContent = Dispatch.get(paragraphRange, <span class="string">&quot;Text&quot;</span>).toString();</span><br><span class="line">			System.out.println(paragraphContent);//&#x6253;&#x5370;&#x6BCF;&#x884C;&#x5185;&#x5BB9;</span><br><span class="line">			</span><br><span class="line">			Dispatch imgDispatch = Dispatch.get(paragraphRange, <span class="string">&quot;InlineShapes&quot;</span>).toDispatch();//&#x56FE;&#x7247;</span><br><span class="line">			int imgCount = Dispatch.get(imgDispatch, <span class="string">&quot;Count&quot;</span>).getInt();</span><br><span class="line">			System.out.println(<span class="string">&quot;&#x7B2C;&quot;</span> + i +<span class="string">&quot;&#x884C;&#x56FE;&#x7247;&#x603B;&#x6570;&quot;</span> + imgCount);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">for</span>(int j=1;j&lt;imgCount+1;j++){</span><br><span class="line">				Dispatch shape = Dispatch.call(imgDispatch, <span class="string">&quot;Item&quot;</span>, new Variant(1)).toDispatch();</span><br><span class="line">				Dispatch imageRange = Dispatch.get(shape, <span class="string">&quot;Range&quot;</span>).toDispatch();</span><br><span class="line">				Dispatch.call(imageRange, <span class="string">&quot;Copy&quot;</span>);</span><br><span class="line">				Dispatch.call(imageRange, <span class="string">&quot;Paste&quot;</span>);</span><br><span class="line">			}</span><br><span class="line">		}</span><br><span class="line"></span><br><span class="line">		Dispatch.call(document, <span class="string">&quot;SaveAs&quot;</span> , new Variant( <span class="string">&quot;D://test1.docx&quot;</span>));</span><br><span class="line">		Dispatch.call(document, <span class="string">&quot;Close&quot;</span>, new Variant(<span class="literal">true</span>));</span><br><span class="line">		Dispatch.call(word, <span class="string">&quot;Quit&quot;</span>);</span><br><span class="line">		long time2 = System.currentTimeMillis();</span><br><span class="line">		double time3 = (time2 - time1)/1000;</span><br><span class="line">		System.out.println(time3 + <span class="string">&quot; &#x79D2;.&quot;</span>);</span><br><span class="line"></span><br><span class="line">	}</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="&#x95EE;&#x9898;&#x5206;&#x6790;"><a href="#&#x95EE;&#x9898;&#x5206;&#x6790;" class="headerlink" title="&#x95EE;&#x9898;&#x5206;&#x6790;"></a>&#x95EE;&#x9898;&#x5206;&#x6790;</h3><p>&#x7528;Java&#x9884;&#x7814;&#x4E86;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x540E;&#xFF0C;&#x53D1;&#x73B0;&#x975E;&#x6587;&#x672C;&#x5185;&#x5BB9;&#x7684;&#x89E3;&#x6790;&#x5F88;&#x56F0;&#x96BE;&#xFF0C;&#x5F52;&#x6839;&#x7ED3;&#x5E95;&#x662F;&#x4E0D;&#x77E5;&#x9053;word&#x7684;&#x5185;&#x90E8;&#x5C42;&#x7EA7;&#x7ED3;&#x6784;&#x3002;<br>&#x5982;&#x679C;&#x80FD;&#x50CF;html&#x9875;&#x9762;&#x90A3;&#x6837;&#x77E5;&#x9053;&#x5404;&#x4E2A;&#x8282;&#x70B9;&#x7684;&#x6784;&#x6210;&#xFF0C;&#x90A3;&#x6837;&#x89E3;&#x6790;word&#x5C31;&#x4E0D;&#x6210;&#x95EE;&#x9898;&#x3002;<br>&#x4F46;&#x662F;word&#x662F;&#x5FAE;&#x8F6F;&#x7684;&#x9879;&#x76EE;&#xFF0C;&#x4E0D;&#x5F00;&#x6E90;&#xFF0C;&#x6240;&#x4EE5;&#x5F97;&#x53BB;&#x641C;&#x7D22;&#x4E0B;&#x5FAE;&#x8F6F;&#x672C;&#x8EAB;&#x662F;&#x5426;&#x63D0;&#x4F9B;&#x4E86;&#x89E3;&#x6790;word&#x5C42;&#x7EA7;&#x7ED3;&#x6784;&#x7684;&#x63D2;&#x4EF6;&#x3002;</p>
+<p>&#x66F4;&#x65B0;&#x4E2D;&#x3002;&#x3002;&#x3002;</p>
+<hr>
+<h3 id="&#x5176;&#x4ED6;"><a href="#&#x5176;&#x4ED6;" class="headerlink" title="&#x5176;&#x4ED6;"></a>&#x5176;&#x4ED6;</h3><p>&#x83C1;&#x4F18;&#x7F51;&#x3001;&#x68AF;&#x5B50;&#x7F51;&#x3001;&#x733F;&#x9898;&#x5E93;&#x7684;&#x6570;&#x5B66;&#x516C;&#x5F0F;&#x662F;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x7684;&#xFF1F;<br><a href="http://www.jianshu.com/p/285737195278" target="_blank" rel="external">http://www.jianshu.com/p/285737195278</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2016/09/10/word文档解析/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2016/09/10/word文档解析/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/09/10/Java虚拟机原理/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Java虚拟机原理
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/09/10/API文档工具-Swagger的集成/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">API文档工具-Swagger的集成</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/09/10/word文档解析/" data-title="word文档解析" data-url="http://www.wangxin123.com/2016/09/10/word文档解析/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
+    </div>
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JAVA/">JAVA</a></p>
+                            <p class="item-title"><a href="/2017/04/17/Lambda类库篇 —— Streams API, Collector和并行/" class="title">Lambda类库篇 —— Streams API, Collector和并行</a></p>
+                            <p class="item-date"><time datetime="2017-04-17T14:10:00.000Z" itemprop="datePublished">2017-04-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JAVA/">JAVA</a></p>
+                            <p class="item-title"><a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/" class="title">Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法</a></p>
+                            <p class="item-date"><time datetime="2017-04-17T14:10:00.000Z" itemprop="datePublished">2017-04-17</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/JAVA/">JAVA</a></p>
+                            <p class="item-title"><a href="/2017/04/16/Lambda应用场景和使用实例/" class="title">Lambda应用场景和使用实例</a></p>
+                            <p class="item-date"><time datetime="2017-04-16T14:10:00.000Z" itemprop="datePublished">2017-04-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/资源共享/">资源共享</a></p>
+                            <p class="item-title"><a href="/2017/04/09/Spark学习资料共享/" class="title">Spark学习资料共享</a></p>
+                            <p class="item-date"><time datetime="2017-04-09T13:18:00.000Z" itemprop="datePublished">2017-04-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Python/">Python</a></p>
+                            <p class="item-title"><a href="/2017/03/20/Python 一切皆对象/" class="title">Python 一切皆对象</a></p>
+                            <p class="item-date"><time datetime="2017-03-20T13:18:00.000Z" itemprop="datePublished">2017-03-20</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思维导图/">思维导图</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/搜索/">搜索</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+        </div>
+    </div -->
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/HttpsDNS/" style="font-size: 10px;">HttpsDNS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Maven/" style="font-size: 10px;">Maven</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/MySQL/" style="font-size: 10px;">MySQL</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/Zookeeper/" style="font-size: 12px;">Zookeeper</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 14px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 12px;">lambda</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 12px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18px;">zabbix</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 12px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 14px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 12px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 12px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能调优/" style="font-size: 10px;">性能调优</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/机器学习/" style="font-size: 10px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/爬虫/" style="font-size: 12px;">爬虫</a> <a href="/tags/疑难杂症/" style="font-size: 12px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/编码规范/" style="font-size: 12px;">编码规范</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 14px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.36dsj.com/">36大数据</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.jiemodui.com/">芥末堆</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 Wasim<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'wangxin37'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
