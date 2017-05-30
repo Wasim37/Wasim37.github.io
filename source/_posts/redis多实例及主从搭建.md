@@ -5,11 +5,13 @@ categories:
 tags:
   - redis
 date: 2016-9-18 22:41:19
-toc: false
+toc: true
 ---
 
-> 前提是服务器上已经安装好了redis,
+前提是服务器上已经安装好了redis,
 redis安装可搜索本站另一篇博客：redis安装。
+
+---
 
 ### redis单主机多实例
 
@@ -67,7 +69,7 @@ src/redis-server /etc/redis6381.conf
 
 --- 
 
-### redis配置主从
+### redis主从配置
 
 修改6381、6382从库配置：
 ```bash

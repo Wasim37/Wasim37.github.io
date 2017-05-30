@@ -6,40 +6,46 @@ tags:
 categories:
   - 运维部署
 date: 2016-10-2 22:22:00
-toc: false
+toc: true
 ---
 
-### 导入监控模板
-点击【configuration】——>【templates】——>【import】，导入xml监控模板。
+### 客户端key配置
 
-### 配置客户端key
-
-在被监控的主机上，新建/etc/zabbix/zabbix_agentd.d/userparameter_redis.conf配置文件，在最后一行加入：
+在安装zabbix客户端的被监控的主机上，新建/etc/zabbix/zabbix_agentd.d/userparameter_redis.conf配置文件，在最后一行加入相应的key/value：
 ```bash
 UserParameter=redis_stats[*],redis-cli -h 127.0.0.1 -p $1 info|grep $2|cut -d : -f2
 ```
 
-重启服务应用最新的配置文件
+重启服务，应用最新的配置文件，便于zabbix服务端获取数据
 ```bash
 #注意确认zabbix_agentd.conf文件UnsafeUserParameters=1 
 service zabbix-agent restart 
 ```
 
-### 服务端验证
+---
 
-在zabbix服务器上通过zabbix_get程序获取数据，能正常得到数据，证明通信正常。
+### 服务端校验
+
+在zabbix服务端通过zabbix_get程序获取数据，能正常得到客户端数据，证明通信正常。
 ```bash
 zabbix_get -s 172.20.0.20 -k redis_stats[6379,total_connections_received]
 2249669
 ```
 
-<!-- more -->
+---
 
-### 添加主机关联模板
+### 服务端监控模板导入
+打开zabbix服务端的可视化界面，点击【configuration】——>【templates】——>【import】，导入redis的监控模板（后文附带）。
+
+---
+
+### 服务端添加主机关联模板
 
 通过【configuration】——>【hosts】——>【create host】创建新主机，并在templates项中，查找Templates Redis_6379模板，并link该模板。
 
 验证数据使用【monitoring】——>【lastest data】，打开刚刚添加的主机，查看是否有数据。
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/zabbix%E7%9B%91%E6%8E%A7redis/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim)
 
 <br/>
 

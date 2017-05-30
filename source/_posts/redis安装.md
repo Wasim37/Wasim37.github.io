@@ -1,4 +1,4 @@
----
+﻿---
 title: Redis安装
 categories:
   - 运维部署
@@ -107,6 +107,7 @@ CONFIG set requirepass "CWWmCeM79Sgz2imp"
 ```bash
 # vim /etc/redis/redis.conf
 rename-command FLUSHALL ""
+rename-command FLUSHDB  ""
 rename-command CONFIG   ""
 rename-command EVAL     ""
 

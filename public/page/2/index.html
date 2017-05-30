@@ -183,7 +183,7 @@
 
             
             <section id="main">
-    <article id="post-Sqoop简介及安装" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Flume简介及安装" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -192,7 +192,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/02/27/Sqoop简介及安装/">Sqoop简介及安装</a>
+            <a class="article-title" href="/2017/02/27/Flume简介及安装/">Flume简介及安装</a>
         </h1>
     
 
@@ -200,7 +200,7 @@
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/02/27/Sqoop简介及安装/">
+        <a href="/2017/02/27/Flume简介及安装/">
             <time datetime="2017-02-27T13:18:00.000Z" itemprop="datePublished">2017-02-27</time>
         </a>
     </div>
@@ -215,7 +215,7 @@
                     
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Sqoop/">Sqoop</a>
+        <a class="tag-link" href="/tags/Flume/">Flume</a>
     </div>
 
                 </div>
@@ -223,13 +223,12 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p>Hadoop&#x4E1A;&#x52A1;&#x7684;&#x5927;&#x81F4;&#x5F00;&#x53D1;&#x6D41;&#x7A0B;&#x4EE5;&#x53CA;Sqoop&#x5728;&#x4E1A;&#x52A1;&#x4E2D;&#x7684;&#x5730;&#x4F4D;&#xFF1A;</p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/Sqoop%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85/1.jpg" alt=""></p>
+            <p><p>Hadoop&#x4E1A;&#x52A1;&#x7684;&#x5927;&#x81F4;&#x5F00;&#x53D1;&#x6D41;&#x7A0B;&#x4EE5;&#x53CA;Flume&#x5728;&#x4E1A;&#x52A1;&#x4E2D;&#x7684;&#x5730;&#x4F4D;&#xFF1A;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/Flume%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85/1.jpg" alt=""><br>&#x4ECE;Hadoop&#x7684;&#x4E1A;&#x52A1;&#x5F00;&#x53D1;&#x6D41;&#x7A0B;&#x56FE;&#x4E2D;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x5728;&#x5927;&#x6570;&#x636E;&#x7684;&#x4E1A;&#x52A1;&#x5904;&#x7406;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x5BF9;&#x4E8E;&#x6570;&#x636E;&#x7684;&#x91C7;&#x96C6;&#x662F;&#x5341;&#x5206;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x6B65;&#xFF0C;&#x4E5F;&#x662F;&#x4E0D;&#x53EF;&#x907F;&#x514D;&#x7684;&#x4E00;&#x6B65;&#xFF0C;&#x4ECE;&#x800C;&#x5F15;&#x51FA;&#x6211;&#x4EEC;&#x672C;&#x6587;&#x7684;&#x4E3B;&#x89D2;&#x2014;Flume&#x3002;</p>
 <hr>
-<h3 id="Sqoop&#x6982;&#x5FF5;"><a href="#Sqoop&#x6982;&#x5FF5;" class="headerlink" title="Sqoop&#x6982;&#x5FF5;"></a>Sqoop&#x6982;&#x5FF5;</h3><p>Sqoop&#x53EF;&#x4EE5;&#x7406;&#x89E3;&#x4E3A;&#x3010;SQL&#x2013;to&#x2013;Hadoop&#x3011;&#xFF0C;&#x6B63;&#x5982;&#x540D;&#x5B57;&#x6240;&#x793A;&#xFF0C;Sqoop&#x662F;&#x4E00;&#x4E2A;&#x7528;&#x6765;&#x5C06;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;&#x548C;Hadoop&#x4E2D;&#x7684;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x76F8;&#x4E92;&#x8F6C;&#x79FB;&#x7684;&#x5DE5;&#x5177;&#x3002;&#x5B83;&#x53EF;&#x4EE5;&#x5C06;&#x4E00;&#x4E2A;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;(&#x4F8B;&#x5982;Mysql&#x3001;Oracle)&#x4E2D;&#x7684;&#x6570;&#x636E;&#x5BFC;&#x5165;&#x5230;Hadoop(&#x4F8B;&#x5982;HDFS&#x3001;Hive&#x3001;Hbase)&#x4E2D;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5C06;Hadoop(&#x4F8B;&#x5982;HDFS&#x3001;Hive&#x3001;Hbase)&#x4E2D;&#x7684;&#x6570;&#x636E;&#x5BFC;&#x5165;&#x5230;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;(&#x4F8B;&#x5982;Mysql&#x3001;Oracle)&#x4E2D;&#x3002;</p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/Sqoop%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85/2.jpg" alt=""></p></p>
+<h3 id="Flume&#x6982;&#x5FF5;"><a href="#Flume&#x6982;&#x5FF5;" class="headerlink" title="Flume&#x6982;&#x5FF5;"></a>Flume&#x6982;&#x5FF5;</h3><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/Flume%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85/2.jpg" alt=""><br>flume&#x662F;&#x5206;&#x5E03;&#x5F0F;&#x7684;&#x65E5;&#x5FD7;&#x6536;&#x96C6;&#x7CFB;&#x7EDF;&#xFF0C;&#x5B83;&#x5C06;&#x5404;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x6536;&#x96C6;&#x8D77;&#x6765;&#x5E76;&#x9001;&#x5230;&#x6307;&#x5B9A;&#x7684;&#x5730;&#x65B9;&#x53BB;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4;&#x9001;&#x5230;&#x56FE;&#x4E2D;&#x7684;HDFS&#xFF0C;&#x7B80;&#x5355;&#x6765;&#x8BF4;flume&#x5C31;&#x662F;&#x6536;&#x96C6;&#x65E5;&#x5FD7;&#x7684;&#x3002; </p></p>
             <p class="article-more-link">
-                <a href="/2017/02/27/Sqoop简介及安装/#more">查看更多</a>
+                <a href="/2017/02/27/Flume简介及安装/#more">查看更多</a>
             </p>
         
         </div>
@@ -277,7 +276,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
             
     
-        <a href="http://www.wangxin123.com/2017/02/27/Sqoop简介及安装/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/02/27/Sqoop简介及安装/">评论</a>
+        <a href="http://www.wangxin123.com/2017/02/27/Flume简介及安装/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/02/27/Flume简介及安装/">评论</a>
     
 
         </footer>
@@ -1316,7 +1315,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思维导图/">思维导图</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/搜索/">搜索</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">2</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思维导图/">思维导图</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/我的收藏/">我的收藏</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/搜索/">搜索</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">2</span></li></ul>
         </div>
     </div>
 
