@@ -1,7 +1,7 @@
 ---
 title: 使用Solr索引MySQL数据
 categories:
-  - 搜索
+  - 其他技术
 tags:
   - solr
   - mysql

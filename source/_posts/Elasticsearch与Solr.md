@@ -1,7 +1,7 @@
 ---
 title: Elasticsearch与Solr
 categories:
-  - 搜索
+  - 其他技术
 tags:
   - ES
   - solr

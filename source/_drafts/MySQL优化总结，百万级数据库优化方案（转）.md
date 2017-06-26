@@ -1,5 +1,5 @@
 ---
-title: MySQL优化总结，百万级数据库优化方案(转)
+title: MySQL优化总结，百万级数据库优化方案（转）
 tags:
   - MySQL
   - 性能调优
