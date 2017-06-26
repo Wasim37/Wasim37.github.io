@@ -151,7 +151,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                93
+                94
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -183,6 +183,113 @@
 
             
             <section id="main">
+    <article id="post-redis凌晨删库事件" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/05/27/redis凌晨删库事件/">Redis凌晨删库事件</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/05/27/redis凌晨删库事件/">
+            <time datetime="2017-05-27T13:18:00.000Z" itemprop="datePublished">2017-05-27</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/错误集锦/">错误集锦</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/redis/">redis</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h4 id="&#x4E8B;&#x4EF6;&#x80CC;&#x666F;"><a href="#&#x4E8B;&#x4EF6;&#x80CC;&#x666F;" class="headerlink" title="&#x4E8B;&#x4EF6;&#x80CC;&#x666F;"></a>&#x4E8B;&#x4EF6;&#x80CC;&#x666F;</h4><font style="color:red">5&#x6708;25&#x53F7;&#x51CC;&#x6668;&#xFF0C;&#x7531;&#x4E8E;&#x64CD;&#x4F5C;&#x9519;&#x8BEF;&#xFF0C;&#x7EBF;&#x4E0A;Redis&#x6570;&#x636E;&#x88AB;&#x6E05;&#x7A7A;&#x3002;<br>Redis&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#xFF1A;&#x7F13;&#x5B58;&#x3001;&#x961F;&#x5217;&#x3002;</font>
+
+<hr>
+<h4 id="&#x4E8B;&#x6545;&#x8FC7;&#x7A0B;"><a href="#&#x4E8B;&#x6545;&#x8FC7;&#x7A0B;" class="headerlink" title="&#x4E8B;&#x6545;&#x8FC7;&#x7A0B;"></a>&#x4E8B;&#x6545;&#x8FC7;&#x7A0B;</h4><p>&#x7EBF;&#x4E0A;Redis&#x642D;&#x5EFA;&#x4E86;&#x4E3B;&#x4ECE;&#xFF0C;&#x4E3B;&#x4ECE;&#x6301;&#x4E45;&#x5316;&#x65B9;&#x5F0F;&#x4E3A;RDB&#xFF0C;RDB&#x6CA1;&#x6709;&#x5B9A;&#x65F6;&#x5907;&#x4EFD;&#xFF0C;&#x4E14;AOF&#x90FD;&#x6CA1;&#x6709;&#x5F00;&#x542F;&#x3002;<br>&#x8003;&#x8651;&#x5230;&#x5F00;&#x542F;AOF&#x4F1A;&#x4F7F;Redis&#x5B89;&#x5168;&#x6027;&#x66F4;&#x9AD8;&#xFF0C;&#x6240;&#x4EE5;&#x6253;&#x7B97;&#x5148;&#x5728;&#x6D4B;&#x8BD5;&#x73AF;&#x5883;&#x7684;&#x4E3B;&#x4ECE;&#x505A;&#x6D4B;&#x8BD5;&#xFF0C;&#x6CA1;&#x95EE;&#x9898;&#x540E;&#x518D;&#x4E0A;&#x6B63;&#x5F0F;&#x3002;</p>
+<p>&#x914D;&#x7F6E;&#x524D;&#xFF0C;&#x5148;&#x6D4F;&#x89C8;&#x4E86;&#x4E0B;&#x5B98;&#x7F51;&#xFF0C;&#x53D1;&#x73B0;Redis&#x5F00;&#x542F;AOF&#x7684;&#x65B9;&#x5F0F;&#x975E;&#x5E38;&#x7B80;&#x5355;&#xFF0C;&#x6253;&#x5F00;Redis&#x7684;conf&#x6587;&#x4EF6;&#xFF0C;&#x627E;&#x5230;&#x3010;appendonly&#x3011;&#x914D;&#x7F6E;&#x9879;&#xFF0C;&#x5C06;&#x3010;no&#x3011;&#x6539;&#x4E3A;&#x3010;yes&#x3011;&#x91CD;&#x542F;&#x670D;&#x52A1;&#x5373;&#x53EF;&#x3002;</p>
+<p>Redis&#x6D4B;&#x8BD5;&#x4ECE;&#x673A;&#x91CD;&#x542F;&#x540E;&#xFF0C;&#x6210;&#x529F;&#x5728;&#x6570;&#x636E;&#x76EE;&#x5F55;&#x751F;&#x6210;&#x4E86;&#x767E;M&#x4EE5;&#x4E0A;&#x7684;&#x3010;appendonly.aof&#x3011;&#x6587;&#x4EF6;&#xFF0C;&#x4EE5;&#x8BE5;aof&#x6587;&#x4EF6;&#x5355;&#x72EC;&#x542F;&#x52A8;Redis&#x5B9E;&#x4F8B;&#xFF0C;&#x751F;&#x6210;&#x7684;&#x6570;&#x636E;&#x548C;&#x5355;&#x72EC;&#x4EE5;RDB&#x542F;&#x52A8;&#x751F;&#x6210;&#x7684;&#x4E00;&#x6837;&#xFF0C;&#x56E0;&#x6B64;&#x5224;&#x65AD;&#x6D4B;&#x8BD5;&#x4ECE;&#x673A;AOF&#x914D;&#x7F6E;&#x6210;&#x529F;&#x3002;</p>
+<p>&#x7531;&#x4E8E;&#x914D;&#x7F6E;&#x592A;&#x8FC7;&#x7B80;&#x5355;&#xFF0C;&#x800C;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x53C8;&#x53EA;&#x662F;&#x5728;&#x8BD5;&#x8FD0;&#x8425;&#xFF0C;&#x5728;&#x6CA1;&#x6709;&#x914D;&#x7F6E;&#x6D4B;&#x8BD5;Redis&#x4E3B;&#x673A;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x76F4;&#x63A5;&#x4E0A;&#x4E86;&#x6B63;&#x5F0F;&#x3002;</p>
+<p><strong>&#x6B63;&#x5F0F;Redis&#x4ECE;&#x673A;&#x4EE5;&#x540C;&#x6837;&#x7684;&#x65B9;&#x5F0F;&#x5F00;&#x542F;AOF&#x540E;&#xFF0C;&#x4E5F;&#x6210;&#x529F;&#x751F;&#x6210;&#x4E86;&#x767E;M&#x4EE5;&#x4E0A;&#x7684;AOF&#x6570;&#x636E;&#x6587;&#x4EF6;&#x3002;&#x7136;&#x540E;&#x901A;&#x8FC7;&#x76D1;&#x63A7;&#x7CFB;&#x7EDF;&#x53D1;&#x73B0;&#x7EBF;&#x4E0A;&#x65E0;&#x4EBA;&#x64CD;&#x4F5C;&#x540E;&#xFF0C;&#x5F00;&#x59CB;&#x4FEE;&#x6539;Redis&#x6B63;&#x5F0F;&#x73AF;&#x5883;&#x4E3B;&#x673A;&#xFF0C;&#x7ED3;&#x679C;&#x914D;&#x7F6E;&#x5E76;&#x91CD;&#x542F;&#x5B9E;&#x4F8B;&#x540E;&#xFF0C;<font style="color:red">Redis&#x4E3B;&#x4ECE;&#x6570;&#x636E;&#x77AC;&#x95F4;&#x88AB;&#x6E05;&#x7A7A;</font>&#xFF0C;&#x4E3B;&#x4ECE;AOF&#x53CA;RDB&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x63A5;&#x8FD1;0M&#x3002;</strong></p></p>
+            <p class="article-more-link">
+                <a href="/2017/05/27/redis凌晨删库事件/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2017/05/27/redis凌晨删库事件/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/05/27/redis凌晨删库事件/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-从表扩展增加列属性说起" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -278,116 +385,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             
     
         <a href="http://www.wangxin123.com/2017/05/02/从表扩展增加列属性说起/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/05/02/从表扩展增加列属性说起/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">
-            <time datetime="2017-04-17T14:10:00.000Z" itemprop="datePublished">2017-04-17</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/lambda/">lambda</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>&#x672C;&#x6587;&#x4ECB;&#x7ECD;&#x4E86;Java SE 8&#x4E2D;&#x65B0;&#x5F15;&#x5165;&#x7684;lambda&#x8BED;&#x8A00;&#x7279;&#x6027;&#x4EE5;&#x53CA;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x80CC;&#x540E;&#x7684;&#x8BBE;&#x8BA1;&#x601D;&#x60F3;&#x3002;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x5305;&#x62EC;&#xFF1A;</p>
-<ul>
-<li>lambda&#x8868;&#x8FBE;&#x5F0F;&#xFF08;&#x53C8;&#x88AB;&#x6210;&#x4E3A;&#x201C;&#x95ED;&#x5305;&#x201D;&#x6216;&#x201C;&#x533F;&#x540D;&#x65B9;&#x6CD5;&#x201D;&#xFF09;</li>
-<li>&#x65B9;&#x6CD5;&#x5F15;&#x7528;&#x548C;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x5F15;&#x7528;</li>
-<li>&#x6269;&#x5C55;&#x7684;&#x76EE;&#x6807;&#x7C7B;&#x578B;&#x548C;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;</li>
-<li>&#x63A5;&#x53E3;&#x4E2D;&#x7684;&#x9ED8;&#x8BA4;&#x65B9;&#x6CD5;&#x548C;&#x9759;&#x6001;&#x65B9;&#x6CD5;</li>
-</ul>
-<p>&#x672C;&#x6587;&#x662F;&#x5BF9; <a href="http://www.oracle.com/us/technologies/java/briangoetzchief-188795.html">Brian Goetz</a> &#x7684; <a href="http://cr.openjdk.java.net/~briangoetz/lambda/lambda-state-final.html">State of the Lambda</a> &#x4E00;&#x6587;&#x7684;&#x7FFB;&#x8BD1;&#x3002;</p>
-<hr>
-<h3 id="&#x80CC;&#x666F;"><a href="#&#x80CC;&#x666F;" class="headerlink" title="&#x80CC;&#x666F;"></a>&#x80CC;&#x666F;</h3><p>Java&#x662F;&#x4E00;&#x95E8;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x3002;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x548C;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x57FA;&#x672C;&#x5143;&#x7D20;&#xFF08;Basic Values&#xFF09;&#x90FD;&#x53EF;&#x4EE5;&#x52A8;&#x6001;&#x5C01;&#x88C5;&#x7A0B;&#x5E8F;&#x884C;&#x4E3A;&#xFF1A;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4F7F;&#x7528;&#x5E26;&#x6709;&#x65B9;&#x6CD5;&#x7684;&#x5BF9;&#x8C61;&#x5C01;&#x88C5;&#x884C;&#x4E3A;&#xFF0C;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4F7F;&#x7528;&#x51FD;&#x6570;&#x5C01;&#x88C5;&#x884C;&#x4E3A;&#x3002;&#x4F46;&#x8FD9;&#x4E2A;&#x76F8;&#x540C;&#x70B9;&#x5E76;&#x4E0D;&#x660E;&#x663E;&#xFF0C;&#x56E0;&#x4E3A;Java&#x7684;&#x5BF9;&#x8C61;&#x5F80;&#x5F80;&#x6BD4;&#x8F83;&#x201C;&#x91CD;&#x91CF;&#x7EA7;&#x201D;&#xFF1A;&#x5B9E;&#x4F8B;&#x5316;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x5F80;&#x5F80;&#x4F1A;&#x6D89;&#x53CA;&#x4E0D;&#x540C;&#x7684;&#x7C7B;&#xFF0C;&#x5E76;&#x9700;&#x8981;&#x521D;&#x59CB;&#x5316;&#x7C7B;&#x91CC;&#x7684;&#x5B57;&#x6BB5;&#x548C;&#x65B9;&#x6CD5;&#x3002;</p>
-<p>&#x4E0D;&#x8FC7;&#x6709;&#x4E9B;Java&#x5BF9;&#x8C61;&#x53EA;&#x662F;&#x5BF9;&#x5355;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x5C01;&#x88C5;&#x3002;&#x4F8B;&#x5982;&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;&#x5178;&#x578B;&#x7528;&#x4F8B;&#xFF1A;Java API&#x4E2D;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF08;&#x4E00;&#x822C;&#x88AB;&#x79F0;&#x4E3A;&#x56DE;&#x8C03;&#x63A5;&#x53E3;&#xFF09;&#xFF0C;&#x7528;&#x6237;&#x901A;&#x8FC7;&#x63D0;&#x4F9B;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#x7684;&#x5B9E;&#x4F8B;&#x6765;&#x4F20;&#x5165;&#x6307;&#x5B9A;&#x884C;&#x4E3A;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface ActionListener {</span><br><span class="line">  void actionPerformed(ActionEvent e);</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p></p>
-            <p class="article-more-link">
-                <a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">评论</a>
     
 
         </footer>
@@ -499,6 +496,116 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             
     
         <a href="http://www.wangxin123.com/2017/04/17/Lambda类库篇 —— Streams API, Collector和并行/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/04/17/Lambda类库篇 —— Streams API, Collector和并行/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">
+            <time datetime="2017-04-17T14:10:00.000Z" itemprop="datePublished">2017-04-17</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/lambda/">lambda</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>&#x672C;&#x6587;&#x4ECB;&#x7ECD;&#x4E86;Java SE 8&#x4E2D;&#x65B0;&#x5F15;&#x5165;&#x7684;lambda&#x8BED;&#x8A00;&#x7279;&#x6027;&#x4EE5;&#x53CA;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x80CC;&#x540E;&#x7684;&#x8BBE;&#x8BA1;&#x601D;&#x60F3;&#x3002;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x5305;&#x62EC;&#xFF1A;</p>
+<ul>
+<li>lambda&#x8868;&#x8FBE;&#x5F0F;&#xFF08;&#x53C8;&#x88AB;&#x6210;&#x4E3A;&#x201C;&#x95ED;&#x5305;&#x201D;&#x6216;&#x201C;&#x533F;&#x540D;&#x65B9;&#x6CD5;&#x201D;&#xFF09;</li>
+<li>&#x65B9;&#x6CD5;&#x5F15;&#x7528;&#x548C;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x5F15;&#x7528;</li>
+<li>&#x6269;&#x5C55;&#x7684;&#x76EE;&#x6807;&#x7C7B;&#x578B;&#x548C;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;</li>
+<li>&#x63A5;&#x53E3;&#x4E2D;&#x7684;&#x9ED8;&#x8BA4;&#x65B9;&#x6CD5;&#x548C;&#x9759;&#x6001;&#x65B9;&#x6CD5;</li>
+</ul>
+<p>&#x672C;&#x6587;&#x662F;&#x5BF9; <a href="http://www.oracle.com/us/technologies/java/briangoetzchief-188795.html">Brian Goetz</a> &#x7684; <a href="http://cr.openjdk.java.net/~briangoetz/lambda/lambda-state-final.html">State of the Lambda</a> &#x4E00;&#x6587;&#x7684;&#x7FFB;&#x8BD1;&#x3002;</p>
+<hr>
+<h3 id="&#x80CC;&#x666F;"><a href="#&#x80CC;&#x666F;" class="headerlink" title="&#x80CC;&#x666F;"></a>&#x80CC;&#x666F;</h3><p>Java&#x662F;&#x4E00;&#x95E8;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x3002;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x548C;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x57FA;&#x672C;&#x5143;&#x7D20;&#xFF08;Basic Values&#xFF09;&#x90FD;&#x53EF;&#x4EE5;&#x52A8;&#x6001;&#x5C01;&#x88C5;&#x7A0B;&#x5E8F;&#x884C;&#x4E3A;&#xFF1A;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4F7F;&#x7528;&#x5E26;&#x6709;&#x65B9;&#x6CD5;&#x7684;&#x5BF9;&#x8C61;&#x5C01;&#x88C5;&#x884C;&#x4E3A;&#xFF0C;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4F7F;&#x7528;&#x51FD;&#x6570;&#x5C01;&#x88C5;&#x884C;&#x4E3A;&#x3002;&#x4F46;&#x8FD9;&#x4E2A;&#x76F8;&#x540C;&#x70B9;&#x5E76;&#x4E0D;&#x660E;&#x663E;&#xFF0C;&#x56E0;&#x4E3A;Java&#x7684;&#x5BF9;&#x8C61;&#x5F80;&#x5F80;&#x6BD4;&#x8F83;&#x201C;&#x91CD;&#x91CF;&#x7EA7;&#x201D;&#xFF1A;&#x5B9E;&#x4F8B;&#x5316;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x5F80;&#x5F80;&#x4F1A;&#x6D89;&#x53CA;&#x4E0D;&#x540C;&#x7684;&#x7C7B;&#xFF0C;&#x5E76;&#x9700;&#x8981;&#x521D;&#x59CB;&#x5316;&#x7C7B;&#x91CC;&#x7684;&#x5B57;&#x6BB5;&#x548C;&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x4E0D;&#x8FC7;&#x6709;&#x4E9B;Java&#x5BF9;&#x8C61;&#x53EA;&#x662F;&#x5BF9;&#x5355;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x5C01;&#x88C5;&#x3002;&#x4F8B;&#x5982;&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;&#x5178;&#x578B;&#x7528;&#x4F8B;&#xFF1A;Java API&#x4E2D;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF08;&#x4E00;&#x822C;&#x88AB;&#x79F0;&#x4E3A;&#x56DE;&#x8C03;&#x63A5;&#x53E3;&#xFF09;&#xFF0C;&#x7528;&#x6237;&#x901A;&#x8FC7;&#x63D0;&#x4F9B;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#x7684;&#x5B9E;&#x4F8B;&#x6765;&#x4F20;&#x5165;&#x6307;&#x5B9A;&#x884C;&#x4E3A;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface ActionListener {</span><br><span class="line">  void actionPerformed(ActionEvent e);</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p></p>
+            <p class="article-more-link">
+                <a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">评论</a>
     
 
         </footer>
@@ -1139,113 +1246,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-数据库规约解读" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/03/03/数据库规约解读/">数据库规约解读</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/03/03/数据库规约解读/">
-            <time datetime="2017-03-03T13:18:00.000Z" itemprop="datePublished">2017-03-03</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/数据库/">数据库</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/编码规范/">编码规范</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p><font style="color:red"><strong>&#x9002;&#x7528;&#x573A;&#x666F;&#xFF1A;&#x5E76;&#x53D1;&#x91CF;&#x5927;&#x3001;&#x6570;&#x636E;&#x91CF;&#x5927;&#x7684;&#x4E92;&#x8054;&#x7F51;&#x4E1A;&#x52A1;</strong></font></p>
-
-<hr>
-<h4 id="&#x57FA;&#x7840;&#x89C4;&#x8303;"><a href="#&#x57FA;&#x7840;&#x89C4;&#x8303;" class="headerlink" title="&#x57FA;&#x7840;&#x89C4;&#x8303;"></a>&#x57FA;&#x7840;&#x89C4;&#x8303;</h4><p><strong>1&#x3001;&#x5FC5;&#x987B;&#x4F7F;&#x7528;InnoDB&#x5B58;&#x50A8;&#x5F15;&#x64CE;</strong><br>&#x89E3;&#x8BFB;&#xFF1A;&#x652F;&#x6301;&#x4E8B;&#x52A1;&#x3001;&#x884C;&#x7EA7;&#x9501;&#x3001;&#x5E76;&#x53D1;&#x6027;&#x80FD;&#x66F4;&#x597D;&#x3001;CPU&#x53CA;&#x5185;&#x5B58;&#x7F13;&#x5B58;&#x9875;&#x4F18;&#x5316;&#x4F7F;&#x5F97;&#x8D44;&#x6E90;&#x5229;&#x7528;&#x7387;&#x66F4;&#x9AD8;</p>
-<p><strong>2&#x3001;&#x65B0;&#x5E93;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;utf8mb4&#x5B57;&#x7B26;&#x96C6;</strong><br>&#x89E3;&#x8BFB;&#xFF1A;utf8mb4&#x548C;utf8&#x90FD;&#x662F;&#x4E07;&#x56FD;&#x7801;&#xFF0C;&#x65E0;&#x9700;&#x8F6C;&#x7801;&#xFF0C;&#x65E0;&#x4E71;&#x7801;&#x98CE;&#x9669;&#x3002;&#x5176;&#x4E2D;utf8mb4&#x662F;utf8&#x7684;&#x8D85;&#x96C6;&#xFF0C;emoji&#x8868;&#x60C5;&#x4EE5;&#x53CA;&#x90E8;&#x5206;&#x4E0D;&#x5E38;&#x89C1;&#x6C49;&#x5B57;&#x5728;utf8&#x4E0B;&#x4F1A;&#x8868;&#x73B0;&#x4E3A;&#x4E71;&#x7801;&#xFF0C;&#x6545;&#x9700;&#x8981;&#x5347;&#x7EA7;&#x81F3;utf8mb4&#x3002;</p>
-<p><strong>3&#x3001;&#x6570;&#x636E;&#x8868;&#x3001;&#x6570;&#x636E;&#x5B57;&#x6BB5;&#x5FC5;&#x987B;&#x52A0;&#x5165;&#x4E2D;&#x6587;&#x6CE8;&#x91CA;</strong><br>&#x89E3;&#x8BFB;&#xFF1A;N&#x5E74;&#x540E;&#x6CA1;&#x8C01;&#x77E5;&#x9053;&#x8FD9;&#x4E2A;r1,r2,r3&#x5B57;&#x6BB5;&#x662F;&#x5E72;&#x561B;&#x7684;&#x3002;<br>&#x4E0D;&#x8FC7;&#x4E5F;&#x6709;&#x4EBA;&#x63D0;&#x51FA;&#xFF0C;&#x52A0;&#x5165;&#x6CE8;&#x91CA;&#x4F1A;&#x65B9;&#x4FBF;&#x9ED1;&#x5BA2;&#xFF0C;&#x5EFA;&#x8BAE;&#x201C;&#x6CE8;&#x91CA;&#x5199;&#x5728;&#x6587;&#x6863;&#x91CC;&#xFF0C;&#x6587;&#x6863;&#x548C;&#x6570;&#x636E;&#x5E93;&#x540C;&#x6B65;&#x66F4;&#x65B0;&#x201D;&#x3002;<br>&#x8FD9;&#x4E2A;&#x5EFA;&#x8BAE;&#x6839;&#x636E;&#x7ECF;&#x9A8C;&#x6765;&#x8BF4;&#x662F;&#x4E0D;&#x592A;&#x9760;&#x8C31;&#x7684;&#xFF1A;<br>&#xFF08;1&#xFF09;&#x4E0D;&#x80FD;&#x6015;bug&#x5C31;&#x4E0D;&#x5199;&#x4EE3;&#x7801;&#xFF0C;&#x6015;&#x9ED1;&#x5BA2;&#x5C31;&#x4E0D;&#x5199;&#x6CE8;&#x91CA;&#xFF0C;&#x5BF9;&#x5427;&#xFF1F;<br>&#xFF08;2&#xFF09;&#x6587;&#x6863;&#x540C;&#x6B65;&#x66F4;&#x65B0;&#x4E5F;&#x4E0D;&#x592A;&#x73B0;&#x5B9E;&#xFF0C;&#x8FD8;&#x662F;&#x628A;&#x6CE8;&#x91CA;&#x5199;&#x597D;&#xFF0C;&#x4EE3;&#x7801;&#x53EF;&#x8BFB;&#x6027;&#x505A;&#x597D;&#x66F4;&#x53EF;&#x884C;&#xFF0C;&#x4E92;&#x8054;&#x7F51;&#x516C;&#x53F8;&#x7684;&#x6587;&#x6863;&#x7BA1;&#x7406;&#xFF1F;&#x5446;&#x8FC7;&#x4E92;&#x8054;&#x7F51;&#x516C;&#x53F8;&#x7684;&#x540C;&#x5B66;&#x4F30;&#x8BA1;&#x90FD;&#x6E05;&#x695A;</p>
-<p><strong>4&#x3001;&#x7981;&#x6B62;&#x4F7F;&#x7528;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x3001;&#x89C6;&#x56FE;&#x3001;&#x89E6;&#x53D1;&#x5668;&#x3001;Event</strong><br>&#x89E3;&#x8BFB;&#xFF1A;<font style="color:red">&#x519B;&#x89C4;&#x7684;&#x80CC;&#x666F;&#x662F;&#x201C;&#x5E76;&#x53D1;&#x91CF;&#x5927;&#x3001;&#x6570;&#x636E;&#x91CF;&#x5927;&#x7684;&#x4E92;&#x8054;&#x7F51;&#x4E1A;&#x52A1;&#x201D;</font>&#xFF0C;&#x8FD9;&#x7C7B;&#x4E1A;&#x52A1;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x7684;&#x91CD;&#x70B9;&#x5F80;&#x5F80;&#x662F;&#x541E;&#x5410;&#x91CF;&#xFF0C;&#x6027;&#x80FD;&#x4F18;&#x5148;&#xFF08;&#x548C;&#x94B1;&#x76F8;&#x5173;&#x7684;&#x5C11;&#x90E8;&#x5206;&#x4E1A;&#x52A1;&#x662F;&#x4E00;&#x81F4;&#x6027;&#x4F18;&#x5148;&#xFF09;&#xFF0C;&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x6027;&#x80FD;&#x5F71;&#x54CD;&#x8F83;&#x5927;&#x7684;&#x6570;&#x636E;&#x5E93;&#x7279;&#x6027;&#x8F83;&#x5C11;&#x4F7F;&#x7528;&#x3002;&#x8FD9;&#x7C7B;&#x573A;&#x666F;&#x7684;&#x67B6;&#x6784;&#x65B9;&#x5411;&#x662F;<font style="color:red">&#x201C;&#x89E3;&#x653E;&#x6570;&#x636E;&#x5E93;CPU&#xFF0C;&#x628A;&#x590D;&#x6742;&#x903B;&#x8F91;&#x8BA1;&#x7B97;&#x653E;&#x5230;&#x670D;&#x52A1;&#x5C42;&#x201D;</font>&#xFF0C;&#x670D;&#x52A1;&#x5C42;&#x5177;&#x5907;&#x66F4;&#x597D;&#x7684;&#x6269;&#x5C55;&#x6027;&#xFF0C;&#x5BB9;&#x6613;&#x5B9E;&#x73B0;&#x201C;&#x589E;&#x673A;&#x5668;&#x5C31;&#x6269;&#x5145;&#x6027;&#x80FD;&#x201D;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x64C5;&#x957F;&#x5B58;&#x50A8;&#x4E0E;&#x7D22;&#x5F15;&#xFF0C;&#x52FF;&#x8BA9;&#x6570;&#x636E;&#x5E93;&#x80CC;&#x8D1F;&#x8FC7;&#x91CD;&#x7684;&#x4EFB;&#x52A1;&#x3002;</p>
-<p>&#x6709;&#x4EBA;&#x8D28;&#x7591;&#x67D0;&#x4E9B;&#x519B;&#x89C4;&#x4E0D;&#x5408;&#x7406;&#xFF0C;&#x5B8C;&#x5168;&#x505A;&#x5230;&#x4E0D;&#x53EF;&#x80FD;&#xFF0C;&#x4EFB;&#x4F55;&#x4E8B;&#x60C5;&#x90FD;&#x6CA1;&#x6709;&#x767E;&#x5206;&#x4E4B;&#x767E;&#xFF0C;<font style="color:red">&#x9488;&#x5BF9;&#x4E1A;&#x52A1;&#x7279;&#x6027;&#x8BBE;&#x8BA1;&#x67B6;&#x6784;</font>&#xFF0C;&#x603B;&#x6709;&#x65B9;&#x6848;&#x66FF;&#x4EE3;&#xFF0C;&#x7B49;&#x5355;&#x5E93;&#x541E;&#x5410;&#x91CF;&#x5230;&#x4E86;&#x51E0;&#x5343;&#x4E0A;&#x4E07;&#xFF0C;&#x5C31;&#x660E;&#x767D;&#x8FD9;&#x4E9B;&#x519B;&#x89C4;&#x7684;&#x91CD;&#x8981;&#x6027;&#x4E86;&#x3002;</p></p>
-            <p class="article-more-link">
-                <a href="/2017/03/03/数据库规约解读/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2017/03/03/数据库规约解读/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/03/03/数据库规约解读/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
     </nav>
@@ -1264,17 +1264,17 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                 
                     <li>
                         <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/架构之路/">架构之路</a></p>
-                            <p class="item-title"><a href="/2017/05/02/从表扩展增加列属性说起/" class="title">从表扩展增加列属性说起</a></p>
-                            <p class="item-date"><time datetime="2017-05-02T13:18:00.000Z" itemprop="datePublished">2017-05-02</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/错误集锦/">错误集锦</a></p>
+                            <p class="item-title"><a href="/2017/05/27/redis凌晨删库事件/" class="title">Redis凌晨删库事件</a></p>
+                            <p class="item-date"><time datetime="2017-05-27T13:18:00.000Z" itemprop="datePublished">2017-05-27</time></p>
                         </div>
                     </li>
                 
                     <li>
                         <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/JAVA/">JAVA</a></p>
-                            <p class="item-title"><a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/" class="title">Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法</a></p>
-                            <p class="item-date"><time datetime="2017-04-17T14:10:00.000Z" itemprop="datePublished">2017-04-17</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/架构之路/">架构之路</a></p>
+                            <p class="item-title"><a href="/2017/05/02/从表扩展增加列属性说起/" class="title">从表扩展增加列属性说起</a></p>
+                            <p class="item-date"><time datetime="2017-05-02T13:18:00.000Z" itemprop="datePublished">2017-05-02</time></p>
                         </div>
                     </li>
                 
@@ -1289,16 +1289,16 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/JAVA/">JAVA</a></p>
-                            <p class="item-title"><a href="/2017/04/16/Lambda应用场景和使用实例/" class="title">Lambda应用场景和使用实例</a></p>
-                            <p class="item-date"><time datetime="2017-04-16T14:10:00.000Z" itemprop="datePublished">2017-04-16</time></p>
+                            <p class="item-title"><a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/" class="title">Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法</a></p>
+                            <p class="item-date"><time datetime="2017-04-17T14:10:00.000Z" itemprop="datePublished">2017-04-17</time></p>
                         </div>
                     </li>
                 
                     <li>
                         <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/资源共享/">资源共享</a></p>
-                            <p class="item-title"><a href="/2017/04/09/Spark学习资料共享/" class="title">Spark学习资料共享</a></p>
-                            <p class="item-date"><time datetime="2017-04-09T13:18:00.000Z" itemprop="datePublished">2017-04-09</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/JAVA/">JAVA</a></p>
+                            <p class="item-title"><a href="/2017/04/16/Lambda应用场景和使用实例/" class="title">Lambda应用场景和使用实例</a></p>
+                            <p class="item-date"><time datetime="2017-04-16T14:10:00.000Z" itemprop="datePublished">2017-04-16</time></p>
                         </div>
                     </li>
                 
@@ -1311,7 +1311,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思维导图/">思维导图</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构之路/">架构之路</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">27</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">2</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思维导图/">思维导图</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构之路/">架构之路</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">27</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">2</span></li></ul>
         </div>
     </div>
 
@@ -1320,7 +1320,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div -->
 
