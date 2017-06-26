@@ -1,7 +1,7 @@
 ---
 title: MySQL中间件Atlas安装及使用
 categories:
-  - 数据库
+  - 运维部署
 tags:
   - atlas
   - mysql

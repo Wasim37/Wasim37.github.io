@@ -1,7 +1,7 @@
 ---
 title: Python 编码规范
 categories:
-  - Python
+  - 其他技术
 tags:
   - 编码规范
 date: 2017-3-17 21:18:00

@@ -1,7 +1,7 @@
 ---
 title: hadoop2.7.2单机与伪分布式安装
 categories:
-  - 大数据
+  - 运维部署
 tags:
   - hadoop
 date: 2017-2-21 21:18:00

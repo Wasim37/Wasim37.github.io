@@ -1,7 +1,7 @@
 ---
 title: HIVE安装配置
 categories:
-  - 大数据
+  - 运维部署
 tags:
   - hive
 date: 2017-2-26 21:18:00

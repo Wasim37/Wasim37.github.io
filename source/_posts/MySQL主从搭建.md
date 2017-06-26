@@ -3,7 +3,7 @@ title: MySQL主从搭建
 tags:
   - mysql
 categories:
-  - 数据库
+  - 运维部署
 date: 2016-10-7 22:22:00
 toc: true
 ---

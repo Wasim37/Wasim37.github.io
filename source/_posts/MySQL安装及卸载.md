@@ -3,7 +3,7 @@ title: MySQL安装及卸载
 tags:
   - mysql
 categories:
-  - 数据库
+  - 运维部署
 date: 2016-9-27 22:22:00
 toc: true
 ---

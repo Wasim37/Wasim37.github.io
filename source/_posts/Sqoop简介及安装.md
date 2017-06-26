@@ -1,7 +1,7 @@
 ---
 title: Sqoop简介及安装
 categories:
-  - 大数据
+  - 运维部署
 tags:
   - Sqoop
 date: 2017-2-27 21:18:00
