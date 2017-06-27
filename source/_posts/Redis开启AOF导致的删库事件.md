@@ -1,9 +1,10 @@
 ---
-title: Redis凌晨删库事件
+title: Redis开启AOF导致的删库事件
 categories:
   - 错误集锦
 tags:
   - redis
+  - aof
 date: 2017-5-27 21:18:00
 toc: true
 
