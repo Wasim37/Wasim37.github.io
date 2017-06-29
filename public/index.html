@@ -151,11 +151,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                93
+                94
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                71
+                73
                 <span>标签</span>
             </div>
         </div>
@@ -385,6 +385,112 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             
     
         <a href="http://www.wangxin123.com/2017/05/02/从表扩展增加列属性说起/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/05/02/从表扩展增加列属性说起/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-Linux服务器性能检测命令集锦" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/04/25/Linux服务器性能检测命令集锦/">Linux服务器性能检测命令集锦</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/04/25/Linux服务器性能检测命令集锦/">
+            <time datetime="2017-04-25T13:18:00.000Z" itemprop="datePublished">2017-04-25</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/运维部署/">运维部署</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/">linux</a>, <a class="tag-link" href="/tags/性能检测/">性能检测</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h4 id="uptime"><a href="#uptime" class="headerlink" title="uptime"></a>uptime</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ uptime</span><br><span class="line">23:51:26 up 21:31,  1 user,  load average: 30.02, 26.43, 19.02</span><br></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x5FEB;&#x901F;&#x67E5;&#x770B;&#x673A;&#x5668;&#x7684;&#x8D1F;&#x8F7D;&#x60C5;&#x51B5;&#x3002;&#x5728;Linux&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x8868;&#x793A;&#x7B49;&#x5F85;CPU&#x8D44;&#x6E90;&#x7684;&#x8FDB;&#x7A0B;&#x548C;&#x963B;&#x585E;&#x5728;&#x4E0D;&#x53EF;&#x4E2D;&#x65AD;IO&#x8FDB;&#x7A0B;&#xFF08;&#x8FDB;&#x7A0B;&#x72B6;&#x6001;&#x4E3A;D&#xFF09;&#x7684;&#x6570;&#x91CF;&#x3002;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x53EF;&#x4EE5;&#x8BA9;&#x6211;&#x4EEC;&#x5BF9;&#x7CFB;&#x7EDF;&#x8D44;&#x6E90;&#x4F7F;&#x7528;&#x6709;&#x4E00;&#x4E2A;&#x5B8F;&#x89C2;&#x7684;&#x4E86;&#x89E3;&#x3002;</p>
+<p>&#x547D;&#x4EE4;&#x7684;&#x8F93;&#x51FA;&#x5206;&#x522B;&#x8868;&#x793A;1&#x5206;&#x949F;&#x3001;5&#x5206;&#x949F;&#x3001;15&#x5206;&#x949F;&#x7684;&#x5E73;&#x5747;&#x8D1F;&#x8F7D;&#x60C5;&#x51B5;&#x3002;&#x901A;&#x8FC7;&#x8FD9;&#x4E09;&#x4E2A;&#x6570;&#x636E;&#xFF0C;&#x53EF;&#x4EE5;&#x4E86;&#x89E3;&#x670D;&#x52A1;&#x5668;&#x8D1F;&#x8F7D;&#x662F;&#x5728;&#x8D8B;&#x4E8E;&#x7D27;&#x5F20;&#x8FD8;&#x662F;&#x533A;&#x57DF;&#x7F13;&#x89E3;&#x3002;&#x5982;&#x679C;1&#x5206;&#x949F;&#x5E73;&#x5747;&#x8D1F;&#x8F7D;&#x5F88;&#x9AD8;&#xFF0C;&#x800C;15&#x5206;&#x949F;&#x5E73;&#x5747;&#x8D1F;&#x8F7D;&#x5F88;&#x4F4E;&#xFF0C;&#x8BF4;&#x660E;&#x670D;&#x52A1;&#x5668;&#x6B63;&#x5728;&#x547D;&#x4EE4;&#x9AD8;&#x8D1F;&#x8F7D;&#x60C5;&#x51B5;&#xFF0C;&#x9700;&#x8981;&#x8FDB;&#x4E00;&#x6B65;&#x6392;&#x67E5;CPU&#x8D44;&#x6E90;&#x90FD;&#x6D88;&#x8017;&#x5728;&#x4E86;&#x54EA;&#x91CC;&#x3002;&#x53CD;&#x4E4B;&#xFF0C;&#x5982;&#x679C;15&#x5206;&#x949F;&#x5E73;&#x5747;&#x8D1F;&#x8F7D;&#x5F88;&#x9AD8;&#xFF0C;1&#x5206;&#x949F;&#x5E73;&#x5747;&#x8D1F;&#x8F7D;&#x8F83;&#x4F4E;&#xFF0C;&#x5219;&#x6709;&#x53EF;&#x80FD;&#x662F;CPU&#x8D44;&#x6E90;&#x7D27;&#x5F20;&#x65F6;&#x523B;&#x5DF2;&#x7ECF;&#x8FC7;&#x53BB;&#x3002;</p>
+<p>&#x4E0A;&#x9762;&#x4F8B;&#x5B50;&#x4E2D;&#x7684;&#x8F93;&#x51FA;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x89C1;&#x6700;&#x8FD1;1&#x5206;&#x949F;&#x7684;&#x5E73;&#x5747;&#x8D1F;&#x8F7D;&#x975E;&#x5E38;&#x9AD8;&#xFF0C;&#x4E14;&#x8FDC;&#x9AD8;&#x4E8E;&#x6700;&#x8FD1;15&#x5206;&#x949F;&#x8D1F;&#x8F7D;&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7EE7;&#x7EED;&#x6392;&#x67E5;&#x5F53;&#x524D;&#x7CFB;&#x7EDF;&#x4E2D;&#x6709;&#x4EC0;&#x4E48;&#x8FDB;&#x7A0B;&#x6D88;&#x8017;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x8D44;&#x6E90;&#x3002;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E0B;&#x6587;&#x5C06;&#x4F1A;&#x4ECB;&#x7ECD;&#x7684;vmstat&#x3001;mpstat&#x7B49;&#x547D;&#x4EE4;&#x8FDB;&#x4E00;&#x6B65;&#x6392;&#x67E5;&#x3002;</p>
+<hr>
+<h4 id="dmesg-tail"><a href="#dmesg-tail" class="headerlink" title="dmesg | tail"></a>dmesg | tail</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ dmesg | tail</span><br><span class="line">[1880957.563150] perl invoked oom-killer: gfp_mask=0x280da, order=0, oom_score_adj=0</span><br><span class="line">[...]</span><br><span class="line">[18694]    48 31550   101579     3871   0       0             0 &#x670D;&#x52A1;&#x540D;&#x79F0;</span><br><span class="line">[...]</span><br><span class="line">[1880957.563400] Out of memory: Kill process 18694 (perl) score 246 or sacrifice child</span><br><span class="line">[1880957.563408] Killed process 18694 (perl) total-vm:1972392kB, anon-rss:1953348kB, file-rss:0kB</span><br><span class="line">[2320864.954447] TCP: Possible SYN flooding on port 7001. Dropping request.  Check SNMP counters.</span><br></pre></td></tr></table></figure>
+<p>&#x8BE5;&#x547D;&#x4EE4;&#x4F1A;&#x8F93;&#x51FA;&#x7CFB;&#x7EDF;&#x65E5;&#x5FD7;&#x7684;&#x6700;&#x540E;10&#x884C;&#x3002;&#x901A;&#x8FC7;&#x3010;dmesg | tail -100f&#x3011;&#x8FD8;&#x53EF;&#x4EE5;&#x8C03;&#x6574;&#x770B;&#x5230;&#x7684;&#x65E5;&#x5FD7;&#x603B;&#x884C;&#x6570;&#x3002;<br>&#x793A;&#x4F8B;&#x4E2D;&#x7684;&#x8F93;&#x51FA;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x89C1;&#x4E00;&#x6B21;&#x5185;&#x6838;&#x7684;oom kill&#x548C;&#x4E00;&#x6B21;TCP&#x4E22;&#x5305;&#x3002;&#x8FD9;&#x4E9B;&#x65E5;&#x5FD7;&#x53EF;&#x4EE5;&#x5E2E;&#x52A9;&#x6392;&#x67E5;&#x6027;&#x80FD;&#x95EE;&#x9898;&#x3002;<br>&#x6BD4;&#x5982;&#x7EBF;&#x4E0A;&#x67D0;&#x4E2A;&#x670D;&#x52A1;&#x7A81;&#x7136;&#x5F02;&#x5E38;&#xFF0C;&#x4F60;&#x6000;&#x7591;&#x662F;&#x673A;&#x5668;&#x5185;&#x5B58;&#x8FC7;&#x9AD8;&#xFF0C;&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;&#x6740;&#x6B7B;&#x4E86;&#x8FD9;&#x4E2A;&#x670D;&#x52A1;&#x7684;&#x8FDB;&#x7A0B;&#xFF0C;&#x90A3;&#x4E48;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x7CFB;&#x7EDF;&#x65E5;&#x5FD7;&#x6392;&#x67E5;&#x3002;</p></p>
+            <p class="article-more-link">
+                <a href="/2017/04/25/Linux服务器性能检测命令集锦/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2017/04/25/Linux服务器性能检测命令集锦/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/04/25/Linux服务器性能检测命令集锦/">评论</a>
     
 
         </footer>
@@ -1144,108 +1250,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-微服务学习资料共享" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/03/10/微服务学习资料共享/">微服务学习资料共享</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/03/10/微服务学习资料共享/">
-            <time datetime="2017-03-10T13:18:00.000Z" itemprop="datePublished">2017-03-10</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/资源共享/">资源共享</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/微服务教程/">微服务教程</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="&#x6280;&#x672F;&#x5E94;&#x7528;&#x80CC;&#x666F;&#x4ECB;&#x7ECD;"><a href="#&#x6280;&#x672F;&#x5E94;&#x7528;&#x80CC;&#x666F;&#x4ECB;&#x7ECD;" class="headerlink" title="&#x6280;&#x672F;&#x5E94;&#x7528;&#x80CC;&#x666F;&#x4ECB;&#x7ECD;"></a>&#x6280;&#x672F;&#x5E94;&#x7528;&#x80CC;&#x666F;&#x4ECB;&#x7ECD;</h3><p>&#x5FAE;&#x670D;&#x52A1;&#x662F;&#x4E00;&#x79CD;&#x8F6F;&#x4EF6;&#x67B6;&#x6784;&#x98CE;&#x683C;&#xFF0C;&#x5B83;&#x662F;&#x4EE5;&#x4E13;&#x6CE8;&#x4E8E;&#x5355;&#x4E00;&#x8D23;&#x4EFB;&#x4E0E;&#x529F;&#x80FD;&#x7684;&#x5C0F;&#x578B;&#x529F;&#x80FD;&#x533A;&#x5757;&#x4E3A;&#x57FA;&#x7840;&#xFF0C;&#x5229;&#x7528;&#x6A21;&#x7EC4;&#x5316;&#x7684;&#x65B9;&#x5F0F;&#x7EC4;&#x5408;&#x51FA;&#x590D;&#x6742;&#x7684;&#x5927;&#x578B;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x5404;&#x529F;&#x80FD;&#x533A;&#x5757;&#x4F7F;&#x7528;&#x4E0E;&#x8BED;&#x8A00;&#x65E0;&#x5173;&#x7684; API &#x96C6;&#x76F8;&#x4E92;&#x901A;&#x8BAF;&#xFF1B;&#x5FAE;&#x670D;&#x52A1;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x98CE;&#x683C;&#x4EE3;&#x8868;&#x4E86;&#x4E0B;&#x4E00;&#x4EE3;&#x7684;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x601D;&#x60F3;&#xFF0C;&#x914D;&#x5408;&#x73B0;&#x5728;&#x7684;&#x5BB9;&#x5668;&#x5DE5;&#x5177;&#xFF08;&#x5982;Docker&#xFF09;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x8F6F;&#x4EF6;&#x5F00;&#x53D1;&#x6D41;&#x7A0B;&#x3001;&#x90E8;&#x7F72;&#x3001;&#x670D;&#x52A1;&#x7EF4;&#x62A4;&#x7B49;&#x5404;&#x65B9;&#x9762;&#x4EA7;&#x751F;&#x65B0;&#x7684;&#x751F;&#x4EA7;&#x6548;&#x7387;&#x63D0;&#x5347;&#xFF1B;&#x901A;&#x8FC7;&#x5FAE;&#x670D;&#x52A1;&#x53EF;&#x4EE5;&#x66F4;&#x597D;&#x5730;&#x4F53;&#x73B0;&#x4E1A;&#x52A1;&#x903B;&#x8F91;&#x3001;&#x66F4;&#x5FEB;&#x5730;&#x4EA4;&#x4ED8;&#x8F6F;&#x4EF6;&#xFF0C;&#x5E76;&#x4E14;&#x501F;&#x52A9;IAAS&#x5E73;&#x53F0;&#xFF0C;&#x80FD;&#x591F;&#x5FEB;&#x901F;&#x5730;&#x6269;&#x5C55;&#x670D;&#x52A1;&#x652F;&#x6491;&#x66F4;&#x5927;&#x7684;&#x8BBF;&#x95EE;&#x6D41;&#x91CF;&#x538B;&#x529B;&#x3002;</p>
-<hr>
-<h3 id="&#x8BFE;&#x7A0B;&#x5185;&#x5BB9;&#x7B80;&#x4ECB;"><a href="#&#x8BFE;&#x7A0B;&#x5185;&#x5BB9;&#x7B80;&#x4ECB;" class="headerlink" title="&#x8BFE;&#x7A0B;&#x5185;&#x5BB9;&#x7B80;&#x4ECB;"></a>&#x8BFE;&#x7A0B;&#x5185;&#x5BB9;&#x7B80;&#x4ECB;</h3><p>&#x8BFE;&#x7A0B;&#x4EE5;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x5386;&#x53F2;&#x7B80;&#x8FF0;&#x4E3A;&#x59CB;&#xFF0C;&#x7ED3;&#x5408;&#x5E38;&#x7528;&#x6280;&#x672F;&#x6846;&#x67B6;&#x53CA;&#x5DE5;&#x5177;&#x5E2E;&#x52A9;&#x5B66;&#x5458;&#x5FEB;&#x901F;&#x4E0A;&#x624B;&#x5B9E;&#x73B0;&#x7B2C;&#x4E00;&#x4E2A;&#x5FAE;&#x670D;&#x52A1;&#xFF0C;&#x518D;&#x901A;&#x8FC7;&#x5FAE;&#x670D;&#x52A1;&#x5B9E;&#x8DF5;&#x8FC7;&#x7A0B;&#x4E2D;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x6570;&#x636E;&#x6A21;&#x578B;&#x3001;&#x670D;&#x52A1;&#x95F4;&#x901A;&#x4FE1;&#x7B49;&#x6765;&#x8FDB;&#x884C;&#x591A;&#x4E2A;&#x5FAE;&#x670D;&#x52A1;&#x7684;&#x8BBE;&#x8BA1;&#x5B9E;&#x8DF5;&#xFF0C;&#x6700;&#x540E;&#x4ECE;&#x6D4B;&#x8BD5;&#x3001;&#x90E8;&#x7F72;&#x7684;&#x89D2;&#x5EA6;&#x6765;&#x53D9;&#x8FF0;&#x5728;&#x5FAE;&#x670D;&#x52A1;&#x6700;&#x540E;&#x4E0A;&#x7EBF;&#x53CA;&#x7EF4;&#x62A4;&#x7684;&#x76F8;&#x5173;&#x4E8B;&#x5B9C;&#xFF1B;&#x8BFE;&#x7A0B;&#x5C06;&#x4ECE;&#x201C;&#x521D;&#x59CB;&#x5FAE;&#x670D;&#x52A1;&#x201D;&#x6765;&#x7B80;&#x8FF0;&#x670D;&#x52A1;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x98CE;&#x683C;&#x7684;&#x53D1;&#x5C55;&#x5386;&#x7A0B;&#x548C;&#x5FAE;&#x670D;&#x52A1;&#x7684;&#x7531;&#x6765;&#xFF1B;&#x901A;&#x8FC7;&#x201C;Java&#x4E0E;&#x5FAE;&#x670D;&#x52A1;&#x201D;&#x6765;&#x4ECB;&#x7ECD;&#x5E38;&#x7528;&#x7684;&#x5FEB;&#x901F;&#x4E0A;&#x624B;Java&#x5FAE;&#x670D;&#x52A1;&#x6280;&#x672F;&#x6846;&#x67B6;&#xFF1B;&#x901A;&#x8FC7;&#x201C;&#x5FAE;&#x670D;&#x52A1;&#x95F4;&#x5173;&#x7CFB;&#x201D;&#x3001;&#x201C;&#x6570;&#x636E;&#x6A21;&#x578B;&#x8BBE;&#x8BA1;&#x4E0E;&#x5904;&#x7406;&#x201D;&#x3001;&#x201C;&#x5FAE;&#x670D;&#x52A1;&#x5B89;&#x5168;&#x52A0;&#x56FA;&#x201D;&#x8BFE;&#x7A0B;&#x6765;&#x8BE6;&#x7EC6;&#x9610;&#x8FF0;&#x5FAE;&#x670D;&#x52A1;&#x5728;&#x5B9E;&#x6218;&#x8FC7;&#x7A0B;&#x4E2D;&#x7684;&#x539F;&#x5219;&#x548C;&#x6280;&#x5DE7;&#xFF1B;&#x901A;&#x8FC7;&#x201C;&#x5FAE;&#x670D;&#x52A1;&#x6D4B;&#x8BD5;&#x201D;&#x3001;&#x201C;&#x5FAE;&#x670D;&#x52A1;&#x90E8;&#x7F72;&#x201D;&#x3001;&#x201C;&#x5FAE;&#x670D;&#x52A1;&#x4E0E;&#x865A;&#x62DF;&#x5316;&#x3001;&#x5BB9;&#x5668;&#x5316;&#x201D;&#x8BFE;&#x7A0B;&#x6765;&#x5E2E;&#x52A9;&#x5B66;&#x5458;&#x638C;&#x63E1;&#x5FAE;&#x670D;&#x52A1;&#x6D4B;&#x8BD5;&#x5230;&#x6700;&#x540E;&#x4E0A;&#x7EBF;&#x53CA;&#x670D;&#x52A1;&#x7684;&#x5B9E;&#x8DF5;&#x3002;</p></p>
-            <p class="article-more-link">
-                <a href="/2017/03/10/微服务学习资料共享/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2017/03/10/微服务学习资料共享/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/03/10/微服务学习资料共享/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
     </nav>
@@ -1280,6 +1284,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                 
                     <li>
                         <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/运维部署/">运维部署</a></p>
+                            <p class="item-title"><a href="/2017/04/25/Linux服务器性能检测命令集锦/" class="title">Linux服务器性能检测命令集锦</a></p>
+                            <p class="item-date"><time datetime="2017-04-25T13:18:00.000Z" itemprop="datePublished">2017-04-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/JAVA/">JAVA</a></p>
                             <p class="item-title"><a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/" class="title">Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法</a></p>
                             <p class="item-date"><time datetime="2017-04-17T14:10:00.000Z" itemprop="datePublished">2017-04-17</time></p>
@@ -1294,14 +1306,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                     </li>
                 
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/JAVA/">JAVA</a></p>
-                            <p class="item-title"><a href="/2017/04/16/Lambda应用场景和使用实例/" class="title">Lambda应用场景和使用实例</a></p>
-                            <p class="item-date"><time datetime="2017-04-16T14:10:00.000Z" itemprop="datePublished">2017-04-16</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div -->
@@ -1311,7 +1315,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思维导图/">思维导图</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构之路/">架构之路</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">27</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">2</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他技术/">其他技术</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思维导图/">思维导图</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/架构之路/">架构之路</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a><span class="category-list-count">2</span></li></ul>
         </div>
     </div>
 
@@ -1320,7 +1324,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div -->
 
@@ -1329,7 +1333,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/Zookeeper/" style="font-size: 11.67px;">Zookeeper</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 11.67px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 13.33px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 13.33px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
+            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/ES/" style="font-size: 10px;">ES</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/SonarQube/" style="font-size: 10px;">SonarQube</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/Zookeeper/" style="font-size: 11.67px;">Zookeeper</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/solr/" style="font-size: 11.67px;">solr</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 13.33px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/监控/" style="font-size: 10px;">监控</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 13.33px;">运维</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
         </div>
     </div -->
 
