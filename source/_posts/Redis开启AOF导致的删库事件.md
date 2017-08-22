@@ -28,6 +28,8 @@ Redis从机重启后，成功在数据目录生成了百M以上的【appendonly.
 
 ---
 
+<!-- more -->
+
 #### 问题分析
 <font style="color:red">1、为什么在已经开启RDB持久化的情况下，还打算开启AOF？</font>
 解答：同时开启两种持久化，Redis拥有足以媲美PostgreSQL的数据安全性。
