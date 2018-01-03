@@ -10,6 +10,9 @@
             <% if (theme.customize.sidebar) { %>
                 <%- partial('common/sidebar', null, {cache: !config.relative_link}) %>
             <% } %>
+	    <% if (page.mathjax){ %>
+		<%- partial('common/mathjax') %>
+	    <% } %>
         </div>
         <%- partial('common/footer', null, {cache: !config.relative_link}) %>
         <%- partial('common/scripts') %>
