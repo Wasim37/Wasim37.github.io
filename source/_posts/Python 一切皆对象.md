@@ -1,7 +1,7 @@
 ---
 title: Python 一切皆对象
 categories:
-  - 其他技术
+  - 其他
 tags:
   - 面向对象
 date: 2017-3-20 21:18:00

@@ -4,7 +4,7 @@ tags:
   - github
   - hexo
 categories:
-  - 其他技术
+  - 其他
 date: 2016-6-1 22:22:00
 toc: false
 

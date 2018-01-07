@@ -3,7 +3,7 @@ title: 在Hexo中渲染MathJax数学公式
 tags:
   - hexo
 categories:
-  - 其他技术
+  - 其他
 date: 2017-9-20 22:22:00
 toc: false
 mathjax: true

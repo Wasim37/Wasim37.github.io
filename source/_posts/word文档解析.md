@@ -1,7 +1,7 @@
 ---
 title: word文档解析
 categories:
-  - 其他技术
+  - 其他
 tags:
   - word解析
   - Open XML SDK 2.0 Productivity Tool
