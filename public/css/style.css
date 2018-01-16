@@ -118,7 +118,7 @@ body,
 body {
   color: #565a5f;
   background: #f5f8f9;
-  font: 15px "open sans", "Helvetica Neue", "Microsoft Yahei", Helvetica, Arial, sans-serif;
+  font: 16px "open sans", "Helvetica Neue", "Microsoft Yahei", Helvetica, Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
 }
 a {
@@ -139,7 +139,7 @@ code {
   background-color: #f8f8f8;
 }
 .outer {
-  max-width: 1340px;
+  max-width: 1360.0000000000002px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -186,16 +186,16 @@ code {
   #main {
     display: inline;
     float: left;
-    width: 63.63636363636363%;
-    margin: 0 0.757575757575758%;
+    width: 64.17910447761194%;
+    margin: 0 0.746268656716418%;
   }
 }
 @media screen and (min-width: 800px) and (max-width: 1199px) {
   #main {
     display: inline;
     float: left;
-    width: 66.66666666666666%;
-    margin: 0 0.757575757575758%;
+    width: 65.67164179104476%;
+    margin: 0 0.746268656716418%;
   }
 }
 .archive-article-header a,
@@ -455,9 +455,9 @@ code {
 }
 .nav-icon {
   text-align: center;
-  font-size: 15px;
-  width: 15px;
-  height: 15px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
   position: relative;
   cursor: pointer;
   height: 40px !important;
@@ -558,7 +558,7 @@ code {
   line-height: 1.6em;
   outline: none !important;
   background: none !important;
-  font: 15px "open sans", "Helvetica Neue", "Microsoft Yahei", Helvetica, Arial, sans-serif;
+  font: 16px "open sans", "Helvetica Neue", "Microsoft Yahei", Helvetica, Arial, sans-serif;
   border: 1px solid #eceff2 !important;
 }
 .search-form-input:focus,
@@ -635,8 +635,8 @@ code {
 #profile {
   display: inline;
   float: left;
-  width: 15.909090909090907%;
-  margin: 0 0.757575757575758%;
+  width: 15.671641791044772%;
+  margin: 0 0.746268656716418%;
   display: none;
 }
 @media screen and (min-width: 1200px) {
@@ -665,7 +665,7 @@ code {
   font-weight: 600;
 }
 #profile .inner .base-info #location {
-  font-size: 13px;
+  font-size: 14px;
   margin-top: 5px;
   color: #9a9ea3;
 }
@@ -711,11 +711,11 @@ code {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  font-size: 21px;
+  font-size: 22px;
 }
 #profile .inner .article-info .article-info-block span {
   display: block;
-  font-size: 15px;
+  font-size: 16px;
   text-transform: uppercase;
 }
 #profile .inner .article-info .article-info-block:first-child {
@@ -726,7 +726,7 @@ code {
 }
 #profile .inner .social-links > table td {
   text-align: center;
-  font-size: 25px;
+  font-size: 26px;
 }
 #profile .inner .social-links > table td a {
   position: relative;
@@ -957,7 +957,7 @@ a.article-title:hover {
   position: absolute;
 }
 .article-entry blockquote footer {
-  font-size: 15px;
+  font-size: 16px;
   margin: 1.6em 0;
   font-family: "open sans", "Helvetica Neue", "Microsoft Yahei", Helvetica, Arial, sans-serif;
 }
@@ -1472,7 +1472,7 @@ ol.toc {
 .layout-wrap-inner.list-categories ul li,
 .layout-wrap-inner.list-categories ul .category-list-child {
   padding: 10px 0;
-  font-size: 15px;
+  font-size: 16px;
   border-bottom: 1px solid border-color;
 }
 .layout-wrap-inner.list-categories ul li a,
@@ -1648,7 +1648,7 @@ ol.toc {
   padding: 20px 0;
   border-top: 1px solid #eceff2;
   color: #565a5f;
-  font-size: 17px;
+  font-size: 18px;
   text-align: center;
 }
 #footer .outer {
@@ -1669,16 +1669,16 @@ ol.toc {
   #sidebar {
     display: inline;
     float: left;
-    width: 15.909090909090907%;
-    margin: 0 0.757575757575758%;
+    width: 15.671641791044772%;
+    margin: 0 0.746268656716418%;
   }
 }
 @media screen and (min-width: 800px) and (max-width: 1199px) {
   #sidebar {
     display: inline;
     float: left;
-    width: 28.78787878787879%;
-    margin: 0 0.757575757575758%;
+    width: 28.358208955223873%;
+    margin: 0 0.746268656716418%;
   }
 }
 .widget {
@@ -1767,7 +1767,7 @@ ol.toc {
 .widget ul .category-list-child,
 .widget ol .category-list-child {
   padding: 10px 0;
-  font-size: 15px;
+  font-size: 16px;
   border-bottom: 1px solid border-color;
 }
 .widget ul li a,
@@ -2073,9 +2073,9 @@ ol.toc {
   display: block;
   overflow-x: auto;
   padding: 15px 20px;
-  font-size: 15px;
+  font-size: 16px;
   font-family: "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
-  line-height: 24px;
+  line-height: 25.6px;
 }
 .highlight table {
   margin: 0;

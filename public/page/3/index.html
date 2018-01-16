@@ -151,7 +151,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                85
+                86
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -183,6 +183,110 @@
 
             
             <section id="main">
+    <article id="post-hadoop2.7.2单机与伪分布式安装" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/02/21/hadoop2.7.2单机与伪分布式安装/">hadoop2.7.2单机与伪分布式安装</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/02/21/hadoop2.7.2单机与伪分布式安装/">
+            <time datetime="2017-02-21T13:18:00.000Z" itemprop="datePublished">2017-02-21</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/运维部署/">运维部署</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/hadoop/">hadoop</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="&#x73AF;&#x5883;&#x76F8;&#x5173;"><a href="#&#x73AF;&#x5883;&#x76F8;&#x5173;" class="headerlink" title="&#x73AF;&#x5883;&#x76F8;&#x5173;"></a>&#x73AF;&#x5883;&#x76F8;&#x5173;</h3><p>&#x7CFB;&#x7EDF;&#xFF1A;CentOS 6.8 64&#x4F4D;<br>jdk&#xFF1A;1.7.0_79<br>hadoop&#xFF1A;hadoop 2.7.2</p>
+<hr>
+<h3 id="&#x5B89;&#x88C5;java&#x73AF;&#x5883;"><a href="#&#x5B89;&#x88C5;java&#x73AF;&#x5883;" class="headerlink" title="&#x5B89;&#x88C5;java&#x73AF;&#x5883;"></a>&#x5B89;&#x88C5;java&#x73AF;&#x5883;</h3><p>&#x8BE6;&#x89C1;&#xFF1A;<a href="http://wangxin123.com/2016/05/29/linux%E4%B8%AD%E6%90%AD%E5%BB%BAjava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">linux&#x4E2D;&#x642D;&#x5EFA;java&#x5F00;&#x53D1;&#x73AF;&#x5883;</a></p>
+<hr>
+<h3 id="&#x521B;&#x5EFA;hadoop&#x7528;&#x6237;"><a href="#&#x521B;&#x5EFA;hadoop&#x7528;&#x6237;" class="headerlink" title="&#x521B;&#x5EFA;hadoop&#x7528;&#x6237;"></a>&#x521B;&#x5EFA;hadoop&#x7528;&#x6237;</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x4EE5;root&#x7528;&#x6237;&#x767B;&#x5F55;</span></span><br><span class="line">su root</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x521B;&#x5EFA;&#x4E00;&#x4E2A;hadoop&#x7EC4;&#x4E0B;&#x7684;hadoop&#x7528;&#x6237;&#xFF0C;&#x5E76;&#x4F7F;&#x7528; /bin/bash &#x4F5C;&#x4E3A;shell</span></span><br><span class="line">useradd -m hadoop -G hadoop <span class="_">-s</span> /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># useradd &#x4E3B;&#x8981;&#x53C2;&#x6570;</span></span><br><span class="line"><span class="comment"># &#xFF0D;c&#xFF1A;&#x52A0;&#x4E0A;&#x5907;&#x6CE8;&#x6587;&#x5B57;&#xFF0C;&#x5907;&#x6CE8;&#x6587;&#x5B57;&#x4FDD;&#x5B58;&#x5728;passwd&#x7684;&#x5907;&#x6CE8;&#x680F;&#x4E2D;&#x3002;</span></span><br><span class="line"><span class="comment"># &#xFF0D;d&#xFF1A;&#x6307;&#x5B9A;&#x7528;&#x6237;&#x767B;&#x5165;&#x65F6;&#x7684;&#x542F;&#x59CB;&#x76EE;&#x5F55;</span></span><br><span class="line"><span class="comment"># &#xFF0D;D&#xFF1A;&#x53D8;&#x66F4;&#x9884;&#x8BBE;&#x503C;</span></span><br><span class="line"><span class="comment"># &#xFF0D;e&#xFF1A;&#x6307;&#x5B9A;&#x8D26;&#x53F7;&#x7684;&#x6709;&#x6548;&#x671F;&#x9650;&#xFF0C;&#x7F3A;&#x7701;&#x8868;&#x793A;&#x6C38;&#x4E45;&#x6709;&#x6548;</span></span><br><span class="line"><span class="comment"># &#xFF0D;f&#xFF1A;&#x6307;&#x5B9A;&#x5728;&#x5BC6;&#x7801;&#x8FC7;&#x671F;&#x540E;&#x591A;&#x5C11;&#x5929;&#x5373;&#x5173;&#x95ED;&#x8BE5;&#x8D26;&#x53F7;</span></span><br><span class="line"><span class="comment"># &#xFF0D;g&#xFF1A;&#x6307;&#x5B9A;&#x7528;&#x6237;&#x6240;&#x5C5E;&#x7684;&#x8D77;&#x59CB;&#x7FA4;&#x7EC4;</span></span><br><span class="line"><span class="comment"># &#xFF0D;G&#xFF1A;&#x6307;&#x5B9A;&#x7528;&#x6237;&#x6240;&#x5C5E;&#x7684;&#x9644;&#x52A0;&#x7FA4;&#x7EC4;</span></span><br><span class="line"><span class="comment"># &#xFF0D;m&#xFF1A;&#x81EA;&#x52A8;&#x5EFA;&#x7ACB;&#x7528;&#x6237;&#x7684;&#x767B;&#x5165;&#x76EE;&#x5F55;</span></span><br><span class="line"><span class="comment"># &#xFF0D;M&#xFF1A;&#x4E0D;&#x8981;&#x81EA;&#x52A8;&#x5EFA;&#x7ACB;&#x7528;&#x6237;&#x7684;&#x767B;&#x5165;&#x76EE;&#x5F55;</span></span><br><span class="line"><span class="comment"># &#xFF0D;n&#xFF1A;&#x53D6;&#x6D88;&#x5EFA;&#x7ACB;&#x4EE5;&#x7528;&#x6237;&#x540D;&#x79F0;&#x4E3A;&#x540D;&#x7684;&#x7FA4;&#x7EC4;</span></span><br><span class="line"><span class="comment"># &#xFF0D;r&#xFF1A;&#x5EFA;&#x7ACB;&#x7CFB;&#x7EDF;&#x8D26;&#x53F7;</span></span><br><span class="line"><span class="comment"># &#xFF0D;s&#xFF1A;&#x6307;&#x5B9A;&#x7528;&#x6237;&#x767B;&#x5165;&#x540E;&#x6240;&#x4F7F;&#x7528;&#x7684;shell</span></span><br><span class="line"><span class="comment"># &#xFF0D;u&#xFF1A;&#x6307;&#x5B9A;&#x7528;&#x6237;ID&#x53F7;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x8BBE;&#x7F6E;hadoop&#x7528;&#x6237;&#x5BC6;&#x7801;&#xFF0C;&#x6309;&#x63D0;&#x793A;&#x8F93;&#x5165;&#x4E24;&#x6B21;&#x5BC6;&#x7801;</span></span><br><span class="line"><span class="comment"># &#x5B66;&#x4E60;&#x9636;&#x6BB5;&#x53EF;&#x7B80;&#x5355;&#x8BBE;&#x4E3A;&quot;hadoop&quot;&#xFF0C;&#x82E5;&#x63D0;&#x793A;&#x201C;&#x65E0;&#x6548;&#x7684;&#x5BC6;&#x7801;&#xFF0C;&#x8FC7;&#x4E8E;&#x7B80;&#x5355;&#x201D;&#xFF0C;&#x5219;&#x518D;&#x6B21;&#x8F93;&#x5165;&#x786E;&#x8BA4;&#x5373;&#x53EF;</span></span><br><span class="line">passwd hadoop</span><br></pre></td></tr></table></figure></p>
+            <p class="article-more-link">
+                <a href="/2017/02/21/hadoop2.7.2单机与伪分布式安装/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2017/02/21/hadoop2.7.2单机与伪分布式安装/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/02/21/hadoop2.7.2单机与伪分布式安装/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-HDFS运行原理" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -281,6 +385,106 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             
     
         <a href="http://www.wangxin123.com/2017/02/20/HDFS运行原理/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/02/20/HDFS运行原理/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-大数据学习思维导图" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/02/18/大数据学习思维导图/">大数据学习思维导图</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/02/18/大数据学习思维导图/">
+            <time datetime="2017-02-18T13:18:00.000Z" itemprop="datePublished">2017-02-18</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/思维导图/">思维导图</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/大数据/">大数据</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>&#x6700;&#x8FD1;&#x4E00;&#x4E2A;&#x6708;&#xFF0C;&#x4F1A;&#x8FDB;&#x884C;&#x5927;&#x6570;&#x636E;&#x8FDB;&#x9636;&#x4E4B;&#x65C5;&#x3002;<br>&#x968F;&#x7740;&#x5B66;&#x4E60;&#x6DF1;&#x5165;&#xFF0C;&#x4F1A;&#x5C06;&#x65B0;&#x5199;&#x7684;&#x6587;&#x7AE0;&#x94FE;&#x63A5;&#x6C47;&#x5165;&#x56FE;&#x8C31;&#x76F8;&#x5173;&#x77E5;&#x8BC6;&#x70B9;&#x4E2D;&#x3002;<br>&#x8111;&#x56FE;&#x6301;&#x7EED;&#x66F4;&#x65B0;&#xFF0C;&#x8BBF;&#x95EE;&#x5730;&#x5740;&#xFF1A;<a href="https://www.processon.com/view/link/58a81160e4b0669d9957a433">https://www.processon.com/view/link/58a81160e4b0669d9957a433</a></p></p>
+            <p class="article-more-link">
+                <a href="/2017/02/18/大数据学习思维导图/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2017/02/18/大数据学习思维导图/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/02/18/大数据学习思维导图/">评论</a>
     
 
         </footer>
@@ -402,106 +606,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             
     
         <a href="http://www.wangxin123.com/2017/02/18/大数据进阶计划/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/02/18/大数据进阶计划/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-大数据学习思维导图" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/02/18/大数据学习思维导图/">大数据学习思维导图</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/02/18/大数据学习思维导图/">
-            <time datetime="2017-02-18T13:18:00.000Z" itemprop="datePublished">2017-02-18</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/思维导图/">思维导图</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/大数据/">大数据</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>&#x6700;&#x8FD1;&#x4E00;&#x4E2A;&#x6708;&#xFF0C;&#x4F1A;&#x8FDB;&#x884C;&#x5927;&#x6570;&#x636E;&#x8FDB;&#x9636;&#x4E4B;&#x65C5;&#x3002;<br>&#x968F;&#x7740;&#x5B66;&#x4E60;&#x6DF1;&#x5165;&#xFF0C;&#x4F1A;&#x5C06;&#x65B0;&#x5199;&#x7684;&#x6587;&#x7AE0;&#x94FE;&#x63A5;&#x6C47;&#x5165;&#x56FE;&#x8C31;&#x76F8;&#x5173;&#x77E5;&#x8BC6;&#x70B9;&#x4E2D;&#x3002;<br>&#x8111;&#x56FE;&#x6301;&#x7EED;&#x66F4;&#x65B0;&#xFF0C;&#x8BBF;&#x95EE;&#x5730;&#x5740;&#xFF1A;<a href="https://www.processon.com/view/link/58a81160e4b0669d9957a433">https://www.processon.com/view/link/58a81160e4b0669d9957a433</a></p></p>
-            <p class="article-more-link">
-                <a href="/2017/02/18/大数据学习思维导图/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2017/02/18/大数据学习思维导图/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/02/18/大数据学习思维导图/">评论</a>
     
 
         </footer>
@@ -1139,111 +1243,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-zabbix监控Elasticsearch集群" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/01/05/zabbix监控Elasticsearch集群/">zabbix监控Elasticsearch集群</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/01/05/zabbix监控Elasticsearch集群/">
-            <time datetime="2017-01-05T10:24:17.000Z" itemprop="datePublished">2017-01-05</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/运维部署/">运维部署</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/es/">es</a>, <a class="tag-link" href="/tags/zabbix/">zabbix</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>&#x672C;&#x8282;&#x4EE5; zabbix &#x4E3A;&#x4F8B;&#xFF0C;&#x4ECB;&#x7ECD;&#x5982;&#x4F55;&#x4F7F;&#x7528;&#x76D1;&#x63A7;&#x7CFB;&#x7EDF;&#x5B8C;&#x6210; Elasticsearch &#x7684;&#x76D1;&#x63A7;&#x62A5;&#x8B66;&#x3002;</p>
-<p>github &#x4E0A;&#x6709;&#x597D;&#x51E0;&#x4E2A;&#x7248;&#x672C;&#x7684; ESZabbix &#x4ED3;&#x5E93;&#xFF0C;&#x90FD;&#x6E90;&#x81EA; Elastic &#x516C;&#x53F8;&#x5458;&#x5DE5; untergeek &#x6700;&#x65E9;&#x7684;&#x8D21;&#x732E;&#x3002;&#x4F46;&#x662F;&#x5F53;&#x65F6; Elasticsearch &#x8FD8;&#x6CA1;&#x6709;&#x5B98;&#x65B9; python &#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x6240;&#x4EE5;&#x76D1;&#x63A7;&#x7A0B;&#x5E8F;&#x90FD;&#x662F;&#x7528;&#x7684;&#x662F; pyes &#x5E93;&#x3002;&#x5BF9;&#x4E8E;&#x6700;&#x65B0;&#x7248;&#x7684; ES &#x6765;&#x8BF4;&#xFF0C;&#x5DF2;&#x7ECF;&#x4E0D;&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x4E86;&#x3002;</p>
-<p>GitHub &#x5730;&#x5740;&#x89C1;&#xFF1A;<a href="https://github.com/Wasim37/zabbix-es">https://github.com/Wasim37/zabbix-es</a></p>
-<hr>
-<h3 id="&#x5B89;&#x88C5;&#x914D;&#x7F6E;"><a href="#&#x5B89;&#x88C5;&#x914D;&#x7F6E;" class="headerlink" title="&#x5B89;&#x88C5;&#x914D;&#x7F6E;"></a>&#x5B89;&#x88C5;&#x914D;&#x7F6E;</h3><p>&#x4ED3;&#x5E93;&#x4E2D;&#x5305;&#x62EC;&#x4E09;&#x4E2A;&#x6587;&#x4EF6;&#xFF1A;<br>1&#x3001;ESzabbix.py<br>2&#x3001;ESzabbix.userparm<br>3&#x3001;ESzabbix_templates.xml</p>
-<p>&#x5176;&#x4E2D;&#xFF0C;&#x524D;&#x4E24;&#x4E2A;&#x6587;&#x4EF6;&#x9700;&#x8981;&#x5206;&#x53D1;&#x5230;&#x6BCF;&#x4E2A; ES &#x8282;&#x70B9;&#x4E0A;&#x3002;&#x5982;&#x679C;&#x8282;&#x70B9;&#x4E0A;&#x8FD0;&#x884C;&#x7684;&#x662F; yum &#x5B89;&#x88C5;&#x7684; zabbix&#xFF0C;&#x4E8C;&#x8005;&#x7684;&#x9ED8;&#x8BA4;&#x4F4D;&#x7F6E;&#x5E94;&#x8BE5;&#x5206;&#x522B;&#x662F;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/etc/zabbix/zabbix_externalscripts/ESzabbix.py</span><br><span class="line">/etc/zabbix/agent_include/ESzabbix.userparm</span><br></pre></td></tr></table></figure></p></p>
-            <p class="article-more-link">
-                <a href="/2017/01/05/zabbix监控Elasticsearch集群/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2017/01/05/zabbix监控Elasticsearch集群/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://www.wangxin123.com/2017/01/05/zabbix监控Elasticsearch集群/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
     </nav>
@@ -1259,6 +1258,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/机器学习/">机器学习</a></p>
+                            <p class="item-title"><a href="/2017/10/16/吴恩达2014机器学习教程笔记目录/" class="title">吴恩达2014机器学习教程笔记目录</a></p>
+                            <p class="item-date"><time datetime="2017-10-16T13:18:00.000Z" itemprop="datePublished">2017-10-16</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         <div class="item-thumbnail">
@@ -1292,14 +1299,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                     </li>
                 
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/JAVA/">JAVA</a></p>
-                            <p class="item-title"><a href="/2017/04/17/Lambda类库篇 —— Streams API, Collector和并行/" class="title">Lambda类库篇 —— Streams API, Collector和并行</a></p>
-                            <p class="item-date"><time datetime="2017-04-17T14:10:00.000Z" itemprop="datePublished">2017-04-17</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div -->
@@ -1309,7 +1308,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思维导图/">思维导图</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/思维导图/">思维导图</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -1318,7 +1317,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
         </div>
     </div -->
 
