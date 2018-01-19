@@ -50,7 +50,7 @@ search:
 comment:
     disqus: # hexo-theme-icarus  enter disqus shortname here
     duoshuo: # wangxin37
-    youyan: # 2155427
+    youyan: 2155427
 
 # Share
 share: bdshare # options: jiathis, bdshare, addtoany, default
