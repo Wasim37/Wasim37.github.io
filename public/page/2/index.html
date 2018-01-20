@@ -183,6 +183,116 @@
 
             
             <section id="main">
+    <article id="post-Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">
+            <time datetime="2017-04-17T14:10:00.000Z" itemprop="datePublished">2017-04-17</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/lambda/">lambda</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>&#x672C;&#x6587;&#x4ECB;&#x7ECD;&#x4E86;Java SE 8&#x4E2D;&#x65B0;&#x5F15;&#x5165;&#x7684;lambda&#x8BED;&#x8A00;&#x7279;&#x6027;&#x4EE5;&#x53CA;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x80CC;&#x540E;&#x7684;&#x8BBE;&#x8BA1;&#x601D;&#x60F3;&#x3002;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x5305;&#x62EC;&#xFF1A;</p>
+<ul>
+<li>lambda&#x8868;&#x8FBE;&#x5F0F;&#xFF08;&#x53C8;&#x88AB;&#x6210;&#x4E3A;&#x201C;&#x95ED;&#x5305;&#x201D;&#x6216;&#x201C;&#x533F;&#x540D;&#x65B9;&#x6CD5;&#x201D;&#xFF09;</li>
+<li>&#x65B9;&#x6CD5;&#x5F15;&#x7528;&#x548C;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x5F15;&#x7528;</li>
+<li>&#x6269;&#x5C55;&#x7684;&#x76EE;&#x6807;&#x7C7B;&#x578B;&#x548C;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;</li>
+<li>&#x63A5;&#x53E3;&#x4E2D;&#x7684;&#x9ED8;&#x8BA4;&#x65B9;&#x6CD5;&#x548C;&#x9759;&#x6001;&#x65B9;&#x6CD5;</li>
+</ul>
+<p>&#x672C;&#x6587;&#x662F;&#x5BF9; <a href="http://www.oracle.com/us/technologies/java/briangoetzchief-188795.html">Brian Goetz</a> &#x7684; <a href="http://cr.openjdk.java.net/~briangoetz/lambda/lambda-state-final.html">State of the Lambda</a> &#x4E00;&#x6587;&#x7684;&#x7FFB;&#x8BD1;&#x3002;</p>
+<hr>
+<h3 id="&#x80CC;&#x666F;"><a href="#&#x80CC;&#x666F;" class="headerlink" title="&#x80CC;&#x666F;"></a>&#x80CC;&#x666F;</h3><p>Java&#x662F;&#x4E00;&#x95E8;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x3002;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x548C;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x57FA;&#x672C;&#x5143;&#x7D20;&#xFF08;Basic Values&#xFF09;&#x90FD;&#x53EF;&#x4EE5;&#x52A8;&#x6001;&#x5C01;&#x88C5;&#x7A0B;&#x5E8F;&#x884C;&#x4E3A;&#xFF1A;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4F7F;&#x7528;&#x5E26;&#x6709;&#x65B9;&#x6CD5;&#x7684;&#x5BF9;&#x8C61;&#x5C01;&#x88C5;&#x884C;&#x4E3A;&#xFF0C;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4F7F;&#x7528;&#x51FD;&#x6570;&#x5C01;&#x88C5;&#x884C;&#x4E3A;&#x3002;&#x4F46;&#x8FD9;&#x4E2A;&#x76F8;&#x540C;&#x70B9;&#x5E76;&#x4E0D;&#x660E;&#x663E;&#xFF0C;&#x56E0;&#x4E3A;Java&#x7684;&#x5BF9;&#x8C61;&#x5F80;&#x5F80;&#x6BD4;&#x8F83;&#x201C;&#x91CD;&#x91CF;&#x7EA7;&#x201D;&#xFF1A;&#x5B9E;&#x4F8B;&#x5316;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x5F80;&#x5F80;&#x4F1A;&#x6D89;&#x53CA;&#x4E0D;&#x540C;&#x7684;&#x7C7B;&#xFF0C;&#x5E76;&#x9700;&#x8981;&#x521D;&#x59CB;&#x5316;&#x7C7B;&#x91CC;&#x7684;&#x5B57;&#x6BB5;&#x548C;&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x4E0D;&#x8FC7;&#x6709;&#x4E9B;Java&#x5BF9;&#x8C61;&#x53EA;&#x662F;&#x5BF9;&#x5355;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x5C01;&#x88C5;&#x3002;&#x4F8B;&#x5982;&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;&#x5178;&#x578B;&#x7528;&#x4F8B;&#xFF1A;Java API&#x4E2D;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF08;&#x4E00;&#x822C;&#x88AB;&#x79F0;&#x4E3A;&#x56DE;&#x8C03;&#x63A5;&#x53E3;&#xFF09;&#xFF0C;&#x7528;&#x6237;&#x901A;&#x8FC7;&#x63D0;&#x4F9B;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#x7684;&#x5B9E;&#x4F8B;&#x6765;&#x4F20;&#x5165;&#x6307;&#x5B9A;&#x884C;&#x4E3A;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface ActionListener {</span><br><span class="line">  void actionPerformed(ActionEvent e);</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p></p>
+            <p class="article-more-link">
+                <a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+        <a href="http://www.wangxin123.com/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/#comments" class="article-comment-link">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Lambda类库篇 —— Streams API, Collector和并行" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -285,116 +395,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
             
     
         <a href="http://www.wangxin123.com/2017/04/17/Lambda类库篇 —— Streams API, Collector和并行/#comments" class="article-comment-link">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">
-            <time datetime="2017-04-17T14:10:00.000Z" itemprop="datePublished">2017-04-17</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/lambda/">lambda</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>&#x672C;&#x6587;&#x4ECB;&#x7ECD;&#x4E86;Java SE 8&#x4E2D;&#x65B0;&#x5F15;&#x5165;&#x7684;lambda&#x8BED;&#x8A00;&#x7279;&#x6027;&#x4EE5;&#x53CA;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x80CC;&#x540E;&#x7684;&#x8BBE;&#x8BA1;&#x601D;&#x60F3;&#x3002;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x5305;&#x62EC;&#xFF1A;</p>
-<ul>
-<li>lambda&#x8868;&#x8FBE;&#x5F0F;&#xFF08;&#x53C8;&#x88AB;&#x6210;&#x4E3A;&#x201C;&#x95ED;&#x5305;&#x201D;&#x6216;&#x201C;&#x533F;&#x540D;&#x65B9;&#x6CD5;&#x201D;&#xFF09;</li>
-<li>&#x65B9;&#x6CD5;&#x5F15;&#x7528;&#x548C;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x5F15;&#x7528;</li>
-<li>&#x6269;&#x5C55;&#x7684;&#x76EE;&#x6807;&#x7C7B;&#x578B;&#x548C;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;</li>
-<li>&#x63A5;&#x53E3;&#x4E2D;&#x7684;&#x9ED8;&#x8BA4;&#x65B9;&#x6CD5;&#x548C;&#x9759;&#x6001;&#x65B9;&#x6CD5;</li>
-</ul>
-<p>&#x672C;&#x6587;&#x662F;&#x5BF9; <a href="http://www.oracle.com/us/technologies/java/briangoetzchief-188795.html">Brian Goetz</a> &#x7684; <a href="http://cr.openjdk.java.net/~briangoetz/lambda/lambda-state-final.html">State of the Lambda</a> &#x4E00;&#x6587;&#x7684;&#x7FFB;&#x8BD1;&#x3002;</p>
-<hr>
-<h3 id="&#x80CC;&#x666F;"><a href="#&#x80CC;&#x666F;" class="headerlink" title="&#x80CC;&#x666F;"></a>&#x80CC;&#x666F;</h3><p>Java&#x662F;&#x4E00;&#x95E8;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x3002;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x548C;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x57FA;&#x672C;&#x5143;&#x7D20;&#xFF08;Basic Values&#xFF09;&#x90FD;&#x53EF;&#x4EE5;&#x52A8;&#x6001;&#x5C01;&#x88C5;&#x7A0B;&#x5E8F;&#x884C;&#x4E3A;&#xFF1A;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4F7F;&#x7528;&#x5E26;&#x6709;&#x65B9;&#x6CD5;&#x7684;&#x5BF9;&#x8C61;&#x5C01;&#x88C5;&#x884C;&#x4E3A;&#xFF0C;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4F7F;&#x7528;&#x51FD;&#x6570;&#x5C01;&#x88C5;&#x884C;&#x4E3A;&#x3002;&#x4F46;&#x8FD9;&#x4E2A;&#x76F8;&#x540C;&#x70B9;&#x5E76;&#x4E0D;&#x660E;&#x663E;&#xFF0C;&#x56E0;&#x4E3A;Java&#x7684;&#x5BF9;&#x8C61;&#x5F80;&#x5F80;&#x6BD4;&#x8F83;&#x201C;&#x91CD;&#x91CF;&#x7EA7;&#x201D;&#xFF1A;&#x5B9E;&#x4F8B;&#x5316;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x5F80;&#x5F80;&#x4F1A;&#x6D89;&#x53CA;&#x4E0D;&#x540C;&#x7684;&#x7C7B;&#xFF0C;&#x5E76;&#x9700;&#x8981;&#x521D;&#x59CB;&#x5316;&#x7C7B;&#x91CC;&#x7684;&#x5B57;&#x6BB5;&#x548C;&#x65B9;&#x6CD5;&#x3002;</p>
-<p>&#x4E0D;&#x8FC7;&#x6709;&#x4E9B;Java&#x5BF9;&#x8C61;&#x53EA;&#x662F;&#x5BF9;&#x5355;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x5C01;&#x88C5;&#x3002;&#x4F8B;&#x5982;&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;&#x5178;&#x578B;&#x7528;&#x4F8B;&#xFF1A;Java API&#x4E2D;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF08;&#x4E00;&#x822C;&#x88AB;&#x79F0;&#x4E3A;&#x56DE;&#x8C03;&#x63A5;&#x53E3;&#xFF09;&#xFF0C;&#x7528;&#x6237;&#x901A;&#x8FC7;&#x63D0;&#x4F9B;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#x7684;&#x5B9E;&#x4F8B;&#x6765;&#x4F20;&#x5165;&#x6307;&#x5B9A;&#x884C;&#x4E3A;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface ActionListener {</span><br><span class="line">  void actionPerformed(ActionEvent e);</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p></p>
-            <p class="article-more-link">
-                <a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-        <a href="http://www.wangxin123.com/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/#comments" class="article-comment-link">评论</a>
     
 
         </footer>
