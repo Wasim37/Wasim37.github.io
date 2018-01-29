@@ -1,7 +1,7 @@
 ---
 title: MySQL备份与恢复
 categories:
-  - 思维导图
+  - 知识总结
 tags:
   - mysql
   - 备份
