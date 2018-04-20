@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Python 编码规范 | 星空博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Google&amp;#x5B98;&amp;#x65B9;&amp;#x82F1;&amp;#x6587;&amp;#x7248;&amp;#x7F16;&amp;#x7801;&amp;#x89C4;&amp;#x8303;, &amp;#x8BF7;&amp;#x79FB;&amp;#x6B65; Google Style Guide&amp;#x4EE5;&amp;#x4E0B;&amp;#x4EE3;&amp;#x7801;&amp;#x4E2D; Yes &amp;#x8868;&amp;#x793A;&amp;#x63A8;&amp;#x8350;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 编码规范">
+<meta property="og:url" content="http://www.wangxin123.com/2017/03/17/Python编码规范/index.html">
+<meta property="og:site_name" content="星空博客">
+<meta property="og:description" content="Google&amp;#x5B98;&amp;#x65B9;&amp;#x82F1;&amp;#x6587;&amp;#x7248;&amp;#x7F16;&amp;#x7801;&amp;#x89C4;&amp;#x8303;, &amp;#x8BF7;&amp;#x79FB;&amp;#x6B65; Google Style Guide&amp;#x4EE5;&amp;#x4E0B;&amp;#x4EE3;&amp;#x7801;&amp;#x4E2D; Yes &amp;#x8868;&amp;#x793A;&amp;#x63A8;&amp;#x8350;">
+<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/Python%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/1.jpg">
+<meta property="og:updated_time" content="2018-01-08T01:04:45.671Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python 编码规范">
+<meta name="twitter:description" content="Google&amp;#x5B98;&amp;#x65B9;&amp;#x82F1;&amp;#x6587;&amp;#x7248;&amp;#x7F16;&amp;#x7801;&amp;#x89C4;&amp;#x8303;, &amp;#x8BF7;&amp;#x79FB;&amp;#x6B65; Google Style Guide&amp;#x4EE5;&amp;#x4E0B;&amp;#x4EE3;&amp;#x7801;&amp;#x4E2D; Yes &amp;#x8868;&amp;#x793A;&amp;#x63A8;&amp;#x8350;">
+<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/Python%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/1.jpg">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/wu.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">星空博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
+            <h2 id="name">Wasim</h2>
+            <h3 id="title">Full Stack Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
+            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                102
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                84
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Python编码规范" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Python 编码规范
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/03/17/Python编码规范/">
+            <time datetime="2017-03-17T13:18:00.000Z" itemprop="datePublished">2017-03-17</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/其他/">其他</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/编码规范/">编码规范</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#分号"><span class="toc-number">1.</span> <span class="toc-text">分号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#行长度"><span class="toc-number">2.</span> <span class="toc-text">行长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#括号"><span class="toc-number">3.</span> <span class="toc-text">括号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缩进"><span class="toc-number">4.</span> <span class="toc-text">缩进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空行"><span class="toc-number">5.</span> <span class="toc-text">空行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空格"><span class="toc-number">6.</span> <span class="toc-text">空格</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shebang"><span class="toc-number">7.</span> <span class="toc-text">Shebang</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注释"><span class="toc-number">8.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类"><span class="toc-number">9.</span> <span class="toc-text">类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">10.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件和sockets"><span class="toc-number">11.</span> <span class="toc-text">文件和sockets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TODO注释"><span class="toc-number">12.</span> <span class="toc-text">TODO注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#导入格式"><span class="toc-number">13.</span> <span class="toc-text">导入格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语句"><span class="toc-number">14.</span> <span class="toc-text">语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#访问控制"><span class="toc-number">15.</span> <span class="toc-text">访问控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命名"><span class="toc-number">16.</span> <span class="toc-text">命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Main"><span class="toc-number">17.</span> <span class="toc-text">Main</span></a></li></ol>
+                </div>
+            
+            <p>Google&#x5B98;&#x65B9;&#x82F1;&#x6587;&#x7248;&#x7F16;&#x7801;&#x89C4;&#x8303;, &#x8BF7;&#x79FB;&#x6B65; <a href="https://google.github.io/styleguide/pyguide.html" target="_blank" rel="external">Google Style Guide</a><br>&#x4EE5;&#x4E0B;&#x4EE3;&#x7801;&#x4E2D; Yes &#x8868;&#x793A;&#x63A8;&#x8350;&#xFF0C;No &#x8868;&#x793A;&#x4E0D;&#x63A8;&#x8350;&#x3002;</p>
+<hr>
+<h3 id="&#x5206;&#x53F7;"><a href="#&#x5206;&#x53F7;" class="headerlink" title="&#x5206;&#x53F7;"></a>&#x5206;&#x53F7;</h3><p>&#x4E0D;&#x8981;&#x5728;&#x884C;&#x5C3E;&#x52A0;&#x5206;&#x53F7;, &#x4E5F;&#x4E0D;&#x8981;&#x7528;&#x5206;&#x53F7;&#x5C06;&#x4E24;&#x6761;&#x547D;&#x4EE4;&#x653E;&#x5728;&#x540C;&#x4E00;&#x884C;&#x3002;</p>
+<hr>
+<h3 id="&#x884C;&#x957F;&#x5EA6;"><a href="#&#x884C;&#x957F;&#x5EA6;" class="headerlink" title="&#x884C;&#x957F;&#x5EA6;"></a>&#x884C;&#x957F;&#x5EA6;</h3><p>&#x6BCF;&#x884C;&#x4E0D;&#x8D85;&#x8FC7;80&#x4E2A;&#x5B57;&#x7B26;<br>&#x4EE5;&#x4E0B;&#x60C5;&#x51B5;&#x9664;&#x5916;&#xFF1A;<br>1&#x3001;&#x957F;&#x7684;&#x5BFC;&#x5165;&#x6A21;&#x5757;&#x8BED;&#x53E5;<br>2&#x3001;&#x6CE8;&#x91CA;&#x91CC;&#x7684;URL</p>
+<p>&#x4E0D;&#x8981;&#x4F7F;&#x7528;&#x53CD;&#x659C;&#x6760;&#x8FDE;&#x63A5;&#x884C;&#x3002;<br>Python&#x4F1A;&#x5C06; &#x5706;&#x62EC;&#x53F7;, <a href="http://docs.python.org/2/reference/lexical_analysis.html#implicit-line-joining" target="_blank" rel="external">&#x4E2D;&#x62EC;&#x53F7;&#x548C;&#x82B1;&#x62EC;&#x53F7;&#x4E2D;&#x7684;&#x884C;&#x9690;&#x5F0F;&#x7684;&#x8FDE;&#x63A5;&#x8D77;&#x6765;</a> , &#x4F60;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x8FD9;&#x4E2A;&#x7279;&#x70B9;. &#x5982;&#x679C;&#x9700;&#x8981;, &#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x8868;&#x8FBE;&#x5F0F;&#x5916;&#x56F4;&#x589E;&#x52A0;&#x4E00;&#x5BF9;&#x989D;&#x5916;&#x7684;&#x5706;&#x62EC;&#x53F7;&#x3002;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x63A8;&#x8350;: foo_bar(self, width, height, color=<span class="string">&apos;black&apos;</span>, design=None, x=<span class="string">&apos;foo&apos;</span>,</span><br><span class="line">             emphasis=None, highlight=0)</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (width == 0 and height == 0 and</span><br><span class="line">         color == <span class="string">&apos;red&apos;</span> and emphasis == <span class="string">&apos;strong&apos;</span>):</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x5B57;&#x7B26;&#x4E32;&#x5728;&#x4E00;&#x884C;&#x653E;&#x4E0D;&#x4E0B;, &#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5706;&#x62EC;&#x53F7;&#x6765;&#x5B9E;&#x73B0;&#x9690;&#x5F0F;&#x884C;&#x8FDE;&#x63A5;:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = (<span class="string">&apos;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x957F;&#x975E;&#x5E38;&#x957F;&#x975E;&#x5E38;&#x957F;&#x975E;&#x5E38;&#x957F; &apos;</span></span><br><span class="line">     <span class="string">&apos;&#x975E;&#x5E38;&#x957F;&#x975E;&#x5E38;&#x957F;&#x975E;&#x5E38;&#x957F;&#x975E;&#x5E38;&#x957F;&#x975E;&#x5E38;&#x957F;&#x975E;&#x5E38;&#x957F;&#x7684;&#x5B57;&#x7B26;&#x4E32;&apos;</span>)</span><br></pre></td></tr></table></figure></p>
+<p>&#x5728;&#x6CE8;&#x91CA;&#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x5FC5;&#x8981;&#xFF0C;&#x5C06;&#x957F;&#x7684;URL&#x653E;&#x5728;&#x4E00;&#x884C;&#x4E0A;&#x3002;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Yes:  <span class="comment"># See details at</span></span><br><span class="line">      <span class="comment"># http://www.example.com/us/developer/documentation/api/content/v2.0/csv_file_name_extension_full_specification.html</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">No:  <span class="comment"># See details at</span></span><br><span class="line">     <span class="comment"># http://www.example.com/us/developer/documentation/api/content/\</span></span><br><span class="line">     <span class="comment"># v2.0/csv_file_name_extension_full_specification.html</span></span><br></pre></td></tr></table></figure>
+<p>&#x6CE8;&#x610F;&#x4E0A;&#x9762;&#x4F8B;&#x5B50;&#x4E2D;&#x7684;&#x5143;&#x7D20;&#x7F29;&#x8FDB;; &#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x672C;&#x6587;&#x7684; [&#x7F29;&#x8FDB;] &#x90E8;&#x5206;&#x627E;&#x5230;&#x89E3;&#x91CA;.</p>
+<hr>
+<h3 id="&#x62EC;&#x53F7;"><a href="#&#x62EC;&#x53F7;" class="headerlink" title="&#x62EC;&#x53F7;"></a>&#x62EC;&#x53F7;</h3><p>&#x5B81;&#x7F3A;&#x6BCB;&#x6EE5;&#x7684;&#x4F7F;&#x7528;&#x62EC;&#x53F7;<br>&#x9664;&#x975E;&#x662F;&#x7528;&#x4E8E;&#x5B9E;&#x73B0;&#x884C;&#x8FDE;&#x63A5;, &#x5426;&#x5219;&#x4E0D;&#x8981;&#x5728;&#x8FD4;&#x56DE;&#x8BED;&#x53E5;&#x6216;&#x6761;&#x4EF6;&#x8BED;&#x53E5;&#x4E2D;&#x4F7F;&#x7528;&#x62EC;&#x53F7;. &#x4E0D;&#x8FC7;&#x5728;&#x5143;&#x7EC4;&#x4E24;&#x8FB9;&#x4F7F;&#x7528;&#x62EC;&#x53F7;&#x662F;&#x53EF;&#x4EE5;&#x7684;.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Yes: <span class="keyword">if</span> foo:</span><br><span class="line">         bar()</span><br><span class="line">     <span class="keyword">while</span> x:</span><br><span class="line">         x = bar()</span><br><span class="line">     <span class="keyword">if</span> x and y:</span><br><span class="line">         bar()</span><br><span class="line">     <span class="keyword">if</span> not x:</span><br><span class="line">         bar()</span><br><span class="line">     <span class="built_in">return</span> foo</span><br><span class="line">     <span class="keyword">for</span> (x, y) <span class="keyword">in</span> dict.items(): ...</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">No:  <span class="keyword">if</span> (x):</span><br><span class="line">         bar()</span><br><span class="line">     <span class="keyword">if</span> not(x):</span><br><span class="line">         bar()</span><br><span class="line">     <span class="built_in">return</span> (foo)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="&#x7F29;&#x8FDB;"><a href="#&#x7F29;&#x8FDB;" class="headerlink" title="&#x7F29;&#x8FDB;"></a>&#x7F29;&#x8FDB;</h3><p>&#x7528;4&#x4E2A;&#x7A7A;&#x683C;&#x6765;&#x7F29;&#x8FDB;&#x4EE3;&#x7801;<br>&#x7EDD;&#x5BF9;&#x4E0D;&#x8981;&#x7528;tab, &#x4E5F;&#x4E0D;&#x8981;tab&#x548C;&#x7A7A;&#x683C;&#x6DF7;&#x7528;. &#x5BF9;&#x4E8E;&#x884C;&#x8FDE;&#x63A5;&#x7684;&#x60C5;&#x51B5;, &#x4F60;&#x5E94;&#x8BE5;&#x8981;&#x4E48;&#x5782;&#x76F4;&#x5BF9;&#x9F50;&#x6362;&#x884C;&#x7684;&#x5143;&#x7D20;(&#x89C1;[&#x884C;&#x957F;&#x5EA6;]&#x90E8;&#x5206;&#x7684;&#x793A;&#x4F8B;), &#x6216;&#x8005;&#x4F7F;&#x7528;4&#x7A7A;&#x683C;&#x7684;&#x60AC;&#x6302;&#x5F0F;&#x7F29;&#x8FDB;(&#x8FD9;&#x65F6;&#x7B2C;&#x4E00;&#x884C;&#x4E0D;&#x5E94;&#x8BE5;&#x6709;&#x53C2;&#x6570;):<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Yes:   <span class="comment"># &#x4E0E;&#x8D77;&#x59CB;&#x53D8;&#x91CF;&#x5BF9;&#x9F50;</span></span><br><span class="line">       foo = long_<span class="keyword">function</span>_name(var_one, var_two,</span><br><span class="line">                                var_three, var_four)</span><br><span class="line"></span><br><span class="line">       <span class="comment"># &#x5B57;&#x5178;&#x4E2D;&#x4E0E;&#x8D77;&#x59CB;&#x503C;&#x5BF9;&#x9F50;</span></span><br><span class="line">       foo = {</span><br><span class="line">           long_dictionary_key: value1 +</span><br><span class="line">                                value2,</span><br><span class="line">           ...</span><br><span class="line">       }</span><br><span class="line"></span><br><span class="line">       <span class="comment"># 4 &#x4E2A;&#x7A7A;&#x683C;&#x7F29;&#x8FDB;&#xFF0C;&#x7B2C;&#x4E00;&#x884C;&#x4E0D;&#x9700;&#x8981;</span></span><br><span class="line">       foo = long_<span class="keyword">function</span>_name(</span><br><span class="line">           var_one, var_two, var_three,</span><br><span class="line">           var_four)</span><br><span class="line"></span><br><span class="line">       <span class="comment"># &#x5B57;&#x5178;&#x4E2D; 4 &#x4E2A;&#x7A7A;&#x683C;&#x7F29;&#x8FDB;</span></span><br><span class="line">       foo = {</span><br><span class="line">           long_dictionary_key:</span><br><span class="line">               long_dictionary_value,</span><br><span class="line">           ...</span><br><span class="line">       }</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">No:    <span class="comment"># &#x7B2C;&#x4E00;&#x884C;&#x6709;&#x7A7A;&#x683C;&#x662F;&#x7981;&#x6B62;&#x7684;</span></span><br><span class="line">      foo = long_<span class="keyword">function</span>_name(var_one, var_two,</span><br><span class="line">          var_three, var_four)</span><br><span class="line"></span><br><span class="line">      <span class="comment"># 2 &#x4E2A;&#x7A7A;&#x683C;&#x662F;&#x7981;&#x6B62;&#x7684;</span></span><br><span class="line">      foo = long_<span class="keyword">function</span>_name(</span><br><span class="line">        var_one, var_two, var_three,</span><br><span class="line">        var_four)</span><br><span class="line"></span><br><span class="line">      <span class="comment"># &#x5B57;&#x5178;&#x4E2D;&#x6CA1;&#x6709;&#x5904;&#x7406;&#x7F29;&#x8FDB;</span></span><br><span class="line">      foo = {</span><br><span class="line">          long_dictionary_key:</span><br><span class="line">              long_dictionary_value,</span><br><span class="line">              ...</span><br><span class="line">      }</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="&#x7A7A;&#x884C;"><a href="#&#x7A7A;&#x884C;" class="headerlink" title="&#x7A7A;&#x884C;"></a>&#x7A7A;&#x884C;</h3><p>&#x9876;&#x7EA7;&#x5B9A;&#x4E49;&#x4E4B;&#x95F4;&#x7A7A;&#x4E24;&#x884C;, &#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x4E4B;&#x95F4;&#x7A7A;&#x4E00;&#x884C;.<br>&#x9876;&#x7EA7;&#x5B9A;&#x4E49;&#x4E4B;&#x95F4;&#x7A7A;&#x4E24;&#x884C;, &#x6BD4;&#x5982;&#x51FD;&#x6570;&#x6216;&#x8005;&#x7C7B;&#x5B9A;&#x4E49;. &#x65B9;&#x6CD5;&#x5B9A;&#x4E49;, &#x7C7B;&#x5B9A;&#x4E49;&#x4E0E;&#x7B2C;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x4E4B;&#x95F4;, &#x90FD;&#x5E94;&#x8BE5;&#x7A7A;&#x4E00;&#x884C;. &#x51FD;&#x6570;&#x6216;&#x65B9;&#x6CD5;&#x4E2D;, &#x67D0;&#x4E9B;&#x5730;&#x65B9;&#x8981;&#x662F;&#x4F60;&#x89C9;&#x5F97;&#x5408;&#x9002;, &#x5C31;&#x7A7A;&#x4E00;&#x884C;.</p>
+<hr>
+<h3 id="&#x7A7A;&#x683C;"><a href="#&#x7A7A;&#x683C;" class="headerlink" title="&#x7A7A;&#x683C;"></a>&#x7A7A;&#x683C;</h3><p>&#x6309;&#x7167;&#x6807;&#x51C6;&#x7684;&#x6392;&#x7248;&#x89C4;&#x8303;&#x6765;&#x4F7F;&#x7528;&#x6807;&#x70B9;&#x4E24;&#x8FB9;&#x7684;&#x7A7A;&#x683C;<br>&#x62EC;&#x53F7;&#x5185;&#x4E0D;&#x8981;&#x6709;&#x7A7A;&#x683C;.<br>&#x6309;&#x7167;&#x6807;&#x51C6;&#x7684;&#x6392;&#x7248;&#x89C4;&#x8303;&#x6765;&#x4F7F;&#x7528;&#x6807;&#x70B9;&#x4E24;&#x8FB9;&#x7684;&#x7A7A;&#x683C;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Yes: spam(ham[1], {eggs: 2}, [])</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No:  spam( ham[ 1 ], { eggs: 2 }, [ ] )</span><br></pre></td></tr></table></figure>
+<p>&#x4E0D;&#x8981;&#x5728;&#x9017;&#x53F7;, &#x5206;&#x53F7;, &#x5192;&#x53F7;&#x524D;&#x9762;&#x52A0;&#x7A7A;&#x683C;, &#x4F46;&#x5E94;&#x8BE5;&#x5728;&#x5B83;&#x4EEC;&#x540E;&#x9762;&#x52A0;(&#x9664;&#x4E86;&#x5728;&#x884C;&#x5C3E;).<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Yes: <span class="keyword">if</span> x == 4:</span><br><span class="line">         <span class="built_in">print</span> x, y</span><br><span class="line">     x, y = y, x</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">No:  <span class="keyword">if</span> x == 4 :</span><br><span class="line">         <span class="built_in">print</span> x , y</span><br><span class="line">     x , y = y , x</span><br></pre></td></tr></table></figure>
+<p>&#x53C2;&#x6570;&#x5217;&#x8868;, &#x7D22;&#x5F15;&#x6216;&#x5207;&#x7247;&#x7684;&#x5DE6;&#x62EC;&#x53F7;&#x524D;&#x4E0D;&#x5E94;&#x52A0;&#x7A7A;&#x683C;.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Yes: spam(1)</span><br><span class="line">no: spam (1)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Yes: dict[<span class="string">&apos;key&apos;</span>] = list[index]</span><br><span class="line">No:  dict [<span class="string">&apos;key&apos;</span>] = list [index]</span><br></pre></td></tr></table></figure>
+<p>&#x5728;&#x4E8C;&#x5143;&#x64CD;&#x4F5C;&#x7B26;&#x4E24;&#x8FB9;&#x90FD;&#x52A0;&#x4E0A;&#x4E00;&#x4E2A;&#x7A7A;&#x683C;, &#x6BD4;&#x5982;&#x8D4B;&#x503C;(=), &#x6BD4;&#x8F83;(==, &lt;, &gt;, !=, &lt;&gt;, &lt;=, &gt;=, in, not in, is, is not), &#x5E03;&#x5C14;(and, or, not). &#x81F3;&#x4E8E;&#x7B97;&#x672F;&#x64CD;&#x4F5C;&#x7B26;&#x4E24;&#x8FB9;&#x7684;&#x7A7A;&#x683C;&#x8BE5;&#x5982;&#x4F55;&#x4F7F;&#x7528;, &#x9700;&#x8981;&#x4F60;&#x81EA;&#x5DF1;&#x597D;&#x597D;&#x5224;&#x65AD;. &#x4E0D;&#x8FC7;&#x4E24;&#x4FA7;&#x52A1;&#x5FC5;&#x8981;&#x4FDD;&#x6301;&#x4E00;&#x81F4;.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Yes: x == 1</span><br><span class="line">No:  x&lt;1</span><br></pre></td></tr></table></figure></p>
+<p>&#x5F53;&#x2019;=&#x2019;&#x7528;&#x4E8E;&#x6307;&#x793A;&#x5173;&#x952E;&#x5B57;&#x53C2;&#x6570;&#x6216;&#x9ED8;&#x8BA4;&#x53C2;&#x6570;&#x503C;&#x65F6;, &#x4E0D;&#x8981;&#x5728;&#x5176;&#x4E24;&#x4FA7;&#x4F7F;&#x7528;&#x7A7A;&#x683C;.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Yes: def complex(real, imag=0.0): <span class="built_in">return</span> magic(r=real, i=imag)</span><br><span class="line">No:  def complex(real, imag = 0.0): <span class="built_in">return</span> magic(r = real, i = imag)</span><br></pre></td></tr></table></figure></p>
+<p>&#x4E0D;&#x8981;&#x7528;&#x7A7A;&#x683C;&#x6765;&#x5782;&#x76F4;&#x5BF9;&#x9F50;&#x591A;&#x884C;&#x95F4;&#x7684;&#x6807;&#x8BB0;, &#x56E0;&#x4E3A;&#x8FD9;&#x4F1A;&#x6210;&#x4E3A;&#x7EF4;&#x62A4;&#x7684;&#x8D1F;&#x62C5;(&#x9002;&#x7528;&#x4E8E;:, #, =&#x7B49;):<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Yes:</span><br><span class="line">     foo = 1000  <span class="comment"># &#x6CE8;&#x91CA;</span></span><br><span class="line">     long_name = 2  <span class="comment"># &#x6CE8;&#x91CA;&#x4E0D;&#x9700;&#x8981;&#x5BF9;&#x9F50;</span></span><br><span class="line"></span><br><span class="line">     dictionary = {</span><br><span class="line">         <span class="string">&quot;foo&quot;</span>: 1,</span><br><span class="line">         <span class="string">&quot;long_name&quot;</span>: 2,</span><br><span class="line">         }</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">No:</span><br><span class="line">     foo       = 1000  <span class="comment"># &#x6CE8;&#x91CA;</span></span><br><span class="line">     long_name = 2     <span class="comment"># &#x6CE8;&#x91CA;&#x4E0D;&#x9700;&#x8981;&#x5BF9;&#x9F50;</span></span><br><span class="line"></span><br><span class="line">     dictionary = {</span><br><span class="line">         <span class="string">&quot;foo&quot;</span>      : 1,</span><br><span class="line">         <span class="string">&quot;long_name&quot;</span>: 2,</span><br><span class="line">         }</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Shebang"><a href="#Shebang" class="headerlink" title="Shebang"></a>Shebang</h3><p>&#x5927;&#x90E8;&#x5206;.py&#x6587;&#x4EF6;&#x4E0D;&#x5FC5;&#x4EE5;#!&#x4F5C;&#x4E3A;&#x6587;&#x4EF6;&#x7684;&#x5F00;&#x59CB;. &#x6839;&#x636E; PEP-394 , &#x7A0B;&#x5E8F;&#x7684;main&#x6587;&#x4EF6;&#x5E94;&#x8BE5;&#x4EE5; #!/usr/bin/python2&#x6216;&#x8005; #!/usr/bin/python3&#x5F00;&#x59CB;.<br>(&#x8BD1;&#x8005;&#x6CE8;: &#x5728;&#x8BA1;&#x7B97;&#x673A;&#x79D1;&#x5B66;&#x4E2D;, Shebang (&#x4E5F;&#x79F0;&#x4E3A;Hashbang)&#x662F;&#x4E00;&#x4E2A;&#x7531;&#x4E95;&#x53F7;&#x548C;&#x53F9;&#x53F7;&#x6784;&#x6210;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x884C;(#!), &#x5176;&#x51FA;&#x73B0;&#x5728;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x7684;&#x7B2C;&#x4E00;&#x884C;&#x7684;&#x524D;&#x4E24;&#x4E2A;&#x5B57;&#x7B26;. &#x5728;&#x6587;&#x4EF6;&#x4E2D;&#x5B58;&#x5728;Shebang&#x7684;&#x60C5;&#x51B5;&#x4E0B;, &#x7C7B;Unix&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7684;&#x7A0B;&#x5E8F;&#x8F7D;&#x5165;&#x5668;&#x4F1A;&#x5206;&#x6790;Shebang&#x540E;&#x7684;&#x5185;&#x5BB9;, &#x5C06;&#x8FD9;&#x4E9B;&#x5185;&#x5BB9;&#x4F5C;&#x4E3A;&#x89E3;&#x91CA;&#x5668;&#x6307;&#x4EE4;, &#x5E76;&#x8C03;&#x7528;&#x8BE5;&#x6307;&#x4EE4;, &#x5E76;&#x5C06;&#x8F7D;&#x6709;Shebang&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x4F5C;&#x4E3A;&#x8BE5;&#x89E3;&#x91CA;&#x5668;&#x7684;&#x53C2;&#x6570;. &#x4F8B;&#x5982;, &#x4EE5;&#x6307;&#x4EE4;#!/bin/sh&#x5F00;&#x5934;&#x7684;&#x6587;&#x4EF6;&#x5728;&#x6267;&#x884C;&#x65F6;&#x4F1A;&#x5B9E;&#x9645;&#x8C03;&#x7528;/bin/sh&#x7A0B;&#x5E8F;.)</p>
+<p>#!&#x5148;&#x7528;&#x4E8E;&#x5E2E;&#x52A9;&#x5185;&#x6838;&#x627E;&#x5230;Python&#x89E3;&#x91CA;&#x5668;, &#x4F46;&#x662F;&#x5728;&#x5BFC;&#x5165;&#x6A21;&#x5757;&#x65F6;, &#x5C06;&#x4F1A;&#x88AB;&#x5FFD;&#x7565;. &#x56E0;&#x6B64;&#x53EA;&#x6709;&#x88AB;&#x76F4;&#x63A5;&#x6267;&#x884C;&#x7684;&#x6587;&#x4EF6;&#x4E2D;&#x624D;&#x6709;&#x5FC5;&#x8981;&#x52A0;&#x5165;#!.</p>
+<hr>
+<h3 id="&#x6CE8;&#x91CA;"><a href="#&#x6CE8;&#x91CA;" class="headerlink" title="&#x6CE8;&#x91CA;"></a>&#x6CE8;&#x91CA;</h3><p>&#x786E;&#x4FDD;&#x5BF9;&#x6A21;&#x5757;, &#x51FD;&#x6570;, &#x65B9;&#x6CD5;&#x548C;&#x884C;&#x5185;&#x6CE8;&#x91CA;&#x4F7F;&#x7528;&#x6B63;&#x786E;&#x7684;&#x98CE;&#x683C;</p>
+<p><strong>1&#x3001;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;</strong><br>Python&#x6709;&#x4E00;&#x79CD;&#x72EC;&#x4E00;&#x65E0;&#x4E8C;&#x7684;&#x7684;&#x6CE8;&#x91CA;&#x65B9;&#x5F0F;: &#x4F7F;&#x7528;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;. &#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x662F;&#x5305;, &#x6A21;&#x5757;, &#x7C7B;&#x6216;&#x51FD;&#x6570;&#x91CC;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x8BED;&#x53E5;. &#x8FD9;&#x4E9B;&#x5B57;&#x7B26;&#x4E32;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5BF9;&#x8C61;&#x7684;(&#x53CC;&#x4E0B;&#x6ED1;&#x7EBF;doc&#x53CC;&#x4E0B;&#x6ED1;&#x7EBF;)&#x6210;&#x5458;&#x88AB;&#x81EA;&#x52A8;&#x63D0;&#x53D6;, &#x5E76;&#x4E14;&#x88AB;pydoc&#x6240;&#x7528;. (&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x4F60;&#x7684;&#x6A21;&#x5757;&#x4E0A;&#x8FD0;&#x884C;pydoc&#x8BD5;&#x4E00;&#x628A;, &#x770B;&#x770B;&#x5B83;&#x957F;&#x4EC0;&#x4E48;&#x6837;). &#x6211;&#x4EEC;&#x5BF9;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x60EF;&#x4F8B;&#x662F;&#x4F7F;&#x7528;&#x4E09;&#x91CD;&#x53CC;&#x5F15;&#x53F7;&#x201D;&#x201D;&#x201D;( PEP-257 ). &#x4E00;&#x4E2A;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x5E94;&#x8BE5;&#x8FD9;&#x6837;&#x7EC4;&#x7EC7;: &#x9996;&#x5148;&#x662F;&#x4E00;&#x884C;&#x4EE5;&#x53E5;&#x53F7;, &#x95EE;&#x53F7;&#x6216;&#x60CA;&#x53F9;&#x53F7;&#x7ED3;&#x5C3E;&#x7684;&#x6982;&#x8FF0;(&#x6216;&#x8005;&#x8BE5;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x5355;&#x7EAF;&#x53EA;&#x6709;&#x4E00;&#x884C;). &#x63A5;&#x7740;&#x662F;&#x4E00;&#x4E2A;&#x7A7A;&#x884C;. &#x63A5;&#x7740;&#x662F;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x5269;&#x4E0B;&#x7684;&#x90E8;&#x5206;, &#x5B83;&#x5E94;&#x8BE5;&#x4E0E;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x7B2C;&#x4E00;&#x884C;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x5F15;&#x53F7;&#x5BF9;&#x9F50;. &#x4E0B;&#x9762;&#x6709;&#x66F4;&#x591A;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x683C;&#x5F0F;&#x5316;&#x89C4;&#x8303;.</p>
+<p><strong>2&#x3001;&#x6A21;&#x5757;</strong><br>&#x6BCF;&#x4E2A;&#x6587;&#x4EF6;&#x5E94;&#x8BE5;&#x5305;&#x542B;&#x4E00;&#x4E2A;&#x8BB8;&#x53EF;&#x6837;&#x677F;. &#x6839;&#x636E;&#x9879;&#x76EE;&#x4F7F;&#x7528;&#x7684;&#x8BB8;&#x53EF;(&#x4F8B;&#x5982;, Apache 2.0, BSD, LGPL, GPL), &#x9009;&#x62E9;&#x5408;&#x9002;&#x7684;&#x6837;&#x677F;.</p>
+<p><strong>3&#x3001;&#x51FD;&#x6570;&#x548C;&#x65B9;&#x6CD5;</strong><br>&#x4E0B;&#x6587;&#x6240;&#x6307;&#x7684;&#x51FD;&#x6570;,&#x5305;&#x62EC;&#x51FD;&#x6570;, &#x65B9;&#x6CD5;, &#x4EE5;&#x53CA;&#x751F;&#x6210;&#x5668;.<br>&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x5FC5;&#x987B;&#x8981;&#x6709;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;, &#x9664;&#x975E;&#x5B83;&#x6EE1;&#x8DB3;&#x4EE5;&#x4E0B;&#x6761;&#x4EF6;:<br>&#xFF08;1&#xFF09;&#x5916;&#x90E8;&#x4E0D;&#x53EF;&#x89C1;<br>&#xFF08;2&#xFF09;&#x975E;&#x5E38;&#x77ED;&#x5C0F;<br>&#xFF08;3&#xFF09;&#x7B80;&#x5355;&#x660E;&#x4E86;</p>
+<p>&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x5E94;&#x8BE5;&#x5305;&#x542B;&#x51FD;&#x6570;&#x505A;&#x4EC0;&#x4E48;, &#x4EE5;&#x53CA;&#x8F93;&#x5165;&#x548C;&#x8F93;&#x51FA;&#x7684;&#x8BE6;&#x7EC6;&#x63CF;&#x8FF0;. &#x901A;&#x5E38;, &#x4E0D;&#x5E94;&#x8BE5;&#x63CF;&#x8FF0;&#x201D;&#x600E;&#x4E48;&#x505A;&#x201D;, &#x9664;&#x975E;&#x662F;&#x4E00;&#x4E9B;&#x590D;&#x6742;&#x7684;&#x7B97;&#x6CD5;. &#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x5E94;&#x8BE5;&#x63D0;&#x4F9B;&#x8DB3;&#x591F;&#x7684;&#x4FE1;&#x606F;, &#x5F53;&#x522B;&#x4EBA;&#x7F16;&#x5199;&#x4EE3;&#x7801;&#x8C03;&#x7528;&#x8BE5;&#x51FD;&#x6570;&#x65F6;, &#x4ED6;&#x4E0D;&#x9700;&#x8981;&#x770B;&#x4E00;&#x884C;&#x4EE3;&#x7801;, &#x53EA;&#x8981;&#x770B;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;. &#x5BF9;&#x4E8E;&#x590D;&#x6742;&#x7684;&#x4EE3;&#x7801;, &#x5728;&#x4EE3;&#x7801;&#x65C1;&#x8FB9;&#x52A0;&#x6CE8;&#x91CA;&#x4F1A;&#x6BD4;&#x4F7F;&#x7528;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x66F4;&#x6709;&#x610F;&#x4E49;.</p>
+<p>&#x5173;&#x4E8E;&#x51FD;&#x6570;&#x7684;&#x51E0;&#x4E2A;&#x65B9;&#x9762;&#x5E94;&#x8BE5;&#x5728;&#x7279;&#x5B9A;&#x7684;&#x5C0F;&#x8282;&#x4E2D;&#x8FDB;&#x884C;&#x63CF;&#x8FF0;&#x8BB0;&#x5F55;&#xFF0C; &#x8FD9;&#x51E0;&#x4E2A;&#x65B9;&#x9762;&#x5982;&#x4E0B;&#x6587;&#x6240;&#x8FF0;. &#x6BCF;&#x8282;&#x5E94;&#x8BE5;&#x4EE5;&#x4E00;&#x4E2A;&#x6807;&#x9898;&#x884C;&#x5F00;&#x59CB;. &#x6807;&#x9898;&#x884C;&#x4EE5;&#x5192;&#x53F7;&#x7ED3;&#x5C3E;. &#x9664;&#x6807;&#x9898;&#x884C;&#x5916;, &#x8282;&#x7684;&#x5176;&#x4ED6;&#x5185;&#x5BB9;&#x5E94;&#x88AB;&#x7F29;&#x8FDB;2&#x4E2A;&#x7A7A;&#x683C;.</p>
+<p><strong>Args:</strong><br>&#x5217;&#x51FA;&#x6BCF;&#x4E2A;&#x53C2;&#x6570;&#x7684;&#x540D;&#x5B57;, &#x5E76;&#x5728;&#x540D;&#x5B57;&#x540E;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x5192;&#x53F7;&#x548C;&#x4E00;&#x4E2A;&#x7A7A;&#x683C;, &#x5206;&#x9694;&#x5BF9;&#x8BE5;&#x53C2;&#x6570;&#x7684;&#x63CF;&#x8FF0;.&#x5982;&#x679C;&#x63CF;&#x8FF0;&#x592A;&#x957F;&#x8D85;&#x8FC7;&#x4E86;&#x5355;&#x884C;80&#x5B57;&#x7B26;,&#x4F7F;&#x7528;2&#x6216;&#x8005;4&#x4E2A;&#x7A7A;&#x683C;&#x7684;&#x60AC;&#x6302;&#x7F29;&#x8FDB;(&#x4E0E;&#x6587;&#x4EF6;&#x5176;&#x4ED6;&#x90E8;&#x5206;&#x4FDD;&#x6301;&#x4E00;&#x81F4;). &#x63CF;&#x8FF0;&#x5E94;&#x8BE5;&#x5305;&#x62EC;&#x6240;&#x9700;&#x7684;&#x7C7B;&#x578B;&#x548C;&#x542B;&#x4E49;. &#x5982;&#x679C;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x63A5;&#x53D7;<em>foo(&#x53EF;&#x53D8;&#x957F;&#x5EA6;&#x53C2;&#x6570;&#x5217;&#x8868;)&#x6216;&#x8005;**bar (&#x4EFB;&#x610F;&#x5173;&#x952E;&#x5B57;&#x53C2;&#x6570;), &#x5E94;&#x8BE5;&#x8BE6;&#x7EC6;&#x5217;&#x51FA;</em>foo&#x548C;**bar.</p>
+<p><strong>Returns: (&#x6216;&#x8005; Yields: &#x7528;&#x4E8E;&#x751F;&#x6210;&#x5668;)</strong><br>&#x63CF;&#x8FF0;&#x8FD4;&#x56DE;&#x503C;&#x7684;&#x7C7B;&#x578B;&#x548C;&#x8BED;&#x4E49;. &#x5982;&#x679C;&#x51FD;&#x6570;&#x8FD4;&#x56DE;None, &#x8FD9;&#x4E00;&#x90E8;&#x5206;&#x53EF;&#x4EE5;&#x7701;&#x7565;.</p>
+<p><strong>Raises:</strong><br>&#x5217;&#x51FA;&#x4E0E;&#x63A5;&#x53E3;&#x6709;&#x5173;&#x7684;&#x6240;&#x6709;&#x5F02;&#x5E38;.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">def fetch_bigtable_rows(big_table, keys, other_silly_variable=None):</span><br><span class="line">    <span class="string">&quot;&quot;</span><span class="string">&quot;Fetches rows from a Bigtable.</span><br><span class="line"></span><br><span class="line">    Retrieves rows pertaining to the given keys from the Table instance</span><br><span class="line">    represented by big_table.  Silly things may happen if</span><br><span class="line">    other_silly_variable is not None.</span><br><span class="line"></span><br><span class="line">    Args:</span><br><span class="line">        big_table: An open Bigtable Table instance.</span><br><span class="line">        keys: A sequence of strings representing the key of each table row</span><br><span class="line">            to fetch.</span><br><span class="line">        other_silly_variable: Another optional variable, that has a much</span><br><span class="line">            longer name than the other args, and which does nothing.</span><br><span class="line"></span><br><span class="line">    Returns:</span><br><span class="line">        A dict mapping keys to the corresponding table row data</span><br><span class="line">        fetched. Each row is represented as a tuple of strings. For</span><br><span class="line">        example:</span><br><span class="line"></span><br><span class="line">        {&apos;Serak&apos;: (&apos;Rigel VII&apos;, &apos;Preparer&apos;),</span><br><span class="line">         &apos;Zim&apos;: (&apos;Irk&apos;, &apos;Invader&apos;),</span><br><span class="line">         &apos;Lrrr&apos;: (&apos;Omicron Persei 8&apos;, &apos;Emperor&apos;)}</span><br><span class="line"></span><br><span class="line">        If a key from the keys argument is missing from the dictionary,</span><br><span class="line">        then that row was not found in the table.</span><br><span class="line"></span><br><span class="line">    Raises:</span><br><span class="line">        IOError: An error occurred accessing the bigtable.Table object.</span><br><span class="line">    &quot;</span><span class="string">&quot;&quot;</span></span><br><span class="line">    pass</span><br></pre></td></tr></table></figure>
+<p><strong>4&#x3001;&#x7C7B;</strong><br>&#x7C7B;&#x5E94;&#x8BE5;&#x5728;&#x5176;&#x5B9A;&#x4E49;&#x4E0B;&#x6709;&#x4E00;&#x4E2A;&#x7528;&#x4E8E;&#x63CF;&#x8FF0;&#x8BE5;&#x7C7B;&#x7684;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;. &#x5982;&#x679C;&#x4F60;&#x7684;&#x7C7B;&#x6709;&#x516C;&#x5171;&#x5C5E;&#x6027;(Attributes), &#x90A3;&#x4E48;&#x6587;&#x6863;&#x4E2D;&#x5E94;&#x8BE5;&#x6709;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;(Attributes)&#x6BB5;. &#x5E76;&#x4E14;&#x5E94;&#x8BE5;&#x9075;&#x5B88;&#x548C;&#x51FD;&#x6570;&#x53C2;&#x6570;&#x76F8;&#x540C;&#x7684;&#x683C;&#x5F0F;.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class SampleClass(object):</span><br><span class="line">    <span class="string">&quot;&quot;</span><span class="string">&quot;Summary of class here.</span><br><span class="line"></span><br><span class="line">    Longer class information....</span><br><span class="line">    Longer class information....</span><br><span class="line"></span><br><span class="line">    Attributes:</span><br><span class="line">        likes_spam: A boolean indicating if we like SPAM or not.</span><br><span class="line">        eggs: An integer count of the eggs we have laid.</span><br><span class="line">    &quot;</span><span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    def __init__(self, likes_spam=False):</span><br><span class="line">        <span class="string">&quot;&quot;</span><span class="string">&quot;Inits SampleClass with blah.&quot;</span><span class="string">&quot;&quot;</span></span><br><span class="line">        self.likes_spam = likes_spam</span><br><span class="line">        self.eggs = 0</span><br><span class="line"></span><br><span class="line">    def public_method(self):</span><br><span class="line">        <span class="string">&quot;&quot;</span><span class="string">&quot;Performs operation blah.&quot;</span><span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>5&#x3001;&#x5757;&#x6CE8;&#x91CA;&#x548C;&#x884C;&#x6CE8;&#x91CA;</strong><br>&#x6700;&#x9700;&#x8981;&#x5199;&#x6CE8;&#x91CA;&#x7684;&#x662F;&#x4EE3;&#x7801;&#x4E2D;&#x90A3;&#x4E9B;&#x6280;&#x5DE7;&#x6027;&#x7684;&#x90E8;&#x5206;. &#x5982;&#x679C;&#x4F60;&#x5728;&#x4E0B;&#x6B21; &#x4EE3;&#x7801;&#x5BA1;&#x67E5; &#x7684;&#x65F6;&#x5019;&#x5FC5;&#x987B;&#x89E3;&#x91CA;&#x4E00;&#x4E0B;, &#x90A3;&#x4E48;&#x4F60;&#x5E94;&#x8BE5;&#x73B0;&#x5728;&#x5C31;&#x7ED9;&#x5B83;&#x5199;&#x6CE8;&#x91CA;. &#x5BF9;&#x4E8E;&#x590D;&#x6742;&#x7684;&#x64CD;&#x4F5C;, &#x5E94;&#x8BE5;&#x5728;&#x5176;&#x64CD;&#x4F5C;&#x5F00;&#x59CB;&#x524D;&#x5199;&#x4E0A;&#x82E5;&#x5E72;&#x884C;&#x6CE8;&#x91CA;. &#x5BF9;&#x4E8E;&#x4E0D;&#x662F;&#x4E00;&#x76EE;&#x4E86;&#x7136;&#x7684;&#x4EE3;&#x7801;, &#x5E94;&#x5728;&#x5176;&#x884C;&#x5C3E;&#x6DFB;&#x52A0;&#x6CE8;&#x91CA;.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># We use a weighted dictionary search to find out where i is in</span></span><br><span class="line"><span class="comment"># the array.  We extrapolate position based on the largest num</span></span><br><span class="line"><span class="comment"># in the array and the array size and then do binary search to</span></span><br><span class="line"><span class="comment"># get the exact number.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> i &amp; (i-1) == 0:        <span class="comment"># true iff i is a power of 2</span></span><br></pre></td></tr></table></figure></p>
+<p>&#x4E3A;&#x4E86;&#x63D0;&#x9AD8;&#x53EF;&#x8BFB;&#x6027;, &#x6CE8;&#x91CA;&#x5E94;&#x8BE5;&#x81F3;&#x5C11;&#x79BB;&#x5F00;&#x4EE3;&#x7801;2&#x4E2A;&#x7A7A;&#x683C;.<br>&#x53E6;&#x4E00;&#x65B9;&#x9762;, &#x7EDD;&#x4E0D;&#x8981;&#x63CF;&#x8FF0;&#x4EE3;&#x7801;. &#x5047;&#x8BBE;&#x9605;&#x8BFB;&#x4EE3;&#x7801;&#x7684;&#x4EBA;&#x6BD4;&#x4F60;&#x66F4;&#x61C2;Python, &#x4ED6;&#x53EA;&#x662F;&#x4E0D;&#x77E5;&#x9053;&#x4F60;&#x7684;&#x4EE3;&#x7801;&#x8981;&#x505A;&#x4EC0;&#x4E48;.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># BAD COMMENT: Now go through the b array and make sure whenever i occurs</span></span><br><span class="line"><span class="comment"># the next element is i+1</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="&#x7C7B;"><a href="#&#x7C7B;" class="headerlink" title="&#x7C7B;"></a>&#x7C7B;</h3><p>&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x7C7B;&#x4E0D;&#x7EE7;&#x627F;&#x81EA;&#x5176;&#x5B83;&#x7C7B;, &#x5C31;&#x663E;&#x5F0F;&#x7684;&#x4ECE;object&#x7EE7;&#x627F;. &#x5D4C;&#x5957;&#x7C7B;&#x4E5F;&#x4E00;&#x6837;.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Yes: class SampleClass(object):</span><br><span class="line">         pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     class OuterClass(object):</span><br><span class="line"></span><br><span class="line">         class InnerClass(object):</span><br><span class="line">             pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     class ChildClass(ParentClass):</span><br><span class="line">         <span class="string">&quot;&quot;</span><span class="string">&quot;Explicitly inherits from another class already.&quot;</span><span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">No: class SampleClass:</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    class OuterClass:</span><br><span class="line"></span><br><span class="line">        class InnerClass:</span><br><span class="line">            pass</span><br></pre></td></tr></table></figure>
+<p>&#x7EE7;&#x627F;&#x81EA; object &#x662F;&#x4E3A;&#x4E86;&#x4F7F;&#x5C5E;&#x6027;(properties)&#x6B63;&#x5E38;&#x5DE5;&#x4F5C;, &#x5E76;&#x4E14;&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x4FDD;&#x62A4;&#x4F60;&#x7684;&#x4EE3;&#x7801;, &#x4F7F;&#x5176;&#x4E0D;&#x53D7;Python 3000&#x7684;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x7684;&#x6F5C;&#x5728;&#x4E0D;&#x517C;&#x5BB9;&#x6027;&#x5F71;&#x54CD;. &#x8FD9;&#x6837;&#x505A;&#x4E5F;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E9B;&#x7279;&#x6B8A;&#x7684;&#x65B9;&#x6CD5;, &#x8FD9;&#x4E9B;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;&#x4E86;&#x5BF9;&#x8C61;&#x7684;&#x9ED8;&#x8BA4;&#x8BED;&#x4E49;, &#x5305;&#x62EC;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__new__, __init__, __delattr__, __getattribute__, __setattr__, __<span class="built_in">hash</span>__, __repr__, and __str__</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="&#x5B57;&#x7B26;&#x4E32;"><a href="#&#x5B57;&#x7B26;&#x4E32;" class="headerlink" title="&#x5B57;&#x7B26;&#x4E32;"></a>&#x5B57;&#x7B26;&#x4E32;</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Yes: x = a + b</span><br><span class="line">     x = <span class="string">&apos;%s, %s!&apos;</span> % (imperative, expletive)</span><br><span class="line">     x = <span class="string">&apos;{}, {}!&apos;</span>.format(imperative, expletive)</span><br><span class="line">     x = <span class="string">&apos;name: %s; score: %d&apos;</span> % (name, n)</span><br><span class="line">     x = <span class="string">&apos;name: {}; score: {}&apos;</span>.format(name, n)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">No: x = <span class="string">&apos;%s%s&apos;</span> % (a, b)  <span class="comment"># use + in this case</span></span><br><span class="line">    x = <span class="string">&apos;{}{}&apos;</span>.format(a, b)  <span class="comment"># use + in this case</span></span><br><span class="line">    x = imperative + <span class="string">&apos;, &apos;</span> + expletive + <span class="string">&apos;!&apos;</span></span><br><span class="line">    x = <span class="string">&apos;name: &apos;</span> + name + <span class="string">&apos;; score: &apos;</span> + str(n)</span><br></pre></td></tr></table></figure>
+<p>&#x907F;&#x514D;&#x5728;&#x5FAA;&#x73AF;&#x4E2D;&#x7528;+&#x548C;+=&#x64CD;&#x4F5C;&#x7B26;&#x6765;&#x7D2F;&#x52A0;&#x5B57;&#x7B26;&#x4E32;. &#x7531;&#x4E8E;&#x5B57;&#x7B26;&#x4E32;&#x662F;&#x4E0D;&#x53EF;&#x53D8;&#x7684;, &#x8FD9;&#x6837;&#x505A;&#x4F1A;&#x521B;&#x5EFA;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x4E34;&#x65F6;&#x5BF9;&#x8C61;, &#x5E76;&#x4E14;&#x5BFC;&#x81F4;&#x4E8C;&#x6B21;&#x65B9;&#x800C;&#x4E0D;&#x662F;&#x7EBF;&#x6027;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x95F4;. &#x4F5C;&#x4E3A;&#x66FF;&#x4EE3;&#x65B9;&#x6848;, &#x4F60;&#x53EF;&#x4EE5;&#x5C06;&#x6BCF;&#x4E2A;&#x5B50;&#x4E32;&#x52A0;&#x5165;&#x5217;&#x8868;, &#x7136;&#x540E;&#x5728;&#x5FAA;&#x73AF;&#x7ED3;&#x675F;&#x540E;&#x7528; .join &#x8FDE;&#x63A5;&#x5217;&#x8868;. (&#x4E5F;&#x53EF;&#x4EE5;&#x5C06;&#x6BCF;&#x4E2A;&#x5B50;&#x4E32;&#x5199;&#x5165;&#x4E00;&#x4E2A; cStringIO.StringIO &#x7F13;&#x5B58;&#x4E2D;.)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Yes: items = [<span class="string">&apos;&lt;table&gt;&apos;</span>]</span><br><span class="line">     <span class="keyword">for</span> last_name, first_name <span class="keyword">in</span> employee_list:</span><br><span class="line">         items.append(<span class="string">&apos;&lt;tr&gt;&lt;td&gt;%s, %s&lt;/td&gt;&lt;/tr&gt;&apos;</span> % (last_name, first_name))</span><br><span class="line">     items.append(<span class="string">&apos;&lt;/table&gt;&apos;</span>)</span><br><span class="line">     employee_table = <span class="string">&apos;&apos;</span>.join(items)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">No: employee_table = <span class="string">&apos;&lt;table&gt;&apos;</span></span><br><span class="line">    <span class="keyword">for</span> last_name, first_name <span class="keyword">in</span> employee_list:</span><br><span class="line">        employee_table += <span class="string">&apos;&lt;tr&gt;&lt;td&gt;%s, %s&lt;/td&gt;&lt;/tr&gt;&apos;</span> % (last_name, first_name)</span><br><span class="line">    employee_table += <span class="string">&apos;&lt;/table&gt;&apos;</span></span><br></pre></td></tr></table></figure>
+<p>&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x4E2D;, &#x4FDD;&#x6301;&#x4F7F;&#x7528;&#x5B57;&#x7B26;&#x4E32;&#x5F15;&#x53F7;&#x7684;&#x4E00;&#x81F4;&#x6027;. &#x4F7F;&#x7528;&#x5355;&#x5F15;&#x53F7;&#x2019;&#x6216;&#x8005;&#x53CC;&#x5F15;&#x53F7;&#x201D;&#x4E4B;&#x4E00;&#x7528;&#x4EE5;&#x5F15;&#x7528;&#x5B57;&#x7B26;&#x4E32;, &#x5E76;&#x5728;&#x540C;&#x4E00;&#x6587;&#x4EF6;&#x4E2D;&#x6CBF;&#x7528;. &#x5728;&#x5B57;&#x7B26;&#x4E32;&#x5185;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x53E6;&#x5916;&#x4E00;&#x79CD;&#x5F15;&#x53F7;, &#x4EE5;&#x907F;&#x514D;&#x5728;&#x5B57;&#x7B26;&#x4E32;&#x4E2D;&#x4F7F;&#x7528;. PyLint&#x5DF2;&#x7ECF;&#x52A0;&#x5165;&#x4E86;&#x8FD9;&#x4E00;&#x68C0;&#x67E5;.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Yes:</span><br><span class="line">     Python(<span class="string">&apos;Why are you hiding your eyes?&apos;</span>)</span><br><span class="line">     Gollum(<span class="string">&quot;I&apos;m scared of lint errors.&quot;</span>)</span><br><span class="line">     Narrator(<span class="string">&apos;&quot;Good!&quot; thought a happy Python reviewer.&apos;</span>)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">No:</span><br><span class="line">     Python(<span class="string">&quot;Why are you hiding your eyes?&quot;</span>)</span><br><span class="line">     Gollum(<span class="string">&apos;The lint. It burns. It burns us.&apos;</span>)</span><br><span class="line">     Gollum(<span class="string">&quot;Always the great lint. Watching. Watching.&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>&#x4E3A;&#x591A;&#x884C;&#x5B57;&#x7B26;&#x4E32;&#x4F7F;&#x7528;&#x4E09;&#x91CD;&#x53CC;&#x5F15;&#x53F7;&#x201D;&#x201D;&#x201D;&#x800C;&#x975E;&#x4E09;&#x91CD;&#x5355;&#x5F15;&#x53F7;&#x2019;&#x2019;&#x2019;. &#x5F53;&#x4E14;&#x4EC5;&#x5F53;&#x9879;&#x76EE;&#x4E2D;&#x4F7F;&#x7528;&#x5355;&#x5F15;&#x53F7;&#x2019;&#x6765;&#x5F15;&#x7528;&#x5B57;&#x7B26;&#x4E32;&#x65F6;, &#x624D;&#x53EF;&#x80FD;&#x4F1A;&#x4F7F;&#x7528;&#x4E09;&#x91CD;&#x2019;&#x2019;&#x2019;&#x4E3A;&#x975E;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x591A;&#x884C;&#x5B57;&#x7B26;&#x4E32;&#x6765;&#x6807;&#x8BC6;&#x5F15;&#x7528;. &#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x5FC5;&#x987B;&#x4F7F;&#x7528;&#x4E09;&#x91CD;&#x53CC;&#x5F15;&#x53F7;&#x201D;&#x201D;&#x201D;. &#x4E0D;&#x8FC7;&#x8981;&#x6CE8;&#x610F;, &#x901A;&#x5E38;&#x7528;&#x9690;&#x5F0F;&#x884C;&#x8FDE;&#x63A5;&#x66F4;&#x6E05;&#x6670;, &#x56E0;&#x4E3A;&#x591A;&#x884C;&#x5B57;&#x7B26;&#x4E32;&#x4E0E;&#x7A0B;&#x5E8F;&#x5176;&#x4ED6;&#x90E8;&#x5206;&#x7684;&#x7F29;&#x8FDB;&#x65B9;&#x5F0F;&#x4E0D;&#x4E00;&#x81F4;.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Yes:</span><br><span class="line">    <span class="built_in">print</span> (<span class="string">&quot;This is much nicer.\n&quot;</span></span><br><span class="line">           <span class="string">&quot;Do it this way.\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">No:</span><br><span class="line">      <span class="built_in">print</span> <span class="string">&quot;&quot;</span><span class="string">&quot;This is pretty ugly.</span><br><span class="line">  Don&apos;t do this.</span><br><span class="line">  &quot;</span><span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="&#x6587;&#x4EF6;&#x548C;sockets"><a href="#&#x6587;&#x4EF6;&#x548C;sockets" class="headerlink" title="&#x6587;&#x4EF6;&#x548C;sockets"></a>&#x6587;&#x4EF6;&#x548C;sockets</h3><p>&#x5728;&#x6587;&#x4EF6;&#x548C;sockets&#x7ED3;&#x675F;&#x65F6;, &#x663E;&#x5F0F;&#x7684;&#x5173;&#x95ED;&#x5B83;.</p>
+<p>&#x9664;&#x6587;&#x4EF6;&#x5916;, sockets&#x6216;&#x5176;&#x4ED6;&#x7C7B;&#x4F3C;&#x6587;&#x4EF6;&#x7684;&#x5BF9;&#x8C61;&#x5728;&#x6CA1;&#x6709;&#x5FC5;&#x8981;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x6253;&#x5F00;, &#x4F1A;&#x6709;&#x8BB8;&#x591A;&#x526F;&#x4F5C;&#x7528;, &#x4F8B;&#x5982;:<br>1&#x3001;&#x5B83;&#x4EEC;&#x53EF;&#x80FD;&#x4F1A;&#x6D88;&#x8017;&#x6709;&#x9650;&#x7684;&#x7CFB;&#x7EDF;&#x8D44;&#x6E90;, &#x5982;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;. &#x5982;&#x679C;&#x8FD9;&#x4E9B;&#x8D44;&#x6E90;&#x5728;&#x4F7F;&#x7528;&#x540E;&#x6CA1;&#x6709;&#x53CA;&#x65F6;&#x5F52;&#x8FD8;&#x7CFB;&#x7EDF;, &#x90A3;&#x4E48;&#x7528;&#x4E8E;&#x5904;&#x7406;&#x8FD9;&#x4E9B;&#x5BF9;&#x8C61;&#x7684;&#x4EE3;&#x7801;&#x4F1A;&#x5C06;&#x8D44;&#x6E90;&#x6D88;&#x8017;&#x6B86;&#x5C3D;.<br>2&#x3001;&#x6301;&#x6709;&#x6587;&#x4EF6;&#x5C06;&#x4F1A;&#x963B;&#x6B62;&#x5BF9;&#x4E8E;&#x6587;&#x4EF6;&#x7684;&#x5176;&#x4ED6;&#x8BF8;&#x5982;&#x79FB;&#x52A8;&#x3001;&#x5220;&#x9664;&#x4E4B;&#x7C7B;&#x7684;&#x64CD;&#x4F5C;.<br>3&#x3001;&#x4EC5;&#x4EC5;&#x662F;&#x4ECE;&#x903B;&#x8F91;&#x4E0A;&#x5173;&#x95ED;&#x6587;&#x4EF6;&#x548C;sockets, &#x90A3;&#x4E48;&#x5B83;&#x4EEC;&#x4ECD;&#x7136;&#x53EF;&#x80FD;&#x4F1A;&#x88AB;&#x5176;&#x5171;&#x4EAB;&#x7684;&#x7A0B;&#x5E8F;&#x5728;&#x65E0;&#x610F;&#x4E2D;&#x8FDB;&#x884C;&#x8BFB;&#x6216;&#x8005;&#x5199;&#x64CD;&#x4F5C;. &#x53EA;&#x6709;&#x5F53;&#x5B83;&#x4EEC;&#x771F;&#x6B63;&#x88AB;&#x5173;&#x95ED;&#x540E;, &#x5BF9;&#x4E8E;&#x5B83;&#x4EEC;&#x5C1D;&#x8BD5;&#x8FDB;&#x884C;&#x8BFB;&#x6216;&#x8005;&#x5199;&#x64CD;&#x4F5C;&#x5C06;&#x4F1A;&#x8DD1;&#x51FA;&#x5F02;&#x5E38;, &#x5E76;&#x4F7F;&#x5F97;&#x95EE;&#x9898;&#x5FEB;&#x901F;&#x663E;&#x73B0;&#x51FA;&#x6765;.</p>
+<p>&#x800C;&#x4E14;, &#x5E7B;&#x60F3;&#x5F53;&#x6587;&#x4EF6;&#x5BF9;&#x8C61;&#x6790;&#x6784;&#x65F6;, &#x6587;&#x4EF6;&#x548C;sockets&#x4F1A;&#x81EA;&#x52A8;&#x5173;&#x95ED;, &#x8BD5;&#x56FE;&#x5C06;&#x6587;&#x4EF6;&#x5BF9;&#x8C61;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x548C;&#x6587;&#x4EF6;&#x7684;&#x72B6;&#x6001;&#x7ED1;&#x5B9A;&#x5728;&#x4E00;&#x8D77;&#x7684;&#x60F3;&#x6CD5;, &#x90FD;&#x662F;&#x4E0D;&#x73B0;&#x5B9E;&#x7684;. &#x56E0;&#x4E3A;&#x6709;&#x5982;&#x4E0B;&#x539F;&#x56E0;:<br>1&#x3001;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x786E;&#x4FDD;&#x8FD0;&#x884C;&#x73AF;&#x5883;&#x4F1A;&#x771F;&#x6B63;&#x7684;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x6790;&#x6784;. &#x4E0D;&#x540C;&#x7684;Python&#x5B9E;&#x73B0;&#x91C7;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x5185;&#x5B58;&#x7BA1;&#x7406;&#x6280;&#x672F;, &#x6BD4;&#x5982;&#x5EF6;&#x65F6;&#x5783;&#x573E;&#x5904;&#x7406;&#x673A;&#x5236;. &#x5EF6;&#x65F6;&#x5783;&#x573E;&#x5904;&#x7406;&#x673A;&#x5236;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x5BF9;&#x8C61;&#x751F;&#x547D;&#x5468;&#x671F;&#x88AB;&#x4EFB;&#x610F;&#x65E0;&#x9650;&#x5236;&#x7684;&#x5EF6;&#x957F;.<br>2&#x3001;&#x5BF9;&#x4E8E;&#x6587;&#x4EF6;&#x610F;&#x5916;&#x7684;&#x5F15;&#x7528;,&#x4F1A;&#x5BFC;&#x81F4;&#x5BF9;&#x4E8E;&#x6587;&#x4EF6;&#x7684;&#x6301;&#x6709;&#x65F6;&#x95F4;&#x8D85;&#x51FA;&#x9884;&#x671F;(&#x6BD4;&#x5982;&#x5BF9;&#x4E8E;&#x5F02;&#x5E38;&#x7684;&#x8DDF;&#x8E2A;, &#x5305;&#x542B;&#x6709;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#x7B49;).</p>
+<p>&#x63A8;&#x8350;&#x4F7F;&#x7528; <a href="http://docs.python.org/reference/compound_stmts.html#the-with-statement" target="_blank" rel="external">&#x201C;with&#x201D;&#x8BED;&#x53E5;</a> &#x4EE5;&#x7BA1;&#x7406;&#x6587;&#x4EF6;:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with open(<span class="string">&quot;hello.txt&quot;</span>) as hello_file:</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> hello_file:</span><br><span class="line">        <span class="built_in">print</span> line</span><br></pre></td></tr></table></figure></p>
+<p>&#x5BF9;&#x4E8E;&#x4E0D;&#x652F;&#x6301;&#x4F7F;&#x7528;&#x201D;with&#x201D;&#x8BED;&#x53E5;&#x7684;&#x7C7B;&#x4F3C;&#x6587;&#x4EF6;&#x7684;&#x5BF9;&#x8C61;,&#x4F7F;&#x7528; contextlib.closing():<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import contextlib</span><br><span class="line"></span><br><span class="line">with contextlib.closing(urllib.urlopen(<span class="string">&quot;http://www.python.org/&quot;</span>)) as front_page:</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> front_page:</span><br><span class="line">        <span class="built_in">print</span> line</span><br></pre></td></tr></table></figure></p>
+<p>Legacy AppEngine &#x4E2D;Python 2.5&#x7684;&#x4EE3;&#x7801;&#x5982;&#x4F7F;&#x7528;&#x201D;with&#x201D;&#x8BED;&#x53E5;, &#x9700;&#x8981;&#x6DFB;&#x52A0;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from __future__ import with_statement</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="TODO&#x6CE8;&#x91CA;"><a href="#TODO&#x6CE8;&#x91CA;" class="headerlink" title="TODO&#x6CE8;&#x91CA;"></a>TODO&#x6CE8;&#x91CA;</h3><p>&#x4E3A;&#x4E34;&#x65F6;&#x4EE3;&#x7801;&#x4F7F;&#x7528;TODO&#x6CE8;&#x91CA;, &#x5B83;&#x662F;&#x4E00;&#x79CD;&#x77ED;&#x671F;&#x89E3;&#x51B3;&#x65B9;&#x6848;. &#x4E0D;&#x7B97;&#x5B8C;&#x7F8E;, &#x4F46;&#x591F;&#x597D;&#x4E86;.</p>
+<p>TODO&#x6CE8;&#x91CA;&#x5E94;&#x8BE5;&#x5728;&#x6240;&#x6709;&#x5F00;&#x5934;&#x5904;&#x5305;&#x542B;&#x201D;TODO&#x201D;&#x5B57;&#x7B26;&#x4E32;, &#x7D27;&#x8DDF;&#x7740;&#x662F;&#x7528;&#x62EC;&#x53F7;&#x62EC;&#x8D77;&#x6765;&#x7684;&#x4F60;&#x7684;&#x540D;&#x5B57;, email&#x5730;&#x5740;&#x6216;&#x5176;&#x5B83;&#x6807;&#x8BC6;&#x7B26;. &#x7136;&#x540E;&#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x7684;&#x5192;&#x53F7;. &#x63A5;&#x7740;&#x5FC5;&#x987B;&#x6709;&#x4E00;&#x884C;&#x6CE8;&#x91CA;, &#x89E3;&#x91CA;&#x8981;&#x505A;&#x4EC0;&#x4E48;. &#x4E3B;&#x8981;&#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x6709;&#x4E00;&#x4E2A;&#x7EDF;&#x4E00;&#x7684;TODO&#x683C;&#x5F0F;, &#x8FD9;&#x6837;&#x6DFB;&#x52A0;&#x6CE8;&#x91CA;&#x7684;&#x4EBA;&#x5C31;&#x53EF;&#x4EE5;&#x641C;&#x7D22;&#x5230;(&#x5E76;&#x53EF;&#x4EE5;&#x6309;&#x9700;&#x63D0;&#x4F9B;&#x66F4;&#x591A;&#x7EC6;&#x8282;). &#x5199;&#x4E86;TODO&#x6CE8;&#x91CA;&#x5E76;&#x4E0D;&#x4FDD;&#x8BC1;&#x5199;&#x7684;&#x4EBA;&#x4F1A;&#x4EB2;&#x81EA;&#x89E3;&#x51B3;&#x95EE;&#x9898;. &#x5F53;&#x4F60;&#x5199;&#x4E86;&#x4E00;&#x4E2A;TODO, &#x8BF7;&#x6CE8;&#x4E0A;&#x4F60;&#x7684;&#x540D;&#x5B57;.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># TODO(kl@gmail.com): Use a &quot;*&quot; here for string repetition.</span></span><br><span class="line"><span class="comment"># TODO(Zeke) Change this to use relations.</span></span><br></pre></td></tr></table></figure></p>
+<p>&#x5982;&#x679C;&#x4F60;&#x7684;TODO&#x662F;&#x201D;&#x5C06;&#x6765;&#x505A;&#x67D0;&#x4E8B;&#x201D;&#x7684;&#x5F62;&#x5F0F;, &#x90A3;&#x4E48;&#x8BF7;&#x786E;&#x4FDD;&#x4F60;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E2A;&#x6307;&#x5B9A;&#x7684;&#x65E5;&#x671F;(&#x201C;2009&#x5E74;11&#x6708;&#x89E3;&#x51B3;&#x201D;)&#x6216;&#x8005;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x4E8B;&#x4EF6;(&#x201C;&#x7B49;&#x5230;&#x6240;&#x6709;&#x7684;&#x5BA2;&#x6237;&#x90FD;&#x53EF;&#x4EE5;&#x5904;&#x7406;XML&#x8BF7;&#x6C42;&#x5C31;&#x79FB;&#x9664;&#x8FD9;&#x4E9B;&#x4EE3;&#x7801;&#x201D;).</p>
+<hr>
+<h3 id="&#x5BFC;&#x5165;&#x683C;&#x5F0F;"><a href="#&#x5BFC;&#x5165;&#x683C;&#x5F0F;" class="headerlink" title="&#x5BFC;&#x5165;&#x683C;&#x5F0F;"></a>&#x5BFC;&#x5165;&#x683C;&#x5F0F;</h3><p>&#x6BCF;&#x4E2A;&#x5BFC;&#x5165;&#x5E94;&#x8BE5;&#x72EC;&#x5360;&#x4E00;&#x884C;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Yes: import os</span><br><span class="line">     import sys</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No:  import os, sys</span><br></pre></td></tr></table></figure>
+<p>&#x5BFC;&#x5165;&#x603B;&#x5E94;&#x8BE5;&#x653E;&#x5728;&#x6587;&#x4EF6;&#x9876;&#x90E8;, &#x4F4D;&#x4E8E;&#x6A21;&#x5757;&#x6CE8;&#x91CA;&#x548C;&#x6587;&#x6863;&#x5B57;&#x7B26;&#x4E32;&#x4E4B;&#x540E;, &#x6A21;&#x5757;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#x548C;&#x5E38;&#x91CF;&#x4E4B;&#x524D;. &#x5BFC;&#x5165;&#x5E94;&#x8BE5;&#x6309;&#x7167;&#x4ECE;&#x6700;&#x901A;&#x7528;&#x5230;&#x6700;&#x4E0D;&#x901A;&#x7528;&#x7684;&#x987A;&#x5E8F;&#x5206;&#x7EC4;:<br>1&#x3001;&#x6807;&#x51C6;&#x5E93;&#x5BFC;&#x5165;<br>2&#x3001;&#x7B2C;&#x4E09;&#x65B9;&#x5E93;&#x5BFC;&#x5165;<br>3&#x3001;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x6307;&#x5B9A;&#x5BFC;&#x5165;<br>&#x6BCF;&#x79CD;&#x5206;&#x7EC4;&#x4E2D;, &#x5E94;&#x8BE5;&#x6839;&#x636E;&#x6BCF;&#x4E2A;&#x6A21;&#x5757;&#x7684;&#x5B8C;&#x6574;&#x5305;&#x8DEF;&#x5F84;&#x6309;&#x5B57;&#x5178;&#x5E8F;&#x6392;&#x5E8F;, &#x5FFD;&#x7565;&#x5927;&#x5C0F;&#x5199;.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import foo</span><br><span class="line">from foo import bar</span><br><span class="line">from foo.bar import baz</span><br><span class="line">from foo.bar import Quux</span><br><span class="line">from Foob import ar</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="&#x8BED;&#x53E5;"><a href="#&#x8BED;&#x53E5;" class="headerlink" title="&#x8BED;&#x53E5;"></a>&#x8BED;&#x53E5;</h3><p>&#x901A;&#x5E38;&#x6BCF;&#x4E2A;&#x8BED;&#x53E5;&#x5E94;&#x8BE5;&#x72EC;&#x5360;&#x4E00;&#x884C;<br>&#x4E0D;&#x8FC7;, &#x5982;&#x679C;&#x6D4B;&#x8BD5;&#x7ED3;&#x679C;&#x4E0E;&#x6D4B;&#x8BD5;&#x8BED;&#x53E5;&#x5728;&#x4E00;&#x884C;&#x653E;&#x5F97;&#x4E0B;, &#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x5C06;&#x5B83;&#x4EEC;&#x653E;&#x5728;&#x540C;&#x4E00;&#x884C;. &#x5982;&#x679C;&#x662F;if&#x8BED;&#x53E5;, &#x53EA;&#x6709;&#x5728;&#x6CA1;&#x6709;else&#x65F6;&#x624D;&#x80FD;&#x8FD9;&#x6837;&#x505A;. &#x7279;&#x522B;&#x5730;, &#x7EDD;&#x4E0D;&#x8981;&#x5BF9; try/except &#x8FD9;&#x6837;&#x505A;, &#x56E0;&#x4E3A;try&#x548C;except&#x4E0D;&#x80FD;&#x653E;&#x5728;&#x540C;&#x4E00;&#x884C;.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Yes:</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> foo: bar(foo)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">No:</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> foo: bar(foo)</span><br><span class="line">  <span class="keyword">else</span>:   baz(foo)</span><br><span class="line"></span><br><span class="line">  try:               bar(foo)</span><br><span class="line">  except ValueError: baz(foo)</span><br><span class="line"></span><br><span class="line">  try:</span><br><span class="line">      bar(foo)</span><br><span class="line">  except ValueError: baz(foo)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="&#x8BBF;&#x95EE;&#x63A7;&#x5236;"><a href="#&#x8BBF;&#x95EE;&#x63A7;&#x5236;" class="headerlink" title="&#x8BBF;&#x95EE;&#x63A7;&#x5236;"></a>&#x8BBF;&#x95EE;&#x63A7;&#x5236;</h3><p>&#x5728;Python&#x4E2D;, &#x5BF9;&#x4E8E;&#x7410;&#x788E;&#x53C8;&#x4E0D;&#x592A;&#x91CD;&#x8981;&#x7684;&#x8BBF;&#x95EE;&#x51FD;&#x6570;, &#x4F60;&#x5E94;&#x8BE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x516C;&#x6709;&#x53D8;&#x91CF;&#x6765;&#x53D6;&#x4EE3;&#x5B83;&#x4EEC;, &#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x989D;&#x5916;&#x7684;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x5F00;&#x9500;. &#x5F53;&#x6DFB;&#x52A0;&#x66F4;&#x591A;&#x529F;&#x80FD;&#x65F6;, &#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x5C5E;&#x6027;(property)&#x6765;&#x4FDD;&#x6301;&#x8BED;&#x6CD5;&#x7684;&#x4E00;&#x81F4;&#x6027;.</p>
+<p>(&#x8BD1;&#x8005;&#x6CE8;: &#x91CD;&#x89C6;&#x5C01;&#x88C5;&#x7684;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7A0B;&#x5E8F;&#x5458;&#x770B;&#x5230;&#x8FD9;&#x4E2A;&#x53EF;&#x80FD;&#x4F1A;&#x5F88;&#x53CD;&#x611F;, &#x56E0;&#x4E3A;&#x4ED6;&#x4EEC;&#x4E00;&#x76F4;&#x88AB;&#x6559;&#x80B2;: &#x6240;&#x6709;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x90FD;&#x5FC5;&#x987B;&#x662F;&#x79C1;&#x6709;&#x7684;! &#x5176;&#x5B9E;, &#x90A3;&#x771F;&#x7684;&#x662F;&#x6709;&#x70B9;&#x9EBB;&#x70E6;&#x554A;. &#x8BD5;&#x7740;&#x53BB;&#x63A5;&#x53D7;Pythonic&#x54F2;&#x5B66;&#x5427;)</p>
+<p>&#x53E6;&#x4E00;&#x65B9;&#x9762;, &#x5982;&#x679C;&#x8BBF;&#x95EE;&#x66F4;&#x590D;&#x6742;, &#x6216;&#x8005;&#x53D8;&#x91CF;&#x7684;&#x8BBF;&#x95EE;&#x5F00;&#x9500;&#x5F88;&#x663E;&#x8457;, &#x90A3;&#x4E48;&#x4F60;&#x5E94;&#x8BE5;&#x4F7F;&#x7528;&#x50CF; get_foo() &#x548C; set_foo() &#x8FD9;&#x6837;&#x7684;&#x51FD;&#x6570;&#x8C03;&#x7528;. &#x5982;&#x679C;&#x4E4B;&#x524D;&#x7684;&#x4EE3;&#x7801;&#x884C;&#x4E3A;&#x5141;&#x8BB8;&#x901A;&#x8FC7;&#x5C5E;&#x6027;(property)&#x8BBF;&#x95EE; , &#x90A3;&#x4E48;&#x5C31;&#x4E0D;&#x8981;&#x5C06;&#x65B0;&#x7684;&#x8BBF;&#x95EE;&#x51FD;&#x6570;&#x4E0E;&#x5C5E;&#x6027;&#x7ED1;&#x5B9A;. &#x8FD9;&#x6837;, &#x4EFB;&#x4F55;&#x8BD5;&#x56FE;&#x901A;&#x8FC7;&#x8001;&#x65B9;&#x6CD5;&#x8BBF;&#x95EE;&#x53D8;&#x91CF;&#x7684;&#x4EE3;&#x7801;&#x5C31;&#x6CA1;&#x6CD5;&#x8FD0;&#x884C;, &#x4F7F;&#x7528;&#x8005;&#x4E5F;&#x5C31;&#x4F1A;&#x610F;&#x8BC6;&#x5230;&#x590D;&#x6742;&#x6027;&#x53D1;&#x751F;&#x4E86;&#x53D8;&#x5316;.</p>
+<hr>
+<h3 id="&#x547D;&#x540D;"><a href="#&#x547D;&#x540D;" class="headerlink" title="&#x547D;&#x540D;"></a>&#x547D;&#x540D;</h3><p>module_name, package_name, ClassName, method_name, ExceptionName, function_name, GLOBAL_VAR_NAME, instance_var_name, function_parameter_name, local_var_name.</p>
+<p><strong>1&#x3001;&#x5E94;&#x8BE5;&#x907F;&#x514D;&#x7684;&#x540D;&#x79F0;</strong><br>&#xFF08;1&#xFF09;&#x5355;&#x5B57;&#x7B26;&#x540D;&#x79F0;, &#x9664;&#x4E86;&#x8BA1;&#x6570;&#x5668;&#x548C;&#x8FED;&#x4EE3;&#x5668;.<br>&#xFF08;2&#xFF09;&#x5305;/&#x6A21;&#x5757;&#x540D;&#x4E2D;&#x7684;&#x8FDE;&#x5B57;&#x7B26;(-)<br>&#xFF08;3&#xFF09;&#x53CC;&#x4E0B;&#x5212;&#x7EBF;&#x5F00;&#x5934;&#x5E76;&#x7ED3;&#x5C3E;&#x7684;&#x540D;&#x79F0;, &#x4F8B;&#x5982;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__init__</span><br></pre></td></tr></table></figure></p>
+<p><strong>2&#x3001;&#x547D;&#x540D;&#x7EA6;&#x5B9A;</strong><br>&#x6240;&#x8C13;&#x201D;&#x5185;&#x90E8;(Internal)&#x201D;&#x8868;&#x793A;&#x4EC5;&#x6A21;&#x5757;&#x5185;&#x53EF;&#x7528;, &#x6216;&#x8005;, &#x5728;&#x7C7B;&#x5185;&#x662F;&#x4FDD;&#x62A4;&#x6216;&#x79C1;&#x6709;&#x7684;.<br>&#x7528;&#x5355;&#x4E0B;&#x5212;&#x7EBF;(_)&#x5F00;&#x5934;&#x8868;&#x793A;&#x6A21;&#x5757;&#x53D8;&#x91CF;&#x6216;&#x51FD;&#x6570;&#x662F;protected&#x7684;(&#x4F7F;&#x7528;import * from&#x65F6;&#x4E0D;&#x4F1A;&#x5305;&#x542B;).<br>&#x7528;&#x53CC;&#x4E0B;&#x5212;&#x7EBF;(__)&#x5F00;&#x5934;&#x7684;&#x5B9E;&#x4F8B;&#x53D8;&#x91CF;&#x6216;&#x65B9;&#x6CD5;&#x8868;&#x793A;&#x7C7B;&#x5185;&#x79C1;&#x6709;.<br>&#x5C06;&#x76F8;&#x5173;&#x7684;&#x7C7B;&#x548C;&#x9876;&#x7EA7;&#x51FD;&#x6570;&#x653E;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x6A21;&#x5757;&#x91CC;. &#x4E0D;&#x50CF;Java, &#x6CA1;&#x5FC5;&#x8981;&#x9650;&#x5236;&#x4E00;&#x4E2A;&#x7C7B;&#x4E00;&#x4E2A;&#x6A21;&#x5757;.<br>&#x5BF9;&#x7C7B;&#x540D;&#x4F7F;&#x7528;&#x5927;&#x5199;&#x5B57;&#x6BCD;&#x5F00;&#x5934;&#x7684;&#x5355;&#x8BCD;(&#x5982;CapWords, &#x5373;Pascal&#x98CE;&#x683C;), &#x4F46;&#x662F;&#x6A21;&#x5757;&#x540D;&#x5E94;&#x8BE5;&#x7528;&#x5C0F;&#x5199;&#x52A0;&#x4E0B;&#x5212;&#x7EBF;&#x7684;&#x65B9;&#x5F0F;(&#x5982;lower_with_under.py). &#x5C3D;&#x7BA1;&#x5DF2;&#x7ECF;&#x6709;&#x5F88;&#x591A;&#x73B0;&#x5B58;&#x7684;&#x6A21;&#x5757;&#x4F7F;&#x7528;&#x7C7B;&#x4F3C;&#x4E8E;CapWords.py&#x8FD9;&#x6837;&#x7684;&#x547D;&#x540D;, &#x4F46;&#x73B0;&#x5728;&#x5DF2;&#x7ECF;&#x4E0D;&#x9F13;&#x52B1;&#x8FD9;&#x6837;&#x505A;, &#x56E0;&#x4E3A;&#x5982;&#x679C;&#x6A21;&#x5757;&#x540D;&#x78B0;&#x5DE7;&#x548C;&#x7C7B;&#x540D;&#x4E00;&#x81F4;, &#x8FD9;&#x4F1A;&#x8BA9;&#x4EBA;&#x56F0;&#x6270;.</p>
+<p><strong>3&#x3001;Python&#x4E4B;&#x7236;Guido&#x63A8;&#x8350;&#x7684;&#x89C4;&#x8303;</strong></p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/Python%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/1.jpg" alt=""> </p>
+<hr>
+<h3 id="Main"><a href="#Main" class="headerlink" title="Main"></a>Main</h3><p>&#x5373;&#x4F7F;&#x662F;&#x4E00;&#x4E2A;&#x6253;&#x7B97;&#x88AB;&#x7528;&#x4F5C;&#x811A;&#x672C;&#x7684;&#x6587;&#x4EF6;, &#x4E5F;&#x5E94;&#x8BE5;&#x662F;&#x53EF;&#x5BFC;&#x5165;&#x7684;. &#x5E76;&#x4E14;&#x7B80;&#x5355;&#x7684;&#x5BFC;&#x5165;&#x4E0D;&#x5E94;&#x8BE5;&#x5BFC;&#x81F4;&#x8FD9;&#x4E2A;&#x811A;&#x672C;&#x7684;&#x4E3B;&#x529F;&#x80FD;(main functionality)&#x88AB;&#x6267;&#x884C;, &#x8FD9;&#x662F;&#x4E00;&#x79CD;&#x526F;&#x4F5C;&#x7528;. &#x4E3B;&#x529F;&#x80FD;&#x5E94;&#x8BE5;&#x653E;&#x5728;&#x4E00;&#x4E2A;main()&#x51FD;&#x6570;&#x4E2D;.</p>
+<p>&#x5728;Python&#x4E2D;, pydoc&#x4EE5;&#x53CA;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x8981;&#x6C42;&#x6A21;&#x5757;&#x5FC5;&#x987B;&#x662F;&#x53EF;&#x5BFC;&#x5165;&#x7684;. &#x4F60;&#x7684;&#x4EE3;&#x7801;&#x5E94;&#x8BE5;&#x5728;&#x6267;&#x884C;&#x4E3B;&#x7A0B;&#x5E8F;&#x524D;&#x603B;&#x662F;&#x68C0;&#x67E5;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&apos;__main__&apos;</span></span><br></pre></td></tr></table></figure></p>
+<p>&#x8FD9;&#x6837;&#x5F53;&#x6A21;&#x5757;&#x88AB;&#x5BFC;&#x5165;&#x65F6;&#x4E3B;&#x7A0B;&#x5E8F;&#x5C31;&#x4E0D;&#x4F1A;&#x88AB;&#x6267;&#x884C;.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def main():</span><br><span class="line">      ...</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&apos;__main__&apos;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>&#x6240;&#x6709;&#x7684;&#x9876;&#x7EA7;&#x4EE3;&#x7801;&#x5728;&#x6A21;&#x5757;&#x5BFC;&#x5165;&#x65F6;&#x90FD;&#x4F1A;&#x88AB;&#x6267;&#x884C;. &#x8981;&#x5C0F;&#x5FC3;&#x4E0D;&#x8981;&#x53BB;&#x8C03;&#x7528;&#x51FD;&#x6570;, &#x521B;&#x5EFA;&#x5BF9;&#x8C61;, &#x6216;&#x8005;&#x6267;&#x884C;&#x90A3;&#x4E9B;&#x4E0D;&#x5E94;&#x8BE5;&#x5728;&#x4F7F;&#x7528;pydoc&#x65F6;&#x6267;&#x884C;&#x7684;&#x64CD;&#x4F5C;.</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/03/20/Python 一切皆对象/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Python 一切皆对象
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/03/15/机器学习资料共享/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">机器学习资料共享</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
+    </div>
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
+                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
+                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
+                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
+                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
+                            <p class="item-title"><a href="/2018/01/15/目标检测/" class="title">目标检测</a></p>
+                            <p class="item-date"><time datetime="2018-01-15T14:22:00.000Z" itemprop="datePublished">2018-01-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
+                            <p class="item-title"><a href="/2018/01/15/CNN经典网络详解/" class="title">CNN经典网络详解</a></p>
+                            <p class="item-date"><time datetime="2018-01-15T14:22:00.000Z" itemprop="datePublished">2018-01-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
+                            <p class="item-title"><a href="/2018/01/10/卷积操作详解（填充、步长、高维卷积、卷积公式）/" class="title">卷积操作详解（填充、步长、高维卷积、卷积公式）</a></p>
+                            <p class="item-date"><time datetime="2018-01-10T14:22:00.000Z" itemprop="datePublished">2018-01-10</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
+        </div>
+    </div -->
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 11.67px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 10px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 13.33px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 11.67px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.36dsj.com/">36大数据</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.jiemodui.com/">芥末堆</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+	    
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Wasim<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

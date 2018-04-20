@@ -1,0 +1,45 @@
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>404&#x9875;&#x9762;</title>
+<style>
+*{margin:0;padding:0;outline:none;font-family:\5FAE\8F6F\96C5\9ED1,宋体;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-khtml-user-select:none;user-select:none;cursor:default;font-weight:lighter;}
+.center{margin:0 auto;}
+.whole{width:100%;height:100%;line-height:100%;position:fixed;bottom:0;left:0;z-index:-1000;overflow:hidden;}
+.whole img{width:100%;height:100%;}
+.mask{width:100%;height:100%;position:absolute;top:0;left:0;background:#000;opacity:0.6;filter:alpha(opacity=60);}
+.b{width:100%;text-align:center;height:400px;position:absolute;top:50%;margin-top:-230px}.a{width:150px;height:50px;margin-top:30px}.a a{display:block;float:left;width:150px;height:50px;background:#fff;text-align:center;line-height:50px;font-size:18px;border-radius:25px;color:#333}.a a:hover{color:#000;box-shadow:#fff 0 0 20px}
+p{color:#fff;margin-top:40px;font-size:24px;}
+#num{margin:0 5px;font-weight:bold;}
+</style>
+<script type="text/javascript">
+	var num=6;
+	function redirect(){
+		num--;
+		document.getElementById("num").innerHTML=num;
+		if(num<0){
+			document.getElementById("num").innerHTML=0;
+			location.href="http://www.wangxin123.com";
+			}
+		}
+	setInterval("redirect()", 1000);
+</script>
+</head>
+
+<body onload="redirect();">
+<div class="whole">
+	<img src="http://7xvfir.com1.z0.glb.clouddn.com/404/background.jpg">
+    <div class="mask"></div>
+</div>
+<div class="b">
+		<img src="http://7xvfir.com1.z0.glb.clouddn.com/404/404.png" class="center">
+		<p>
+			&#x6682;&#x65F6;&#x672A;&#x80FD;&#x627E;&#x5230;&#x60A8;&#x67E5;&#x627E;&#x7684;&#x9875;&#x9762;<br>
+			&#x53EF;&#x80FD;&#x8F93;&#x5165;&#x7684;&#x7F51;&#x5740;&#x9519;&#x8BEF;&#x6216;&#x6B64;&#x9875;&#x9762;&#x4E0D;&#x5B58;&#x5728;<br>
+            <span id="num"></span>&#x79D2;&#x540E;&#x81EA;&#x52A8;&#x8DF3;&#x8F6C;&#x5230;&#x4E3B;&#x9875;
+		</p>
+	</div>
+
+</body>
+</html>   

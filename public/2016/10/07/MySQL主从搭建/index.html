@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>MySQL主从搭建 | 星空博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="&amp;#x4E3B;&amp;#x670D;&amp;#x52A1;&amp;#x5668;: 192.168.1.100&amp;#x4ECE;&amp;#x670D;&amp;#x52A1;&amp;#x5668;: 192.168.1.101
+
+&amp;#x4E3B;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x914D;&amp;#x7F6E;1&amp;#x3001;&amp;#x7F16;&amp;#x8F91;&amp;#x914D;&amp;#x7F6E;&amp;#x6587;&amp;#x4EF6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL主从搭建">
+<meta property="og:url" content="http://www.wangxin123.com/2016/10/07/MySQL主从搭建/index.html">
+<meta property="og:site_name" content="星空博客">
+<meta property="og:description" content="&amp;#x4E3B;&amp;#x670D;&amp;#x52A1;&amp;#x5668;: 192.168.1.100&amp;#x4ECE;&amp;#x670D;&amp;#x52A1;&amp;#x5668;: 192.168.1.101
+
+&amp;#x4E3B;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x914D;&amp;#x7F6E;1&amp;#x3001;&amp;#x7F16;&amp;#x8F91;&amp;#x914D;&amp;#x7F6E;&amp;#x6587;&amp;#x4EF6">
+<meta property="og:updated_time" content="2017-06-26T06:12:29.780Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL主从搭建">
+<meta name="twitter:description" content="&amp;#x4E3B;&amp;#x670D;&amp;#x52A1;&amp;#x5668;: 192.168.1.100&amp;#x4ECE;&amp;#x670D;&amp;#x52A1;&amp;#x5668;: 192.168.1.101
+
+&amp;#x4E3B;&amp;#x670D;&amp;#x52A1;&amp;#x5668;&amp;#x914D;&amp;#x7F6E;1&amp;#x3001;&amp;#x7F16;&amp;#x8F91;&amp;#x914D;&amp;#x7F6E;&amp;#x6587;&amp;#x4EF6">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/wu.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">星空博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
+            <h2 id="name">Wasim</h2>
+            <h3 id="title">Full Stack Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
+            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                102
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                84
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-MySQL主从搭建" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            MySQL主从搭建
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/10/07/MySQL主从搭建/">
+            <time datetime="2016-10-07T14:22:00.000Z" itemprop="datePublished">2016-10-07</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/运维部署/">运维部署</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/mysql/">mysql</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#主服务器配置"><span class="toc-number">1.</span> <span class="toc-text">主服务器配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从服务器配置"><span class="toc-number">2.</span> <span class="toc-text">从服务器配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见配置错误"><span class="toc-number">3.</span> <span class="toc-text">常见配置错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主从复制原理"><span class="toc-number">4.</span> <span class="toc-text">主从复制原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主从切换"><span class="toc-number">5.</span> <span class="toc-text">主从切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接相关"><span class="toc-number">6.</span> <span class="toc-text">链接相关</span></a></li></ol>
+                </div>
+            
+            <p><strong>&#x4E3B;&#x670D;&#x52A1;&#x5668;</strong>: 192.168.1.100<br><strong>&#x4ECE;&#x670D;&#x52A1;&#x5668;</strong>: 192.168.1.101</p>
+<hr>
+<h3 id="&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;"><a href="#&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;" class="headerlink" title="&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;"></a>&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;</h3><p>1&#x3001;&#x7F16;&#x8F91;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x5982;&#x679C;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x5C31;&#x624B;&#x52A8;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;</span></span><br><span class="line">vim /etc/my.cnf</span><br><span class="line"></span><br><span class="line">&#x5728;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x52A0;&#x5165;&#x5982;&#x4E0B;&#x503C;&#xFF1A;</span><br><span class="line"></span><br><span class="line">[mysqld]  </span><br><span class="line"><span class="comment"># &#x552F;&#x4E00;&#x7684;&#x670D;&#x52A1;&#x8FA8;&#x8BC6;&#x53F7;,&#x6570;&#x503C;&#x4F4D;&#x4E8E; 1 &#x5230; 2^32-1&#x4E4B;&#x95F4;.</span></span><br><span class="line"><span class="comment"># &#x6B64;&#x503C;&#x5728;master&#x548C;slave&#x4E0A;&#x90FD;&#x9700;&#x8981;&#x8BBE;&#x7F6E;.</span></span><br><span class="line"><span class="comment"># &#x5982;&#x679C; &#x201C;master-host&#x201D; &#x6CA1;&#x6709;&#x88AB;&#x8BBE;&#x7F6E;,&#x5219;&#x9ED8;&#x8BA4;&#x4E3A;1, &#x4F46;&#x662F;&#x5982;&#x679C;&#x5FFD;&#x7565;&#x6B64;&#x9009;&#x9879;,MySQL&#x4E0D;&#x4F1A;&#x4F5C;&#x4E3A;master&#x751F;&#x6548;.</span></span><br><span class="line">server-id=1</span><br><span class="line"><span class="comment"># &#x6253;&#x5F00;&#x4E8C;&#x8FDB;&#x5236;&#x65E5;&#x5FD7;&#x529F;&#x80FD;.</span></span><br><span class="line"><span class="comment"># &#x5728;&#x590D;&#x5236;(replication)&#x914D;&#x7F6E;&#x4E2D;,&#x4F5C;&#x4E3A; MASTER &#x4E3B;&#x670D;&#x52A1;&#x5668;&#x5FC5;&#x987B;&#x6253;&#x5F00;&#x6B64;&#x9879;</span></span><br><span class="line"><span class="comment"># &#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4ECE;&#x4F60;&#x6700;&#x540E;&#x7684;&#x5907;&#x4EFD;&#x4E2D;&#x505A;&#x57FA;&#x4E8E;&#x65F6;&#x95F4;&#x70B9;&#x7684;&#x6062;&#x590D;,&#x4F60;&#x4E5F;&#x540C;&#x6837;&#x9700;&#x8981;&#x4E8C;&#x8FDB;&#x5236;&#x65E5;&#x5FD7;.   </span></span><br><span class="line"><span class="built_in">log</span>-bin=master-bin</span><br><span class="line"><span class="built_in">log</span>-bin-index=master-bin.index</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x4EE5;&#x4E0B;&#x4E3A;&#x975E;&#x5FC5;&#x987B;&#x8BBE;&#x7F6E;&#x7684;&#x9009;&#x9879;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x8868;&#x660E;&#x8DDD;&#x79BB;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x6B63;&#x597D;n&#x5929;&#x524D;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x4F1A;&#x88AB;&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;&#x5220;&#x9664;</span></span><br><span class="line"><span class="comment"># &#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x5343;&#x4E07;&#x4E0D;&#x8981;&#x624B;&#x52A8;&#x5220;&#x9664;</span></span><br><span class="line">expire-logs-days=14</span><br><span class="line"><span class="comment"># binlog&#x6709;&#x4E09;&#x79CD;&#x65E5;&#x5FD7;&#x683C;&#x5F0F;, Statement&#x3001;Row&#x3001;Mixed, mysql&#x9ED8;&#x8BA4;&#x91C7;&#x7528;statement, &#x5EFA;&#x8BAE;&#x4F7F;&#x7528;mixed</span></span><br><span class="line">binlog_format=mixed</span><br><span class="line"><span class="comment"># sync_binlog=0&#xFF0C;&#x5F53;&#x4E8B;&#x52A1;&#x63D0;&#x4EA4;&#x4E4B;&#x540E;&#xFF0C;MySQL&#x4E0D;&#x505A;fsync&#x4E4B;&#x7C7B;&#x7684;&#x78C1;&#x76D8;&#x540C;&#x6B65;&#x6307;&#x4EE4;&#x5237;&#x65B0;binlog_cache&#x4E2D;&#x7684;&#x4FE1;&#x606F;&#x5230;&#x78C1;&#x76D8;&#xFF0C;&#x800C;&#x8BA9;Filesystem&#x81EA;&#x884C;&#x51B3;&#x5B9A;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x6765;&#x505A;&#x540C;&#x6B65;&#xFF0C;&#x6216;&#x8005;cache&#x6EE1;&#x4E86;&#x4E4B;&#x540E;&#x624D;&#x540C;&#x6B65;&#x5230;&#x78C1;&#x76D8;&#x3002;</span></span><br><span class="line"><span class="comment"># sync_binlog=n&#xFF0C;&#x5F53;&#x6BCF;&#x8FDB;&#x884C;n&#x6B21;&#x4E8B;&#x52A1;&#x63D0;&#x4EA4;&#x4E4B;&#x540E;&#xFF0C;MySQL&#x5C06;&#x8FDB;&#x884C;&#x4E00;&#x6B21;fsync&#x4E4B;&#x7C7B;&#x7684;&#x78C1;&#x76D8;&#x540C;&#x6B65;&#x6307;&#x4EE4;&#x6765;&#x5C06;binlog_cache&#x4E2D;&#x7684;&#x6570;&#x636E;&#x5F3A;&#x5236;&#x5199;&#x5165;&#x78C1;&#x76D8;</span></span><br><span class="line"><span class="comment"># &#x8BBE;&#x7F6E;&#x4E3A;0&#x548C;&#x8BBE;&#x7F6E;&#x4E3A;1&#x7684;&#x7CFB;&#x7EDF;&#x5199;&#x5165;&#x6027;&#x80FD;&#x5DEE;&#x8DDD;&#x6709;&#x65F6;&#x5019;&#x9AD8;&#x8FBE;5&#x500D;&#x751A;&#x81F3;&#x66F4;&#x591A;&#x3002;</span></span><br><span class="line">sync-binlog=1</span><br><span class="line"><span class="comment"># &#x5355;&#x4E2A;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x6700;&#x5927;&#x5B57;&#x8282;&#x8BBE;&#x7F6E;&#x6700;&#x5927;100MB&#xFF08;&#x5355;&#x4F4D;&#xFF1A;&#x5B57;&#x8282;&#xFF09; </span></span><br><span class="line"><span class="comment"># &#x65E5;&#x5FD7;&#x9ED8;&#x8BA4;&#x503C;&#x662F;1GB&#xFF0C;&#x7531;&#x4E8E;&#x4E8B;&#x52A1;&#xFF0C;&#x4E00;&#x822C;&#x6587;&#x4EF6;&#x90FD;&#x5927;&#x4E8E;1GB</span></span><br><span class="line">max_binlog_size=104857600 </span><br><span class="line"><span class="comment">#&#x9700;&#x8981;&#x5907;&#x4EFD;&#x7684;&#x6570;&#x636E;&#x5E93;  </span></span><br><span class="line">binlog-do-db=orders</span><br><span class="line"><span class="comment">#&#x4E0D;&#x9700;&#x8981;&#x5907;&#x4EFD;&#x7684;&#x6570;&#x636E;&#x5E93;</span></span><br><span class="line"><span class="comment">#&#x82E5;&#x6CA1;&#x6709;&#x914D;&#x7F6E;binlog-do-db&#x548C;binlog_ignore_db&#xFF0C;&#x8868;&#x793A;&#x5907;&#x4EFD;&#x5168;&#x90E8;&#x6570;&#x636E;&#x5E93;&#x3002;</span></span><br><span class="line">binlog-ignore-db=mysql</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>2&#x3001;&#x91CD;&#x542F;mysqld&#x670D;&#x52A1;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure></p>
+<p>3&#x3001;&#x4E3A;&#x4ECE;MySQL&#x521B;&#x5EFA;&#x7528;&#x6237;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#&#x767B;&#x5F55;</span></span><br><span class="line">mysql -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line"></span><br><span class="line"><span class="comment">#&#x521B;&#x5EFA;&#x7528;&#x6237;</span></span><br><span class="line">mysql&gt; create user <span class="string">&apos;mast_repl&apos;</span>@<span class="string">&apos;192.168.1.101(&#x4ECE;&#x673A;ip)&apos;</span> identified by <span class="string">&apos;123456&apos;</span>;</span><br><span class="line">        </span><br><span class="line"><span class="comment">#&#x914D;&#x7F6E;&#x4E3B;&#x4ECE;&#x590D;&#x5236;&#x6743;&#x9650;</span></span><br><span class="line">mysql&gt; grant replication slave on *.* to <span class="string">&apos;mast_repl&apos;</span>@<span class="string">&apos;192.168.1.101(&#x4ECE;&#x673A;ip)&apos;</span> identified by <span class="string">&apos;123456&apos;</span>;</span><br></pre></td></tr></table></figure></p>
+<p>4&#x3001;&#x82E5;orders&#x4E2D;&#x5DF2;&#x6709;&#x6570;&#x636E;&#xFF0C;&#x8FD8;&#x9700;&#x8981;&#x9501;&#x5B9A;&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x6570;&#x636E;&#x5BFC;&#x5165;&#x5230;&#x4ECE;&#x6570;&#x636E;&#x5E93;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#&#x9501;&#x5B9A;</span></span><br><span class="line">mysql&gt; flush tables with <span class="built_in">read</span> lock;</span><br><span class="line"></span><br><span class="line"><span class="comment">#&#x6570;&#x636E;&#x590D;&#x5236;&#x5230;&#x4ECE;&#x6570;&#x636E;&#x5E93;&#x540E;&#xFF0C;&#x67E5;&#x770B;&#x4E3B;&#x6570;&#x636E;&#x5E93;master&#x72B6;&#x6001;&#x5E76;&#x89E3;&#x9501;&#xFF1A;</span></span><br><span class="line">mysql&gt; show master status;  </span><br><span class="line">+------------------+----------+--------------+------------------+-------------------+  </span><br><span class="line">| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |  </span><br><span class="line">+------------------+----------+--------------+------------------+-------------------+  </span><br><span class="line">| mysql-bin.000003 |     2005 | orders       | mysql            |                   |  </span><br><span class="line">+------------------+----------+--------------+------------------+-------------------+  </span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)  </span><br><span class="line">  </span><br><span class="line">mysql&gt; unlock tables;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="&#x4ECE;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;"><a href="#&#x4ECE;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;" class="headerlink" title="&#x4ECE;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;"></a>&#x4ECE;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;</h3><p>1&#x3001;&#x914D;&#x7F6E;&#x670D;&#x52A1;ID<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/my.cnf </span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line"><span class="comment">#server_id&#x662F;&#x5FC5;&#x987B;&#x7684;&#xFF0C;&#x800C;&#x4E14;&#x552F;&#x4E00;</span></span><br><span class="line">server-id=2</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x4F7F;&#x5F97;slave&#x53EA;&#x8BFB;.&#x53EA;&#x6709;&#x7528;&#x6237;&#x62E5;&#x6709;SUPER&#x6743;&#x9650;&#x548C;&#x5728;&#x4E0A;&#x9762;&#x7684;slave&#x7EBF;&#x7A0B;&#x80FD;&#x591F;&#x4FEE;&#x6539;&#x6570;&#x636E;.</span></span><br><span class="line"><span class="comment"># &#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6B64;&#x9879;&#x53BB;&#x4FDD;&#x8BC1;&#x6CA1;&#x6709;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4F1A;&#x610F;&#x5916;&#x7684;&#x4FEE;&#x6539;slave&#x800C;&#x4E0D;&#x662F;master&#x4E0A;&#x7684;&#x6570;&#x636E;</span></span><br><span class="line"><span class="comment">#read_only</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x5982;&#x679C;&#x4F60;&#x5728;&#x4F7F;&#x7528;&#x94FE;&#x5F0F;&#x4ECE;&#x670D;&#x52A1;&#x5668;&#x7ED3;&#x6784;&#x7684;&#x590D;&#x5236;&#x6A21;&#x5F0F; (A-&gt;B-&gt;C),</span></span><br><span class="line"><span class="comment"># &#x9700;&#x8981;&#x6253;&#x5F00;slave&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x65E5;&#x5FD7;</span></span><br><span class="line"><span class="comment">#log_bin=mysql-bin</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x5982;&#x679C;&#x4F60;&#x5728;&#x4F7F;&#x7528;&#x94FE;&#x5F0F;&#x4ECE;&#x670D;&#x52A1;&#x5668;&#x7ED3;&#x6784;&#x7684;&#x590D;&#x5236;&#x6A21;&#x5F0F; (A-&gt;B-&gt;C),</span></span><br><span class="line"><span class="comment"># &#x4F60;&#x9700;&#x8981;&#x5728;&#x670D;&#x52A1;&#x5668;B&#x4E0A;&#x6253;&#x5F00;&#x6B64;&#x9879;.</span></span><br><span class="line"><span class="comment"># &#x6B64;&#x9009;&#x9879;&#x6253;&#x5F00;&#x5728;&#x4ECE;&#x7EBF;&#x7A0B;&#x4E0A;&#x91CD;&#x505A;&#x8FC7;&#x7684;&#x66F4;&#x65B0;&#x7684;&#x65E5;&#x5FD7;, &#x5E76;&#x5C06;&#x5176;&#x5199;&#x5165;&#x4ECE;&#x670D;&#x52A1;&#x5668;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x65E5;&#x5FD7;.</span></span><br><span class="line"><span class="comment"># &#x5982;&#x679C;&#x6253;&#x5F00;log_bin&#xFF0C;&#x5374;&#x6CA1;&#x6709;&#x8BBE;&#x7F6E;log_slave_updates&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x79CD;&#x9519;&#x8BEF;&#x7684;&#x914D;&#x7F6E;&#x3002;</span></span><br><span class="line"><span class="comment">#log_slave_updates</span></span><br></pre></td></tr></table></figure></p>
+<p>2&#x3001;&#x91CD;&#x542F;MySQL&#x670D;&#x52A1;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure></p>
+<p>3&#x3001;&#x914D;&#x7F6E;&#x590D;&#x5236;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#&#x767B;&#x5F55;</span></span><br><span class="line">mysql -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">       </span><br><span class="line"><span class="comment">#&#x6267;&#x884C;</span></span><br><span class="line">mysql&gt; change master to master_host=<span class="string">&apos;192.168.1.100&apos;</span>,</span><br><span class="line">                master_user=<span class="string">&apos;mast_repl&apos;</span>,</span><br><span class="line">                master_password=<span class="string">&apos;123456&apos;</span>,</span><br><span class="line">                master_port=3306,</span><br><span class="line">                master_<span class="built_in">log</span>_file=<span class="string">&apos;mysql-bin.000003&apos;</span>,</span><br><span class="line">                master_<span class="built_in">log</span>_pos=2005,</span><br><span class="line">                master_connect_retry=10;</span><br></pre></td></tr></table></figure></p>
+<p><strong>&#x53C2;&#x6570;&#x8BE6;&#x89E3;&#xFF1A;</strong><br>master_host:&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x7684;IP&#x3002;<br>master_user&#xFF1A;&#x914D;&#x7F6E;&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x65F6;&#x5EFA;&#x7ACB;&#x7684;&#x7528;&#x6237;&#x540D;<br>master_password&#xFF1A;&#x7528;&#x6237;&#x5BC6;&#x7801;<br>master_port&#xFF1A;&#x4E3B;&#x670D;&#x52A1;&#x5668;mysql&#x7AEF;&#x53E3;&#xFF0C;&#x5982;&#x679C;&#x672A;&#x66FE;&#x4FEE;&#x6539;&#xFF0C;&#x9ED8;&#x8BA4;&#x5373;&#x53EF;&#x3002;<br>master_log_file&#xFF1A;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x540D;&#x79F0;&#xFF0C;<strong>&#x586B;&#x5199;&#x67E5;&#x770B;master&#x72B6;&#x6001;&#x65F6;&#x663E;&#x793A;&#x7684;File</strong><br>master_log_pos&#xFF1A;&#x65E5;&#x5FD7;&#x4F4D;&#x7F6E;&#xFF0C;<strong>&#x586B;&#x5199;&#x67E5;&#x770B;master&#x72B6;&#x6001;&#x65F6;&#x663E;&#x793A;&#x7684;Position</strong><br>master_connect_retry&#xFF1A;&#x91CD;&#x8FDE;&#x6B21;&#x6570;</p>
+<p>4&#x3001;&#x542F;&#x52A8;&#x8FDB;&#x7A0B;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; start slave;</span><br></pre></td></tr></table></figure></p>
+<p>5&#x3001;&#x68C0;&#x67E5;&#x4E3B;&#x4ECE;&#x590D;&#x5236;&#x72B6;&#x6001;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show slave status\G  </span><br><span class="line">*************************** 1. row ***************************  </span><br><span class="line">               Slave_IO_State: Waiting <span class="keyword">for</span> master to send event  </span><br><span class="line">                  Master_Host: 192.168.1.100  </span><br><span class="line">                  Master_User: mast_repl  </span><br><span class="line">                  Master_Port: 3306  </span><br><span class="line">                Connect_Retry: 10  </span><br><span class="line">              Master_Log_File: mysql-bin.000003  </span><br><span class="line">          Read_Master_Log_Pos: 2369  </span><br><span class="line">               Relay_Log_File: jhq0113-relay-bin.000002  </span><br><span class="line">                Relay_Log_Pos: 647  </span><br><span class="line">        Relay_Master_Log_File: mysql-bin.000003  </span><br><span class="line">             Slave_IO_Running: Yes  </span><br><span class="line">            Slave_SQL_Running: Yes  </span><br><span class="line">            ...</span><br></pre></td></tr></table></figure></p>
+<p><strong>&#x82E5;Slave_IO_Running&#x548C;Slave_SQL_Running&#x5747;&#x4E3A;Yes&#xFF0C;&#x5219;&#x8868;&#x793A;&#x914D;&#x7F6E;&#x6210;&#x529F;&#x3002;</strong></p>
+<hr>
+<h3 id="&#x5E38;&#x89C1;&#x914D;&#x7F6E;&#x9519;&#x8BEF;"><a href="#&#x5E38;&#x89C1;&#x914D;&#x7F6E;&#x9519;&#x8BEF;" class="headerlink" title="&#x5E38;&#x89C1;&#x914D;&#x7F6E;&#x9519;&#x8BEF;"></a>&#x5E38;&#x89C1;&#x914D;&#x7F6E;&#x9519;&#x8BEF;</h3><p>Q&#xFF1A;&#x62A5;&#x9519;&#x5982;&#x4E0B;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> Slave_IO_Running: Connecting</span><br><span class="line">Slave_SQL_Running: Yes</span><br><span class="line">    Last_IO_Error: error connecting to master <span class="string">&apos;mast_repl@192.168.1.100:3306&apos;</span> - retry-time: 10  retries: 66</span><br></pre></td></tr></table></figure></p>
+<p>A&#xFF1A;&#x53EF;&#x80FD;&#x539F;&#x56E0;&#x5982;&#x4E0B;<br>1&#x3001;mast_repl&#x7528;&#x6237;&#x6CA1;&#x6709;&#x590D;&#x5236;&#x6743;&#x9650;&#xFF0C;&#x5728;&#x4E3B;&#x5E93;&#x901A;&#x8FC7;&#x3010;show grants for &#x2018;mast_repl&#x2019;@&#x2019;192.168.1.100&#x2019;&#x3011;&#x547D;&#x4EE4;&#x67E5;&#x8BE2;&#x3002;<br>2&#x3001;change master to&#x547D;&#x4EE4;&#x4E2D;&#x7684;master_password&#x9519;&#x8BEF;&#xFF0C;&#x5373;mast_repl&#x7528;&#x6237;&#x5BC6;&#x7801;&#x9519;&#x8BEF;&#x3002;<br>3&#x3001;change master to&#x547D;&#x4EE4;&#x4E2D;&#x7684;master_log_pos&#x9519;&#x8BEF;&#xFF0C;&#x5728;&#x4E3B;&#x5E93;&#x901A;&#x8FC7;&#x3010;show master status&#x3011;&#x547D;&#x540D;&#x67E5;&#x8BE2;&#x3002;</p>
+<hr>
+<h3 id="&#x4E3B;&#x4ECE;&#x590D;&#x5236;&#x539F;&#x7406;"><a href="#&#x4E3B;&#x4ECE;&#x590D;&#x5236;&#x539F;&#x7406;" class="headerlink" title="&#x4E3B;&#x4ECE;&#x590D;&#x5236;&#x539F;&#x7406;"></a>&#x4E3B;&#x4ECE;&#x590D;&#x5236;&#x539F;&#x7406;</h3><p>MySQL&#x4E3B;&#x4ECE;&#x590D;&#x5236;&#x8FC7;&#x7A0B;&#x4E3B;&#x8981;&#x7531;&#x4E09;&#x4E2A;&#x7EBF;&#x7A0B;&#x6765;&#x5B8C;&#x6210;&#x3002;<br>&#x5176;&#x4E2D;&#x4E24;&#x4E2A;&#x7EBF;&#x7A0B;(Sql&#x7EBF;&#x7A0B;&#x548C;IO&#x7EBF;&#x7A0B;)&#x5728;Slave&#x7AEF;&#xFF0C;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;(IO&#x7EBF;&#x7A0B;)&#x5728;Master&#x7AEF;&#x3002;</p>
+<ul>
+<li>Slave &#x4E0A;&#x9762;&#x7684;IO&#x7EBF;&#x7A0B;&#x8FDE;&#x63A5;&#x4E0A; Master&#xFF0C;&#x5E76;&#x8BF7;&#x6C42;&#x4ECE;&#x6307;&#x5B9A;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x7684;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;(&#x6216;&#x8005;&#x4ECE;&#x6700;&#x5F00;&#x59CB;&#x7684;&#x65E5;&#x5FD7;)&#x4E4B;&#x540E;&#x7684;&#x65E5;&#x5FD7;&#x5185;&#x5BB9;&#xFF1B;</li>
+<li>Master &#x63A5;&#x6536;&#x5230;&#x6765;&#x81EA; Slave &#x7684; IO &#x7EBF;&#x7A0B;&#x7684;&#x8BF7;&#x6C42;&#x540E;&#xFF0C;&#x901A;&#x8FC7;&#x8D1F;&#x8D23;&#x590D;&#x5236;&#x7684; IO &#x7EBF;&#x7A0B;&#x6839;&#x636E;&#x8BF7;&#x6C42;&#x4FE1;&#x606F;&#x8BFB;&#x53D6;&#x6307;&#x5B9A;&#x65E5;&#x5FD7;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x4E4B;&#x540E;&#x7684;&#x65E5;&#x5FD7;&#x4FE1;&#x606F;&#xFF0C;&#x8FD4;&#x56DE;&#x7ED9; Slave &#x7AEF;&#x7684; IO &#x7EBF;&#x7A0B;&#x3002;&#x8FD4;&#x56DE;&#x4FE1;&#x606F;&#x4E2D;&#x9664;&#x4E86;&#x65E5;&#x5FD7;&#x6240;&#x5305;&#x542B;&#x7684;&#x4FE1;&#x606F;&#x4E4B;&#x5916;&#xFF0C;&#x8FD8;&#x5305;&#x62EC;&#x672C;&#x6B21;&#x8FD4;&#x56DE;&#x7684;&#x4FE1;&#x606F;&#x5728; Master &#x7AEF;&#x7684; Binary Log &#x6587;&#x4EF6;&#x7684;&#x540D;&#x79F0;&#x4EE5;&#x53CA;&#x5728; Binary Log &#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#xFF1B;</li>
+<li>Slave &#x7684; IO &#x7EBF;&#x7A0B;&#x63A5;&#x6536;&#x5230;&#x4FE1;&#x606F;&#x540E;&#xFF0C;&#x5C06;&#x63A5;&#x6536;&#x5230;&#x7684;&#x65E5;&#x5FD7;&#x5185;&#x5BB9;&#x4F9D;&#x6B21;&#x5199;&#x5165;&#x5230; Slave &#x7AEF;&#x7684;Relay Log&#x6587;&#x4EF6;(mysql-relay-bin.xxxxxx)&#x7684;&#x6700;&#x672B;&#x7AEF;&#xFF0C;&#x5E76;&#x5C06;&#x8BFB;&#x53D6;&#x5230;&#x7684;Master&#x7AEF;&#x7684;bin-log&#x7684;&#x6587;&#x4EF6;&#x540D;&#x548C;&#x4F4D;&#x7F6E;&#x8BB0;&#x5F55;&#x5230;master- info&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x4EE5;&#x4FBF;&#x5728;&#x4E0B;&#x4E00;&#x6B21;&#x8BFB;&#x53D6;&#x7684;&#x65F6;&#x5019;&#x80FD;&#x591F;&#x6E05;&#x695A;&#x7684;&#x9AD8;&#x901F;Master&#x201C;&#x6211;&#x9700;&#x8981;&#x4ECE;&#x67D0;&#x4E2A;bin-log&#x7684;&#x54EA;&#x4E2A;&#x4F4D;&#x7F6E;&#x5F00;&#x59CB;&#x5F80;&#x540E;&#x7684;&#x65E5;&#x5FD7;&#x5185;&#x5BB9;&#xFF0C;&#x8BF7;&#x53D1;&#x7ED9;&#x6211;&#x201D;</li>
+<li>Slave &#x7684; SQL &#x7EBF;&#x7A0B;&#x68C0;&#x6D4B;&#x5230; Relay Log &#x4E2D;&#x65B0;&#x589E;&#x52A0;&#x4E86;&#x5185;&#x5BB9;&#x540E;&#xFF0C;&#x4F1A;&#x9A6C;&#x4E0A;&#x89E3;&#x6790;&#x8BE5; Log &#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x6210;&#x4E3A;&#x5728; Master &#x7AEF;&#x771F;&#x5B9E;&#x6267;&#x884C;&#x65F6;&#x5019;&#x7684;&#x90A3;&#x4E9B;&#x53EF;&#x6267;&#x884C;&#x7684; Query &#x8BED;&#x53E5;&#xFF0C;&#x5E76;&#x5728;&#x81EA;&#x8EAB;&#x6267;&#x884C;&#x8FD9;&#x4E9B; Query&#x3002;&#x8FD9;&#x6837;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x5C31;&#x662F;&#x5728; Master &#x7AEF;&#x548C; Slave &#x7AEF;&#x6267;&#x884C;&#x4E86;&#x540C;&#x6837;&#x7684; Query&#xFF0C;&#x6240;&#x4EE5;&#x4E24;&#x7AEF;&#x7684;&#x6570;&#x636E;&#x662F;&#x5B8C;&#x5168;&#x4E00;&#x6837;&#x7684;&#x3002;</li>
+</ul>
+<hr>
+<h3 id="&#x4E3B;&#x4ECE;&#x5207;&#x6362;"><a href="#&#x4E3B;&#x4ECE;&#x5207;&#x6362;" class="headerlink" title="&#x4E3B;&#x4ECE;&#x5207;&#x6362;"></a>&#x4E3B;&#x4ECE;&#x5207;&#x6362;</h3><p>&#x4E3B;&#x53D8;&#x4ECE;&#xFF0C;&#x4ECE;&#x53D8;&#x4E3B;<br><strong>&#x4E3B;&#x670D;&#x52A1;&#x5668;</strong>: 192.168.1.101<br><strong>&#x4ECE;&#x670D;&#x52A1;&#x5668;</strong>: 192.168.1.100</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x51C6;&#x5907;&#x5DE5;&#x4F5C;</span></span><br><span class="line">1&#x3001;&#x786E;&#x8BA4;&#x4ECE;&#x5E93;&#x662F;&#x5426;&#x5DF2;&#x7ECF;&#x540C;&#x6B65;&#x5B8C;&#x6210;&#x3002;</span><br><span class="line">&#x5728;&#x539F;&#x6709;&#x7684;&#x4ECE;&#x673A;101&#x4E0A;&#xFF0C;&#x901A;&#x8FC7;&#x547D;&#x4EE4;&#x3010;show slave status\G;&#x3011;&#x67E5;&#x770B;&#x3010;Slave_SQL_Running_State&#x3011;&#x7684;&#x72B6;&#x6001;&#x662F;&#x5426;&#x4E3A;&#x3010;Slave has <span class="built_in">read</span> all relay <span class="built_in">log</span>; waiting <span class="keyword">for</span> more updates&#x3011;&#x3002;</span><br><span class="line">2&#x3001;&#x6253;&#x5F00;&#x4ECE;&#x5E93;&#x7684;binlog&#x76F8;&#x5173;&#x914D;&#x7F6E;&#xFF0C;&#x6CE8;&#x91CA;&#x6389;&#x4E3B;&#x5E93;&#x7684;binlog&#x914D;&#x7F6E;&#x3002;</span><br><span class="line">3&#x3001;&#x5728;&#x4ECE;&#x5E93;&#x521B;&#x5EFA;&#x8D26;&#x53F7;&#x5E76;&#x8D4B;&#x4E88;&#x590D;&#x5236;&#x7684;&#x6743;&#x9650;</span><br><span class="line">create user <span class="string">&apos;mastj&apos;</span>@<span class="string">&apos;192.168.1.100(&#x65B0;&#x7684;&#x4ECE;&#x673A;ip)&apos;</span> identified by <span class="string">&apos;123456&apos;</span>;</span><br><span class="line">grant replication slave on *.* to <span class="string">&apos;mastj&apos;</span>@<span class="string">&apos;192.168.1.100(&#x65B0;&#x7684;&#x4ECE;&#x673A;ip)&apos;</span> identified by <span class="string">&apos;123456&apos;</span>;</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x4ECE;&#x53D8;&#x4E3B;(&#x4EE5;&#x4E0B;&#x4E3A;101&#x4E0A;&#x7684;&#x64CD;&#x4F5C;)</span></span><br><span class="line">4&#x3001;&#x505C;&#x6B62;&#x4ECE;&#x5E93;&#x7684;&#x590D;&#x5236;&#x3002;stop slave&#x3002;</span><br><span class="line">5&#x3001;&#x6362;&#x4ECE;&#x5E93;&#x4E3A;&#x4E3B;&#x5E93;</span><br><span class="line">RESET MASTER</span><br><span class="line">6&#x3001;&#x91CD;&#x542F;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x67E5;&#x770B;&#x4E3B;&#x72B6;&#x6001;&#xFF0C;&#x8BB0;&#x5F55;File&#x548C;Position&#x503C;&#x3002;</span><br><span class="line">service mysql restart</span><br><span class="line">show master status;</span><br><span class="line">+-------------------+----------+--------------+------------------+-------------------+</span><br><span class="line">| File              | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |</span><br><span class="line">+-------------------+----------+--------------+------------------+-------------------+</span><br><span class="line">| master-bin.000001 |      154 | &#x7565;           | mysql            |                   |</span><br><span class="line">+-------------------+----------+--------------+------------------+-------------------+</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x4E3B;&#x53D8;&#x4ECE;(&#x4EE5;&#x4E0B;&#x4E3A;100&#x4E0A;&#x7684;&#x64CD;&#x4F5C;)</span></span><br><span class="line">7&#x3001;RESET SLAVE;</span><br><span class="line">8&#x3001;change master to master_host=<span class="string">&apos;192.168.1.101&apos;</span>,</span><br><span class="line">                master_user=<span class="string">&apos;mast_repl&apos;</span>,</span><br><span class="line">                master_password=<span class="string">&apos;123456&apos;</span>,</span><br><span class="line">                master_port=3306,</span><br><span class="line">                master_<span class="built_in">log</span>_file=<span class="string">&apos;mysql-bin.000001&apos;</span>,</span><br><span class="line">                master_<span class="built_in">log</span>_pos=154,</span><br><span class="line">                master_connect_retry=10;</span><br><span class="line">9&#x3001;&#x91CD;&#x542F;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x5E76;&#x68C0;&#x67E5;Slave_IO_Running&#x548C;Slave_SQL_Running&#x7684;&#x503C;&#x3002;</span><br><span class="line">&#x5982;&#x679C;&#x90FD;&#x4E3A;yes&#xFF0C;&#x8868;&#x540D;&#x4E3B;&#x4ECE;&#x5207;&#x6362;&#x6210;&#x529F;</span><br><span class="line">service mysql restart</span><br><span class="line">show slave status;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="&#x94FE;&#x63A5;&#x76F8;&#x5173;"><a href="#&#x94FE;&#x63A5;&#x76F8;&#x5173;" class="headerlink" title="&#x94FE;&#x63A5;&#x76F8;&#x5173;"></a>&#x94FE;&#x63A5;&#x76F8;&#x5173;</h3><p><strong>mysql&#x4E2D;&#x6587;&#x624B;&#x518C;</strong><br><a href="http://doc.mysql.cn/mysql5/refman-5.1-zh.html-chapter/" target="_blank" rel="external">http://doc.mysql.cn/mysql5/refman-5.1-zh.html-chapter/</a></p>
+<p><strong>my.cnf&#x53C2;&#x6570;&#x8BE6;&#x89E3;</strong><br><a href="https://my.oschina.net/eduosi/blog/270535" target="_blank" rel="external">https://my.oschina.net/eduosi/blog/270535</a></p>
+<p><strong><font style="color:red">&#x7EBF;&#x4E0A;MySQL&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#x62A5;&#x9519;&#x6545;&#x969C;&#x5904;&#x7406;&#x603B;&#x7ED3;</font></strong><br><a href="http://xstarcd.github.io/wiki/MySQL/online_mysqlrepl_error.html" target="_blank" rel="external">http://xstarcd.github.io/wiki/MySQL/online_mysqlrepl_error.html</a></p>
+<p><strong>Mysql&#x4E3B;&#x4ECE;&#x67B6;&#x6784;&#x7684;&#x590D;&#x5236;&#x539F;&#x7406;</strong><br><a href="http://blog.csdn.net/hguisu/article/details/7325124" target="_blank" rel="external">http://blog.csdn.net/hguisu/article/details/7325124</a></p>
+<p><strong>&#x4E0D;&#x540C;&#x573A;&#x666F;&#x4E0B; MySQL &#x7684;&#x8FC1;&#x79FB;&#x65B9;&#x6848;</strong><br><a href="https://dbarobin.com/2015/09/15/migration-of-mysql-on-different-scenes" target="_blank" rel="external">https://dbarobin.com/2015/09/15/migration-of-mysql-on-different-scenes</a></p>
+<p><br></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/10/14/MySQL主从切换/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    MySQL主从切换
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/10/06/zabbix监控nginx/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">zabbix监控nginx</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
+    </div>
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
+                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
+                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
+                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
+                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
+                            <p class="item-title"><a href="/2018/01/15/目标检测/" class="title">目标检测</a></p>
+                            <p class="item-date"><time datetime="2018-01-15T14:22:00.000Z" itemprop="datePublished">2018-01-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
+                            <p class="item-title"><a href="/2018/01/15/CNN经典网络详解/" class="title">CNN经典网络详解</a></p>
+                            <p class="item-date"><time datetime="2018-01-15T14:22:00.000Z" itemprop="datePublished">2018-01-15</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
+                            <p class="item-title"><a href="/2018/01/10/卷积操作详解（填充、步长、高维卷积、卷积公式）/" class="title">卷积操作详解（填充、步长、高维卷积、卷积公式）</a></p>
+                            <p class="item-date"><time datetime="2018-01-10T14:22:00.000Z" itemprop="datePublished">2018-01-10</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
+        </div>
+    </div -->
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 11.67px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 10px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 13.33px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 11.67px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.36dsj.com/">36大数据</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.jiemodui.com/">芥末堆</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+	    
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Wasim<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
