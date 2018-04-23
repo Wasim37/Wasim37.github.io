@@ -13,15 +13,19 @@ mathjax: true
 
 ### LeNet-5
 
+**LeNet诞生于1998年**，网络结构比较完整，包括卷积层、pooling层、全连接层，这些都是现代CNN网络的基本组件，被认为是CNN的开端。
+
 **网络特点：**
 
 - LeNet-5 针对灰度图像而训练，因此输入图片的通道数为 1。
 - 该模型总共包含了约 6 万个参数，远少于标准神经网络所需。
-- 典型的 LeNet-5 结构包含卷积层（CONV layer），池化层（POOL layer）和全连接层（FC layer），排列顺序一般为 CONV layer->POOL layer->CONV layer->POOL layer->FC layer->FC layer->OUTPUT layer。一个或多个卷积层后面跟着一个池化层的模式至今仍十分常用。
+- 典型的 LeNet-5 结构包含卷积层（CONV layer），池化层（POOL layer）和全连接层（FC layer），排列顺序一般为 **【CONV layer->POOL layer->CONV layer->POOL layer->FC layer->FC layer->OUTPUT layer】**。一个或多个卷积层后面跟着一个池化层的模式至今仍十分常用。<font color="red">在计算神经网络的层数时，通常只统计具有权重和参数的层**，**池化层没有需要训练的参数，所以和之前的卷积层共同计为一层</font>。
 - 当 LeNet-5模型被提出时，其池化层使用的是平均池化，而且各层激活函数一般选用 Sigmoid 和 tanh。现在，我们可以根据需要，做出改进，使用最大池化并选用 ReLU 作为激活函数。
 
 
 ![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/LeNet-5.png)
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/blog-lenet.jpg)
 
 
 <!-- more -->
@@ -30,85 +34,44 @@ mathjax: true
 
 ---
 
-### AlexNet
+### AlexNet-8
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/AlexNet.png)
+![AlexNet-1](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/AlexNet.png)
 
-**特点：**
+![AlexNet-2](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20161104193655152_AlexNet.png)
 
-- AlexNet 模型与 LeNet-5 模型类似，但是更复杂，包含约 6000 万参数。另外，AlexNet 使用了 ReLU 函数。
-- 当用于训练图像和数据集时，AlexNet 能够处理非常相似的基本构造模块，这些模块往往包含大量的隐藏单元或数据。
+
+AlexNet-8有5个卷积层和3个全连接层，它与 LeNet-5 模型类似，但是更复杂，包含约 6000 万参数。
+当用于训练图像和数据集时，AlexNet 能够处理非常相似的基本构造模块，这些模块往往包含大量的隐藏单元或数据。
+
+**<font color="red">相对于1998年的LeNet，2012年才出现的AlexNet有了历史性的突破</font>，相对LeNet做了如下改进：**
+（1）数据不够的情况下，采用了数据增强
+（2）用ReLU代替了传统的Tanh或者Logistic。
+（3）引入Dropout，防止过拟合，是AlexNet中一个很大的创新。
+（4）Local Response Normalization，局部响应归一化，简称LRN，实际就是利用临近的数据做归一化。这个策略贡献了1.2%的Top-5错误率。
+（5）多GPU训练。如图 AlexNet-2 所示，训练分布在两个GPU上，这是比一臂之力还大的洪荒之力。
+（6）Overlapping Pooling，Overlapping的意思是有重叠，即Pooling的步长比Pooling Kernel的对应边要小。这个策略贡献了0.3%的Top-5错误率。
 
 相关论文：[Krizhevsky et al.,2012. ImageNet classification with deep convolutional neural networks](http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)。这是一篇易于理解并且影响巨大的论文，计算机视觉群体自此开始重视深度学习。
 
 ---
 
-### VGG
+### VGG-16
+
+![VGG 常见结构图](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180423192419_VGG.png)
 
 ![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/VGG.png)
 
+
+
 **特点：**
 
-- VGG 又称 VGG-16 网络，“16”指网络中包含 16 个卷积层和全连接层。
+- VGG 使用最广泛的网络为 VGG-16 网络。
 - 超参数较少，只需要专注于构建卷积层。
 - 结构不复杂且规整，在每一组卷积层进行滤波器翻倍操作。
 - VGG 需要训练的特征数量巨大，包含多达约 1.38 亿个参数。
 
 相关论文：[Simonvan & Zisserman 2015. Very deep convolutional networks for large-scale image recognition](https://arxiv.org/pdf/1409.1556.pdf)。
-
----
-
-### 残差网络
-
-因为存在梯度消失和梯度爆炸问题，网络越深，就越难以训练成功。**残差网络**（Residual Networks，简称为 ResNets）可以有效解决这个问题。
-
-![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Residual-block.jpg)
-
-上图的结构被称为**残差块**（Residual block）。通过**捷径**（Short cut，或者称**跳远连接**，Skip connections）可以将 a[l]添加到第二个 ReLU 过程中，直接建立 a[l]与 a[l+2]之间的隔层联系。表达式如下：
-
-$$z^{[l+1]} = W^{[l+1]}a^{[l]} + b^{[l+1]}$$
-$$a^{[l+1]} = g(z^{[l+1]})$$
-$$z^{[l+2]} = W^{[l+2]}a^{[l+1]} + b^{[l+2]}$$
-$$a^{[l+2]} = g(z^{[l+2]} + a^{[l]})$$
-
-构建一个残差网络就是将许多残差块堆积在一起，形成一个深度网络。
-
-![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Residual-Network.jpg)
-
-为了便于区分，在 ResNets 的论文 [He et al., 2015. Deep residual networks for image recognition](https://arxiv.org/pdf/1512.03385.pdf)中，非残差网络被称为**普通网络**（Plain Network）。将它变为残差网络的方法是加上所有的跳远连接。
-
-在理论上，随着网络深度的增加，性能应该越来越好。但实际上，对于一个普通网络，随着神经网络层数增加，训练错误会先减少，然后开始增多。但残差网络的训练效果显示，即使网络再深，其在训练集上的表现也会越来越好。
-
-![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/ResNet-Training-Error.jpg)
-
-残差网络有助于解决梯度消失和梯度爆炸问题，使得在训练更深的网络的同时，又能保证良好的性能。
-
-#### 残差网络有效的原因
-假设有一个大型神经网络，其输入为 $X$，输出为 $a^{[l]}$。给这个神经网络额外增加两层，输出为 $a^{[l+2]}$。将这两层看作一个具有跳远连接的残差块。为了方便说明，假设整个网络中都选用 ReLU 作为激活函数，因此输出的所有激活值都大于等于 0。
-
-![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Why-do-residual-networks-work.jpg)
-
-则有：
-
-$$
-\begin{equation}
-\begin{split}
- a^{[l+2]} &= g(z^{[l+2]}+a^{[l]})      \\ &= g(W^{[l+2]}a^{[l+1]}+b^{[l+2]}+a^{[l]})
-\end{split}
-\end{equation}
-$$
-
-当发生梯度消失时，$W^{[l+2]}\approx0$，$b^{[l+2]}\approx0$，则有：
-
-$$a^{[l+2]} = g(a^{[l]}) = ReLU(a^{[l]}) = a^{[l]}$$
-
-因此，这两层额外的残差块不会降低网络性能。而如果没有发生梯度消失时，训练得到的非线性关系会使得表现效果进一步提高。
-
-注意，如果 $a^{[l]}$与 $a^{[l+2]}$ 的维度不同，需要引入矩阵 $W_s$ 与 $a^{[l]}$ 相乘，使得二者的维度相匹配。参数矩阵 $W_s$既可以通过模型训练得到，也可以作为固定值，仅使 $a^{[l]}$ 截断或者补零。
-
-![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/ResNet-Paper.png)
-
-上图是论文提供的 CNN 中 ResNet 的一个典型结构。卷积层通常使用 Same 卷积以保持维度相同，而不同类型层之间的连接（例如卷积层和池化层），如果维度不同，则需要引入矩阵 $W_s$。
 
 ---
 
@@ -118,7 +81,7 @@ $$a^{[l+2]} = g(a^{[l]}) = ReLU(a^{[l]}) = a^{[l]}$$
 
 ![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/1x1-Conv-1.png)
 
-而当通道数更多时，1x1 卷积的作用实际上类似全连接层的神经网络结构，从而降低（或升高，取决于滤波器组数）数据的维度。
+**而当通道数更多时，1x1 卷积的作用实际上类似全连接的神经网络结构，从而降低（或升高，取决于滤波器组数）数据的维度。**
 
 池化能压缩数据的高度 $n_H$ 及宽度 $n_W$，而 1×1 卷积能压缩数据的通道数 $n_C$。在如下图所示的例子中，用 32 个大小为 1×1×192 的滤波器进行卷积，就能使原先数据包含的 192 个通道压缩为 32 个。
 
@@ -128,9 +91,17 @@ $$a^{[l+2]} = g(a^{[l]}) = ReLU(a^{[l]}) = a^{[l]}$$
 
 ---
 
-### Inception 网络
+### GoogleLeNet-22 Inception 网络
 
-在之前的卷积网络中，我们只能选择单一尺寸和类型的滤波器。而 Inception **网络的作用**即是代替人工来确定卷积层中的滤波器尺寸与类型，或者确定是否需要创建卷积层或池化层。
+2012年AlexNet做出历史突破以来，直到GoogLeNet出来之前，主流的网络结构突破大致是网络更深（层数），网络更宽（神经元数）。所以大家调侃深度学习为“深度调参”，但是纯粹的增大网络有如下缺点：
+
+1. 参数太多，容易过拟合，若训练数据集有限；
+2. 网络越大计算复杂度越大，难以应用；
+3. 网络越深，梯度越往后穿越容易消失（梯度弥散），难以优化模型
+
+<font color="red">那么如何增加网络深度和宽度的同时减少参数？Inception在这样的情况下应运而生。</font>
+
+在之前的卷积网络中，我们只能选择单一尺寸和类型的滤波器。而 Inception **网络的作用** 是代替人工来确定卷积层中的滤波器尺寸与类型，或者确定是否需要创建卷积层或池化层。
 
 ![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Motivation-for-inception-network.jpg)
 
@@ -164,8 +135,67 @@ $$a^{[l+2]} = g(a^{[l]}) = ReLU(a^{[l]}) = a^{[l]}$$
 
 多个 Inception 模块组成一个完整的 Inception 网络（被称为 GoogLeNet，以向 LeNet 致敬），如下图所示：
 
-![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Inception-network2.jpg)
+![Inception_v1 网络](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20160904161917654_inception_v1.png)
 
 注意黑色椭圆圈出的隐藏层，这些分支都是 Softmax 的输出层，可以用来参与特征的计算及结果预测，起到调整并防止发生过拟合的效果。
 
 经过研究者们的不断发展，Inception 模型的 V2、V3、V4 以及引入残差网络的版本被提出，这些变体都基于 Inception V1 版本的基础思想上。顺便一提，Inception 模型的名字来自电影《盗梦空间》。
+
+---
+### ResNet-152 残差网络
+
+<font color="red">因为存在梯度消失和梯度爆炸问题，网络越深，就越难以训练成功。**残差网络**（Residual Networks，简称为 ResNets）可以有效解决这个问题。</font>
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Residual-block.jpg)
+
+上图的结构被称为**残差块**（Residual block）。通过**捷径**（Short cut，或者称**跳远连接**，Skip connections）可以将 a[l]添加到第二个 ReLU 过程中，直接建立 a[l]与 a[l+2]之间的隔层联系。表达式如下：
+
+$$z^{[l+1]} = W^{[l+1]}a^{[l]} + b^{[l+1]}$$
+$$a^{[l+1]} = g(z^{[l+1]})$$
+$$z^{[l+2]} = W^{[l+2]}a^{[l+1]} + b^{[l+2]}$$
+$$a^{[l+2]} = g(z^{[l+2]} + a^{[l]})$$
+
+构建一个残差网络就是将许多残差块堆积在一起，形成一个深度网络。
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Residual-Network.jpg)
+
+为了便于区分，在 ResNets 的论文 [He et al., 2015. Deep residual networks for image recognition](https://arxiv.org/pdf/1512.03385.pdf)中，非残差网络被称为**普通网络**（Plain Network）。将它变为残差网络的方法是加上所有的跳远连接。
+
+在理论上，随着网络深度的增加，性能应该越来越好。但实际上，对于一个普通网络，随着神经网络层数增加，训练错误会先减少，然后开始增多。但残差网络的训练效果显示，<font color="red">即使网络再深，其在训练集上的表现也会越来越好</font>。
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/ResNet-Training-Error.jpg)
+
+**残差网络有助于解决梯度消失和梯度爆炸问题，使得在训练更深的网络的同时，又能保证良好的性能。**
+
+#### 残差网络有效的原因
+假设有一个大型神经网络，其输入为 $X$，输出为 $a^{[l]}$。给这个神经网络额外增加两层，输出为 $a^{[l+2]}$。将这两层看作一个具有跳远连接的残差块。为了方便说明，假设整个网络中都选用 ReLU 作为激活函数，因此输出的所有激活值都大于等于 0。
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Why-do-residual-networks-work.jpg)
+
+则有：
+
+$$
+\begin{equation}
+\begin{split}
+ a^{[l+2]} &= g(z^{[l+2]}+a^{[l]})      \\ &= g(W^{[l+2]}a^{[l+1]}+b^{[l+2]}+a^{[l]})
+\end{split}
+\end{equation}
+$$
+
+当发生梯度消失时，$W^{[l+2]}\approx0$，$b^{[l+2]}\approx0$，则有：
+
+$$a^{[l+2]} = g(a^{[l]}) = ReLU(a^{[l]}) = a^{[l]}$$
+
+因此，这两层额外的残差块不会降低网络性能。而如果没有发生梯度消失时，训练得到的非线性关系会使得表现效果进一步提高。
+
+注意，**如果 $a^{[l]}$与 $a^{[l+2]}$ 的维度不同，需要引入矩阵 $W_s$ 与 $a^{[l]}$ 相乘，使得二者的维度相匹配**。参数矩阵 $W_s$既可以通过模型训练得到，也可以作为固定值，仅使 $a^{[l]}$ 截断或者补零。
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/ResNet-Paper.png)
+
+上图是论文提供的 CNN 中 ResNet 的一个典型结构。卷积层通常使用 Same 卷积以保持维度相同，而不同类型层之间的连接（例如卷积层和池化层），**如果维度不同，则需要引入矩阵 $W_s$**。
+
+---
+
+### 经典网络对比
+
+![](http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/62.png)

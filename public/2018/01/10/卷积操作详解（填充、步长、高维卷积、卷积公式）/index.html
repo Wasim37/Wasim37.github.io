@@ -11,12 +11,12 @@
 <meta property="og:url" content="http://www.wangxin123.com/2018/01/10/卷积操作详解（填充、步长、高维卷积、卷积公式）/index.html">
 <meta property="og:site_name" content="星空博客">
 <meta property="og:description" content="&amp;#x5BF9;&amp;#x56FE;&amp;#x50CF;&amp;#xFF08;&amp;#x4E0D;&amp;#x540C;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#x7A97;&amp;#x53E3;&amp;#x6570;&amp;#x636E;&amp;#xFF09;&amp;#x548C;&amp;#x6EE4;&amp;#x6CE2;&amp;#x77E9;&amp;#x9635;&amp;#xFF08;&amp;#x4E00;&amp;#x7EC4;&amp;#x56FA;&amp;#x5B9A;&amp;#x7684;">
-<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Padding.jpg">
-<meta property="og:updated_time" content="2018-04-20T03:25:47.431Z">
+<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/4.png">
+<meta property="og:updated_time" content="2018-04-23T08:54:13.856Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="卷积操作详解（填充、步长、高维卷积、卷积公式）">
 <meta name="twitter:description" content="&amp;#x5BF9;&amp;#x56FE;&amp;#x50CF;&amp;#xFF08;&amp;#x4E0D;&amp;#x540C;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#x7A97;&amp;#x53E3;&amp;#x6570;&amp;#x636E;&amp;#xFF09;&amp;#x548C;&amp;#x6EE4;&amp;#x6CE2;&amp;#x77E9;&amp;#x9635;&amp;#xFF08;&amp;#x4E00;&amp;#x7EC4;&amp;#x56FA;&amp;#x5B9A;&amp;#x7684;">
-<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Padding.jpg">
+<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/4.png">
     
 
     
@@ -232,6 +232,8 @@
                 </div>
             
             <p><strong>&#x5BF9;&#x56FE;&#x50CF;</strong>&#xFF08;&#x4E0D;&#x540C;&#x7684;&#x6570;&#x636E;&#x7A97;&#x53E3;&#x6570;&#x636E;&#xFF09;<strong>&#x548C;&#x6EE4;&#x6CE2;&#x77E9;&#x9635;</strong>&#xFF08;&#x4E00;&#x7EC4;&#x56FA;&#x5B9A;&#x7684;&#x6743;&#x91CD;&#xFF1A;&#x56E0;&#x4E3A;&#x6BCF;&#x4E2A;&#x795E;&#x7ECF;&#x5143;&#x7684;&#x591A;&#x4E2A;&#x6743;&#x91CD;&#x56FA;&#x5B9A;&#xFF0C;&#x6240;&#x4EE5;&#x53C8;&#x53EF;&#x4EE5;&#x770B;&#x505A;&#x4E00;&#x4E2A;&#x6052;&#x5B9A;&#x7684;&#x6EE4;&#x6CE2;&#x5668;filter&#xFF09;<strong>&#x505A;&#x5185;&#x79EF;</strong>&#xFF08;&#x9010;&#x4E2A;&#x5143;&#x7D20;&#x76F8;&#x4E58;&#x518D;&#x6C42;&#x548C;&#xFF09;<strong>&#x7684;&#x64CD;&#x4F5C;&#x5C31;&#x662F;&#x6240;&#x8C13;&#x7684;&#x300E;&#x5377;&#x79EF;&#x300F;&#x64CD;&#x4F5C;</strong>&#xFF0C;&#x4E5F;&#x662F;&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x7684;&#x540D;&#x5B57;&#x6765;&#x6E90;&#x3002;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/4.png" alt="&#x5377;&#x79EF;"></p>
+<a id="more"></a>
 <hr>
 <h3 id="&#x586B;&#x5145;"><a href="#&#x586B;&#x5145;" class="headerlink" title="&#x586B;&#x5145;"></a>&#x586B;&#x5145;</h3><p>&#x5047;&#x8BBE;&#x8F93;&#x5165;&#x56FE;&#x7247;&#x7684;&#x5927;&#x5C0F;&#x4E3A; <strong>n&#xD7;n</strong>&#xFF0C;&#x800C;&#x6EE4;&#x6CE2;&#x5668;&#x7684;&#x5927;&#x5C0F;&#x4E3A; <strong>f&#xD7;f</strong>&#xFF0C;&#x5219;&#x5377;&#x79EF;&#x540E;&#x7684;&#x8F93;&#x51FA;&#x56FE;&#x7247;&#x5927;&#x5C0F;&#x4E3A; <strong>(n&#x2212;f+1)&#xD7;(n&#x2212;f+1)</strong>&#x3002;</p>
 <p><strong>&#x8FD9;&#x6837;&#x5C31;&#x6709;&#x4E24;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;</strong></p>
@@ -241,7 +243,6 @@
 </ul>
 <p>&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x8FD9;&#x4E9B;&#x95EE;&#x9898;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x8FDB;&#x884C;&#x5377;&#x79EF;&#x64CD;&#x4F5C;&#x524D;&#xFF0C;&#x5BF9;&#x539F;&#x59CB;&#x56FE;&#x7247;&#x5728;&#x8FB9;&#x754C;&#x4E0A;&#x8FDB;&#x884C;<strong>&#x586B;&#x5145;&#xFF08;Padding&#xFF09;</strong>&#xFF0C;&#x4EE5;&#x589E;&#x52A0;&#x77E9;&#x9635;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x901A;&#x5E38;&#x5C06; 0 &#x4F5C;&#x4E3A;&#x586B;&#x5145;&#x503C;&#x3002;</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Padding.jpg" alt=""></p>
-<a id="more"></a>
 <p>&#x8BBE;&#x6BCF;&#x4E2A;&#x65B9;&#x5411;&#x6269;&#x5C55;&#x50CF;&#x7D20;&#x70B9;&#x6570;&#x91CF;&#x4E3A; p&#xFF0C;&#x5219;&#x586B;&#x5145;&#x540E;&#x539F;&#x59CB;&#x56FE;&#x7247;&#x7684;&#x5927;&#x5C0F;&#x4E3A; **(n+2p)&#xD7;(n+2p)$&#xFF0C;&#x6EE4;&#x6CE2;&#x5668;&#x5927;&#x5C0F;&#x4FDD;&#x6301; $f&#xD7;f$&#x4E0D;&#x53D8;&#xFF0C;&#x5219;&#x8F93;&#x51FA;&#x56FE;&#x7247;&#x5927;&#x5C0F;&#x4E3A; $(n+2p&#x2212;f+1)&#xD7;(n+2p&#x2212;f+1)$&#x3002;</p>
 <p>&#x56E0;&#x6B64;&#xFF0C;&#x5728;&#x8FDB;&#x884C;&#x5377;&#x79EF;&#x8FD0;&#x7B97;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x6709;&#x4E24;&#x79CD;&#x9009;&#x62E9;&#xFF1A;</p>
 <ul>
