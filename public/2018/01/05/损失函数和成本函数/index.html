@@ -3,18 +3,20 @@
 <head>
     <meta charset="utf-8">
     
-    <title>机器学习（八）：隐马尔科夫模型 | 星空博客</title>
+    <title>损失函数和成本函数 | 星空博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x6301;&amp;#x7EED;&amp;#x66F4;&amp;#x65B0;&amp;#x4E2D;&amp;#x3002;&amp;#x3002;&amp;#x3002;">
+    <meta name="description" content="&amp;#x635F;&amp;#x5931;&amp;#x51FD;&amp;#x6570;&amp;#x9488;&amp;#x5BF9;&amp;#x7684;&amp;#x662F;&amp;#x5355;&amp;#x4E2A;&amp;#x6837;&amp;#x672C;&amp;#xFF0C;&amp;#x4EE3;&amp;#x4EF7;&amp;#x51FD;&amp;#x6570;&amp;#x6216;&amp;#x8005;&amp;#x6210;&amp;#x672C;&amp;#x51FD;&amp;#x6570;&amp;#x9488;&amp;#x5BF9;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="机器学习（八）：隐马尔科夫模型">
-<meta property="og:url" content="http://www.wangxin123.com/2017/10/29/机器学习（八）：隐马尔科夫模型/index.html">
+<meta property="og:title" content="损失函数和成本函数">
+<meta property="og:url" content="http://www.wangxin123.com/2018/01/05/损失函数和成本函数/index.html">
 <meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x6301;&amp;#x7EED;&amp;#x66F4;&amp;#x65B0;&amp;#x4E2D;&amp;#x3002;&amp;#x3002;&amp;#x3002;">
-<meta property="og:updated_time" content="2018-01-30T12:24:41.229Z">
+<meta property="og:description" content="&amp;#x635F;&amp;#x5931;&amp;#x51FD;&amp;#x6570;&amp;#x9488;&amp;#x5BF9;&amp;#x7684;&amp;#x662F;&amp;#x5355;&amp;#x4E2A;&amp;#x6837;&amp;#x672C;&amp;#xFF0C;&amp;#x4EE3;&amp;#x4EF7;&amp;#x51FD;&amp;#x6570;&amp;#x6216;&amp;#x8005;&amp;#x6210;&amp;#x672C;&amp;#x51FD;&amp;#x6570;&amp;#x9488;&amp;#x5BF9;">
+<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%92%8C%E6%88%90%E6%9C%AC%E5%87%BD%E6%95%B0/20180424114511_sigmoid.png">
+<meta property="og:updated_time" content="2018-04-24T03:55:42.206Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="机器学习（八）：隐马尔科夫模型">
-<meta name="twitter:description" content="&amp;#x6301;&amp;#x7EED;&amp;#x66F4;&amp;#x65B0;&amp;#x4E2D;&amp;#x3002;&amp;#x3002;&amp;#x3002;">
+<meta name="twitter:title" content="损失函数和成本函数">
+<meta name="twitter:description" content="&amp;#x635F;&amp;#x5931;&amp;#x51FD;&amp;#x6570;&amp;#x9488;&amp;#x5BF9;&amp;#x7684;&amp;#x662F;&amp;#x5355;&amp;#x4E2A;&amp;#x6837;&amp;#x672C;&amp;#xFF0C;&amp;#x4EE3;&amp;#x4EF7;&amp;#x51FD;&amp;#x6570;&amp;#x6216;&amp;#x8005;&amp;#x6210;&amp;#x672C;&amp;#x51FD;&amp;#x6570;&amp;#x9488;&amp;#x5BF9;">
+<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%92%8C%E6%88%90%E6%9C%AC%E5%87%BD%E6%95%B0/20180424114511_sigmoid.png">
     
 
     
@@ -183,7 +185,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-机器学习（八）：隐马尔科夫模型" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-损失函数和成本函数" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -192,7 +194,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            机器学习（八）：隐马尔科夫模型
+            损失函数和成本函数
         </h1>
     
 
@@ -200,8 +202,8 @@
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/10/29/机器学习（八）：隐马尔科夫模型/">
-            <time datetime="2017-10-29T14:22:00.000Z" itemprop="datePublished">2017-10-29</time>
+        <a href="/2018/01/05/损失函数和成本函数/">
+            <time datetime="2018-01-05T14:22:00.000Z" itemprop="datePublished">2018-01-05</time>
         </a>
     </div>
 
@@ -209,13 +211,13 @@
                     
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
+        <a class="article-category-link" href="/categories/深度学习/">深度学习</a>
     </div>
 
                     
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/隐马尔科夫模型/">隐马尔科夫模型</a>
+        <a class="tag-link" href="/tags/人脸识别/">人脸识别</a>
     </div>
 
                 </div>
@@ -224,8 +226,56 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>&#x6301;&#x7EED;&#x66F4;&#x65B0;&#x4E2D;&#x3002;&#x3002;&#x3002;</p>
-
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#逻辑回归"><span class="toc-number">1.</span> <span class="toc-text">逻辑回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Softmax-回归"><span class="toc-number">2.</span> <span class="toc-text">Softmax 回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SVM"><span class="toc-number">3.</span> <span class="toc-text">SVM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#神经网络"><span class="toc-number">4.</span> <span class="toc-text">神经网络</span></a></li></ol>
+                </div>
+            
+            <p><strong>&#x635F;&#x5931;&#x51FD;&#x6570;&#x9488;&#x5BF9;&#x7684;&#x662F;&#x5355;&#x4E2A;&#x6837;&#x672C;&#xFF0C;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;&#x6216;&#x8005;&#x6210;&#x672C;&#x51FD;&#x6570;&#x9488;&#x5BF9;&#x7684;&#x662F;&#x5168;&#x4F53;&#x6837;&#x672C;&#x3002;</strong></p>
+<hr>
+<h3 id="&#x903B;&#x8F91;&#x56DE;&#x5F52;"><a href="#&#x903B;&#x8F91;&#x56DE;&#x5F52;" class="headerlink" title="&#x903B;&#x8F91;&#x56DE;&#x5F52;"></a>&#x903B;&#x8F91;&#x56DE;&#x5F52;</h3><p>Logistic &#x56DE;&#x5F52;&#x662F;&#x4E00;&#x4E2A;&#x7528;&#x4E8E;&#x4E8C;&#x5206;&#x5206;&#x7C7B;&#x7684;&#x7B97;&#x6CD5;&#x3002;</p>
+<p>Logistic &#x56DE;&#x5F52;&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x53C2;&#x6570;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ul>
+<li>&#x8F93;&#x5165;&#x7684;&#x7279;&#x5F81;&#x5411;&#x91CF;&#xFF1A;$x \in R^{n_x}$&#xFF0C;&#x5176;&#x4E2D; ${n_x}$ &#x662F;&#x7279;&#x5F81;&#x6570;&#x91CF;&#xFF1B;</li>
+<li>&#x7528;&#x4E8E;&#x8BAD;&#x7EC3;&#x7684;&#x6807;&#x7B7E;&#xFF1A;$y \in 0,1$</li>
+<li>&#x6743;&#x91CD;&#xFF1A;$w \in R^{n_x}$</li>
+<li>&#x504F;&#x7F6E;&#xFF1A; $b \in R$</li>
+<li>&#x8F93;&#x51FA;&#xFF1A;$\hat{y} = \sigma(w^Tx+b)$</li>
+<li><strong>Sigmoid &#x51FD;&#x6570;</strong>&#xFF1A;<br>$$s = \sigma(w^Tx+b) = \sigma(z) = \frac{1}{1+e^{-z}}$$</li>
+</ul>
+<a id="more"></a>
+<p>&#x4E3A;&#x5C06; wTx+b &#x7EA6;&#x675F;&#x5728; [0, 1] &#x95F4;&#xFF0C;&#x5F15;&#x5165; Sigmoid &#x51FD;&#x6570;&#x3002;&#x4ECE;&#x4E0B;&#x56FE;&#x53EF;&#x770B;&#x51FA;&#xFF0C;Sigmoid &#x51FD;&#x6570;&#x7684;&#x503C;&#x57DF;&#x4E3A; [0, 1]&#x3002;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%92%8C%E6%88%90%E6%9C%AC%E5%87%BD%E6%95%B0/20180424114511_sigmoid.png" alt=""></p>
+<p>Logistic &#x56DE;&#x5F52;&#x53EF;&#x4EE5;&#x770B;&#x4F5C;&#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x5C0F;&#x7684;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x3002;&#x4E0B;&#x56FE;&#x662F;&#x4E00;&#x4E2A;&#x5178;&#x578B;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E5%92%8C%E6%88%90%E6%9C%AC%E5%87%BD%E6%95%B0/20180424114556_LogReg_kiank.png" alt=""></p>
+<p>&#x635F;&#x5931;&#x51FD;&#x6570;&#xFF08;loss function&#xFF09;&#x7528;&#x4E8E;&#x8861;&#x91CF;&#x9884;&#x6D4B;&#x7ED3;&#x679C;&#x4E0E;&#x771F;&#x5B9E;&#x503C;&#x4E4B;&#x95F4;&#x7684;&#x8BEF;&#x5DEE;&#x3002;</p>
+<p>&#x6700;&#x7B80;&#x5355;&#x7684;&#x635F;&#x5931;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x65B9;&#x5F0F;&#x4E3A;&#x5E73;&#x65B9;&#x5DEE;&#x635F;&#x5931;&#xFF1A;<br>$$L(\hat{y},y) = \frac{1}{2}(\hat{y}-y)^2$$<br><strong>&#x4F46; Logistic &#x56DE;&#x5F52;&#x4E2D;&#x6211;&#x4EEC;&#x5E76;&#x4E0D;&#x503E;&#x5411;&#x4E8E;&#x4F7F;&#x7528;&#x8FD9;&#x6837;&#x7684;&#x635F;&#x5931;&#x51FD;&#x6570;</strong>&#xFF0C;&#x56E0;&#x4E3A;&#x4E4B;&#x540E;&#x8BA8;&#x8BBA;&#x7684;&#x4F18;&#x5316;&#x95EE;&#x9898;&#x4F1A;&#x53D8;&#x6210;&#x975E;&#x51F8;&#x7684;&#xFF0C;&#x6700;&#x540E;&#x4F1A;&#x5F97;&#x5230;&#x5F88;&#x591A;&#x4E2A;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#x89E3;&#xFF0C;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x53EF;&#x80FD;&#x627E;&#x4E0D;&#x5230;&#x5168;&#x5C40;&#x6700;&#x4F18;&#x503C;&#x3002;</p>
+<p><strong>&#x635F;&#x5931;&#x51FD;&#x6570;&#x4E00;&#x822C;&#x4F7F;&#x7528;&#xFF1A;</strong><br>$$L(\hat{y},y) = -(y\log\hat{y})-(1-y)\log(1-\hat{y})$$</p>
+<p><strong>&#x635F;&#x5931;&#x51FD;&#x6570;</strong>&#x662F;&#x5728;<strong>&#x5355;&#x4E2A;&#x8BAD;&#x7EC3;&#x6837;&#x672C;</strong>&#x4E2D;&#x5B9A;&#x4E49;&#x7684;&#xFF0C;&#x5B83;&#x8861;&#x91CF;&#x4E86;&#x5728;&#x5355;&#x4E2A;&#x8BAD;&#x7EC3;&#x6837;&#x672C;&#x4E0A;&#x7684;&#x8868;&#x73B0;&#x3002;&#x800C;<strong>&#x4EE3;&#x4EF7;&#x51FD;&#x6570;</strong>&#xFF08;cost function&#xFF0C;&#x6216;&#x8005;&#x79F0;&#x4F5C;&#x6210;&#x672C;&#x51FD;&#x6570;&#xFF09;&#x8861;&#x91CF;&#x7684;&#x662F;&#x5728;<strong>&#x5168;&#x4F53;&#x8BAD;&#x7EC3;&#x6837;&#x672C;</strong>&#x4E0A;&#x7684;&#x8868;&#x73B0;&#xFF0C;&#x5373;&#x8861;&#x91CF;&#x53C2;&#x6570; w &#x548C; b &#x7684;&#x6548;&#x679C;&#x3002;</p>
+<p>$$J(w,b) = \frac{1}{m}\sum_{i=1}^mL(\hat{y}^{(i)},y^{(i)})$$</p>
+<p><strong>&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x53C2;&#x6570;&#x8FED;&#x4EE3;&#x63A8;&#x5BFC;</strong>&#xFF1A;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/2.png" alt=""><br><a href="http://blog.csdn.net/oldbai001/article/details/49872433" target="_blank" rel="external">http://blog.csdn.net/oldbai001/article/details/49872433</a><br><a href="http://blog.csdn.net/programmer_wei/article/details/52072939" target="_blank" rel="external">http://blog.csdn.net/programmer_wei/article/details/52072939</a></p>
+<hr>
+<h3 id="Softmax-&#x56DE;&#x5F52;"><a href="#Softmax-&#x56DE;&#x5F52;" class="headerlink" title="Softmax &#x56DE;&#x5F52;"></a>Softmax &#x56DE;&#x5F52;</h3><p>&#x4E8C;&#x5206;&#x7C7B;&#x95EE;&#x9898;&#xFF0C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x8F93;&#x51FA;&#x5C42;&#x901A;&#x5E38;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x795E;&#x7ECF;&#x5143;&#xFF0C;&#x8868;&#x793A;&#x9884;&#x6D4B;&#x8F93;&#x51FA; $\hat y$&#x662F;&#x6B63;&#x7C7B;&#x7684;&#x6982;&#x7387; P(y = 1|x)&#xFF0C;$\hat y$ &gt; 0.5 &#x5219;&#x5224;&#x65AD;&#x4E3A;&#x6B63;&#x7C7B;&#xFF0C;&#x53CD;&#x4E4B;&#x5224;&#x65AD;&#x4E3A;&#x8D1F;&#x7C7B;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;<strong>&#x591A;&#x5206;&#x7C7B;</strong>&#x95EE;&#x9898;&#xFF0C;&#x7528; C &#x8868;&#x793A;&#x79CD;&#x7C7B;&#x4E2A;&#x6570;&#xFF0C;&#x5219;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x8F93;&#x51FA;&#x5C42;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x7B2C; L &#x5C42;&#x7684;&#x5355;&#x5143;&#x6570;&#x91CF; $n^{[L]} = C$&#x3002;&#x6BCF;&#x4E2A;&#x795E;&#x7ECF;&#x5143;&#x7684;&#x8F93;&#x51FA;&#x4F9D;&#x6B21;&#x5BF9;&#x5E94;&#x5C5E;&#x4E8E;&#x8BE5;&#x7C7B;&#x7684;&#x6982;&#x7387;&#xFF0C;&#x5373; $P(y = c|x), c = 0, 1, .., C-1$&#x3002;&#x6709;&#x4E00;&#x79CD; Logistic &#x56DE;&#x5F52;&#x7684;&#x4E00;&#x822C;&#x5F62;&#x5F0F;&#xFF0C;&#x53EB;&#x505A;<strong>Softmax &#x56DE;&#x5F52;</strong>&#xFF0C;&#x53EF;&#x4EE5;&#x5904;&#x7406;&#x591A;&#x5206;&#x7C7B;&#x95EE;&#x9898;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E; Softmax &#x56DE;&#x5F52;&#x6A21;&#x578B;&#x7684;&#x8F93;&#x51FA;&#x5C42;&#xFF0C;&#x5373;&#x7B2C; L &#x5C42;&#xFF0C;&#x6709;&#xFF1A;</p>
+<p>$$Z^{[L]} = W^{[L]}a^{[L-1]} + b^{[L]}$$</p>
+<p>for i in range(L)&#xFF0C;&#x6709;&#xFF1A;</p>
+<p>$$a^{[L]}_i = \frac{e^{Z^{[L]}_i}}{\sum^C_{i=1}e^{Z^{[L]}_i}}$$</p>
+<p>&#x4E3A;&#x8F93;&#x51FA;&#x5C42;&#x6BCF;&#x4E2A;&#x795E;&#x7ECF;&#x5143;&#x7684;&#x8F93;&#x51FA;&#xFF0C;&#x5BF9;&#x5E94;&#x5C5E;&#x4E8E;&#x8BE5;&#x7C7B;&#x7684;&#x6982;&#x7387;&#xFF0C;&#x6EE1;&#x8DB3;&#xFF1A;</p>
+<p>$$\sum^C_{i=1}a^{[L]}_i = 1$$</p>
+<p>&#x4E00;&#x4E2A;&#x76F4;&#x89C2;&#x7684;&#x8BA1;&#x7B97;&#x4F8B;&#x5B50;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/understanding-softmax.png" alt=""></p>
+<p>&#x5B9A;&#x4E49; <strong>&#x635F;&#x5931;&#x51FD;&#x6570;</strong> &#x4E3A;&#xFF1A;</p>
+<p>$$L(\hat y, y) = -\sum^C_{j=1}y_jlog\hat y_j$$</p>
+<p>&#x5F53; i &#x4E3A;&#x6837;&#x672C;&#x771F;&#x5B9E;&#x7C7B;&#x522B;&#xFF0C;&#x5219;&#x6709;&#xFF1A;</p>
+<p>$$y_j = 0, j \ne i$$</p>
+<p>&#x56E0;&#x6B64;&#xFF0C;&#x635F;&#x5931;&#x51FD;&#x6570;&#x53EF;&#x4EE5;&#x7B80;&#x5316;&#x4E3A;&#xFF1A;</p>
+<p>$$L(\hat y, y) = -y_ilog\hat y_i = log \hat y_i$$</p>
+<p>&#x6240;&#x6709; m &#x4E2A;&#x6837;&#x672C;&#x7684; <strong>&#x6210;&#x672C;&#x51FD;&#x6570;</strong> &#x4E3A;&#xFF1A;</p>
+<p>$$J = \frac{1}{m}\sum^m_{i=1}L(\hat y, y)$$</p>
+<hr>
+<h3 id="SVM"><a href="#SVM" class="headerlink" title="SVM"></a>SVM</h3><hr>
+<h3 id="&#x795E;&#x7ECF;&#x7F51;&#x7EDC;"><a href="#&#x795E;&#x7ECF;&#x7F51;&#x7EDC;" class="headerlink" title="&#x795E;&#x7ECF;&#x7F51;&#x7EDC;"></a>&#x795E;&#x7ECF;&#x7F51;&#x7EDC;</h3>
         
         </div>
         <footer class="article-footer">
@@ -279,19 +329,19 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
 <nav id="article-nav">
     
-        <a href="/2017/11/02/机器学习（九）：数据清洗和特征选择/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2018/01/10/卷积操作详解（填充、步长、高维卷积、卷积公式）/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    机器学习（九）：数据清洗和特征选择
+                    卷积操作详解（填充、步长、高维卷积、卷积公式）
                 
             </div>
         </a>
     
     
-        <a href="/2017/10/28/机器学习（七）：主题模型/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/12/19/Batch Normalization 批标准化/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">机器学习（七）：主题模型</div>
+            <div class="article-nav-title">Batch Normalization 批标准化</div>
         </a>
     
 </nav>
