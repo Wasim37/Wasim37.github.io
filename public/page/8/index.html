@@ -151,11 +151,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                106
+                107
                 <span>文章</span>
             </div>
             <div class="article-info-block">
-                87
+                88
                 <span>标签</span>
             </div>
         </div>
@@ -183,6 +183,107 @@
 
             
             <section id="main">
+    <article id="post-MySQL主从搭建" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/10/07/MySQL主从搭建/">MySQL主从搭建</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/10/07/MySQL主从搭建/">
+            <time datetime="2016-10-07T14:22:00.000Z" itemprop="datePublished">2016-10-07</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/运维部署/">运维部署</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/mysql/">mysql</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p><strong>&#x4E3B;&#x670D;&#x52A1;&#x5668;</strong>: 192.168.1.100<br><strong>&#x4ECE;&#x670D;&#x52A1;&#x5668;</strong>: 192.168.1.101</p>
+<hr>
+<h3 id="&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;"><a href="#&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;" class="headerlink" title="&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;"></a>&#x4E3B;&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;</h3><p>1&#x3001;&#x7F16;&#x8F91;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x5982;&#x679C;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x5C31;&#x624B;&#x52A8;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;</span></span><br><span class="line">vim /etc/my.cnf</span><br><span class="line"></span><br><span class="line">&#x5728;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x52A0;&#x5165;&#x5982;&#x4E0B;&#x503C;&#xFF1A;</span><br><span class="line"></span><br><span class="line">[mysqld]  </span><br><span class="line"><span class="comment"># &#x552F;&#x4E00;&#x7684;&#x670D;&#x52A1;&#x8FA8;&#x8BC6;&#x53F7;,&#x6570;&#x503C;&#x4F4D;&#x4E8E; 1 &#x5230; 2^32-1&#x4E4B;&#x95F4;.</span></span><br><span class="line"><span class="comment"># &#x6B64;&#x503C;&#x5728;master&#x548C;slave&#x4E0A;&#x90FD;&#x9700;&#x8981;&#x8BBE;&#x7F6E;.</span></span><br><span class="line"><span class="comment"># &#x5982;&#x679C; &#x201C;master-host&#x201D; &#x6CA1;&#x6709;&#x88AB;&#x8BBE;&#x7F6E;,&#x5219;&#x9ED8;&#x8BA4;&#x4E3A;1, &#x4F46;&#x662F;&#x5982;&#x679C;&#x5FFD;&#x7565;&#x6B64;&#x9009;&#x9879;,MySQL&#x4E0D;&#x4F1A;&#x4F5C;&#x4E3A;master&#x751F;&#x6548;.</span></span><br><span class="line">server-id=1</span><br><span class="line"><span class="comment"># &#x6253;&#x5F00;&#x4E8C;&#x8FDB;&#x5236;&#x65E5;&#x5FD7;&#x529F;&#x80FD;.</span></span><br><span class="line"><span class="comment"># &#x5728;&#x590D;&#x5236;(replication)&#x914D;&#x7F6E;&#x4E2D;,&#x4F5C;&#x4E3A; MASTER &#x4E3B;&#x670D;&#x52A1;&#x5668;&#x5FC5;&#x987B;&#x6253;&#x5F00;&#x6B64;&#x9879;</span></span><br><span class="line"><span class="comment"># &#x5982;&#x679C;&#x4F60;&#x9700;&#x8981;&#x4ECE;&#x4F60;&#x6700;&#x540E;&#x7684;&#x5907;&#x4EFD;&#x4E2D;&#x505A;&#x57FA;&#x4E8E;&#x65F6;&#x95F4;&#x70B9;&#x7684;&#x6062;&#x590D;,&#x4F60;&#x4E5F;&#x540C;&#x6837;&#x9700;&#x8981;&#x4E8C;&#x8FDB;&#x5236;&#x65E5;&#x5FD7;.   </span></span><br><span class="line"><span class="built_in">log</span>-bin=master-bin</span><br><span class="line"><span class="built_in">log</span>-bin-index=master-bin.index</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x4EE5;&#x4E0B;&#x4E3A;&#x975E;&#x5FC5;&#x987B;&#x8BBE;&#x7F6E;&#x7684;&#x9009;&#x9879;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x8868;&#x660E;&#x8DDD;&#x79BB;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x6B63;&#x597D;n&#x5929;&#x524D;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x4F1A;&#x88AB;&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;&#x5220;&#x9664;</span></span><br><span class="line"><span class="comment"># &#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x5343;&#x4E07;&#x4E0D;&#x8981;&#x624B;&#x52A8;&#x5220;&#x9664;</span></span><br><span class="line">expire-logs-days=14</span><br><span class="line"><span class="comment"># binlog&#x6709;&#x4E09;&#x79CD;&#x65E5;&#x5FD7;&#x683C;&#x5F0F;, Statement&#x3001;Row&#x3001;Mixed, mysql&#x9ED8;&#x8BA4;&#x91C7;&#x7528;statement, &#x5EFA;&#x8BAE;&#x4F7F;&#x7528;mixed</span></span><br><span class="line">binlog_format=mixed</span><br><span class="line"><span class="comment"># sync_binlog=0&#xFF0C;&#x5F53;&#x4E8B;&#x52A1;&#x63D0;&#x4EA4;&#x4E4B;&#x540E;&#xFF0C;MySQL&#x4E0D;&#x505A;fsync&#x4E4B;&#x7C7B;&#x7684;&#x78C1;&#x76D8;&#x540C;&#x6B65;&#x6307;&#x4EE4;&#x5237;&#x65B0;binlog_cache&#x4E2D;&#x7684;&#x4FE1;&#x606F;&#x5230;&#x78C1;&#x76D8;&#xFF0C;&#x800C;&#x8BA9;Filesystem&#x81EA;&#x884C;&#x51B3;&#x5B9A;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x6765;&#x505A;&#x540C;&#x6B65;&#xFF0C;&#x6216;&#x8005;cache&#x6EE1;&#x4E86;&#x4E4B;&#x540E;&#x624D;&#x540C;&#x6B65;&#x5230;&#x78C1;&#x76D8;&#x3002;</span></span><br><span class="line"><span class="comment"># sync_binlog=n&#xFF0C;&#x5F53;&#x6BCF;&#x8FDB;&#x884C;n&#x6B21;&#x4E8B;&#x52A1;&#x63D0;&#x4EA4;&#x4E4B;&#x540E;&#xFF0C;MySQL&#x5C06;&#x8FDB;&#x884C;&#x4E00;&#x6B21;fsync&#x4E4B;&#x7C7B;&#x7684;&#x78C1;&#x76D8;&#x540C;&#x6B65;&#x6307;&#x4EE4;&#x6765;&#x5C06;binlog_cache&#x4E2D;&#x7684;&#x6570;&#x636E;&#x5F3A;&#x5236;&#x5199;&#x5165;&#x78C1;&#x76D8;</span></span><br><span class="line"><span class="comment"># &#x8BBE;&#x7F6E;&#x4E3A;0&#x548C;&#x8BBE;&#x7F6E;&#x4E3A;1&#x7684;&#x7CFB;&#x7EDF;&#x5199;&#x5165;&#x6027;&#x80FD;&#x5DEE;&#x8DDD;&#x6709;&#x65F6;&#x5019;&#x9AD8;&#x8FBE;5&#x500D;&#x751A;&#x81F3;&#x66F4;&#x591A;&#x3002;</span></span><br><span class="line">sync-binlog=1</span><br><span class="line"><span class="comment"># &#x5355;&#x4E2A;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x6700;&#x5927;&#x5B57;&#x8282;&#x8BBE;&#x7F6E;&#x6700;&#x5927;100MB&#xFF08;&#x5355;&#x4F4D;&#xFF1A;&#x5B57;&#x8282;&#xFF09; </span></span><br><span class="line"><span class="comment"># &#x65E5;&#x5FD7;&#x9ED8;&#x8BA4;&#x503C;&#x662F;1GB&#xFF0C;&#x7531;&#x4E8E;&#x4E8B;&#x52A1;&#xFF0C;&#x4E00;&#x822C;&#x6587;&#x4EF6;&#x90FD;&#x5927;&#x4E8E;1GB</span></span><br><span class="line">max_binlog_size=104857600 </span><br><span class="line"><span class="comment">#&#x9700;&#x8981;&#x5907;&#x4EFD;&#x7684;&#x6570;&#x636E;&#x5E93;  </span></span><br><span class="line">binlog-do-db=orders</span><br><span class="line"><span class="comment">#&#x4E0D;&#x9700;&#x8981;&#x5907;&#x4EFD;&#x7684;&#x6570;&#x636E;&#x5E93;</span></span><br><span class="line"><span class="comment">#&#x82E5;&#x6CA1;&#x6709;&#x914D;&#x7F6E;binlog-do-db&#x548C;binlog_ignore_db&#xFF0C;&#x8868;&#x793A;&#x5907;&#x4EFD;&#x5168;&#x90E8;&#x6570;&#x636E;&#x5E93;&#x3002;</span></span><br><span class="line">binlog-ignore-db=mysql</span><br></pre></td></tr></table></figure></p>
+            <p class="article-more-link">
+                <a href="/2016/10/07/MySQL主从搭建/#more">查看更多</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-zabbix监控nginx" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1099,108 +1200,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-redis多实例及主从搭建" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/09/18/redis多实例及主从搭建/">Redis多实例及主从搭建</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/09/18/redis多实例及主从搭建/">
-            <time datetime="2016-09-18T14:41:19.000Z" itemprop="datePublished">2016-09-18</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/运维部署/">运维部署</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/redis/">redis</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>&#x524D;&#x63D0;&#x662F;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x5DF2;&#x7ECF;&#x5B89;&#x88C5;&#x597D;&#x4E86;redis,<br>redis&#x5B89;&#x88C5;&#x53EF;&#x641C;&#x7D22;&#x672C;&#x7AD9;&#x53E6;&#x4E00;&#x7BC7;&#x535A;&#x5BA2;&#xFF1A;redis&#x5B89;&#x88C5;&#x3002;</p>
-<hr>
-<h3 id="redis&#x5355;&#x4E3B;&#x673A;&#x591A;&#x5B9E;&#x4F8B;"><a href="#redis&#x5355;&#x4E3B;&#x673A;&#x591A;&#x5B9E;&#x4F8B;" class="headerlink" title="redis&#x5355;&#x4E3B;&#x673A;&#x591A;&#x5B9E;&#x4F8B;"></a>redis&#x5355;&#x4E3B;&#x673A;&#x591A;&#x5B9E;&#x4F8B;</h3><p>&#x4E00;&#x3001;&#x6211;&#x4EEC;&#x9996;&#x5148;&#x62F7;&#x8D1D;&#x4E24;&#x4EFD;&#x6587;&#x4EF6;&#xFF1A;</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /etc/redis.conf /etc/redis6381.conf</span><br><span class="line">cp /etc/redis.conf /etc/redis6382.conf</span><br></pre></td></tr></table></figure>
-<p>&#x4E8C;&#x3001;&#x4FEE;&#x6539;redis6381&#x914D;&#x7F6E;&#x6587;&#x4EF6;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /etc/redis6381.conf</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B; redis &#x4E0D;&#x662F;&#x4F5C;&#x4E3A;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x8FD0;&#x884C;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x8BA9;&#x5B83;&#x5728;&#x540E;&#x53F0;&#x8FD0;&#x884C;&#xFF0C;&#x4F60;&#x5C31;&#x628A;&#x5B83;&#x6539;&#x6210; yes&#x3002;</span></span><br><span class="line">daemonize yes</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x5F53;redis&#x4F5C;&#x4E3A;&#x5B88;&#x62A4;&#x8FDB;&#x7A0B;&#x8FD0;&#x884C;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5B83;&#x4F1A;&#x628A; pid &#x9ED8;&#x8BA4;&#x5199;&#x5230; /var/run/redis.pid &#x6587;&#x4EF6;&#x91CC;&#x9762;&#xFF0C;</span></span><br><span class="line"><span class="comment"># &#x4F46;&#x662F;&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x8FD9;&#x91CC;&#x81EA;&#x5DF1;&#x5236;&#x5B9A;&#x5B83;&#x7684;&#x6587;&#x4EF6;&#x4F4D;&#x7F6E;&#x3002;</span></span><br><span class="line">pidfile /var/run/redis/redis_6381.pid</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x76D1;&#x542C;&#x7AEF;&#x53E3;&#x53F7;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A; 6379&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x8BBE;&#x4E3A; 0 &#xFF0C;redis &#x5C06;&#x4E0D;&#x5728; socket &#x4E0A;&#x76D1;&#x542C;&#x4EFB;&#x4F55;&#x5BA2;&#x6237;&#x7AEF;&#x8FDE;&#x63A5;&#x3002;</span></span><br><span class="line">port 6381</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x6307;&#x5B9A;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x5B9E;&#x4F8B;&#x8BBE;&#x7F6E;&#x4E0D;&#x540C;&#x7684;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#xFF0C;&#x4FBF;&#x4E8E;&#x95EE;&#x9898;&#x5B9A;&#x4F4D;</span></span><br><span class="line">logfile /var/<span class="built_in">log</span>/redis/redis_6381.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x8BBE;&#x7F6E;dump&#x7684;&#x6587;&#x4EF6;&#x540D;&#x79F0;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x5B9E;&#x4F8B;&#x8BBE;&#x7F6E;&#x4E0D;&#x540C;&#x7684;db&#x6587;&#x4EF6;&#xFF0C;&#x4FBF;&#x4E8E;&#x95EE;&#x9898;&#x5B9A;&#x4F4D;</span></span><br><span class="line">dbfilename dump_6381.rdb</span><br><span class="line"> </span><br><span class="line"><span class="comment"># &#x5DE5;&#x4F5C;&#x76EE;&#x5F55;</span></span><br><span class="line"><span class="comment"># &#x4F8B;&#x5982;&#x4E0A;&#x9762;&#x7684; dbfilename &#x53EA;&#x6307;&#x5B9A;&#x4E86;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x4F1A;&#x5199;&#x5165;&#x5230;&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#x4E0B;&#x3002;</span></span><br><span class="line"><span class="comment"># &#x8FD9;&#x4E2A;&#x914D;&#x7F6E;&#x9879;&#x4E00;&#x5B9A;&#x662F;&#x4E2A;&#x76EE;&#x5F55;&#xFF0C;&#x800C;&#x4E0D;&#x80FD;&#x662F;&#x6587;&#x4EF6;&#x540D;&#x3002;</span></span><br><span class="line"><span class="comment"># &#x8FD9;&#x4E2A;&#x914D;&#x7F6E;&#x9879;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;&#x201C;./&#x201D;&#xFF0C;&#x6700;&#x597D;&#x6539;&#x76F8;&#x5BF9;&#x8DEF;&#x5F84;&#x4E3A;&#x7EDD;&#x5BF9;&#x8DEF;&#x5F84;</span></span><br><span class="line"><span class="comment"># &#x5982;&#x679C;&#x4E3A;&#x76F8;&#x5BF9;&#x8DEF;&#x5F84;&#xFF0C;redis&#x5728;&#x54EA;&#x91CC;&#x542F;&#x52A8;&#xFF0C;dump.rdb&#x6587;&#x4EF6;&#x5C31;&#x4F1A;&#x4EA7;&#x751F;&#x5728;&#x542F;&#x52A8;&#x7684;&#x76EE;&#x5F55;&#xFF0C;&#x8FD9;&#x4E5F;&#x5C31;&#x662F;&#x6709;&#x4E9B;&#x4EBA;&#x91CD;&#x542F;redis&#x540E;key&#x503C;&#x6D88;&#x5931;&#x7684;&#x539F;&#x56E0;</span></span><br><span class="line">dir /data/redisdb/</span><br></pre></td></tr></table></figure></p></p>
-            <p class="article-more-link">
-                <a href="/2016/09/18/redis多实例及主从搭建/#more">查看更多</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/7/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/9/">下一页 &raquo;</a>
     </nav>
@@ -1236,6 +1235,14 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
+                            <p class="item-title"><a href="/2018/02/27/循环训练模型/" class="title">循环训练模型</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T14:22:00.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
                             <p class="item-title"><a href="/2018/02/10/目标检测/" class="title">目标检测</a></p>
                             <p class="item-date"><time datetime="2018-02-10T14:22:00.000Z" itemprop="datePublished">2018-02-10</time></p>
                         </div>
@@ -1249,14 +1256,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                         </div>
                     </li>
                 
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/01/21/人脸识别/" class="title">人脸识别</a></p>
-                            <p class="item-date"><time datetime="2018-01-21T14:22:00.000Z" itemprop="datePublished">2018-01-21</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div -->
@@ -1266,7 +1265,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <div class="widget-wrap">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -1275,7 +1274,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
         </div>
     </div -->
 
@@ -1284,7 +1283,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
     <!-- div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 11.67px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 10px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 13.33px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 11.67px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
+            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 11.67px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 10px;">RNN</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 10px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 13.33px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 11.67px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
         </div>
     </div -->
 
