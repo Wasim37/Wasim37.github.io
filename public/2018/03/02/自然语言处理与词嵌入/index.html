@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>自然语言处理与词嵌入 | 星空博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="&amp;#x8BCD;&amp;#x5D4C;&amp;#x5165;one-hot &amp;#x5411;&amp;#x91CF;&amp;#x5C06;&amp;#x6BCF;&amp;#x4E2A;&amp;#x5355;&amp;#x8BCD;&amp;#x8868;&amp;#x793A;&amp;#x4E3A;&amp;#x5B8C;&amp;#x5168;&amp;#x72EC;&amp;#x7ACB;&amp;#x7684;&amp;#x4E2A;&amp;#x4F53;&amp;#xFF0C;&amp;#x4E0D;&amp;#x540C;&amp;#x8BCD;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自然语言处理与词嵌入">
+<meta property="og:url" content="http://www.wangxin123.com/2018/03/02/自然语言处理与词嵌入/index.html">
+<meta property="og:site_name" content="星空博客">
+<meta property="og:description" content="&amp;#x8BCD;&amp;#x5D4C;&amp;#x5165;one-hot &amp;#x5411;&amp;#x91CF;&amp;#x5C06;&amp;#x6BCF;&amp;#x4E2A;&amp;#x5355;&amp;#x8BCD;&amp;#x8868;&amp;#x793A;&amp;#x4E3A;&amp;#x5B8C;&amp;#x5168;&amp;#x72EC;&amp;#x7ACB;&amp;#x7684;&amp;#x4E2A;&amp;#x4F53;&amp;#xFF0C;&amp;#x4E0D;&amp;#x540C;&amp;#x8BCD;">
+<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/Embedding-matrix.png">
+<meta property="og:updated_time" content="2018-04-25T03:23:59.915Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自然语言处理与词嵌入">
+<meta name="twitter:description" content="&amp;#x8BCD;&amp;#x5D4C;&amp;#x5165;one-hot &amp;#x5411;&amp;#x91CF;&amp;#x5C06;&amp;#x6BCF;&amp;#x4E2A;&amp;#x5355;&amp;#x8BCD;&amp;#x8868;&amp;#x793A;&amp;#x4E3A;&amp;#x5B8C;&amp;#x5168;&amp;#x72EC;&amp;#x7ACB;&amp;#x7684;&amp;#x4E2A;&amp;#x4F53;&amp;#xFF0C;&amp;#x4E0D;&amp;#x540C;&amp;#x8BCD;">
+<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/Embedding-matrix.png">
+    
+
+    
+
+    
+        <link rel="icon" href="/css/images/wu.png" />
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">星空博客</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
+            <h2 id="name">Wasim</h2>
+            <h3 id="title">Full Stack Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
+            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                109
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                91
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-自然语言处理与词嵌入" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            自然语言处理与词嵌入
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/03/02/自然语言处理与词嵌入/">
+            <time datetime="2018-03-02T14:22:00.000Z" itemprop="datePublished">2018-03-02</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/深度学习/">深度学习</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/NLP/">NLP</a>, <a class="tag-link" href="/tags/word2vec/">word2vec</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#词嵌入"><span class="toc-number">1.</span> <span class="toc-text">词嵌入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#词嵌入与迁移学习"><span class="toc-number">2.</span> <span class="toc-text">词嵌入与迁移学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#词嵌入与类比推理"><span class="toc-number">3.</span> <span class="toc-text">词嵌入与类比推理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌入矩阵"><span class="toc-number">4.</span> <span class="toc-text">嵌入矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#学习词嵌入"><span class="toc-number">5.</span> <span class="toc-text">学习词嵌入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#神经概率语言模型"><span class="toc-number">5.1.</span> <span class="toc-text">神经概率语言模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Word2Vec"><span class="toc-number">5.2.</span> <span class="toc-text">Word2Vec</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Skip-gram"><span class="toc-number">5.2.1.</span> <span class="toc-text">Skip-gram</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CBOW"><span class="toc-number">5.2.2.</span> <span class="toc-text">CBOW</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#负采样"><span class="toc-number">5.2.3.</span> <span class="toc-text">负采样</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Glove"><span class="toc-number">5.3.</span> <span class="toc-text">Glove</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#情感分类"><span class="toc-number">6.</span> <span class="toc-text">情感分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#词嵌入除偏"><span class="toc-number">7.</span> <span class="toc-text">词嵌入除偏</span></a></li></ol>
+                </div>
+            
+            <h3 id="&#x8BCD;&#x5D4C;&#x5165;"><a href="#&#x8BCD;&#x5D4C;&#x5165;" class="headerlink" title="&#x8BCD;&#x5D4C;&#x5165;"></a>&#x8BCD;&#x5D4C;&#x5165;</h3><p>one-hot &#x5411;&#x91CF;&#x5C06;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x8868;&#x793A;&#x4E3A;&#x5B8C;&#x5168;&#x72EC;&#x7ACB;&#x7684;&#x4E2A;&#x4F53;&#xFF0C;&#x4E0D;&#x540C;&#x8BCD;&#x5411;&#x91CF;&#x90FD;&#x662F;&#x6B63;&#x4EA4;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x5355;&#x8BCD;&#x95F4;&#x7684;&#x76F8;&#x4F3C;&#x5EA6;&#x65E0;&#x6CD5;&#x4F53;&#x73B0;&#x3002;</p>
+<p>&#x6362;&#x7528;&#x7279;&#x5F81;&#x5316;&#x8868;&#x793A;&#x65B9;&#x6CD5;&#x80FD;&#x591F;&#x89E3;&#x51B3;&#x8FD9;&#x4E00;&#x95EE;&#x9898;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x7528;&#x8BED;&#x4E49;&#x7279;&#x5F81;&#x4F5C;&#x4E3A;&#x7EF4;&#x5EA6;&#x6765;&#x8868;&#x793A;&#x4E00;&#x4E2A;&#x8BCD;&#xFF0C;&#x56E0;&#x6B64;&#x8BED;&#x4E49;&#x76F8;&#x8FD1;&#x7684;&#x8BCD;&#xFF0C;&#x5176;&#x8BCD;&#x5411;&#x91CF;&#x4E5F;&#x76F8;&#x8FD1;&#x3002;</p>
+<p>&#x5C06;&#x9AD8;&#x7EF4;&#x7684;&#x8BCD;&#x5D4C;&#x5165;&#x201C;&#x5D4C;&#x5165;&#x201D;&#x5230;&#x4E00;&#x4E2A;&#x4E8C;&#x7EF4;&#x7A7A;&#x95F4;&#x91CC;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x53EF;&#x89C6;&#x5316;&#x3002;&#x5E38;&#x7528;&#x7684;&#x4E00;&#x79CD;&#x53EF;&#x89C6;&#x5316;&#x7B97;&#x6CD5;&#x662F; t-SNE &#x7B97;&#x6CD5;&#x3002;&#x5728;&#x901A;&#x8FC7;&#x590D;&#x6742;&#x800C;&#x975E;&#x7EBF;&#x6027;&#x7684;&#x65B9;&#x6CD5;&#x6620;&#x5C04;&#x5230;&#x4E8C;&#x7EF4;&#x7A7A;&#x95F4;&#x540E;&#xFF0C;&#x6BCF;&#x4E2A;&#x8BCD;&#x4F1A;&#x6839;&#x636E;&#x8BED;&#x4E49;&#x548C;&#x76F8;&#x5173;&#x7A0B;&#x5EA6;&#x805A;&#x5728;&#x4E00;&#x8D77;&#x3002;&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="https://www.seas.harvard.edu/courses/cs281/papers/tsne.pdf" target="_blank" rel="external">van der Maaten and Hinton., 2008. Visualizing Data using t-SNE</a></p>
+<p><strong>&#x8BCD;&#x5D4C;&#x5165;&#xFF08;Word Embedding&#xFF09;</strong>&#x662F; NLP &#x4E2D;&#x8BED;&#x8A00;&#x6A21;&#x578B;&#x4E0E;&#x8868;&#x5F81;&#x5B66;&#x4E60;&#x6280;&#x672F;&#x7684;&#x7EDF;&#x79F0;&#xFF0C;&#x6982;&#x5FF5;&#x4E0A;&#x800C;&#x8A00;&#xFF0C;&#x5B83;&#x662F;&#x6307;&#x628A;&#x4E00;&#x4E2A;&#x7EF4;&#x6570;&#x4E3A;&#x6240;&#x6709;&#x8BCD;&#x7684;&#x6570;&#x91CF;&#x7684;&#x9AD8;&#x7EF4;&#x7A7A;&#x95F4;&#xFF08;one-hot &#x5F62;&#x5F0F;&#x8868;&#x793A;&#x7684;&#x8BCD;&#xFF09;&#x201C;&#x5D4C;&#x5165;&#x201D;&#x5230;&#x4E00;&#x4E2A;&#x7EF4;&#x6570;&#x4F4E;&#x5F97;&#x591A;&#x7684;&#x8FDE;&#x7EED;&#x5411;&#x91CF;&#x7A7A;&#x95F4;&#x4E2D;&#xFF0C;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x6216;&#x8BCD;&#x7EC4;&#x88AB;&#x6620;&#x5C04;&#x4E3A;&#x5B9E;&#x6570;&#x57DF;&#x4E0A;&#x7684;&#x5411;&#x91CF;&#x3002;&#x5BF9;&#x5927;&#x91CF;&#x8BCD;&#x6C47;&#x8FDB;&#x884C;&#x8BCD;&#x5D4C;&#x5165;&#x540E;&#x83B7;&#x5F97;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#xFF0C;&#x53EF;&#x7528;&#x4E8E;&#x5B8C;&#x6210; <strong>&#x547D;&#x540D;&#x5B9E;&#x4F53;&#x8BC6;&#x522B;&#xFF08;Named Entity Recognition&#xFF09;</strong> &#x7B49;&#x4EFB;&#x52A1;&#x3002;</p>
+<a id="more"></a>
+<hr>
+<h3 id="&#x8BCD;&#x5D4C;&#x5165;&#x4E0E;&#x8FC1;&#x79FB;&#x5B66;&#x4E60;"><a href="#&#x8BCD;&#x5D4C;&#x5165;&#x4E0E;&#x8FC1;&#x79FB;&#x5B66;&#x4E60;" class="headerlink" title="&#x8BCD;&#x5D4C;&#x5165;&#x4E0E;&#x8FC1;&#x79FB;&#x5B66;&#x4E60;"></a>&#x8BCD;&#x5D4C;&#x5165;&#x4E0E;&#x8FC1;&#x79FB;&#x5B66;&#x4E60;</h3><p>&#x7528;&#x8BCD;&#x5D4C;&#x5165;&#x505A;&#x8FC1;&#x79FB;&#x5B66;&#x4E60;&#x53EF;&#x4EE5;&#x964D;&#x4F4E;&#x5B66;&#x4E60;&#x6210;&#x672C;&#xFF0C;&#x63D0;&#x9AD8;&#x6548;&#x7387;&#x3002;&#x5176;&#x6B65;&#x9AA4;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ul>
+<li>&#x4ECE;&#x5927;&#x91CF;&#x7684;&#x6587;&#x672C;&#x96C6;&#x4E2D;&#x5B66;&#x4E60;&#x8BCD;&#x5D4C;&#x5165;&#xFF0C;&#x6216;&#x8005;&#x4E0B;&#x8F7D;&#x7F51;&#x4E0A;&#x5F00;&#x6E90;&#x7684;&#x3001;&#x9884;&#x8BAD;&#x7EC3;&#x597D;&#x7684;&#x8BCD;&#x5D4C;&#x5165;&#x6A21;&#x578B;&#xFF1B;</li>
+<li>&#x5C06;&#x8FD9;&#x4E9B;&#x8BCD;&#x5D4C;&#x5165;&#x6A21;&#x578B;&#x8FC1;&#x79FB;&#x5230;&#x65B0;&#x7684;&#x3001;&#x53EA;&#x6709;&#x5C11;&#x91CF;&#x6807;&#x6CE8;&#x8BAD;&#x7EC3;&#x96C6;&#x7684;&#x4EFB;&#x52A1;&#x4E2D;&#xFF1B;</li>
+<li>&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x662F;&#x5426;&#x5FAE;&#x8C03;&#x8BCD;&#x5D4C;&#x5165;&#x3002;&#x5F53;&#x6807;&#x8BB0;&#x6570;&#x636E;&#x96C6;&#x4E0D;&#x662F;&#x5F88;&#x5927;&#x65F6;&#x53EF;&#x4EE5;&#x7701;&#x4E0B;&#x8FD9;&#x4E00;&#x6B65;&#x3002;</li>
+</ul>
+<hr>
+<h3 id="&#x8BCD;&#x5D4C;&#x5165;&#x4E0E;&#x7C7B;&#x6BD4;&#x63A8;&#x7406;"><a href="#&#x8BCD;&#x5D4C;&#x5165;&#x4E0E;&#x7C7B;&#x6BD4;&#x63A8;&#x7406;" class="headerlink" title="&#x8BCD;&#x5D4C;&#x5165;&#x4E0E;&#x7C7B;&#x6BD4;&#x63A8;&#x7406;"></a>&#x8BCD;&#x5D4C;&#x5165;&#x4E0E;&#x7C7B;&#x6BD4;&#x63A8;&#x7406;</h3><p>&#x8BCD;&#x5D4C;&#x5165;&#x53EF;&#x7528;&#x4E8E;&#x7C7B;&#x6BD4;&#x63A8;&#x7406;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x7ED9;&#x5B9A;&#x5BF9;&#x5E94;&#x5173;&#x7CFB;&#x201C;&#x7537;&#x6027;&#xFF08;Man&#xFF09;&#x201D;&#x5BF9;&#x201C;&#x5973;&#x6027;&#xFF08;Woman&#xFF09;&#x201D;&#xFF0C;&#x60F3;&#x8981;&#x7C7B;&#x6BD4;&#x51FA;&#x201C;&#x56FD;&#x738B;&#xFF08;King&#xFF09;&#x201D;&#x5BF9;&#x5E94;&#x7684;&#x8BCD;&#x6C47;&#x3002;&#x5219;&#x53EF;&#x4EE5;&#x6709; $e_{man} - e_{woman} \approx e_{king} - e_? $ &#xFF0C;&#x4E4B;&#x540E;&#x7684;&#x76EE;&#x6807;&#x5C31;&#x662F;&#x627E;&#x5230;&#x8BCD;&#x5411;&#x91CF; w&#xFF0C;&#x6765;&#x627E;&#x5230;&#x4F7F;&#x76F8;&#x4F3C;&#x5EA6; $sim(e_w, e_{king} - e_{man} + e_{woman})$ &#x6700;&#x5927;&#x3002;</p>
+<p>&#x4E00;&#x4E2A;&#x6700;&#x5E38;&#x7528;&#x7684;&#x76F8;&#x4F3C;&#x5EA6;&#x8BA1;&#x7B97;&#x51FD;&#x6570;&#x662F; <strong>&#x4F59;&#x5F26;&#x76F8;&#x4F3C;&#x5EA6;</strong>&#xFF08;cosine similarity&#xFF09;&#x3002;&#x516C;&#x5F0F;&#x4E3A;&#xFF1A;</p>
+<p>$$sim(u, v) = \frac{u^T v}{|| u ||_2 || v ||_2}$$</p>
+<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/rvecs.pdf" target="_blank" rel="external">Mikolov et. al., 2013, Linguistic regularities in continuous space word representations</a></p>
+<hr>
+<h3 id="&#x5D4C;&#x5165;&#x77E9;&#x9635;"><a href="#&#x5D4C;&#x5165;&#x77E9;&#x9635;" class="headerlink" title="&#x5D4C;&#x5165;&#x77E9;&#x9635;"></a>&#x5D4C;&#x5165;&#x77E9;&#x9635;</h3><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/Embedding-matrix.png" alt=""></p>
+<p>&#x4E0D;&#x540C;&#x7684;&#x8BCD;&#x5D4C;&#x5165;&#x65B9;&#x6CD5;&#x80FD;&#x591F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x65B9;&#x5F0F;&#x5B66;&#x4E60;&#x5230;&#x4E00;&#x4E2A;<strong>&#x5D4C;&#x5165;&#x77E9;&#x9635;&#xFF08;Embedding Matrix&#xFF09; E</strong>&#x3002;&#x5C06;&#x5B57;&#x5178;&#x4E2D;&#x4F4D;&#x7F6E;&#x4E3A; i &#x7684;&#x8BCD;&#x7684; one-hot &#x5411;&#x91CF;&#x8868;&#x793A;&#x4E3A; $o_i$&#xFF0C;&#x8BCD;&#x5D4C;&#x5165;&#x540E;&#x751F;&#x6210;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#x7528; $e_i$ &#x8868;&#x793A;&#xFF0C;&#x5219;&#x6709;&#xFF1A;</p>
+<p>$$E \cdot o_i = e_i$$</p>
+<p>&#x4F46;&#x5728;&#x5B9E;&#x9645;&#x60C5;&#x51B5;&#x4E0B;&#x4E00;&#x822C;&#x4E0D;&#x8FD9;&#x4E48;&#x505A;&#x3002;&#x56E0;&#x4E3A; one-hot &#x5411;&#x91CF;&#x7EF4;&#x5EA6;&#x5F88;&#x9AD8;&#xFF0C;&#x4E14;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x5143;&#x7D20;&#x90FD;&#x662F; 0&#xFF0C;&#x8FD9;&#x6837;&#x505A;&#x7684;&#x6548;&#x7387;&#x592A;&#x4F4E;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5B9E;&#x8DF5;&#x4E2D;&#x76F4;&#x63A5;&#x7528;&#x4E13;&#x95E8;&#x7684;&#x51FD;&#x6570;&#x67E5;&#x627E;&#x77E9;&#x9635; E &#x7684;&#x7279;&#x5B9A;&#x5217;&#x3002;</p>
+<hr>
+<h3 id="&#x5B66;&#x4E60;&#x8BCD;&#x5D4C;&#x5165;"><a href="#&#x5B66;&#x4E60;&#x8BCD;&#x5D4C;&#x5165;" class="headerlink" title="&#x5B66;&#x4E60;&#x8BCD;&#x5D4C;&#x5165;"></a>&#x5B66;&#x4E60;&#x8BCD;&#x5D4C;&#x5165;</h3><h4 id="&#x795E;&#x7ECF;&#x6982;&#x7387;&#x8BED;&#x8A00;&#x6A21;&#x578B;"><a href="#&#x795E;&#x7ECF;&#x6982;&#x7387;&#x8BED;&#x8A00;&#x6A21;&#x578B;" class="headerlink" title="&#x795E;&#x7ECF;&#x6982;&#x7387;&#x8BED;&#x8A00;&#x6A21;&#x578B;"></a>&#x795E;&#x7ECF;&#x6982;&#x7387;&#x8BED;&#x8A00;&#x6A21;&#x578B;</h4><p><strong>&#x795E;&#x7ECF;&#x6982;&#x7387;&#x8BED;&#x8A00;&#x6A21;&#x578B;&#xFF08;Neural Probabilistic Language Model&#xFF09;</strong> &#x6784;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x80FD;&#x591F;&#x901A;&#x8FC7;&#x4E0A;&#x4E0B;&#x6587;&#x6765;&#x9884;&#x6D4B;&#x672A;&#x77E5;&#x8BCD;&#x7684;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF0C;&#x5728;&#x8BAD;&#x7EC3;&#x8FD9;&#x4E2A;&#x8BED;&#x8A00;&#x6A21;&#x578B;&#x7684;&#x540C;&#x65F6;&#x5B66;&#x4E60;&#x8BCD;&#x5D4C;&#x5165;&#x3002;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/Neural-language-model.png" alt=""></p>
+<p>&#x8BAD;&#x7EC3;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x5C06;&#x8BED;&#x6599;&#x5E93;&#x4E2D;&#x7684;&#x67D0;&#x4E9B;&#x8BCD;&#x4F5C;&#x4E3A;&#x76EE;&#x6807;&#x8BCD;&#xFF0C;&#x4EE5;&#x76EE;&#x6807;&#x8BCD;&#x7684;&#x90E8;&#x5206;&#x4E0A;&#x4E0B;&#x6587;&#x4F5C;&#x4E3A;&#x8F93;&#x5165;&#xFF0C;Softmax &#x8F93;&#x51FA;&#x7684;&#x9884;&#x6D4B;&#x7ED3;&#x679C;&#x4E3A;&#x76EE;&#x6807;&#x8BCD;&#x3002;&#x5D4C;&#x5165;&#x77E9;&#x9635; E &#x548C; w&#x3001;b &#x4E3A;&#x9700;&#x8981;&#x901A;&#x8FC7;&#x8BAD;&#x7EC3;&#x5F97;&#x5230;&#x7684;&#x53C2;&#x6570;&#x3002;&#x8FD9;&#x6837;&#xFF0C;&#x5728;&#x5F97;&#x5230;&#x5D4C;&#x5165;&#x77E9;&#x9635;&#x540E;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x8BCD;&#x5D4C;&#x5165;&#x540E;&#x751F;&#x6210;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#x3002;</p>
+<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf" target="_blank" rel="external">Bengio et. al., 2003, A neural probabilistic language model</a></p>
+<h4 id="Word2Vec"><a href="#Word2Vec" class="headerlink" title="Word2Vec"></a>Word2Vec</h4><p>Word2Vec &#x662F;&#x4E00;&#x79CD;&#x7B80;&#x5355;&#x9AD8;&#x6548;&#x7684;&#x8BCD;&#x5D4C;&#x5165;&#x5B66;&#x4E60;&#x7B97;&#x6CD5;&#xFF0C;&#x5305;&#x62EC; 2 &#x79CD;&#x6A21;&#x578B;&#xFF1A;</p>
+<ul>
+<li>Skip-gram (SG)&#xFF1A;&#x6839;&#x636E;&#x8BCD;&#x9884;&#x6D4B;&#x76EE;&#x6807;&#x4E0A;&#x4E0B;&#x6587;</li>
+<li>Continuous Bag of Words (CBOW)&#xFF1A;&#x6839;&#x636E;&#x4E0A;&#x4E0B;&#x6587;&#x9884;&#x6D4B;&#x76EE;&#x6807;&#x8BCD;</li>
+</ul>
+<p>&#x6BCF;&#x79CD;&#x8BED;&#x8A00;&#x6A21;&#x578B;&#x53C8;&#x5305;&#x542B;&#x8D1F;&#x91C7;&#x6837;&#xFF08;Negative Sampling&#xFF09;&#x548C;&#x5206;&#x7EA7;&#x7684; Softmax&#xFF08;Hierarchical Softmax&#xFF09;&#x4E24;&#x79CD;&#x8BAD;&#x7EC3;&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf" target="_blank" rel="external">Mikolov et. al., 2013. Efficient estimation of word representations in vector space.</a></p>
+<h5 id="Skip-gram"><a href="#Skip-gram" class="headerlink" title="Skip-gram"></a>Skip-gram</h5><p>Skip-Gram</p>
+<p>&#x8BBE;&#x67D0;&#x4E2A;&#x8BCD;&#x4E3A; c&#xFF0C;&#x8BE5;&#x8BCD;&#x7684;&#x4E00;&#x5B9A;&#x8BCD;&#x8DDD;&#x5185;&#x9009;&#x53D6;&#x4E00;&#x4E9B;&#x914D;&#x5BF9;&#x7684;&#x76EE;&#x6807;&#x4E0A;&#x4E0B;&#x6587; t&#xFF0C;&#x5219;&#x8BE5;&#x7F51;&#x8DEF;&#x4EC5;&#x6709;&#x7684;&#x4E00;&#x4E2A; Softmax &#x5355;&#x5143;&#x8F93;&#x51FA;&#x6761;&#x4EF6;&#x6982;&#x7387;&#xFF1A;</p>
+<p>$$p(t|c) = \frac{exp(\theta_t^T e_c)}{\sum^m_{j=1}exp(\theta_j^T e_c)}$$</p>
+<p>$&#x3B8;_t$ &#x662F;&#x4E00;&#x4E2A;&#x4E0E;&#x8F93;&#x51FA; t &#x6709;&#x5173;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x5176;&#x4E2D;&#x7701;&#x7565;&#x4E86;&#x7528;&#x4EE5;&#x7EA0;&#x6B63;&#x504F;&#x5DEE;&#x7684;&#x53C2;&#x6570;&#x3002;&#x635F;&#x5931;&#x51FD;&#x6570;&#x4ECD;&#x9009;&#x7528;&#x4EA4;&#x53C9;&#x71B5;&#xFF1A;</p>
+<p>$$L(\hat y, y) = -\sum^m_{i=1}y_ilog\hat y_i$$</p>
+<p>&#x5728;&#x6B64; Softmax &#x5206;&#x7C7B;&#x4E2D;&#xFF0C;&#x6BCF;&#x6B21;&#x8BA1;&#x7B97;&#x6761;&#x4EF6;&#x6982;&#x7387;&#x65F6;&#xFF0C;&#x9700;&#x8981;&#x5BF9;&#x8BCD;&#x5178;&#x4E2D;&#x6240;&#x6709;&#x8BCD;&#x505A;&#x6C42;&#x548C;&#x64CD;&#x4F5C;&#xFF0C;&#x56E0;&#x6B64;&#x8BA1;&#x7B97;&#x91CF;&#x5F88;&#x5927;&#x3002;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x4E4B;&#x4E00;&#x662F;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x5206;&#x7EA7;&#x7684; <strong>Softmax &#x5206;&#x7C7B;&#x5668;&#xFF08;Hierarchical Softmax Classifier&#xFF09;</strong>&#xFF0C;&#x5F62;&#x5982;&#x4E8C;&#x53C9;&#x6811;&#x3002;&#x5728;&#x5B9E;&#x8DF5;&#x4E2D;&#xFF0C;&#x4E00;&#x822C;&#x91C7;&#x7528;&#x970D;&#x592B;&#x66FC;&#x6811;&#xFF08;Huffman Tree&#xFF09;&#x800C;&#x975E;&#x5E73;&#x8861;&#x4E8C;&#x53C9;&#x6811;&#xFF0C;&#x5E38;&#x7528;&#x8BCD;&#x5728;&#x9876;&#x90E8;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x5728;&#x8BED;&#x6599;&#x5E93;&#x4E2D;&#x968F;&#x673A;&#x5747;&#x5300;&#x91C7;&#x6837;&#x5F97;&#x5230;&#x9009;&#x5B9A;&#x7684;&#x8BCD; c&#xFF0C;&#x5219; &#x2018;the&#x2019;, &#x2018;of&#x2019;, &#x2018;a&#x2019;, &#x2018;and&#x2019; &#x7B49;&#x51FA;&#x73B0;&#x9891;&#x7E41;&#x7684;&#x8BCD;&#x5C06;&#x5F71;&#x54CD;&#x5230;&#x8BAD;&#x7EC3;&#x7ED3;&#x679C;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x91C7;&#x7528;&#x4E86;&#x4E00;&#x4E9B;&#x7B56;&#x7565;&#x6765;&#x5E73;&#x8861;&#x9009;&#x62E9;&#x3002;</p>
+<h5 id="CBOW"><a href="#CBOW" class="headerlink" title="CBOW"></a>CBOW</h5><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/CBOW.png" alt=""></p>
+<p>CBOW &#x6A21;&#x578B;&#x7684;&#x5DE5;&#x4F5C;&#x65B9;&#x5F0F;&#x4E0E; Skip-gram &#x76F8;&#x53CD;&#xFF0C;&#x901A;&#x8FC7;&#x91C7;&#x6837;&#x4E0A;&#x4E0B;&#x6587;&#x4E2D;&#x7684;&#x8BCD;&#x6765;&#x9884;&#x6D4B;&#x4E2D;&#x95F4;&#x7684;&#x8BCD;&#x3002;</p>
+<p>&#x5434;&#x6069;&#x8FBE;&#x8001;&#x5E08;&#x6CA1;&#x6709;&#x6DF1;&#x5165;&#x53BB;&#x8BB2; CBOW&#x3002;&#x60F3;&#x8981;&#x66F4;&#x6DF1;&#x5165;&#x4E86;&#x89E3;&#x7684;&#x8BDD;&#xFF0C;&#x63A8;&#x8350;&#x8D44;&#x6599; <a href="http://www.hankcs.com/nlp/word2vec.html" target="_blank" rel="external">word2vec&#x539F;&#x7406;&#x63A8;&#x5BFC;&#x4E0E;&#x4EE3;&#x7801;&#x5206;&#x6790;-&#x7801;&#x519C;&#x573A;</a>&#xFF08;&#x4E2D;&#x6587;&#xFF09;&#x4EE5;&#x53CA; <a href="https://github.com/stanfordnlp/cs224n-winter17-notes/blob/master/notes1.pdf" target="_blank" rel="external">&#x8BFE;&#x7A0B; cs224n &#x7684; notes1</a>&#xFF08;&#x82F1;&#x6587;&#xFF09;&#x3002;</p>
+<h5 id="&#x8D1F;&#x91C7;&#x6837;"><a href="#&#x8D1F;&#x91C7;&#x6837;" class="headerlink" title="&#x8D1F;&#x91C7;&#x6837;"></a>&#x8D1F;&#x91C7;&#x6837;</h5><p>&#x4E3A;&#x4E86;&#x89E3;&#x51B3; Softmax &#x8BA1;&#x7B97;&#x8F83;&#x6162;&#x7684;&#x95EE;&#x9898;&#xFF0C;Word2Vec &#x7684;&#x4F5C;&#x8005;&#x540E;&#x7EED;&#x63D0;&#x51FA;&#x4E86; <strong>&#x8D1F;&#x91C7;&#x6837;&#xFF08;Negative Sampling&#xFF09;&#x6A21;&#x578B;</strong>&#x3002;&#x5BF9;&#x4E8E;&#x76D1;&#x7763;&#x5B66;&#x4E60;&#x95EE;&#x9898;&#x4E2D;&#x7684;&#x5206;&#x7C7B;&#x4EFB;&#x52A1;&#xFF0C;&#x5728;&#x8BAD;&#x7EC3;&#x65F6;&#x540C;&#x65F6;&#x9700;&#x8981;&#x6B63;&#x4F8B;&#x548C;&#x8D1F;&#x4F8B;&#x3002;&#x5728;&#x5206;&#x7EA7;&#x7684; Softmax &#x4E2D;&#xFF0C;&#x8D1F;&#x4F8B;&#x653E;&#x5728;&#x4E8C;&#x53C9;&#x6811;&#x7684;&#x6839;&#x8282;&#x70B9;&#x4E0A;&#xFF1B;&#x800C;&#x5BF9;&#x4E8E;&#x8D1F;&#x91C7;&#x6837;&#xFF0C;&#x8D1F;&#x4F8B;&#x662F;&#x968F;&#x673A;&#x91C7;&#x6837;&#x5F97;&#x5230;&#x7684;&#x3002;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/Defining-a-learning-problem.png" alt=""></p>
+<p>&#x5982;&#x4E0A;&#x56FE;&#x6240;&#x793A;&#xFF0C;&#x5F53;&#x8F93;&#x5165;&#x7684;&#x8BCD;&#x4E3A;&#x4E00;&#x5BF9;&#x4E0A;&#x4E0B;&#x6587;-&#x76EE;&#x6807;&#x8BCD;&#x65F6;&#xFF0C;&#x6807;&#x7B7E;&#x8BBE;&#x7F6E;&#x4E3A; 1&#xFF08;&#x8FD9;&#x91CC;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x4E5F;&#x662F;&#x4E00;&#x4E2A;&#x8BCD;&#xFF09;&#x3002;&#x53E6;&#x5916;&#x4EFB;&#x610F;&#x53D6; k &#x5BF9;&#x975E;&#x4E0A;&#x4E0B;&#x6587;-&#x76EE;&#x6807;&#x8BCD;&#x4F5C;&#x4E3A;&#x8D1F;&#x6837;&#x672C;&#xFF0C;&#x6807;&#x7B7E;&#x8BBE;&#x7F6E;&#x4E3A; 0&#x3002;&#x5BF9;&#x4E8E;&#x5C0F;&#x6570;&#x636E;&#x96C6;&#xFF0C;k &#x53D6; 5~20 &#x8F83;&#x4E3A;&#x5408;&#x9002;&#xFF1B;&#x800C;&#x5F53;&#x6709;&#x5927;&#x91CF;&#x6570;&#x636E;&#x65F6;&#xFF0C;k &#x53EF;&#x4EE5;&#x53D6; 2~5&#x3002;</p>
+<p>&#x6539;&#x7528;&#x591A;&#x4E2A; Sigmoid &#x8F93;&#x51FA;&#x4E0A;&#x4E0B;&#x6587;-&#x76EE;&#x6807;&#x8BCD;&#xFF08;c, t&#xFF09;&#x4E3A;&#x6B63;&#x6837;&#x672C;&#x7684;&#x6982;&#x7387;&#xFF1A;</p>
+<p>$$P(y=1 | c, t) = \sigma(\theta_t^Te_c)$$</p>
+<p>&#x5176;&#x4E2D;&#xFF0C;$\theta_t$&#x3001;$e_c$ &#x5206;&#x522B;&#x4EE3;&#x8868;&#x76EE;&#x6807;&#x8BCD;&#x548C;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#x3002;</p>
+<p>&#x4E4B;&#x524D;&#x8BAD;&#x7EC3;&#x4E2D;&#x6BCF;&#x6B21;&#x8981;&#x66F4;&#x65B0; n &#x7EF4;&#x7684;&#x591A;&#x5206;&#x7C7B; Softmax &#x5355;&#x5143;&#xFF08;n &#x4E3A;&#x8BCD;&#x5178;&#x4E2D;&#x8BCD;&#x7684;&#x6570;&#x91CF;&#xFF09;&#x3002;&#x73B0;&#x5728;&#x6BCF;&#x6B21;&#x53EA;&#x9700;&#x8981;&#x66F4;&#x65B0; k+1 &#x7EF4;&#x7684;&#x4E8C;&#x5206;&#x7C7B; Sigmoid &#x5355;&#x5143;&#xFF0C;&#x8BA1;&#x7B97;&#x91CF;&#x5927;&#x5927;&#x964D;&#x4F4E;&#x3002;</p>
+<p>&#x5173;&#x4E8E;&#x8BA1;&#x7B97;&#x9009;&#x62E9;&#x67D0;&#x4E2A;&#x8BCD;&#x4F5C;&#x4E3A;&#x8D1F;&#x6837;&#x672C;&#x7684;&#x6982;&#x7387;&#xFF0C;&#x4F5C;&#x8005;&#x63A8;&#x8350;&#x91C7;&#x7528;&#x4EE5;&#x4E0B;&#x516C;&#x5F0F;&#xFF08;&#x800C;&#x975E;&#x7ECF;&#x9A8C;&#x9891;&#x7387;&#x6216;&#x5747;&#x5300;&#x5206;&#x5E03;&#xFF09;&#xFF1A;</p>
+<p>$$p(w_i) = \frac{f(w_i)^{\frac{3}{4}}}{\sum^m_{j=0}f(w_j)^{\frac{3}{4}}}$$</p>
+<p>&#x5176;&#x4E2D;&#xFF0C;$f(w_i)$ &#x4EE3;&#x8868;&#x8BED;&#x6599;&#x5E93;&#x4E2D;&#x5355;&#x8BCD; wi &#x51FA;&#x73B0;&#x7684;&#x9891;&#x7387;&#x3002;&#x4E0A;&#x8FF0;&#x516C;&#x5F0F;&#x66F4;&#x52A0;&#x5E73;&#x6ED1;&#xFF0C;&#x80FD;&#x591F;&#x589E;&#x52A0;&#x4F4E;&#x9891;&#x8BCD;&#x7684;&#x9009;&#x53D6;&#x53EF;&#x80FD;&#x3002;</p>
+<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="https://arxiv.org/pdf/1310.4546.pdf" target="_blank" rel="external">Mikolov et. al., 2013. Distributed representation of words and phrases and their compositionality</a></p>
+<h4 id="Glove"><a href="#Glove" class="headerlink" title="Glove"></a>Glove</h4><p>GloVe&#xFF08;Global Vectors&#xFF09;&#x662F;&#x53E6;&#x4E00;&#x79CD;&#x6D41;&#x884C;&#x7684;&#x8BCD;&#x5D4C;&#x5165;&#x7B97;&#x6CD5;&#x3002;Glove &#x6A21;&#x578B;&#x57FA;&#x4E8E;&#x8BED;&#x6599;&#x5E93;&#x7EDF;&#x8BA1;&#x4E86;&#x8BCD;&#x7684; <strong>&#x5171;&#x73B0;&#x77E9;&#x9635;</strong> X&#xFF0C;X&#x4E2D;&#x7684;&#x5143;&#x7D20; $X_{ij}$ &#x8868;&#x793A;&#x5355;&#x8BCD; i &#x548C;&#x5355;&#x8BCD; j &#x201C;&#x4E3A;&#x4E0A;&#x4E0B;&#x6587;-&#x76EE;&#x6807;&#x8BCD;&#x201D;&#x7684;&#x6B21;&#x6570;&#x3002;&#x4E4B;&#x540E;&#xFF0C;&#x7528;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x6700;&#x5C0F;&#x5316;&#x4EE5;&#x4E0B;&#x635F;&#x5931;&#x51FD;&#x6570;&#xFF1A;</p>
+<p>$$J = \sum^N_{i=1}\sum^N_{j=1}f(X_{ij})(\theta^t_ie_j + b_i + b_j - log(X_{ij}))^2$$</p>
+<p>&#x5176;&#x4E2D;&#xFF0C;$&#x3B8;_i$&#x3001;$e_j$ &#x662F;&#x5355;&#x8BCD; i &#x548C;&#x5355;&#x8BCD; j &#x7684;&#x8BCD;&#x5411;&#x91CF;&#xFF1B;$b_i$&#x3001;$b_j$&#xFF1B;$f()$ &#x662F;&#x4E00;&#x4E2A;&#x7528;&#x6765;&#x907F;&#x514D; $X_{ij}=0$ &#x65F6; $log(X_{ij})$ &#x4E3A;&#x8D1F;&#x65E0;&#x7A77;&#x5927;&#x3001;&#x5E76;&#x5728;&#x5176;&#x4ED6;&#x60C5;&#x51B5;&#x4E0B;&#x8C03;&#x6574;&#x6743;&#x91CD;&#x7684;&#x51FD;&#x6570;&#x3002;$X_{ij}=0$ &#x65F6;&#xFF0C;$f(X_{ij}) = 0$&#x3002;</p>
+<p>&#x201C;&#x4E3A;&#x4E0A;&#x4E0B;&#x6587;-&#x76EE;&#x6807;&#x8BCD;&#x201D;&#x53EF;&#x4EE5;&#x4EE3;&#x8868;&#x4E24;&#x4E2A;&#x8BCD;&#x51FA;&#x73B0;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x7A97;&#x53E3;&#x3002;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;$&#x3B8;_i$ &#x548C; $e_j$ &#x662F;&#x5B8C;&#x5168;&#x5BF9;&#x79F0;&#x7684;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5728;&#x8BAD;&#x7EC3;&#x65F6;&#x53EF;&#x4EE5;&#x4E00;&#x81F4;&#x5730;&#x521D;&#x59CB;&#x5316;&#x4E8C;&#x8005;&#xFF0C;&#x4F7F;&#x7528;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x5904;&#x7406;&#x5B8C;&#x4EE5;&#x540E;&#x53D6;&#x5E73;&#x5747;&#x503C;&#x4F5C;&#x4E3A;&#x4E8C;&#x8005;&#x5171;&#x540C;&#x7684;&#x503C;&#x3002;</p>
+<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="https://nlp.stanford.edu/pubs/glove.pdf" target="_blank" rel="external">Pennington st. al., 2014. Glove: Global Vectors for Word Representation</a></p>
+<p>&#x6700;&#x540E;&#xFF0C;&#x4F7F;&#x7528;&#x5404;&#x79CD;&#x8BCD;&#x5D4C;&#x5165;&#x7B97;&#x6CD5;&#x5B66;&#x5230;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#x5B9E;&#x9645;&#x4E0A;&#x5927;&#x591A;&#x90FD;&#x8D85;&#x51FA;&#x4E86;&#x4EBA;&#x7C7B;&#x7684;&#x7406;&#x89E3;&#x8303;&#x56F4;&#xFF0C;&#x96BE;&#x4EE5;&#x4ECE;&#x67D0;&#x4E2A;&#x503C;&#x4E2D;&#x770B;&#x51FA;&#x4E0E;&#x8BED;&#x4E49;&#x7684;&#x76F8;&#x5173;&#x7A0B;&#x5EA6;&#x3002;</p>
+<hr>
+<h3 id="&#x60C5;&#x611F;&#x5206;&#x7C7B;"><a href="#&#x60C5;&#x611F;&#x5206;&#x7C7B;" class="headerlink" title="&#x60C5;&#x611F;&#x5206;&#x7C7B;"></a>&#x60C5;&#x611F;&#x5206;&#x7C7B;</h3><p>&#x60C5;&#x611F;&#x5206;&#x7C7B;&#x662F;&#x6307;&#x5206;&#x6790;&#x4E00;&#x6BB5;&#x6587;&#x672C;&#x5BF9;&#x67D0;&#x4E2A;&#x5BF9;&#x8C61;&#x7684;&#x60C5;&#x611F;&#x662F;&#x6B63;&#x9762;&#x7684;&#x8FD8;&#x662F;&#x8D1F;&#x9762;&#x7684;&#xFF0C;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x5305;&#x62EC;&#x8206;&#x60C5;&#x5206;&#x6790;&#x3001;&#x6C11;&#x610F;&#x8C03;&#x67E5;&#x3001;&#x4EA7;&#x54C1;&#x610F;&#x89C1;&#x8C03;&#x67E5;&#x7B49;&#x7B49;&#x3002;&#x60C5;&#x611F;&#x5206;&#x7C7B;&#x7684;&#x95EE;&#x9898;&#x4E4B;&#x4E00;&#x662F;&#x6807;&#x8BB0;&#x597D;&#x7684;&#x8BAD;&#x7EC3;&#x6570;&#x636E;&#x4E0D;&#x8DB3;&#x3002;&#x4F46;&#x662F;&#x6709;&#x4E86;&#x8BCD;&#x5D4C;&#x5165;&#x5F97;&#x5230;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#xFF0C;&#x4E2D;&#x7B49;&#x89C4;&#x6A21;&#x7684;&#x6807;&#x8BB0;&#x8BAD;&#x7EC3;&#x6570;&#x636E;&#x4E5F;&#x80FD;&#x6784;&#x5EFA;&#x51FA;&#x4E00;&#x4E2A;&#x6548;&#x679C;&#x4E0D;&#x9519;&#x7684;&#x60C5;&#x611F;&#x5206;&#x7C7B;&#x5668;&#x3002;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/Simple-sentiment-classification-model.png" alt=""></p>
+<p>&#x5982;&#x4E0A;&#x56FE;&#x6240;&#x793A;&#xFF0C;&#x7528;&#x8BCD;&#x5D4C;&#x5165;&#x65B9;&#x6CD5;&#x83B7;&#x5F97;&#x5D4C;&#x5165;&#x77E9;&#x9635; E &#x540E;&#xFF0C;&#x8BA1;&#x7B97;&#x51FA;&#x53E5;&#x4E2D;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#x5E76;&#x53D6;&#x5E73;&#x5747;&#x503C;&#xFF0C;&#x8F93;&#x5165;&#x4E00;&#x4E2A; Softmax &#x5355;&#x5143;&#xFF0C;&#x8F93;&#x51FA;&#x9884;&#x6D4B;&#x7ED3;&#x679C;&#x3002;&#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#x7684;&#x4F18;&#x70B9;&#x662F;&#x9002;&#x7528;&#x4E8E;&#x4EFB;&#x4F55;&#x957F;&#x5EA6;&#x7684;&#x6587;&#x672C;&#xFF1B;&#x7F3A;&#x70B9;&#x662F;&#x6CA1;&#x6709;&#x8003;&#x8651;&#x8BCD;&#x7684;&#x987A;&#x5E8F;&#xFF0C;&#x5BF9;&#x4E8E;&#x5305;&#x542B;&#x4E86;&#x591A;&#x4E2A;&#x6B63;&#x9762;&#x8BC4;&#x4EF7;&#x8BCD;&#x7684;&#x8D1F;&#x9762;&#x8BC4;&#x4EF7;&#xFF0C;&#x5F88;&#x5BB9;&#x6613;&#x9884;&#x6D4B;&#x5230;&#x9519;&#x8BEF;&#x7ED3;&#x679C;&#x3002;</p>
+<p>&#x4F7F;&#x7528; RNN &#x80FD;&#x591F;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x6548;&#x679C;&#x66F4;&#x597D;&#x7684;&#x60C5;&#x611F;&#x5206;&#x7C7B;&#x5668;&#xFF1A;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/RNN-sentiment-classification.png" alt=""></p>
+<hr>
+<h3 id="&#x8BCD;&#x5D4C;&#x5165;&#x9664;&#x504F;"><a href="#&#x8BCD;&#x5D4C;&#x5165;&#x9664;&#x504F;" class="headerlink" title="&#x8BCD;&#x5D4C;&#x5165;&#x9664;&#x504F;"></a>&#x8BCD;&#x5D4C;&#x5165;&#x9664;&#x504F;</h3><p>&#x8BED;&#x6599;&#x5E93;&#x4E2D;&#x53EF;&#x80FD;&#x5B58;&#x5728;&#x6027;&#x522B;&#x6B67;&#x89C6;&#x3001;&#x79CD;&#x65CF;&#x6B67;&#x89C6;&#x3001;&#x6027;&#x53D6;&#x5411;&#x6B67;&#x89C6;&#x7B49;&#x975E;&#x9884;&#x671F;&#x5F62;&#x5F0F;&#x504F;&#x89C1;&#xFF08;Bias&#xFF09;&#xFF0C;&#x8FD9;&#x79CD;&#x504F;&#x89C1;&#x4F1A;&#x76F4;&#x63A5;&#x53CD;&#x6620;&#x5230;&#x901A;&#x8FC7;&#x8BCD;&#x5D4C;&#x5165;&#x83B7;&#x5F97;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x4F7F;&#x7528;&#x672A;&#x9664;&#x504F;&#x7684;&#x8BCD;&#x5D4C;&#x5165;&#x7ED3;&#x679C;&#x8FDB;&#x884C;&#x7C7B;&#x6BD4;&#x63A8;&#x7406;&#x65F6;&#xFF0C;&#x201D;Man&#x201D; &#x5BF9; &#x201C;Computer Programmer&#x201D; &#x53EF;&#x80FD;&#x5F97;&#x5230; &#x201C;Woman&#x201D; &#x5BF9; &#x201C;Housemaker&#x201D; &#x7B49;&#x5E26;&#x6709;&#x6027;&#x522B;&#x504F;&#x89C1;&#x7684;&#x7ED3;&#x679C;&#x3002;&#x8BCD;&#x5D4C;&#x5165;&#x9664;&#x504F;&#x7684;&#x65B9;&#x6CD5;&#x6709;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#xFF1A;</p>
+<p><strong>1. &#x4E2D;&#x548C;&#x672C;&#x8EAB;&#x4E0E;&#x6027;&#x522B;&#x65E0;&#x5173;&#x8BCD;&#x6C47;</strong></p>
+<p>&#x5BF9;&#x4E8E;&#x201C;&#x533B;&#x751F;&#xFF08;doctor&#xFF09;&#x201D;&#x3001;&#x201C;&#x8001;&#x5E08;&#xFF08;teacher&#xFF09;&#x201D;&#x3001;&#x201C;&#x63A5;&#x5F85;&#x5458;&#xFF08;receptionist&#xFF09;&#x201D;&#x7B49;&#x672C;&#x8EAB;&#x4E0E;&#x6027;&#x522B;&#x65E0;&#x5173;&#x8BCD;&#x6C47;&#xFF0C;&#x53EF;&#x4EE5;<strong>&#x4E2D;&#x548C;&#xFF08;Neutralize&#xFF09;</strong>&#x5176;&#x4E2D;&#x7684;&#x504F;&#x89C1;&#x3002;&#x9996;&#x5148;&#x7528;&#x201C;&#x5973;&#x6027;&#xFF08;woman&#xFF09;&#x201D;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#x51CF;&#x53BB;&#x201C;&#x7537;&#x6027;&#xFF08;man&#xFF09;&#x201D;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#xFF0C;&#x5F97;&#x5230;&#x7684;&#x5411;&#x91CF; $g=e_{woman}&#x2212;e_{man}$ &#x5C31;&#x4EE3;&#x8868;&#x4E86;&#x201C;&#x6027;&#x522B;&#xFF08;gender&#xFF09;&#x201D;&#x3002;&#x5047;&#x8BBE;&#x73B0;&#x6709;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#x7EF4;&#x6570;&#x4E3A; 50&#xFF0C;&#x90A3;&#x4E48;&#x5BF9;&#x67D0;&#x4E2A;&#x8BCD;&#x5411;&#x91CF;&#xFF0C;&#x5C06; 50 &#x7EF4;&#x7A7A;&#x95F4;&#x5206;&#x6210;&#x4E24;&#x4E2A;&#x90E8;&#x5206;&#xFF1A;&#x4E0E;&#x6027;&#x522B;&#x76F8;&#x5173;&#x7684;&#x65B9;&#x5411; g &#x548C;&#x4E0E; g &#x6B63;&#x4EA4;&#x7684;&#x5176;&#x4ED6; 49 &#x4E2A;&#x7EF4;&#x5EA6; $g_{\perp}$&#x3002;&#x5982;&#x4E0B;&#x5DE6;&#x56FE;&#xFF1A;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/Neutralize.png" alt=""></p>
+<p>&#x800C;&#x9664;&#x504F;&#x7684;&#x6B65;&#x9AA4;&#xFF0C;&#x662F;&#x5C06;&#x8981;&#x9664;&#x504F;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#xFF08;&#x5DE6;&#x56FE;&#x4E2D;&#x7684; $e_{receptionist}$&#xFF09;&#x5728;&#x5411;&#x91CF; g &#x65B9;&#x5411;&#x4E0A;&#x7684;&#x503C;&#x7F6E;&#x4E3A; 0&#xFF0C;&#x53D8;&#x6210;&#x53F3;&#x56FE;&#x6240;&#x793A;&#x7684; $e^{debiased}_{receptionist}$&#x3002;</p>
+<p><strong>2. &#x5747;&#x8861;&#x672C;&#x8EAB;&#x4E0E;&#x6027;&#x522B;&#x6709;&#x5173;&#x8BCD;&#x6C47;</strong></p>
+<p>&#x5BF9;&#x4E8E;&#x201C;&#x7537;&#x6F14;&#x5458;&#xFF08;actor&#xFF09;&#x201D;&#x3001;&#x201C;&#x5973;&#x6F14;&#x5458;&#xFF08;actress&#xFF09;&#x201D;&#x3001;&#x201C;&#x7237;&#x7237;&#xFF08;grandfather&#xFF09;&#x201D;&#x7B49;&#x672C;&#x8EAB;&#x4E0E;&#x6027;&#x522B;&#x6709;&#x5173;&#x8BCD;&#x6C47;&#xFF0C;&#x4E2D;&#x548C;&#x201C;&#x5A74;&#x513F;&#x770B;&#x62A4;&#x4EBA;&#xFF08;babysit&#xFF09;&#x201D;&#x4E2D;&#x5B58;&#x5728;&#x7684;&#x6027;&#x522B;&#x504F;&#x89C1;&#x540E;&#xFF0C;&#x8FD8;&#x662F;&#x65E0;&#x6CD5;&#x4FDD;&#x8BC1;&#x5B83;&#x5230;&#x201C;&#x5973;&#x6F14;&#x5458;&#xFF08;actress&#xFF09;&#x201D;&#x4E0E;&#x5230;&#x201C;&#x7537;&#x6F14;&#x5458;&#xFF08;actor&#xFF09;&#x201D;&#x7684;&#x8DDD;&#x79BB;&#x76F8;&#x7B49;&#x3002;&#x5BF9;&#x8FD9;&#x6837;&#x4E00;&#x5BF9;&#x6027;&#x522B;&#x6709;&#x5173;&#x7684;&#x8BCD;&#xFF0C;&#x9664;&#x504F;&#x7684;&#x8FC7;&#x7A0B;&#x662F;&#x5747;&#x8861;&#xFF08;Equalization&#xFF09;&#x5B83;&#x4EEC;&#x7684;&#x6027;&#x522B;&#x5C5E;&#x6027;&#x3002;&#x5176;&#x6838;&#x5FC3;&#x601D;&#x60F3;&#x662F;&#x786E;&#x4FDD;&#x4E00;&#x5BF9;&#x8BCD;&#xFF08;actor &#x548C; actress&#xFF09;&#x5230; g&#x22A5; &#x7684;&#x8DDD;&#x79BB;&#x76F8;&#x7B49;&#x3002;</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/Equalization.png" alt=""></p>
+<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="https://arxiv.org/pdf/1607.06520.pdf" target="_blank" rel="external">Bolukbasi et. al., 2016. Man is to computer programmer as woman is to homemaker? Debiasing word embeddings</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
+    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
+    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
+</div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<style>
+    .bdshare_popup_box {
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .bdshare-button-style0-16 a,
+    .bdshare-button-style0-16 .bds_more {
+        padding-left: 20px;
+        margin: 6px 10px 6px 0;
+    }
+    .bdshare_dialog_list a,
+    .bdshare_popup_list a,
+    .bdshare_popup_bottom a {
+        font-family: 'Microsoft Yahei';
+    }
+    .bdshare_popup_top {
+        display: none;
+    }
+    .bdshare_popup_bottom {
+        height: auto;
+        padding: 5px;
+    }
+</style>
+
+
+</div>
+
+            
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2018/03/10/训练模型与注意力机制/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    训练模型与注意力机制
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2018/02/27/循环训练模型/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">循环训练模型</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
+    </div>
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
+                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
+                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
+                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
+                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
+                            <p class="item-title"><a href="/2018/03/10/训练模型与注意力机制/" class="title">训练模型与注意力机制</a></p>
+                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
+                            <p class="item-title"><a href="/2018/03/02/自然语言处理与词嵌入/" class="title">自然语言处理与词嵌入</a></p>
+                            <p class="item-date"><time datetime="2018-03-02T14:22:00.000Z" itemprop="datePublished">2018-03-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
+                            <p class="item-title"><a href="/2018/02/27/循环训练模型/" class="title">循环训练模型</a></p>
+                            <p class="item-date"><time datetime="2018-02-27T14:22:00.000Z" itemprop="datePublished">2018-02-27</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
+        </div>
+    </div -->
+
+    
+        
+    <!-- div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 11.67px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 10px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 13.33px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 11.67px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
+        </div>
+    </div -->
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.36dsj.com/">36大数据</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.jiemodui.com/">芥末堆</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+	    
+		<!-- MathJax���ã���ͨ������Ԫ������д���ڹ�ʽ�� -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- ��MathJaxԪ������has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- ͨ������CDN����MathJax��js���� -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+	    
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Wasim<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+        </div>
+    </div>
+</footer>
+        
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
