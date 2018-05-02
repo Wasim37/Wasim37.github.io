@@ -1095,7 +1095,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
 
 
 
-    <article id="post-Lambda类库篇 —— Streams API, Collector和并行" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -1104,7 +1104,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/04/17/Lambda类库篇 —— Streams API, Collector和并行/">Lambda类库篇 —— Streams API, Collector和并行</a>
+            <a class="article-title" href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法</a>
         </h1>
     
 
@@ -1112,7 +1112,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/04/17/Lambda类库篇 —— Streams API, Collector和并行/">
+        <a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/">
             <time datetime="2017-04-17T14:10:00.000Z" itemprop="datePublished">2017-04-17</time>
         </a>
     </div>
@@ -1127,7 +1127,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Lambda/">Lambda</a>
+        <a class="tag-link" href="/tags/lambda/">lambda</a>
     </div>
 
                 </div>
@@ -1135,20 +1135,19 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p>&#x672C;&#x6587;&#x662F;&#x6DF1;&#x5165;&#x7406;&#x89E3;Java 8 Lambda&#x7CFB;&#x5217;&#x7684;&#x7B2C;&#x4E8C;&#x7BC7;&#xFF0C;&#x4E3B;&#x8981;&#x4ECB;&#x7ECD;Java 8&#x9488;&#x5BF9;&#x65B0;&#x589E;&#x8BED;&#x8A00;&#x7279;&#x6027;&#x800C;&#x65B0;&#x589E;&#x7684;&#x7C7B;&#x5E93;&#xFF08;&#x4F8B;&#x5982;Streams API&#x3001;Collectors&#x548C;&#x5E76;&#x884C;&#xFF09;&#x3002;</p>
-<p>&#x672C;&#x6587;&#x662F;&#x5BF9; <a href="http://www.oracle.com/us/technologies/java/briangoetzchief-188795.html">Brian Goetz</a> &#x7684; <a href="http://cr.openjdk.java.net/~briangoetz/lambda/lambda-libraries-final.html">State of the Lambda: Libraries Edition</a> &#x4E00;&#x6587;&#x7684;&#x7FFB;&#x8BD1;&#x3002;</p>
-<hr>
-<h3 id="&#x5173;&#x4E8E;"><a href="#&#x5173;&#x4E8E;" class="headerlink" title="&#x5173;&#x4E8E;"></a>&#x5173;&#x4E8E;</h3><p>Java SE 8&#x589E;&#x52A0;&#x4E86;&#x65B0;&#x7684;&#x8BED;&#x8A00;&#x7279;&#x6027;&#xFF08;&#x4F8B;&#x5982;lambda&#x8868;&#x8FBE;&#x5F0F;&#x548C;&#x9ED8;&#x8BA4;&#x65B9;&#x6CD5;&#xFF09;&#xFF0C;&#x4E3A;&#x6B64;Java SE 8&#x7684;&#x7C7B;&#x5E93;&#x4E5F;&#x8FDB;&#x884C;&#x4E86;&#x5F88;&#x591A;&#x6539;&#x8FDB;&#xFF0C;&#x672C;&#x6587;&#x7B80;&#x8981;&#x4ECB;&#x7ECD;&#x4E86;&#x8FD9;&#x4E9B;&#x6539;&#x8FDB;&#x3002;&#x5728;&#x9605;&#x8BFB;&#x672C;&#x6587;&#x524D;&#xFF0C;&#x4F60;&#x5E94;&#x8BE5;&#x5148;&#x9605;&#x8BFB;&#x6DF1;&#x5165;&#x6D45;&#x51FA;Java 8 Lambda&#xFF08;&#x8BED;&#x8A00;&#x7BC7;&#xFF09;&#xFF0C;&#x4EE5;&#x4FBF;&#x5BF9;Java SE 8&#x7684;&#x65B0;&#x589E;&#x7279;&#x6027;&#x6709;&#x4E00;&#x4E2A;&#x5168;&#x9762;&#x4E86;&#x89E3;&#x3002;</p>
-<hr>
-<h3 id="&#x80CC;&#x666F;&#xFF08;Background&#xFF09;"><a href="#&#x80CC;&#x666F;&#xFF08;Background&#xFF09;" class="headerlink" title="&#x80CC;&#x666F;&#xFF08;Background&#xFF09;"></a>&#x80CC;&#x666F;&#xFF08;Background&#xFF09;</h3><p>&#x81EA;&#x4ECE;lambda&#x8868;&#x8FBE;&#x5F0F;&#x6210;&#x4E3A;Java&#x8BED;&#x8A00;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x4E4B;&#x540E;&#xFF0C;Java&#x96C6;&#x5408;&#xFF08;Collections&#xFF09;API&#x5C31;&#x9762;&#x4E34;&#x7740;&#x5927;&#x5E45;&#x53D8;&#x5316;&#x3002;&#x800C;JSR 355&#xFF08;&#x89C4;&#x5B9A;&#x4E86;Java lambda&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x6807;&#x51C6;&#xFF09;&#x7684;&#x6B63;&#x5F0F;&#x542F;&#x7528;&#x66F4;&#x662F;&#x4F7F;&#x5F97;Java&#x96C6;&#x5408;API&#x53D8;&#x7684;&#x8FC7;&#x65F6;&#x4E0D;&#x582A;&#x3002;&#x5C3D;&#x7BA1;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4ECE;&#x5934;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x96C6;&#x5408;&#x6846;&#x67B6;&#xFF08;&#x6BD4;&#x5982;&#x201C;Collection II&#x201D;&#xFF09;&#xFF0C;&#x4F46;&#x53D6;&#x4EE3;&#x73B0;&#x6709;&#x7684;&#x96C6;&#x5408;&#x6846;&#x67B6;&#x662F;&#x4E00;&#x9879;&#x975E;&#x5E38;&#x8270;&#x96BE;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x56E0;&#x4E3A;&#x96C6;&#x5408;&#x63A5;&#x53E3;&#x6E17;&#x900F;&#x4E86;Java&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x7684;&#x6BCF;&#x4E2A;&#x89D2;&#x843D;&#xFF0C;&#x5C06;&#x5B83;&#x4EEC;&#x4E00;&#x4E00;&#x6362;&#x6210;&#x65B0;&#x7C7B;&#x5E93;&#x9700;&#x8981;&#x76F8;&#x5F53;&#x957F;&#x7684;&#x65F6;&#x95F4;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x51B3;&#x5B9A;&#x91C7;&#x53D6;&#x6F14;&#x5316;&#x7684;&#x7B56;&#x7565;&#xFF08;&#x800C;&#x975E;&#x63A8;&#x5012;&#x91CD;&#x6765;&#xFF09;&#x4EE5;&#x6539;&#x8FDB;&#x96C6;&#x5408;API&#xFF1A;</p>
+            <p><p>&#x672C;&#x6587;&#x4ECB;&#x7ECD;&#x4E86;Java SE 8&#x4E2D;&#x65B0;&#x5F15;&#x5165;&#x7684;lambda&#x8BED;&#x8A00;&#x7279;&#x6027;&#x4EE5;&#x53CA;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x80CC;&#x540E;&#x7684;&#x8BBE;&#x8BA1;&#x601D;&#x60F3;&#x3002;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x5305;&#x62EC;&#xFF1A;</p>
 <ul>
-<li>&#x4E3A;&#x73B0;&#x6709;&#x7684;&#x63A5;&#x53E3;&#xFF08;&#x4F8B;&#x5982;Collection&#xFF0C;List&#x548C;Stream&#xFF09;&#x589E;&#x52A0;&#x6269;&#x5C55;&#x65B9;&#x6CD5;&#xFF1B;</li>
-<li>&#x5728;&#x7C7B;&#x5E93;&#x4E2D;&#x589E;&#x52A0;&#x65B0;&#x7684;&#x6D41;&#xFF08;stream&#xFF0C;&#x5373;java.util.stream.Stream&#xFF09;&#x62BD;&#x8C61;&#x4EE5;&#x4FBF;&#x8FDB;&#x884C;&#x805A;&#x96C6;&#xFF08;aggregation&#xFF09;&#x64CD;&#x4F5C;&#xFF1B;</li>
-<li>&#x6539;&#x9020;&#x73B0;&#x6709;&#x7684;&#x7C7B;&#x578B;&#x4F7F;&#x4E4B;&#x53EF;&#x4EE5;&#x63D0;&#x4F9B;&#x6D41;&#x89C6;&#x56FE;&#xFF08;stream view&#xFF09;&#xFF1B;</li>
-<li>&#x6539;&#x9020;&#x73B0;&#x6709;&#x7684;&#x7C7B;&#x578B;&#x4F7F;&#x4E4B;&#x53EF;&#x4EE5;&#x5BB9;&#x6613;&#x7684;&#x4F7F;&#x7528;&#x65B0;&#x7684;&#x7F16;&#x7A0B;&#x6A21;&#x5F0F;&#xFF0C;&#x8FD9;&#x6837;&#x7528;&#x6237;&#x5C31;&#x4E0D;&#x5FC5;&#x629B;&#x5F03;&#x4F7F;&#x7528;&#x4EE5;&#x4E45;&#x7684;&#x7C7B;&#x5E93;&#xFF0C;&#x4F8B;&#x5982;ArrayList&#x548C;HashMap&#xFF08;&#x5F53;&#x7136;&#x8FD9;&#x5E76;&#x4E0D;&#x662F;&#x8BF4;&#x96C6;&#x5408;API&#x4F1A;&#x5E38;&#x9A7B;&#x6C38;&#x5B58;&#xFF0C;&#x6BD5;&#x7ADF;&#x96C6;&#x5408;API&#x5728;&#x8BBE;&#x8BA1;&#x4E4B;&#x521D;&#x5E76;&#x6CA1;&#x6709;&#x8003;&#x8651;&#x5230;lambda&#x8868;&#x8FBE;&#x5F0F;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x80FD;&#x4F1A;&#x5728;&#x672A;&#x6765;&#x7684;JDK&#x4E2D;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x66F4;&#x73B0;&#x4EE3;&#x7684;&#x96C6;&#x5408;&#x7C7B;&#x5E93;&#xFF09;&#x3002;</li>
-</ul></p>
+<li>lambda&#x8868;&#x8FBE;&#x5F0F;&#xFF08;&#x53C8;&#x88AB;&#x6210;&#x4E3A;&#x201C;&#x95ED;&#x5305;&#x201D;&#x6216;&#x201C;&#x533F;&#x540D;&#x65B9;&#x6CD5;&#x201D;&#xFF09;</li>
+<li>&#x65B9;&#x6CD5;&#x5F15;&#x7528;&#x548C;&#x6784;&#x9020;&#x65B9;&#x6CD5;&#x5F15;&#x7528;</li>
+<li>&#x6269;&#x5C55;&#x7684;&#x76EE;&#x6807;&#x7C7B;&#x578B;&#x548C;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;</li>
+<li>&#x63A5;&#x53E3;&#x4E2D;&#x7684;&#x9ED8;&#x8BA4;&#x65B9;&#x6CD5;&#x548C;&#x9759;&#x6001;&#x65B9;&#x6CD5;</li>
+</ul>
+<p>&#x672C;&#x6587;&#x662F;&#x5BF9; <a href="http://www.oracle.com/us/technologies/java/briangoetzchief-188795.html">Brian Goetz</a> &#x7684; <a href="http://cr.openjdk.java.net/~briangoetz/lambda/lambda-state-final.html">State of the Lambda</a> &#x4E00;&#x6587;&#x7684;&#x7FFB;&#x8BD1;&#x3002;</p>
+<hr>
+<h3 id="&#x80CC;&#x666F;"><a href="#&#x80CC;&#x666F;" class="headerlink" title="&#x80CC;&#x666F;"></a>&#x80CC;&#x666F;</h3><p>Java&#x662F;&#x4E00;&#x95E8;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x3002;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x548C;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x57FA;&#x672C;&#x5143;&#x7D20;&#xFF08;Basic Values&#xFF09;&#x90FD;&#x53EF;&#x4EE5;&#x52A8;&#x6001;&#x5C01;&#x88C5;&#x7A0B;&#x5E8F;&#x884C;&#x4E3A;&#xFF1A;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4F7F;&#x7528;&#x5E26;&#x6709;&#x65B9;&#x6CD5;&#x7684;&#x5BF9;&#x8C61;&#x5C01;&#x88C5;&#x884C;&#x4E3A;&#xFF0C;&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4F7F;&#x7528;&#x51FD;&#x6570;&#x5C01;&#x88C5;&#x884C;&#x4E3A;&#x3002;&#x4F46;&#x8FD9;&#x4E2A;&#x76F8;&#x540C;&#x70B9;&#x5E76;&#x4E0D;&#x660E;&#x663E;&#xFF0C;&#x56E0;&#x4E3A;Java&#x7684;&#x5BF9;&#x8C61;&#x5F80;&#x5F80;&#x6BD4;&#x8F83;&#x201C;&#x91CD;&#x91CF;&#x7EA7;&#x201D;&#xFF1A;&#x5B9E;&#x4F8B;&#x5316;&#x4E00;&#x4E2A;&#x7C7B;&#x578B;&#x5F80;&#x5F80;&#x4F1A;&#x6D89;&#x53CA;&#x4E0D;&#x540C;&#x7684;&#x7C7B;&#xFF0C;&#x5E76;&#x9700;&#x8981;&#x521D;&#x59CB;&#x5316;&#x7C7B;&#x91CC;&#x7684;&#x5B57;&#x6BB5;&#x548C;&#x65B9;&#x6CD5;&#x3002;</p>
+<p>&#x4E0D;&#x8FC7;&#x6709;&#x4E9B;Java&#x5BF9;&#x8C61;&#x53EA;&#x662F;&#x5BF9;&#x5355;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x5C01;&#x88C5;&#x3002;&#x4F8B;&#x5982;&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;&#x5178;&#x578B;&#x7528;&#x4F8B;&#xFF1A;Java API&#x4E2D;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF08;&#x4E00;&#x822C;&#x88AB;&#x79F0;&#x4E3A;&#x56DE;&#x8C03;&#x63A5;&#x53E3;&#xFF09;&#xFF0C;&#x7528;&#x6237;&#x901A;&#x8FC7;&#x63D0;&#x4F9B;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#x7684;&#x5B9E;&#x4F8B;&#x6765;&#x4F20;&#x5165;&#x6307;&#x5B9A;&#x884C;&#x4E3A;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface ActionListener {</span><br><span class="line">  void actionPerformed(ActionEvent e);</span><br><span class="line">}</span><br></pre></td></tr></table></figure></p></p>
             <p class="article-more-link">
-                <a href="/2017/04/17/Lambda类库篇 —— Streams API, Collector和并行/#more">查看更多</a>
+                <a href="/2017/04/17/Lambda语言篇 —— lambda, 方法引用, 目标类型和默认方法/#more">查看更多</a>
             </p>
         
         </div>
@@ -1223,7 +1222,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
+                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
                             <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
                         </div>
                     </li>
@@ -1231,7 +1230,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
+                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
                             <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
                         </div>
                     </li>

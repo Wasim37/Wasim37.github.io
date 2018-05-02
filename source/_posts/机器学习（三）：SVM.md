@@ -14,12 +14,12 @@ mathjax: true
 
 <!-- more -->
 
+- [<font color="red">示例代码</font>](https://github.com/Wasim37/machine_learning_code/tree/master/04%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%20SVM/notebook)
 - [SVM目标函数推导](#SVM目标函数推导)
 - [大边界的直观理解与数学解释](#大边界的直观理解与数学解释)
 - [核函数](#核函数)
 - [常用核函数及核函数的条件](#常用核函数及核函数的条件)
 - [逻辑回归、SVM和神经网络使用场景](#逻辑回归、SVM和神经网络使用场景)
-- [<font color="red">SVM 示例代码</font>](https://github.com/Wasim37/machine_learning_code/tree/master/04%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%20SVM/notebook)
 - [吴恩达SVM视频笔记](http://www.ai-start.com/ml2014/html/week7.html)
 - [支持向量机通俗导论（理解SVM的三层境界）](#支持向量机通俗导论（理解SVM的三层境界）)
 - [带核的SVM为什么能分类非线性问题](#带核的SVM为什么能分类非线性问题)

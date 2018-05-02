@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="星空博客">
 <meta property="og:description" content="&amp;#x7F6E;&amp;#x9876;">
 <meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/65.png">
-<meta property="og:updated_time" content="2018-04-25T16:10:48.182Z">
+<meta property="og:updated_time" content="2018-05-02T01:43:15.376Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习笔记">
 <meta name="twitter:description" content="&amp;#x7F6E;&amp;#x9876;">
@@ -230,7 +230,7 @@
 <p>&#x600E;&#x4E48;&#x964D;&#x7EF4;&#xFF1F;<br>PCA&#x5177;&#x4F53;&#x600E;&#x4E48;&#x4F7F;&#x7528;&#xFF1F;&#x600E;&#x4E48;&#x548C;&#x5361;&#x65B9;&#x68C0;&#x9A8C;&#x4F7F;&#x7528;</p>
 <ul>
 <li><a href="#&#x4EBA;&#x5DE5;&#x667A;&#x80FD;&#x3001;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x548C;&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x7684;&#x5173;&#x7CFB;">&#x4EBA;&#x5DE5;&#x667A;&#x80FD;&#x3001;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x548C;&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x7684;&#x5173;&#x7CFB;</a></li>
-<li><a href="#&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;">&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;</a></li>
+<li><a href="#&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;">&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x533A;&#x522B;</a></li>
 <li><a href="#&#x8BF7;&#x7B80;&#x8981;&#x4ECB;&#x7ECD;&#x4E0B;tensorflow&#x7684;&#x8BA1;&#x7B97;&#x56FE;">&#x8BF7;&#x7B80;&#x8981;&#x4ECB;&#x7ECD;&#x4E0B;tensorflow&#x7684;&#x8BA1;&#x7B97;&#x56FE;</a></li>
 <li><a href="#name_scope &#x548C; variable_scope&#x7684;&#x533A;&#x522B;">name_scope &#x548C; variable_scope&#x7684;&#x533A;&#x522B;</a></li>
 <li><a href="#&#x4EC0;&#x9EBD;&#x6837;&#x7684;&#x8D44;&#x6599;&#x96C6;&#x4E0D;&#x9002;&#x5408;&#x7528;&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;">&#x4EC0;&#x9EBD;&#x6837;&#x7684;&#x8D44;&#x6599;&#x96C6;&#x4E0D;&#x9002;&#x5408;&#x7528;&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;</a></li>
@@ -567,7 +567,7 @@
 <p>&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x65F6;&#x9012;&#x5F52;&#x7684;&#x5E7F;&#x4E49;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#xFF0C;&#x795E;&#x7ECF;&#x5143;&#x7684;&#x6FC0;&#x6D3B;&#x51FD;&#x6570;&#xFF0C;&#x5373;&#x4E3A;&#x5E7F;&#x4E49;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#x7684;&#x94FE;&#x63A5;&#x51FD;&#x6570;&#x3002;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#xFF08;&#x5E7F;&#x4E49;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#x7684;&#x4E00;&#x79CD;&#xFF09;&#x7684;Logistic&#x51FD;&#x6570;&#x5373;&#x4E3A;&#x795E;&#x7ECF;&#x5143;&#x6FC0;&#x6D3B;&#x51FD;&#x6570;&#x4E2D;&#x7684;Sigmoid&#x51FD;&#x6570;&#xFF0C;&#x5F88;&#x591A;&#x7C7B;&#x4F3C;&#x7684;&#x65B9;&#x6CD5;&#x5728;&#x7EDF;&#x8BA1;&#x5B66;&#x548C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x4E2D;&#x7684;&#x540D;&#x79F0;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x5BB9;&#x6613;&#x5F15;&#x8D77;&#x521D;&#x5B66;&#x8005;&#xFF08;&#x8FD9;&#x91CC;&#x4E3B;&#x8981;&#x6307;&#x6211;&#xFF09;&#x7684;&#x56F0;&#x60D1;&#x3002;</p>
 <p>&#x4E0B;&#x56FE;&#x662F;&#x4E00;&#x4E2A;&#x5BF9;&#x7167;&#x8868;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/18.png" alt=""></p>
 <hr>
-<h3 id="&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;"><a href="#&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;" class="headerlink" title="&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;"></a><h2 id="&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;">&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;</h2></h3><p>&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x9700;&#x8981;&#x89E3;&#x51B3;&#x7684;&#x95EE;&#x9898;&#x7684;&#x6837;&#x672C;&#x6570;&#x636E;&#xFF0C;&#x5728;&#x5EFA;&#x7ACB;&#x6A21;&#x578B;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x6570;&#x636E;&#x4F1A;&#x88AB;&#x5212;&#x5206;&#x4E3A;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x90E8;&#x5206;&#xFF1A;</p>
+<h3 id="&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x533A;&#x522B;"><a href="#&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x533A;&#x522B;" class="headerlink" title="&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x533A;&#x522B;"></a><h2 id="&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x533A;&#x522B;">&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x4E0E;&#x4F20;&#x7EDF;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7684;&#x6570;&#x636E;&#x5212;&#x5206;&#x533A;&#x522B;</h2></h3><p>&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x9700;&#x8981;&#x89E3;&#x51B3;&#x7684;&#x95EE;&#x9898;&#x7684;&#x6837;&#x672C;&#x6570;&#x636E;&#xFF0C;&#x5728;&#x5EFA;&#x7ACB;&#x6A21;&#x578B;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x6570;&#x636E;&#x4F1A;&#x88AB;&#x5212;&#x5206;&#x4E3A;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x90E8;&#x5206;&#xFF1A;</p>
 <p>1&#xFF09;&#x8BAD;&#x7EC3;&#x96C6;&#xFF08;train set&#xFF09;&#xFF1A;&#x7528;&#x8BAD;&#x7EC3;&#x96C6;&#x5BF9;&#x7B97;&#x6CD5;&#x6216;&#x6A21;&#x578B;&#x8FDB;&#x884C;&#x8BAD;&#x7EC3;&#x8FC7;&#x7A0B;&#xFF1B;<br>2&#xFF09;&#x9A8C;&#x8BC1;&#x96C6;&#xFF08;development set&#xFF09;&#xFF1A;&#x5229;&#x7528;&#x9A8C;&#x8BC1;&#x96C6;&#xFF08;&#x53C8;&#x79F0;&#x4E3A;&#x7B80;&#x5355;&#x4EA4;&#x53C9;&#x9A8C;&#x8BC1;&#x96C6;&#xFF0C;hold-out cross validation set&#xFF09;<strong>&#x8FDB;&#x884C;&#x4EA4;&#x53C9;&#x9A8C;&#x8BC1;&#xFF0C;&#x9009;&#x62E9;&#x51FA;&#x6700;&#x597D;&#x7684;&#x6A21;&#x578B;</strong>&#xFF1B;<br>3&#xFF09;&#x6D4B;&#x8BD5;&#x96C6;&#xFF08;test set&#xFF09;&#xFF1A;&#x6700;&#x540E;&#x5229;&#x7528;&#x6D4B;&#x8BD5;&#x96C6;&#x5BF9;&#x6A21;&#x578B;&#x8FDB;&#x884C;&#x6D4B;&#x8BD5;&#xFF0C;&#x83B7;&#x53D6;&#x6A21;&#x578B;&#x8FD0;&#x884C;&#x7684;&#x65E0;&#x504F;&#x4F30;&#x8BA1;&#xFF08;&#x5BF9;&#x5B66;&#x4E60;&#x65B9;&#x6CD5;&#x8FDB;&#x884C;&#x8BC4;&#x4F30;&#xFF09;&#x3002;</p>
 <p><strong>&#x5728;&#x5C0F;&#x6570;&#x636E;&#x91CF;&#x7684;&#x65F6;&#x4EE3;</strong>&#xFF0C;&#x5982; 100&#x3001;1000&#x3001;10000 &#x7684;&#x6570;&#x636E;&#x91CF;&#x5927;&#x5C0F;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;&#x6570;&#x636E;&#x96C6;&#x6309;&#x7167;&#x4EE5;&#x4E0B;&#x6BD4;&#x4F8B;&#x8FDB;&#x884C;&#x5212;&#x5206;&#xFF1A;</p>
 <p>1&#xFF09;&#x65E0;&#x9A8C;&#x8BC1;&#x96C6;&#x7684;&#x60C5;&#x51B5;&#xFF1A;70% / 30%&#xFF1B;<br>2&#xFF09;&#x6709;&#x9A8C;&#x8BC1;&#x96C6;&#x7684;&#x60C5;&#x51B5;&#xFF1A;60% / 20% / 20%&#xFF1B;</p>
@@ -811,10 +811,19 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
 <nav id="article-nav">
     
+        <a href="/2019/01/01/机器学习笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    机器学习笔记
+                
+            </div>
+        </a>
     
-        <a href="/2019/01/01/机器学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
+    
+        <a href="/2018/03/10/训练模型与注意力机制/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">机器学习笔记</div>
+            <div class="article-nav-title">训练模型与注意力机制</div>
         </a>
     
 </nav>
@@ -845,7 +854,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
+                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
                             <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
                         </div>
                     </li>
@@ -853,7 +862,7 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
+                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
                             <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
                         </div>
                     </li>
