@@ -14,7 +14,7 @@ mathjax: true
 
 <!-- more -->
 
-- [<font color="red">示例代码</font>](https://github.com/Wasim37/machine_learning_code/tree/master/04%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%20SVM/notebook)
+- [示例代码](https://github.com/Wasim37/machine_learning_code/tree/master/04%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%20SVM/notebook)
 - [SVM目标函数推导](#SVM目标函数推导)
 - [大边界的直观理解与数学解释](#大边界的直观理解与数学解释)
 - [核函数](#核函数)
