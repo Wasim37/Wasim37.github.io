@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8">
     
-    <title>训练模型与注意力机制 | 星空博客</title>
+    <title>序列模型与注意力机制 | 星空博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="Seq2Seq &amp;#x6A21;&amp;#x578B;Seq2Seq&amp;#xFF08;Sequence-to-Sequence&amp;#xFF09;&amp;#x6A21;&amp;#x578B;&amp;#x80FD;&amp;#x591F;&amp;#x5E94;&amp;#x7528;&amp;#x4E8E;&amp;#x673A;&amp;#x5668;&amp;#x7FFB;&amp;#x8BD1;&amp;#x3001;&amp;#x8BED;&amp;#x97F3;&amp;#x8BC6;&amp;#x522B;&amp;#x7B">
 <meta property="og:type" content="article">
-<meta property="og:title" content="训练模型与注意力机制">
-<meta property="og:url" content="http://www.wangxin123.com/2018/03/10/训练模型与注意力机制/index.html">
+<meta property="og:title" content="序列模型与注意力机制">
+<meta property="og:url" content="http://www.wangxin123.com/2018/03/10/序列模型与注意力机制/index.html">
 <meta property="og:site_name" content="星空博客">
 <meta property="og:description" content="Seq2Seq &amp;#x6A21;&amp;#x578B;Seq2Seq&amp;#xFF08;Sequence-to-Sequence&amp;#xFF09;&amp;#x6A21;&amp;#x578B;&amp;#x80FD;&amp;#x591F;&amp;#x5E94;&amp;#x7528;&amp;#x4E8E;&amp;#x673A;&amp;#x5668;&amp;#x7FFB;&amp;#x8BD1;&amp;#x3001;&amp;#x8BED;&amp;#x97F3;&amp;#x8BC6;&amp;#x522B;&amp;#x7B">
 <meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Seq2Seq.png">
-<meta property="og:updated_time" content="2018-04-25T03:46:12.746Z">
+<meta property="og:updated_time" content="2018-05-02T01:51:46.371Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="训练模型与注意力机制">
+<meta name="twitter:title" content="序列模型与注意力机制">
 <meta name="twitter:description" content="Seq2Seq &amp;#x6A21;&amp;#x578B;Seq2Seq&amp;#xFF08;Sequence-to-Sequence&amp;#xFF09;&amp;#x6A21;&amp;#x578B;&amp;#x80FD;&amp;#x591F;&amp;#x5E94;&amp;#x7528;&amp;#x4E8E;&amp;#x673A;&amp;#x5668;&amp;#x7FFB;&amp;#x8BD1;&amp;#x3001;&amp;#x8BED;&amp;#x97F3;&amp;#x8BC6;&amp;#x522B;&amp;#x7B">
 <meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Seq2Seq.png">
     
@@ -185,7 +185,7 @@
 </aside>
 
             
-            <section id="main"><article id="post-训练模型与注意力机制" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-序列模型与注意力机制" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -194,7 +194,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            训练模型与注意力机制
+            序列模型与注意力机制
         </h1>
     
 
@@ -202,7 +202,7 @@
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2018/03/10/训练模型与注意力机制/">
+        <a href="/2018/03/10/序列模型与注意力机制/">
             <time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time>
         </a>
     </div>
@@ -228,7 +228,7 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Seq2Seq-模型"><span class="toc-number">1.</span> <span class="toc-text">Seq2Seq 模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#选择最可能的句子"><span class="toc-number">1.1.</span> <span class="toc-text">选择最可能的句子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集束搜索"><span class="toc-number">2.</span> <span class="toc-text">集束搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#优化：长度标准化"><span class="toc-number">2.1.</span> <span class="toc-text">优化：长度标准化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#误差分析"><span class="toc-number">2.2.</span> <span class="toc-text">误差分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bleu-得分"><span class="toc-number">3.</span> <span class="toc-text">Bleu 得分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意力模型"><span class="toc-number">4.</span> <span class="toc-text">注意力模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语音识别"><span class="toc-number">5.</span> <span class="toc-text">语音识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#触发词检测"><span class="toc-number">6.</span> <span class="toc-text">触发词检测</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Seq2Seq-模型"><span class="toc-number">1.</span> <span class="toc-text">Seq2Seq 模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#选择最可能的句子"><span class="toc-number">1.1.</span> <span class="toc-text">选择最可能的句子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集束搜索"><span class="toc-number">2.</span> <span class="toc-text">集束搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#优化：长度标准化"><span class="toc-number">2.1.</span> <span class="toc-text">优化：长度标准化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#误差分析"><span class="toc-number">2.2.</span> <span class="toc-text">误差分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bleu-得分"><span class="toc-number">3.</span> <span class="toc-text">Bleu 得分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意力模型"><span class="toc-number">4.</span> <span class="toc-text">注意力模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语音识别"><span class="toc-number">5.</span> <span class="toc-text">语音识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#触发词检测"><span class="toc-number">6.</span> <span class="toc-text">触发词检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码示例"><span class="toc-number">7.</span> <span class="toc-text">代码示例</span></a></li></ol>
                 </div>
             
             <h3 id="Seq2Seq-&#x6A21;&#x578B;"><a href="#Seq2Seq-&#x6A21;&#x578B;" class="headerlink" title="Seq2Seq &#x6A21;&#x578B;"></a>Seq2Seq &#x6A21;&#x578B;</h3><p><strong>Seq2Seq&#xFF08;Sequence-to-Sequence&#xFF09;</strong>&#x6A21;&#x578B;&#x80FD;&#x591F;&#x5E94;&#x7528;&#x4E8E;&#x673A;&#x5668;&#x7FFB;&#x8BD1;&#x3001;&#x8BED;&#x97F3;&#x8BC6;&#x522B;&#x7B49;&#x5404;&#x79CD;&#x5E8F;&#x5217;&#x5230;&#x5E8F;&#x5217;&#x7684;&#x8F6C;&#x6362;&#x95EE;&#x9898;&#x3002;&#x4E00;&#x4E2A; Seq2Seq &#x6A21;&#x578B;&#x5305;&#x542B;<strong>&#x7F16;&#x7801;&#x5668;&#xFF08;Encoder&#xFF09;</strong>&#x548C;<strong>&#x89E3;&#x7801;&#x5668;&#xFF08;Decoder&#xFF09;</strong>&#x4E24;&#x90E8;&#x5206;&#xFF0C;&#x5B83;&#x4EEC;&#x901A;&#x5E38;&#x662F;&#x4E24;&#x4E2A;&#x4E0D;&#x540C;&#x7684; RNN&#x3002;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF0C;&#x5C06;&#x7F16;&#x7801;&#x5668;&#x7684;&#x8F93;&#x51FA;&#x4F5C;&#x4E3A;&#x89E3;&#x7801;&#x5668;&#x7684;&#x8F93;&#x5165;&#xFF0C;&#x7531;&#x89E3;&#x7801;&#x5668;&#x8D1F;&#x8D23;&#x8F93;&#x51FA;&#x6B63;&#x786E;&#x7684;&#x7FFB;&#x8BD1;&#x7ED3;&#x679C;&#x3002;</p>
@@ -320,6 +320,8 @@
 <h3 id="&#x89E6;&#x53D1;&#x8BCD;&#x68C0;&#x6D4B;"><a href="#&#x89E6;&#x53D1;&#x8BCD;&#x68C0;&#x6D4B;" class="headerlink" title="&#x89E6;&#x53D1;&#x8BCD;&#x68C0;&#x6D4B;"></a>&#x89E6;&#x53D1;&#x8BCD;&#x68C0;&#x6D4B;</h3><p><strong>&#x89E6;&#x53D1;&#x8BCD;&#x68C0;&#x6D4B;&#xFF08;Trigger Word Detection&#xFF09;</strong>&#x5E38;&#x7528;&#x4E8E;&#x5404;&#x79CD;&#x667A;&#x80FD;&#x8BBE;&#x5907;&#xFF0C;&#x901A;&#x8FC7;&#x7EA6;&#x5B9A;&#x7684;&#x89E6;&#x53D1;&#x8BCD;&#x53EF;&#x4EE5;&#x8BED;&#x97F3;&#x5524;&#x9192;&#x8BBE;&#x5907;&#x3002;</p>
 <p>&#x4F7F;&#x7528; RNN &#x6765;&#x5B9E;&#x73B0;&#x89E6;&#x53D1;&#x8BCD;&#x68C0;&#x6D4B;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;&#x89E6;&#x53D1;&#x8BCD;&#x5BF9;&#x5E94;&#x7684;&#x5E8F;&#x5217;&#x7684;&#x6807;&#x7B7E;&#x8BBE;&#x7F6E;&#x4E3A;&#x201C;1&#x201D;&#xFF0C;&#x800C;&#x5C06;&#x5176;&#x4ED6;&#x7684;&#x6807;&#x7B7E;&#x8BBE;&#x7F6E;&#x4E3A;&#x201C;0&#x201D;&#x3002;</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Trigger-word-detection-algorithm.png" alt=""></p>
+<hr>
+<h3 id="&#x4EE3;&#x7801;&#x793A;&#x4F8B;"><a href="#&#x4EE3;&#x7801;&#x793A;&#x4F8B;" class="headerlink" title="&#x4EE3;&#x7801;&#x793A;&#x4F8B;"></a>&#x4EE3;&#x7801;&#x793A;&#x4F8B;</h3><p><a href="https://github.com/Wasim37/deeplearning-assignment/tree/master/5%20%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B/Week3%20%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6" target="_blank" rel="external">&#x5E8F;&#x5217;&#x6A21;&#x578B;&#x548C;&#x6CE8;&#x610F;&#x529B;&#x673A;&#x5236;</a></p>
 
         
         </div>
@@ -374,11 +376,11 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
         
 <nav id="article-nav">
     
-        <a href="/2019/01/01/深度学习笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2019/01/01/机器学习笔记/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    深度学习笔记
+                    机器学习笔记
                 
             </div>
         </a>
@@ -417,14 +419,6 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                     <li>
                         <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
                             <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
                             <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
                         </div>
@@ -432,8 +426,16 @@ window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMin
                 
                     <li>
                         <div class="item-thumbnail">
+                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
+                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
+                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        <div class="item-thumbnail">
                             <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/训练模型与注意力机制/" class="title">训练模型与注意力机制</a></p>
+                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
                             <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
                         </div>
                     </li>
