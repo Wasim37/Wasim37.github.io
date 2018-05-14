@@ -23,6 +23,7 @@ mathjax: true
 - [吴恩达SVM视频笔记](http://www.ai-start.com/ml2014/html/week7.html)
 - [支持向量机通俗导论（理解SVM的三层境界）](#支持向量机通俗导论（理解SVM的三层境界）)
 - [带核的SVM为什么能分类非线性问题](#带核的SVM为什么能分类非线性问题)
+- [SVM常见问题](https://blog.csdn.net/yanhx1204/article/details/79481003)
 
 ---
 
