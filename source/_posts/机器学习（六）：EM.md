@@ -12,4 +12,4 @@ mathjax: true
 
 持续更新中。。。
 
-- [示例代码](https://github.com/Wasim37/machine_learning_code/tree/master/07%20EM(GMM)/notebook)
+- [示例代码](https://github.com/Wasim37/machine_learning_code/tree/master/07%20EM（GMM）/notebook)
