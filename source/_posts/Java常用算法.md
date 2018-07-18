@@ -118,6 +118,9 @@ public class selectSort {
 ![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/7.png)
 ![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/8.png)
 依次类推：最后堆中剩余的最后两个结点交换，踢出一个，排序完成。
+
+详解：https://www.cnblogs.com/chengxiao/p/6129630.html
+
 （3）用java实现
 ```bash
 import java.util.Arrays;  
@@ -212,6 +215,9 @@ public  bubbleSort(){
 （1）基本思想：选择一个基准元素,通常选择第一个元素或者最后一个元素,通过一趟扫描，将待排序列分成两部分,一部分比基准元素小,一部分大于等于基准元素,此时基准元素在其排好序后的正确位置,然后再用同样的方法递归地排序划分的两部分。
 （2）实例：
 ![](http://7xvfir.com1.z0.glb.clouddn.com/Java%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/10.png)
+
+时间复杂度：https://blog.csdn.net/qfikh/article/details/52870875
+
 （3）用java实现
 ```bash
 public class quickSort {  
