@@ -212,15 +212,6 @@ widgets:
         # Where should the widget be placed, left sidebar or right sidebar
         position: left
         type: toc
-    # Recommendation links widget configurations
-    -
-        # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: links
-        # Names and URLs of the sites
-        links:
-            Hexo: 'https://hexo.io'
-            Bulma: 'https://bulma.io'
     # Categories widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
@@ -241,6 +232,15 @@ widgets:
         # Where should the widget be placed, left sidebar or right sidebar
         position: right
         type: tags
+    # Recommendation links widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: links
+        # Names and URLs of the sites
+        links:
+            Hexo: 'https://hexo.io'
+            Bulma: 'https://bulma.io'
 # Plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/
 plugins:

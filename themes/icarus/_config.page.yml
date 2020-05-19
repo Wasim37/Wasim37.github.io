@@ -1,0 +1,35 @@
+widgets:
+    # Table of contents widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: toc
+    # Categories widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: categories
+    # Recent posts widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: recent_posts
+    # Archives widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: archives
+    # Tags widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: tags
+    # Recommendation links widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: links
+        # Names and URLs of the sites
+        links:
+            Hexo: 'https://hexo.io'
+            Bulma: 'https://bulma.io'
