@@ -15,7 +15,7 @@ customize:
         url: images/logo.png
     profile:
         enabled: true # Whether to show profile bar
-        avatar: http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg
+        avatar: https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/head.jpg
         gravatar: # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
         author: Wasim
         author_title: Full Stack Developer
@@ -70,13 +70,12 @@ miscellaneous:
         twitter_id:
         google_plus:
     links:
-        阿里云栖社区: https://yq.aliyun.com/articles
-        阿里中间件团队博客: http://jm.taobao.org/
-        美团点评技术团队: http://tech.meituan.com/
-        奇虎360技术博客: http://blogs.360.cn/
-        乌云漏洞搜索系统: http://www.anquan.us/
-        36大数据: http://www.36dsj.com/
-        芥末堆: http://www.jiemodui.com/
+        kaggle: https://www.kaggle.com/
+        吴恩达-深度学习: http://www.ai-start.com/dl2017/
+        TensorFlow2.0 学习: https://lyhue1991.github.io/eat_tensorflow2_in_30_days/
+        谷歌AI-blog: https://ai.googleblog.com/
+        arxiv: http://www.arxiv-sanity.com/
+        shortscience: https://www.shortscience.org/
 
 mathjax: true
 
