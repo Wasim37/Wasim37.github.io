@@ -1,14 +1,17 @@
-title: Hexo
+# Site
+title: wasim's blog
 subtitle: ''
 description: ''
 keywords: null
-author: John Doe
+author: Wasim
 language: zh-CN
-timezone: ''
-url: 'http://www.wangxin123.com'
+timezone: Asia/Shanghai
+
+url: http://www.wangxin123.com
 root: /
 permalink: ':year/:month/:day/:title/'
 permalink_defaults: null
+
 pretty_urls:
   trailing_index: true
   trailing_html: true
