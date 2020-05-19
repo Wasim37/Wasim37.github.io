@@ -1,490 +1,71 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>MySQL中间件Atlas安装及使用 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x7B80;&amp;#x4ECB;Atlas&amp;#x662F;&amp;#x7531; Qihoo 360&amp;#x516C;&amp;#x53F8;Web&amp;#x5E73;&amp;#x53F0;&amp;#x90E8;&amp;#x57FA;&amp;#x7840;&amp;#x67B6;&amp;#x6784;&amp;#x56E2;&amp;#x961F;&amp;#x5F00;&amp;#x53D1;&amp;#x7EF4;&amp;#x62A4;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x57F">
-<meta property="og:type" content="article">
-<meta property="og:title" content="MySQL中间件Atlas安装及使用">
-<meta property="og:url" content="http://www.wangxin123.com/2016/10/18/MySQL中间件Atlas安装及使用/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x7B80;&amp;#x4ECB;Atlas&amp;#x662F;&amp;#x7531; Qihoo 360&amp;#x516C;&amp;#x53F8;Web&amp;#x5E73;&amp;#x53F0;&amp;#x90E8;&amp;#x57FA;&amp;#x7840;&amp;#x67B6;&amp;#x6784;&amp;#x56E2;&amp;#x961F;&amp;#x5F00;&amp;#x53D1;&amp;#x7EF4;&amp;#x62A4;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x57F">
-<meta property="og:updated_time" content="2017-06-26T06:10:38.611Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL中间件Atlas安装及使用">
-<meta name="twitter:description" content="&amp;#x7B80;&amp;#x4ECB;Atlas&amp;#x662F;&amp;#x7531; Qihoo 360&amp;#x516C;&amp;#x53F8;Web&amp;#x5E73;&amp;#x53F0;&amp;#x90E8;&amp;#x57FA;&amp;#x7840;&amp;#x67B6;&amp;#x6784;&amp;#x56E2;&amp;#x961F;&amp;#x5F00;&amp;#x53D1;&amp;#x7EF4;&amp;#x62A4;&amp;#x7684;&amp;#x4E00;&amp;#x4E2A;&amp;#x57F">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-MySQL中间件Atlas安装及使用" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            MySQL中间件Atlas安装及使用
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/10/18/MySQL中间件Atlas安装及使用/">
-            <time datetime="2016-10-18T10:24:17.000Z" itemprop="datePublished">2016-10-18</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/运维部署/">运维部署</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/atlas/">atlas</a>, <a class="tag-link" href="/tags/mysql/">mysql</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主要功能"><span class="toc-number">2.</span> <span class="toc-text">主要功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相关链接"><span class="toc-number">3.</span> <span class="toc-text">相关链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置开机自启动"><span class="toc-number">4.</span> <span class="toc-text">设置开机自启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加atlas服务"><span class="toc-number">5.</span> <span class="toc-text">添加atlas服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Atlas安装及卸载"><span class="toc-number">6.</span> <span class="toc-text">Atlas安装及卸载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题相关"><span class="toc-number">7.</span> <span class="toc-text">问题相关</span></a></li></ol>
-                </div>
-            
-            <h3 id="&#x7B80;&#x4ECB;"><a href="#&#x7B80;&#x4ECB;" class="headerlink" title="&#x7B80;&#x4ECB;"></a>&#x7B80;&#x4ECB;</h3><p>Atlas&#x662F;&#x7531; Qihoo 360&#x516C;&#x53F8;Web&#x5E73;&#x53F0;&#x90E8;&#x57FA;&#x7840;&#x67B6;&#x6784;&#x56E2;&#x961F;&#x5F00;&#x53D1;&#x7EF4;&#x62A4;&#x7684;&#x4E00;&#x4E2A;&#x57FA;&#x4E8E;MySQL&#x534F;&#x8BAE;&#x7684;&#x6570;&#x636E;&#x4E2D;&#x95F4;&#x5C42;&#x9879;&#x76EE;&#x3002;&#x5B83;&#x5728;MySQL&#x5B98;&#x65B9;&#x63A8;&#x51FA;&#x7684;MySQL-Proxy 0.8.2&#x7248;&#x672C;&#x7684;&#x57FA;&#x7840;&#x4E0A;&#xFF0C;&#x4FEE;&#x6539;&#x4E86;&#x5927;&#x91CF;bug&#xFF0C;&#x6DFB;&#x52A0;&#x4E86;&#x5F88;&#x591A;&#x529F;&#x80FD;&#x7279;&#x6027;&#x3002;&#x800C;&#x4E14;&#x5B89;&#x88C5;&#x65B9;&#x4FBF;&#x3002;&#x914D;&#x7F6E;&#x7684;&#x6CE8;&#x91CA;&#x5199;&#x7684;&#x86EE;&#x8BE6;&#x7EC6;&#x7684;&#xFF0C;&#x90FD;&#x662F;&#x4E2D;&#x6587;&#x3002;</p>
-<h3 id="&#x4E3B;&#x8981;&#x529F;&#x80FD;"><a href="#&#x4E3B;&#x8981;&#x529F;&#x80FD;" class="headerlink" title="&#x4E3B;&#x8981;&#x529F;&#x80FD;"></a>&#x4E3B;&#x8981;&#x529F;&#x80FD;</h3><ul>
-<li>&#x8BFB;&#x5199;&#x5206;&#x79BB;</li>
-<li>&#x4ECE;&#x5E93;&#x8D1F;&#x8F7D;&#x5747;&#x8861;</li>
-<li>IP&#x8FC7;&#x6EE4;</li>
-<li>&#x81EA;&#x52A8;&#x5206;&#x8868;</li>
-<li>DBA&#x53EF;&#x5E73;&#x6ED1;&#x4E0A;&#x4E0B;&#x7EBF;DB</li>
-<li>&#x81EA;&#x52A8;&#x6458;&#x9664;&#x5B95;&#x673A;&#x7684;DB</li>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>MySQL中间件Atlas安装及使用 - Hexo</title><meta description="简介Atlas是由 Qihoo 360公司Web平台部基础架构团队开发维护的一个基于MySQL协议的数据中间层项目。它在MySQL官方推出的MySQL-Proxy 0.8.2版本的基础上，修改了大量bug，添加了很多功能特性。而且安装方便。配置的注释写的蛮详细的，都是中文。 主要功能 读写分离 从库负载均衡 IP过滤 自动分表 DBA可平滑上下线DB 自动摘除宕机的DB  相关链接Mysql中间件"><meta property="og:type" content="blog"><meta property="og:title" content="MySQL中间件Atlas安装及使用"><meta property="og:url" content="http://yoursite.com/2016/10/18/MySQL%E4%B8%AD%E9%97%B4%E4%BB%B6Atlas%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="简介Atlas是由 Qihoo 360公司Web平台部基础架构团队开发维护的一个基于MySQL协议的数据中间层项目。它在MySQL官方推出的MySQL-Proxy 0.8.2版本的基础上，修改了大量bug，添加了很多功能特性。而且安装方便。配置的注释写的蛮详细的，都是中文。 主要功能 读写分离 从库负载均衡 IP过滤 自动分表 DBA可平滑上下线DB 自动摘除宕机的DB  相关链接Mysql中间件"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://yoursite.com/img/og_image.png"><meta property="article:published_time" content="2016-10-18T10:24:17.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.209Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="atlas"><meta property="article:tag" content="mysql"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2016/10/18/MySQL%E4%B8%AD%E9%97%B4%E4%BB%B6Atlas%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/"},"headline":"Hexo","image":["http://yoursite.com/img/og_image.png"],"datePublished":"2016-10-18T10:24:17.000Z","dateModified":"2020-05-19T06:34:18.209Z","author":{"@type":"Person","name":"John Doe"},"description":"简介Atlas是由 Qihoo 360公司Web平台部基础架构团队开发维护的一个基于MySQL协议的数据中间层项目。它在MySQL官方推出的MySQL-Proxy 0.8.2版本的基础上，修改了大量bug，添加了很多功能特性。而且安装方便。配置的注释写的蛮详细的，都是中文。 主要功能 读写分离 从库负载均衡 IP过滤 自动分表 DBA可平滑上下线DB 自动摘除宕机的DB  相关链接Mysql中间件"}</script><link rel="canonical" href="http://yoursite.com/2016/10/18/MySQL%E4%B8%AD%E9%97%B4%E4%BB%B6Atlas%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BD%BF%E7%94%A8/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2016-10-18T10:24:17.000Z" title="2016-10-18T10:24:17.000Z">2016-10-18</time><span class="level-item"><a class="link-muted" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/">运维部署</a></span><span class="level-item">6 分钟 读完 (大约 876 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">MySQL中间件Atlas安装及使用</h1><div class="content"><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Atlas是由 Qihoo 360公司Web平台部基础架构团队开发维护的一个基于MySQL协议的数据中间层项目。它在MySQL官方推出的MySQL-Proxy 0.8.2版本的基础上，修改了大量bug，添加了很多功能特性。而且安装方便。配置的注释写的蛮详细的，都是中文。</p>
+<h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h3><ul>
+<li>读写分离</li>
+<li>从库负载均衡</li>
+<li>IP过滤</li>
+<li>自动分表</li>
+<li>DBA可平滑上下线DB</li>
+<li>自动摘除宕机的DB</li>
 </ul>
-<h3 id="&#x76F8;&#x5173;&#x94FE;&#x63A5;"><a href="#&#x76F8;&#x5173;&#x94FE;&#x63A5;" class="headerlink" title="&#x76F8;&#x5173;&#x94FE;&#x63A5;"></a>&#x76F8;&#x5173;&#x94FE;&#x63A5;</h3><p>Mysql&#x4E2D;&#x95F4;&#x4EF6;&#x4EA7;&#x54C1;&#x6BD4;&#x8F83;&#xFF1A;<a href="http://songwie.com/articlelist/44" target="_blank" rel="external">http://songwie.com/articlelist/44</a><br>Atlas&#x7684;&#x5B89;&#x88C5;&#xFF1A;<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x5B89;&#x88C5;" target="_blank" rel="external">https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x5B89;&#x88C5;</a><br>Atlas&#x529F;&#x80FD;&#x7279;&#x70B9;FAQ&#xFF1A;<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas&#x529F;&#x80FD;&#x7279;&#x70B9;FAQ" target="_blank" rel="external">https://github.com/Qihoo360/Atlas/wiki/Atlas&#x529F;&#x80FD;&#x7279;&#x70B9;FAQ</a><br>Atlas&#x6027;&#x80FD;&#x7279;&#x70B9;&#xFF1A;<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x6027;&#x80FD;&#x6D4B;&#x8BD5;" target="_blank" rel="external">https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x6027;&#x80FD;&#x6D4B;&#x8BD5;</a><br>Atlas&#x67B6;&#x6784;&#xFF1A;<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x67B6;&#x6784;" target="_blank" rel="external">https://github.com/Qihoo360/Atlas/wiki/Atlas&#x7684;&#x67B6;&#x6784;</a><br>Atlas+Keepalived&#xFF1A;<a href="http://sofar.blog.51cto.com/353572/1601552" target="_blank" rel="external">http://sofar.blog.51cto.com/353572/1601552</a><br>Atlas&#x5404;&#x9879;&#x529F;&#x80FD;&#x9A8C;&#x8BC1;&#xFF1A;<a href="http://blog.itpub.net/27000195/viewspace-1421262/" target="_blank" rel="external">http://blog.itpub.net/27000195/viewspace-1421262/</a></p>
+<h3 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h3><p>Mysql中间件产品比较：<a href="http://songwie.com/articlelist/44">http://songwie.com/articlelist/44</a><br>Atlas的安装：<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas的安装">https://github.com/Qihoo360/Atlas/wiki/Atlas的安装</a><br>Atlas功能特点FAQ：<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas功能特点FAQ">https://github.com/Qihoo360/Atlas/wiki/Atlas功能特点FAQ</a><br>Atlas性能特点：<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas的性能测试">https://github.com/Qihoo360/Atlas/wiki/Atlas的性能测试</a><br>Atlas架构：<a href="https://github.com/Qihoo360/Atlas/wiki/Atlas的架构">https://github.com/Qihoo360/Atlas/wiki/Atlas的架构</a><br>Atlas+Keepalived：<a href="http://sofar.blog.51cto.com/353572/1601552">http://sofar.blog.51cto.com/353572/1601552</a><br>Atlas各项功能验证：<a href="http://blog.itpub.net/27000195/viewspace-1421262/">http://blog.itpub.net/27000195/viewspace-1421262/</a></p>
 <a id="more"></a>
 <blockquote>
-<p>&#x5B98;&#x7F51;&#x6559;&#x7A0B;&#x5F88;&#x8BE6;&#x7EC6;&#xFF0C;&#x4E14;&#x662F;&#x4E2D;&#x6587;&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x8BE6;&#x8FF0;&#x76F8;&#x5173;&#x5B89;&#x88C5;&#x8FC7;&#x7A0B;&#x4E86;</p>
+<p>官网教程很详细，且是中文，这里就不详述相关安装过程了</p>
 </blockquote>
-<h3 id="&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;"><a href="#&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;" class="headerlink" title="&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;"></a>&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x81EA;&#x542F;&#x52A8;</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;/usr/local/mysql-proxy/bin/mysql-proxyd test start&quot;</span> &gt;&gt; /etc/rc.local</span><br></pre></td></tr></table></figure>
+<h3 id="设置开机自启动"><a href="#设置开机自启动" class="headerlink" title="设置开机自启动"></a>设置开机自启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"/usr/local/mysql-proxy/bin/mysql-proxyd test start"</span> &gt;&gt; /etc/rc.local</span><br></pre></td></tr></table></figure>
 <hr>
-<h3 id="&#x6DFB;&#x52A0;atlas&#x670D;&#x52A1;"><a href="#&#x6DFB;&#x52A0;atlas&#x670D;&#x52A1;" class="headerlink" title="&#x6DFB;&#x52A0;atlas&#x670D;&#x52A1;"></a>&#x6DFB;&#x52A0;atlas&#x670D;&#x52A1;</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x7F16;&#x5199;&#x7B80;&#x5355;&#x7684;Atlas&#x542F;&#x52A8;&#x811A;&#x672C;</span></span><br><span class="line">vim /etc/init.d/atlas</span><br><span class="line"></span><br><span class="line"><span class="meta">#!/bin/sh  </span><br><span class="line"></span></span><br><span class="line"><span class="function"><span class="title">start</span></span>()  </span><br><span class="line">{  </span><br><span class="line">        /usr/<span class="built_in">local</span>/mysql-proxy/bin/mysql-proxyd <span class="built_in">test</span> start</span><br><span class="line">}  </span><br><span class="line"><span class="function"><span class="title">stop</span></span>()  </span><br><span class="line">{  </span><br><span class="line">        /usr/<span class="built_in">local</span>/mysql-proxy/bin/mysql-proxyd <span class="built_in">test</span> stop</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="title">status</span></span>()  </span><br><span class="line">{       </span><br><span class="line">        /usr/<span class="built_in">local</span>/mysql-proxy/bin/mysql-proxyd <span class="built_in">test</span> status  </span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="title">restart</span></span>()  </span><br><span class="line">{  </span><br><span class="line">        /usr/<span class="built_in">local</span>/mysql-proxy/bin/mysql-proxyd <span class="built_in">test</span> restart</span><br><span class="line">} </span><br><span class="line">ATLAS=<span class="string">&quot;/usr/local/mysql-proxy/bin/mysql-proxyd&quot;</span>  </span><br><span class="line">[ <span class="_">-f</span> <span class="variable">$ATLAS</span> ] || <span class="built_in">exit</span> 1  </span><br><span class="line"><span class="comment"># See how we were called.  </span></span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;<span class="variable">$1</span>&quot;</span> <span class="keyword">in</span>  </span><br><span class="line">        start)  </span><br><span class="line">                start  </span><br><span class="line">                ;;  </span><br><span class="line">        stop)  </span><br><span class="line">                stop  </span><br><span class="line">                ;;  </span><br><span class="line">        restart)  </span><br><span class="line">                restart</span><br><span class="line">                ;;  </span><br><span class="line">        status)  </span><br><span class="line">                status </span><br><span class="line">                ;;  </span><br><span class="line">                <span class="comment"># stop    sleep 3   start  ;;  </span></span><br><span class="line">        *)  </span><br><span class="line">                <span class="built_in">echo</span> $<span class="string">&quot;Usage: <span class="variable">$0</span> {start|stop|status|restart}&quot;</span>  </span><br><span class="line">                <span class="built_in">exit</span> 1  </span><br><span class="line"><span class="keyword">esac</span>  </span><br><span class="line"><span class="built_in">exit</span> 0 </span><br><span class="line"></span><br><span class="line"><span class="comment"># atlas&#x670D;&#x52A1;&#x9A8C;&#x8BC1;</span></span><br><span class="line">service atlas status</span><br><span class="line">service atlas start</span><br><span class="line">service atlas restart</span><br><span class="line">service atlas stop</span><br></pre></td></tr></table></figure>
-<p>&#x67E5;&#x770B;MySQL&#x76D1;&#x542C;&#x7AEF;&#x53E3;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">etstat -tanlp | grep mysql</span><br><span class="line">tcp        0      0 0.0.0.0:2345            0.0.0.0:*               LISTEN      21449/mysql-proxy   </span><br><span class="line">tcp        0      0 0.0.0.0:3306            0.0.0.0:*               LISTEN      24096/mysqld        </span><br><span class="line">tcp        0      0 0.0.0.0:1234            0.0.0.0:*               LISTEN      21449/mysql-proxy</span><br></pre></td></tr></table></figure></p>
+<h3 id="添加atlas服务"><a href="#添加atlas服务" class="headerlink" title="添加atlas服务"></a>添加atlas服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编写简单的Atlas启动脚本</span></span><br><span class="line">vim /etc/init.d/atlas</span><br><span class="line"></span><br><span class="line"><span class="meta">#!/bin/sh  </span></span><br><span class="line"></span><br><span class="line">start()  </span><br><span class="line">&#123;  </span><br><span class="line">        /usr/<span class="built_in">local</span>/mysql-proxy/bin/mysql-proxyd <span class="built_in">test</span> start</span><br><span class="line">&#125;  </span><br><span class="line">stop()  </span><br><span class="line">&#123;  </span><br><span class="line">        /usr/<span class="built_in">local</span>/mysql-proxy/bin/mysql-proxyd <span class="built_in">test</span> stop</span><br><span class="line">&#125;</span><br><span class="line">status()  </span><br><span class="line">&#123;       </span><br><span class="line">        /usr/<span class="built_in">local</span>/mysql-proxy/bin/mysql-proxyd <span class="built_in">test</span> status  </span><br><span class="line">&#125;</span><br><span class="line">restart()  </span><br><span class="line">&#123;  </span><br><span class="line">        /usr/<span class="built_in">local</span>/mysql-proxy/bin/mysql-proxyd <span class="built_in">test</span> restart</span><br><span class="line">&#125; </span><br><span class="line">ATLAS=<span class="string">"/usr/local/mysql-proxy/bin/mysql-proxyd"</span>  </span><br><span class="line">[ -f <span class="variable">$ATLAS</span> ] || <span class="built_in">exit</span> 1  </span><br><span class="line"><span class="comment"># See how we were called.  </span></span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span>  </span><br><span class="line">        start)  </span><br><span class="line">                start  </span><br><span class="line">                ;;  </span><br><span class="line">        stop)  </span><br><span class="line">                stop  </span><br><span class="line">                ;;  </span><br><span class="line">        restart)  </span><br><span class="line">                restart</span><br><span class="line">                ;;  </span><br><span class="line">        status)  </span><br><span class="line">                status </span><br><span class="line">                ;;  </span><br><span class="line">                <span class="comment"># stop    sleep 3   start  ;;  </span></span><br><span class="line">        *)  </span><br><span class="line">                <span class="built_in">echo</span> $<span class="string">"Usage: <span class="variable">$0</span> &#123;start|stop|status|restart&#125;"</span>  </span><br><span class="line">                <span class="built_in">exit</span> 1  </span><br><span class="line"><span class="keyword">esac</span>  </span><br><span class="line"><span class="built_in">exit</span> 0 </span><br><span class="line"></span><br><span class="line"><span class="comment"># atlas服务验证</span></span><br><span class="line">service atlas status</span><br><span class="line">service atlas start</span><br><span class="line">service atlas restart</span><br><span class="line">service atlas stop</span><br></pre></td></tr></table></figure>
+<p>查看MySQL监听端口<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">etstat -tanlp | grep mysql</span><br><span class="line">tcp        0      0 0.0.0.0:2345            0.0.0.0:*               LISTEN      21449/mysql-proxy   </span><br><span class="line">tcp        0      0 0.0.0.0:3306            0.0.0.0:*               LISTEN      24096/mysqld        </span><br><span class="line">tcp        0      0 0.0.0.0:1234            0.0.0.0:*               LISTEN      21449/mysql-proxy</span><br></pre></td></tr></table></figure></p>
 <hr>
-<h3 id="Atlas&#x5B89;&#x88C5;&#x53CA;&#x5378;&#x8F7D;"><a href="#Atlas&#x5B89;&#x88C5;&#x53CA;&#x5378;&#x8F7D;" class="headerlink" title="Atlas&#x5B89;&#x88C5;&#x53CA;&#x5378;&#x8F7D;"></a>Atlas&#x5B89;&#x88C5;&#x53CA;&#x5378;&#x8F7D;</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x5B89;&#x88C5;</span></span><br><span class="line">sudo rpm -i Atlas-2.2.1.el6.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x5378;&#x8F7D;</span></span><br><span class="line">sudo rpm <span class="_">-e</span> Atlas-2.2.1.el6.x86_64</span><br></pre></td></tr></table></figure>
+<h3 id="Atlas安装及卸载"><a href="#Atlas安装及卸载" class="headerlink" title="Atlas安装及卸载"></a>Atlas安装及卸载</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">sudo rpm -i Atlas-2.2.1.el6.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载</span></span><br><span class="line">sudo rpm -e Atlas-2.2.1.el6.x86_64</span><br></pre></td></tr></table></figure>
 <hr>
-<h3 id="&#x95EE;&#x9898;&#x76F8;&#x5173;"><a href="#&#x95EE;&#x9898;&#x76F8;&#x5173;" class="headerlink" title="&#x95EE;&#x9898;&#x76F8;&#x5173;"></a>&#x95EE;&#x9898;&#x76F8;&#x5173;</h3><p><strong>&#x95EE;&#x9898;&#xFF1A;atlas&#x5B89;&#x88C5;&#x540E;&#xFF0C;&#x8BFB;&#x5199;&#x5206;&#x79BB;&#x6D4B;&#x8BD5;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x8BFB;&#x4E00;&#x76F4;&#x8D70;&#x4E3B;&#x5E93; </strong><br>&#x56DE;&#x7B54;&#xFF1A;&#x6709;&#x4E8B;&#x52A1;&#x5B58;&#x5728;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x4F1A;&#x5F3A;&#x5236;&#x8D70;&#x4E3B;&#x5E93;&#x3002;&#x89E3;&#x51B3;&#x65B9;&#x6CD5;&#xFF0C;&#x6DFB;&#x52A0;&#x6CE8;&#x89E3;[@Transactional(propagation=Propagation.NOT_SUPPORTED)];<br>&#x82E5;&#x4E0D;&#x6D89;&#x53CA;&#x4E8B;&#x52A1;&#xFF0C;&#x68C0;&#x67E5;&#x4E3B;&#x4ECE;&#x5E93;&#x7684;&#x7528;&#x6237;&#x540D;&#x5BC6;&#x7801;&#x914D;&#x7F6E;&#x662F;&#x5426;&#x4E00;&#x81F4;&#xFF0C;&#x662F;&#x5426;&#x8BBE;&#x7F6E;&#x4E3A;&#x5141;&#x8BB8;&#x8FDC;&#x7A0B;&#x767B;&#x5F55;&#xFF0C;&#x5E76;&#x6267;&#x884C;[FLUSH PRIVILEGES]&#x3002;</p>
-<p><strong>&#x95EE;&#x9898;&#xFF1A;&#x8BFB;&#x5199;&#x5206;&#x79BB;&#x81EA;&#x6D4B;&#x6210;&#x529F;&#xFF0C;java&#x7A0B;&#x5E8F;&#x8FDE;&#x63A5;Atlas&#x540E;&#x5374;&#x4E0D;&#x80FD;&#x8BFB;&#x5199;&#x5206;&#x79BB;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x8BF7;&#x6C42;&#x90FD;&#x53D1;&#x5411;&#x4E3B;&#x5E93;&#xFF0C;&#x8FD9;&#x662F;&#x4E3A;&#x4EC0;&#x4E48;&#xFF1F;</strong><br>&#x56DE;&#x7B54;&#xFF1A;&#x68C0;&#x67E5;&#x4E00;&#x4E0B;java&#x6846;&#x67B6;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#x9ED8;&#x8BA4;&#x5C06;autocommit&#x8BBE;&#x7F6E;&#x4E3A;0&#x4E86;&#xFF0C;&#x5F88;&#x591A;java&#x6846;&#x67B6;&#x5C06;&#x8BED;&#x53E5;&#x90FD;&#x5C01;&#x88C5;&#x5728;&#x4E00;&#x4E2A;&#x4E8B;&#x52A1;&#x4E2D;&#xFF0C;&#x800C;Atlas&#x4F1A;&#x5C06;&#x4E8B;&#x52A1;&#x8BF7;&#x6C42;&#x90FD;&#x53D1;&#x5411;&#x4E3B;&#x5E93;&#x3002;</p>
-<p><strong>&#x95EE;&#x9898;&#xFF1A;&#x6267;&#x884C;&#x76F8;&#x5173;&#x547D;&#x4EE4;&#xFF0C;&#x6210;&#x529F;&#x4E0A;&#x4E0B;&#x7EBF;&#x4ECE;&#x5E93;DB&#x540E;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x4ECE;&#x5E93;&#x4ECD;&#x7136;&#x53EF;&#x4EE5;&#x540C;&#x6B65;&#x4E3B;&#x5E93;&#x6570;&#x636E;</strong><br>&#x56DE;&#x7B54;&#xFF1A;atlas&#x662F;&#x4E2D;&#x95F4;&#x4EF6;&#xFF0C;&#x53EA;&#x662F;&#x63D0;&#x4F9B;&#x4E86;&#x8BBF;&#x95EE;&#x5C42;&#x7684;&#x4EE3;&#x7406;&#xFF0C;&#x4EE3;&#x7406;&#x548C;&#x4E3B;&#x4ECE;&#x6CA1;&#x6709;&#x5173;&#x7CFB;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x7684;&#x4E3B;&#x4ECE;&#x8FD8;&#x9700;&#x81EA;&#x5DF1;&#x914D;&#x7F6E;&#x3002;&#x800C;&#x4E0A;&#x4E0B;&#x7EBF;&#x4ECE;&#x5E93;DB&#xFF0C;&#x53EA;&#x662F;&#x8BF4;&#x8BFB;&#x7684;&#x8BF7;&#x6C42;&#x4E0D;&#x518D;&#x53D1;&#x5F80;&#x76F8;&#x5E94;&#x7684;&#x4ECE;&#x5E93;&#x4E86;&#xFF0C;&#x4E8B;&#x5148;&#x914D;&#x7F6E;&#x7684;&#x4E3B;&#x4ECE;&#x5173;&#x7CFB;&#x5E76;&#x4E0D;&#x4F1A;&#x6539;&#x53D8;&#x3002;&#x8FD8;&#x6709;&#x76EE;&#x524D;&#x7684;atlas&#x6682;&#x4E0D;&#x652F;&#x6301;&#x591A;&#x4E3B;&#x6A21;&#x5F0F;&#x3002;</p>
-<p><strong>&#x95EE;&#x9898;&#xFF1A;Atlas&#x78B0;&#x5230;&#x89E3;&#x51B3;&#x4E0D;&#x4E86;&#x7684;&#x95EE;&#x9898;&#x600E;&#x4E48;&#x529E;&#xFF1F;</strong><br>&#x56DE;&#x7B54;&#xFF1A;&#x5C06;&#x76F8;&#x5173;&#x73AF;&#x5883;&#x3001;&#x6B65;&#x9AA4;&#x548C;&#x8FD0;&#x884C;&#x622A;&#x56FE;&#x53D1;&#x90AE;&#x4EF6;&#x81F3;zhuchao[AT]360.cn&#xFF0C;&#x6216;&#x8005;&#x52A0;QQ&#x7FA4;326544838&#x3002;&#x6211;&#x4E00;&#x95EE;&#x9898;&#x7EA0;&#x7ED3;&#x4E86;&#x51E0;&#x5C0F;&#x65F6;&#xFF0C;&#x7136;&#x540E;&#x53D1;&#x9001;&#x90AE;&#x4EF6;&#x4E86;&#xFF0C;&#x4E09;&#x5206;&#x949F;&#x540E;&#x5C31;&#x56DE;&#x590D;&#x6211;&#x4E86;&#xFF0C;&#x9707;&#x60CA;&#x4E86; (&#xAF;&#xFE43;&#xAF;)</p>
-<p>&#x66F4;&#x65B0;&#x4E2D;&#x3002;&#x3002;&#x3002;</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2016/10/20/MyBatis双数据源/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    MyBatis双数据源配置
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2016/10/15/MySQL定时逻辑备份/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">MySQL定时逻辑备份</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+<h3 id="问题相关"><a href="#问题相关" class="headerlink" title="问题相关"></a>问题相关</h3><p><strong>问题：atlas安装后，读写分离测试，为什么读一直走主库 </strong><br>回答：有事务存在的情况下，会强制走主库。解决方法，添加注解[@Transactional(propagation=Propagation.NOT_SUPPORTED)];<br>若不涉及事务，检查主从库的用户名密码配置是否一致，是否设置为允许远程登录，并执行[FLUSH PRIVILEGES]。</p>
+<p><strong>问题：读写分离自测成功，java程序连接Atlas后却不能读写分离，所有的请求都发向主库，这是为什么？</strong><br>回答：检查一下java框架，是不是默认将autocommit设置为0了，很多java框架将语句都封装在一个事务中，而Atlas会将事务请求都发向主库。</p>
+<p><strong>问题：执行相关命令，成功上下线从库DB后，为什么从库仍然可以同步主库数据</strong><br>回答：atlas是中间件，只是提供了访问层的代理，代理和主从没有关系，数据库的主从还需自己配置。而上下线从库DB，只是说读的请求不再发往相应的从库了，事先配置的主从关系并不会改变。还有目前的atlas暂不支持多主模式。</p>
+<p><strong>问题：Atlas碰到解决不了的问题怎么办？</strong><br>回答：将相关环境、步骤和运行截图发邮件至zhuchao[AT]360.cn，或者加QQ群326544838。我一问题纠结了几小时，然后发送邮件了，三分钟后就回复我了，震惊了 (¯﹃¯)</p>
+<p>更新中。。。</p>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/atlas/">atlas</a><a class="link-muted mr-2" rel="tag" href="/tags/mysql/">mysql</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2016/10/20/MyBatis%E5%8F%8C%E6%95%B0%E6%8D%AE%E6%BA%90/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">MyBatis双数据源配置</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2016/10/15/MySQL%E5%AE%9A%E6%97%B6%E9%80%BB%E8%BE%91%E5%A4%87%E4%BB%BD/"><span class="level-item">MySQL定时逻辑备份</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" href="#简介"><span class="mr-2">1</span><span>简介</span></a></li><li><a class="is-flex" href="#主要功能"><span class="mr-2">2</span><span>主要功能</span></a></li><li><a class="is-flex" href="#相关链接"><span class="mr-2">3</span><span>相关链接</span></a></li><li><a class="is-flex" href="#设置开机自启动"><span class="mr-2">4</span><span>设置开机自启动</span></a></li><li><a class="is-flex" href="#添加atlas服务"><span class="mr-2">5</span><span>添加atlas服务</span></a></li><li><a class="is-flex" href="#Atlas安装及卸载"><span class="mr-2">6</span><span>Atlas安装及卸载</span></a></li><li><a class="is-flex" href="#问题相关"><span class="mr-2">7</span><span>问题相关</span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

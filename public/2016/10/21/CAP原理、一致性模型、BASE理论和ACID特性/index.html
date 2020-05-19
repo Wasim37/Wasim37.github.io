@@ -1,513 +1,94 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>CAP原理、一致性模型、BASE理论和ACID特性 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="CAP&amp;#x539F;&amp;#x7406;&amp;#x5728;&amp;#x7406;&amp;#x8BBA;&amp;#x8BA1;&amp;#x7B97;&amp;#x673A;&amp;#x79D1;&amp;#x5B66;&amp;#x4E2D;&amp;#xFF0C;CAP&amp;#x5B9A;&amp;#x7406;&amp;#xFF08;CAP theorem&amp;#xFF09;&amp;#xFF0C;&amp;#x53C8;&amp;#x88AB;&amp;#x79F0;&amp;#x4F5C;&amp;#x5E03;&amp;#x9C81">
-<meta property="og:type" content="article">
-<meta property="og:title" content="CAP原理、一致性模型、BASE理论和ACID特性">
-<meta property="og:url" content="http://www.wangxin123.com/2016/10/21/CAP原理、一致性模型、BASE理论和ACID特性/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="CAP&amp;#x539F;&amp;#x7406;&amp;#x5728;&amp;#x7406;&amp;#x8BBA;&amp;#x8BA1;&amp;#x7B97;&amp;#x673A;&amp;#x79D1;&amp;#x5B66;&amp;#x4E2D;&amp;#xFF0C;CAP&amp;#x5B9A;&amp;#x7406;&amp;#xFF08;CAP theorem&amp;#xFF09;&amp;#xFF0C;&amp;#x53C8;&amp;#x88AB;&amp;#x79F0;&amp;#x4F5C;&amp;#x5E03;&amp;#x9C81">
-<meta property="og:updated_time" content="2017-06-26T05:01:43.786Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CAP原理、一致性模型、BASE理论和ACID特性">
-<meta name="twitter:description" content="CAP&amp;#x539F;&amp;#x7406;&amp;#x5728;&amp;#x7406;&amp;#x8BBA;&amp;#x8BA1;&amp;#x7B97;&amp;#x673A;&amp;#x79D1;&amp;#x5B66;&amp;#x4E2D;&amp;#xFF0C;CAP&amp;#x5B9A;&amp;#x7406;&amp;#xFF08;CAP theorem&amp;#xFF09;&amp;#xFF0C;&amp;#x53C8;&amp;#x88AB;&amp;#x79F0;&amp;#x4F5C;&amp;#x5E03;&amp;#x9C81">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-CAP原理、一致性模型、BASE理论和ACID特性" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            CAP原理、一致性模型、BASE理论和ACID特性
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/10/21/CAP原理、一致性模型、BASE理论和ACID特性/">
-            <time datetime="2016-10-21T14:10:00.000Z" itemprop="datePublished">2016-10-21</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/算法及理论/">算法及理论</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/ACID/">ACID</a>, <a class="tag-link" href="/tags/BASE/">BASE</a>, <a class="tag-link" href="/tags/CAP/">CAP</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CAP原理"><span class="toc-number">1.</span> <span class="toc-text">CAP原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一致性模型"><span class="toc-number">2.</span> <span class="toc-text">一致性模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#强一致性"><span class="toc-number">2.1.</span> <span class="toc-text">强一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#弱一致性"><span class="toc-number">2.2.</span> <span class="toc-text">弱一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最终一致性"><span class="toc-number">2.3.</span> <span class="toc-text">最终一致性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#最终一致性模型的变种"><span class="toc-number">2.4.</span> <span class="toc-text">最终一致性模型的变种</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BASE理论——CAP理论的延伸"><span class="toc-number">3.</span> <span class="toc-text">BASE理论——CAP理论的延伸</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BASE和ACID的区别与联系"><span class="toc-number">4.</span> <span class="toc-text">BASE和ACID的区别与联系</span></a></li></ol>
-                </div>
-            
-            <h3 id="CAP&#x539F;&#x7406;"><a href="#CAP&#x539F;&#x7406;" class="headerlink" title="CAP&#x539F;&#x7406;"></a>CAP&#x539F;&#x7406;</h3><p>&#x5728;&#x7406;&#x8BBA;&#x8BA1;&#x7B97;&#x673A;&#x79D1;&#x5B66;&#x4E2D;&#xFF0C;CAP&#x5B9A;&#x7406;&#xFF08;CAP theorem&#xFF09;&#xFF0C;&#x53C8;&#x88AB;&#x79F0;&#x4F5C;&#x5E03;&#x9C81;&#x5C14;&#x5B9A;&#x7406;&#xFF08;Brewer&#x2019;s theorem&#xFF09;&#xFF0C;&#x5B83;&#x6307;&#x51FA;&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x5206;&#x5E03;&#x5F0F;&#x8BA1;&#x7B97;&#x7CFB;&#x7EDF;&#x6765;&#x8BF4;&#xFF0C;&#x4E0D;&#x53EF;&#x80FD;&#x540C;&#x65F6;&#x6EE1;&#x8DB3;&#x4EE5;&#x4E0B;&#x4E09;&#x70B9;&#xFF1A;</p>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>CAP原理、一致性模型、BASE理论和ACID特性 - Hexo</title><meta description="CAP原理在理论计算机科学中，CAP定理（CAP theorem），又被称作布鲁尔定理（Brewer’s theorem），它指出对于一个分布式计算系统来说，不可能同时满足以下三点：  一致性（Consistence）分布式系统中的所有数据备份，在同一时刻是否同样的值。（等同于所有节点访问同一份最新的数据副本）  可用性（Availability）集群出现故障节点后，是否还能响应客户端的读写请求。"><meta property="og:type" content="blog"><meta property="og:title" content="CAP原理、一致性模型、BASE理论和ACID特性"><meta property="og:url" content="http://yoursite.com/2016/10/21/CAP%E5%8E%9F%E7%90%86%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B%E3%80%81BASE%E7%90%86%E8%AE%BA%E5%92%8CACID%E7%89%B9%E6%80%A7/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="CAP原理在理论计算机科学中，CAP定理（CAP theorem），又被称作布鲁尔定理（Brewer’s theorem），它指出对于一个分布式计算系统来说，不可能同时满足以下三点：  一致性（Consistence）分布式系统中的所有数据备份，在同一时刻是否同样的值。（等同于所有节点访问同一份最新的数据副本）  可用性（Availability）集群出现故障节点后，是否还能响应客户端的读写请求。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://yoursite.com/img/og_image.png"><meta property="article:published_time" content="2016-10-21T14:10:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.148Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="CAP"><meta property="article:tag" content="BASE"><meta property="article:tag" content="ACID"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2016/10/21/CAP%E5%8E%9F%E7%90%86%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B%E3%80%81BASE%E7%90%86%E8%AE%BA%E5%92%8CACID%E7%89%B9%E6%80%A7/"},"headline":"Hexo","image":["http://yoursite.com/img/og_image.png"],"datePublished":"2016-10-21T14:10:00.000Z","dateModified":"2020-05-19T06:34:18.148Z","author":{"@type":"Person","name":"John Doe"},"description":"CAP原理在理论计算机科学中，CAP定理（CAP theorem），又被称作布鲁尔定理（Brewer’s theorem），它指出对于一个分布式计算系统来说，不可能同时满足以下三点：  一致性（Consistence）分布式系统中的所有数据备份，在同一时刻是否同样的值。（等同于所有节点访问同一份最新的数据副本）  可用性（Availability）集群出现故障节点后，是否还能响应客户端的读写请求。"}</script><link rel="canonical" href="http://yoursite.com/2016/10/21/CAP%E5%8E%9F%E7%90%86%E3%80%81%E4%B8%80%E8%87%B4%E6%80%A7%E6%A8%A1%E5%9E%8B%E3%80%81BASE%E7%90%86%E8%AE%BA%E5%92%8CACID%E7%89%B9%E6%80%A7/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2016-10-21T14:10:00.000Z" title="2016-10-21T14:10:00.000Z">2016-10-21</time><span class="level-item"><a class="link-muted" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/">算法及理论</a></span><span class="level-item">14 分钟 读完 (大约 2131 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">CAP原理、一致性模型、BASE理论和ACID特性</h1><div class="content"><h3 id="CAP原理"><a href="#CAP原理" class="headerlink" title="CAP原理"></a>CAP原理</h3><p>在理论计算机科学中，CAP定理（CAP theorem），又被称作布鲁尔定理（Brewer’s theorem），它指出对于一个分布式计算系统来说，不可能同时满足以下三点：</p>
 <ul>
-<li><p><strong>&#x4E00;&#x81F4;&#x6027;&#xFF08;Consistence&#xFF09;</strong><br>&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x6570;&#x636E;&#x5907;&#x4EFD;&#xFF0C;&#x5728;&#x540C;&#x4E00;&#x65F6;&#x523B;&#x662F;&#x5426;&#x540C;&#x6837;&#x7684;&#x503C;&#x3002;&#xFF08;&#x7B49;&#x540C;&#x4E8E;&#x6240;&#x6709;&#x8282;&#x70B9;&#x8BBF;&#x95EE;&#x540C;&#x4E00;&#x4EFD;&#x6700;&#x65B0;&#x7684;&#x6570;&#x636E;&#x526F;&#x672C;&#xFF09;</p>
+<li><p><strong>一致性（Consistence）</strong><br>分布式系统中的所有数据备份，在同一时刻是否同样的值。（等同于所有节点访问同一份最新的数据副本）</p>
 </li>
-<li><p><strong>&#x53EF;&#x7528;&#x6027;&#xFF08;Availability&#xFF09;</strong><br>&#x96C6;&#x7FA4;&#x51FA;&#x73B0;&#x6545;&#x969C;&#x8282;&#x70B9;&#x540E;&#xFF0C;&#x662F;&#x5426;&#x8FD8;&#x80FD;&#x54CD;&#x5E94;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x8BFB;&#x5199;&#x8BF7;&#x6C42;&#x3002;&#xFF08;&#x5BF9;&#x6570;&#x636E;&#x66F4;&#x65B0;&#x5177;&#x5907;&#x9AD8;&#x53EF;&#x7528;&#x6027;&#xFF09;</p>
+<li><p><strong>可用性（Availability）</strong><br>集群出现故障节点后，是否还能响应客户端的读写请求。（对数据更新具备高可用性）</p>
 </li>
-<li><p><strong>&#x5206;&#x533A;&#x5BB9;&#x5FCD;&#x6027;&#xFF08;Partition tolerance&#xFF09;</strong><br>&#x5B9E;&#x9645;&#x4E2D;&#x901A;&#x4FE1;&#x4EA7;&#x751F;&#x5EF6;&#x65F6;&#x3002;&#x7CFB;&#x7EDF;&#x5982;&#x679C;&#x4E0D;&#x80FD;&#x5728;&#x65F6;&#x9650;&#x5185;&#x8FBE;&#x6210;&#x6570;&#x636E;&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x5C31;&#x610F;&#x5473;&#x7740;&#x53D1;&#x751F;&#x4E86;&#x5206;&#x533A;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x5FC5;&#x987B;&#x5C31;&#x5F53;&#x524D;&#x64CD;&#x4F5C;&#x5728;C&#x70B9;&#x548C;A&#x70B9;&#x4E4B;&#x95F4;&#x505A;&#x51FA;&#x9009;&#x62E9;&#x3002;</p>
+<li><p><strong>分区容忍性（Partition tolerance）</strong><br>实际中通信产生延时。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C点和A点之间做出选择。</p>
 </li>
 </ul>
-<p>CAP&#x539F;&#x7406;&#x6307;&#x7684;&#x662F;&#xFF0C;CAP&#x7684;&#x4E09;&#x4E2A;&#x8981;&#x7D20;&#x6700;&#x591A;&#x53EA;&#x80FD;&#x540C;&#x65F6;&#x5B9E;&#x73B0;&#x4E24;&#x70B9;&#xFF0C;&#x4E0D;&#x53EF;&#x80FD;&#x4E09;&#x8005;&#x517C;&#x987E;&#x3002;&#x56E0;&#x6B64;&#x5728;&#x8FDB;&#x884C;&#x5206;&#x5E03;&#x5F0F;&#x67B6;&#x6784;&#x8BBE;&#x8BA1;&#x65F6;&#xFF0C;&#x5FC5;&#x987B;&#x505A;&#x51FA;&#x53D6;&#x820D;&#x3002;&#x800C;&#x5BF9;&#x4E8E;&#x5206;&#x5E03;&#x5F0F;&#x6570;&#x636E;&#x7CFB;&#x7EDF;&#xFF0C;&#x5206;&#x533A;&#x5BB9;&#x5FCD;&#x6027;&#x662F;&#x57FA;&#x672C;&#x8981;&#x6C42;&#xFF0C;&#x5426;&#x5219;&#x5C31;&#x5931;&#x53BB;&#x4E86;&#x4EF7;&#x503C;&#x3002;</p>
-<p>&#x56E0;&#x6B64;&#x8BBE;&#x8BA1;&#x5206;&#x5E03;&#x5F0F;&#x6570;&#x636E;&#x7CFB;&#x7EDF;&#xFF0C;&#x5C31;&#x662F;&#x5728;&#x4E00;&#x81F4;&#x6027;&#x548C;&#x53EF;&#x7528;&#x6027;&#x4E4B;&#x95F4;&#x53D6;&#x4E00;&#x4E2A;&#x5E73;&#x8861;&#x3002;<strong>&#x5BF9;&#x4E8E;&#x5927;&#x591A;&#x6570;web&#x5E94;&#x7528;&#xFF0C;&#x5176;&#x5B9E;&#x5E76;&#x4E0D;&#x9700;&#x8981;&#x5F3A;&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x56E0;&#x6B64;&#x727A;&#x7272;&#x4E00;&#x81F4;&#x6027;&#x800C;&#x6362;&#x53D6;&#x9AD8;&#x53EF;&#x7528;&#x6027;&#xFF0C;&#x662F;&#x76EE;&#x524D;&#x591A;&#x6570;&#x5206;&#x5E03;&#x5F0F;&#x6570;&#x636E;&#x5E93;&#x4EA7;&#x54C1;&#x7684;&#x65B9;&#x5411;&#x3002;</strong></p>
+<p>CAP原理指的是，CAP的三个要素最多只能同时实现两点，不可能三者兼顾。因此在进行分布式架构设计时，必须做出取舍。而对于分布式数据系统，分区容忍性是基本要求，否则就失去了价值。</p>
+<p>因此设计分布式数据系统，就是在一致性和可用性之间取一个平衡。<strong>对于大多数web应用，其实并不需要强一致性，因此牺牲一致性而换取高可用性，是目前多数分布式数据库产品的方向。</strong></p>
 <a id="more"></a>
-<p>&#x5F53;&#x7136;&#xFF0C;&#x5E76;&#x4E0D;&#x662F;&#x5B8C;&#x5168;&#x4E0D;&#x7BA1;&#x6570;&#x636E;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x3002;&#x727A;&#x7272;&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x53EA;&#x662F;&#x4E0D;&#x518D;&#x8981;&#x6C42;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x5F3A;&#x4E00;&#x81F4;&#x6027;&#xFF0C;&#x800C;&#x662F;&#x53EA;&#x8981;&#x7CFB;&#x7EDF;&#x80FD;&#x8FBE;&#x5230;&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#x5373;&#x53EF;&#xFF0C;&#x8003;&#x8651;&#x5230;&#x5BA2;&#x6237;&#x4F53;&#x9A8C;&#xFF0C;&#x8FD9;&#x4E2A;&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x7684;&#x65F6;&#x95F4;&#x7A97;&#x53E3;&#xFF0C;&#x8981;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x5BF9;&#x7528;&#x6237;&#x900F;&#x660E;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x9700;&#x8981;&#x4FDD;&#x969C;&#x201C;&#x7528;&#x6237;&#x611F;&#x77E5;&#x5230;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x201D;&#x3002;&#x901A;&#x5E38;&#x662F;&#x901A;&#x8FC7;&#x6570;&#x636E;&#x7684;&#x591A;&#x4EFD;&#x5F02;&#x6B65;&#x590D;&#x5236;&#x6765;&#x5B9E;&#x73B0;&#x7CFB;&#x7EDF;&#x7684;&#x9AD8;&#x53EF;&#x7528;&#x548C;&#x6570;&#x636E;&#x7684;&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#x7684;&#xFF0C;&#x201C;&#x7528;&#x6237;&#x611F;&#x77E5;&#x5230;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x201D;&#x7684;&#x65F6;&#x95F4;&#x7A97;&#x53E3;&#x5219;&#x53D6;&#x51B3;&#x4E8E;&#x6570;&#x636E;&#x590D;&#x5236;&#x5230;&#x4E00;&#x81F4;&#x72B6;&#x6001;&#x7684;&#x65F6;&#x95F4;&#x3002;</p>
+<p>当然，并不是完全不管数据的一致性。牺牲一致性，只是不再要求关系型数据库中的强一致性，而是只要系统能达到最终一致性即可，考虑到客户体验，这个最终一致的时间窗口，要尽可能的对用户透明，也就是需要保障“用户感知到的一致性”。通常是通过数据的多份异步复制来实现系统的高可用和数据的最终一致性的，“用户感知到的一致性”的时间窗口则取决于数据复制到一致状态的时间。</p>
 <hr>
-<h3 id="&#x4E00;&#x81F4;&#x6027;&#x6A21;&#x578B;"><a href="#&#x4E00;&#x81F4;&#x6027;&#x6A21;&#x578B;" class="headerlink" title="&#x4E00;&#x81F4;&#x6027;&#x6A21;&#x578B;"></a>&#x4E00;&#x81F4;&#x6027;&#x6A21;&#x578B;</h3><h4 id="&#x5F3A;&#x4E00;&#x81F4;&#x6027;"><a href="#&#x5F3A;&#x4E00;&#x81F4;&#x6027;" class="headerlink" title="&#x5F3A;&#x4E00;&#x81F4;&#x6027;"></a>&#x5F3A;&#x4E00;&#x81F4;&#x6027;</h4><p>&#x5F53;&#x66F4;&#x65B0;&#x64CD;&#x4F5C;&#x5B8C;&#x6210;&#x4E4B;&#x540E;&#xFF0C;&#x4EFB;&#x4F55;&#x591A;&#x4E2A;&#x540E;&#x7EED;&#x8FDB;&#x7A0B;&#x6216;&#x8005;&#x7EBF;&#x7A0B;&#x7684;&#x8BBF;&#x95EE;&#x90FD;&#x4F1A;&#x8FD4;&#x56DE;&#x6700;&#x65B0;&#x7684;&#x66F4;&#x65B0;&#x8FC7;&#x7684;&#x503C;&#x3002;&#x8FD9;&#x79CD;&#x662F;&#x5BF9;&#x7528;&#x6237;&#x6700;&#x53CB;&#x597D;&#x7684;&#xFF0C;&#x5C31;&#x662F;&#x7528;&#x6237;&#x4E0A;&#x4E00;&#x6B21;&#x5199;&#x4EC0;&#x4E48;&#xFF0C;&#x4E0B;&#x4E00;&#x6B21;&#x5C31;&#x4FDD;&#x8BC1;&#x80FD;&#x8BFB;&#x5230;&#x4EC0;&#x4E48;&#x3002;&#x4F46;&#x662F;&#x8FD9;&#x79CD;&#x5B9E;&#x73B0;&#x5BF9;&#x6027;&#x80FD;&#x5F71;&#x54CD;&#x8F83;&#x5927;&#x3002;</p>
-<h4 id="&#x5F31;&#x4E00;&#x81F4;&#x6027;"><a href="#&#x5F31;&#x4E00;&#x81F4;&#x6027;" class="headerlink" title="&#x5F31;&#x4E00;&#x81F4;&#x6027;"></a>&#x5F31;&#x4E00;&#x81F4;&#x6027;</h4><p>&#x7CFB;&#x7EDF;&#x5E76;&#x4E0D;&#x4FDD;&#x8BC1;&#x7EED;&#x8FDB;&#x7A0B;&#x6216;&#x8005;&#x7EBF;&#x7A0B;&#x7684;&#x8BBF;&#x95EE;&#x90FD;&#x4F1A;&#x8FD4;&#x56DE;&#x6700;&#x65B0;&#x7684;&#x66F4;&#x65B0;&#x8FC7;&#x7684;&#x503C;&#x3002;&#x7CFB;&#x7EDF;&#x5728;&#x6570;&#x636E;&#x5199;&#x5165;&#x6210;&#x529F;&#x4E4B;&#x540E;&#xFF0C;&#x4E0D;&#x627F;&#x8BFA;&#x7ACB;&#x5373;&#x53EF;&#x4EE5;&#x8BFB;&#x5230;&#x6700;&#x65B0;&#x5199;&#x5165;&#x7684;&#x503C;&#xFF0C;&#x4E5F;&#x4E0D;&#x4F1A;&#x5177;&#x4F53;&#x7684;&#x627F;&#x8BFA;&#x591A;&#x4E45;&#x4E4B;&#x540E;&#x53EF;&#x4EE5;&#x8BFB;&#x5230;&#x3002;&#x4F46;&#x4F1A;&#x5C3D;&#x53EF;&#x80FD;&#x4FDD;&#x8BC1;&#x5728;&#x67D0;&#x4E2A;&#x65F6;&#x95F4;&#x7EA7;&#x522B;&#xFF08;&#x6BD4;&#x5982;&#x79D2;&#x7EA7;&#x522B;&#xFF09;&#x4E4B;&#x540E;&#xFF0C;&#x53EF;&#x4EE5;&#x8BA9;&#x6570;&#x636E;&#x8FBE;&#x5230;&#x4E00;&#x81F4;&#x6027;&#x72B6;&#x6001;&#x3002;</p>
-<h4 id="&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;"><a href="#&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;" class="headerlink" title="&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;"></a>&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;</h4><p>&#x5F31;&#x4E00;&#x81F4;&#x6027;&#x7684;&#x7279;&#x5B9A;&#x5F62;&#x5F0F;&#x3002;&#x7CFB;&#x7EDF;&#x4FDD;&#x8BC1;&#x5728;&#x6CA1;&#x6709;&#x540E;&#x7EED;&#x66F4;&#x65B0;&#x7684;&#x524D;&#x63D0;&#x4E0B;&#xFF0C;&#x7CFB;&#x7EDF;&#x6700;&#x7EC8;&#x8FD4;&#x56DE;&#x4E0A;&#x4E00;&#x6B21;&#x66F4;&#x65B0;&#x64CD;&#x4F5C;&#x7684;&#x503C;&#x3002;&#x5728;&#x6CA1;&#x6709;&#x6545;&#x969C;&#x53D1;&#x751F;&#x7684;&#x524D;&#x63D0;&#x4E0B;&#xFF0C;&#x4E0D;&#x4E00;&#x81F4;&#x7A97;&#x53E3;&#x7684;&#x65F6;&#x95F4;&#x4E3B;&#x8981;&#x53D7;&#x901A;&#x4FE1;&#x5EF6;&#x8FDF;&#xFF0C;&#x7CFB;&#x7EDF;&#x8D1F;&#x8F7D;&#x548C;&#x590D;&#x5236;&#x526F;&#x672C;&#x7684;&#x4E2A;&#x6570;&#x5F71;&#x54CD;&#x3002;DNS&#x662F;&#x4E00;&#x4E2A;&#x5178;&#x578B;&#x7684;&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#x7CFB;&#x7EDF;&#x3002;</p>
-<h4 id="&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#x6A21;&#x578B;&#x7684;&#x53D8;&#x79CD;"><a href="#&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#x6A21;&#x578B;&#x7684;&#x53D8;&#x79CD;" class="headerlink" title="&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#x6A21;&#x578B;&#x7684;&#x53D8;&#x79CD;"></a>&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#x6A21;&#x578B;&#x7684;&#x53D8;&#x79CD;</h4><ul>
-<li><strong>&#x56E0;&#x679C;&#x4E00;&#x81F4;&#x6027;&#xFF1A;</strong>&#x5982;&#x679C;A&#x8FDB;&#x7A0B;&#x5728;&#x66F4;&#x65B0;&#x4E4B;&#x540E;&#x5411;B&#x8FDB;&#x7A0B;&#x901A;&#x77E5;&#x66F4;&#x65B0;&#x7684;&#x5B8C;&#x6210;&#xFF0C;&#x90A3;&#x4E48;B&#x7684;&#x8BBF;&#x95EE;&#x64CD;&#x4F5C;&#x5C06;&#x4F1A;&#x8FD4;&#x56DE;&#x66F4;&#x65B0;&#x7684;&#x503C;&#x3002;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x56E0;&#x679C;&#x5173;&#x7CFB;&#x7684;C&#x8FDB;&#x7A0B;&#x5C06;&#x4F1A;&#x9075;&#x5FAA;&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#x7684;&#x89C4;&#x5219;&#x3002;</li>
-<li>&#x8BFB;&#x5DF1;&#x6240;&#x5199;&#x4E00;&#x81F4;&#x6027;&#xFF1A;&#x56E0;&#x679C;&#x4E00;&#x81F4;&#x6027;&#x7684;&#x7279;&#x5B9A;&#x5F62;&#x5F0F;&#x3002;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x603B;&#x53EF;&#x4EE5;&#x8BFB;&#x5230;&#x81EA;&#x5DF1;&#x66F4;&#x65B0;&#x7684;&#x6570;&#x636E;&#x3002;</li>
-<li><strong>&#x4F1A;&#x8BDD;&#x4E00;&#x81F4;&#x6027;&#xFF1A;</strong>&#x8BFB;&#x5DF1;&#x6240;&#x5199;&#x4E00;&#x81F4;&#x6027;&#x7684;&#x7279;&#x5B9A;&#x5F62;&#x5F0F;&#x3002;&#x8FDB;&#x7A0B;&#x5728;&#x8BBF;&#x95EE;&#x5B58;&#x50A8;&#x7CFB;&#x7EDF;&#x540C;&#x4E00;&#x4E2A;&#x4F1A;&#x8BDD;&#x5185;&#xFF0C;&#x7CFB;&#x7EDF;&#x4FDD;&#x8BC1;&#x8BE5;&#x8FDB;&#x7A0B;&#x8BFB;&#x5DF1;&#x4E4B;&#x6240;&#x5199;&#x3002;</li>
-<li><strong>&#x5355;&#x8C03;&#x8BFB;&#x4E00;&#x81F4;&#x6027;&#xFF1A;</strong>&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x5DF2;&#x7ECF;&#x8BFB;&#x53D6;&#x5230;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x503C;&#xFF0C;&#x90A3;&#x4E48;&#x8BE5;&#x8FDB;&#x7A0B;&#x4E0D;&#x4F1A;&#x8BFB;&#x53D6;&#x5230;&#x8BE5;&#x503C;&#x4EE5;&#x524D;&#x7684;&#x4EFB;&#x4F55;&#x503C;&#x3002;</li>
-<li><strong>&#x5355;&#x8C03;&#x5199;&#x4E00;&#x81F4;&#x6027;&#xFF1A;</strong>&#x7CFB;&#x7EDF;&#x4FDD;&#x8BC1;&#x5BF9;&#x540C;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x7684;&#x5199;&#x64CD;&#x4F5C;&#x4E32;&#x884C;&#x5316;&#x3002;</li>
+<h3 id="一致性模型"><a href="#一致性模型" class="headerlink" title="一致性模型"></a>一致性模型</h3><h4 id="强一致性"><a href="#强一致性" class="headerlink" title="强一致性"></a>强一致性</h4><p>当更新操作完成之后，任何多个后续进程或者线程的访问都会返回最新的更新过的值。这种是对用户最友好的，就是用户上一次写什么，下一次就保证能读到什么。但是这种实现对性能影响较大。</p>
+<h4 id="弱一致性"><a href="#弱一致性" class="headerlink" title="弱一致性"></a>弱一致性</h4><p>系统并不保证续进程或者线程的访问都会返回最新的更新过的值。系统在数据写入成功之后，不承诺立即可以读到最新写入的值，也不会具体的承诺多久之后可以读到。但会尽可能保证在某个时间级别（比如秒级别）之后，可以让数据达到一致性状态。</p>
+<h4 id="最终一致性"><a href="#最终一致性" class="headerlink" title="最终一致性"></a>最终一致性</h4><p>弱一致性的特定形式。系统保证在没有后续更新的前提下，系统最终返回上一次更新操作的值。在没有故障发生的前提下，不一致窗口的时间主要受通信延迟，系统负载和复制副本的个数影响。DNS是一个典型的最终一致性系统。</p>
+<h4 id="最终一致性模型的变种"><a href="#最终一致性模型的变种" class="headerlink" title="最终一致性模型的变种"></a>最终一致性模型的变种</h4><ul>
+<li><strong>因果一致性：</strong>如果A进程在更新之后向B进程通知更新的完成，那么B的访问操作将会返回更新的值。如果没有因果关系的C进程将会遵循最终一致性的规则。</li>
+<li>读己所写一致性：因果一致性的特定形式。一个进程总可以读到自己更新的数据。</li>
+<li><strong>会话一致性：</strong>读己所写一致性的特定形式。进程在访问存储系统同一个会话内，系统保证该进程读己之所写。</li>
+<li><strong>单调读一致性：</strong>如果一个进程已经读取到一个特定值，那么该进程不会读取到该值以前的任何值。</li>
+<li><strong>单调写一致性：</strong>系统保证对同一个进程的写操作串行化。</li>
 </ul>
-<p>&#x4E0A;&#x8FF0;&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#x7684;&#x4E0D;&#x540C;&#x65B9;&#x5F0F;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x7EC4;&#x5408;&#xFF0C;&#x4F8B;&#x5982;&#x5355;&#x8C03;&#x8BFB;&#x4E00;&#x81F4;&#x6027;&#x548C;&#x8BFB;&#x5DF1;&#x4E4B;&#x6240;&#x5199;&#x4E00;&#x81F4;&#x6027;&#x5C31;&#x53EF;&#x4EE5;&#x7EC4;&#x5408;&#x5B9E;&#x73B0;&#x3002;&#x5E76;&#x4E14;&#x4ECE;&#x5B9E;&#x8DF5;&#x7684;&#x89D2;&#x5EA6;&#x6765;&#x770B;&#xFF0C;&#x8FD9;&#x4E24;&#x8005;&#x7684;&#x7EC4;&#x5408;&#xFF0C;&#x8BFB;&#x53D6;&#x81EA;&#x5DF1;&#x66F4;&#x65B0;&#x7684; &#x6570;&#x636E;&#xFF0C;&#x548C;&#x4E00;&#x65E6;&#x8BFB;&#x53D6;&#x5230;&#x6700;&#x65B0;&#x7684;&#x7248;&#x672C;&#x4E0D;&#x4F1A;&#x518D;&#x8BFB;&#x53D6;&#x65E7;&#x7248;&#x672C;&#xFF0C;&#x5BF9;&#x4E8E;&#x6B64;&#x67B6;&#x6784;&#x4E0A;&#x7684;&#x7A0B;&#x5E8F;&#x5F00;&#x53D1;&#x6765;&#x8BF4;&#xFF0C;&#x4F1A;&#x5C11;&#x5F88;&#x591A;&#x989D;&#x5916;&#x7684;&#x70E6;&#x607C;&#x3002;</p>
+<p>上述最终一致性的不同方式可以进行组合，例如单调读一致性和读己之所写一致性就可以组合实现。并且从实践的角度来看，这两者的组合，读取自己更新的 数据，和一旦读取到最新的版本不会再读取旧版本，对于此架构上的程序开发来说，会少很多额外的烦恼。</p>
 <hr>
-<h3 id="BASE&#x7406;&#x8BBA;&#x2014;&#x2014;CAP&#x7406;&#x8BBA;&#x7684;&#x5EF6;&#x4F38;"><a href="#BASE&#x7406;&#x8BBA;&#x2014;&#x2014;CAP&#x7406;&#x8BBA;&#x7684;&#x5EF6;&#x4F38;" class="headerlink" title="BASE&#x7406;&#x8BBA;&#x2014;&#x2014;CAP&#x7406;&#x8BBA;&#x7684;&#x5EF6;&#x4F38;"></a>BASE&#x7406;&#x8BBA;&#x2014;&#x2014;CAP&#x7406;&#x8BBA;&#x7684;&#x5EF6;&#x4F38;</h3><p><strong><em>BASE&#x7406;&#x8BBA;&#x662F;&#x5BF9;CAP&#x7406;&#x8BBA;&#x7684;&#x5EF6;&#x4F38;</em></strong>&#xFF0C;&#x6838;&#x5FC3;&#x601D;&#x60F3;&#x662F;&#x5373;&#x4F7F;&#x65E0;&#x6CD5;&#x505A;&#x5230;&#x5F3A;&#x4E00;&#x81F4;&#x6027;&#xFF08;Strong Consistency&#xFF0C;CAP&#x7684;&#x4E00;&#x81F4;&#x6027;&#x5C31;&#x662F;&#x5F3A;&#x4E00;&#x81F4;&#x6027;&#xFF09;&#xFF0C;&#x4F46;&#x5E94;&#x7528;&#x53EF;&#x4EE5;&#x91C7;&#x7528;&#x9002;&#x5408;&#x7684;&#x65B9;&#x5F0F;&#x8FBE;&#x5230;&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#xFF08;Eventual Consitency&#xFF09;&#x3002;<strong>Redis&#x7B49;&#x4F17;&#x591A;&#x7CFB;&#x7EDF;&#x6784;&#x5EFA;&#x4E8E;&#x8FD9;&#x4E2A;&#x7406;&#x8BBA;&#x4E4B;&#x4E0A;&#x3002;</strong></p>
+<h3 id="BASE理论——CAP理论的延伸"><a href="#BASE理论——CAP理论的延伸" class="headerlink" title="BASE理论——CAP理论的延伸"></a>BASE理论——CAP理论的延伸</h3><p><strong><em>BASE理论是对CAP理论的延伸</em></strong>，核心思想是即使无法做到强一致性（Strong Consistency，CAP的一致性就是强一致性），但应用可以采用适合的方式达到最终一致性（Eventual Consitency）。<strong>Redis等众多系统构建于这个理论之上。</strong></p>
 <ul>
-<li><p><strong>&#x57FA;&#x672C;&#x53EF;&#x7528;&#xFF08;Basically Available&#xFF09;</strong><br>&#x57FA;&#x672C;&#x53EF;&#x7528;&#x662F;&#x6307;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x5728;&#x51FA;&#x73B0;&#x6545;&#x969C;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5141;&#x8BB8;&#x635F;&#x5931;&#x90E8;&#x5206;&#x53EF;&#x7528;&#x6027;&#xFF0C;&#x5373;&#x4FDD;&#x8BC1;&#x6838;&#x5FC3;&#x53EF;&#x7528;&#x3002;<br>&#x7535;&#x5546;&#x5927;&#x4FC3;&#x65F6;&#xFF0C;&#x4E3A;&#x4E86;&#x5E94;&#x5BF9;&#x8BBF;&#x95EE;&#x91CF;&#x6FC0;&#x589E;&#xFF0C;&#x90E8;&#x5206;&#x7528;&#x6237;&#x53EF;&#x80FD;&#x4F1A;&#x88AB;&#x5F15;&#x5BFC;&#x5230;&#x964D;&#x7EA7;&#x9875;&#x9762;&#xFF0C;&#x670D;&#x52A1;&#x5C42;&#x4E5F;&#x53EF;&#x80FD;&#x53EA;&#x63D0;&#x4F9B;&#x964D;&#x7EA7;&#x670D;&#x52A1;&#x3002;&#x8FD9;&#x5C31;&#x662F;&#x635F;&#x5931;&#x90E8;&#x5206;&#x53EF;&#x7528;&#x6027;&#x7684;&#x4F53;&#x73B0;&#x3002;</p>
+<li><p><strong>基本可用（Basically Available）</strong><br>基本可用是指分布式系统在出现故障的时候，允许损失部分可用性，即保证核心可用。<br>电商大促时，为了应对访问量激增，部分用户可能会被引导到降级页面，服务层也可能只提供降级服务。这就是损失部分可用性的体现。</p>
 </li>
-<li><p><strong>&#x8F6F;&#x72B6;&#x6001;&#xFF08; Soft State&#xFF09;</strong><br>&#x8F6F;&#x72B6;&#x6001;&#x662F;&#x6307;&#x5141;&#x8BB8;&#x7CFB;&#x7EDF;&#x5B58;&#x5728;&#x4E2D;&#x95F4;&#x72B6;&#x6001;&#xFF0C;&#x800C;&#x8BE5;&#x4E2D;&#x95F4;&#x72B6;&#x6001;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;&#x7CFB;&#x7EDF;&#x6574;&#x4F53;&#x53EF;&#x7528;&#x6027;&#x3002;&#x5206;&#x5E03;&#x5F0F;&#x5B58;&#x50A8;&#x4E2D;&#x4E00;&#x822C;&#x4E00;&#x4EFD;&#x6570;&#x636E;&#x81F3;&#x5C11;&#x4F1A;&#x6709;&#x4E09;&#x4E2A;&#x526F;&#x672C;&#xFF0C;&#x5141;&#x8BB8;&#x4E0D;&#x540C;&#x8282;&#x70B9;&#x95F4;&#x526F;&#x672C;&#x540C;&#x6B65;&#x7684;&#x5EF6;&#x65F6;&#x5C31;&#x662F;&#x8F6F;&#x72B6;&#x6001;&#x7684;&#x4F53;&#x73B0;&#x3002;mysql replication&#x7684;&#x5F02;&#x6B65;&#x590D;&#x5236;&#x4E5F;&#x662F;&#x4E00;&#x79CD;&#x4F53;&#x73B0;&#x3002;</p>
+<li><p><strong>软状态（ Soft State）</strong><br>软状态是指允许系统存在中间状态，而该中间状态不会影响系统整体可用性。分布式存储中一般一份数据至少会有三个副本，允许不同节点间副本同步的延时就是软状态的体现。mysql replication的异步复制也是一种体现。</p>
 </li>
-<li><p><strong>&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#xFF08; Eventual Consistency&#xFF09;</strong><br>&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#x662F;&#x6307;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x6570;&#x636E;&#x526F;&#x672C;&#x7ECF;&#x8FC7;&#x4E00;&#x5B9A;&#x65F6;&#x95F4;&#x540E;&#xFF0C;&#x6700;&#x7EC8;&#x80FD;&#x591F;&#x8FBE;&#x5230;&#x4E00;&#x81F4;&#x7684;&#x72B6;&#x6001;&#x3002;&#x5F31;&#x4E00;&#x81F4;&#x6027;&#x548C;&#x5F3A;&#x4E00;&#x81F4;&#x6027;&#x76F8;&#x53CD;&#xFF0C;&#x6700;&#x7EC8;&#x4E00;&#x81F4;&#x6027;&#x662F;&#x5F31;&#x4E00;&#x81F4;&#x6027;&#x7684;&#x4E00;&#x79CD;&#x7279;&#x6B8A;&#x60C5;&#x51B5;&#x3002;</p>
+<li><p><strong>最终一致性（ Eventual Consistency）</strong><br>最终一致性是指系统中的所有数据副本经过一定时间后，最终能够达到一致的状态。弱一致性和强一致性相反，最终一致性是弱一致性的一种特殊情况。</p>
 </li>
 </ul>
 <hr>
-<h3 id="BASE&#x548C;ACID&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;"><a href="#BASE&#x548C;ACID&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;" class="headerlink" title="BASE&#x548C;ACID&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;"></a>BASE&#x548C;ACID&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;</h3><p>ACID&#xFF0C;&#x662F;&#x6307;&#x6570;&#x636E;&#x5E93;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#xFF08;DBMS&#xFF09;&#x5728;&#x5199;&#x5165;/&#x66F4;&#x65B0;&#x8D44;&#x6599;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x4E3A;&#x4FDD;&#x8BC1;&#x4E8B;&#x52A1;&#xFF08;transaction&#xFF09;&#x662F;&#x6B63;&#x786E;&#x53EF;&#x9760;&#x7684;&#xFF0C;&#x6240;&#x5FC5;&#x987B;&#x5177;&#x5907;&#x7684;&#x56DB;&#x4E2A;&#x7279;&#x6027;&#xFF1A;&#x539F;&#x5B50;&#x6027;&#xFF08;atomicity&#xFF0C;&#x6216;&#x79F0;&#x4E0D;&#x53EF;&#x5206;&#x5272;&#x6027;&#xFF09;&#x3001;&#x4E00;&#x81F4;&#x6027;&#xFF08;consistency&#xFF09;&#x3001;&#x9694;&#x79BB;&#x6027;&#xFF08;isolation&#xFF0C;&#x53C8;&#x79F0;&#x72EC;&#x7ACB;&#x6027;&#xFF09;&#x3001;&#x6301;&#x4E45;&#x6027;&#xFF08;durability&#xFF09;&#x3002;</p>
+<h3 id="BASE和ACID的区别与联系"><a href="#BASE和ACID的区别与联系" class="headerlink" title="BASE和ACID的区别与联系"></a>BASE和ACID的区别与联系</h3><p>ACID，是指数据库管理系统（DBMS）在写入/更新资料的过程中，为保证事务（transaction）是正确可靠的，所必须具备的四个特性：原子性（atomicity，或称不可分割性）、一致性（consistency）、隔离性（isolation，又称独立性）、持久性（durability）。</p>
 <ul>
-<li><p><strong>&#x539F;&#x5B50;&#x6027;&#xFF1A;</strong>&#x4E00;&#x4E2A;&#x4E8B;&#x52A1;&#xFF08;transaction&#xFF09;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x64CD;&#x4F5C;&#xFF0C;&#x8981;&#x4E48;&#x5168;&#x90E8;&#x5B8C;&#x6210;&#xFF0C;&#x8981;&#x4E48;&#x5168;&#x90E8;&#x4E0D;&#x5B8C;&#x6210;&#xFF0C;&#x4E0D;&#x4F1A;&#x7ED3;&#x675F;&#x5728;&#x4E2D;&#x95F4;&#x67D0;&#x4E2A;&#x73AF;&#x8282;&#x3002;&#x4E8B;&#x52A1;&#x5728;&#x6267;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#x53D1;&#x751F;&#x9519;&#x8BEF;&#xFF0C;&#x4F1A;&#x88AB;&#x56DE;&#x6EDA;&#xFF08;Rollback&#xFF09;&#x5230;&#x4E8B;&#x52A1;&#x5F00;&#x59CB;&#x524D;&#x7684;&#x72B6;&#x6001;&#xFF0C;&#x5C31;&#x50CF;&#x8FD9;&#x4E2A;&#x4E8B;&#x52A1;&#x4ECE;&#x6765;&#x6CA1;&#x6709;&#x6267;&#x884C;&#x8FC7;&#x4E00;&#x6837;&#x3002;</p>
+<li><p><strong>原子性：</strong>一个事务（transaction）中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节。事务在执行过程中发生错误，会被回滚（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。</p>
 </li>
-<li><p><strong>&#x4E00;&#x81F4;&#x6027;&#xFF1A;</strong>&#x5728;&#x4E8B;&#x52A1;&#x5F00;&#x59CB;&#x4E4B;&#x524D;&#x548C;&#x4E8B;&#x52A1;&#x7ED3;&#x675F;&#x4EE5;&#x540E;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x7684;&#x5B8C;&#x6574;&#x6027;&#x6CA1;&#x6709;&#x88AB;&#x7834;&#x574F;&#x3002;&#x8FD9;&#x8868;&#x793A;&#x5199;&#x5165;&#x7684;&#x8D44;&#x6599;&#x5FC5;&#x987B;&#x5B8C;&#x5168;&#x7B26;&#x5408;&#x6240;&#x6709;&#x7684;&#x9884;&#x8BBE;&#x89C4;&#x5219;&#xFF0C;&#x8FD9;&#x5305;&#x542B;&#x8D44;&#x6599;&#x7684;&#x7CBE;&#x786E;&#x5EA6;&#x3001;&#x4E32;&#x8054;&#x6027;&#x4EE5;&#x53CA;&#x540E;&#x7EED;&#x6570;&#x636E;&#x5E93;&#x53EF;&#x4EE5;&#x81EA;&#x53D1;&#x6027;&#x5730;&#x5B8C;&#x6210;&#x9884;&#x5B9A;&#x7684;&#x5DE5;&#x4F5C;&#x3002;</p>
+<li><p><strong>一致性：</strong>在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的预设规则，这包含资料的精确度、串联性以及后续数据库可以自发性地完成预定的工作。</p>
 </li>
-<li><p><strong>&#x9694;&#x79BB;&#x6027;&#xFF1A;</strong>&#x6570;&#x636E;&#x5E93;&#x5141;&#x8BB8;&#x591A;&#x4E2A;&#x5E76;&#x53D1;&#x4E8B;&#x52A1;&#x540C;&#x65F6;&#x5BF9;&#x9F50;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x8BFB;&#x5199;&#x548C;&#x4FEE;&#x6539;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x9694;&#x79BB;&#x6027;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x591A;&#x4E2A;&#x4E8B;&#x52A1;&#x5E76;&#x53D1;&#x6267;&#x884C;&#x65F6;&#x7531;&#x4E8E;&#x4EA4;&#x53C9;&#x6267;&#x884C;&#x800C;&#x5BFC;&#x81F4;&#x6570;&#x636E;&#x7684;&#x4E0D;&#x4E00;&#x81F4;&#x3002;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x5206;&#x4E3A;&#x4E0D;&#x540C;&#x7EA7;&#x522B;&#xFF0C;&#x5305;&#x62EC;&#x8BFB;&#x672A;&#x63D0;&#x4EA4;&#xFF08;Read uncommitted&#xFF09;&#x3001;&#x8BFB;&#x63D0;&#x4EA4;&#xFF08;read committed&#xFF09;&#x3001;&#x53EF;&#x91CD;&#x590D;&#x8BFB;&#xFF08;repeatable read&#xFF09;&#x548C;&#x4E32;&#x884C;&#x5316;&#xFF08;Serializable&#xFF09;&#x3002;</p>
+<li><p><strong>隔离性：</strong>数据库允许多个并发事务同时对齐数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。</p>
 </li>
-<li><p><strong>&#x6301;&#x4E45;&#x6027;&#xFF1A;</strong>&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7ED3;&#x675F;&#x540E;&#xFF0C;&#x5BF9;&#x6570;&#x636E;&#x7684;&#x4FEE;&#x6539;&#x5C31;&#x662F;&#x6C38;&#x4E45;&#x7684;&#xFF0C;&#x5373;&#x4FBF;&#x7CFB;&#x7EDF;&#x6545;&#x969C;&#x4E5F;&#x4E0D;&#x4F1A;&#x4E22;&#x5931;&#x3002;</p>
+<li><p><strong>持久性：</strong>事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。</p>
 </li>
 </ul>
-<p>ACID&#x662F;&#x4F20;&#x7EDF;&#x6570;&#x636E;&#x5E93;&#x5E38;&#x7528;&#x7684;&#x8BBE;&#x8BA1;&#x7406;&#x5FF5;, &#x8FFD;&#x6C42;&#x5F3A;&#x4E00;&#x81F4;&#x6027;&#x6A21;&#x578B;&#x3002;BASE&#x652F;&#x6301;&#x7684;&#x662F;&#x5927;&#x578B;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#xFF0C;&#x63D0;&#x51FA;&#x901A;&#x8FC7;&#x727A;&#x7272;&#x5F3A;&#x4E00;&#x81F4;&#x6027;&#x83B7;&#x5F97;&#x9AD8;&#x53EF;&#x7528;&#x6027;&#x3002;</p>
-<p><strong>ACID&#x548C;BASE&#x4EE3;&#x8868;&#x4E86;&#x4E24;&#x79CD;&#x622A;&#x7136;&#x76F8;&#x53CD;&#x7684;&#x8BBE;&#x8BA1;&#x54F2;&#x5B66;&#xFF0C;&#x5206;&#x5904;&#x3010;&#x4E00;&#x81F4;&#x6027;-&#x53EF;&#x7528;&#x6027;&#x3011;&#x5206;&#x5E03;&#x56FE;&#x8C31;&#x7684;&#x4E24;&#x6781;&#x3002;</strong></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2016/10/25/ELK安装与配置/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    ELK安装与配置
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2016/10/20/MyBatis双数据源/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">MyBatis双数据源配置</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+<p>ACID是传统数据库常用的设计理念, 追求强一致性模型。BASE支持的是大型分布式系统，提出通过牺牲强一致性获得高可用性。</p>
+<p><strong>ACID和BASE代表了两种截然相反的设计哲学，分处【一致性-可用性】分布图谱的两极。</strong></p>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/CAP/">CAP</a><a class="link-muted mr-2" rel="tag" href="/tags/BASE/">BASE</a><a class="link-muted mr-2" rel="tag" href="/tags/ACID/">ACID</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2016/10/25/ELK%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">ELK安装与配置</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2016/10/20/MyBatis%E5%8F%8C%E6%95%B0%E6%8D%AE%E6%BA%90/"><span class="level-item">MyBatis双数据源配置</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><!--!--><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

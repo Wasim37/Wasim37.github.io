@@ -1,583 +1,129 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>机器学习（三）：SVM | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x6301;&amp;#x7EED;&amp;#x66F4;&amp;#x65B0;&amp;#x4E2D;&amp;#x3002;&amp;#x3002;&amp;#x3002;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="机器学习（三）：SVM">
-<meta property="og:url" content="http://www.wangxin123.com/2017/10/22/机器学习（三）：SVM/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x6301;&amp;#x7EED;&amp;#x66F4;&amp;#x65B0;&amp;#x4E2D;&amp;#x3002;&amp;#x3002;&amp;#x3002;">
-<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_0.png">
-<meta property="og:updated_time" content="2018-05-11T01:46:47.646Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="机器学习（三）：SVM">
-<meta name="twitter:description" content="&amp;#x6301;&amp;#x7EED;&amp;#x66F4;&amp;#x65B0;&amp;#x4E2D;&amp;#x3002;&amp;#x3002;&amp;#x3002;">
-<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_0.png">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-机器学习（三）：SVM" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            机器学习（三）：SVM
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/10/22/机器学习（三）：SVM/">
-            <time datetime="2017-10-22T14:22:00.000Z" itemprop="datePublished">2017-10-22</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/SVM/">SVM</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>&#x6301;&#x7EED;&#x66F4;&#x65B0;&#x4E2D;&#x3002;&#x3002;&#x3002;</p>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>机器学习（三）：SVM - Hexo</title><meta description="持续更新中。。。"><meta property="og:type" content="blog"><meta property="og:title" content="机器学习（三）：SVM"><meta property="og:url" content="http://yoursite.com/2017/10/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9ASVM/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="持续更新中。。。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_0.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_1.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_2.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_3.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_4.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_5.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_8.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_6.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_5.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_7.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_10.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_11.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_9.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_12.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_14.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_13.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_15.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_16.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_17.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_18.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_19.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_20.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/71.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_14.png"><meta property="article:published_time" content="2017-10-22T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.518Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="SVM"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_0.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2017/10/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9ASVM/"},"headline":"Hexo","image":["http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_0.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_1.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_2.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_3.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_4.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_5.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_8.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_6.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_5.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_7.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_10.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_11.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_9.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_12.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_14.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_13.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_15.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_16.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_17.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_18.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_19.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_20.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/71.png","http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_14.png"],"datePublished":"2017-10-22T14:22:00.000Z","dateModified":"2020-05-19T06:34:18.518Z","author":{"@type":"Person","name":"John Doe"},"description":"持续更新中。。。"}</script><link rel="canonical" href="http://yoursite.com/2017/10/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9ASVM/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2017-10-22T14:22:00.000Z" title="2017-10-22T14:22:00.000Z">2017-10-22</time><span class="level-item"><a class="link-muted" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span><span class="level-item">25 分钟 读完 (大约 3722 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">机器学习（三）：SVM</h1><div class="content"><p>持续更新中。。。</p>
 <a id="more"></a>
 <ul>
-<li><a href="https://github.com/Wasim37/machine_learning_code/tree/master/04%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%20SVM/notebook" target="_blank" rel="external">&#x793A;&#x4F8B;&#x4EE3;&#x7801;</a></li>
-<li><a href="#SVM&#x76EE;&#x6807;&#x51FD;&#x6570;&#x63A8;&#x5BFC;">SVM&#x76EE;&#x6807;&#x51FD;&#x6570;&#x63A8;&#x5BFC;</a></li>
-<li><a href="#&#x5927;&#x8FB9;&#x754C;&#x7684;&#x76F4;&#x89C2;&#x7406;&#x89E3;&#x4E0E;&#x6570;&#x5B66;&#x89E3;&#x91CA;">&#x5927;&#x8FB9;&#x754C;&#x7684;&#x76F4;&#x89C2;&#x7406;&#x89E3;&#x4E0E;&#x6570;&#x5B66;&#x89E3;&#x91CA;</a></li>
-<li><a href="#&#x6838;&#x51FD;&#x6570;">&#x6838;&#x51FD;&#x6570;</a></li>
-<li><a href="#&#x5E38;&#x7528;&#x6838;&#x51FD;&#x6570;&#x53CA;&#x6838;&#x51FD;&#x6570;&#x7684;&#x6761;&#x4EF6;">&#x5E38;&#x7528;&#x6838;&#x51FD;&#x6570;&#x53CA;&#x6838;&#x51FD;&#x6570;&#x7684;&#x6761;&#x4EF6;</a></li>
-<li><a href="#&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x3001;SVM&#x548C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x4F7F;&#x7528;&#x573A;&#x666F;">&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x3001;SVM&#x548C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x4F7F;&#x7528;&#x573A;&#x666F;</a></li>
-<li><a href="http://www.ai-start.com/ml2014/html/week7.html" target="_blank" rel="external">&#x5434;&#x6069;&#x8FBE;SVM&#x89C6;&#x9891;&#x7B14;&#x8BB0;</a></li>
-<li><a href="#&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x901A;&#x4FD7;&#x5BFC;&#x8BBA;&#xFF08;&#x7406;&#x89E3;SVM&#x7684;&#x4E09;&#x5C42;&#x5883;&#x754C;&#xFF09;">&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x901A;&#x4FD7;&#x5BFC;&#x8BBA;&#xFF08;&#x7406;&#x89E3;SVM&#x7684;&#x4E09;&#x5C42;&#x5883;&#x754C;&#xFF09;</a></li>
-<li><a href="#&#x5E26;&#x6838;&#x7684;SVM&#x4E3A;&#x4EC0;&#x4E48;&#x80FD;&#x5206;&#x7C7B;&#x975E;&#x7EBF;&#x6027;&#x95EE;&#x9898;">&#x5E26;&#x6838;&#x7684;SVM&#x4E3A;&#x4EC0;&#x4E48;&#x80FD;&#x5206;&#x7C7B;&#x975E;&#x7EBF;&#x6027;&#x95EE;&#x9898;</a></li>
-<li><a href="https://blog.csdn.net/yanhx1204/article/details/79481003" target="_blank" rel="external">SVM&#x5E38;&#x89C1;&#x95EE;&#x9898;</a></li>
+<li><a href="https://github.com/Wasim37/machine_learning_code/tree/master/04%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%20SVM/notebook">示例代码</a></li>
+<li><a href="#SVM目标函数推导">SVM目标函数推导</a></li>
+<li><a href="#大边界的直观理解与数学解释">大边界的直观理解与数学解释</a></li>
+<li><a href="#核函数">核函数</a></li>
+<li><a href="#常用核函数及核函数的条件">常用核函数及核函数的条件</a></li>
+<li><a href="#逻辑回归、SVM和神经网络使用场景">逻辑回归、SVM和神经网络使用场景</a></li>
+<li><a href="http://www.ai-start.com/ml2014/html/week7.html">吴恩达SVM视频笔记</a></li>
+<li><a href="#支持向量机通俗导论（理解SVM的三层境界）">支持向量机通俗导论（理解SVM的三层境界）</a></li>
+<li><a href="#带核的SVM为什么能分类非线性问题">带核的SVM为什么能分类非线性问题</a></li>
+<li><a href="https://blog.csdn.net/yanhx1204/article/details/79481003">SVM常见问题</a></li>
 </ul>
 <hr>
-<h3 id="SVM&#x76EE;&#x6807;&#x51FD;&#x6570;&#x63A8;&#x5BFC;"><a href="#SVM&#x76EE;&#x6807;&#x51FD;&#x6570;&#x63A8;&#x5BFC;" class="headerlink" title="SVM&#x76EE;&#x6807;&#x51FD;&#x6570;&#x63A8;&#x5BFC;"></a><h2 id="SVM&#x76EE;&#x6807;&#x51FD;&#x6570;&#x63A8;&#x5BFC;">SVM&#x76EE;&#x6807;&#x51FD;&#x6570;&#x63A8;&#x5BFC;</h2></h3><p><strong>SVM&#x5C31;&#x662F;&#x5BFB;&#x627E;&#x4E00;&#x4E2A;&#x8D85;&#x5E73;&#x9762;&#xFF0C;&#x5C06;&#x6240;&#x6709;&#x7684;&#x6570;&#x636E;&#x70B9;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x5206;&#x5F00;&#xFF0C;&#x800C;&#x4E14;&#x6570;&#x636E;&#x70B9;&#x79BB;&#x8D85;&#x5E73;&#x9762;&#x8DDD;&#x79BB;&#x8D8A;&#x8FDC;&#x8D8A;&#x597D;&#x3002;</strong><br>&#x76F8;&#x5BF9;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x548C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF0C;SVM&#x5728;&#x5B66;&#x4E60;&#x590D;&#x6742;&#x7684;<strong>&#x975E;&#x7EBF;&#x6027;&#x65B9;&#x7A0B;</strong>&#x65F6;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x79CD;&#x66F4;&#x4E3A;&#x6E05;&#x6670;&#xFF0C;&#x66F4;&#x52A0;&#x5F3A;&#x5927;&#x7684;&#x65B9;&#x5F0F;&#x3002;</p>
-<p>SVM &#x6A21;&#x578B;&#x53EF;&#x4EE5;&#x7531; LR &#x6A21;&#x578B;&#x63A8;&#x5BFC;&#x800C;&#x6765;&#xFF0C;&#x4E0B;&#x9762;&#x662F; LR &#x7684;&#x76F4;&#x89C2;&#x7406;&#x89E3;&#xFF1A;</p>
+<h3 id="SVM目标函数推导"><a href="#SVM目标函数推导" class="headerlink" title="SVM目标函数推导"></a><h2 id="SVM目标函数推导">SVM目标函数推导</h2></h3><p><strong>SVM就是寻找一个超平面，将所有的数据点尽可能的分开，而且数据点离超平面距离越远越好。</strong><br>相对逻辑回归和神经网络，SVM在学习复杂的<strong>非线性方程</strong>时提供了一种更为清晰，更加强大的方式。</p>
+<p>SVM 模型可以由 LR 模型推导而来，下面是 LR 的直观理解：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_0.png" alt=""></p>
-<p>LR &#x5355;&#x4E2A;&#x6837;&#x672C;&#x7684;&#x635F;&#x5931;&#x51FD;&#x6570;&#xFF1A;</p>
+<p>LR 单个样本的损失函数：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_1.png" alt=""></p>
-<p>&#x63A5;&#x7740;&#x6211;&#x4EEC;&#x5BF9; LR &#x7684;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;&#xFF08;&#x6240;&#x6709;&#x6837;&#x672C;&#xFF09;&#x8FDB;&#x884C;&#x8F6C;&#x6362;&#xFF0C;&#x9996;&#x5148;&#x53BB;&#x6389; 1/m &#x8FD9;&#x4E00;&#x9879;&#xFF0C;&#x8FD9;&#x4E5F;&#x4F1A;&#x5F97;&#x51FA;&#x540C;&#x6837;&#x7684; $\theta$ &#x6700;&#x4F18;&#x503C;&#xFF0C;&#x7136;&#x540E;&#x4EE4; $C=1/\lambda$</p>
+<p>接着我们对 LR 的代价函数（所有样本）进行转换，首先去掉 1/m 这一项，这也会得出同样的 $\theta$ 最优值，然后令 $C=1/\lambda$</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_2.png" alt=""></p>
-<p>&#x5F97;&#x5230;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;&#xFF1A;<br>$$\min_\limits{\theta}C\sum_\limits{i=1}^{m}\left[y^{(i)}{\cos}t_{1}\left(\theta^{T}x^{(i)}\right)+\left(1-y^{(i)}\right){\cos}t\left(\theta^{T}x^{(i)}\right)\right]+\frac{1}{2}\sum_\limits{i=1}^{n}\theta^{2}_{j}$$</p>
-<p>&#x6211;&#x4EEC;&#x6700;&#x5C0F;&#x5316;&#x8FD9;&#x4E2A;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;&#xFF0C;&#x4EE4;&#x7B2C;&#x4E00;&#x9879;&#x4E3A;0&#xFF0C;&#x83B7;&#x5F97;&#x5305;&#x542B;&#x53C2;&#x6570; $\theta$ &#x7684;&#x7B2C;&#x4E8C;&#x9879;&#xFF0C;SVM&#x5C31;&#x662F;&#x7528;&#x7B2C;&#x4E8C;&#x9879;&#x6765;&#x76F4;&#x63A5;&#x9884;&#x6D4B;&#x503C;&#x7B49;&#x4E8E;0&#x8FD8;&#x662F;1&#x3002;<strong>&#x5176;&#x5B9E;&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x505A;&#x7684;&#x5168;&#x90E8;&#x4E8B;&#x60C5;&#xFF0C;&#x5C31;&#x662F;&#x6781;&#x5C0F;&#x5316;&#x53C2;&#x6570;&#x5411;&#x91CF;&#x8303;&#x6570;&#x7684;&#x5E73;&#x65B9;&#xFF0C;&#x6216;&#x8005;&#x8BF4;&#x957F;&#x5EA6;&#x7684;&#x5E73;&#x65B9;&#x3002;&#x5B66;&#x4E60;&#x53C2;&#x6570; $\theta$ &#x5C31;&#x662F;&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x5047;&#x8BBE;&#x51FD;&#x6570;&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x6570;&#x5B66;&#x4E0A;&#x7684;&#x5B9A;&#x4E49;&#x3002;</strong></p>
-<p>&#x6839;&#x636E;&#x903B;&#x8F91;&#x56DE;&#x5F52; $h_\theta \left( x \right)$ &#x7684;&#x516C;&#x5F0F;&#xFF0C;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x5F53; $\theta^Tx$ &#x5927;&#x4E8E;0&#x7684;&#x8BDD;&#xFF0C;&#x6A21;&#x578B;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;&#x503C;&#x4E3A;1&#xFF0C;&#x7C7B;&#x4F3C;&#x5730;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x6709;&#x4E00;&#x4E2A;&#x8D1F;&#x6837;&#x672C;&#xFF0C;&#x5219;&#x4EC5;&#x9700;&#x8981; $\theta^Tx$ &#x5C0F;&#x4E8E;0&#x5C31;&#x4F1A;&#x5C06;&#x8D1F;&#x4F8B;&#x6B63;&#x786E;&#x5206;&#x79BB; &#x3002;</p>
+<p>得到代价函数：</p>
+<script type="math/tex; mode=display">\min_\limits{\theta}C\sum_\limits{i=1}^{m}\left[y^{(i)}{\cos}t_{1}\left(\theta^{T}x^{(i)}\right)+\left(1-y^{(i)}\right){\cos}t\left(\theta^{T}x^{(i)}\right)\right]+\frac{1}{2}\sum_\limits{i=1}^{n}\theta^{2}_{j}</script><p>我们最小化这个代价函数，令第一项为0，获得包含参数 $\theta$ 的第二项，SVM就是用第二项来直接预测值等于0还是1。<strong>其实支持向量机做的全部事情，就是极小化参数向量范数的平方，或者说长度的平方。学习参数 $\theta$ 就是支持向量机假设函数的形式，这就是支持向量机数学上的定义。</strong></p>
+<p>根据逻辑回归 $h_\theta \left( x \right)$ 的公式，我们知道当 $\theta^Tx$ 大于0的话，模型代价函数值为1，类似地，如果你有一个负样本，则仅需要 $\theta^Tx$ 小于0就会将负例正确分离 。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_3.png" alt=""></p>
-<p>&#x4F46;&#x662F;&#xFF0C;<strong>&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x7684;&#x8981;&#x6C42;&#x66F4;&#x9AD8;</strong>&#xFF0C;&#x4E0D;&#x4EC5;&#x4EC5;&#x8981;&#x80FD;&#x6B63;&#x786E;&#x5206;&#x5F00;&#x8F93;&#x5165;&#x7684;&#x6837;&#x672C;&#xFF0C;&#x5373;&#x4E0D;&#x4EC5;&#x4EC5;&#x8981;&#x6C42;&#x5927;&#x4E8E;0&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7684;&#x662F;&#x6BD4;0&#x503C;&#x5927;&#x5F88;&#x591A;&#xFF0C;&#x6BD4;&#x5982;&#x5927;&#x4E8E;&#x7B49;&#x4E8E;1&#xFF0C;&#x6211;&#x4E5F;&#x60F3;&#x8FD9;&#x4E2A;&#x6BD4;0&#x5C0F;&#x5F88;&#x591A;&#xFF0C;&#x6BD4;&#x5982;&#x6211;&#x5E0C;&#x671B;&#x5B83;&#x5C0F;&#x4E8E;&#x7B49;&#x4E8E;-1&#xFF0C;&#x8FD9;&#x5C31;&#x76F8;&#x5F53;&#x4E8E;&#x5728;&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x4E2D;&#x5D4C;&#x5165;&#x4E86;&#x4E00;&#x4E2A;&#x989D;&#x5916;&#x7684;&#x5B89;&#x5168;&#x56E0;&#x5B50;&#xFF0C;&#x6216;&#x8005;&#x8BF4;<strong>&#x5B89;&#x5168;&#x7684;&#x95F4;&#x8DDD;&#x56E0;&#x5B50;</strong>&#x3002;</p>
+<p>但是，<strong>支持向量机的要求更高</strong>，不仅仅要能正确分开输入的样本，即不仅仅要求大于0，我们需要的是比0值大很多，比如大于等于1，我也想这个比0小很多，比如我希望它小于等于-1，这就相当于在支持向量机中嵌入了一个额外的安全因子，或者说<strong>安全的间距因子</strong>。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_4.png" alt=""></p>
-<p>&#x6240;&#x4EE5;&#x6700;&#x5C0F;&#x5316;&#x95EE;&#x9898;&#x53EF;&#x4EE5;&#x8F6C;&#x6362;&#x4E3A;&#xFF1A;</p>
+<p>所以最小化问题可以转换为：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_5.png" alt=""></p>
-<p>&#x8FD9;&#x5C31;&#x662F; SVM &#x7684;&#x6700;&#x7EC8;&#x76EE;&#x6807;&#x51FD;&#x6570;&#x3002;</p>
+<p>这就是 SVM 的最终目标函数。</p>
 <hr>
-<h3 id="&#x5927;&#x8FB9;&#x754C;&#x7684;&#x76F4;&#x89C2;&#x7406;&#x89E3;&#x4E0E;&#x6570;&#x5B66;&#x89E3;&#x91CA;"><a href="#&#x5927;&#x8FB9;&#x754C;&#x7684;&#x76F4;&#x89C2;&#x7406;&#x89E3;&#x4E0E;&#x6570;&#x5B66;&#x89E3;&#x91CA;" class="headerlink" title="&#x5927;&#x8FB9;&#x754C;&#x7684;&#x76F4;&#x89C2;&#x7406;&#x89E3;&#x4E0E;&#x6570;&#x5B66;&#x89E3;&#x91CA;"></a><h2 id="&#x5927;&#x8FB9;&#x754C;&#x7684;&#x76F4;&#x89C2;&#x7406;&#x89E3;&#x4E0E;&#x6570;&#x5B66;&#x89E3;&#x91CA;">&#x5927;&#x8FB9;&#x754C;&#x7684;&#x76F4;&#x89C2;&#x7406;&#x89E3;&#x4E0E;&#x6570;&#x5B66;&#x89E3;&#x91CA;</h2></h3><p>SVM &#x4E0D;&#x4EC5;&#x9700;&#x8981;&#x80FD;&#x5206;&#x7C7B;&#xFF0C;&#x8FD8;&#x9700;&#x8981;&#x8F83;&#x9AD8;&#x7684;&#x9C81;&#x68D2;&#x6027;&#xFF0C;&#x9700;&#x8981;&#x52AA;&#x529B;&#x5BFB;&#x627E;&#x4E00;&#x4E2A;&#x6700;&#x5927;&#x95F4;&#x8DDD;&#xFF08;&#x4E0B;&#x56FE;&#x4E2D;&#x7684;&#x9ED1;&#x8272;&#x8D85;&#x5E73;&#x9762;&#xFF09;&#x6765;&#x5206;&#x79BB;&#x6837;&#x672C;&#x3002;&#x6240;&#x4EE5; SVM &#x6709;&#x65F6;&#x88AB;&#x79F0;&#x4E3A;<strong>&#x5927;&#x95F4;&#x8DDD;&#x5206;&#x7C7B;&#x5668;</strong>&#x3002;</p>
+<h3 id="大边界的直观理解与数学解释"><a href="#大边界的直观理解与数学解释" class="headerlink" title="大边界的直观理解与数学解释"></a><h2 id="大边界的直观理解与数学解释">大边界的直观理解与数学解释</h2></h3><p>SVM 不仅需要能分类，还需要较高的鲁棒性，需要努力寻找一个最大间距（下图中的黑色超平面）来分离样本。所以 SVM 有时被称为<strong>大间距分类器</strong>。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_8.png" alt=""></p>
-<p>&#x53EF;&#x662F;<strong>&#x4E3A;&#x4EC0;&#x4E48; SVM &#x80FD;&#x5F97;&#x5230;&#x6700;&#x5927;&#x95F4;&#x8DDD;&#x5206;&#x7C7B;&#x5668;</strong>&#x5462;&#xFF1F;&#x6211;&#x4EEC;&#x4ECD;&#x7136;&#x4ECE; SVM &#x7684;&#x76EE;&#x6807;&#x51FD;&#x6570;&#x8FDB;&#x884C;&#x5206;&#x6790;&#x3002;</p>
-<p>&#x5728;&#x8FD9;&#x4E4B;&#x524D;&#x9996;&#x5148;&#x8BF4;&#x4E0B; <a href="http://www.ai-start.com/ml2014/html/week7.html#header-n132" target="_blank" rel="external">&#x5411;&#x91CF;&#x5185;&#x79EF;&#x7684;&#x76F8;&#x5173;&#x77E5;&#x8BC6;</a>&#xFF0C; $\left|| u |\right|$&#x8868;&#x793A; u &#x7684;&#x8303;&#x6570;&#xFF0C;&#x5373; u &#x7684;&#x957F;&#x5EA6;&#xFF0C;&#x5373;&#x5411;&#x91CF; u &#x7684;&#x6B27;&#x51E0;&#x91CC;&#x5F97;&#x957F;&#x5EA6;&#xFF0C;&#x5E76;&#x4E14; $\left|| u \right||=\sqrt{u_{1}^{2}+u_{2}^{2}}$&#x3002;&#x6211;&#x4EEC;&#x5C06;&#x5411;&#x91CF; v &#x6295;&#x5F71;&#x5230;&#x5411;&#x91CF; u &#x4E0A;&#xFF0C;&#x505A;&#x4E00;&#x4E2A;&#x76F4;&#x89D2;&#x6295;&#x5F71;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x5EA6;&#x91CF;&#x8FD9;&#x6761;&#x7EA2;&#x7EBF;&#x7684;&#x957F;&#x5EA6;&#x3002;&#x6211;&#x79F0;&#x8FD9;&#x6761;&#x7EA2;&#x7EBF;&#x7684;&#x957F;&#x5EA6;&#x4E3A; p &#xFF0C;&#x56E0;&#x6B64;&#x5185;&#x79EF; $u^Tv=p\centerdot \left|| u |\right|$&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x5982;&#x679C; u &#x548C; v &#x4E4B;&#x95F4;&#x7684;&#x5939;&#x89D2;&#x5927;&#x4E8E;90&#x5EA6;&#xFF0C;&#x5185;&#x79EF;&#x662F;&#x4E2A;&#x8D1F;&#x6570;&#x3002;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_6.png" alt=""></p>
-<p>SVM &#x7684;&#x76EE;&#x6807;&#x51FD;&#x6570;&#x4E3A;&#xFF1A;</p>
+<p>可是<strong>为什么 SVM 能得到最大间距分类器</strong>呢？我们仍然从 SVM 的目标函数进行分析。</p>
+<p>在这之前首先说下 <a href="http://www.ai-start.com/ml2014/html/week7.html#header-n132">向量内积的相关知识</a>， $\left|| u |\right|$表示 u 的范数，即 u 的长度，即向量 u 的欧几里得长度，并且 $\left|| u \right||=\sqrt{u<em>{1}^{2}+u</em>{2}^{2}}$。我们将向量 v 投影到向量 u 上，做一个直角投影，接下来我度量这条红线的长度。我称这条红线的长度为 p ，因此内积 $u^Tv=p\centerdot \left|| u |\right|$。注意，如果 u 和 v 之间的夹角大于90度，内积是个负数。<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_6.png" alt=""></p>
+<p>SVM 的目标函数为：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_5.png" alt=""></p>
-<p>&#x6839;&#x636E;&#x5411;&#x91CF;&#x5185;&#x79EF;&#x7684;&#x77E5;&#x8BC6;&#x5BF9;&#x76EE;&#x6807;&#x51FD;&#x6570;&#x8FDB;&#x884C;&#x8F6C;&#x6362;&#xFF0C;&#x540C;&#x65F6;&#x5047;&#x8BBE;&#x53EA;&#x6709;&#x4E24;&#x4E2A;&#x6837;&#x672C;&#xFF0C;&#x6BCF;&#x4E2A;&#x6837;&#x672C;&#x53EA;&#x6709;&#x4E24;&#x4E2A;&#x7EF4;&#x5EA6;&#xFF0C;&#x4EE4; $\theta_0 = 0$&#xFF0C;$n = 2$</p>
+<p>根据向量内积的知识对目标函数进行转换，同时假设只有两个样本，每个样本只有两个维度，令 $\theta_0 = 0$，$n = 2$</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_7.png" alt=""></p>
-<p>&#x5F97;&#x5230;</p>
+<p>得到</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_10.png" alt=""></p>
-<p>&#x73B0;&#x5728;&#x6211;&#x4EEC;&#x5047;&#x8BBE;&#x6709;&#x5982;&#x4E0A;&#x56FE;&#x6240;&#x793A;&#x7684;&#x6837;&#x672C;&#x5206;&#x5E03;&#xFF0C;&#x90A3;&#x4E48; SVM &#x4F1A;&#x9009;&#x62E9;&#x600E;&#x6837;&#x7684;&#x51B3;&#x7B56;&#x8FB9;&#x754C;&#x5462;&#xFF1F;</p>
-<p><strong>SVM &#x5728;&#x5206;&#x7C7B;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E3A;&#x4E86;&#x4E0D;&#x8BA9;&#x6A21;&#x578B;&#x8FC7;&#x4E8E;&#x590D;&#x6742;&#xFF0C;&#x4F1A;&#x8BA9; $\theta$ &#x7684;&#x8303;&#x6570;&#x9700;&#x8981;&#x5C3D;&#x53EF;&#x80FD;&#x5C0F;&#xFF0C;&#x90A3;&#x4E48;&#x76F8;&#x5E94;&#x7684;&#xFF0C;P&#x4E5F;&#x5C31;&#x662F;&#x6295;&#x5F71;&#x9700;&#x8981;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x5927;&#x3002;&#x6211;&#x4EEC;&#x77E5;&#x9053; SVM &#x9009;&#x62E9;&#x7684;&#x53C2;&#x6570; $\theta$ &#x7684;&#x65B9;&#x5411;&#x662F;&#x548C;&#x51B3;&#x7B56;&#x754C;&#x662F;90&#x5EA6;&#x6B63;&#x4EA4;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x5F88;&#x660E;&#x663E;&#xFF0C;&#x4E0B;&#x56FE;&#x4E2D;&#xFF0C;&#x53F3;&#x8FB9;&#x7684;&#x7EFF;&#x8272;&#x51B3;&#x7B56;&#x8FB9;&#x754C;&#x66F4;&#x7406;&#x60F3;&#xFF0C;&#x56E0;&#x4E3A;&#x6B64;&#x523B;&#x6837;&#x672C;&#x5728; $\theta$ &#x65B9;&#x5411;&#x4E0A;&#x7684;&#x6295;&#x5F71;&#x5927;&#x5F88;&#x591A;&#x3002;&#x8FD9;&#x5C31;&#x662F;&#x4E3A;&#x4EC0;&#x4E48;&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x6700;&#x7EC8;&#x4F1A;&#x627E;&#x5230;&#x5927;&#x95F4;&#x8DDD;&#x5206;&#x7C7B;&#x5668;&#x7684;&#x539F;&#x56E0;&#x3002;</strong></p>
+<p>现在我们假设有如上图所示的样本分布，那么 SVM 会选择怎样的决策边界呢？</p>
+<p><strong>SVM 在分类的时候，为了不让模型过于复杂，会让 $\theta$ 的范数需要尽可能小，那么相应的，P也就是投影需要尽可能的大。我们知道 SVM 选择的参数 $\theta$ 的方向是和决策界是90度正交的，所以很明显，下图中，右边的绿色决策边界更理想，因为此刻样本在 $\theta$ 方向上的投影大很多。这就是为什么支持向量机最终会找到大间距分类器的原因。</strong></p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_11.png" alt=""></p>
-<p>$$\min_\limits{\theta}C\sum_\limits{i=1}^{m}\left[y^{(i)}{\cos}t_{1}\left(\theta^{T}x^{(i)}\right)+\left(1-y^{(i)}\right){\cos}t\left(\theta^{T}x^{(i)}\right)\right]+\frac{1}{2}\sum_\limits{i=1}^{n}\theta^{2}_{j}$$</p>
-<p><strong>&#x4F46;&#x662F;&#x6700;&#x5927;&#x95F4;&#x8DDD;&#x5206;&#x7C7B;&#x53EA;&#x6709;&#x5F53;&#x53C2;&#x6570; C &#x662F;&#x975E;&#x5E38;&#x5927;&#x7684;&#x65F6;&#x5019;&#x624D;&#x8D77;&#x6548;&#xFF0C;&#x56DE;&#x987E; $C=1/\lambda$ &#xFF0C;&#x56E0;&#x6B64;&#xFF1A;</strong><br><strong>&#xFF08;1&#xFF09;C &#x8F83;&#x5927;&#x65F6;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E; $\lambda$ &#x8F83;&#x5C0F;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x8FC7;&#x62DF;&#x5408;&#xFF0C;&#x9AD8;&#x65B9;&#x5DEE;&#x3002;</strong><br><strong>&#xFF08;2&#xFF09;C &#x8F83;&#x5C0F;&#x65F6;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E; $\lambda$ &#x8F83;&#x5927;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4;&#x4F4E;&#x62DF;&#x5408;&#xFF0C;&#x9AD8;&#x504F;&#x5DEE;&#x3002;</strong></p>
+<script type="math/tex; mode=display">\min_\limits{\theta}C\sum_\limits{i=1}^{m}\left[y^{(i)}{\cos}t_{1}\left(\theta^{T}x^{(i)}\right)+\left(1-y^{(i)}\right){\cos}t\left(\theta^{T}x^{(i)}\right)\right]+\frac{1}{2}\sum_\limits{i=1}^{n}\theta^{2}_{j}</script><p><strong>但是最大间距分类只有当参数 C 是非常大的时候才起效，回顾 $C=1/\lambda$ ，因此：</strong><br><strong>（1）C 较大时，相当于 $\lambda$ 较小，可能会导致过拟合，高方差。</strong><br><strong>（2）C 较小时，相当于 $\lambda$ 较大，可能会导致低拟合，高偏差。</strong></p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_9.png" alt=""></p>
-<p>&#x6BD4;&#x5982;&#x4F60;&#x52A0;&#x4E86;&#x4E0A;&#x56FE;&#x8FD9;&#x4E2A;&#x5F02;&#x5E38;&#x6837;&#x672C;&#xFF0C;&#x4E3A;&#x4E86;&#x5C06;&#x6837;&#x672C;&#x7528;&#x6700;&#x5927;&#x95F4;&#x8DDD;&#x5206;&#x5F00;&#xFF0C;SVM &#x4F1A;&#x5C06;&#x53C2;&#x6570; C &#x8BBE;&#x7F6E;&#x7684;&#x975E;&#x5E38;&#x5927;&#xFF0C;&#x5F97;&#x5230;&#x7EA2;&#x8272;&#x7684;&#x51B3;&#x7B56;&#x8FB9;&#x754C;&#xFF0C;&#x8FD9;&#x662F;&#x975E;&#x5E38;&#x4E0D;&#x660E;&#x667A;&#x7684;&#x3002;&#x4F46;&#x662F;<strong><font color="red"> &#x5982;&#x679C; C &#x8BBE;&#x7F6E;&#x7684;&#x5C0F;&#x4E00;&#x70B9;&#xFF0C;&#x4F60;&#x6700;&#x7EC8;&#x4F1A;&#x5F97;&#x5230;&#x8FD9;&#x6761;&#x9ED1;&#x7EBF;&#x3002;&#x5F53; C &#x4E0D;&#x662F;&#x975E;&#x5E38;&#x975E;&#x5E38;&#x5927;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#x6389;&#x4E00;&#x4E9B;&#x5F02;&#x5E38;&#x70B9;&#x7684;&#x5F71;&#x54CD;&#xFF0C;&#x5F97;&#x5230;&#x66F4;&#x597D;&#x7684;&#x51B3;&#x7B56;&#x754C;</font></strong>&#x3002;&#x751A;&#x81F3;&#x5F53;&#x4F60;&#x7684;&#x6570;&#x636E;&#x4E0D;&#x662F;&#x7EBF;&#x6027;&#x53EF;&#x5206;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x4E5F;&#x53EF;&#x4EE5;&#x7ED9;&#x51FA;&#x597D;&#x7684;&#x7ED3;&#x679C;&#x3002;</p>
+<p>比如你加了上图这个异常样本，为了将样本用最大间距分开，SVM 会将参数 C 设置的非常大，得到红色的决策边界，这是非常不明智的。但是<strong><font color="red"> 如果 C 设置的小一点，你最终会得到这条黑线。当 C 不是非常非常大的时候，它可以忽略掉一些异常点的影响，得到更好的决策界</font></strong>。甚至当你的数据不是线性可分的时候，支持向量机也可以给出好的结果。</p>
 <hr>
-<h3 id="&#x6838;&#x51FD;&#x6570;"><a href="#&#x6838;&#x51FD;&#x6570;" class="headerlink" title="&#x6838;&#x51FD;&#x6570;"></a><h2 id="&#x6838;&#x51FD;&#x6570;">&#x6838;&#x51FD;&#x6570;</h2></h3><p><strong>SVM &#x5728;&#x5904;&#x7406;&#x975E;&#x7EBF;&#x6027;&#x53EF;&#x5206;&#x95EE;&#x9898;&#x65F6;&#xFF0C;&#x4F1A;&#x4F7F;&#x7528;&#x6838;&#x51FD;&#x6570;&#x3002;&#x6838;&#x51FD;&#x6570;&#x5177;&#x4F53;&#x600E;&#x4E48;&#x6765;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x6982;&#x62EC;&#x4E3A;&#x4EE5;&#x4E0B;&#x4E09;&#x70B9;&#xFF1A;</strong><br>&#xFF08;1&#xFF09;&#x5B9E;&#x9645;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x7ECF;&#x5E38;&#x9047;&#x5230;&#x7EBF;&#x6027;&#x4E0D;&#x53EF;&#x5206;&#x7684;&#x6837;&#x4F8B;&#xFF0C;&#x6B64;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x7684;&#x5E38;&#x7528;&#x505A;&#x6CD5;&#x662F;&#x628A;&#x6837;&#x4F8B;&#x7279;&#x5F81;&#x6620;&#x5C04;&#x5230;&#x9AD8;&#x7EF4;&#x7A7A;&#x95F4;&#x4E2D;&#x53BB;<br>&#xFF08;2&#xFF09;&#x4F46;&#x662F;&#x5982;&#x679C;&#x51E1;&#x662F;&#x9047;&#x5230;&#x7EBF;&#x6027;&#x4E0D;&#x53EF;&#x5206;&#x7684;&#x6837;&#x4F8B;&#xFF0C;&#x4E00;&#x5F8B;&#x6620;&#x5C04;&#x5230;&#x9AD8;&#x7EF4;&#x7A7A;&#x95F4;&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x4E2A;&#x7EF4;&#x5EA6;&#x5927;&#x5C0F;&#x9AD8;&#x5230;&#x53EF;&#x6015;&#xFF0C;&#x51E0;&#x4E4E;&#x4E0D;&#x53EF;&#x8BA1;&#x7B97;&#x3002;<br>&#xFF08;3&#xFF09;&#x6B64;&#x65F6;&#xFF0C;&#x6838;&#x51FD;&#x6570;&#x9686;&#x91CD;&#x767B;&#x573A;&#x3002;&#x6838;&#x51FD;&#x6570;&#x7684;&#x4EF7;&#x503C;&#x5728;&#x4E8E;&#x5B83;&#x867D;&#x7136;&#x4E5F;&#x662F;&#x5C06;&#x7279;&#x5F81;&#x4ECE;&#x4F4E;&#x7EF4;&#x6620;&#x5C04;&#x5230;&#x9AD8;&#x7EF4;&#xFF0C;&#x4F46;<font color="red">&#x6838;&#x51FD;&#x6570;&#x7EDD;&#x5C31;&#x7EDD;&#x5728;&#x5B83;&#x4E8B;&#x5148;&#x5728;&#x4F4E;&#x7EF4;&#x4E0A;&#x8FDB;&#x884C;&#x8BA1;&#x7B97;&#xFF0C;&#x800C;&#x5C06;&#x5B9E;&#x8D28;&#x4E0A;&#x7684;&#x5206;&#x7C7B;&#x6548;&#x679C;&#x8868;&#x73B0;&#x5728;&#x4E86;&#x9AD8;&#x7EF4;&#x4E0A;</font>&#x3002;</p>
-<p>&#x4E0B;&#x9762;&#x8FDB;&#x884C;&#x8BE6;&#x7EC6;&#x8BF4;&#x660E;&#x3002;</p>
-<p>&#x5047;&#x8BBE;&#x6709;&#x4E24;&#x4E2A;&#x6837;&#x672C; X1 &#x548C; X2&#xFF0C;&#x5B83;&#x4EEC;&#x662F;&#x4E8C;&#x7EF4;&#x5E73;&#x9762;&#x7684;&#x4E24;&#x4E2A;&#x5750;&#x6807;&#x3002;&#x6837;&#x672C;&#x5206;&#x5E03;&#x5982;&#x56FE;&#x6240;&#x793A;</p>
+<h3 id="核函数"><a href="#核函数" class="headerlink" title="核函数"></a><h2 id="核函数">核函数</h2></h3><p><strong>SVM 在处理非线性可分问题时，会使用核函数。核函数具体怎么来的，可以概括为以下三点：</strong><br>（1）实际中，我们会经常遇到线性不可分的样例，此时，我们的常用做法是把样例特征映射到高维空间中去<br>（2）但是如果凡是遇到线性不可分的样例，一律映射到高维空间，那么这个维度大小高到可怕，几乎不可计算。<br>（3）此时，核函数隆重登场。核函数的价值在于它虽然也是将特征从低维映射到高维，但<font color="red">核函数绝就绝在它事先在低维上进行计算，而将实质上的分类效果表现在了高维上</font>。</p>
+<p>下面进行详细说明。</p>
+<p>假设有两个样本 X1 和 X2，它们是二维平面的两个坐标。样本分布如图所示</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_12.png" alt=""></p>
-<p>&#x6B64;&#x523B;&#x4E3A;&#x4E86;&#x7EBF;&#x6027;&#x53EF;&#x5206;&#xFF0C;&#x6211;&#x4EEC;&#x60F3;&#x5230;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x628A;&#x6837;&#x672C;&#x6295;&#x5C04;&#x5230;&#x9AD8;&#x7EAC;&#x7A7A;&#x95F4;&#xFF0C;&#x5982;&#x56FE;&#x6240;&#x793A;</p>
+<p>此刻为了线性可分，我们想到一个方法，把样本投射到高纬空间，如图所示</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_14.png" alt=""></p>
-<p>&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x4E00;&#x6761;&#x4E8C;&#x6B21;&#x66F2;&#x7EBF;&#xFF08;&#x5706;&#x5708;&#x662F;&#x4E8C;&#x6B21;&#x66F2;&#x7EBF;&#x7684;&#x4E00;&#x79CD;&#x7279;&#x6B8A;&#x60C5;&#x51B5;&#xFF09;&#x7684;&#x65B9;&#x7A0B;&#x53EF;&#x4EE5;&#x5199;&#x4F5C;&#x8FD9;&#x6837;&#x7684;&#x5F62;&#x5F0F;&#xFF1A;</p>
+<p>我们知道一条二次曲线（圆圈是二次曲线的一种特殊情况）的方程可以写作这样的形式：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_13.png" alt=""></p>
-<p>&#x90A3;&#x4E48;&#x5BF9;&#x4E00;&#x4E2A;&#x4E8C;&#x7EF4;&#x7A7A;&#x95F4;&#x505A;&#x6620;&#x5C04;&#xFF0C;&#x9009;&#x62E9;&#x7684;&#x65B0;&#x7A7A;&#x95F4;&#x662F;&#x539F;&#x59CB;&#x7A7A;&#x95F4;&#x7684;&#x6240;&#x6709;&#x4E00;&#x9636;&#x548C;&#x4E8C;&#x9636;&#x7684;&#x7EC4;&#x5408;&#xFF0C;&#x4F1A;&#x5F97;&#x5230;&#x4E94;&#x4E2A;&#x7EF4;&#x5EA6;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x6620;&#x5C04;&#x5230;&#x4E94;&#x7EF4;&#x7A7A;&#x95F4;&#xFF0C;&#x5373;R2&#x2192;R5&#x3002;&#x5047;&#x8BBE;&#x65B0;&#x7684;&#x7A7A;&#x95F4;&#x7684;&#x4E94;&#x4E2A;&#x5750;&#x6807;&#x7684;&#x503C;&#x5206;&#x522B;&#x4E3A; Z1=X1, Z2=X1^2, Z3=X2, Z4=X2^2, Z5=X1X2&#xFF0C;&#x90A3;&#x4E48;&#x4E0A;&#x9762;&#x7684;&#x65B9;&#x7A0B;&#x5728;&#x65B0;&#x7684;&#x5750;&#x6807;&#x7CFB;&#x4E0B;&#x53EF;&#x4EE5;&#x5199;&#x4F5C;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_15.png" alt=""></p>
-<p>&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x5176;&#x5B9E;&#x6D89;&#x53CA;&#x4E86;&#x4E24;&#x4E2A;&#x6B65;&#x9AA4;&#xFF1A;<br>&#xFF08;1&#xFF09;&#x9996;&#x5148;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x975E;&#x7EBF;&#x6027;&#x6620;&#x5C04;&#x5C06;&#x6570;&#x636E;&#x53D8;&#x6362;&#x5230;&#x4E00;&#x4E2A;&#x9AD8;&#x7EAC;&#x7279;&#x5F81;&#x7A7A;&#x95F4;F&#xFF0C;<br>&#xFF08;2&#xFF09;&#x7136;&#x540E;&#x5728;&#x9AD8;&#x7EAC;&#x7279;&#x5F81;&#x7A7A;&#x95F4;&#x4F7F;&#x7528;&#x5185;&#x79EF;&#x7684;&#x516C;&#x5F0F;&#x8FDB;&#x884C;&#x8BA1;&#x7B97;&#xFF0C;&#x8FDB;&#x884C;&#x7EBF;&#x6027;&#x5206;&#x7C7B;&#x3002;</p>
-<p><strong>&#x4F46;&#x662F;&#x8FD9;&#x91CC;&#x6709;&#x4E00;&#x4E2A;&#x5F88;&#x5927;&#x7684;&#x95EE;&#x9898;</strong>&#xFF0C;&#x6211;&#x4EEC;&#x5BF9;&#x4E00;&#x4E2A;&#x4E8C;&#x7EF4;&#x7A7A;&#x95F4;&#x505A;&#x6620;&#x5C04;&#xFF0C;&#x9009;&#x62E9;&#x7684;&#x65B0;&#x7A7A;&#x95F4;&#x662F;&#x539F;&#x59CB;&#x7A7A;&#x95F4;&#x7684;&#x6240;&#x6709;&#x4E00;&#x9636;&#x548C;&#x4E8C;&#x9636;&#x7684;&#x7EC4;&#x5408;&#xFF0C;&#x5F97;&#x5230;&#x4E86;&#x4E94;&#x4E2A;&#x7EF4;&#x5EA6;&#xFF1B;&#x5982;&#x679C;&#x539F;&#x59CB;&#x7A7A;&#x95F4;&#x662F;&#x4E09;&#x7EF4;&#xFF0C;&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x4F1A;&#x5F97;&#x5230; 19 &#x7EF4;&#x7684;&#x65B0;&#x7A7A;&#x95F4;&#xFF0C;&#x8FD9;&#x4E2A;&#x6570;&#x76EE;&#x662F;&#x5448;&#x7206;&#x70B8;&#x6027;&#x589E;&#x957F;&#x7684;&#xFF0C;&#x8FD9;&#x7ED9;&#x8BA1;&#x7B97;&#x5E26;&#x6765;&#x4E86;&#x975E;&#x5E38;&#x5927;&#x7684;&#x56F0;&#x96BE;&#xFF0C;&#x800C;&#x4E14;&#x5982;&#x679C;&#x9047;&#x5230;&#x65E0;&#x7A77;&#x7EF4;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x5C31;&#x6839;&#x672C;&#x65E0;&#x4ECE;&#x8BA1;&#x7B97;&#x3002;</p>
-<p>&#x90A3;&#x4E48;&#x600E;&#x4E48;&#x529E;&#x5462;&#xFF1F;&#x6211;&#x4EEC;&#x9996;&#x5148;&#x6765;&#x770B;&#x4E0B;&#x9AD8;&#x7EAC;&#x7A7A;&#x95F4;&#x7684;&#x5185;&#x79EF;&#x8BA1;&#x7B97;&#xFF08;&#x5C16;&#x62EC;&#x53F7;&#x4EE3;&#x8868;&#x5185;&#x79EF;&#x8BA1;&#x7B97;&#xFF0C;$&#x3D5;$ &#x4EE3;&#x8868;&#x4F4E;&#x7EAC;&#x5230;&#x9AD8;&#x7EAC;&#x7684;&#x6620;&#xFF09;&#xFF1A;</p>
+<p>那么对一个二维空间做映射，选择的新空间是原始空间的所有一阶和二阶的组合，会得到五个维度，所以需要映射到五维空间，即R2→R5。假设新的空间的五个坐标的值分别为 Z1=X1, Z2=X1^2, Z3=X2, Z4=X2^2, Z5=X1X2，那么上面的方程在新的坐标系下可以写作<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_15.png" alt=""></p>
+<p>这个过程其实涉及了两个步骤：<br>（1）首先使用一个非线性映射将数据变换到一个高纬特征空间F，<br>（2）然后在高纬特征空间使用内积的公式进行计算，进行线性分类。</p>
+<p><strong>但是这里有一个很大的问题</strong>，我们对一个二维空间做映射，选择的新空间是原始空间的所有一阶和二阶的组合，得到了五个维度；如果原始空间是三维，那么我们会得到 19 维的新空间，这个数目是呈爆炸性增长的，这给计算带来了非常大的困难，而且如果遇到无穷维的情况，就根本无从计算。</p>
+<p>那么怎么办呢？我们首先来看下高纬空间的内积计算（尖括号代表内积计算，$ϕ$ 代表低纬到高纬的映）：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_16.png" alt=""></p>
-<p>&#x53E6;&#x5916;&#xFF0C;&#x6211;&#x4EEC;&#x53C8;&#x6CE8;&#x610F;&#x5230;&#xFF1A;</p>
+<p>另外，我们又注意到：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_17.png" alt=""></p>
-<p>&#x4E8C;&#x8005;&#x6709;&#x5F88;&#x591A;&#x76F8;&#x4F3C;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x8981;&#x628A;&#x67D0;&#x51E0;&#x4E2A;&#x7EF4;&#x5EA6;&#x7EBF;&#x6027;&#x7F29;&#x653E;&#x4E00;&#x4E0B;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x52A0;&#x4E0A;&#x4E00;&#x4E2A;&#x5E38;&#x6570;&#x7EF4;&#x5EA6;&#xFF0C;&#x5177;&#x4F53;&#x6765;&#x8BF4;&#xFF0C;&#x4E0A;&#x9762;&#x8FD9;&#x4E2A;&#x5F0F;&#x5B50;&#x7684;&#x8BA1;&#x7B97;&#x7ED3;&#x679C;&#x5B9E;&#x9645;&#x4E0A;&#x548C;&#x6620;&#x5C04;</p>
+<p>二者有很多相似的地方，实际上，我们只要把某几个维度线性缩放一下，然后再加上一个常数维度，具体来说，上面这个式子的计算结果实际上和映射</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_18.png" alt=""></p>
-<p>&#x4E4B;&#x540E;&#x7684;&#x5185;&#x79EF;<img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_19.png" alt="">&#x7684;&#x7ED3;&#x679C;&#x662F;&#x76F8;&#x7B49;&#x7684;&#xFF0C;<strong>&#x90A3;&#x4E48;&#x533A;&#x522B;&#x5728;&#x4E8E;&#x4EC0;&#x4E48;&#x5730;&#x65B9;&#x5462;&#xFF1F;</strong><br><strong>1. &#x4E00;&#x4E2A;&#x662F;&#x6620;&#x5C04;&#x5230;&#x9AD8;&#x7EF4;&#x7A7A;&#x95F4;&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x6839;&#x636E;&#x5185;&#x79EF;&#x7684;&#x516C;&#x5F0F;&#x8FDB;&#x884C;&#x8BA1;&#x7B97;&#xFF1B;</strong><br><strong>2. &#x800C;&#x53E6;&#x4E00;&#x4E2A;&#x5219;&#x76F4;&#x63A5;&#x5728;&#x539F;&#x6765;&#x7684;&#x4F4E;&#x7EF4;&#x7A7A;&#x95F4;&#x4E2D;&#x8FDB;&#x884C;&#x8BA1;&#x7B97;&#xFF0C;&#x800C;&#x4E0D;&#x9700;&#x8981;&#x663E;&#x5F0F;&#x5730;&#x5199;&#x51FA;&#x6620;&#x5C04;&#x540E;&#x7684;&#x7ED3;&#x679C;&#x3002;</strong></p>
-<p><strong>&#x6211;&#x4EEC;&#x628A;&#x8FD9;&#x91CC;&#x7684;&#x8BA1;&#x7B97;&#x4E24;&#x4E2A;&#x5411;&#x91CF;&#x5728;&#x9690;&#x5F0F;&#x6620;&#x5C04;&#x8FC7;&#x540E;&#x7684;&#x7A7A;&#x95F4;&#x4E2D;&#x7684;&#x5185;&#x79EF;&#x7684;&#x51FD;&#x6570;&#x53EB;&#x505A;&#x6838;&#x51FD;&#x6570;&#x3002;&#x6838;&#x51FD;&#x6570;&#x80FD;&#x7B80;&#x5316;&#x6620;&#x5C04;&#x7A7A;&#x95F4;&#x4E2D;&#x7684;&#x5185;&#x79EF;&#x8FD0;&#x7B97;&#x2014;&#x2014;&#x521A;&#x597D;&#x201C;&#x78B0;&#x5DE7;&#x201D;&#x7684;&#x662F;&#xFF0C;&#x5728;&#x6211;&#x4EEC;&#x7684; SVM &#x91CC;&#x9700;&#x8981;&#x8BA1;&#x7B97;&#x7684;&#x5730;&#x65B9;&#x6570;&#x636E;&#x5411;&#x91CF;&#x603B;&#x662F;&#x4EE5;&#x5185;&#x79EF;&#x7684;&#x5F62;&#x5F0F;&#x51FA;&#x73B0;&#x7684;&#x3002;</strong></p>
-<p>&#x5E38;&#x7528;&#x7684;&#x6838;&#x51FD;&#x6570;&#xFF1A;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_20.png" alt=""></p>
-<p>&#x521A;&#x624D;&#x6240;&#x4E3E;&#x4F8B;&#x5B50;&#x7528;&#x7684;&#x5C31;&#x662F;&#x591A;&#x9879;&#x5F0F;&#x6838;&#xFF08;R = 1&#xFF0C;d = 2&#xFF09;&#xFF0C;&#x4F46;&#x662F; <a href="http://www.ai-start.com/ml2014/html/week7.html#header-n197" target="_blank" rel="external">&#x9AD8;&#x65AF;&#x6838;</a> &#x76F8;&#x5BF9;&#x800C;&#x8A00;&#x7528;&#x7684;&#x6700;&#x5E7F;&#x6CDB;&#xFF0C;<strong>&#x6CE8;&#x610F;&#x9AD8;&#x65AF;&#x6838;&#x4E0E;&#x6B63;&#x6001;&#x5206;&#x5E03;&#x6CA1;&#x4EC0;&#x4E48;&#x5B9E;&#x9645;&#x4E0A;&#x7684;&#x5173;&#x7CFB;&#xFF0C;&#x53EA;&#x662F;&#x770B;&#x4E0A;&#x53BB;&#x50CF;&#x800C;&#x5DF2;</strong>&#x3002;</p>
-<p>&#x81F3;&#x4E8E;&#x7EBF;&#x6027;&#x6838;&#xFF0C;&#x8FD9;&#x5B9E;&#x9645;&#x4E0A;&#x5C31;&#x662F;&#x539F;&#x59CB;&#x7A7A;&#x95F4;&#x4E2D;&#x7684;&#x5185;&#x79EF;&#x3002;&#x8FD9;&#x4E2A;&#x6838;&#x5B58;&#x5728;&#x7684;&#x4E3B;&#x8981;&#x76EE;&#x7684;&#x662F;&#x4F7F;&#x5F97;&#x201C;&#x6620;&#x5C04;&#x540E;&#x7A7A;&#x95F4;&#x4E2D;&#x7684;&#x95EE;&#x9898;&#x201D;&#x548C;&#x201C;&#x6620;&#x5C04;&#x524D;&#x7A7A;&#x95F4;&#x4E2D;&#x7684;&#x95EE;&#x9898;&#x201D;&#x4E24;&#x8005;&#x5728;&#x5F62;&#x5F0F;&#x4E0A;&#x7EDF;&#x4E00;&#x8D77;&#x6765;&#x4E86;(&#x610F;&#x601D;&#x662F;&#x8BF4;&#xFF0C;&#x6211;&#x4EEC;&#x6709;&#x65F6;&#x5019;&#x5199;&#x4EE3;&#x7801;&#xFF0C;&#x6216;&#x5199;&#x516C;&#x5F0F;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EA;&#x8981;&#x5199;&#x4E2A;&#x901A;&#x7528;&#x6A21;&#x677F;&#x6216;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x4EE3;&#x5165;&#x4E0D;&#x540C;&#x7684;&#x6838;&#xFF0C;&#x4E0D;&#x5FC5;&#x8981;&#x5206;&#x522B;&#x5199;&#x4E00;&#x4E2A;&#x7EBF;&#x6027;&#x7684;&#x548C;&#x4E00;&#x4E2A;&#x975E;&#x7EBF;&#x6027;&#x7684;)&#x3002;</p>
+<p>之后的内积<img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_19.png" alt="">的结果是相等的，<strong>那么区别在于什么地方呢？</strong><br><strong>1. 一个是映射到高维空间中，然后再根据内积的公式进行计算；</strong><br><strong>2. 而另一个则直接在原来的低维空间中进行计算，而不需要显式地写出映射后的结果。</strong></p>
+<p><strong>我们把这里的计算两个向量在隐式映射过后的空间中的内积的函数叫做核函数。核函数能简化映射空间中的内积运算——刚好“碰巧”的是，在我们的 SVM 里需要计算的地方数据向量总是以内积的形式出现的。</strong></p>
+<p>常用的核函数：<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_20.png" alt=""></p>
+<p>刚才所举例子用的就是多项式核（R = 1，d = 2），但是 <a href="http://www.ai-start.com/ml2014/html/week7.html#header-n197">高斯核</a> 相对而言用的最广泛，<strong>注意高斯核与正态分布没什么实际上的关系，只是看上去像而已</strong>。</p>
+<p>至于线性核，这实际上就是原始空间中的内积。这个核存在的主要目的是使得“映射后空间中的问题”和“映射前空间中的问题”两者在形式上统一起来了(意思是说，我们有时候写代码，或写公式的时候，只要写个通用模板或表达式，然后再代入不同的核，不必要分别写一个线性的和一个非线性的)。</p>
 <hr>
-<h3 id="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x3001;SVM&#x548C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x4F7F;&#x7528;&#x573A;&#x666F;"><a href="#&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x3001;SVM&#x548C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x4F7F;&#x7528;&#x573A;&#x666F;" class="headerlink" title="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x3001;SVM&#x548C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x4F7F;&#x7528;&#x573A;&#x666F;"></a><h2 id="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x3001;SVM&#x548C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x4F7F;&#x7528;&#x573A;&#x666F;">&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x3001;SVM&#x548C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x4F7F;&#x7528;&#x573A;&#x666F;</h2></h3><p>&#x7531;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x7684;&#x76EE;&#x6807;&#x51FD;&#x6570;&#x53EF;&#x4EE5;&#x8FD1;&#x4F3C;&#x63A8;&#x5BFC;&#x51FA;&#x4E0D;&#x5E26;&#x6838;&#x51FD;&#x6570;&#x7684; SVM &#x7684;&#x76EE;&#x6807;&#x51FD;&#x6570;&#xFF0C;&#x6240;&#x4EE5;<strong>&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x548C;&#x4E0D;&#x5E26;&#x6838;&#x51FD;&#x6570;&#x7684; SVM &#x662F;&#x975E;&#x5E38;&#x76F8;&#x4F3C;&#x7684;&#x7B97;&#x6CD5;&#xFF0C;&#x5B83;&#x4EEC;&#x901A;&#x5E38;&#x4F1A;&#x505A;&#x76F8;&#x4F3C;&#x7684;&#x4E8B;&#x60C5;&#xFF0C;&#x5E76;&#x7ED9;&#x51FA;&#x76F8;&#x4F3C;&#x7684;&#x7ED3;&#x679C;</strong>&#x3002;&#x4F46;&#x5F53;&#x6A21;&#x578B;&#x7684;&#x590D;&#x6742;&#x5EA6;&#x4E0A;&#x5347;&#xFF0C;&#x6BD4;&#x5982;&#x5F53;&#x4F60;&#x6709;&#x591A;&#x8FBE;1&#x4E07;&#x7684;&#x6837;&#x672C;&#x65F6;&#xFF0C;&#x4E5F;&#x53EF;&#x80FD;&#x662F;5&#x4E07;&#xFF0C;&#x4F60;&#x7684;<strong>&#x7279;&#x5F81;&#x53D8;&#x91CF;&#x6570;&#x91CF;&#x5C31;&#x4F1A;&#x975E;&#x5E38;&#x5927;</strong>&#x3002;&#x5728;&#x8FD9;&#x6837;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x5E38;&#x89C1;&#x7684;&#x4F53;&#x7CFB;&#x91CC;&#xFF0C;<strong>&#x4E0D;&#x5E26;&#x6838;&#x51FD;&#x6570;&#x7684; SVM &#x5C31;&#x4F1A;&#x8868;&#x73B0;&#x5F97;&#x5C24;&#x5176;&#x7A81;&#x51FA;</strong>&#x3002;</p>
-<p><strong>&#x90A3;&#x4E48;&#x5982;&#x4F55;&#x5728; LR &#x548C; SVM &#x4E4B;&#x95F4;&#x8FDB;&#x884C;&#x9009;&#x62E9;&#x5462;&#xFF1F;&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x4E9B;&#x666E;&#x904D;&#x4F7F;&#x7528;&#x7684;&#x51C6;&#x5219;&#xFF1A;</strong><br>n &#x4E3A;&#x7279;&#x5F81;&#x6570;&#xFF0C;m &#x4E3A;&#x8BAD;&#x7EC3;&#x6837;&#x672C;&#x6570;&#x3002;<br>&#xFF08;1&#xFF09;&#x5982;&#x679C;&#x76F8;&#x8F83;&#x4E8E; m &#x800C;&#x8A00;&#xFF0C;n &#x8981;&#x5927;&#x8BB8;&#x591A;&#xFF0C;&#x5373;&#x8BAD;&#x7EC3;&#x96C6;&#x6570;&#x636E;&#x91CF;&#x4E0D;&#x591F;&#x652F;&#x6301;&#x6211;&#x4EEC;&#x8BAD;&#x7EC3;&#x4E00;&#x4E2A;&#x590D;&#x6742;&#x7684;&#x975E;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#xFF0C;&#x6211;&#x4EEC;&#x9009;&#x7528;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x6A21;&#x578B;&#x6216;&#x8005;&#x4E0D;&#x5E26;&#x6838;&#x51FD;&#x6570;&#x7684;&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x3002;<br>&#xFF08;2&#xFF09;&#x5982;&#x679C; n &#x8F83;&#x5C0F;&#xFF0C;&#x800C;&#x4E14; m &#x5927;&#x5C0F;&#x4E2D;&#x7B49;&#xFF0C;&#x4F8B;&#x5982; n &#x5728; 1-1000 &#x4E4B;&#x95F4;&#xFF0C;&#x800C; m &#x5728;10-10000&#x4E4B;&#x95F4;&#xFF0C;&#x4F7F;&#x7528;&#x9AD8;&#x65AF;&#x6838;&#x51FD;&#x6570;&#x7684;&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x3002;<br>&#xFF08;3&#xFF09;&#x5982;&#x679C; n &#x8F83;&#x5C0F;&#xFF0C;&#x800C; m &#x8F83;&#x5927;&#xFF0C;&#x4F8B;&#x5982; n &#x5728;1-1000&#x4E4B;&#x95F4;&#xFF0C;&#x800C; m &#x5927;&#x4E8E;50000&#xFF0C;&#x5219;&#x4F7F;&#x7528;&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x4F1A;&#x975E;&#x5E38;&#x6162;&#xFF0C;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x662F;&#x521B;&#x9020;&#x3001;&#x589E;&#x52A0;&#x66F4;&#x591A;&#x7684;&#x7279;&#x5F81;&#xFF0C;&#x7136;&#x540E;&#x4F7F;&#x7528;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x6216;&#x4E0D;&#x5E26;&#x6838;&#x51FD;&#x6570;&#x7684;&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x3002;</p>
-<p><strong>&#x503C;&#x5F97;&#x4E00;&#x63D0;&#x7684;&#x662F;&#xFF0C;<font color="red">&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x5728;&#x4EE5;&#x4E0A;&#x4E09;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#x90FD;&#x53EF;&#x80FD;&#x4F1A;&#x6709;&#x8F83;&#x597D;&#x7684;&#x8868;&#x73B0;</font>&#xFF0C;&#x4F46;&#x662F;&#x8BAD;&#x7EC3;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53EF;&#x80FD;<font color="red">&#x975E;&#x5E38;&#x6162;</font>&#xFF0C;&#x9009;&#x62E9;&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x7684;&#x539F;&#x56E0;&#x4E3B;&#x8981;&#x5728;&#x4E8E;&#x5B83;&#x7684;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;&#x662F;&#x51F8;&#x51FD;&#x6570;&#xFF0C;&#x4E0D;&#x5B58;&#x5728;&#x5C40;&#x90E8;&#x6700;&#x5C0F;&#x503C;&#x3002;</strong></p>
-<p><strong>&#x4F46;&#x662F;&#x901A;&#x5E38;&#x66F4;&#x52A0;&#x91CD;&#x8981;&#x7684;&#x662F;</strong>&#xFF1A;&#x4F60;&#x6709;&#x591A;&#x5C11;&#x6570;&#x636E;&#xFF0C;&#x4F60;&#x6709;&#x591A;&#x719F;&#x7EC3;&#x662F;&#x5426;&#x64C5;&#x957F;&#x505A;&#x8BEF;&#x5DEE;&#x5206;&#x6790;&#x548C;&#x6392;&#x9664;&#x5B66;&#x4E60;&#x7B97;&#x6CD5;&#xFF0C;&#x6307;&#x51FA;&#x5982;&#x4F55;&#x8BBE;&#x5B9A;&#x65B0;&#x7684;&#x7279;&#x5F81;&#x53D8;&#x91CF;&#x548C;&#x627E;&#x51FA;&#x5176;&#x4ED6;&#x80FD;&#x51B3;&#x5B9A;&#x4F60;&#x5B66;&#x4E60;&#x7B97;&#x6CD5;&#x7684;&#x53D8;&#x91CF;&#x7B49;&#x65B9;&#x9762;&#xFF0C;&#x8FD9;&#x4E9B;&#x65B9;&#x9762;&#x4F1A;&#x6BD4;&#x4F60;&#x4F7F;&#x7528; SVM&#xFF0C;LR &#x8FD8;&#x662F;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x66F4;&#x52A0;&#x91CD;&#x8981;&#x3002;</p>
+<h3 id="逻辑回归、SVM和神经网络使用场景"><a href="#逻辑回归、SVM和神经网络使用场景" class="headerlink" title="逻辑回归、SVM和神经网络使用场景"></a><h2 id="逻辑回归、SVM和神经网络使用场景">逻辑回归、SVM和神经网络使用场景</h2></h3><p>由逻辑回归的目标函数可以近似推导出不带核函数的 SVM 的目标函数，所以<strong>逻辑回归和不带核函数的 SVM 是非常相似的算法，它们通常会做相似的事情，并给出相似的结果</strong>。但当模型的复杂度上升，比如当你有多达1万的样本时，也可能是5万，你的<strong>特征变量数量就会非常大</strong>。在这样一个非常常见的体系里，<strong>不带核函数的 SVM 就会表现得尤其突出</strong>。</p>
+<p><strong>那么如何在 LR 和 SVM 之间进行选择呢？下面是一些普遍使用的准则：</strong><br>n 为特征数，m 为训练样本数。<br>（1）如果相较于 m 而言，n 要大许多，即训练集数据量不够支持我们训练一个复杂的非线性模型，我们选用逻辑回归模型或者不带核函数的支持向量机。<br>（2）如果 n 较小，而且 m 大小中等，例如 n 在 1-1000 之间，而 m 在10-10000之间，使用高斯核函数的支持向量机。<br>（3）如果 n 较小，而 m 较大，例如 n 在1-1000之间，而 m 大于50000，则使用支持向量机会非常慢，解决方案是创造、增加更多的特征，然后使用逻辑回归或不带核函数的支持向量机。</p>
+<p><strong>值得一提的是，<font color="red">神经网络在以上三种情况下都可能会有较好的表现</font>，但是训练神经网络可能<font color="red">非常慢</font>，选择支持向量机的原因主要在于它的代价函数是凸函数，不存在局部最小值。</strong></p>
+<p><strong>但是通常更加重要的是</strong>：你有多少数据，你有多熟练是否擅长做误差分析和排除学习算法，指出如何设定新的特征变量和找出其他能决定你学习算法的变量等方面，这些方面会比你使用 SVM，LR 还是神经网络更加重要。</p>
 <hr>
-<h3 id="&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x901A;&#x4FD7;&#x5BFC;&#x8BBA;&#xFF08;&#x7406;&#x89E3;SVM&#x7684;&#x4E09;&#x5C42;&#x5883;&#x754C;&#xFF09;"><a href="#&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x901A;&#x4FD7;&#x5BFC;&#x8BBA;&#xFF08;&#x7406;&#x89E3;SVM&#x7684;&#x4E09;&#x5C42;&#x5883;&#x754C;&#xFF09;" class="headerlink" title="&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x901A;&#x4FD7;&#x5BFC;&#x8BBA;&#xFF08;&#x7406;&#x89E3;SVM&#x7684;&#x4E09;&#x5C42;&#x5883;&#x754C;&#xFF09;"></a><h2 id="&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x901A;&#x4FD7;&#x5BFC;&#x8BBA;&#xFF08;&#x7406;&#x89E3;SVM&#x7684;&#x4E09;&#x5C42;&#x5883;&#x754C;&#xFF09;">&#x652F;&#x6301;&#x5411;&#x91CF;&#x673A;&#x901A;&#x4FD7;&#x5BFC;&#x8BBA;&#xFF08;&#x7406;&#x89E3;SVM&#x7684;&#x4E09;&#x5C42;&#x5883;&#x754C;&#xFF09;</h2></h3><p>&#x5728;&#x7EBF;&#x9605;&#x8BFB;&#x94FE;&#x63A5;&#xFF1A;<a href="http://blog.csdn.net/v_july_v/article/details/7624837" target="_blank" rel="external">http://blog.csdn.net/v_july_v/article/details/7624837</a><br>&#x7F51;&#x76D8;&#x4E0B;&#x8F7D;&#x5730;&#x5740;&#xFF1A;<a href="https://pan.baidu.com/s/1htfvbzI" target="_blank" rel="external">https://pan.baidu.com/s/1htfvbzI</a> &#x5BC6;&#x7801;&#xFF1A;qian<br>&#x5EFA;&#x8BAE;&#x4E0B;&#x8F7D;&#x7F51;&#x76D8;&#x91CC;&#x7684;pdf&#x9605;&#x8BFB;&#xFF0C;&#x6587;&#x6863;&#x9644;&#x5E26;&#x5B8C;&#x6574;&#x4E66;&#x7B7E;&#x3002;</p>
+<h3 id="支持向量机通俗导论（理解SVM的三层境界）"><a href="#支持向量机通俗导论（理解SVM的三层境界）" class="headerlink" title="支持向量机通俗导论（理解SVM的三层境界）"></a><h2 id="支持向量机通俗导论（理解SVM的三层境界）">支持向量机通俗导论（理解SVM的三层境界）</h2></h3><p>在线阅读链接：<a href="http://blog.csdn.net/v_july_v/article/details/7624837">http://blog.csdn.net/v_july_v/article/details/7624837</a><br>网盘下载地址：<a href="https://pan.baidu.com/s/1htfvbzI">https://pan.baidu.com/s/1htfvbzI</a> 密码：qian<br>建议下载网盘里的pdf阅读，文档附带完整书签。</p>
 <hr>
-<h3 id="&#x5E38;&#x7528;&#x6838;&#x51FD;&#x6570;&#x53CA;&#x6838;&#x51FD;&#x6570;&#x7684;&#x6761;&#x4EF6;"><a href="#&#x5E38;&#x7528;&#x6838;&#x51FD;&#x6570;&#x53CA;&#x6838;&#x51FD;&#x6570;&#x7684;&#x6761;&#x4EF6;" class="headerlink" title="&#x5E38;&#x7528;&#x6838;&#x51FD;&#x6570;&#x53CA;&#x6838;&#x51FD;&#x6570;&#x7684;&#x6761;&#x4EF6;"></a><h2 id="&#x5E38;&#x7528;&#x6838;&#x51FD;&#x6570;&#x53CA;&#x6838;&#x51FD;&#x6570;&#x7684;&#x6761;&#x4EF6;">&#x5E38;&#x7528;&#x6838;&#x51FD;&#x6570;&#x53CA;&#x6838;&#x51FD;&#x6570;&#x7684;&#x6761;&#x4EF6;</h2></h3><p>&#x63A8;&#x8350;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#xFF1A; <a href="https://blog.csdn.net/leonis_v/article/details/50688766" target="_blank" rel="external">svm&#x6838;&#x51FD;&#x6570;&#x7684;&#x7406;&#x89E3;&#x548C;&#x9009;&#x62E9;</a></p>
+<h3 id="常用核函数及核函数的条件"><a href="#常用核函数及核函数的条件" class="headerlink" title="常用核函数及核函数的条件"></a><h2 id="常用核函数及核函数的条件">常用核函数及核函数的条件</h2></h3><p>推荐一篇文章： <a href="https://blog.csdn.net/leonis_v/article/details/50688766">svm核函数的理解和选择</a></p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/71.png" alt=""></p>
 <hr>
-<h3 id="&#x5E26;&#x6838;&#x7684;SVM&#x4E3A;&#x4EC0;&#x4E48;&#x80FD;&#x5206;&#x7C7B;&#x975E;&#x7EBF;&#x6027;&#x95EE;&#x9898;"><a href="#&#x5E26;&#x6838;&#x7684;SVM&#x4E3A;&#x4EC0;&#x4E48;&#x80FD;&#x5206;&#x7C7B;&#x975E;&#x7EBF;&#x6027;&#x95EE;&#x9898;" class="headerlink" title="&#x5E26;&#x6838;&#x7684;SVM&#x4E3A;&#x4EC0;&#x4E48;&#x80FD;&#x5206;&#x7C7B;&#x975E;&#x7EBF;&#x6027;&#x95EE;&#x9898;"></a><h2 id="&#x5E26;&#x6838;&#x7684;SVM&#x4E3A;&#x4EC0;&#x4E48;&#x80FD;&#x5206;&#x7C7B;&#x975E;&#x7EBF;&#x6027;&#x95EE;&#x9898;">&#x5E26;&#x6838;&#x7684;SVM&#x4E3A;&#x4EC0;&#x4E48;&#x80FD;&#x5206;&#x7C7B;&#x975E;&#x7EBF;&#x6027;&#x95EE;&#x9898;</h2></h3><p><strong>&#x6838;&#x51FD;&#x6570;&#x7684;&#x672C;&#x8D28;&#x662F;&#x4E24;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x5167;&#x79EF;&#xFF0C;&#x901A;&#x8FC7;&#x6838;&#x51FD;&#x6570;&#xFF0C;SVM&#x5C06;&#x4F4E;&#x7EF4;&#x6570;&#x636E;&#x9690;&#x5C04;&#x5230;&#x9AD8;&#x7EF4;&#x7A7A;&#x95F4;&#xFF0C;&#x5728;&#x9AD8;&#x7EF4;&#x7A7A;&#x95F4;&#xFF0C;&#x975E;&#x7EBF;&#x6027;&#x95EE;&#x9898;&#x8F6C;&#x5316;&#x4E3A;&#x7EBF;&#x6027;&#x95EE;&#x9898;</strong>&#xFF0C;&#x8BE6;&#x89C1; <a href="#&#x6838;&#x51FD;&#x6570;">&#x6838;&#x51FD;&#x6570;</a>&#x3002;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_14.png" alt=""></p>
+<h3 id="带核的SVM为什么能分类非线性问题"><a href="#带核的SVM为什么能分类非线性问题" class="headerlink" title="带核的SVM为什么能分类非线性问题"></a><h2 id="带核的SVM为什么能分类非线性问题">带核的SVM为什么能分类非线性问题</h2></h3><p><strong>核函数的本质是两个函数的內积，通过核函数，SVM将低维数据隐射到高维空间，在高维空间，非线性问题转化为线性问题</strong>，详见 <a href="#核函数">核函数</a>。<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/SVM/SVM_14.png" alt=""></p>
 <hr>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2017/10/25/机器学习（四）：聚类算法/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    机器学习（四）：聚类算法
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2017/10/21/机器学习（二）：决策树、随机森林和提升算法/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">机器学习（二）：决策树、随机森林和提升算法</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-		<!-- MathJax���ã���ͨ������Ԫ������д���ڹ�ʽ�� -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": { 
-        preferredFont: "TeX", 
-        availableFonts: ["STIX","TeX"], 
-        linebreaks: { automatic:true }, 
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
-    },
-    tex2jax: { 
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
-        processEscapes: true, 
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {  
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
-        Macros: { href: "{}" } 
-    },
-    messageStyle: "none"
-    }); 
-</script>
-<!-- ��MathJaxԪ������has-jax class -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<!-- ͨ������CDN����MathJax��js���� -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/SVM/">SVM</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2017/10/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">机器学习（四）：聚类算法</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2017/10/21/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%86%B3%E7%AD%96%E6%A0%91%E3%80%81%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%92%8C%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="level-item">机器学习（二）：决策树、随机森林和提升算法</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><!--!--><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

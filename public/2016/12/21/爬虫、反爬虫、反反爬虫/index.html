@@ -1,634 +1,215 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>爬虫、反爬虫、反反爬虫 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x722C;&amp;#x53D6;&amp;#x4E86;&amp;#x767E;&amp;#x4E07;&amp;#x6570;&amp;#x636E;&amp;#xFF0C;&amp;#x4EE5;&amp;#x4E0B;&amp;#x662F;&amp;#x5B66;&amp;#x4E60;&amp;#x722C;&amp;#x866B;&amp;#x65F6;&amp;#x6C47;&amp;#x603B;&amp;#x7684;&amp;#x76F8;&amp;#x5173;&amp;#x77E5;&amp;#x8BC6;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="爬虫、反爬虫、反反爬虫">
-<meta property="og:url" content="http://www.wangxin123.com/2016/12/21/爬虫、反爬虫、反反爬虫/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x722C;&amp;#x53D6;&amp;#x4E86;&amp;#x767E;&amp;#x4E07;&amp;#x6570;&amp;#x636E;&amp;#xFF0C;&amp;#x4EE5;&amp;#x4E0B;&amp;#x662F;&amp;#x5B66;&amp;#x4E60;&amp;#x722C;&amp;#x866B;&amp;#x65F6;&amp;#x6C47;&amp;#x603B;&amp;#x7684;&amp;#x76F8;&amp;#x5173;&amp;#x77E5;&amp;#x8BC6;">
-<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E5%8F%8D%E7%88%AC%E8%99%AB/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim">
-<meta property="og:updated_time" content="2018-01-08T01:04:45.706Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爬虫、反爬虫、反反爬虫">
-<meta name="twitter:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x722C;&amp;#x53D6;&amp;#x4E86;&amp;#x767E;&amp;#x4E07;&amp;#x6570;&amp;#x636E;&amp;#xFF0C;&amp;#x4EE5;&amp;#x4E0B;&amp;#x662F;&amp;#x5B66;&amp;#x4E60;&amp;#x722C;&amp;#x866B;&amp;#x65F6;&amp;#x6C47;&amp;#x603B;&amp;#x7684;&amp;#x76F8;&amp;#x5173;&amp;#x77E5;&amp;#x8BC6;">
-<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E5%8F%8D%E7%88%AC%E8%99%AB/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-爬虫、反爬虫、反反爬虫" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            爬虫、反爬虫、反反爬虫
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/12/21/爬虫、反爬虫、反反爬虫/">
-            <time datetime="2016-12-21T10:53:00.000Z" itemprop="datePublished">2016-12-21</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/其他/">其他</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/爬虫/">爬虫</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是爬虫和反爬虫"><span class="toc-number">1.</span> <span class="toc-text">什么是爬虫和反爬虫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反什么样的爬虫"><span class="toc-number">2.</span> <span class="toc-text">反什么样的爬虫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的爬虫、反爬虫手段"><span class="toc-number">3.</span> <span class="toc-text">常见的爬虫、反爬虫手段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#疑问相关"><span class="toc-number">4.</span> <span class="toc-text">疑问相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接相关"><span class="toc-number">5.</span> <span class="toc-text">链接相关</span></a></li></ol>
-                </div>
-            
-            <p>&#x6700;&#x8FD1;&#x722C;&#x53D6;&#x4E86;&#x767E;&#x4E07;&#x6570;&#x636E;&#xFF0C;&#x4EE5;&#x4E0B;&#x662F;&#x5B66;&#x4E60;&#x722C;&#x866B;&#x65F6;&#x6C47;&#x603B;&#x7684;&#x76F8;&#x5173;&#x77E5;&#x8BC6;&#x70B9;</p>
-<h3 id="&#x4EC0;&#x4E48;&#x662F;&#x722C;&#x866B;&#x548C;&#x53CD;&#x722C;&#x866B;"><a href="#&#x4EC0;&#x4E48;&#x662F;&#x722C;&#x866B;&#x548C;&#x53CD;&#x722C;&#x866B;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;&#x722C;&#x866B;&#x548C;&#x53CD;&#x722C;&#x866B;"></a>&#x4EC0;&#x4E48;&#x662F;&#x722C;&#x866B;&#x548C;&#x53CD;&#x722C;&#x866B;</h3><ul>
-<li><strong>&#x722C;&#x866B;</strong> &#x2014;&#x2014; &#x4F7F;&#x7528;&#x4EFB;&#x4F55;&#x6280;&#x672F;&#x624B;&#x6BB5;&#x6279;&#x91CF;&#x83B7;&#x53D6;&#x7F51;&#x7AD9;&#x4FE1;&#x606F;&#x7684;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#xFF0C;&#x5173;&#x952E;&#x5728;&#x6279;&#x91CF;&#x3002;</li>
-<li><strong>&#x53CD;&#x722C;&#x866B;</strong> &#x2014;&#x2014; &#x4F7F;&#x7528;&#x4EFB;&#x4F55;&#x6280;&#x672F;&#x624B;&#x6BB5;&#xFF0C;&#x963B;&#x6B62;&#x522B;&#x4EBA;&#x6279;&#x91CF;&#x83B7;&#x53D6;&#x81EA;&#x5DF1;&#x7F51;&#x7AD9;&#x4FE1;&#x606F;&#x7684;&#x4E00;&#x79CD;&#x65B9;&#x5F0F;&#x3002;&#x5173;&#x952E;&#x4E5F;&#x5728;&#x4E8E;&#x6279;&#x91CF;&#x3002;</li>
-<li><strong>&#x8BEF;&#x4F24;</strong> &#x2014;&#x2014; &#x5728;&#x53CD;&#x722C;&#x866B;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x9519;&#x8BEF;&#x7684;&#x5C06;&#x666E;&#x901A;&#x7528;&#x6237;&#x8BC6;&#x522B;&#x4E3A;&#x722C;&#x866B;&#x3002;&#x8BEF;&#x4F24;&#x7387;&#x9AD8;&#x7684;&#x53CD;&#x722C;&#x866B;&#x7B56;&#x7565;&#xFF0C;&#x6548;&#x679C;&#x518D;&#x597D;&#x4E5F;&#x4E0D;&#x80FD;&#x7528;&#x3002;</li>
-<li><strong>&#x62E6;&#x622A;</strong> &#x2014;&#x2014; &#x6210;&#x529F;&#x5730;&#x963B;&#x6B62;&#x722C;&#x866B;&#x8BBF;&#x95EE;&#x3002;&#x901A;&#x5E38;&#x6765;&#x8BF4;&#xFF0C;&#x62E6;&#x622A;&#x7387;&#x8D8A;&#x9AD8;&#x7684;&#x7B56;&#x7565;&#xFF0C;&#x8BEF;&#x4F24;&#x7387;&#x5C31;&#x8D8A;&#x9AD8;&#xFF0C;&#x56E0;&#x6B64;&#x8981;&#x505A;&#x6743;&#x8861;&#x3002;</li>
-<li><strong>&#x8D44;&#x6E90;</strong> &#x2014;&#x2014; &#x673A;&#x5668;&#x6210;&#x672C;&#x4E0E;&#x4EBA;&#x529B;&#x6210;&#x672C;&#x7684;&#x603B;&#x548C;&#x3002;</li>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>爬虫、反爬虫、反反爬虫 - Hexo</title><meta description="最近爬取了百万数据，以下是学习爬虫时汇总的相关知识点 什么是爬虫和反爬虫 爬虫 —— 使用任何技术手段批量获取网站信息的一种方式，关键在批量。 反爬虫 —— 使用任何技术手段，阻止别人批量获取自己网站信息的一种方式。关键也在于批量。 误伤 —— 在反爬虫的过程中，错误的将普通用户识别为爬虫。误伤率高的反爬虫策略，效果再好也不能用。 拦截 —— 成功地阻止爬虫访问。通常来说，拦截率越高的策略，误伤率"><meta property="og:type" content="blog"><meta property="og:title" content="爬虫、反爬虫、反反爬虫"><meta property="og:url" content="http://yoursite.com/2016/12/21/%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E5%8F%8D%E7%88%AC%E8%99%AB/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="最近爬取了百万数据，以下是学习爬虫时汇总的相关知识点 什么是爬虫和反爬虫 爬虫 —— 使用任何技术手段批量获取网站信息的一种方式，关键在批量。 反爬虫 —— 使用任何技术手段，阻止别人批量获取自己网站信息的一种方式。关键也在于批量。 误伤 —— 在反爬虫的过程中，错误的将普通用户识别为爬虫。误伤率高的反爬虫策略，效果再好也不能用。 拦截 —— 成功地阻止爬虫访问。通常来说，拦截率越高的策略，误伤率"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E5%8F%8D%E7%88%AC%E8%99%AB/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E5%8F%8D%E7%88%AC%E8%99%AB/2.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim"><meta property="article:published_time" content="2016-12-21T10:53:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.565Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="爬虫"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E5%8F%8D%E7%88%AC%E8%99%AB/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2016/12/21/%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E5%8F%8D%E7%88%AC%E8%99%AB/"},"headline":"Hexo","image":[],"datePublished":"2016-12-21T10:53:00.000Z","dateModified":"2020-05-19T06:34:18.565Z","author":{"@type":"Person","name":"John Doe"},"description":"最近爬取了百万数据，以下是学习爬虫时汇总的相关知识点 什么是爬虫和反爬虫 爬虫 —— 使用任何技术手段批量获取网站信息的一种方式，关键在批量。 反爬虫 —— 使用任何技术手段，阻止别人批量获取自己网站信息的一种方式。关键也在于批量。 误伤 —— 在反爬虫的过程中，错误的将普通用户识别为爬虫。误伤率高的反爬虫策略，效果再好也不能用。 拦截 —— 成功地阻止爬虫访问。通常来说，拦截率越高的策略，误伤率"}</script><link rel="canonical" href="http://yoursite.com/2016/12/21/%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E5%8F%8D%E7%88%AC%E8%99%AB/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2016-12-21T10:53:00.000Z" title="2016-12-21T10:53:00.000Z">2016-12-21</time><span class="level-item"><a class="link-muted" href="/categories/%E5%85%B6%E4%BB%96/">其他</a></span><span class="level-item">20 分钟 读完 (大约 3038 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">爬虫、反爬虫、反反爬虫</h1><div class="content"><p>最近爬取了百万数据，以下是学习爬虫时汇总的相关知识点</p>
+<h3 id="什么是爬虫和反爬虫"><a href="#什么是爬虫和反爬虫" class="headerlink" title="什么是爬虫和反爬虫"></a>什么是爬虫和反爬虫</h3><ul>
+<li><strong>爬虫</strong> —— 使用任何技术手段批量获取网站信息的一种方式，关键在批量。</li>
+<li><strong>反爬虫</strong> —— 使用任何技术手段，阻止别人批量获取自己网站信息的一种方式。关键也在于批量。</li>
+<li><strong>误伤</strong> —— 在反爬虫的过程中，错误的将普通用户识别为爬虫。误伤率高的反爬虫策略，效果再好也不能用。</li>
+<li><strong>拦截</strong> —— 成功地阻止爬虫访问。通常来说，拦截率越高的策略，误伤率就越高，因此要做权衡。</li>
+<li><strong>资源</strong> —— 机器成本与人力成本的总和。</li>
 </ul>
 <hr>
-<h3 id="&#x53CD;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x722C;&#x866B;"><a href="#&#x53CD;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x722C;&#x866B;" class="headerlink" title="&#x53CD;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x722C;&#x866B;"></a>&#x53CD;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x722C;&#x866B;</h3><ul>
-<li><p><strong>&#x5E94;&#x5C4A;&#x6BD5;&#x4E1A;&#x751F;(&#x4E09;&#x6708;&#x4EFD;&#x722C;&#x866B;)</strong><br>&#x4E09;&#x6708;&#x4EFD;&#x722C;&#x866B;&#x901A;&#x5E38;&#x548C;&#x6BD5;&#x4E1A;&#x751F;(&#x672C;&#x79D1;&#x751F;&#x3001;&#x7855;&#x58EB;&#x3001;&#x535A;&#x58EB;&#x7B49;)&#x6709;&#x5173;&#xFF0C;&#x4ED6;&#x4EEC;&#x7684;&#x722C;&#x866B;&#x7B80;&#x5355;&#x7C97;&#x66B4;&#xFF0C;&#x4E3A;&#x4E86;&#x8BA9;&#x8BBA;&#x6587;&#x6709;&#x6570;&#x636E;&#x652F;&#x6491;&#xFF0C;&#x6839;&#x672C;&#x4E0D;&#x7BA1;&#x670D;&#x52A1;&#x5668;&#x538B;&#x529B;&#xFF0C;&#x52A0;&#x4E0A;&#x4EBA;&#x6570;&#x4E0D;&#x53EF;&#x9884;&#x6D4B;&#xFF0C;&#x5F88;&#x5BB9;&#x6613;&#x5F04;&#x6302;&#x7AD9;&#x70B9;&#x3002;</p>
+<h3 id="反什么样的爬虫"><a href="#反什么样的爬虫" class="headerlink" title="反什么样的爬虫"></a>反什么样的爬虫</h3><ul>
+<li><p><strong>应届毕业生(三月份爬虫)</strong><br>三月份爬虫通常和毕业生(本科生、硕士、博士等)有关，他们的爬虫简单粗暴，为了让论文有数据支撑，根本不管服务器压力，加上人数不可预测，很容易弄挂站点。</p>
 </li>
-<li><p><strong>&#x521B;&#x4E1A;&#x5C0F;&#x516C;&#x53F8;</strong><br>&#x6BCF;&#x5E74;&#x65B0;&#x589E;&#x7684;&#x521B;&#x4E1A;&#x516C;&#x53F8;&#x5F88;&#x591A;&#xFF0C;&#x7A0B;&#x5E8F;&#x5F00;&#x53D1;&#x5B8C;&#x540E;&#xFF0C;&#x7F3A;&#x5C11;&#x6570;&#x636E;&#x652F;&#x6491;&#xFF0C;&#x51FA;&#x4E8E;&#x516C;&#x53F8;&#x751F;&#x6B7B;&#x5B58;&#x4EA1;&#x7684;&#x8003;&#x8651;&#xFF0C;&#x4E0D;&#x65AD;&#x722C;&#x53D6;&#x6570;&#x636E;&#x3002;</p>
+<li><p><strong>创业小公司</strong><br>每年新增的创业公司很多，程序开发完后，缺少数据支撑，出于公司生死存亡的考虑，不断爬取数据。</p>
 </li>
 </ul>
 <a id="more"></a>
 <ul>
-<li><p><strong>&#x4E0D;&#x5C0F;&#x5FC3;&#x5199;&#x9519;&#x4E86;&#x6CA1;&#x4EBA;&#x53BB;&#x505C;&#x6B62;&#x7684;&#x5931;&#x63A7;&#x5C0F;&#x722C;&#x866B;</strong><br>&#x50CF;&#x77E5;&#x4E4E;&#xFF0C;&#x643A;&#x7A0B;&#xFF0C;&#x8D22;&#x7ECF;&#x7B49;&#x7F51;&#x7AD9;&#xFF0C;&#x53EF;&#x80FD;&#x9AD8;&#x8FBE;60%&#x7684;&#x8BBF;&#x95EE;&#x91CF;&#x662F;&#x722C;&#x866B;&#x3002;&#x4F60;&#x5C31;&#x7B97;&#x76F4;&#x63A5;&#x5C01;&#x6740;&#xFF0C;&#x4E5F;&#x65E0;&#x6D4E;&#x4E8E;&#x4E8B;&#x3002;&#x4ED6;&#x4EEC;&#x53EF;&#x80FD;&#x6839;&#x672C;&#x722C;&#x4E0D;&#x5230;&#x4EFB;&#x4F55;&#x6570;&#x636E;&#x4E86;&#xFF0C;&#x9664;&#x4E86;http code&#x662F;200&#x4EE5;&#x5916;&#xFF0C;&#x4E00;&#x5207;&#x90FD;&#x662F;&#x4E0D;&#x5BF9;&#x7684;&#xFF0C;&#x4F46;&#x7531;&#x4E8E;&#x6258;&#x7BA1;&#x540E;&#x65E0;&#x4EBA;&#x8BA4;&#x9886;&#xFF0C;&#x4ECD;&#x7136;&#x4F1A;&#x4F9D;&#x7136;&#x5B5C;&#x5B5C;&#x4E0D;&#x5026;&#x5730;&#x722C;&#x53D6;&#x3002;</p>
+<li><p><strong>不小心写错了没人去停止的失控小爬虫</strong><br>像知乎，携程，财经等网站，可能高达60%的访问量是爬虫。你就算直接封杀，也无济于事。他们可能根本爬不到任何数据了，除了http code是200以外，一切都是不对的，但由于托管后无人认领，仍然会依然孜孜不倦地爬取。</p>
 </li>
-<li><p><strong>&#x6210;&#x578B;&#x7684;&#x5546;&#x4E1A;&#x5BF9;&#x624B;</strong><br>&#x8FD9;&#x662F;&#x6700;&#x5927;&#x7684;&#x5BF9;&#x624B;&#xFF0C;&#x6709;&#x6280;&#x672F;&#xFF0C;&#x6709;&#x94B1;&#xFF0C;&#x8981;&#x4EC0;&#x4E48;&#x6709;&#x4EC0;&#x4E48;&#xFF0C;&#x5982;&#x679C;&#x548C;&#x4F60;&#x6B7B;&#x78D5;&#xFF0C;&#x4F60;&#x5C31;&#x53EA;&#x80FD;&#x786C;&#x7740;&#x5934;&#x76AE;&#x548C;&#x4ED6;&#x6B7B;&#x78D5;&#x3002;</p>
+<li><p><strong>成型的商业对手</strong><br>这是最大的对手，有技术，有钱，要什么有什么，如果和你死磕，你就只能硬着头皮和他死磕。</p>
 </li>
-<li><p><strong>&#x62BD;&#x98CE;&#x7684;&#x641C;&#x7D22;&#x5F15;&#x64CE;</strong><br>&#x641C;&#x7D22;&#x5F15;&#x64CE;&#x4E5F;&#x6709;&#x62BD;&#x98CE;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x800C;&#x4E14;&#x4E00;&#x62BD;&#x98CE;&#x5C31;&#x4F1A;&#x5BFC;&#x81F4;&#x670D;&#x52A1;&#x5668;&#x6027;&#x80FD;&#x4E0B;&#x964D;&#xFF0C;&#x8BF7;&#x6C42;&#x91CF;&#x8DDF;&#x7F51;&#x7EDC;&#x653B;&#x51FB;&#x6CA1;&#x6709;&#x533A;&#x522B;&#x3002;</p>
+<li><p><strong>抽风的搜索引擎</strong><br>搜索引擎也有抽风的时候，而且一抽风就会导致服务器性能下降，请求量跟网络攻击没有区别。</p>
 </li>
 </ul>
 <hr>
-<h3 id="&#x5E38;&#x89C1;&#x7684;&#x722C;&#x866B;&#x3001;&#x53CD;&#x722C;&#x866B;&#x624B;&#x6BB5;"><a href="#&#x5E38;&#x89C1;&#x7684;&#x722C;&#x866B;&#x3001;&#x53CD;&#x722C;&#x866B;&#x624B;&#x6BB5;" class="headerlink" title="&#x5E38;&#x89C1;&#x7684;&#x722C;&#x866B;&#x3001;&#x53CD;&#x722C;&#x866B;&#x624B;&#x6BB5;"></a>&#x5E38;&#x89C1;&#x7684;&#x722C;&#x866B;&#x3001;&#x53CD;&#x722C;&#x866B;&#x624B;&#x6BB5;</h3><table>
+<h3 id="常见的爬虫、反爬虫手段"><a href="#常见的爬虫、反爬虫手段" class="headerlink" title="常见的爬虫、反爬虫手段"></a>常见的爬虫、反爬虫手段</h3><div class="table-container">
+<table>
 <thead>
 <tr>
-<th>&#x722C;&#x866B;</th>
-<th>&#x53CD;&#x722C;&#x866B;</th>
+<th>爬虫</th>
+<th>反爬虫</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>&#x5BF9;&#x67D0;&#x4E2A;&#x7F51;&#x7AD9;&#x6216;&#x8005;APP&#x7684;&#x6570;&#x636E;&#x611F;&#x5174;&#x8DA3;&#x3002; <sup><strong>[1]</strong></sup></td>
+<td>对某个网站或者APP的数据感兴趣。 <sup><strong>[1]</strong></sup></td>
 <td></td>
 </tr>
 <tr>
-<td>&#x9996;&#x5148;&#x5206;&#x6790;&#x7F51;&#x7AD9;/APP  <sup><strong>[2]</strong></sup>&#x7684;&#x8BF7;&#x6C42;&#x4E0E;&#x8FD4;&#x56DE;&#x6570;&#x636E;&#xFF0C;&#x7136;&#x540E;&#x7528;python&#xFF0C;&#x6216;Java&#xFF0C;&#x6216;&#x7F51;&#x4E0A;&#x514D;&#x8D39;&#x7684;&#x6293;&#x53D6;&#x8F6F;&#x4EF6;&#xFF0C;&#x4E0D;&#x65AD;&#x904D;&#x5386;&#x67D0;&#x5217;&#x8868;&#x6293;&#x53D6;&#x6570;&#x636E;&#x5B58;&#x6570;&#x636E;&#x5E93;&#x3002;</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>zabbix&#x7B49;&#x76D1;&#x63A7;&#x663E;&#x793A;&#x67D0;&#x65F6;&#x95F4;&#x6BB5;&#x8BF7;&#x6C42;&#x9661;&#x589E;&#xFF0C;ip&#x76F8;&#x540C;&#xFF0C;useragent&#x8FD8;&#x662F;JavaClient&#xFF0C;&#x76F4;&#x63A5;Nginx&#x5C01;&#x6740;&#x8FD9;&#x4E2A;ip</td>
-</tr>
-<tr>
-<td>useragent&#x6A21;&#x4EFF;&#x8C37;&#x6B4C;&#x6216;&#x8005;&#x767E;&#x5EA6;&#x6D4F;&#x89C8;&#x5668;&#xFF0C;&#x518D;&#x83B7;&#x53D6;&#x5341;&#x51E0;&#x4E2A;&#x4EE3;&#x7406;ip&#xFF0C;&#x722C;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x4E0D;&#x65AD;&#x8F6E;&#x8BE2;&#x66FF;&#x6362;ip</td>
+<td>首先分析网站/APP  <sup><strong>[2]</strong></sup>的请求与返回数据，然后用python，或Java，或网上免费的抓取软件，不断遍历某列表抓取数据存数据库。</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>&#x53D1;&#x73B0;ip&#x4E0D;&#x65AD;&#x53D8;&#x5316;&#xFF0C;&#x76F4;&#x63A5;&#x6BCF;&#x6B21;&#x8BF7;&#x6C42;&#x6DFB;&#x52A0;&#x7528;&#x6237;&#x662F;&#x5426;&#x767B;&#x5F55;&#x7684;&#x6821;&#x9A8C;</td>
+<td>zabbix等监控显示某时间段请求陡增，ip相同，useragent还是JavaClient，直接Nginx封杀这个ip</td>
 </tr>
 <tr>
-<td>&#x901A;&#x8FC7;&#x6CE8;&#x518C;&#x7B49;&#x5404;&#x79CD;&#x65B9;&#x6CD5;&#xFF0C;&#x83B7;&#x53D6;&#x4E00;&#x4E2A;&#x771F;&#x5B9E;&#x8D26;&#x53F7;&#xFF0C;&#x6A21;&#x62DF;&#x767B;&#x5F55;&#xFF0C;&#x6BCF;&#x6B21;&#x8BF7;&#x6C42;&#x643A;&#x5E26;&#x767B;&#x5F55;&#x4EA7;&#x751F;&#x7684;cookie&#x6216;&#x8005;token&#x3002;</td>
+<td>useragent模仿谷歌或者百度浏览器，再获取十几个代理ip，爬的过程中不断轮询替换ip</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>&#x5065;&#x5168;&#x8D26;&#x53F7;&#x6743;&#x9650;&#x4F53;&#x7CFB;&#xFF0C;&#x5373;&#x62E5;&#x6709;A&#x7684;&#x8D26;&#x53F7;&#xFF0C;&#x65E0;&#x6CD5;&#x83B7;&#x53D6;&#x8D26;&#x53F7;B&#x7684;&#x6570;&#x636E;&#x8BBF;&#x95EE;&#x6743;&#x9650;&#x3002;</td>
+<td>发现ip不断变化，直接每次请求添加用户是否登录的校验</td>
 </tr>
 <tr>
-<td>&#x8BBE;&#x7F6E;&#x5B9A;&#x65F6;&#x5668;&#xFF0C;&#x7B80;&#x5355;&#x7C97;&#x66B4;&#x7684;&#x76F4;&#x63A5;&#x722C;&#x53D6;&#x6240;&#x6709;&#x80FD;&#x722C;&#x53D6;&#x7684;&#x6570;&#x636E;</td>
+<td>通过注册等各种方法，获取一个真实账号，模拟登录，每次请求携带登录产生的cookie或者token。</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>&#x9488;&#x5BF9;&#x591A;IP&#x7684;&#x9AD8;&#x9891;&#x8BBF;&#x95EE;&#xFF0C;Nginx&#x8BBE;&#x7F6E;&#x9891;&#x7387;&#x9650;&#x5236;&#xFF0C;&#x5982;&#x67D0;&#x4E2A;ip&#x77ED;&#x65F6;&#x95F4;&#x8BBF;&#x95EE;&#x8D85;&#x8FC7;&#x4E00;&#x5B9A;&#x6B21;&#x6570;&#x5C31;&#x76F4;&#x63A5;&#x5C4F;&#x853D;&#xFF0C;&#x4E00;&#x5B9A;&#x7A0B;&#x5EA6;&#x589E;&#x52A0;&#x722C;&#x866B;&#x65B9;&#x83B7;&#x53D6;&#x6709;&#x6548;IP&#x7684;&#x6210;&#x672C;</td>
+<td>健全账号权限体系，即拥有A的账号，无法获取账号B的数据访问权限。</td>
 </tr>
 <tr>
-<td>&#x5199;&#x4EE3;&#x7801;&#x722C;&#x53D6;ip&#x4EE3;&#x7406;&#x7F51;&#x7AD9;&#xFF0C;&#x6216;&#x8005;&#x6279;&#x91CF;&#x8D2D;&#x4E70;&#x9AD8;&#x533F;&#x4EE3;&#x7406;ip&#xFF0C;&#x51E0;&#x5343;IP&#x8F6E;&#x8BE2;&#x722C;</td>
+<td>设置定时器，简单粗暴的直接爬取所有能爬取的数据</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>&#x5728;&#x8BBF;&#x95EE;&#x9891;&#x7387;&#x4E0A;&#x7EE7;&#x7EED;&#x505A;&#x6587;&#x7AE0;&#xFF0C;&#x5347;&#x7EA7;ip&#x9650;&#x5236;&#x7B56;&#x7565;&#xFF0C;&#x52A0;&#x5927;ip&#x9650;&#x5236;&#x7684;&#x6210;&#x529F;&#x7387;&#x3002; <sup><strong>[3]</strong></sup></td>
+<td>针对多IP的高频访问，Nginx设置频率限制，如某个ip短时间访问超过一定次数就直接屏蔽，一定程度增加爬虫方获取有效IP的成本</td>
 </tr>
 <tr>
-<td>ip&#x5927;&#x91CF;&#x88AB;&#x5C01;&#xFF0C;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x8FD9;&#x95EE;&#x9898;&#xFF0C;&#x5F00;&#x59CB;&#x6A21;&#x62DF;&#x4EBA;&#x7C7B;&#x8BF7;&#x6C42;&#x7279;&#x5F81;&#xFF0C;&#x6BD4;&#x5982;&#x6BCF;&#x534A;&#x5C0F;&#x65F6;&#x722C;&#x53D6;&#x6539;&#x4E3A;&#x968F;&#x673A;1-3&#x79D2;&#x722C;&#x4E00;&#x6B21;&#xFF0C;&#x722C;10&#x6B21;&#x4F11;&#x606F;10&#x79D2;&#xFF0C;&#x6BCF;&#x5929;&#x53EA;&#x5728;8-12&#xFF0C;18-0&#x70B9;&#x722C;&#xFF0C;&#x9694;&#x51E0;&#x5929;&#x8FD8;&#x4F11;&#x606F;&#x4E00;&#x4E0B;&#x3002;&#x518D;&#x6BD4;&#x5982;&#x4E3A;&#x4E86;&#x51CF;&#x5C11;&#x8BF7;&#x6C42;&#xFF0C;&#x80FD;&#x53EA;&#x6293;&#x5217;&#x8868;&#x9875;&#x5C31;&#x4E0D;&#x6293;&#x8BE6;&#x60C5;&#x9875;</td>
+<td>写代码爬取ip代理网站，或者批量购买高匿代理ip，几千IP轮询爬</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>&#x6B64;&#x523B;&#x518D;&#x5728;&#x8BBF;&#x95EE;&#x9891;&#x7387;&#x4E0A;&#x505A;&#x9650;&#x5236;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x8BEF;&#x4F24;&#x771F;&#x5B9E;&#x7528;&#x6237;&#x3002;&#x5982;&#x679C;&#x7F51;&#x7AD9;&#x7C7B;&#x578B;&#x4E0D;&#x592A;&#x6CE8;&#x91CD;&#x7528;&#x6237;&#x4F53;&#x9A8C;&#xFF0C;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x4E00;&#x5B9A;&#x6B21;&#x6570;&#x5F3A;&#x5236;&#x5F39;&#x6846;&#x8981;&#x6C42;&#x8F93;&#x5165;&#x9A8C;&#x8BC1;&#x7801;&#x3002; <sup><strong>[4]</strong></sup></td>
+<td>在访问频率上继续做文章，升级ip限制策略，加大ip限制的成功率。 <sup><strong>[3]</strong></sup></td>
 </tr>
 <tr>
-<td>&#x7B80;&#x5355;&#x7684;&#x9A8C;&#x8BC1;&#x7801;&#xFF0C;&#x5B8C;&#x5168;&#x53EF;&#x4EE5;&#x81EA;&#x5B66;&#x56FE;&#x50CF;&#x8BC6;&#x522B;&#x7684;&#x6559;&#x7A0B;&#xFF08;&#x5173;&#x952E;&#x8BCD;PIL&#xFF0C;tesseract&#xFF09;&#xFF0C;&#x5BF9;&#x9A8C;&#x8BC1;&#x7801;&#x8FDB;&#x884C;&#x4E8C;&#x503C;&#x5316;&#x9884;&#x5904;&#x7406;&#xFF0C;&#x5206;&#x5272;&#xFF0C;&#x6A21;&#x5F0F;&#x8BAD;&#x7EC3;&#x540E;&#xFF0C;&#x8BC6;&#x522B;&#x9A8C;&#x8BC1;&#x7801;&#x3002;<sup><strong>[5]</strong></sup></td>
+<td>ip大量被封，为了解决这问题，开始模拟人类请求特征，比如每半小时爬取改为随机1-3秒爬一次，爬10次休息10秒，每天只在8-12，18-0点爬，隔几天还休息一下。再比如为了减少请求，能只抓列表页就不抓详情页</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>&#x9488;&#x5BF9;&#x5177;&#x6709;&#x7528;&#x6237;&#x884C;&#x4E3A;&#x7684;&#x722C;&#x866B;&#xFF0C;&#x9996;&#x5148;&#x8981;&#x660E;&#x767D;&#xFF0C;&#x722C;&#x866B;&#x4E0E;&#x4EBA;&#x7C7B;&#x5728;&#x8BBF;&#x95EE;&#x7279;&#x5F81;&#x4E0A;&#x6700;&#x5927;&#x7684;&#x4E0D;&#x4E00;&#x6837;&#x5728;&#x4E8E;&#xFF0C;&#x4EBA;&#x4E0D;&#x4F1A;&#x957F;&#x65F6;&#x95F4;&#x6301;&#x7EED;&#x8BBF;&#x95EE;&#x4E00;&#x4E2A;&#x7F51;&#x7AD9;&#xFF0C;&#x800C;&#x722C;&#x866B;&#x7684;&#x8BBF;&#x95EE;&#x6570;&#x91CF;&#x4F1A;&#x968F;&#x7740;&#x65F6;&#x95F4;&#x589E;&#x957F;&#x800C;&#x7EBF;&#x6027;&#x589E;&#x957F;<sup><strong>[6]</strong></sup>&#x3002;&#x6839;&#x636E;&#x8FD9;&#x7279;&#x5F81;&#xFF0C;&#x5206;&#x6790;&#x8BF7;&#x6C42;&#x65E5;&#x5FD7;&#xFF0C;&#x8BBE;&#x7F6E;ip&#x9ED1;&#x540D;&#x5355;&#x3002;</td>
+<td>此刻再在访问频率上做限制，可能会误伤真实用户。如果网站类型不太注重用户体验，可以访问一定次数强制弹框要求输入验证码。 <sup><strong>[4]</strong></sup></td>
 </tr>
 <tr>
-<td>&#x7531;&#x4E8E;&#x5404;&#x79CD;&#x9650;&#x5236;&#xFF0C;&#x5355;&#x4E2A;&#x722C;&#x866B;&#x8F6E;&#x8BE2;ip&#x6A21;&#x62DF;&#x7528;&#x6237;&#x884C;&#x4E3A;&#x8FDB;&#x884C;&#x722C;&#x53D6;&#xFF0C;&#x6548;&#x7387;&#x5DF2;&#x7ECF;&#x5927;&#x5927;&#x964D;&#x4F4E;&#x3002;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x6709;&#x6761;&#x4EF6;&#xFF0C;&#x53EF;&#x4EE5;&#x8003;&#x8651;&#x5206;&#x5E03;&#x5F0F;&#xFF0C;&#x8DE8;&#x7701;&#x8DE8;&#x673A;&#x623F;&#xFF0C;&#x5229;&#x7528;ADSL&#x8FDB;&#x884C;&#x957F;&#x671F;&#x722C;&#x53D6;&#x3002;</td>
+<td>简单的验证码，完全可以自学图像识别的教程（关键词PIL，tesseract），对验证码进行二值化预处理，分割，模式训练后，识别验证码。<sup><strong>[5]</strong></sup></td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>&#x65E2;&#x7136;&#x65E0;&#x6CD5;&#x907F;&#x514D;&#x88AB;&#x722C;&#xFF0C;&#x90A3;&#x5C31;&#x7EE7;&#x7EED;&#x52A0;&#x5927;&#x5BF9;&#x65B9;&#x722C;&#x53D6;&#x6210;&#x672C;&#x3002;<sup><strong>[7]</strong></sup></td>
+<td>针对具有用户行为的爬虫，首先要明白，爬虫与人类在访问特征上最大的不一样在于，人不会长时间持续访问一个网站，而爬虫的访问数量会随着时间增长而线性增长<sup><strong>[6]</strong></sup>。根据这特征，分析请求日志，设置ip黑名单。</td>
 </tr>
 <tr>
-<td>&#x5982;&#x679C;&#x6B7B;&#x78D5;&#x5230;&#x5E95;&#x3002;&#x3002;</td>
+<td>由于各种限制，单个爬虫轮询ip模拟用户行为进行爬取，效率已经大大降低。这个时候有条件，可以考虑分布式，跨省跨机房，利用ADSL进行长期爬取。</td>
 <td></td>
 </tr>
 <tr>
 <td></td>
-<td>&#x53EA;&#x80FD;&#x786C;&#x7740;&#x5934;&#x76AE;&#x548C;&#x4ED6;&#x7EE7;&#x7EED;&#x6B7B;&#x78D5;&#xFF0C;&#x76F4;&#x5230;&#x4E00;&#x65B9;&#x56E0;&#x4E3A;&#x673A;&#x5668;&#x6210;&#x672C;&#x4E0E;&#x4EBA;&#x529B;&#x6210;&#x672C;&#x95EE;&#x9898;&#x653E;&#x5F03;&#x3002;</td>
+<td>既然无法避免被爬，那就继续加大对方爬取成本。<sup><strong>[7]</strong></sup></td>
+</tr>
+<tr>
+<td>如果死磕到底。。</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>只能硬着头皮和他继续死磕，直到一方因为机器成本与人力成本问题放弃。</td>
 </tr>
 </tbody>
 </table>
-<p><br></p>
-<p>[1] &#x722C;&#x53D6;&#x7684;&#x524D;&#x63D0;&#x662F;&#x77E5;&#x9053;&#x7F51;&#x7AD9;/APP&#x7684;&#x5B58;&#x5728;&#xFF0C;&#x5982;&#x679C;&#x7CFB;&#x7EDF;&#x4E0D;&#x5BF9;&#x5916;&#x5F00;&#x653E;&#xFF0C;&#x4F60;&#x53EF;&#x80FD;&#x8FDE;&#x5B83;&#x7684;&#x5B58;&#x5728;&#x90FD;&#x4E0D;&#x77E5;&#x9053;&#x3002;</p>
-<p>[2] APP&#x7684;&#x8BF7;&#x6C42;&#x53EF;&#x4EE5;&#x7528;Fiddler&#x6293;&#x53D6;&#xFF0C;&#x5177;&#x4F53;&#x64CD;&#x4F5C;&#x89C1;&#x6587;&#x5C3E;&#x7684;&#x76F8;&#x5173;&#x94FE;&#x63A5;&#x3002;&#x4E00;&#x4E9B;APP&#x7684;&#x722C;&#x53D6;&#x76F8;&#x5BF9;Web&#x96BE;&#x5EA6;&#x8F83;&#x9AD8;&#xFF0C;&#x6587;&#x672C;&#x53EF;&#x80FD;&#x8FDB;&#x884C;&#x4E86;&#x538B;&#x7F29;&#x548C;&#x52A0;&#x5BC6;&#xFF0C;&#x751A;&#x81F3;&#x4E3A;&#x4E86;&#x8282;&#x7701;&#x7528;&#x6237;&#x6D41;&#x91CF;&#xFF0C;&#x90E8;&#x5206;&#x8BF7;&#x6C42;&#x4E0D;&#x8D70;&#x540E;&#x7AEF;&#xFF0C;Fiddler&#x81EA;&#x7136;&#x6293;&#x53D6;&#x4E0D;&#x5230;&#x3002;</p>
-<p>[3] &#x62E6;&#x622A;&#x7387;&#x8D8A;&#x9AD8;&#x7684;&#x7B56;&#x7565;&#xFF0C;&#x8BEF;&#x4F24;&#x7387;&#x5C31;&#x8D8A;&#x9AD8;&#xFF0C;&#x751A;&#x81F3;&#x5F71;&#x54CD;&#x641C;&#x7D22;&#x5F15;&#x64CE;&#x7684;&#x6536;&#x5F55;&#x3002;&#x5982;&#x679C;&#x7F51;&#x7AD9;&#x5305;&#x542B;&#x4E0D;&#x5E0C;&#x671B;&#x88AB;&#x641C;&#x7D22;&#x5F15;&#x64CE;&#x6536;&#x5F55;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x7AD9;&#x70B9;&#x90E8;&#x7F72; <a href="http://baike.baidu.com/item/robots&#x534F;&#x8BAE;/2483797?fromtitle=robots.txt&amp;fromid=9518761&amp;type=search" target="_blank" rel="external">robots</a> &#x6587;&#x4EF6;&#x3002;</p>
-<p>[4] &#x77E5;&#x4E4E;&#x5C31;&#x4E0D;&#x592A;&#x53EF;&#x80FD;&#x4E3A;&#x4E86;&#x53CD;&#x6252;&#x5F3A;&#x5236;&#x8981;&#x6C42;&#x8F93;&#x5165;&#x9A8C;&#x8BC1;&#x7801;&#xFF0C;&#x800C;CSDN&#x7684;&#x6587;&#x4EF6;&#x4E00;&#x65E6;&#x4E0B;&#x8F7D;&#x6B21;&#x6570;&#x8FC7;&#x591A;&#xFF0C;&#x5C31;&#x4F1A;&#x5F3A;&#x5236;&#x8F93;&#x5165;&#x9A8C;&#x8BC1;&#x7801;&#x3002;</p>
-<p>[5] &#x5173;&#x4E8E;&#x9A8C;&#x8BC1;&#x7801;&#x7684;&#x8BC6;&#x522B;&#x4E0E;&#x53CD;&#x8BC6;&#x522B;&#x4E5F;&#x662F;&#x4E00;&#x90E8;&#x6062;&#x5F18;&#x58EE;&#x4E3D;&#x7684;&#x6597;&#x4E89;&#x53F2;&#xFF0C;&#x76EE;&#x524D;&#x7684;&#x4EBA;&#x673A;&#x8BC6;&#x522B;&#x9A8C;&#x8BC1;&#x5C31;&#x662F;&#x6BD4;&#x8F83;&#x6709;&#x6548;&#x7684;&#x53CD;&#x722C;&#x624B;&#x6BB5;&#x3002;&#x6570;&#x5B57;&#x9A8C;&#x8BC1;&#x7801;&#x8BC6;&#x522B;&#x8BE6;&#x89C1;: <a href="http://www.toutiao.com/i6301877355489001986/" target="_blank" rel="external">&#x722C;&#x866B;&#x7684;&#x574E;&#x5777;&#x4E4B;&#x8DEF;-&#x6570;&#x5B57;&#x9A8C;&#x8BC1;&#x7801;&#x8BC6;&#x522B;</a></p>
-<p>[6] &#x5173;&#x4E8E;&#x4EBA;&#x7C7B;&#x8BBF;&#x95EE;&#x7279;&#x5F81;&#x7684;&#x4ECB;&#x7ECD;&#xFF0C;&#x8BE6;&#x89C1;: <a href="https://www.zhihu.com/question/22324380/answer/120093636" target="_blank" rel="external">&#x5F53;&#x722C;&#x866B;&#x4E0D;&#x9075;&#x5B88; robots &#x534F;&#x8BAE;&#x65F6;&#xFF0C;&#x6709;&#x6CA1;&#x6709;&#x9632;&#x6B62;&#x6293;&#x53D6;&#x7684;&#x53EF;&#x80FD;&#xFF1F;</a></p>
-<p>[7] &#x53CD;&#x722C;&#x866B;&#x7684;&#x5173;&#x952E;&#x5728;&#x4E8E;&#x963B;&#x6B62;&#x88AB;&#x6279;&#x91CF;&#x722C;&#x53D6;&#xFF0C;&#x91CD;&#x70B9;&#x5728;&#x6279;&#x91CF;&#x3002;&#x53CD;&#x722C;&#x866B;&#x6280;&#x672F;&#x7684;&#x6838;&#x5FC3;&#x5728;&#x4E8E;&#x4E0D;&#x65AD;&#x53D8;&#x66F4;&#x89C4;&#x5219;&#xFF0C;&#x6BD4;&#x5982;&#x4E0D;&#x65AD;&#x53D8;&#x66F4;&#x9A8C;&#x8BC1;&#x7801;&#x3002;<br>&#x6211;&#x4EEC;&#x5728;&#x5185;&#x5BB9;&#x4E0A;&#x53EF;&#x4EE5;&#x505A;&#x5982;&#x4E0B;&#x6587;&#x7AE0;&#xFF1A;</p>
+</div>
+<p>&lt;/br&gt;</p>
+<p>[1] 爬取的前提是知道网站/APP的存在，如果系统不对外开放，你可能连它的存在都不知道。</p>
+<p>[2] APP的请求可以用Fiddler抓取，具体操作见文尾的相关链接。一些APP的爬取相对Web难度较高，文本可能进行了压缩和加密，甚至为了节省用户流量，部分请求不走后端，Fiddler自然抓取不到。</p>
+<p>[3] 拦截率越高的策略，误伤率就越高，甚至影响搜索引擎的收录。如果网站包含不希望被搜索引擎收录的内容，可以在站点部署 <a href="http://baike.baidu.com/item/robots协议/2483797?fromtitle=robots.txt&amp;fromid=9518761&amp;type=search">robots</a> 文件。</p>
+<p>[4] 知乎就不太可能为了反扒强制要求输入验证码，而CSDN的文件一旦下载次数过多，就会强制输入验证码。</p>
+<p>[5] 关于验证码的识别与反识别也是一部恢弘壮丽的斗争史，目前的人机识别验证就是比较有效的反爬手段。数字验证码识别详见: <a href="http://www.toutiao.com/i6301877355489001986/">爬虫的坎坷之路-数字验证码识别</a></p>
+<p>[6] 关于人类访问特征的介绍，详见: <a href="https://www.zhihu.com/question/22324380/answer/120093636">当爬虫不遵守 robots 协议时，有没有防止抓取的可能？</a></p>
+<p>[7] 反爬虫的关键在于阻止被批量爬取，重点在批量。反爬虫技术的核心在于不断变更规则，比如不断变更验证码。<br>我们在内容上可以做如下文章：</p>
 <ul>
-<li>&#x7F51;&#x7AD9;&#x4E0D;&#x540C;&#x5730;&#x65B9;&#x7684;&#x6587;&#x672C;&#x5185;&#x5BB9;&#x6DFB;&#x52A0;&#x4E0D;&#x540C;&#x7684;&#x81EA;&#x5E26;&#x6807;&#x7B7E;&#xFF0C;&#x589E;&#x52A0;&#x5BF9;&#x65B9;&#x6570;&#x636E;&#x6E05;&#x7406;&#x96BE;&#x5EA6;&#x3002;</li>
-<li>&#x5173;&#x952E;&#x6570;&#x636E;&#x7531;&#x6587;&#x672C;&#x8F6C;&#x56FE;&#x7247;&#xFF0C;&#x751A;&#x81F3;&#x6DFB;&#x52A0;&#x6C34;&#x5370;&#x7B49;&#x3002;&#x76EE;&#x524D;&#x5E02;&#x573A;&#x4E0A;&#x56FE;&#x7247;ocr&#x8BC6;&#x522B;&#x65E0;&#x6CD5;&#x6709;&#x6548;&#x8F6C;&#x6587;&#x5B57;&#xFF0C;&#x8BA9;&#x5BF9;&#x65B9;&#x5373;&#x4F7F;&#x83B7;&#x53D6;&#x4E86;&#x56FE;&#x7247;&#x4E5F;&#x65E0;&#x6CD5;&#x6709;&#x6548;&#x4F7F;&#x7528;&#x3002;</li>
-<li>&#x7F51;&#x7AD9;&#x76F8;&#x5173;&#x9875;&#x9762;&#x7684;&#x5217;&#x8868;&#x67E5;&#x8BE2;&#xFF0C;&#x9650;&#x5236;&#x603B;&#x9875;&#x6570;&#x7684;&#x5C55;&#x793A;&#x3002;&#x6BD4;&#x5982;&#x6570;&#x636E;&#x4E00;&#x5171;1K&#x9875;&#xFF0C;&#x76F8;&#x5173;&#x63A5;&#x53E3;&#x5374;&#x53EA;&#x5BF9;&#x5916;&#x5C55;&#x793A;&#x524D;&#x5341;&#x9875;&#x3002;&#x5BF9;&#x65B9;&#x627E;&#x4E0D;&#x5230;&#x5165;&#x53E3;&#x6700;&#x591A;&#x722C;&#x53D6;10&#x9875;&#x6570;&#x636E;&#x3002;</li>
-<li>&#x95F4;&#x63A5;&#x5173;&#x95ED;&#x7F51;&#x7AD9;&#x6838;&#x5FC3;&#x6570;&#x636E;&#x67E5;&#x770B;&#x5165;&#x53E3;&#xFF0C;&#x6BD4;&#x5982;&#x5185;&#x5BB9;&#x7684;&#x67E5;&#x770B;&#x50CF;&#x767E;&#x5EA6;&#x6587;&#x5E93;&#x4E00;&#x6837;&#x6539;&#x4E3A;word&#x3001;pdf&#x6216;&#x8005;ppt&#x4E0B;&#x8F7D;&#x6A21;&#x5F0F;&#xFF0C;&#x9AD8;&#x9891;&#x4E0B;&#x8F7D;&#x9700;&#x8981;&#x9A8C;&#x8BC1;&#x7801;&#x6216;&#x8005;&#x8D26;&#x53F7;&#x79EF;&#x5206;&#x3002;</li>
-<li>&#x7F51;&#x7AD9;&#x4E0D;&#x63D0;&#x4F9B;&#x6CE8;&#x518C;&#x5165;&#x53E3;&#xFF0C;&#x6216;&#x8005;&#x6CE8;&#x518C;&#x9700;&#x8981;&#x5185;&#x90E8;&#x63A8;&#x8350;&#x6216;&#x8005;&#x8BC4;&#x5BA1;&#xFF0C;&#x52A0;&#x5927;&#x722C;&#x866B;&#x65B9;&#x83B7;&#x53D6;&#x8D26;&#x53F7;&#x7684;&#x96BE;&#x5EA6;&#x3002;</li>
-<li>&#x7F51;&#x7AD9;&#x7684;&#x8BF7;&#x6C42;url&#x590D;&#x6742;&#x5316;&#xFF0C;&#x6BD4;&#x5982;&#x5F04;&#x7684;&#x50CF;&#x6DD8;&#x5B9D;&#x4E00;&#x6837;&#x6CA1;&#x6709;&#x89C4;&#x5F8B;&#xFF0C;id&#x6539;&#x4E3A;UUID&#x7B49;&#x3002;</li>
-<li>&#x524D;&#x7AEF;&#x9875;&#x9762;&#x5C3D;&#x53EF;&#x80FD;&#x4E0D;&#x66B4;&#x9732;&#x6570;&#x636E;&#x7684;&#x552F;&#x4E00;&#x952E;&#xFF0C;&#x5BF9;&#x552F;&#x4E00;&#x952E;&#x5982;&#x4E3B;&#x952E;id&#x7B49;&#x8FDB;&#x884C;&#x4F2A;&#x88C5;&#xFF0C;&#x53EF;&#x4EE5;&#x589E;&#x52A0;&#x5BF9;&#x65B9;&#x722C;&#x53D6;&#x540E;&#x7684;&#x53BB;&#x91CD;&#x6210;&#x672C;&#x3002;&#x56E0;&#x4E3A;&#x5BF9;&#x65B9;&#x722C;&#x6570;&#x636E;&#x53EF;&#x80FD;&#x662F;&#x5728;&#x4F60;&#x7684;&#x591A;&#x4E2A;&#x6A21;&#x5757;&#x9875;&#x9762;&#x8FDB;&#x884C;&#x591A;&#x7EF4;&#x5EA6;&#x722C;&#x53D6;&#xFF0C;&#x4F1A;&#x6709;&#x5927;&#x91CF;&#x7684;&#x91CD;&#x590D;&#x6570;&#x636E;&#x3002;</li>
-<li>&#x524D;&#x7AEF;html&#x9875;&#x9762;&#x522B;&#x4E00;&#x6B21;&#x6027;&#x52A0;&#x8F7D;&#x5217;&#x8868;&#xFF0C;&#x6839;&#x636E;&#x7528;&#x6237;&#x70B9;&#x51FB;js&#x52A8;&#x6001;&#x52A0;&#x8F7D;&#x3002;&#x5373;&#x67E5;&#x8BE2;&#x9875;&#x9762;&#x6E90;&#x7801;&#x65F6;&#xFF0C;&#x53EA;&#x80FD;&#x770B;&#x5230;&#x5217;&#x8868;&#x7684;&#x7B2C;&#x4E00;&#x6761;&#x6570;&#x636E;&#x3002;</li>
-<li>&#x5F53;&#x786E;&#x5B9A;&#x8BBF;&#x95EE;&#x5F02;&#x5E38;&#x65F6;&#xFF0C;&#x5927;&#x91CF;&#x8FD4;&#x56DE;&#x865A;&#x5047;&#x6570;&#x636E;&#x3002;&#x722C;&#x866B;&#x51E0;&#x4E4E;&#x6CA1;&#x6709;&#x5224;&#x65AD;&#x6570;&#x636E;&#x771F;&#x5047;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x53EA;&#x6709;&#x4EBA;&#x624D;&#x6709;&#x3002;&#x5BF9;&#x65B9;&#x53D1;&#x73B0;&#x7684;&#x8D8A;&#x665A;&#xFF0C;&#x6211;&#x4EEC;&#x7684;&#x5904;&#x7406;&#x5E94;&#x5BF9;&#x65F6;&#x95F4;&#x5C31;&#x8D8A;&#x5145;&#x88D5;&#x3002;</li>
-<li>&#x6838;&#x5FC3;&#x6570;&#x636E;&#x63D0;&#x9AD8;&#x5B89;&#x5168;&#x7B49;&#x7EA7;&#xFF0C;&#x5355;&#x72EC;&#x52A0;&#x5BC6;&#x7B49;&#x3002;<br>&#x2026;.</li>
+<li>网站不同地方的文本内容添加不同的自带标签，增加对方数据清理难度。</li>
+<li>关键数据由文本转图片，甚至添加水印等。目前市场上图片ocr识别无法有效转文字，让对方即使获取了图片也无法有效使用。</li>
+<li>网站相关页面的列表查询，限制总页数的展示。比如数据一共1K页，相关接口却只对外展示前十页。对方找不到入口最多爬取10页数据。</li>
+<li>间接关闭网站核心数据查看入口，比如内容的查看像百度文库一样改为word、pdf或者ppt下载模式，高频下载需要验证码或者账号积分。</li>
+<li>网站不提供注册入口，或者注册需要内部推荐或者评审，加大爬虫方获取账号的难度。</li>
+<li>网站的请求url复杂化，比如弄的像淘宝一样没有规律，id改为UUID等。</li>
+<li>前端页面尽可能不暴露数据的唯一键，对唯一键如主键id等进行伪装，可以增加对方爬取后的去重成本。因为对方爬数据可能是在你的多个模块页面进行多维度爬取，会有大量的重复数据。</li>
+<li>前端html页面别一次性加载列表，根据用户点击js动态加载。即查询页面源码时，只能看到列表的第一条数据。</li>
+<li>当确定访问异常时，大量返回虚假数据。爬虫几乎没有判断数据真假的能力，只有人才有。对方发现的越晚，我们的处理应对时间就越充裕。</li>
+<li>核心数据提高安全等级，单独加密等。<br>….</li>
 </ul>
 <hr>
-<h3 id="&#x7591;&#x95EE;&#x76F8;&#x5173;"><a href="#&#x7591;&#x95EE;&#x76F8;&#x5173;" class="headerlink" title="&#x7591;&#x95EE;&#x76F8;&#x5173;"></a>&#x7591;&#x95EE;&#x76F8;&#x5173;</h3><p><strong>1&#x3001;&#x722C;&#x866B;&#x662F;&#x5426;&#x6D89;&#x5ACC;&#x8FDD;&#x6CD5;&#xFF1F; &#x5982;&#x679C;&#x662F;&#x7684;&#x8BDD;&#xFF0C;&#x600E;&#x4E48;&#x8981;&#x6C42;&#x8D54;&#x507F;&#xFF1F;</strong><br>&#x722C;&#x53D6;&#x7684;&#x5185;&#x5BB9;&#x5546;&#x4E1A;&#x4F7F;&#x7528;&#x76EE;&#x524D;&#x66F4;&#x503E;&#x5411;&#x5C5E;&#x4E8E;&#x8FDD;&#x6CD5;&#x884C;&#x4E3A;&#xFF0C;&#x4F46;&#x662F;&#x5728;&#x56FD;&#x5185;&#x8FD8;&#x662F;&#x4E2A;&#x64E6;&#x8FB9;&#x7403;&#xFF0C;&#x96BE;&#x4EE5;&#x8D77;&#x8BC9;&#x6210;&#x529F;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x60F3;&#x88AB;&#x6279;&#x91CF;&#x722C;&#x53D6;&#xFF0C;&#x6280;&#x672F;&#x624D;&#x662F;&#x6700;&#x540E;&#x4FDD;&#x969C;&#x3002;</p>
-<p><strong>2&#x3001;&#x5728;&#x722C;&#x866B;&#x4E0E;&#x53CD;&#x722C;&#x866B;&#x7684;&#x5BF9;&#x5F08;&#x4E2D;&#xFF0C;&#x8C01;&#x4F1A;&#x80DC;&#x5229;&#xFF1F;</strong><br>&#x722C;&#x866B;&#x4E0E;&#x53CD;&#x722C;&#x866B;&#x7684;&#x91CD;&#x70B9;&#x90FD;&#x5728;&#x4E8E;&#x6279;&#x91CF;&#xFF0C;&#x6CA1;&#x6709;&#x7EDD;&#x5BF9;&#x7684;&#x80DC;&#x5229;&#x65B9;&#x3002;&#x4F46;&#x662F;&#x53EF;&#x4EE5;&#x786E;&#x5B9A;&#x7684;&#x662F;&#xFF0C;&#x53EA;&#x8981;&#x4EBA;&#x7C7B;&#x80FD;&#x591F;&#x6B63;&#x5E38;&#x8BBF;&#x95EE;&#x7684;&#x7F51;&#x9875;&#xFF0C;&#x722C;&#x866B;&#x5728;&#x5177;&#x5907;&#x540C;&#x7B49;&#x8D44;&#x6E90;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x4E00;&#x5B9A;&#x662F;&#x53EF;&#x4EE5;&#x6293;&#x53D6;&#x5230;&#xFF0C;&#x53EA;&#x662F;&#x80FD;&#x5426;&#x77ED;&#x65F6;&#x95F4;&#x5185;&#x5927;&#x6279;&#x91CF;&#x722C;&#x53D6;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
-<p><strong>3&#x3001;&#x600E;&#x4E48;&#x5FEB;&#x901F;&#x722C;&#x53D6;&#x6570;&#x636E;&#xFF1F;</strong><br>&#x9996;&#x5148;&#x8003;&#x8651;&#x7684;&#x662F;&#x7528;&#x7F51;&#x4E0A;&#x5404;&#x79CD;&#x7834;&#x89E3;&#x7248;&#x722C;&#x866B;&#x8F6F;&#x4EF6;&#x722C;&#x53D6;&#x6570;&#x636E;&#xFF0C;&#x6BD4;&#x5982;&#x706B;&#x8F66;&#x5934;&#x91C7;&#x96C6;&#x5668;&#x3002;&#x5373;&#x80FD;&#x7528;&#x8F6F;&#x4EF6;&#x89E3;&#x51B3;&#x7684;&#x722C;&#x53D6;&#x6B65;&#x9AA4;&#xFF0C;&#x5C31;&#x6CA1;&#x5FC5;&#x8981;&#x5199;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;&#xFF0C;&#x56E0;&#x4E3A;&#x7A0B;&#x5E8F;&#x5458;&#x6BD4;&#x8F6F;&#x4EF6;&#x548C;&#x670D;&#x52A1;&#x5668;&#x7B49;&#x8D44;&#x6E90;&#x91D1;&#x8D35;&#x3002;&#x5176;&#x6B21;&#x8003;&#x8651;&#x7684;&#x624D;&#x5E94;&#x8BE5;&#x662F;&#x5982;&#x4F55;&#x7528;&#x4EE3;&#x7801;&#x89E3;&#x51B3;&#x8F6F;&#x4EF6;&#x5B9E;&#x73B0;&#x4E0D;&#x4E86;&#x7684;&#x6B65;&#x9AA4;&#x3002;</p>
-<p><strong>4&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x9700;&#x8981;&#x53CD;&#x722C;&#x866B;&#xFF1F;</strong></p>
+<h3 id="疑问相关"><a href="#疑问相关" class="headerlink" title="疑问相关"></a>疑问相关</h3><p><strong>1、爬虫是否涉嫌违法？ 如果是的话，怎么要求赔偿？</strong><br>爬取的内容商业使用目前更倾向属于违法行为，但是在国内还是个擦边球，难以起诉成功。如果不想被批量爬取，技术才是最后保障。</p>
+<p><strong>2、在爬虫与反爬虫的对弈中，谁会胜利？</strong><br>爬虫与反爬虫的重点都在于批量，没有绝对的胜利方。但是可以确定的是，只要人类能够正常访问的网页，爬虫在具备同等资源的情况下一定是可以抓取到，只是能否短时间内大批量爬取的问题。</p>
+<p><strong>3、怎么快速爬取数据？</strong><br>首先考虑的是用网上各种破解版爬虫软件爬取数据，比如火车头采集器。即能用软件解决的爬取步骤，就没必要写代码实现，因为程序员比软件和服务器等资源金贵。其次考虑的才应该是如何用代码解决软件实现不了的步骤。</p>
+<p><strong>4、为什么需要反爬虫？</strong></p>
 <ul>
-<li>&#x516C;&#x53F8;&#x7684;&#x91CD;&#x8981;&#x8D44;&#x6E90;&#x88AB;&#x6279;&#x91CF;&#x722C;&#x53D6;&#xFF0C;&#x4E27;&#x5931;&#x7ADE;&#x4E89;&#x529B;&#x3002;</li>
-<li>&#x722C;&#x866B;&#x5360;&#x603B;PV&#x6BD4;&#x4F8B;&#x592A;&#x9AD8;&#xFF0C;&#x56E0;&#x4E3A;&#x9AD8;&#x8BBF;&#x95EE;&#x91CF;&#x6D6A;&#x8D39;&#x4E86;&#x592A;&#x591A;&#x94B1;&#x3002;</li>
-<li>&#x722C;&#x866B;&#x62D6;&#x57AE;&#x4E86;&#x7AD9;&#x70B9;&#xFF0C;&#x4E25;&#x91CD;&#x5F71;&#x54CD;&#x4E86;&#x7528;&#x6237;&#x4F53;&#x9A8C;&#x3002;</li>
-<li>&#x8D44;&#x6E90;&#x88AB;&#x722C;&#x53D6;&#x96BE;&#x4EE5;&#x8D77;&#x8BC9;&#x6210;&#x529F;&#xFF0C;&#x5BF9;&#x65B9;&#x53EF;&#x4EE5;&#x8086;&#x610F;&#x722C;&#x53D6;&#x3002;</li>
+<li>公司的重要资源被批量爬取，丧失竞争力。</li>
+<li>爬虫占总PV比例太高，因为高访问量浪费了太多钱。</li>
+<li>爬虫拖垮了站点，严重影响了用户体验。</li>
+<li>资源被爬取难以起诉成功，对方可以肆意爬取。</li>
 </ul>
 <hr>
-<h3 id="&#x94FE;&#x63A5;&#x76F8;&#x5173;"><a href="#&#x94FE;&#x63A5;&#x76F8;&#x5173;" class="headerlink" title="&#x94FE;&#x63A5;&#x76F8;&#x5173;"></a>&#x94FE;&#x63A5;&#x76F8;&#x5173;</h3><ul>
-<li>&#x6709;&#x54EA;&#x4E9B;&#x7F51;&#x7AD9;&#x7528;&#x722C;&#x866B;&#x80FD;&#x722C;&#x5230;&#x5F88;&#x6709;&#x4EF7;&#x503C;&#x7684;&#x6570;&#x636E;&#xFF1F;<br><a href="https://www.zhihu.com/question/36132174" target="_blank" rel="external">https://www.zhihu.com/question/36132174</a><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E5%8F%8D%E7%88%AC%E8%99%AB/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim" alt=""></li>
-<li>&#x5229;&#x7528;&#x722C;&#x866B;&#x6280;&#x672F;&#x80FD;&#x505A;&#x5230;&#x54EA;&#x4E9B;&#x5F88;&#x9177;&#x5F88;&#x6709;&#x8DA3;&#x5F88;&#x6709;&#x7528;&#x7684;&#x4E8B;&#x60C5;&#xFF1F;<br><a href="https://www.zhihu.com/question/27621722" target="_blank" rel="external">https://www.zhihu.com/question/27621722</a></li>
+<h3 id="链接相关"><a href="#链接相关" class="headerlink" title="链接相关"></a>链接相关</h3><ul>
+<li>有哪些网站用爬虫能爬到很有价值的数据？<br><a href="https://www.zhihu.com/question/36132174">https://www.zhihu.com/question/36132174</a><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E5%8F%8D%E7%88%AC%E8%99%AB/1.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim" alt=""></li>
+<li>利用爬虫技术能做到哪些很酷很有趣很有用的事情？<br><a href="https://www.zhihu.com/question/27621722">https://www.zhihu.com/question/27621722</a></li>
 </ul>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E7%88%AC%E8%99%AB%E3%80%81%E5%8F%8D%E5%8F%8D%E7%88%AC%E8%99%AB/2.png?imageView2/0/q/75|watermark/1/image/aHR0cDovLzd4dmZpci5jb20xLnowLmdsYi5jbG91ZGRuLmNvbS8lRTYlQjAlQjQlRTUlOEQlQjAvJUU1JThEJTlBJUU1JUFFJUEyJUU2JUIwJUI0JUU1JThEJUIwLnBuZw==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim" alt=""></p>
 <ul>
-<li><p>python&#x722C;&#x866B;&#x6E90;&#x7801;&#x96C6;&#x9526;<br><a href="https://github.com/facert/awesome-spider" target="_blank" rel="external">https://github.com/facert/awesome-spider</a></p>
+<li><p>python爬虫源码集锦<br><a href="https://github.com/facert/awesome-spider">https://github.com/facert/awesome-spider</a></p>
 </li>
-<li><p>&#x300A;&#x6211;&#x7528;&#x722C;&#x866B;&#x4E00;&#x5929;&#x65F6;&#x95F4;&#x201C;&#x5077;&#x4E86;&#x201D;&#x77E5;&#x4E4E;&#x4E00;&#x767E;&#x4E07;&#x7528;&#x6237;&#xFF0C;&#x53EA;&#x4E3A;&#x8BC1;&#x660E;PHP&#x662F;&#x4E16;&#x754C;&#x4E0A;&#x6700;&#x597D;&#x7684;&#x8BED;&#x8A00;&#x300B;<br>&#x6587;&#x7AE0;&#x94FE;&#x63A5;&#xFF1A;<a href="http://developer.51cto.com/art/201509/491336.htm" target="_blank" rel="external">http://developer.51cto.com/art/201509/491336.htm</a><br>&#x5F00;&#x53D1;&#x8005;&#x6587;&#x6863;&#xFF1A;<a href="https://doc.phpspider.org/" target="_blank" rel="external">https://doc.phpspider.org/</a><br>Github&#x5730;&#x5740;&#xFF1A;<a href="https://github.com/owner888/phpspider" target="_blank" rel="external">https://github.com/owner888/phpspider</a></p>
+<li><p>《我用爬虫一天时间“偷了”知乎一百万用户，只为证明PHP是世界上最好的语言》<br>文章链接：<a href="http://developer.51cto.com/art/201509/491336.htm">http://developer.51cto.com/art/201509/491336.htm</a><br>开发者文档：<a href="https://doc.phpspider.org/">https://doc.phpspider.org/</a><br>Github地址：<a href="https://github.com/owner888/phpspider">https://github.com/owner888/phpspider</a></p>
 </li>
-<li><p>heritrix3 Java&#x722C;&#x866B;&#x6846;&#x67B6;<br><a href="https://github.com/internetarchive/heritrix3" target="_blank" rel="external">https://github.com/internetarchive/heritrix3</a></p>
+<li><p>heritrix3 Java爬虫框架<br><a href="https://github.com/internetarchive/heritrix3">https://github.com/internetarchive/heritrix3</a></p>
 </li>
-<li><p>&#x9A8C;&#x8BC1;&#x7801;&#x5BF9;&#x6297;&#x4E4B;&#x8DEF;&#x53CA;&#x73B0;&#x6709;&#x9A8C;&#x8BC1;&#x673A;&#x5236;&#x4ECB;&#x7ECD;<br><a href="https://yq.aliyun.com/articles/57807?spm=5176.100240.searchblog.21.OuIr47" target="_blank" rel="external">https://yq.aliyun.com/articles/57807?spm=5176.100240.searchblog.21.OuIr47</a></p>
+<li><p>验证码对抗之路及现有验证机制介绍<br><a href="https://yq.aliyun.com/articles/57807?spm=5176.100240.searchblog.21.OuIr47">https://yq.aliyun.com/articles/57807?spm=5176.100240.searchblog.21.OuIr47</a></p>
 </li>
-<li><p>12306 &#x552E;&#x7968;&#x7F51;&#x7AD9;&#x65B0;&#x7248;&#x9A8C;&#x8BC1;&#x7801;&#x8BC6;&#x522B;&#x5BF9;&#x6297;<br><a href="https://segmentfault.com/a/1190000002606801" target="_blank" rel="external">https://segmentfault.com/a/1190000002606801</a></p>
+<li><p>12306 售票网站新版验证码识别对抗<br><a href="https://segmentfault.com/a/1190000002606801">https://segmentfault.com/a/1190000002606801</a></p>
 </li>
-<li><p>18&#x6B3E;Java&#x5F00;&#x6E90;Web&#x722C;&#x866B;&#x3010;Heritrix&#x7B49;&#x3011;<br><a href="https://www.oschina.net/news/77402/19-java-open-source-web-crawler" target="_blank" rel="external">https://www.oschina.net/news/77402/19-java-open-source-web-crawler</a></p>
+<li><p>18款Java开源Web爬虫【Heritrix等】<br><a href="https://www.oschina.net/news/77402/19-java-open-source-web-crawler">https://www.oschina.net/news/77402/19-java-open-source-web-crawler</a></p>
 </li>
-<li><p>&#x7A81;&#x7834;&#x53CD;&#x722C;&#x866B;&#x7684;&#x5229;&#x5668;&#x2014;&#x2014;&#x5F00;&#x6E90;IP&#x4EE3;&#x7406;&#x6C60;&#x3010;&#x9644;&#x6E90;&#x7801;&#x3011;<br><a href="https://zhuanlan.zhihu.com/p/23928595" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/23928595</a></p>
+<li><p>突破反爬虫的利器——开源IP代理池【附源码】<br><a href="https://zhuanlan.zhihu.com/p/23928595">https://zhuanlan.zhihu.com/p/23928595</a></p>
 </li>
-<li><p>fiddler&#x5BF9;&#x6D4F;&#x89C8;&#x5668;&#x3001;app&#x6293;&#x5305;&#x53CA;&#x8BC1;&#x4E66;&#x5B89;&#x88C5;<br><a href="http://blog.csdn.net/u011608531/article/details/50838227" target="_blank" rel="external">http://blog.csdn.net/u011608531/article/details/50838227</a></p>
+<li><p>fiddler对浏览器、app抓包及证书安装<br><a href="http://blog.csdn.net/u011608531/article/details/50838227">http://blog.csdn.net/u011608531/article/details/50838227</a></p>
 </li>
-<li><p>&#x706B;&#x8F66;&#x5934;&#x91C7;&#x96C6;&#x5668;&#x5E2E;&#x52A9;&#x6587;&#x6863;<br><a href="http://www.locoy.com/index/guide" target="_blank" rel="external">http://www.locoy.com/index/guide</a></p>
+<li><p>火车头采集器帮助文档<br><a href="http://www.locoy.com/index/guide">http://www.locoy.com/index/guide</a></p>
 </li>
 </ul>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2016/12/25/Java编码规范/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    Java 编码规范
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2016/12/07/微信公众号开发/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">微信公众号开发</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E7%88%AC%E8%99%AB/">爬虫</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2016/12/25/Java%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Java 编码规范</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2016/12/07/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91/"><span class="level-item">微信公众号开发</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" href="#什么是爬虫和反爬虫"><span class="mr-2">1</span><span>什么是爬虫和反爬虫</span></a></li><li><a class="is-flex" href="#反什么样的爬虫"><span class="mr-2">2</span><span>反什么样的爬虫</span></a></li><li><a class="is-flex" href="#常见的爬虫、反爬虫手段"><span class="mr-2">3</span><span>常见的爬虫、反爬虫手段</span></a></li><li><a class="is-flex" href="#疑问相关"><span class="mr-2">4</span><span>疑问相关</span></a></li><li><a class="is-flex" href="#链接相关"><span class="mr-2">5</span><span>链接相关</span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

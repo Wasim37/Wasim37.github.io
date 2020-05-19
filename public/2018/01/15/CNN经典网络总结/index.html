@@ -1,590 +1,134 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>CNN经典网络总结 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="LeNet-5LeNet&amp;#x8BDE;&amp;#x751F;&amp;#x4E8E;1998&amp;#x5E74;&amp;#xFF0C;&amp;#x7F51;&amp;#x7EDC;&amp;#x7ED3;&amp;#x6784;&amp;#x6BD4;&amp;#x8F83;&amp;#x5B8C;&amp;#x6574;&amp;#xFF0C;&amp;#x5305;&amp;#x62EC;&amp;#x5377;&amp;#x79EF;&amp;#x5C42;&amp;#x3001;pooling&amp;#x5C42;&amp;#x3001;&amp;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="CNN经典网络总结">
-<meta property="og:url" content="http://www.wangxin123.com/2018/01/15/CNN经典网络总结/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="LeNet-5LeNet&amp;#x8BDE;&amp;#x751F;&amp;#x4E8E;1998&amp;#x5E74;&amp;#xFF0C;&amp;#x7F51;&amp;#x7EDC;&amp;#x7ED3;&amp;#x6784;&amp;#x6BD4;&amp;#x8F83;&amp;#x5B8C;&amp;#x6574;&amp;#xFF0C;&amp;#x5305;&amp;#x62EC;&amp;#x5377;&amp;#x79EF;&amp;#x5C42;&amp;#x3001;pooling&amp;#x5C42;&amp;#x3001;&amp;">
-<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/LeNet-5.png">
-<meta property="og:updated_time" content="2018-04-23T12:30:00.370Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CNN经典网络总结">
-<meta name="twitter:description" content="LeNet-5LeNet&amp;#x8BDE;&amp;#x751F;&amp;#x4E8E;1998&amp;#x5E74;&amp;#xFF0C;&amp;#x7F51;&amp;#x7EDC;&amp;#x7ED3;&amp;#x6784;&amp;#x6BD4;&amp;#x8F83;&amp;#x5B8C;&amp;#x6574;&amp;#xFF0C;&amp;#x5305;&amp;#x62EC;&amp;#x5377;&amp;#x79EF;&amp;#x5C42;&amp;#x3001;pooling&amp;#x5C42;&amp;#x3001;&amp;">
-<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/LeNet-5.png">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-CNN经典网络总结" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            CNN经典网络总结
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/01/15/CNN经典网络总结/">
-            <time datetime="2018-01-15T14:22:00.000Z" itemprop="datePublished">2018-01-15</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/深度学习/">深度学习</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/CNN/">CNN</a>, <a class="tag-link" href="/tags/经典网络/">经典网络</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#LeNet-5"><span class="toc-number">1.</span> <span class="toc-text">LeNet-5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AlexNet-8"><span class="toc-number">2.</span> <span class="toc-text">AlexNet-8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VGG-16"><span class="toc-number">3.</span> <span class="toc-text">VGG-16</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1x1-卷积"><span class="toc-number">4.</span> <span class="toc-text">1x1 卷积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GoogleLeNet-22-Inception-网络"><span class="toc-number">5.</span> <span class="toc-text">GoogleLeNet-22 Inception 网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#计算成本问题"><span class="toc-number">5.1.</span> <span class="toc-text">计算成本问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#完整的-Inception-网络"><span class="toc-number">5.2.</span> <span class="toc-text">完整的 Inception 网络</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ResNet-152-残差网络"><span class="toc-number">6.</span> <span class="toc-text">ResNet-152 残差网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#残差网络有效的原因"><span class="toc-number">6.1.</span> <span class="toc-text">残差网络有效的原因</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#经典网络对比"><span class="toc-number">7.</span> <span class="toc-text">经典网络对比</span></a></li></ol>
-                </div>
-            
-            <h3 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h3><p><strong>LeNet&#x8BDE;&#x751F;&#x4E8E;1998&#x5E74;</strong>&#xFF0C;&#x7F51;&#x7EDC;&#x7ED3;&#x6784;&#x6BD4;&#x8F83;&#x5B8C;&#x6574;&#xFF0C;&#x5305;&#x62EC;&#x5377;&#x79EF;&#x5C42;&#x3001;pooling&#x5C42;&#x3001;&#x5168;&#x8FDE;&#x63A5;&#x5C42;&#xFF0C;&#x8FD9;&#x4E9B;&#x90FD;&#x662F;&#x73B0;&#x4EE3;CNN&#x7F51;&#x7EDC;&#x7684;&#x57FA;&#x672C;&#x7EC4;&#x4EF6;&#xFF0C;&#x88AB;&#x8BA4;&#x4E3A;&#x662F;CNN&#x7684;&#x5F00;&#x7AEF;&#x3002;</p>
-<p><strong>&#x7F51;&#x7EDC;&#x7279;&#x70B9;&#xFF1A;</strong></p>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>CNN经典网络总结 - Hexo</title><meta description="LeNet-5LeNet诞生于1998年，网络结构比较完整，包括卷积层、pooling层、全连接层，这些都是现代CNN网络的基本组件，被认为是CNN的开端。 网络特点：  LeNet-5 针对灰度图像而训练，因此输入图片的通道数为 1。 该模型总共包含了约 6 万个参数，远少于标准神经网络所需。 典型的 LeNet-5 结构包含卷积层（CONV layer），池化层（POOL layer）和全连接"><meta property="og:type" content="blog"><meta property="og:title" content="CNN经典网络总结"><meta property="og:url" content="http://yoursite.com/2018/01/15/CNN%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="LeNet-5LeNet诞生于1998年，网络结构比较完整，包括卷积层、pooling层、全连接层，这些都是现代CNN网络的基本组件，被认为是CNN的开端。 网络特点：  LeNet-5 针对灰度图像而训练，因此输入图片的通道数为 1。 该模型总共包含了约 6 万个参数，远少于标准神经网络所需。 典型的 LeNet-5 结构包含卷积层（CONV layer），池化层（POOL layer）和全连接"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/LeNet-5.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/blog-lenet.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/AlexNet.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20161104193655152_AlexNet.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180423192419_VGG.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/VGG.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/1x1-Conv-1.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/1x1-Conv-2.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Motivation-for-inception-network.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/The-problem-of-computational-cost.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Using-1x1-convolution.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Inception-module.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20160904161917654_inception_v1.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Residual-block.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Residual-Network.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/ResNet-Training-Error.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Why-do-residual-networks-work.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/ResNet-Paper.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/62.png"><meta property="article:published_time" content="2018-01-15T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.150Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="CNN"><meta property="article:tag" content="经典网络"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/LeNet-5.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2018/01/15/CNN%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/"},"headline":"Hexo","image":["http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/LeNet-5.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/blog-lenet.jpg","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/AlexNet.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20161104193655152_AlexNet.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180423192419_VGG.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/VGG.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/1x1-Conv-1.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/1x1-Conv-2.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Motivation-for-inception-network.jpg","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/The-problem-of-computational-cost.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Using-1x1-convolution.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Inception-module.jpg","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20160904161917654_inception_v1.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Residual-block.jpg","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Residual-Network.jpg","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/ResNet-Training-Error.jpg","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Why-do-residual-networks-work.jpg","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/ResNet-Paper.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/62.png"],"datePublished":"2018-01-15T14:22:00.000Z","dateModified":"2020-05-19T06:34:18.150Z","author":{"@type":"Person","name":"John Doe"},"description":"LeNet-5LeNet诞生于1998年，网络结构比较完整，包括卷积层、pooling层、全连接层，这些都是现代CNN网络的基本组件，被认为是CNN的开端。 网络特点：  LeNet-5 针对灰度图像而训练，因此输入图片的通道数为 1。 该模型总共包含了约 6 万个参数，远少于标准神经网络所需。 典型的 LeNet-5 结构包含卷积层（CONV layer），池化层（POOL layer）和全连接"}</script><link rel="canonical" href="http://yoursite.com/2018/01/15/CNN%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C%E6%80%BB%E7%BB%93/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-01-15T14:22:00.000Z" title="2018-01-15T14:22:00.000Z">2018-01-15</time><span class="level-item"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></span><span class="level-item">23 分钟 读完 (大约 3409 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">CNN经典网络总结</h1><div class="content"><h3 id="LeNet-5"><a href="#LeNet-5" class="headerlink" title="LeNet-5"></a>LeNet-5</h3><p><strong>LeNet诞生于1998年</strong>，网络结构比较完整，包括卷积层、pooling层、全连接层，这些都是现代CNN网络的基本组件，被认为是CNN的开端。</p>
+<p><strong>网络特点：</strong></p>
 <ul>
-<li>LeNet-5 &#x9488;&#x5BF9;&#x7070;&#x5EA6;&#x56FE;&#x50CF;&#x800C;&#x8BAD;&#x7EC3;&#xFF0C;&#x56E0;&#x6B64;&#x8F93;&#x5165;&#x56FE;&#x7247;&#x7684;&#x901A;&#x9053;&#x6570;&#x4E3A; 1&#x3002;</li>
-<li>&#x8BE5;&#x6A21;&#x578B;&#x603B;&#x5171;&#x5305;&#x542B;&#x4E86;&#x7EA6; 6 &#x4E07;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x8FDC;&#x5C11;&#x4E8E;&#x6807;&#x51C6;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x6240;&#x9700;&#x3002;</li>
-<li>&#x5178;&#x578B;&#x7684; LeNet-5 &#x7ED3;&#x6784;&#x5305;&#x542B;&#x5377;&#x79EF;&#x5C42;&#xFF08;CONV layer&#xFF09;&#xFF0C;&#x6C60;&#x5316;&#x5C42;&#xFF08;POOL layer&#xFF09;&#x548C;&#x5168;&#x8FDE;&#x63A5;&#x5C42;&#xFF08;FC layer&#xFF09;&#xFF0C;&#x6392;&#x5217;&#x987A;&#x5E8F;&#x4E00;&#x822C;&#x4E3A; <strong>&#x3010;CONV layer-&gt;POOL layer-&gt;CONV layer-&gt;POOL layer-&gt;FC layer-&gt;FC layer-&gt;OUTPUT layer&#x3011;</strong>&#x3002;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x5377;&#x79EF;&#x5C42;&#x540E;&#x9762;&#x8DDF;&#x7740;&#x4E00;&#x4E2A;&#x6C60;&#x5316;&#x5C42;&#x7684;&#x6A21;&#x5F0F;&#x81F3;&#x4ECA;&#x4ECD;&#x5341;&#x5206;&#x5E38;&#x7528;&#x3002;<font color="red">&#x5728;&#x8BA1;&#x7B97;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x7684;&#x5C42;&#x6570;&#x65F6;&#xFF0C;&#x901A;&#x5E38;&#x53EA;&#x7EDF;&#x8BA1;&#x5177;&#x6709;&#x6743;&#x91CD;&#x548C;&#x53C2;&#x6570;&#x7684;&#x5C42;<strong>&#xFF0C;</strong>&#x6C60;&#x5316;&#x5C42;&#x6CA1;&#x6709;&#x9700;&#x8981;&#x8BAD;&#x7EC3;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x6240;&#x4EE5;&#x548C;&#x4E4B;&#x524D;&#x7684;&#x5377;&#x79EF;&#x5C42;&#x5171;&#x540C;&#x8BA1;&#x4E3A;&#x4E00;&#x5C42;</font>&#x3002;</li>
-<li>&#x5F53; LeNet-5&#x6A21;&#x578B;&#x88AB;&#x63D0;&#x51FA;&#x65F6;&#xFF0C;&#x5176;&#x6C60;&#x5316;&#x5C42;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x5E73;&#x5747;&#x6C60;&#x5316;&#xFF0C;&#x800C;&#x4E14;&#x5404;&#x5C42;&#x6FC0;&#x6D3B;&#x51FD;&#x6570;&#x4E00;&#x822C;&#x9009;&#x7528; Sigmoid &#x548C; tanh&#x3002;&#x73B0;&#x5728;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x9700;&#x8981;&#xFF0C;&#x505A;&#x51FA;&#x6539;&#x8FDB;&#xFF0C;&#x4F7F;&#x7528;&#x6700;&#x5927;&#x6C60;&#x5316;&#x5E76;&#x9009;&#x7528; ReLU &#x4F5C;&#x4E3A;&#x6FC0;&#x6D3B;&#x51FD;&#x6570;&#x3002;</li>
+<li>LeNet-5 针对灰度图像而训练，因此输入图片的通道数为 1。</li>
+<li>该模型总共包含了约 6 万个参数，远少于标准神经网络所需。</li>
+<li>典型的 LeNet-5 结构包含卷积层（CONV layer），池化层（POOL layer）和全连接层（FC layer），排列顺序一般为 <strong>【CONV layer-&gt;POOL layer-&gt;CONV layer-&gt;POOL layer-&gt;FC layer-&gt;FC layer-&gt;OUTPUT layer】</strong>。一个或多个卷积层后面跟着一个池化层的模式至今仍十分常用。<font color="red">在计算神经网络的层数时，通常只统计具有权重和参数的层<strong>，</strong>池化层没有需要训练的参数，所以和之前的卷积层共同计为一层</font>。</li>
+<li>当 LeNet-5模型被提出时，其池化层使用的是平均池化，而且各层激活函数一般选用 Sigmoid 和 tanh。现在，我们可以根据需要，做出改进，使用最大池化并选用 ReLU 作为激活函数。</li>
 </ul>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/LeNet-5.png" alt=""></p>
 <a id="more"></a>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/blog-lenet.jpg" alt=""></p>
-<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=726791&amp;tag=1" target="_blank" rel="external">LeCun et.al., 1998. Gradient-based learning applied to document recognition</a>&#x3002;&#x5434;&#x6069;&#x8FBE;&#x8001;&#x5E08;&#x5EFA;&#x8BAE;&#x7CBE;&#x8BFB;&#x7B2C;&#x4E8C;&#x6BB5;&#xFF0C;&#x6CDB;&#x8BFB;&#x7B2C;&#x4E09;&#x6BB5;&#x3002;</p>
+<p>相关论文：<a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=726791&amp;tag=1">LeCun et.al., 1998. Gradient-based learning applied to document recognition</a>。吴恩达老师建议精读第二段，泛读第三段。</p>
 <hr>
 <h3 id="AlexNet-8"><a href="#AlexNet-8" class="headerlink" title="AlexNet-8"></a>AlexNet-8</h3><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/AlexNet.png" alt="AlexNet-1"></p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20161104193655152_AlexNet.png" alt="AlexNet-2"></p>
-<p>AlexNet-8&#x6709;5&#x4E2A;&#x5377;&#x79EF;&#x5C42;&#x548C;3&#x4E2A;&#x5168;&#x8FDE;&#x63A5;&#x5C42;&#xFF0C;&#x5B83;&#x4E0E; LeNet-5 &#x6A21;&#x578B;&#x7C7B;&#x4F3C;&#xFF0C;&#x4F46;&#x662F;&#x66F4;&#x590D;&#x6742;&#xFF0C;&#x5305;&#x542B;&#x7EA6; 6000 &#x4E07;&#x53C2;&#x6570;&#x3002;<br>&#x5F53;&#x7528;&#x4E8E;&#x8BAD;&#x7EC3;&#x56FE;&#x50CF;&#x548C;&#x6570;&#x636E;&#x96C6;&#x65F6;&#xFF0C;AlexNet &#x80FD;&#x591F;&#x5904;&#x7406;&#x975E;&#x5E38;&#x76F8;&#x4F3C;&#x7684;&#x57FA;&#x672C;&#x6784;&#x9020;&#x6A21;&#x5757;&#xFF0C;&#x8FD9;&#x4E9B;&#x6A21;&#x5757;&#x5F80;&#x5F80;&#x5305;&#x542B;&#x5927;&#x91CF;&#x7684;&#x9690;&#x85CF;&#x5355;&#x5143;&#x6216;&#x6570;&#x636E;&#x3002;</p>
-<p><strong><font color="red">&#x76F8;&#x5BF9;&#x4E8E;1998&#x5E74;&#x7684;LeNet&#xFF0C;2012&#x5E74;&#x624D;&#x51FA;&#x73B0;&#x7684;AlexNet&#x6709;&#x4E86;&#x5386;&#x53F2;&#x6027;&#x7684;&#x7A81;&#x7834;</font>&#xFF0C;&#x76F8;&#x5BF9;LeNet&#x505A;&#x4E86;&#x5982;&#x4E0B;&#x6539;&#x8FDB;&#xFF1A;</strong><br>&#xFF08;1&#xFF09;&#x6570;&#x636E;&#x4E0D;&#x591F;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x91C7;&#x7528;&#x4E86;&#x6570;&#x636E;&#x589E;&#x5F3A;<br>&#xFF08;2&#xFF09;&#x7528;ReLU&#x4EE3;&#x66FF;&#x4E86;&#x4F20;&#x7EDF;&#x7684;Tanh&#x6216;&#x8005;Logistic&#x3002;<br>&#xFF08;3&#xFF09;&#x5F15;&#x5165;Dropout&#xFF0C;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;&#xFF0C;&#x662F;AlexNet&#x4E2D;&#x4E00;&#x4E2A;&#x5F88;&#x5927;&#x7684;&#x521B;&#x65B0;&#x3002;<br>&#xFF08;4&#xFF09;Local Response Normalization&#xFF0C;&#x5C40;&#x90E8;&#x54CD;&#x5E94;&#x5F52;&#x4E00;&#x5316;&#xFF0C;&#x7B80;&#x79F0;LRN&#xFF0C;&#x5B9E;&#x9645;&#x5C31;&#x662F;&#x5229;&#x7528;&#x4E34;&#x8FD1;&#x7684;&#x6570;&#x636E;&#x505A;&#x5F52;&#x4E00;&#x5316;&#x3002;&#x8FD9;&#x4E2A;&#x7B56;&#x7565;&#x8D21;&#x732E;&#x4E86;1.2%&#x7684;Top-5&#x9519;&#x8BEF;&#x7387;&#x3002;<br>&#xFF08;5&#xFF09;&#x591A;GPU&#x8BAD;&#x7EC3;&#x3002;&#x5982;&#x56FE; AlexNet-2 &#x6240;&#x793A;&#xFF0C;&#x8BAD;&#x7EC3;&#x5206;&#x5E03;&#x5728;&#x4E24;&#x4E2A;GPU&#x4E0A;&#xFF0C;&#x8FD9;&#x662F;&#x6BD4;&#x4E00;&#x81C2;&#x4E4B;&#x529B;&#x8FD8;&#x5927;&#x7684;&#x6D2A;&#x8352;&#x4E4B;&#x529B;&#x3002;<br>&#xFF08;6&#xFF09;Overlapping Pooling&#xFF0C;Overlapping&#x7684;&#x610F;&#x601D;&#x662F;&#x6709;&#x91CD;&#x53E0;&#xFF0C;&#x5373;Pooling&#x7684;&#x6B65;&#x957F;&#x6BD4;Pooling Kernel&#x7684;&#x5BF9;&#x5E94;&#x8FB9;&#x8981;&#x5C0F;&#x3002;&#x8FD9;&#x4E2A;&#x7B56;&#x7565;&#x8D21;&#x732E;&#x4E86;0.3%&#x7684;Top-5&#x9519;&#x8BEF;&#x7387;&#x3002;</p>
-<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf" target="_blank" rel="external">Krizhevsky et al.,2012. ImageNet classification with deep convolutional neural networks</a>&#x3002;&#x8FD9;&#x662F;&#x4E00;&#x7BC7;&#x6613;&#x4E8E;&#x7406;&#x89E3;&#x5E76;&#x4E14;&#x5F71;&#x54CD;&#x5DE8;&#x5927;&#x7684;&#x8BBA;&#x6587;&#xFF0C;&#x8BA1;&#x7B97;&#x673A;&#x89C6;&#x89C9;&#x7FA4;&#x4F53;&#x81EA;&#x6B64;&#x5F00;&#x59CB;&#x91CD;&#x89C6;&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x3002;</p>
+<p>AlexNet-8有5个卷积层和3个全连接层，它与 LeNet-5 模型类似，但是更复杂，包含约 6000 万参数。<br>当用于训练图像和数据集时，AlexNet 能够处理非常相似的基本构造模块，这些模块往往包含大量的隐藏单元或数据。</p>
+<p><strong><font color="red">相对于1998年的LeNet，2012年才出现的AlexNet有了历史性的突破</font>，相对LeNet做了如下改进：</strong><br>（1）数据不够的情况下，采用了数据增强<br>（2）用ReLU代替了传统的Tanh或者Logistic。<br>（3）引入Dropout，防止过拟合，是AlexNet中一个很大的创新。<br>（4）Local Response Normalization，局部响应归一化，简称LRN，实际就是利用临近的数据做归一化。这个策略贡献了1.2%的Top-5错误率。<br>（5）多GPU训练。如图 AlexNet-2 所示，训练分布在两个GPU上，这是比一臂之力还大的洪荒之力。<br>（6）Overlapping Pooling，Overlapping的意思是有重叠，即Pooling的步长比Pooling Kernel的对应边要小。这个策略贡献了0.3%的Top-5错误率。</p>
+<p>相关论文：<a href="http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf">Krizhevsky et al.,2012. ImageNet classification with deep convolutional neural networks</a>。这是一篇易于理解并且影响巨大的论文，计算机视觉群体自此开始重视深度学习。</p>
 <hr>
-<h3 id="VGG-16"><a href="#VGG-16" class="headerlink" title="VGG-16"></a>VGG-16</h3><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180423192419_VGG.png" alt="VGG &#x5E38;&#x89C1;&#x7ED3;&#x6784;&#x56FE;"></p>
+<h3 id="VGG-16"><a href="#VGG-16" class="headerlink" title="VGG-16"></a>VGG-16</h3><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180423192419_VGG.png" alt="VGG 常见结构图"></p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/VGG.png" alt=""></p>
-<p><strong>&#x7279;&#x70B9;&#xFF1A;</strong></p>
+<p><strong>特点：</strong></p>
 <ul>
-<li>VGG &#x4F7F;&#x7528;&#x6700;&#x5E7F;&#x6CDB;&#x7684;&#x7F51;&#x7EDC;&#x4E3A; VGG-16 &#x7F51;&#x7EDC;&#x3002;</li>
-<li>&#x8D85;&#x53C2;&#x6570;&#x8F83;&#x5C11;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x4E13;&#x6CE8;&#x4E8E;&#x6784;&#x5EFA;&#x5377;&#x79EF;&#x5C42;&#x3002;</li>
-<li>&#x7ED3;&#x6784;&#x4E0D;&#x590D;&#x6742;&#x4E14;&#x89C4;&#x6574;&#xFF0C;&#x5728;&#x6BCF;&#x4E00;&#x7EC4;&#x5377;&#x79EF;&#x5C42;&#x8FDB;&#x884C;&#x6EE4;&#x6CE2;&#x5668;&#x7FFB;&#x500D;&#x64CD;&#x4F5C;&#x3002;</li>
-<li>VGG &#x9700;&#x8981;&#x8BAD;&#x7EC3;&#x7684;&#x7279;&#x5F81;&#x6570;&#x91CF;&#x5DE8;&#x5927;&#xFF0C;&#x5305;&#x542B;&#x591A;&#x8FBE;&#x7EA6; 1.38 &#x4EBF;&#x4E2A;&#x53C2;&#x6570;&#x3002;</li>
+<li>VGG 使用最广泛的网络为 VGG-16 网络。</li>
+<li>超参数较少，只需要专注于构建卷积层。</li>
+<li>结构不复杂且规整，在每一组卷积层进行滤波器翻倍操作。</li>
+<li>VGG 需要训练的特征数量巨大，包含多达约 1.38 亿个参数。</li>
 </ul>
-<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="https://arxiv.org/pdf/1409.1556.pdf" target="_blank" rel="external">Simonvan &amp; Zisserman 2015. Very deep convolutional networks for large-scale image recognition</a>&#x3002;</p>
+<p>相关论文：<a href="https://arxiv.org/pdf/1409.1556.pdf">Simonvan &amp; Zisserman 2015. Very deep convolutional networks for large-scale image recognition</a>。</p>
 <hr>
-<h3 id="1x1-&#x5377;&#x79EF;"><a href="#1x1-&#x5377;&#x79EF;" class="headerlink" title="1x1 &#x5377;&#x79EF;"></a>1x1 &#x5377;&#x79EF;</h3><p>1x1 &#x5377;&#x79EF;&#xFF08;1x1 convolution&#xFF0C;&#x6216;&#x79F0;&#x4E3A; Network in Network&#xFF09;&#x6307;&#x6EE4;&#x6CE2;&#x5668;&#x7684;&#x5C3A;&#x5BF8;&#x4E3A; 1&#x3002;&#x5F53;&#x901A;&#x9053;&#x6570;&#x4E3A; 1 &#x65F6;&#xFF0C;1x1 &#x5377;&#x79EF;&#x610F;&#x5473;&#x7740;&#x5377;&#x79EF;&#x64CD;&#x4F5C;&#x7B49;&#x540C;&#x4E8E;&#x4E58;&#x79EF;&#x64CD;&#x4F5C;&#x3002;</p>
+<h3 id="1x1-卷积"><a href="#1x1-卷积" class="headerlink" title="1x1 卷积"></a>1x1 卷积</h3><p>1x1 卷积（1x1 convolution，或称为 Network in Network）指滤波器的尺寸为 1。当通道数为 1 时，1x1 卷积意味着卷积操作等同于乘积操作。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/1x1-Conv-1.png" alt=""></p>
-<p><strong>&#x800C;&#x5F53;&#x901A;&#x9053;&#x6570;&#x66F4;&#x591A;&#x65F6;&#xFF0C;1x1 &#x5377;&#x79EF;&#x7684;&#x4F5C;&#x7528;&#x5B9E;&#x9645;&#x4E0A;&#x7C7B;&#x4F3C;&#x5168;&#x8FDE;&#x63A5;&#x7684;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x7ED3;&#x6784;&#xFF0C;&#x4ECE;&#x800C;&#x964D;&#x4F4E;&#xFF08;&#x6216;&#x5347;&#x9AD8;&#xFF0C;&#x53D6;&#x51B3;&#x4E8E;&#x6EE4;&#x6CE2;&#x5668;&#x7EC4;&#x6570;&#xFF09;&#x6570;&#x636E;&#x7684;&#x7EF4;&#x5EA6;&#x3002;</strong></p>
-<p>&#x6C60;&#x5316;&#x80FD;&#x538B;&#x7F29;&#x6570;&#x636E;&#x7684;&#x9AD8;&#x5EA6; $n_H$ &#x53CA;&#x5BBD;&#x5EA6; $n_W$&#xFF0C;&#x800C; 1&#xD7;1 &#x5377;&#x79EF;&#x80FD;&#x538B;&#x7F29;&#x6570;&#x636E;&#x7684;&#x901A;&#x9053;&#x6570; $n_C$&#x3002;&#x5728;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x7528; 32 &#x4E2A;&#x5927;&#x5C0F;&#x4E3A; 1&#xD7;1&#xD7;192 &#x7684;&#x6EE4;&#x6CE2;&#x5668;&#x8FDB;&#x884C;&#x5377;&#x79EF;&#xFF0C;&#x5C31;&#x80FD;&#x4F7F;&#x539F;&#x5148;&#x6570;&#x636E;&#x5305;&#x542B;&#x7684; 192 &#x4E2A;&#x901A;&#x9053;&#x538B;&#x7F29;&#x4E3A; 32 &#x4E2A;&#x3002;</p>
+<p><strong>而当通道数更多时，1x1 卷积的作用实际上类似全连接的神经网络结构，从而降低（或升高，取决于滤波器组数）数据的维度。</strong></p>
+<p>池化能压缩数据的高度 $n_H$ 及宽度 $n_W$，而 1×1 卷积能压缩数据的通道数 $n_C$。在如下图所示的例子中，用 32 个大小为 1×1×192 的滤波器进行卷积，就能使原先数据包含的 192 个通道压缩为 32 个。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/1x1-Conv-2.png" alt=""></p>
-<p>&#x867D;&#x7136;&#x8BBA;&#x6587; <a href="https://arxiv.org/pdf/1312.4400.pdf" target="_blank" rel="external">Lin et al., 2013. Network in network</a> &#x4E2D;&#x5173;&#x4E8E;&#x67B6;&#x6784;&#x7684;&#x8BE6;&#x7EC6;&#x5185;&#x5BB9;&#x5E76;&#x6CA1;&#x6709;&#x5F97;&#x5230;&#x5E7F;&#x6CDB;&#x5E94;&#x7528;&#xFF0C;&#x4F46;&#x662F; 1x1 &#x5377;&#x79EF;&#x7684;&#x7406;&#x5FF5;&#x5341;&#x5206;&#x6709;&#x5F71;&#x54CD;&#x529B;&#xFF0C;&#x8BB8;&#x591A;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x67B6;&#x6784;&#xFF08;&#x5305;&#x62EC; Inception &#x7F51;&#x7EDC;&#xFF09;&#x90FD;&#x53D7;&#x5230;&#x5B83;&#x7684;&#x5F71;&#x54CD;&#x3002;</p>
+<p>虽然论文 <a href="https://arxiv.org/pdf/1312.4400.pdf">Lin et al., 2013. Network in network</a> 中关于架构的详细内容并没有得到广泛应用，但是 1x1 卷积的理念十分有影响力，许多神经网络架构（包括 Inception 网络）都受到它的影响。</p>
 <hr>
-<h3 id="GoogleLeNet-22-Inception-&#x7F51;&#x7EDC;"><a href="#GoogleLeNet-22-Inception-&#x7F51;&#x7EDC;" class="headerlink" title="GoogleLeNet-22 Inception &#x7F51;&#x7EDC;"></a>GoogleLeNet-22 Inception &#x7F51;&#x7EDC;</h3><p>2012&#x5E74;AlexNet&#x505A;&#x51FA;&#x5386;&#x53F2;&#x7A81;&#x7834;&#x4EE5;&#x6765;&#xFF0C;&#x76F4;&#x5230;GoogLeNet&#x51FA;&#x6765;&#x4E4B;&#x524D;&#xFF0C;&#x4E3B;&#x6D41;&#x7684;&#x7F51;&#x7EDC;&#x7ED3;&#x6784;&#x7A81;&#x7834;&#x5927;&#x81F4;&#x662F;&#x7F51;&#x7EDC;&#x66F4;&#x6DF1;&#xFF08;&#x5C42;&#x6570;&#xFF09;&#xFF0C;&#x7F51;&#x7EDC;&#x66F4;&#x5BBD;&#xFF08;&#x795E;&#x7ECF;&#x5143;&#x6570;&#xFF09;&#x3002;&#x6240;&#x4EE5;&#x5927;&#x5BB6;&#x8C03;&#x4F83;&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x4E3A;&#x201C;&#x6DF1;&#x5EA6;&#x8C03;&#x53C2;&#x201D;&#xFF0C;&#x4F46;&#x662F;&#x7EAF;&#x7CB9;&#x7684;&#x589E;&#x5927;&#x7F51;&#x7EDC;&#x6709;&#x5982;&#x4E0B;&#x7F3A;&#x70B9;&#xFF1A;</p>
+<h3 id="GoogleLeNet-22-Inception-网络"><a href="#GoogleLeNet-22-Inception-网络" class="headerlink" title="GoogleLeNet-22 Inception 网络"></a>GoogleLeNet-22 Inception 网络</h3><p>2012年AlexNet做出历史突破以来，直到GoogLeNet出来之前，主流的网络结构突破大致是网络更深（层数），网络更宽（神经元数）。所以大家调侃深度学习为“深度调参”，但是纯粹的增大网络有如下缺点：</p>
 <ol>
-<li>&#x53C2;&#x6570;&#x592A;&#x591A;&#xFF0C;&#x5BB9;&#x6613;&#x8FC7;&#x62DF;&#x5408;&#xFF0C;&#x82E5;&#x8BAD;&#x7EC3;&#x6570;&#x636E;&#x96C6;&#x6709;&#x9650;&#xFF1B;</li>
-<li>&#x7F51;&#x7EDC;&#x8D8A;&#x5927;&#x8BA1;&#x7B97;&#x590D;&#x6742;&#x5EA6;&#x8D8A;&#x5927;&#xFF0C;&#x96BE;&#x4EE5;&#x5E94;&#x7528;&#xFF1B;</li>
-<li>&#x7F51;&#x7EDC;&#x8D8A;&#x6DF1;&#xFF0C;&#x68AF;&#x5EA6;&#x8D8A;&#x5F80;&#x540E;&#x7A7F;&#x8D8A;&#x5BB9;&#x6613;&#x6D88;&#x5931;&#xFF08;&#x68AF;&#x5EA6;&#x5F25;&#x6563;&#xFF09;&#xFF0C;&#x96BE;&#x4EE5;&#x4F18;&#x5316;&#x6A21;&#x578B;</li>
+<li>参数太多，容易过拟合，若训练数据集有限；</li>
+<li>网络越大计算复杂度越大，难以应用；</li>
+<li>网络越深，梯度越往后穿越容易消失（梯度弥散），难以优化模型</li>
 </ol>
-<font color="red">&#x90A3;&#x4E48;&#x5982;&#x4F55;&#x589E;&#x52A0;&#x7F51;&#x7EDC;&#x6DF1;&#x5EA6;&#x548C;&#x5BBD;&#x5EA6;&#x7684;&#x540C;&#x65F6;&#x51CF;&#x5C11;&#x53C2;&#x6570;&#xFF1F;Inception&#x5728;&#x8FD9;&#x6837;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x5E94;&#x8FD0;&#x800C;&#x751F;&#x3002;</font>
+<font color="red">那么如何增加网络深度和宽度的同时减少参数？Inception在这样的情况下应运而生。</font>
 
-<p>&#x5728;&#x4E4B;&#x524D;&#x7684;&#x5377;&#x79EF;&#x7F51;&#x7EDC;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x80FD;&#x9009;&#x62E9;&#x5355;&#x4E00;&#x5C3A;&#x5BF8;&#x548C;&#x7C7B;&#x578B;&#x7684;&#x6EE4;&#x6CE2;&#x5668;&#x3002;&#x800C; Inception <strong>&#x7F51;&#x7EDC;&#x7684;&#x4F5C;&#x7528;</strong> &#x662F;&#x4EE3;&#x66FF;&#x4EBA;&#x5DE5;&#x6765;&#x786E;&#x5B9A;&#x5377;&#x79EF;&#x5C42;&#x4E2D;&#x7684;&#x6EE4;&#x6CE2;&#x5668;&#x5C3A;&#x5BF8;&#x4E0E;&#x7C7B;&#x578B;&#xFF0C;&#x6216;&#x8005;&#x786E;&#x5B9A;&#x662F;&#x5426;&#x9700;&#x8981;&#x521B;&#x5EFA;&#x5377;&#x79EF;&#x5C42;&#x6216;&#x6C60;&#x5316;&#x5C42;&#x3002;</p>
+<p>在之前的卷积网络中，我们只能选择单一尺寸和类型的滤波器。而 Inception <strong>网络的作用</strong> 是代替人工来确定卷积层中的滤波器尺寸与类型，或者确定是否需要创建卷积层或池化层。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Motivation-for-inception-network.jpg" alt=""></p>
-<p>&#x5982;&#x56FE;&#xFF0C;Inception &#x7F51;&#x7EDC;&#x9009;&#x7528;&#x4E0D;&#x540C;&#x5C3A;&#x5BF8;&#x7684;&#x6EE4;&#x6CE2;&#x5668;&#x8FDB;&#x884C; Same &#x5377;&#x79EF;&#xFF0C;&#x5E76;&#x5C06;&#x5377;&#x79EF;&#x548C;&#x6C60;&#x5316;&#x5F97;&#x5230;&#x7684;&#x8F93;&#x51FA;&#x7EC4;&#x5408;&#x62FC;&#x63A5;&#x8D77;&#x6765;&#xFF0C;&#x6700;&#x7EC8;&#x8BA9;&#x7F51;&#x7EDC;&#x81EA;&#x5DF1;&#x53BB;&#x5B66;&#x4E60;&#x9700;&#x8981;&#x7684;&#x53C2;&#x6570;&#x548C;&#x91C7;&#x7528;&#x7684;&#x6EE4;&#x6CE2;&#x5668;&#x7EC4;&#x5408;&#x3002;</p>
-<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="https://arxiv.org/pdf/1409.4842.pdf" target="_blank" rel="external">Szegedy et al., 2014, Going Deeper with Convolutions</a></p>
-<h4 id="&#x8BA1;&#x7B97;&#x6210;&#x672C;&#x95EE;&#x9898;"><a href="#&#x8BA1;&#x7B97;&#x6210;&#x672C;&#x95EE;&#x9898;" class="headerlink" title="&#x8BA1;&#x7B97;&#x6210;&#x672C;&#x95EE;&#x9898;"></a>&#x8BA1;&#x7B97;&#x6210;&#x672C;&#x95EE;&#x9898;</h4><p>&#x5728;&#x63D0;&#x5347;&#x6027;&#x80FD;&#x7684;&#x540C;&#x65F6;&#xFF0C;Inception &#x7F51;&#x7EDC;&#x6709;&#x7740;&#x8F83;&#x5927;&#x7684;&#x8BA1;&#x7B97;&#x6210;&#x672C;&#x3002;&#x4E0B;&#x56FE;&#x662F;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<p>如图，Inception 网络选用不同尺寸的滤波器进行 Same 卷积，并将卷积和池化得到的输出组合拼接起来，最终让网络自己去学习需要的参数和采用的滤波器组合。</p>
+<p>相关论文：<a href="https://arxiv.org/pdf/1409.4842.pdf">Szegedy et al., 2014, Going Deeper with Convolutions</a></p>
+<h4 id="计算成本问题"><a href="#计算成本问题" class="headerlink" title="计算成本问题"></a>计算成本问题</h4><p>在提升性能的同时，Inception 网络有着较大的计算成本。下图是一个例子：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/The-problem-of-computational-cost.png" alt=""></p>
-<p>&#x56FE;&#x4E2D;&#x6709; 32 &#x4E2A;&#x6EE4;&#x6CE2;&#x5668;&#xFF0C;&#x6BCF;&#x4E2A;&#x6EE4;&#x6CE2;&#x5668;&#x7684;&#x5927;&#x5C0F;&#x4E3A; 5x5x192&#x3002;&#x8F93;&#x51FA;&#x5927;&#x5C0F;&#x4E3A; 28x28x32&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x8BA1;&#x7B97; 28x28x32 &#x4E2A;&#x6570;&#x5B57;&#xFF0C;&#x5BF9;&#x4E8E;&#x6BCF;&#x4E2A;&#x6570;&#xFF0C;&#x90FD;&#x8981;&#x6267;&#x884C; 5x5x192 &#x6B21;&#x4E58;&#x6CD5;&#x8FD0;&#x7B97;&#x3002;&#x52A0;&#x6CD5;&#x8FD0;&#x7B97;&#x6B21;&#x6570;&#x4E0E;&#x4E58;&#x6CD5;&#x8FD0;&#x7B97;&#x6B21;&#x6570;&#x8FD1;&#x4F3C;&#x76F8;&#x7B49;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x4F5C;&#x8FD9;&#x4E00;&#x5C42;&#x7684;&#x8BA1;&#x7B97;&#x91CF;&#x4E3A; 28x28x32x5x5x192 = 1.2&#x4EBF;&#x3002;</p>
-<p>&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x8BA1;&#x7B97;&#x91CF;&#x5927;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x53EF;&#x4EE5;&#x5F15;&#x5165; 1x1 &#x5377;&#x79EF;&#x6765;&#x51CF;&#x5C11;&#x5176;&#x8BA1;&#x7B97;&#x91CF;&#x3002;</p>
+<p>图中有 32 个滤波器，每个滤波器的大小为 5x5x192。输出大小为 28x28x32，所以需要计算 28x28x32 个数字，对于每个数，都要执行 5x5x192 次乘法运算。加法运算次数与乘法运算次数近似相等。因此，可以看作这一层的计算量为 28x28x32x5x5x192 = 1.2亿。</p>
+<p>为了解决计算量大的问题，可以引入 1x1 卷积来减少其计算量。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Using-1x1-convolution.png" alt=""></p>
-<p>&#x5BF9;&#x4E8E;&#x540C;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x6211;&#x4EEC;&#x4F7F;&#x7528; 1x1 &#x5377;&#x79EF;&#x628A;&#x8F93;&#x5165;&#x6570;&#x636E;&#x4ECE; 192 &#x4E2A;&#x901A;&#x9053;&#x51CF;&#x5C11;&#x5230; 16 &#x4E2A;&#x901A;&#x9053;&#xFF0C;&#x7136;&#x540E;&#x5BF9;&#x8FD9;&#x4E2A;&#x8F83;&#x5C0F;&#x5C42;&#x8FD0;&#x884C; 5x5 &#x5377;&#x79EF;&#xFF0C;&#x5F97;&#x5230;&#x6700;&#x7EC8;&#x8F93;&#x51FA;&#x3002;&#x8FD9;&#x4E2A; 1x1 &#x7684;&#x5377;&#x79EF;&#x5C42;&#x901A;&#x5E38;&#x88AB;&#x79F0;&#x4F5C;<strong>&#x74F6;&#x9888;&#x5C42;</strong>&#xFF08;Bottleneck layer&#xFF09;&#x3002;</p>
-<p>&#x6539;&#x8FDB;&#x540E;&#x7684;&#x8BA1;&#x7B97;&#x91CF;&#x4E3A; 28x28x192x16 + 28x28x32x5x5x15 = 1.24 &#x5343;&#x4E07;&#xFF0C;&#x51CF;&#x5C11;&#x4E86;&#x7EA6; 90%&#x3002;</p>
-<p>&#x53EA;&#x8981;&#x5408;&#x7406;&#x6784;&#x5EFA;&#x74F6;&#x9888;&#x5C42;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x65E2;&#x663E;&#x8457;&#x7F29;&#x5C0F;&#x8BA1;&#x7B97;&#x89C4;&#x6A21;&#xFF0C;&#x53C8;&#x4E0D;&#x4F1A;&#x964D;&#x4F4E;&#x7F51;&#x7EDC;&#x6027;&#x80FD;&#x3002;</p>
-<h4 id="&#x5B8C;&#x6574;&#x7684;-Inception-&#x7F51;&#x7EDC;"><a href="#&#x5B8C;&#x6574;&#x7684;-Inception-&#x7F51;&#x7EDC;" class="headerlink" title="&#x5B8C;&#x6574;&#x7684; Inception &#x7F51;&#x7EDC;"></a>&#x5B8C;&#x6574;&#x7684; Inception &#x7F51;&#x7EDC;</h4><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Inception-module.jpg" alt=""></p>
-<p>&#x4E0A;&#x56FE;&#x662F;&#x5F15;&#x5165; 1x1 &#x5377;&#x79EF;&#x540E;&#x7684; Inception &#x6A21;&#x5757;&#x3002;&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x4E3A;&#x4E86;&#x5C06;&#x6240;&#x6709;&#x7684;&#x8F93;&#x51FA;&#x7EC4;&#x5408;&#x8D77;&#x6765;&#xFF0C;&#x7EA2;&#x8272;&#x7684;&#x6C60;&#x5316;&#x5C42;&#x4F7F;&#x7528; Same &#x7C7B;&#x578B;&#x7684;&#x586B;&#x5145;&#xFF08;padding&#xFF09;&#x6765;&#x6C60;&#x5316;&#x4F7F;&#x5F97;&#x8F93;&#x51FA;&#x7684;&#x5BBD;&#x9AD8;&#x4E0D;&#x53D8;&#xFF0C;&#x901A;&#x9053;&#x6570;&#x4E5F;&#x4E0D;&#x53D8;&#x3002;</p>
-<p>&#x591A;&#x4E2A; Inception &#x6A21;&#x5757;&#x7EC4;&#x6210;&#x4E00;&#x4E2A;&#x5B8C;&#x6574;&#x7684; Inception &#x7F51;&#x7EDC;&#xFF08;&#x88AB;&#x79F0;&#x4E3A; GoogLeNet&#xFF0C;&#x4EE5;&#x5411; LeNet &#x81F4;&#x656C;&#xFF09;&#xFF0C;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A;</p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20160904161917654_inception_v1.png" alt="Inception_v1 &#x7F51;&#x7EDC;"></p>
-<p>&#x6CE8;&#x610F;&#x9ED1;&#x8272;&#x692D;&#x5706;&#x5708;&#x51FA;&#x7684;&#x9690;&#x85CF;&#x5C42;&#xFF0C;&#x8FD9;&#x4E9B;&#x5206;&#x652F;&#x90FD;&#x662F; Softmax &#x7684;&#x8F93;&#x51FA;&#x5C42;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x53C2;&#x4E0E;&#x7279;&#x5F81;&#x7684;&#x8BA1;&#x7B97;&#x53CA;&#x7ED3;&#x679C;&#x9884;&#x6D4B;&#xFF0C;&#x8D77;&#x5230;&#x8C03;&#x6574;&#x5E76;&#x9632;&#x6B62;&#x53D1;&#x751F;&#x8FC7;&#x62DF;&#x5408;&#x7684;&#x6548;&#x679C;&#x3002;</p>
-<p>&#x7ECF;&#x8FC7;&#x7814;&#x7A76;&#x8005;&#x4EEC;&#x7684;&#x4E0D;&#x65AD;&#x53D1;&#x5C55;&#xFF0C;Inception &#x6A21;&#x578B;&#x7684; V2&#x3001;V3&#x3001;V4 &#x4EE5;&#x53CA;&#x5F15;&#x5165;&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;&#x7684;&#x7248;&#x672C;&#x88AB;&#x63D0;&#x51FA;&#xFF0C;&#x8FD9;&#x4E9B;&#x53D8;&#x4F53;&#x90FD;&#x57FA;&#x4E8E; Inception V1 &#x7248;&#x672C;&#x7684;&#x57FA;&#x7840;&#x601D;&#x60F3;&#x4E0A;&#x3002;&#x987A;&#x4FBF;&#x4E00;&#x63D0;&#xFF0C;Inception &#x6A21;&#x578B;&#x7684;&#x540D;&#x5B57;&#x6765;&#x81EA;&#x7535;&#x5F71;&#x300A;&#x76D7;&#x68A6;&#x7A7A;&#x95F4;&#x300B;&#x3002;</p>
+<p>对于同一个例子，我们使用 1x1 卷积把输入数据从 192 个通道减少到 16 个通道，然后对这个较小层运行 5x5 卷积，得到最终输出。这个 1x1 的卷积层通常被称作<strong>瓶颈层</strong>（Bottleneck layer）。</p>
+<p>改进后的计算量为 28x28x192x16 + 28x28x32x5x5x15 = 1.24 千万，减少了约 90%。</p>
+<p>只要合理构建瓶颈层，就可以既显著缩小计算规模，又不会降低网络性能。</p>
+<h4 id="完整的-Inception-网络"><a href="#完整的-Inception-网络" class="headerlink" title="完整的 Inception 网络"></a>完整的 Inception 网络</h4><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Inception-module.jpg" alt=""></p>
+<p>上图是引入 1x1 卷积后的 Inception 模块。值得注意的是，为了将所有的输出组合起来，红色的池化层使用 Same 类型的填充（padding）来池化使得输出的宽高不变，通道数也不变。</p>
+<p>多个 Inception 模块组成一个完整的 Inception 网络（被称为 GoogLeNet，以向 LeNet 致敬），如下图所示：</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20160904161917654_inception_v1.png" alt="Inception_v1 网络"></p>
+<p>注意黑色椭圆圈出的隐藏层，这些分支都是 Softmax 的输出层，可以用来参与特征的计算及结果预测，起到调整并防止发生过拟合的效果。</p>
+<p>经过研究者们的不断发展，Inception 模型的 V2、V3、V4 以及引入残差网络的版本被提出，这些变体都基于 Inception V1 版本的基础思想上。顺便一提，Inception 模型的名字来自电影《盗梦空间》。</p>
 <hr>
-<h3 id="ResNet-152-&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;"><a href="#ResNet-152-&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;" class="headerlink" title="ResNet-152 &#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;"></a>ResNet-152 &#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;</h3><font color="red">&#x56E0;&#x4E3A;&#x5B58;&#x5728;&#x68AF;&#x5EA6;&#x6D88;&#x5931;&#x548C;&#x68AF;&#x5EA6;&#x7206;&#x70B8;&#x95EE;&#x9898;&#xFF0C;&#x7F51;&#x7EDC;&#x8D8A;&#x6DF1;&#xFF0C;&#x5C31;&#x8D8A;&#x96BE;&#x4EE5;&#x8BAD;&#x7EC3;&#x6210;&#x529F;&#x3002;<strong>&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;</strong>&#xFF08;Residual Networks&#xFF0C;&#x7B80;&#x79F0;&#x4E3A; ResNets&#xFF09;&#x53EF;&#x4EE5;&#x6709;&#x6548;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x3002;</font>
+<h3 id="ResNet-152-残差网络"><a href="#ResNet-152-残差网络" class="headerlink" title="ResNet-152 残差网络"></a>ResNet-152 残差网络</h3><font color="red">因为存在梯度消失和梯度爆炸问题，网络越深，就越难以训练成功。**残差网络**（Residual Networks，简称为 ResNets）可以有效解决这个问题。</font>
 
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Residual-block.jpg" alt=""></p>
-<p>&#x4E0A;&#x56FE;&#x7684;&#x7ED3;&#x6784;&#x88AB;&#x79F0;&#x4E3A;<strong>&#x6B8B;&#x5DEE;&#x5757;</strong>&#xFF08;Residual block&#xFF09;&#x3002;&#x901A;&#x8FC7;<strong>&#x6377;&#x5F84;</strong>&#xFF08;Short cut&#xFF0C;&#x6216;&#x8005;&#x79F0;<strong>&#x8DF3;&#x8FDC;&#x8FDE;&#x63A5;</strong>&#xFF0C;Skip connections&#xFF09;&#x53EF;&#x4EE5;&#x5C06; a[l]&#x6DFB;&#x52A0;&#x5230;&#x7B2C;&#x4E8C;&#x4E2A; ReLU &#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x76F4;&#x63A5;&#x5EFA;&#x7ACB; a[l]&#x4E0E; a[l+2]&#x4E4B;&#x95F4;&#x7684;&#x9694;&#x5C42;&#x8054;&#x7CFB;&#x3002;&#x8868;&#x8FBE;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p>$$z^{[l+1]} = W^{[l+1]}a^{[l]} + b^{[l+1]}$$<br>$$a^{[l+1]} = g(z^{[l+1]})$$<br>$$z^{[l+2]} = W^{[l+2]}a^{[l+1]} + b^{[l+2]}$$<br>$$a^{[l+2]} = g(z^{[l+2]} + a^{[l]})$$</p>
-<p>&#x6784;&#x5EFA;&#x4E00;&#x4E2A;&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;&#x5C31;&#x662F;&#x5C06;&#x8BB8;&#x591A;&#x6B8B;&#x5DEE;&#x5757;&#x5806;&#x79EF;&#x5728;&#x4E00;&#x8D77;&#xFF0C;&#x5F62;&#x6210;&#x4E00;&#x4E2A;&#x6DF1;&#x5EA6;&#x7F51;&#x7EDC;&#x3002;</p>
+<p>上图的结构被称为<strong>残差块</strong>（Residual block）。通过<strong>捷径</strong>（Short cut，或者称<strong>跳远连接</strong>，Skip connections）可以将 a[l]添加到第二个 ReLU 过程中，直接建立 a[l]与 a[l+2]之间的隔层联系。表达式如下：</p>
+<script type="math/tex; mode=display">z^{[l+1]} = W^{[l+1]}a^{[l]} + b^{[l+1]}</script><script type="math/tex; mode=display">a^{[l+1]} = g(z^{[l+1]})</script><script type="math/tex; mode=display">z^{[l+2]} = W^{[l+2]}a^{[l+1]} + b^{[l+2]}</script><script type="math/tex; mode=display">a^{[l+2]} = g(z^{[l+2]} + a^{[l]})</script><p>构建一个残差网络就是将许多残差块堆积在一起，形成一个深度网络。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Residual-Network.jpg" alt=""></p>
-<p>&#x4E3A;&#x4E86;&#x4FBF;&#x4E8E;&#x533A;&#x5206;&#xFF0C;&#x5728; ResNets &#x7684;&#x8BBA;&#x6587; <a href="https://arxiv.org/pdf/1512.03385.pdf" target="_blank" rel="external">He et al., 2015. Deep residual networks for image recognition</a>&#x4E2D;&#xFF0C;&#x975E;&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;&#x88AB;&#x79F0;&#x4E3A;<strong>&#x666E;&#x901A;&#x7F51;&#x7EDC;</strong>&#xFF08;Plain Network&#xFF09;&#x3002;&#x5C06;&#x5B83;&#x53D8;&#x4E3A;&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x52A0;&#x4E0A;&#x6240;&#x6709;&#x7684;&#x8DF3;&#x8FDC;&#x8FDE;&#x63A5;&#x3002;</p>
-<p>&#x5728;&#x7406;&#x8BBA;&#x4E0A;&#xFF0C;&#x968F;&#x7740;&#x7F51;&#x7EDC;&#x6DF1;&#x5EA6;&#x7684;&#x589E;&#x52A0;&#xFF0C;&#x6027;&#x80FD;&#x5E94;&#x8BE5;&#x8D8A;&#x6765;&#x8D8A;&#x597D;&#x3002;&#x4F46;&#x5B9E;&#x9645;&#x4E0A;&#xFF0C;&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x666E;&#x901A;&#x7F51;&#x7EDC;&#xFF0C;&#x968F;&#x7740;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x5C42;&#x6570;&#x589E;&#x52A0;&#xFF0C;&#x8BAD;&#x7EC3;&#x9519;&#x8BEF;&#x4F1A;&#x5148;&#x51CF;&#x5C11;&#xFF0C;&#x7136;&#x540E;&#x5F00;&#x59CB;&#x589E;&#x591A;&#x3002;&#x4F46;&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;&#x7684;&#x8BAD;&#x7EC3;&#x6548;&#x679C;&#x663E;&#x793A;&#xFF0C;<font color="red">&#x5373;&#x4F7F;&#x7F51;&#x7EDC;&#x518D;&#x6DF1;&#xFF0C;&#x5176;&#x5728;&#x8BAD;&#x7EC3;&#x96C6;&#x4E0A;&#x7684;&#x8868;&#x73B0;&#x4E5F;&#x4F1A;&#x8D8A;&#x6765;&#x8D8A;&#x597D;</font>&#x3002;</p>
+<p>为了便于区分，在 ResNets 的论文 <a href="https://arxiv.org/pdf/1512.03385.pdf">He et al., 2015. Deep residual networks for image recognition</a>中，非残差网络被称为<strong>普通网络</strong>（Plain Network）。将它变为残差网络的方法是加上所有的跳远连接。</p>
+<p>在理论上，随着网络深度的增加，性能应该越来越好。但实际上，对于一个普通网络，随着神经网络层数增加，训练错误会先减少，然后开始增多。但残差网络的训练效果显示，<font color="red">即使网络再深，其在训练集上的表现也会越来越好</font>。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/ResNet-Training-Error.jpg" alt=""></p>
-<p><strong>&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;&#x6709;&#x52A9;&#x4E8E;&#x89E3;&#x51B3;&#x68AF;&#x5EA6;&#x6D88;&#x5931;&#x548C;&#x68AF;&#x5EA6;&#x7206;&#x70B8;&#x95EE;&#x9898;&#xFF0C;&#x4F7F;&#x5F97;&#x5728;&#x8BAD;&#x7EC3;&#x66F4;&#x6DF1;&#x7684;&#x7F51;&#x7EDC;&#x7684;&#x540C;&#x65F6;&#xFF0C;&#x53C8;&#x80FD;&#x4FDD;&#x8BC1;&#x826F;&#x597D;&#x7684;&#x6027;&#x80FD;&#x3002;</strong></p>
-<h4 id="&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;&#x6709;&#x6548;&#x7684;&#x539F;&#x56E0;"><a href="#&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;&#x6709;&#x6548;&#x7684;&#x539F;&#x56E0;" class="headerlink" title="&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;&#x6709;&#x6548;&#x7684;&#x539F;&#x56E0;"></a>&#x6B8B;&#x5DEE;&#x7F51;&#x7EDC;&#x6709;&#x6548;&#x7684;&#x539F;&#x56E0;</h4><p>&#x5047;&#x8BBE;&#x6709;&#x4E00;&#x4E2A;&#x5927;&#x578B;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF0C;&#x5176;&#x8F93;&#x5165;&#x4E3A; $X$&#xFF0C;&#x8F93;&#x51FA;&#x4E3A; $a^{[l]}$&#x3002;&#x7ED9;&#x8FD9;&#x4E2A;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x989D;&#x5916;&#x589E;&#x52A0;&#x4E24;&#x5C42;&#xFF0C;&#x8F93;&#x51FA;&#x4E3A; $a^{[l+2]}$&#x3002;&#x5C06;&#x8FD9;&#x4E24;&#x5C42;&#x770B;&#x4F5C;&#x4E00;&#x4E2A;&#x5177;&#x6709;&#x8DF3;&#x8FDC;&#x8FDE;&#x63A5;&#x7684;&#x6B8B;&#x5DEE;&#x5757;&#x3002;&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x8BF4;&#x660E;&#xFF0C;&#x5047;&#x8BBE;&#x6574;&#x4E2A;&#x7F51;&#x7EDC;&#x4E2D;&#x90FD;&#x9009;&#x7528; ReLU &#x4F5C;&#x4E3A;&#x6FC0;&#x6D3B;&#x51FD;&#x6570;&#xFF0C;&#x56E0;&#x6B64;&#x8F93;&#x51FA;&#x7684;&#x6240;&#x6709;&#x6FC0;&#x6D3B;&#x503C;&#x90FD;&#x5927;&#x4E8E;&#x7B49;&#x4E8E; 0&#x3002;</p>
+<p><strong>残差网络有助于解决梯度消失和梯度爆炸问题，使得在训练更深的网络的同时，又能保证良好的性能。</strong></p>
+<h4 id="残差网络有效的原因"><a href="#残差网络有效的原因" class="headerlink" title="残差网络有效的原因"></a>残差网络有效的原因</h4><p>假设有一个大型神经网络，其输入为 $X$，输出为 $a^{[l]}$。给这个神经网络额外增加两层，输出为 $a^{[l+2]}$。将这两层看作一个具有跳远连接的残差块。为了方便说明，假设整个网络中都选用 ReLU 作为激活函数，因此输出的所有激活值都大于等于 0。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Why-do-residual-networks-work.jpg" alt=""></p>
-<p>&#x5219;&#x6709;&#xFF1A;</p>
-<p>$$<br>\begin{equation}<br>\begin{split}<br> a^{[l+2]} &amp;= g(z^{[l+2]}+a^{[l]})      \\ &amp;= g(W^{[l+2]}a^{[l+1]}+b^{[l+2]}+a^{[l]})<br>\end{split}<br>\end{equation}<br>$$</p>
-<p>&#x5F53;&#x53D1;&#x751F;&#x68AF;&#x5EA6;&#x6D88;&#x5931;&#x65F6;&#xFF0C;$W^{[l+2]}\approx0$&#xFF0C;$b^{[l+2]}\approx0$&#xFF0C;&#x5219;&#x6709;&#xFF1A;</p>
-<p>$$a^{[l+2]} = g(a^{[l]}) = ReLU(a^{[l]}) = a^{[l]}$$</p>
-<p>&#x56E0;&#x6B64;&#xFF0C;&#x8FD9;&#x4E24;&#x5C42;&#x989D;&#x5916;&#x7684;&#x6B8B;&#x5DEE;&#x5757;&#x4E0D;&#x4F1A;&#x964D;&#x4F4E;&#x7F51;&#x7EDC;&#x6027;&#x80FD;&#x3002;&#x800C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x53D1;&#x751F;&#x68AF;&#x5EA6;&#x6D88;&#x5931;&#x65F6;&#xFF0C;&#x8BAD;&#x7EC3;&#x5F97;&#x5230;&#x7684;&#x975E;&#x7EBF;&#x6027;&#x5173;&#x7CFB;&#x4F1A;&#x4F7F;&#x5F97;&#x8868;&#x73B0;&#x6548;&#x679C;&#x8FDB;&#x4E00;&#x6B65;&#x63D0;&#x9AD8;&#x3002;</p>
-<p>&#x6CE8;&#x610F;&#xFF0C;<strong>&#x5982;&#x679C; $a^{[l]}$&#x4E0E; $a^{[l+2]}$ &#x7684;&#x7EF4;&#x5EA6;&#x4E0D;&#x540C;&#xFF0C;&#x9700;&#x8981;&#x5F15;&#x5165;&#x77E9;&#x9635; $W_s$ &#x4E0E; $a^{[l]}$ &#x76F8;&#x4E58;&#xFF0C;&#x4F7F;&#x5F97;&#x4E8C;&#x8005;&#x7684;&#x7EF4;&#x5EA6;&#x76F8;&#x5339;&#x914D;</strong>&#x3002;&#x53C2;&#x6570;&#x77E9;&#x9635; $W_s$&#x65E2;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6A21;&#x578B;&#x8BAD;&#x7EC3;&#x5F97;&#x5230;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x56FA;&#x5B9A;&#x503C;&#xFF0C;&#x4EC5;&#x4F7F; $a^{[l]}$ &#x622A;&#x65AD;&#x6216;&#x8005;&#x8865;&#x96F6;&#x3002;</p>
+<p>则有：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+ a^{[l+2]} &= g(z^{[l+2]}+a^{[l]})      \\ &= g(W^{[l+2]}a^{[l+1]}+b^{[l+2]}+a^{[l]})
+\end{split}
+\end{equation}</script><p>当发生梯度消失时，$W^{[l+2]}\approx0$，$b^{[l+2]}\approx0$，则有：</p>
+<script type="math/tex; mode=display">a^{[l+2]} = g(a^{[l]}) = ReLU(a^{[l]}) = a^{[l]}</script><p>因此，这两层额外的残差块不会降低网络性能。而如果没有发生梯度消失时，训练得到的非线性关系会使得表现效果进一步提高。</p>
+<p>注意，<strong>如果 $a^{[l]}$与 $a^{[l+2]}$ 的维度不同，需要引入矩阵 $W_s$ 与 $a^{[l]}$ 相乘，使得二者的维度相匹配</strong>。参数矩阵 $W_s$既可以通过模型训练得到，也可以作为固定值，仅使 $a^{[l]}$ 截断或者补零。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/ResNet-Paper.png" alt=""></p>
-<p>&#x4E0A;&#x56FE;&#x662F;&#x8BBA;&#x6587;&#x63D0;&#x4F9B;&#x7684; CNN &#x4E2D; ResNet &#x7684;&#x4E00;&#x4E2A;&#x5178;&#x578B;&#x7ED3;&#x6784;&#x3002;&#x5377;&#x79EF;&#x5C42;&#x901A;&#x5E38;&#x4F7F;&#x7528; Same &#x5377;&#x79EF;&#x4EE5;&#x4FDD;&#x6301;&#x7EF4;&#x5EA6;&#x76F8;&#x540C;&#xFF0C;&#x800C;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x5C42;&#x4E4B;&#x95F4;&#x7684;&#x8FDE;&#x63A5;&#xFF08;&#x4F8B;&#x5982;&#x5377;&#x79EF;&#x5C42;&#x548C;&#x6C60;&#x5316;&#x5C42;&#xFF09;&#xFF0C;<strong>&#x5982;&#x679C;&#x7EF4;&#x5EA6;&#x4E0D;&#x540C;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x5F15;&#x5165;&#x77E9;&#x9635; $W_s$</strong>&#x3002;</p>
+<p>上图是论文提供的 CNN 中 ResNet 的一个典型结构。卷积层通常使用 Same 卷积以保持维度相同，而不同类型层之间的连接（例如卷积层和池化层），<strong>如果维度不同，则需要引入矩阵 $W_s$</strong>。</p>
 <hr>
-<h3 id="&#x7ECF;&#x5178;&#x7F51;&#x7EDC;&#x5BF9;&#x6BD4;"><a href="#&#x7ECF;&#x5178;&#x7F51;&#x7EDC;&#x5BF9;&#x6BD4;" class="headerlink" title="&#x7ECF;&#x5178;&#x7F51;&#x7EDC;&#x5BF9;&#x6BD4;"></a>&#x7ECF;&#x5178;&#x7F51;&#x7EDC;&#x5BF9;&#x6BD4;</h3><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/62.png" alt=""></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2018/01/21/人脸识别/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    人脸识别
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2018/01/10/卷积操作详解（填充、步长、高维卷积、卷积公式）/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">卷积操作详解（填充、步长、高维卷积、卷积公式）</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-		<!-- MathJax���ã���ͨ������Ԫ������д���ڹ�ʽ�� -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": { 
-        preferredFont: "TeX", 
-        availableFonts: ["STIX","TeX"], 
-        linebreaks: { automatic:true }, 
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
-    },
-    tex2jax: { 
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
-        processEscapes: true, 
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {  
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
-        Macros: { href: "{}" } 
-    },
-    messageStyle: "none"
-    }); 
-</script>
-<!-- ��MathJaxԪ������has-jax class -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<!-- ͨ������CDN����MathJax��js���� -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+<h3 id="经典网络对比"><a href="#经典网络对比" class="headerlink" title="经典网络对比"></a>经典网络对比</h3><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/62.png" alt=""></p>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/CNN/">CNN</a><a class="link-muted mr-2" rel="tag" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/">经典网络</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2018/01/21/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">人脸识别</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2018/01/10/%E5%8D%B7%E7%A7%AF%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3%EF%BC%88%E5%A1%AB%E5%85%85%E3%80%81%E6%AD%A5%E9%95%BF%E3%80%81%E9%AB%98%E7%BB%B4%E5%8D%B7%E7%A7%AF%E3%80%81%E5%8D%B7%E7%A7%AF%E5%85%AC%E5%BC%8F%EF%BC%89/"><span class="level-item">卷积操作详解（填充、步长、高维卷积、卷积公式）</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" href="#LeNet-5"><span class="mr-2">1</span><span>LeNet-5</span></a></li><li><a class="is-flex" href="#AlexNet-8"><span class="mr-2">2</span><span>AlexNet-8</span></a></li><li><a class="is-flex" href="#VGG-16"><span class="mr-2">3</span><span>VGG-16</span></a></li><li><a class="is-flex" href="#1x1-卷积"><span class="mr-2">4</span><span>1x1 卷积</span></a></li><li><a class="is-flex" href="#GoogleLeNet-22-Inception-网络"><span class="mr-2">5</span><span>GoogleLeNet-22 Inception 网络</span></a><ul class="menu-list"><li><a class="is-flex" href="#计算成本问题"><span class="mr-2">5.1</span><span>计算成本问题</span></a></li><li><a class="is-flex" href="#完整的-Inception-网络"><span class="mr-2">5.2</span><span>完整的 Inception 网络</span></a></li></ul></li><li><a class="is-flex" href="#ResNet-152-残差网络"><span class="mr-2">6</span><span>ResNet-152 残差网络</span></a><ul class="menu-list"><li><a class="is-flex" href="#残差网络有效的原因"><span class="mr-2">6.1</span><span>残差网络有效的原因</span></a></li></ul></li><li><a class="is-flex" href="#经典网络对比"><span class="mr-2">7</span><span>经典网络对比</span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

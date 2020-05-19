@@ -1,599 +1,135 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>循环训练模型 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x524D;&amp;#x8A00;&amp;#x81EA;&amp;#x7136;&amp;#x8BED;&amp;#x8A00;&amp;#x548C;&amp;#x97F3;&amp;#x9891;&amp;#x90FD;&amp;#x662F;&amp;#x524D;&amp;#x540E;&amp;#x76F8;&amp;#x4E92;&amp;#x5173;&amp;#x8054;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#xFF0C;&amp;#x5BF9;&amp;#x4E8E;&amp;#x8FD9;&amp;#x4E9B;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="循环训练模型">
-<meta property="og:url" content="http://www.wangxin123.com/2018/02/27/循环训练模型/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x524D;&amp;#x8A00;&amp;#x81EA;&amp;#x7136;&amp;#x8BED;&amp;#x8A00;&amp;#x548C;&amp;#x97F3;&amp;#x9891;&amp;#x90FD;&amp;#x662F;&amp;#x524D;&amp;#x540E;&amp;#x76F8;&amp;#x4E92;&amp;#x5173;&amp;#x8054;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#xFF0C;&amp;#x5BF9;&amp;#x4E8E;&amp;#x8FD9;&amp;#x4E9B;">
-<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424212312_Examples-of-Sequence-Model.png">
-<meta property="og:updated_time" content="2018-07-18T01:07:13.911Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="循环训练模型">
-<meta name="twitter:description" content="&amp;#x524D;&amp;#x8A00;&amp;#x81EA;&amp;#x7136;&amp;#x8BED;&amp;#x8A00;&amp;#x548C;&amp;#x97F3;&amp;#x9891;&amp;#x90FD;&amp;#x662F;&amp;#x524D;&amp;#x540E;&amp;#x76F8;&amp;#x4E92;&amp;#x5173;&amp;#x8054;&amp;#x7684;&amp;#x6570;&amp;#x636E;&amp;#xFF0C;&amp;#x5BF9;&amp;#x4E8E;&amp;#x8FD9;&amp;#x4E9B;">
-<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424212312_Examples-of-Sequence-Model.png">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-循环训练模型" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            循环训练模型
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/02/27/循环训练模型/">
-            <time datetime="2018-02-27T14:22:00.000Z" itemprop="datePublished">2018-02-27</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/深度学习/">深度学习</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/RNN/">RNN</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数学符号"><span class="toc-number">2.</span> <span class="toc-text">数学符号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#循环神经网络模型"><span class="toc-number">3.</span> <span class="toc-text">循环神经网络模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RNN反向传播"><span class="toc-number">4.</span> <span class="toc-text">RNN反向传播</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不同结构"><span class="toc-number">5.</span> <span class="toc-text">不同结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#语言模型"><span class="toc-number">6.</span> <span class="toc-text">语言模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#采样"><span class="toc-number">7.</span> <span class="toc-text">采样</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RNN-的梯度消失"><span class="toc-number">8.</span> <span class="toc-text">RNN 的梯度消失</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GRU（门控循环单元）"><span class="toc-number">9.</span> <span class="toc-text">GRU（门控循环单元）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LSTM（长短期记忆）"><span class="toc-number">10.</span> <span class="toc-text">LSTM（长短期记忆）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#双向循环神经网络（BRNN）"><span class="toc-number">11.</span> <span class="toc-text">双向循环神经网络（BRNN）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#深度循环神经网络（DRNN"><span class="toc-number">12.</span> <span class="toc-text">深度循环神经网络（DRNN)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码示例"><span class="toc-number"></span> <span class="toc-text">代码示例</span></a>
-                </div>
-            
-            <h4 id="&#x524D;&#x8A00;"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</h4><p>&#x81EA;&#x7136;&#x8BED;&#x8A00;&#x548C;&#x97F3;&#x9891;&#x90FD;&#x662F;&#x524D;&#x540E;&#x76F8;&#x4E92;&#x5173;&#x8054;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5BF9;&#x4E8E;&#x8FD9;&#x4E9B;&#x5E8F;&#x5217;&#x6570;&#x636E;&#x9700;&#x8981;&#x4F7F;&#x7528;<strong>&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;Recurrent Neural Network&#xFF0C;RNN&#xFF09;</strong>&#x6765;&#x8FDB;&#x884C;&#x5904;&#x7406;&#x3002;</p>
-<p>&#x4F7F;&#x7528; RNN &#x5B9E;&#x73B0;&#x7684;&#x5E94;&#x7528;&#x5305;&#x62EC;&#x4E0B;&#x56FE;&#x4E2D;&#x6240;&#x793A;&#xFF1A;</p>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>循环训练模型 - Hexo</title><meta description="前言自然语言和音频都是前后相互关联的数据，对于这些序列数据需要使用循环神经网络（Recurrent Neural Network，RNN）来进行处理。 使用 RNN 实现的应用包括下图中所示："><meta property="og:type" content="blog"><meta property="og:title" content="循环训练模型"><meta property="og:url" content="http://yoursite.com/2018/02/27/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="前言自然语言和音频都是前后相互关联的数据，对于这些序列数据需要使用循环神经网络（Recurrent Neural Network，RNN）来进行处理。 使用 RNN 实现的应用包括下图中所示："><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424212312_Examples-of-Sequence-Model.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Recurrent-Neural-Network.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_1.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_2.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180425095414.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/formula-of-RNN.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Examples-of-RNN-architectures.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/language-model-RNN-example.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Sampling-a-sequence-from-a-trained-RNN.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_3.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_4.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_5.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/LSTM.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/BRNN.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/DRNN.png"><meta property="article:published_time" content="2018-02-27T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.437Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="RNN"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424212312_Examples-of-Sequence-Model.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2018/02/27/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/"},"headline":"Hexo","image":["http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424212312_Examples-of-Sequence-Model.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Recurrent-Neural-Network.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_1.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_2.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180425095414.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/formula-of-RNN.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Examples-of-RNN-architectures.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/language-model-RNN-example.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Sampling-a-sequence-from-a-trained-RNN.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_3.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_4.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_5.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/LSTM.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/BRNN.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/DRNN.png"],"datePublished":"2018-02-27T14:22:00.000Z","dateModified":"2020-05-19T06:34:18.437Z","author":{"@type":"Person","name":"John Doe"},"description":"前言自然语言和音频都是前后相互关联的数据，对于这些序列数据需要使用循环神经网络（Recurrent Neural Network，RNN）来进行处理。 使用 RNN 实现的应用包括下图中所示："}</script><link rel="canonical" href="http://yoursite.com/2018/02/27/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-02-27T14:22:00.000Z" title="2018-02-27T14:22:00.000Z">2018-02-27</time><span class="level-item"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></span><span class="level-item">27 分钟 读完 (大约 4067 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">循环训练模型</h1><div class="content"><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>自然语言和音频都是前后相互关联的数据，对于这些序列数据需要使用<strong>循环神经网络（Recurrent Neural Network，RNN）</strong>来进行处理。</p>
+<p>使用 RNN 实现的应用包括下图中所示：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424212312_Examples-of-Sequence-Model.png" alt=""></p>
 <a id="more"></a>
 <hr>
-<h4 id="&#x6570;&#x5B66;&#x7B26;&#x53F7;"><a href="#&#x6570;&#x5B66;&#x7B26;&#x53F7;" class="headerlink" title="&#x6570;&#x5B66;&#x7B26;&#x53F7;"></a>&#x6570;&#x5B66;&#x7B26;&#x53F7;</h4><p>&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x5E8F;&#x5217;&#x6570;&#x636E; $x$ &#xFF0C;&#x7528;&#x7B26;&#x53F7; $x^{&#x27E8;t&#x27E9;}$ &#x6765;&#x8868;&#x793A;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x4E2D;&#x7684;&#x7B2C; $t$ &#x4E2A;&#x5143;&#x7D20;&#xFF0C;&#x7528; $y^{&#x27E8;t&#x27E9;}$ &#x6765;&#x8868;&#x793A;&#x7B2C; $t$ &#x4E2A;&#x6807;&#x7B7E;&#xFF0C;&#x7528; $T_x$ &#x548C; $T_y$ &#x6765;&#x8868;&#x793A;&#x8F93;&#x5165;&#x548C;&#x8F93;&#x51FA;&#x7684;&#x957F;&#x5EA6;&#x3002;&#x5BF9;&#x4E8E;&#x4E00;&#x6BB5;&#x97F3;&#x9891;&#xFF0C;&#x5143;&#x7D20;&#x53EF;&#x80FD;&#x662F;&#x5176;&#x4E2D;&#x7684;&#x51E0;&#x5E27;&#xFF1B;&#x5BF9;&#x4E8E;&#x4E00;&#x53E5;&#x8BDD;&#xFF0C;&#x5143;&#x7D20;&#x53EF;&#x80FD;&#x662F;&#x4E00;&#x5230;&#x591A;&#x4E2A;&#x5355;&#x8BCD;&#x3002;</p>
-<p>&#x7B2C; $i$ &#x4E2A;&#x5E8F;&#x5217;&#x6570;&#x636E;&#x7684;&#x7B2C; $t$ &#x4E2A;&#x5143;&#x7D20;&#x7528;&#x7B26;&#x53F7; $x^{(i)&#x27E8;t&#x27E9;}$&#xFF0C;&#x7B2C; $t$ &#x4E2A;&#x6807;&#x7B7E;&#x5373;&#x4E3A; $y^{(i)&#x27E8;t&#x27E9;}$&#x3002;&#x5BF9;&#x5E94;&#x5373;&#x6709; $T^{(i)}_x$ &#x548C; $T^{(i)}_y$&#x3002;</p>
-<p>&#x60F3;&#x8981;&#x8868;&#x793A;&#x4E00;&#x4E2A;&#x8BCD;&#x8BED;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;<strong>&#x8BCD;&#x6C47;&#x8868;&#xFF08;Vocabulary&#xFF09;</strong>&#xFF0C;&#x6216;&#x8005;&#x53EB;<strong>&#x5B57;&#x5178;&#xFF08;Dictionary&#xFF09;</strong>&#x3002;&#x5C06;&#x9700;&#x8981;&#x8868;&#x793A;&#x7684;&#x6240;&#x6709;&#x8BCD;&#x8BED;&#x53D8;&#x4E3A;&#x4E00;&#x4E2A;&#x5217;&#x5411;&#x91CF;&#xFF0C;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x5B57;&#x6BCD;&#x987A;&#x5E8F;&#x6392;&#x5217;&#xFF0C;&#x7136;&#x540E;&#x6839;&#x636E;&#x5355;&#x8BCD;&#x5728;&#x5411;&#x91CF;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x7528; <strong>one-hot &#x5411;&#x91CF;&#xFF08;one-hot vector&#xFF09;</strong>&#x6765;&#x8868;&#x793A;&#x8BE5;&#x5355;&#x8BCD;&#x7684;&#x6807;&#x7B7E;&#xFF1A;&#x5C06;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x7F16;&#x7801;&#x6210;&#x4E00;&#x4E2A; $R^{|V| \times 1}$ &#x5411;&#x91CF;&#xFF0C;&#x5176;&#x4E2D; |V| &#x662F;&#x8BCD;&#x6C47;&#x8868;&#x4E2D;&#x5355;&#x8BCD;&#x7684;&#x6570;&#x91CF;&#x3002;&#x4E00;&#x4E2A;&#x5355;&#x8BCD;&#x5728;&#x8BCD;&#x6C47;&#x8868;&#x4E2D;&#x7684;&#x7D22;&#x5F15;&#x5728;&#x8BE5;&#x5411;&#x91CF;&#x5BF9;&#x5E94;&#x7684;&#x5143;&#x7D20;&#x4E3A; 1&#xFF0C;&#x5176;&#x4F59;&#x5143;&#x7D20;&#x5747;&#x4E3A; 0&#x3002;</p>
-<p>&#x4F8B;&#x5982;&#xFF0C;&#x2019;zebra&#x2019;&#x6392;&#x5728;&#x8BCD;&#x6C47;&#x8868;&#x7684;&#x6700;&#x540E;&#x4E00;&#x4F4D;&#xFF0C;&#x56E0;&#x6B64;&#x5B83;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#x8868;&#x793A;&#x4E3A;&#xFF1A;</p>
-<p>$$w^{zebra} = \left [ 0, 0, 0, &#x2026;, 1\right ]^T$$</p>
-<p><strong>&#x8865;&#x5145;</strong>&#xFF1A;one-hot &#x5411;&#x91CF;&#x662F;&#x6700;&#x7B80;&#x5355;&#x7684;&#x8BCD;&#x5411;&#x91CF;&#x3002;&#x5B83;&#x7684;<strong>&#x7F3A;&#x70B9;</strong>&#x662F;&#xFF0C;&#x7531;&#x4E8E;&#x6BCF;&#x4E2A;&#x5355;&#x8BCD;&#x88AB;&#x8868;&#x793A;&#x4E3A;&#x5B8C;&#x5168;&#x72EC;&#x7ACB;&#x7684;&#x4E2A;&#x4F53;&#xFF0C;&#x56E0;&#x6B64;<strong>&#x5355;&#x8BCD;&#x95F4;&#x7684;&#x76F8;&#x4F3C;&#x5EA6;&#x65E0;&#x6CD5;&#x4F53;&#x73B0;</strong>&#x3002;&#x4F8B;&#x5982;&#x5355;&#x8BCD; hotel &#x548C; motel &#x610F;&#x601D;&#x76F8;&#x8FD1;&#xFF0C;&#x800C;&#x4E0E; cat &#x4E0D;&#x76F8;&#x4F3C;&#xFF0C;&#x4F46;&#x662F;</p>
-<p>$$(w^{hotel})^Tw^{motel} = (w^{hotel})^Tw^{cat} = 0$$</p>
-<hr>
-<h4 id="&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x6A21;&#x578B;"><a href="#&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x6A21;&#x578B;" class="headerlink" title="&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x6A21;&#x578B;"></a>&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x6A21;&#x578B;</h4><p><strong>RNN &#x7684;&#x76EE;&#x7684;&#x662F;&#x7528;&#x6765;&#x5904;&#x7406;&#x5E8F;&#x5217;&#x6570;&#x636E;</strong>&#x3002;&#x5728;&#x4F20;&#x7EDF;&#x7684;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x6A21;&#x578B;&#x4E2D;&#xFF0C;&#x662F;&#x4ECE;&#x8F93;&#x5165;&#x5C42;&#x5230;&#x9690;&#x542B;&#x5C42;&#x518D;&#x5230;&#x8F93;&#x51FA;&#x5C42;&#xFF0C;&#x5C42;&#x4E0E;&#x5C42;&#x4E4B;&#x95F4;&#x662F;&#x5168;&#x8FDE;&#x63A5;&#x7684;&#xFF0C;&#x6BCF;&#x5C42;&#x4E4B;&#x95F4;&#x7684;&#x8282;&#x70B9;&#x662F;&#x65E0;&#x8FDE;&#x63A5;&#x7684;&#x3002;&#x4F46;&#x662F;&#x8FD9;&#x79CD;&#x666E;&#x901A;&#x7684;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x5BF9;&#x4E8E;&#x5F88;&#x591A;&#x95EE;&#x9898;&#x5374;&#x65E0;&#x80FD;&#x65E0;&#x529B;&#x3002;</p>
-<p>&#x6BD4;&#x5982;&#x5BF9;&#x4E8E;&#x5E8F;&#x5217;&#x6570;&#x636E;&#xFF0C;&#x4F7F;&#x7528;&#x6807;&#x51C6;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x5B58;&#x5728;&#x4EE5;&#x4E0B;&#x95EE;&#x9898;&#xFF1A;</p>
+<h4 id="数学符号"><a href="#数学符号" class="headerlink" title="数学符号"></a>数学符号</h4><p>对于一个序列数据 $x$ ，用符号 $x^{⟨t⟩}$ 来表示这个数据中的第 $t$ 个元素，用 $y^{⟨t⟩}$ 来表示第 $t$ 个标签，用 $T_x$ 和 $T_y$ 来表示输入和输出的长度。对于一段音频，元素可能是其中的几帧；对于一句话，元素可能是一到多个单词。</p>
+<p>第 $i$ 个序列数据的第 $t$ 个元素用符号 $x^{(i)⟨t⟩}$，第 $t$ 个标签即为 $y^{(i)⟨t⟩}$。对应即有 $T^{(i)}_x$ 和 $T^{(i)}_y$。</p>
+<p>想要表示一个词语，需要先建立一个<strong>词汇表（Vocabulary）</strong>，或者叫<strong>字典（Dictionary）</strong>。将需要表示的所有词语变为一个列向量，可以根据字母顺序排列，然后根据单词在向量中的位置，用 <strong>one-hot 向量（one-hot vector）</strong>来表示该单词的标签：将每个单词编码成一个 $R^{|V| \times 1}$ 向量，其中 |V| 是词汇表中单词的数量。一个单词在词汇表中的索引在该向量对应的元素为 1，其余元素均为 0。</p>
+<p>例如，’zebra’排在词汇表的最后一位，因此它的词向量表示为：</p>
+<script type="math/tex; mode=display">w^{zebra} = \left [ 0, 0, 0, ..., 1\right ]^T</script><p><strong>补充</strong>：one-hot 向量是最简单的词向量。它的<strong>缺点</strong>是，由于每个单词被表示为完全独立的个体，因此<strong>单词间的相似度无法体现</strong>。例如单词 hotel 和 motel 意思相近，而与 cat 不相似，但是</p>
+<script type="math/tex; mode=display">(w^{hotel})^Tw^{motel} = (w^{hotel})^Tw^{cat} = 0</script><hr>
+<h4 id="循环神经网络模型"><a href="#循环神经网络模型" class="headerlink" title="循环神经网络模型"></a>循环神经网络模型</h4><p><strong>RNN 的目的是用来处理序列数据</strong>。在传统的神经网络模型中，是从输入层到隐含层再到输出层，层与层之间是全连接的，每层之间的节点是无连接的。但是这种普通的神经网络对于很多问题却无能无力。</p>
+<p>比如对于序列数据，使用标准神经网络存在以下问题：</p>
 <ul>
-<li>&#x5BF9;&#x4E8E;&#x4E0D;&#x540C;&#x7684;&#x793A;&#x4F8B;&#xFF0C;&#x8F93;&#x5165;&#x548C;&#x8F93;&#x51FA;&#x53EF;&#x80FD;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x957F;&#x5EA6;&#xFF0C;&#x56E0;&#x6B64;&#x8F93;&#x5165;&#x5C42;&#x548C;&#x8F93;&#x51FA;&#x5C42;&#x7684;&#x795E;&#x7ECF;&#x5143;&#x6570;&#x91CF;&#x65E0;&#x6CD5;&#x56FA;&#x5B9A;&#x3002;</li>
-<li>&#x4ECE;&#x8F93;&#x5165;&#x6587;&#x672C;&#x7684;&#x4E0D;&#x540C;&#x4F4D;&#x7F6E;&#x5B66;&#x5230;&#x7684;&#x540C;&#x4E00;&#x7279;&#x5F81;&#x65E0;&#x6CD5;&#x5171;&#x4EAB;&#x3002;</li>
-<li>&#x6A21;&#x578B;&#x4E2D;&#x7684;&#x53C2;&#x6570;&#x592A;&#x591A;&#xFF0C;&#x8BA1;&#x7B97;&#x91CF;&#x592A;&#x5927;&#x3002;</li>
+<li>对于不同的示例，输入和输出可能有不同的长度，因此输入层和输出层的神经元数量无法固定。</li>
+<li>从输入文本的不同位置学到的同一特征无法共享。</li>
+<li>模型中的参数太多，计算量太大。</li>
 </ul>
-<p>&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x8FD9;&#x4E9B;&#x95EE;&#x9898;&#xFF0C;&#x5F15;&#x5165;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;Recurrent Neural Network&#xFF0C;RNN&#xFF09;&#x3002;<strong>RNN&#x4E4B;&#x6240;&#x4EE5;&#x79F0;&#x4E3A;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x8DEF;&#xFF0C;&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;&#x5E8F;&#x5217;&#x5F53;&#x524D;&#x7684;&#x8F93;&#x51FA;&#x4E0E;&#x524D;&#x9762;&#x7684;&#x8F93;&#x51FA;&#x4E5F;&#x6709;&#x5173;</strong>&#x3002;</p>
-<p>&#x4E00;&#x79CD;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x7684;&#x7ED3;&#x6784;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A;</p>
+<p>为了解决这些问题，引入循环神经网络（Recurrent Neural Network，RNN）。<strong>RNN之所以称为循环神经网路，因为一个序列当前的输出与前面的输出也有关</strong>。</p>
+<p>一种循环神经网络的结构如下图所示：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Recurrent-Neural-Network.png" alt=""></p>
-<p>&#x5F53;&#x5143;&#x7D20; $x^{&#x27E8;t&#x27E9;}$ &#x8F93;&#x5165;&#x5BF9;&#x5E94;&#x65F6;&#x95F4;&#x6B65;&#xFF08;Time Step&#xFF09;&#x7684;&#x9690;&#x85CF;&#x5C42;&#x7684;&#x540C;&#x65F6;&#xFF0C;<strong>&#x8BE5;&#x9690;&#x85CF;&#x5C42;&#x4E5F;&#x4F1A;&#x63A5;&#x6536;&#x6765;&#x81EA;&#x4E0A;&#x4E00;&#x65F6;&#x95F4;&#x6B65;&#x7684;&#x9690;&#x85CF;&#x5C42;&#x7684;&#x6FC0;&#x6D3B;&#x503C; $a^{&#x27E8;t-1&#x27E9;}$</strong>&#xFF0C;&#x5176;&#x4E2D; $a^{&#x27E8;0&#x27E9;}$ &#x4E00;&#x822C;&#x76F4;&#x63A5;&#x521D;&#x59CB;&#x5316;&#x4E3A;&#x96F6;&#x5411;&#x91CF;&#x3002;&#x4E00;&#x4E2A;&#x65F6;&#x95F4;&#x6B65;&#x8F93;&#x51FA;&#x4E00;&#x4E2A;&#x5BF9;&#x5E94;&#x7684;&#x9884;&#x6D4B;&#x7ED3;&#x679C; $\hat y^{&#x27E8;t&#x27E9;}$&#x3002;</p>
-<p>&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x4ECE;&#x5DE6;&#x5411;&#x53F3;&#x626B;&#x63CF;&#x6570;&#x636E;&#xFF0C;&#x540C;&#x65F6;&#x6BCF;&#x4E2A;&#x65F6;&#x95F4;&#x6B65;&#x7684;&#x53C2;&#x6570;&#x4E5F;&#x662F;&#x5171;&#x4EAB;&#x7684;&#xFF0C;&#x8F93;&#x5165;&#x3001;&#x6FC0;&#x6D3B;&#x3001;&#x8F93;&#x51FA;&#x7684;&#x53C2;&#x6570;&#x5BF9;&#x5E94;&#x4E3A; $W_{ax}$&#x3001;$W_{aa}$&#x3001;$W_{ay}$&#x3002;</p>
-<p>&#x76EE;&#x524D;&#x6211;&#x4EEC;&#x770B;&#x5230;&#x7684;&#x6A21;&#x578B;&#x7684;&#x95EE;&#x9898;&#x662F;&#xFF0C;&#x53EA;<strong>&#x4F7F;&#x7528;&#x4E86;&#x8FD9;&#x4E2A;&#x5E8F;&#x5217;&#x4E2D;&#x4E4B;&#x524D;&#x7684;&#x4FE1;&#x606F;&#x6765;&#x505A;&#x51FA;&#x9884;&#x6D4B;&#xFF0C;&#x5373;&#x540E;&#x6587;&#x6CA1;&#x6709;&#x88AB;&#x4F7F;&#x7528;</strong>&#x3002;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;<strong>&#x53CC;&#x5411;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;Bidirectional RNN&#xFF0C;BRNN&#xFF09;</strong>&#x6765;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x3002;</p>
-<p>&#x524D;&#x5411;&#x4F20;&#x64AD;&#x8FC7;&#x7A0B;&#x7684;&#x516C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>当元素 $x^{⟨t⟩}$ 输入对应时间步（Time Step）的隐藏层的同时，<strong>该隐藏层也会接收来自上一时间步的隐藏层的激活值 $a^{⟨t-1⟩}$</strong>，其中 $a^{⟨0⟩}$ 一般直接初始化为零向量。一个时间步输出一个对应的预测结果 $\hat y^{⟨t⟩}$。</p>
+<p>循环神经网络从左向右扫描数据，同时每个时间步的参数也是共享的，输入、激活、输出的参数对应为 $W<em>{ax}$、$W</em>{aa}$、$W_{ay}$。</p>
+<p>目前我们看到的模型的问题是，只<strong>使用了这个序列中之前的信息来做出预测，即后文没有被使用</strong>。可以通过<strong>双向循环神经网络（Bidirectional RNN，BRNN）</strong>来解决这个问题。</p>
+<p>前向传播过程的公式如下：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_1.png" alt=""></p>
-<p><strong>&#x6FC0;&#x6D3B;&#x51FD;&#x6570; $g_1$ &#x901A;&#x5E38;&#x9009;&#x62E9; tanh&#xFF0C;&#x6709;&#x65F6;&#x4E5F;&#x7528; ReLU&#xFF1B;g2&#x53EF;&#x9009; sigmoid &#x6216; softmax&#xFF0C;&#x53D6;&#x51B3;&#x4E8E;&#x9700;&#x8981;&#x7684;&#x8F93;&#x51FA;&#x7C7B;&#x578B;&#x3002;</strong></p>
-<p>&#x4E3A;&#x4E86;&#x8FDB;&#x4E00;&#x6B65;&#x7B80;&#x5316;&#x516C;&#x5F0F;&#x4EE5;&#x65B9;&#x4FBF;&#x8FD0;&#x7B97;&#xFF0C;&#x53EF;&#x4EE5;<strong>&#x5C06; $W_{ax}$&#x3001;$W_{aa}$&#x6C34;&#x5E73;&#x5E76;&#x5217;&#x4E3A;&#x4E00;&#x4E2A;&#x77E9;&#x9635; $W_{a}$</strong>&#xFF0C;&#x540C;&#x65F6; $a^{&#x27E8;t-1&#x27E9;}$&#x548C; $x^{&#x27E8;t&#x27E9;}$ &#x5806;&#x53E0;&#x6210;&#x4E00;&#x4E2A;&#x77E9;&#x9635;&#x3002;&#x5219;&#x6709;&#xFF1A;</p>
+<p><strong>激活函数 $g_1$ 通常选择 tanh，有时也用 ReLU；g2可选 sigmoid 或 softmax，取决于需要的输出类型。</strong></p>
+<p>为了进一步简化公式以方便运算，可以<strong>将 $W<em>{ax}$、$W</em>{aa}$水平并列为一个矩阵 $W_{a}$</strong>，同时 $a^{⟨t-1⟩}$和 $x^{⟨t⟩}$ 堆叠成一个矩阵。则有：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_2.png" alt=""></p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180425095414.png" alt=""></p>
 <hr>
-<h4 id="RNN&#x53CD;&#x5411;&#x4F20;&#x64AD;"><a href="#RNN&#x53CD;&#x5411;&#x4F20;&#x64AD;" class="headerlink" title="RNN&#x53CD;&#x5411;&#x4F20;&#x64AD;"></a>RNN&#x53CD;&#x5411;&#x4F20;&#x64AD;</h4><p>&#x4E3A;&#x4E86;&#x8BA1;&#x7B97;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x8FC7;&#x7A0B;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x635F;&#x5931;&#x51FD;&#x6570;&#x3002;&#x5355;&#x4E2A;&#x4F4D;&#x7F6E;&#x4E0A;&#xFF08;&#x6216;&#x8005;&#x8BF4;&#x5355;&#x4E2A;&#x65F6;&#x95F4;&#x6B65;&#x4E0A;&#xFF09;&#x67D0;&#x4E2A;&#x5355;&#x8BCD;&#x7684;&#x9884;&#x6D4B;&#x503C;&#x7684;&#x635F;&#x5931;&#x51FD;&#x6570;&#x91C7;&#x7528; <strong>&#x4EA4;&#x53C9;&#x71B5;&#x635F;&#x5931;&#x51FD;&#x6570;</strong>&#xFF0C;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
-<p>$$L^{&#x27E8;t&#x27E9;}(\hat y^{&#x27E8;t&#x27E9;}, y^{&#x27E8;t&#x27E9;}) = -y^{&#x27E8;t&#x27E9;}log\hat y^{&#x27E8;t&#x27E9;} - (1 - y^{&#x27E8;t&#x27E9;})log(1-\hat y^{&#x27E8;t&#x27E9;})$$<br>&#x5C06;&#x5355;&#x4E2A;&#x4F4D;&#x7F6E;&#x4E0A;&#x7684;&#x635F;&#x5931;&#x51FD;&#x6570;&#x76F8;&#x52A0;&#xFF0C;&#x5F97;&#x5230;&#x6574;&#x4E2A;&#x5E8F;&#x5217;&#x7684;&#x6210;&#x672C;&#x51FD;&#x6570;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p>$$J = L(\hat y, y) = \sum^{T_x}_{t=1} L^{&#x27E8;t&#x27E9;}(\hat y^{&#x27E8;t&#x27E9;}, y^{&#x27E8;t&#x27E9;})$$</p>
-<p>&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x7684;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x88AB;&#x79F0;&#x4E3A; <strong>&#x901A;&#x8FC7;&#x65F6;&#x95F4;&#x53CD;&#x5411;&#x4F20;&#x64AD;</strong>&#xFF08;Backpropagation through time&#xFF09;&#xFF0C;&#x56E0;&#x4E3A;&#x4ECE;&#x53F3;&#x5411;&#x5DE6;&#x8BA1;&#x7B97;&#x7684;&#x8FC7;&#x7A0B;&#x5C31;&#x50CF;&#x662F;&#x65F6;&#x95F4;&#x5012;&#x6D41;&#x3002;</p>
-<p>&#x66F4;&#x8BE6;&#x7EC6;&#x7684;&#x8BA1;&#x7B97;&#x516C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/formula-of-RNN.png" alt=""></p>
-<p><strong>&#x9644;DNN&#x524D;&#x5411;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x516C;&#x5F0F;</strong>&#xFF1A;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD.png" alt="&#x524D;&#x5411;&#x4F20;&#x64AD;"><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD.png" alt="&#x53CD;&#x5411;&#x4F20;&#x64AD;"></p>
+<h4 id="RNN反向传播"><a href="#RNN反向传播" class="headerlink" title="RNN反向传播"></a>RNN反向传播</h4><p>为了计算反向传播过程，需要先定义一个损失函数。单个位置上（或者说单个时间步上）某个单词的预测值的损失函数采用 <strong>交叉熵损失函数</strong>，如下所示：</p>
+<script type="math/tex; mode=display">L^{⟨t⟩}(\hat y^{⟨t⟩}, y^{⟨t⟩}) = -y^{⟨t⟩}log\hat y^{⟨t⟩} - (1 - y^{⟨t⟩})log(1-\hat y^{⟨t⟩})</script><p>将单个位置上的损失函数相加，得到整个序列的成本函数如下：</p>
+<script type="math/tex; mode=display">J = L(\hat y, y) = \sum^{T_x}_{t=1} L^{⟨t⟩}(\hat y^{⟨t⟩}, y^{⟨t⟩})</script><p>循环神经网络的反向传播被称为 <strong>通过时间反向传播</strong>（Backpropagation through time），因为从右向左计算的过程就像是时间倒流。</p>
+<p>更详细的计算公式如下：<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/formula-of-RNN.png" alt=""></p>
+<p><strong>附DNN前向反向传播公式</strong>：<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD.png" alt="前向传播"><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD.png" alt="反向传播"></p>
 <hr>
-<h4 id="&#x4E0D;&#x540C;&#x7ED3;&#x6784;"><a href="#&#x4E0D;&#x540C;&#x7ED3;&#x6784;" class="headerlink" title="&#x4E0D;&#x540C;&#x7ED3;&#x6784;"></a>&#x4E0D;&#x540C;&#x7ED3;&#x6784;</h4><p>&#x67D0;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x8F93;&#x5165;&#x957F;&#x5EA6;&#x548C;&#x8F93;&#x51FA;&#x957F;&#x5EA6;&#x4E0D;&#x4E00;&#x81F4;&#x3002;&#x6839;&#x636E;&#x6240;&#x9700;&#x7684;&#x8F93;&#x5165;&#x53CA;&#x8F93;&#x51FA;&#x957F;&#x5EA6;&#xFF0C;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x53EF;&#x5206;&#x4E3A;&#x201C;&#x4E00;&#x5BF9;&#x4E00;&#x201D;&#x3001;&#x201C;&#x591A;&#x5BF9;&#x4E00;&#x201D;&#x3001;&#x201C;&#x591A;&#x5BF9;&#x591A;&#x201D;&#x7B49;&#x7ED3;&#x6784;&#xFF1A;</p>
+<h4 id="不同结构"><a href="#不同结构" class="headerlink" title="不同结构"></a>不同结构</h4><p>某些情况下，输入长度和输出长度不一致。根据所需的输入及输出长度，循环神经网络可分为“一对一”、“多对一”、“多对多”等结构：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Examples-of-RNN-architectures.png" alt=""></p>
 <hr>
-<h4 id="&#x8BED;&#x8A00;&#x6A21;&#x578B;"><a href="#&#x8BED;&#x8A00;&#x6A21;&#x578B;" class="headerlink" title="&#x8BED;&#x8A00;&#x6A21;&#x578B;"></a>&#x8BED;&#x8A00;&#x6A21;&#x578B;</h4><p><strong>&#x8BED;&#x8A00;&#x6A21;&#x578B;</strong>&#xFF08;Language Model&#xFF09;&#x662F;<strong>&#x6839;&#x636E;&#x8BED;&#x8A00;&#x5BA2;&#x89C2;&#x4E8B;&#x5B9E;&#x800C;&#x8FDB;&#x884C;&#x7684;&#x8BED;&#x8A00;&#x62BD;&#x8C61;&#x6570;&#x5B66;&#x5EFA;&#x6A21;&#xFF0C;&#x80FD;&#x591F;&#x4F30;&#x8BA1;&#x67D0;&#x4E2A;&#x5E8F;&#x5217;&#x4E2D;&#x5404;<font color="red">&#x5143;&#x7D20;&#x51FA;&#x73B0;&#x7684;&#x53EF;&#x80FD;&#x6027;</font></strong>&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5728;&#x4E00;&#x4E2A;&#x8BED;&#x97F3;&#x8BC6;&#x522B;&#x7CFB;&#x7EDF;&#x4E2D;&#xFF0C;&#x8BED;&#x8A00;&#x6A21;&#x578B;&#x80FD;&#x591F;&#x8BA1;&#x7B97;&#x4E24;&#x4E2A;&#x8BFB;&#x97F3;&#x76F8;&#x8FD1;&#x7684;&#x53E5;&#x5B50;&#x4E3A;&#x6B63;&#x786E;&#x7ED3;&#x679C;&#x7684;&#x6982;&#x7387;&#xFF0C;&#x4EE5;&#x6B64;&#x4E3A;&#x4F9D;&#x636E;&#x4F5C;&#x51FA;&#x51C6;&#x786E;&#x5224;&#x65AD;&#x3002;</p>
-<p>&#x5EFA;&#x7ACB;&#x8BED;&#x8A00;&#x6A21;&#x578B;&#x6240;&#x91C7;&#x7528;&#x7684;&#x8BAD;&#x7EC3;&#x96C6;&#x662F;&#x4E00;&#x4E2A;&#x5927;&#x578B;&#x7684; <strong>&#x8BED;&#x6599;&#x5E93;&#xFF08;Corpus&#xFF09;</strong>&#xFF0C;&#x6307;&#x6570;&#x91CF;&#x4F17;&#x591A;&#x7684;&#x53E5;&#x5B50;&#x7EC4;&#x6210;&#x7684;&#x6587;&#x672C;&#x3002;&#x5EFA;&#x7ACB;&#x8FC7;&#x7A0B;&#x7684;&#x7B2C;&#x4E00;&#x6B65;&#x662F; <strong>&#x6807;&#x8BB0;&#x5316;&#xFF08;Tokenize&#xFF09;</strong>&#xFF0C;&#x5373;&#x5EFA;&#x7ACB;&#x5B57;&#x5178;&#xFF1B;&#x7136;&#x540E;&#x5C06;&#x8BED;&#x6599;&#x5E93;&#x4E2D;&#x7684;&#x6BCF;&#x4E2A;&#x8BCD;&#x8868;&#x793A;&#x4E3A;&#x5BF9;&#x5E94;&#x7684; one-hot &#x5411;&#x91CF;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x9700;&#x8981;&#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x989D;&#x5916;&#x7684;&#x6807;&#x8BB0; EOS&#xFF08;End of Sentence&#xFF09;&#x6765;&#x8868;&#x793A;&#x4E00;&#x4E2A;&#x53E5;&#x5B50;&#x7684;&#x7ED3;&#x5C3E;&#x3002;&#x6807;&#x70B9;&#x7B26;&#x53F7;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x52A0;&#x5165;&#x5B57;&#x5178;&#x540E;&#x7528; one-hot &#x5411;&#x91CF;&#x8868;&#x793A;&#x3002;</p>
-<p>&#x5BF9;&#x4E8E;&#x8BED;&#x6599;&#x5E93;&#x4E2D;&#x90E8;&#x5206;&#x7279;&#x6B8A;&#x7684;&#x3001;&#x4E0D;&#x5305;&#x542B;&#x5728;&#x5B57;&#x5178;&#x4E2D;&#x7684;&#x8BCD;&#x6C47;&#xFF0C;&#x4F8B;&#x5982;&#x4EBA;&#x540D;&#x3001;&#x5730;&#x540D;&#xFF0C;&#x53EF;&#x4EE5;&#x4E0D;&#x5FC5;&#x9488;&#x5BF9;&#x8FD9;&#x4E9B;&#x5177;&#x4F53;&#x7684;&#x8BCD;&#xFF0C;&#x800C;&#x662F;&#x5728;&#x8BCD;&#x5178;&#x4E2D;&#x52A0;&#x5165;&#x4E00;&#x4E2A; UNK&#xFF08;Unique Token&#xFF09;&#x6807;&#x8BB0;&#x6765;&#x8868;&#x793A;&#x3002;</p>
-<p>&#x5C06;&#x6807;&#x5FD7;&#x5316;&#x540E;&#x7684;&#x8BAD;&#x7EC3;&#x96C6;&#x7528;&#x4E8E;&#x8BAD;&#x7EC3; RNN&#xFF0C;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A;</p>
+<h4 id="语言模型"><a href="#语言模型" class="headerlink" title="语言模型"></a>语言模型</h4><p><strong>语言模型</strong>（Language Model）是<strong>根据语言客观事实而进行的语言抽象数学建模，能够估计某个序列中各<font color="red">元素出现的可能性</font></strong>。例如，在一个语音识别系统中，语言模型能够计算两个读音相近的句子为正确结果的概率，以此为依据作出准确判断。</p>
+<p>建立语言模型所采用的训练集是一个大型的 <strong>语料库（Corpus）</strong>，指数量众多的句子组成的文本。建立过程的第一步是 <strong>标记化（Tokenize）</strong>，即建立字典；然后将语料库中的每个词表示为对应的 one-hot 向量。另外，需要增加一个额外的标记 EOS（End of Sentence）来表示一个句子的结尾。标点符号可以忽略，也可以加入字典后用 one-hot 向量表示。</p>
+<p>对于语料库中部分特殊的、不包含在字典中的词汇，例如人名、地名，可以不必针对这些具体的词，而是在词典中加入一个 UNK（Unique Token）标记来表示。</p>
+<p>将标志化后的训练集用于训练 RNN，过程如下图所示：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/language-model-RNN-example.png" alt=""></p>
-<p>&#x5728;&#x7B2C;&#x4E00;&#x4E2A;&#x65F6;&#x95F4;&#x6B65;&#x4E2D;&#xFF0C;&#x8F93;&#x5165;&#x7684; $a^{&#x27E8;0&#x27E9;}$ &#x548C; $x^{&#x27E8;1&#x27E9;}$ &#x90FD;&#x662F;&#x96F6;&#x5411;&#x91CF;&#xFF0C;$\hat y^{&#x27E8;1&#x27E9;}$ &#x662F;&#x901A;&#x8FC7; softmax &#x9884;&#x6D4B;&#x51FA;&#x7684;&#x5B57;&#x5178;&#x4E2D;&#x6BCF;&#x4E2A;&#x8BCD;&#x4F5C;&#x4E3A;&#x7B2C;&#x4E00;&#x4E2A;&#x8BCD;&#x51FA;&#x73B0;&#x7684;&#x6982;&#x7387;&#xFF1B;&#x5728;&#x7B2C;&#x4E8C;&#x4E2A;&#x65F6;&#x95F4;&#x6B65;&#x4E2D;&#xFF0C;&#x8F93;&#x5165;&#x7684; x&#x27E8;2&#x27E9;&#x662F;&#x8BAD;&#x7EC3;&#x6837;&#x672C;&#x7684;&#x6807;&#x7B7E;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x5355;&#x8BCD; $y^{&#x27E8;1&#x27E9;}$&#xFF08;&#x5373;&#x201C;cats&#x201D;&#xFF09;&#x548C;&#x4E0A;&#x4E00;&#x5C42;&#x7684;&#x6FC0;&#x6D3B;&#x9879; $a^{&#x27E8;1&#x27E9;}$&#xFF0C;&#x8F93;&#x51FA;&#x7684; $y^{&#x27E8;2&#x27E9;}$ &#x8868;&#x793A;&#x7684;&#x662F;&#x901A;&#x8FC7; softmax &#x9884;&#x6D4B;&#x51FA;&#x7684;&#x3001;&#x5355;&#x8BCD;&#x201C;cats&#x201D;&#x540E;&#x9762;&#x51FA;&#x73B0;&#x5B57;&#x5178;&#x4E2D;&#x7684;&#x5176;&#x4ED6;&#x6BCF;&#x4E2A;&#x8BCD;&#x7684;&#x6761;&#x4EF6;&#x6982;&#x7387;&#x3002;&#x4EE5;&#x6B64;&#x7C7B;&#x63A8;&#xFF0C;&#x6700;&#x540E;&#x5C31;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x6574;&#x4E2A;&#x53E5;&#x5B50;&#x51FA;&#x73B0;&#x7684;&#x6982;&#x7387;&#x3002;</p>
-<p>&#x5B9A;&#x4E49;&#x635F;&#x5931;&#x51FD;&#x6570;&#x4E3A;&#xFF1A;</p>
-<p>$$L(\hat y^{&#x27E8;t&#x27E9;}, y^{&#x27E8;t&#x27E9;}) = -\sum_t y_i^{&#x27E8;t&#x27E9;} log \hat y^{&#x27E8;t&#x27E9;}$$</p>
-<p>&#x5219;&#x6210;&#x672C;&#x51FD;&#x6570;&#x4E3A;&#xFF1A;</p>
-<p>$$J = \sum_t L^{&#x27E8;t&#x27E9;}(\hat y^{&#x27E8;t&#x27E9;}, y^{&#x27E8;t&#x27E9;})$$</p>
-<hr>
-<h4 id="&#x91C7;&#x6837;"><a href="#&#x91C7;&#x6837;" class="headerlink" title="&#x91C7;&#x6837;"></a>&#x91C7;&#x6837;</h4><p>&#x5728;&#x8BAD;&#x7EC3;&#x597D;&#x4E00;&#x4E2A;&#x8BED;&#x8A00;&#x6A21;&#x578B;&#x540E;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; <strong>&#x91C7;&#x6837;&#xFF08;Sample&#xFF09;</strong> &#x65B0;&#x7684;&#x5E8F;&#x5217;&#x6765;&#x4E86;&#x89E3;&#x8FD9;&#x4E2A;&#x6A21;&#x578B;&#x4E2D;&#x90FD;&#x5B66;&#x4E60;&#x5230;&#x4E86;&#x4E00;&#x4E9B;&#x4EC0;&#x4E48;&#x3002;</p>
+<p>在第一个时间步中，输入的 $a^{⟨0⟩}$ 和 $x^{⟨1⟩}$ 都是零向量，$\hat y^{⟨1⟩}$ 是通过 softmax 预测出的字典中每个词作为第一个词出现的概率；在第二个时间步中，输入的 x⟨2⟩是训练样本的标签中的第一个单词 $y^{⟨1⟩}$（即“cats”）和上一层的激活项 $a^{⟨1⟩}$，输出的 $y^{⟨2⟩}$ 表示的是通过 softmax 预测出的、单词“cats”后面出现字典中的其他每个词的条件概率。以此类推，最后就可以得到整个句子出现的概率。</p>
+<p>定义损失函数为：</p>
+<script type="math/tex; mode=display">L(\hat y^{⟨t⟩}, y^{⟨t⟩}) = -\sum_t y_i^{⟨t⟩} log \hat y^{⟨t⟩}</script><p>则成本函数为：</p>
+<script type="math/tex; mode=display">J = \sum_t L^{⟨t⟩}(\hat y^{⟨t⟩}, y^{⟨t⟩})</script><hr>
+<h4 id="采样"><a href="#采样" class="headerlink" title="采样"></a>采样</h4><p>在训练好一个语言模型后，可以通过 <strong>采样（Sample）</strong> 新的序列来了解这个模型中都学习到了一些什么。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Sampling-a-sequence-from-a-trained-RNN.png" alt=""></p>
-<p>&#x5728;&#x7B2C;&#x4E00;&#x4E2A;&#x65F6;&#x95F4;&#x6B65;&#x8F93;&#x5165; $a^{&#x27E8;0&#x27E9;}$ &#x548C; $x^{&#x27E8;1&#x27E9;}$ &#x4E3A;&#x96F6;&#x5411;&#x91CF;&#xFF0C;&#x8F93;&#x51FA;&#x9884;&#x6D4B;&#x51FA;&#x7684;&#x5B57;&#x5178;&#x4E2D;&#x6BCF;&#x4E2A;&#x8BCD;&#x4F5C;&#x4E3A;&#x7B2C;&#x4E00;&#x4E2A;&#x8BCD;&#x51FA;&#x73B0;&#x7684;&#x6982;&#x7387;&#xFF0C;&#x6839;&#x636E; softmax &#x7684;&#x5206;&#x5E03;&#x8FDB;&#x884C;&#x968F;&#x673A;&#x91C7;&#x6837;&#xFF08;np.random.choice&#xFF09;&#xFF0C;&#x5C06;&#x91C7;&#x6837;&#x5F97;&#x5230;&#x7684; $\hat y^{&#x27E8;1&#x27E9;}$ &#x4F5C;&#x4E3A;&#x7B2C;&#x4E8C;&#x4E2A;&#x65F6;&#x95F4;&#x6B65;&#x7684;&#x8F93;&#x5165; $x^{&#x27E8;2&#x27E9;}$ &#x3002;&#x4EE5;&#x6B64;&#x7C7B;&#x63A8;&#xFF0C;&#x76F4;&#x5230;&#x91C7;&#x6837;&#x5230; EOS&#xFF0C;&#x6700;&#x540E;&#x6A21;&#x578B;&#x4F1A;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x4E00;&#x4E9B;&#x53E5;&#x5B50;&#xFF0C;&#x4ECE;&#x8FD9;&#x4E9B;&#x53E5;&#x5B50;&#x4E2D;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#x6A21;&#x578B;&#x901A;&#x8FC7;&#x8BED;&#x6599;&#x5E93;&#x5B66;&#x4E60;&#x5230;&#x7684;&#x77E5;&#x8BC6;&#x3002;</p>
-<p>&#x8FD9;&#x91CC;&#x5EFA;&#x7ACB;&#x7684;&#x662F;&#x57FA;&#x4E8E;&#x8BCD;&#x6C47;&#x6784;&#x5EFA;&#x7684;&#x8BED;&#x8A00;&#x6A21;&#x578B;&#x3002;&#x6839;&#x636E;&#x9700;&#x8981;&#x4E5F;&#x53EF;&#x4EE5;&#x6784;&#x5EFA;&#x57FA;&#x4E8E;&#x5B57;&#x7B26;&#x7684;&#x8BED;&#x8A00;&#x6A21;&#x578B;&#xFF0C;&#x5176;&#x4F18;&#x70B9;&#x662F;&#x4E0D;&#x5FC5;&#x62C5;&#x5FC3;&#x51FA;&#x73B0;&#x672A;&#x77E5;&#x6807;&#x8BC6;&#xFF08;UNK&#xFF09;&#xFF0C;&#x5176;&#x7F3A;&#x70B9;&#x662F;&#x5F97;&#x5230;&#x7684;&#x5E8F;&#x5217;&#x8FC7;&#x591A;&#x8FC7;&#x957F;&#xFF0C;&#x5E76;&#x4E14;&#x8BAD;&#x7EC3;&#x6210;&#x672C;&#x9AD8;&#x6602;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x57FA;&#x4E8E;&#x8BCD;&#x6C47;&#x6784;&#x5EFA;&#x7684;&#x8BED;&#x8A00;&#x6A21;&#x578B;&#x66F4;&#x4E3A;&#x5E38;&#x7528;&#x3002;</p>
+<p>在第一个时间步输入 $a^{⟨0⟩}$ 和 $x^{⟨1⟩}$ 为零向量，输出预测出的字典中每个词作为第一个词出现的概率，根据 softmax 的分布进行随机采样（np.random.choice），将采样得到的 $\hat y^{⟨1⟩}$ 作为第二个时间步的输入 $x^{⟨2⟩}$ 。以此类推，直到采样到 EOS，最后模型会自动生成一些句子，从这些句子中可以发现模型通过语料库学习到的知识。</p>
+<p>这里建立的是基于词汇构建的语言模型。根据需要也可以构建基于字符的语言模型，其优点是不必担心出现未知标识（UNK），其缺点是得到的序列过多过长，并且训练成本高昂。因此，基于词汇构建的语言模型更为常用。</p>
 <hr>
-<h4 id="RNN-&#x7684;&#x68AF;&#x5EA6;&#x6D88;&#x5931;"><a href="#RNN-&#x7684;&#x68AF;&#x5EA6;&#x6D88;&#x5931;" class="headerlink" title="RNN &#x7684;&#x68AF;&#x5EA6;&#x6D88;&#x5931;"></a>RNN &#x7684;&#x68AF;&#x5EA6;&#x6D88;&#x5931;</h4><p>The cat,which already ate a bunch of food, was full.<br>The cats,which already ate a bunch of food, were full.</p>
-<p>&#x5BF9;&#x4E8E;&#x4EE5;&#x4E0A;&#x4E24;&#x4E2A;&#x53E5;&#x5B50;&#xFF0C;&#x540E;&#x9762;&#x7684;&#x52A8;&#x8BCD;&#x5355;&#x590D;&#x6570;&#x5F62;&#x5F0F;&#x7531;&#x524D;&#x9762;&#x7684;&#x540D;&#x8BCD;&#x7684;&#x5355;&#x590D;&#x6570;&#x5F62;&#x5F0F;&#x51B3;&#x5B9A;&#x3002;&#x4F46;&#x662F;<strong>&#x57FA;&#x672C;&#x7684; RNN &#x4E0D;&#x64C5;&#x957F;&#x6355;&#x83B7;&#x8FD9;&#x79CD;&#x957F;&#x671F;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;</strong>&#x3002;&#x7A76;&#x5176;&#x539F;&#x56E0;&#xFF0C;&#x7531;&#x4E8E;&#x68AF;&#x5EA6;&#x6D88;&#x5931;&#xFF0C;&#x5728;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x65F6;&#xFF0C;&#x540E;&#x9762;&#x5C42;&#x7684;&#x8F93;&#x51FA;&#x8BEF;&#x5DEE;&#x5F88;&#x96BE;&#x5F71;&#x54CD;&#x5230;&#x8F83;&#x9760;&#x524D;&#x5C42;&#x7684;&#x8BA1;&#x7B97;&#xFF0C;&#x7F51;&#x7EDC;&#x5F88;&#x96BE;&#x8C03;&#x6574;&#x9760;&#x524D;&#x7684;&#x8BA1;&#x7B97;&#x3002;</p>
-<p>&#x5728;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x65F6;&#xFF0C;&#x968F;&#x7740;&#x5C42;&#x6570;&#x7684;&#x589E;&#x591A;&#xFF0C;&#x68AF;&#x5EA6;&#x4E0D;&#x4EC5;&#x53EF;&#x80FD;&#x6307;&#x6570;&#x578B;&#x4E0B;&#x964D;&#xFF0C;&#x4E5F;&#x6709;&#x53EF;&#x80FD;&#x6307;&#x6570;&#x578B;&#x4E0A;&#x5347;&#xFF0C;&#x5373;&#x68AF;&#x5EA6;&#x7206;&#x70B8;&#x3002;&#x4E0D;&#x8FC7; <strong>&#x68AF;&#x5EA6;&#x7206;&#x70B8;</strong> &#x6BD4;&#x8F83;&#x5BB9;&#x6613;&#x53D1;&#x73B0;&#xFF0C;&#x56E0;&#x4E3A;&#x53C2;&#x6570;&#x4F1A;&#x6025;&#x5267;&#x81A8;&#x80C0;&#x5230;&#x6570;&#x503C;&#x6EA2;&#x51FA;&#xFF08;&#x53EF;&#x80FD;&#x663E;&#x793A;&#x4E3A; NaN&#xFF09;&#x3002;&#x8FD9;&#x65F6;<strong>&#x53EF;&#x4EE5;&#x91C7;&#x7528;&#x68AF;&#x5EA6;&#x4FEE;&#x526A;&#xFF08;Gradient Clipping&#xFF09;&#x6765;&#x89E3;&#x51B3;</strong>&#xFF1A;&#x89C2;&#x5BDF;&#x68AF;&#x5EA6;&#x5411;&#x91CF;&#xFF0C;&#x5982;&#x679C;&#x5B83;&#x5927;&#x4E8E;&#x67D0;&#x4E2A;&#x9608;&#x503C;&#xFF0C;&#x5219;&#x7F29;&#x653E;&#x68AF;&#x5EA6;&#x5411;&#x91CF;&#x4EE5;&#x4FDD;&#x8BC1;&#x5176;&#x4E0D;&#x4F1A;&#x592A;&#x5927;&#x3002;&#x76F8;&#x6BD4;&#x4E4B;&#x4E0B;&#xFF0C;<strong>&#x68AF;&#x5EA6;&#x6D88;&#x5931;&#x95EE;&#x9898;&#x66F4;&#x96BE;&#x89E3;&#x51B3;</strong>&#x3002;<font color="red">LSTM &#x548C; GRU &#x7684;&#x8BBE;&#x8BA1;&#x5C31;&#x662F;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x957F;&#x671F;&#x4F9D;&#x8D56;&#x95EE;&#x9898;&#xFF0C;&#x90FD;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x7F13;&#x89E3;&#x68AF;&#x5EA6;&#x6D88;&#x5931;&#x95EE;&#x9898;&#x7684;&#x65B9;&#x6848;</font>&#x3002;</p>
+<h4 id="RNN-的梯度消失"><a href="#RNN-的梯度消失" class="headerlink" title="RNN 的梯度消失"></a>RNN 的梯度消失</h4><p>The cat,which already ate a bunch of food, was full.<br>The cats,which already ate a bunch of food, were full.</p>
+<p>对于以上两个句子，后面的动词单复数形式由前面的名词的单复数形式决定。但是<strong>基本的 RNN 不擅长捕获这种长期依赖关系</strong>。究其原因，由于梯度消失，在反向传播时，后面层的输出误差很难影响到较靠前层的计算，网络很难调整靠前的计算。</p>
+<p>在反向传播时，随着层数的增多，梯度不仅可能指数型下降，也有可能指数型上升，即梯度爆炸。不过 <strong>梯度爆炸</strong> 比较容易发现，因为参数会急剧膨胀到数值溢出（可能显示为 NaN）。这时<strong>可以采用梯度修剪（Gradient Clipping）来解决</strong>：观察梯度向量，如果它大于某个阈值，则缩放梯度向量以保证其不会太大。相比之下，<strong>梯度消失问题更难解决</strong>。<font color="red">LSTM 和 GRU 的设计就是为了解决长期依赖问题，都可以作为缓解梯度消失问题的方案</font>。</p>
 <hr>
-<h4 id="GRU&#xFF08;&#x95E8;&#x63A7;&#x5FAA;&#x73AF;&#x5355;&#x5143;&#xFF09;"><a href="#GRU&#xFF08;&#x95E8;&#x63A7;&#x5FAA;&#x73AF;&#x5355;&#x5143;&#xFF09;" class="headerlink" title="GRU&#xFF08;&#x95E8;&#x63A7;&#x5FAA;&#x73AF;&#x5355;&#x5143;&#xFF09;"></a>GRU&#xFF08;&#x95E8;&#x63A7;&#x5FAA;&#x73AF;&#x5355;&#x5143;&#xFF09;</h4><p><strong>GRU&#xFF08;Gated Recurrent Units, &#x95E8;&#x63A7;&#x5FAA;&#x73AF;&#x5355;&#x5143;&#xFF09;</strong>&#x6539;&#x5584;&#x4E86; RNN &#x7684;&#x9690;&#x85CF;&#x5C42;&#xFF0C;&#x4F7F;&#x5176;&#x53EF;&#x4EE5;&#x66F4;&#x597D;&#x5730;&#x6355;&#x6349;&#x6DF1;&#x5C42;&#x8FDE;&#x63A5;&#xFF0C;&#x5E76;&#x6539;&#x5584;&#x4E86;&#x68AF;&#x5EA6;&#x6D88;&#x5931;&#x95EE;&#x9898;&#x3002;</p>
+<h4 id="GRU（门控循环单元）"><a href="#GRU（门控循环单元）" class="headerlink" title="GRU（门控循环单元）"></a>GRU（门控循环单元）</h4><p><strong>GRU（Gated Recurrent Units, 门控循环单元）</strong>改善了 RNN 的隐藏层，使其可以更好地捕捉深层连接，并改善了梯度消失问题。</p>
 <p>The cat,which already ate a bunch of food, was full.</p>
-<p>&#x5F53;&#x6211;&#x4EEC;&#x4ECE;&#x5DE6;&#x5230;&#x53F3;&#x8BFB;&#x4E0A;&#x9762;&#x8FD9;&#x4E2A;&#x53E5;&#x5B50;&#x65F6;&#xFF0C;GRU &#x5355;&#x5143;&#x6709;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x53D8;&#x91CF;&#x79F0;&#x4E3A; c&#xFF0C;&#x4EE3;&#x8868;<strong>&#x8BB0;&#x5FC6;&#x7EC6;&#x80DE;</strong>&#xFF08;Memory Cell&#xFF09;&#xFF0C;&#x5176;&#x4F5C;&#x7528;&#x662F;&#x63D0;&#x4F9B;&#x8BB0;&#x5FC6;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x8BB0;&#x4F4F;&#x4F8B;&#x5982;&#x524D;&#x6587;&#x4E3B;&#x8BED;&#x662F;&#x5355;&#x6570;&#x8FD8;&#x662F;&#x590D;&#x6570;&#x7B49;&#x4FE1;&#x606F;&#x3002;&#x5728;&#x65F6;&#x95F4; t&#xFF0C;&#x8BB0;&#x5FC6;&#x7EC6;&#x80DE;&#x7684;&#x503C; $c^{&#x27E8;t&#x27E9;}$ &#x7B49;&#x4E8E;&#x8F93;&#x51FA;&#x7684;&#x6FC0;&#x6D3B;&#x503C; $a^{&#x27E8;t&#x27E9;}$&#xFF1B;$\tilde c^{&#x27E8;t&#x27E9;}$ &#x4EE3;&#x8868;&#x4E0B;&#x4E00;&#x4E2A; c &#x7684;&#x5019;&#x9009;&#x503C;&#x3002;$&#x393;_u$ &#x4EE3;&#x8868; <strong>&#x66F4;&#x65B0;&#x95E8;</strong>&#xFF08;Update Gate&#xFF09;&#xFF0C;&#x7528;&#x4E8E;&#x51B3;&#x5B9A;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x66F4;&#x65B0;&#x8BB0;&#x5FC6;&#x7EC6;&#x80DE;&#x7684;&#x503C;&#x3002;&#x4EE5;&#x4E0A;&#x7ED3;&#x6784;&#x7684;&#x5177;&#x4F53;&#x516C;&#x5F0F;&#x4E3A;&#xFF1A;</p>
+<p>当我们从左到右读上面这个句子时，GRU 单元有一个新的变量称为 c，代表<strong>记忆细胞</strong>（Memory Cell），其作用是提供记忆的能力，记住例如前文主语是单数还是复数等信息。在时间 t，记忆细胞的值 $c^{⟨t⟩}$ 等于输出的激活值 $a^{⟨t⟩}$；$\tilde c^{⟨t⟩}$ 代表下一个 c 的候选值。$Γ_u$ 代表 <strong>更新门</strong>（Update Gate），用于决定什么时候更新记忆细胞的值。以上结构的具体公式为：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_3.png" alt=""></p>
-<p><strong>&#x5F53;&#x4F7F;&#x7528; sigmoid &#x4F5C;&#x4E3A;&#x6FC0;&#x6D3B;&#x51FD;&#x6570; $&#x3C3;$ &#x6765;&#x5F97;&#x5230; $&#x393;_u$&#x65F6;&#xFF0C;&#x393;u &#x7684;&#x503C;&#x5728; 0 &#x5230; 1 &#x7684;&#x8303;&#x56F4;&#x5185;&#xFF0C;&#x4E14;&#x5927;&#x591A;&#x6570;&#x65F6;&#x95F4;&#x975E;&#x5E38;&#x63A5;&#x8FD1;&#x4E8E; 0 &#x6216; 1&#x3002;&#x5F53; $&#x393;_u = 1$&#x65F6;&#xFF0C;$c^{&#x27E8;t&#x27E9;}$&#x88AB;&#x66F4;&#x65B0;&#x4E3A; $\tilde c^{&#x27E8;t&#x27E9;}$&#xFF0C;&#x5426;&#x5219;&#x4FDD;&#x6301;&#x4E3A; $c^{&#x27E8;t-1&#x27E9;}$&#x3002;&#x56E0;&#x4E3A; $&#x393;_u$ &#x53EF;&#x4EE5;&#x5F88;&#x63A5;&#x8FD1; 0&#xFF0C;&#x56E0;&#x6B64; $c^{&#x27E8;t&#x27E9;}$ &#x51E0;&#x4E4E;&#x5C31;&#x7B49;&#x4E8E; $c^{&#x27E8;t-1&#x27E9;}$&#x3002;&#x5728;&#x7ECF;&#x8FC7;&#x5F88;&#x957F;&#x7684;&#x5E8F;&#x5217;&#x540E;&#xFF0C;c &#x7684;&#x503C;&#x4F9D;&#x7136;&#x88AB;&#x7EF4;&#x6301;&#xFF0C;&#x4ECE;&#x800C;&#x5B9E;&#x73B0;&#x201C;&#x8BB0;&#x5FC6;&#x201D;&#x7684;&#x529F;&#x80FD;&#x3002;</strong></p>
-<p>&#x4EE5;&#x4E0A;&#x5B9E;&#x9645;&#x4E0A;&#x662F;&#x7B80;&#x5316;&#x8FC7;&#x7684; GRU &#x5355;&#x5143;&#xFF0C;&#x4F46;&#x662F;&#x8574;&#x6DB5;&#x4E86; GRU &#x6700;&#x91CD;&#x8981;&#x7684;&#x601D;&#x60F3;&#x3002;&#x5B8C;&#x6574;&#x7684; GRU &#x5355;&#x5143;&#x6DFB;&#x52A0;&#x4E86;&#x4E00;&#x4E2A;&#x65B0;&#x7684;<strong>&#x76F8;&#x5173;&#x95E8;&#xFF08;Relevance Gate&#xFF09; $&#x393;_r$</strong>&#xFF0C;&#x8868;&#x793A; $\tilde c^{&#x27E8;t&#x27E9;}$&#x548C; $c^{&#x27E8;t&#x27E9;}$ &#x7684;&#x76F8;&#x5173;&#x6027;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x8868;&#x8FBE;&#x5F0F;&#x6539;&#x4E3A;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;</p>
+<p><strong>当使用 sigmoid 作为激活函数 $σ$ 来得到 $Γ_u$时，Γu 的值在 0 到 1 的范围内，且大多数时间非常接近于 0 或 1。当 $Γ_u = 1$时，$c^{⟨t⟩}$被更新为 $\tilde c^{⟨t⟩}$，否则保持为 $c^{⟨t-1⟩}$。因为 $Γ_u$ 可以很接近 0，因此 $c^{⟨t⟩}$ 几乎就等于 $c^{⟨t-1⟩}$。在经过很长的序列后，c 的值依然被维持，从而实现“记忆”的功能。</strong></p>
+<p>以上实际上是简化过的 GRU 单元，但是蕴涵了 GRU 最重要的思想。完整的 GRU 单元添加了一个新的<strong>相关门（Relevance Gate） $Γ_r$</strong>，表示 $\tilde c^{⟨t⟩}$和 $c^{⟨t⟩}$ 的相关性。因此，表达式改为如下所示：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_4.png" alt=""></p>
-<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;</p>
+<p>相关论文：</p>
 <ul>
-<li><a href="https://arxiv.org/pdf/1409.1259.pdf" target="_blank" rel="external">ho et al., 2014. On the properties of neural machine translation: Encoder-decoder approaches</a></li>
-<li><a href="https://arxiv.org/pdf/1412.3555.pdf" target="_blank" rel="external">Chung et al., 2014. Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling</a></li>
+<li><a href="https://arxiv.org/pdf/1409.1259.pdf">ho et al., 2014. On the properties of neural machine translation: Encoder-decoder approaches</a></li>
+<li><a href="https://arxiv.org/pdf/1412.3555.pdf">Chung et al., 2014. Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling</a></li>
 </ul>
 <hr>
-<h4 id="LSTM&#xFF08;&#x957F;&#x77ED;&#x671F;&#x8BB0;&#x5FC6;&#xFF09;"><a href="#LSTM&#xFF08;&#x957F;&#x77ED;&#x671F;&#x8BB0;&#x5FC6;&#xFF09;" class="headerlink" title="LSTM&#xFF08;&#x957F;&#x77ED;&#x671F;&#x8BB0;&#x5FC6;&#xFF09;"></a>LSTM&#xFF08;&#x957F;&#x77ED;&#x671F;&#x8BB0;&#x5FC6;&#xFF09;</h4><p><strong>LSTM&#xFF08;Long Short Term Memory&#xFF0C;&#x957F;&#x77ED;&#x671F;&#x8BB0;&#x5FC6;&#xFF09;</strong>&#x7F51;&#x7EDC;&#x6BD4; GRU &#x66F4;&#x52A0;&#x7075;&#x6D3B;&#x548C;&#x5F3A;&#x5927;&#xFF0C;&#x5B83;&#x989D;&#x5916;&#x5F15;&#x5165;&#x4E86;<strong>&#x9057;&#x5FD8;&#x95E8;&#xFF08;Forget Gate&#xFF09;</strong> $&#x393;_f$&#x548C;&#x8F93;&#x51FA;&#x95E8;&#xFF08;Output Gate&#xFF09; $&#x393;_o$&#x3002;&#x516C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;</p>
+<h4 id="LSTM（长短期记忆）"><a href="#LSTM（长短期记忆）" class="headerlink" title="LSTM（长短期记忆）"></a>LSTM（长短期记忆）</h4><p><strong>LSTM（Long Short Term Memory，长短期记忆）</strong>网络比 GRU 更加灵活和强大，它额外引入了<strong>遗忘门（Forget Gate）</strong> $Γ_f$和输出门（Output Gate） $Γ_o$。公式如下：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/20180424211053_5.png" alt=""></p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/LSTM.png" alt=""></p>
-<p>&#x5C06;&#x591A;&#x4E2A; LSTM &#x5355;&#x5143;&#x6309;&#x65F6;&#x95F4;&#x6B21;&#x5E8F;&#x8FDE;&#x63A5;&#x8D77;&#x6765;&#xFF0C;&#x5C31;&#x5F97;&#x5230;&#x4E00;&#x4E2A; LSTM &#x7F51;&#x7EDC;&#x3002;</p>
-<p>&#x4EE5;&#x4E0A;&#x662F;&#x7B80;&#x5316;&#x7248;&#x7684; LSTM&#x3002;&#x5728;&#x66F4;&#x4E3A;&#x5E38;&#x7528;&#x7684;&#x7248;&#x672C;&#x4E2D;&#xFF0C;&#x51E0;&#x4E2A;&#x95E8;&#x503C;&#x4E0D;&#x4EC5;&#x53D6;&#x51B3;&#x4E8E; $a^{&#x27E8;t-1&#x27E9;}$ &#x548C; $x^{&#x27E8;t&#x27E9;}$&#xFF0C;&#x6709;&#x65F6;&#x4E5F;&#x53EF;&#x4EE5;&#x5077;&#x7AA5;&#x4E0A;&#x4E00;&#x4E2A;&#x8BB0;&#x5FC6;&#x7EC6;&#x80DE;&#x8F93;&#x5165;&#x7684;&#x503C; $c^{&#x27E8;t-1&#x27E9;}$&#xFF0C;&#x8FD9;&#x88AB;&#x79F0;&#x4E3A;<strong>&#x7AA5;&#x89C6;&#x5B54;&#x8FDE;&#x63A5;&#xFF08;Peephole Connection)</strong>&#x3002;&#x8FD9;&#x65F6;&#xFF0C;&#x548C; GRU &#x4E0D;&#x540C;&#xFF0C;$c^{&#x27E8;t-1&#x27E9;}$ &#x548C;&#x95E8;&#x503C;&#x662F;&#x4E00;&#x5BF9;&#x4E00;&#x7684;&#x3002;</p>
-<font color="red">Tensorflow &#x5B98;&#x7F51;&#x63A8;&#x8350;&#x4E86;&#x4E00;&#x7BC7; <a href="#https://colah.github.io/posts/2015-08-Understanding-LSTMs/">&#x4F1F;&#x5927;&#x7684;&#x6587;&#x7AE0;</a>&#xFF0C; &#x7279;&#x522B;&#x4ECB;&#x7ECD;&#x9012;&#x5F52;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x548C;LSTM</font>
+<p>将多个 LSTM 单元按时间次序连接起来，就得到一个 LSTM 网络。</p>
+<p>以上是简化版的 LSTM。在更为常用的版本中，几个门值不仅取决于 $a^{⟨t-1⟩}$ 和 $x^{⟨t⟩}$，有时也可以偷窥上一个记忆细胞输入的值 $c^{⟨t-1⟩}$，这被称为<strong>窥视孔连接（Peephole Connection)</strong>。这时，和 GRU 不同，$c^{⟨t-1⟩}$ 和门值是一对一的。</p>
+<font color="red">Tensorflow 官网推荐了一篇 [伟大的文章](#https://colah.github.io/posts/2015-08-Understanding-LSTMs/)， 特别介绍递归神经网络和LSTM</font>
 
-<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="https://www.researchgate.net/publication/13853244_Long_Short-term_Memory" target="_blank" rel="external">Hochreiter &amp; Schmidhuber 1997. Long short-term memory</a></p>
+<p>相关论文：<a href="https://www.researchgate.net/publication/13853244_Long_Short-term_Memory">Hochreiter &amp; Schmidhuber 1997. Long short-term memory</a></p>
 <hr>
-<h4 id="&#x53CC;&#x5411;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;BRNN&#xFF09;"><a href="#&#x53CC;&#x5411;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;BRNN&#xFF09;" class="headerlink" title="&#x53CC;&#x5411;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;BRNN&#xFF09;"></a>&#x53CC;&#x5411;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;BRNN&#xFF09;</h4><p>&#x5355;&#x5411;&#x7684;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x5728;&#x67D0;&#x4E00;&#x65F6;&#x523B;&#x7684;&#x9884;&#x6D4B;&#x7ED3;&#x679C;&#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x4E4B;&#x524D;&#x8F93;&#x5165;&#x7684;&#x5E8F;&#x5217;&#x4FE1;&#x606F;&#x3002;<strong>&#x53CC;&#x5411;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;Bidirectional RNN&#xFF0C;BRNN&#xFF09;</strong>&#x53EF;&#x4EE5;&#x5728;&#x5E8F;&#x5217;&#x7684;&#x4EFB;&#x610F;&#x4F4D;&#x7F6E;&#x4F7F;&#x7528;&#x4E4B;&#x524D;&#x548C;&#x4E4B;&#x540E;&#x7684;&#x6570;&#x636E;&#x3002;&#x5176;&#x5DE5;&#x4F5C;&#x539F;&#x7406;&#x662F;&#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x53CD;&#x5411;&#x5FAA;&#x73AF;&#x5C42;&#xFF0C;&#x7ED3;&#x6784;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A;</p>
+<h4 id="双向循环神经网络（BRNN）"><a href="#双向循环神经网络（BRNN）" class="headerlink" title="双向循环神经网络（BRNN）"></a>双向循环神经网络（BRNN）</h4><p>单向的循环神经网络在某一时刻的预测结果只能使用之前输入的序列信息。<strong>双向循环神经网络（Bidirectional RNN，BRNN）</strong>可以在序列的任意位置使用之前和之后的数据。其工作原理是增加一个反向循环层，结构如下图所示：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/BRNN.png" alt=""></p>
-<p>&#x56E0;&#x6B64;&#xFF0C;&#x6709;</p>
-<p>$$y^{&#x27E8;t&#x27E9;} = g(W_y[\overrightarrow a^{&#x27E8;t&#x27E9;},  \overleftarrow a^{&#x27E8;t&#x27E9;}] + b_y)$$</p>
-<p>&#x8FD9;&#x4E2A;&#x6539;&#x8FDB;&#x7684;&#x65B9;&#x6CD5;&#x4E0D;&#x4EC5;&#x80FD;&#x7528;&#x4E8E;&#x57FA;&#x672C;&#x7684; RNN&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x4E8E; GRU &#x6216; LSTM&#x3002;<strong>&#x7F3A;&#x70B9;</strong> &#x662F;&#x9700;&#x8981;&#x5B8C;&#x6574;&#x7684;&#x5E8F;&#x5217;&#x6570;&#x636E;&#xFF0C;&#x624D;&#x80FD;&#x9884;&#x6D4B;&#x4EFB;&#x610F;&#x4F4D;&#x7F6E;&#x7684;&#x7ED3;&#x679C;&#x3002;&#x4F8B;&#x5982;&#x6784;&#x5EFA;&#x8BED;&#x97F3;&#x8BC6;&#x522B;&#x7CFB;&#x7EDF;&#xFF0C;&#x9700;&#x8981;&#x7B49;&#x5F85;&#x7528;&#x6237;&#x8BF4;&#x5B8C;&#x5E76;&#x83B7;&#x53D6;&#x6574;&#x4E2A;&#x8BED;&#x97F3;&#x8868;&#x8FBE;&#xFF0C;&#x624D;&#x80FD;&#x5904;&#x7406;&#x8FD9;&#x6BB5;&#x8BED;&#x97F3;&#x5E76;&#x8FDB;&#x4E00;&#x6B65;&#x505A;&#x8BED;&#x97F3;&#x8BC6;&#x522B;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x4F1A;&#x6709;&#x66F4;&#x52A0;&#x590D;&#x6742;&#x7684;&#x6A21;&#x5757;&#x3002;</p>
+<p>因此，有</p>
+<script type="math/tex; mode=display">y^{⟨t⟩} = g(W_y[\overrightarrow a^{⟨t⟩},  \overleftarrow a^{⟨t⟩}] + b_y)</script><p>这个改进的方法不仅能用于基本的 RNN，也可以用于 GRU 或 LSTM。<strong>缺点</strong> 是需要完整的序列数据，才能预测任意位置的结果。例如构建语音识别系统，需要等待用户说完并获取整个语音表达，才能处理这段语音并进一步做语音识别。因此，实际应用会有更加复杂的模块。</p>
 <hr>
-<h4 id="&#x6DF1;&#x5EA6;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;DRNN"><a href="#&#x6DF1;&#x5EA6;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;DRNN" class="headerlink" title="&#x6DF1;&#x5EA6;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;DRNN)"></a>&#x6DF1;&#x5EA6;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;DRNN)</h4><p>&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x7684;&#x6BCF;&#x4E2A;&#x65F6;&#x95F4;&#x6B65;&#x4E0A;&#x4E5F;&#x53EF;&#x4EE5;&#x5305;&#x542B;&#x591A;&#x4E2A;&#x9690;&#x85CF;&#x5C42;&#xFF0C;&#x5F62;&#x6210;<strong>&#x6DF1;&#x5EA6;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF08;Deep RNN)</strong>&#x3002;&#x7ED3;&#x6784;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A;</p>
+<h4 id="深度循环神经网络（DRNN"><a href="#深度循环神经网络（DRNN" class="headerlink" title="深度循环神经网络（DRNN)"></a>深度循环神经网络（DRNN)</h4><p>循环神经网络的每个时间步上也可以包含多个隐藏层，形成<strong>深度循环神经网络（Deep RNN)</strong>。结构如下图所示：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/DRNN.png" alt=""></p>
-<p>&#x4EE5; $a^{[2]&#x27E8;3&#x27E9;}$ &#x4E3A;&#x4F8B;&#xFF0C;&#x6709; $a^{[2]&#x27E8;3&#x27E9;} = g(W_a^{[2]}[a^{[2]&#x27E8;2&#x27E9;}, a^{[1]&#x27E8;3&#x27E9;}] + b_a^{[2]})$</p>
+<p>以 $a^{[2]⟨3⟩}$ 为例，有 $a^{[2]⟨3⟩} = g(W_a^{[2]}[a^{[2]⟨2⟩}, a^{[1]⟨3⟩}] + b_a^{[2]})$</p>
 <hr>
-<h3 id="&#x4EE3;&#x7801;&#x793A;&#x4F8B;"><a href="#&#x4EE3;&#x7801;&#x793A;&#x4F8B;" class="headerlink" title="&#x4EE3;&#x7801;&#x793A;&#x4F8B;"></a>&#x4EE3;&#x7801;&#x793A;&#x4F8B;</h3><p><a href="https://github.com/Wasim37/deeplearning-assignment/tree/master/5%20%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B/Week1%20%E5%BE%AA%E7%8E%AF%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B" target="_blank" rel="external">&#x5FAA;&#x73AF;&#x5E8F;&#x5217;&#x6A21;&#x578B;</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2018/03/02/自然语言处理与词嵌入/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    自然语言处理与词嵌入
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2018/01/27/神经风格转移/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">神经风格转移</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-		<!-- MathJax���ã���ͨ������Ԫ������д���ڹ�ʽ�� -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": { 
-        preferredFont: "TeX", 
-        availableFonts: ["STIX","TeX"], 
-        linebreaks: { automatic:true }, 
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
-    },
-    tex2jax: { 
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
-        processEscapes: true, 
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {  
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
-        Macros: { href: "{}" } 
-    },
-    messageStyle: "none"
-    }); 
-</script>
-<!-- ��MathJaxԪ������has-jax class -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<!-- ͨ������CDN����MathJax��js���� -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p><a href="https://github.com/Wasim37/deeplearning-assignment/tree/master/5%20%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B/Week1%20%E5%BE%AA%E7%8E%AF%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B">循环序列模型</a></p>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/RNN/">RNN</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2018/03/02/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">自然语言处理与词嵌入</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2018/01/27/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/"><span class="level-item">神经风格转移</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><ul class="menu-list"><li><a class="is-flex" href="#前言"><span class="mr-2">1.1</span><span>前言</span></a></li><li><a class="is-flex" href="#数学符号"><span class="mr-2">1.2</span><span>数学符号</span></a></li><li><a class="is-flex" href="#循环神经网络模型"><span class="mr-2">1.3</span><span>循环神经网络模型</span></a></li><li><a class="is-flex" href="#RNN反向传播"><span class="mr-2">1.4</span><span>RNN反向传播</span></a></li><li><a class="is-flex" href="#不同结构"><span class="mr-2">1.5</span><span>不同结构</span></a></li><li><a class="is-flex" href="#语言模型"><span class="mr-2">1.6</span><span>语言模型</span></a></li><li><a class="is-flex" href="#采样"><span class="mr-2">1.7</span><span>采样</span></a></li><li><a class="is-flex" href="#RNN-的梯度消失"><span class="mr-2">1.8</span><span>RNN 的梯度消失</span></a></li><li><a class="is-flex" href="#GRU（门控循环单元）"><span class="mr-2">1.9</span><span>GRU（门控循环单元）</span></a></li><li><a class="is-flex" href="#LSTM（长短期记忆）"><span class="mr-2">1.10</span><span>LSTM（长短期记忆）</span></a></li><li><a class="is-flex" href="#双向循环神经网络（BRNN）"><span class="mr-2">1.11</span><span>双向循环神经网络（BRNN）</span></a></li><li><a class="is-flex" href="#深度循环神经网络（DRNN"><span class="mr-2">1.12</span><span>深度循环神经网络（DRNN)</span></a></li></ul><li><a class="is-flex" href="#代码示例"><span class="mr-2">2</span><span>代码示例</span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

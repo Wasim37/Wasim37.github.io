@@ -1,564 +1,103 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>神经风格转移 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x7B80;&amp;#x4ECB;&amp;#x795E;&amp;#x7ECF;&amp;#x98CE;&amp;#x683C;&amp;#x8FC1;&amp;#x79FB;&amp;#xFF08;Neural style transfer&amp;#xFF09;&amp;#x5C06;&amp;#x53C2;&amp;#x8003;&amp;#x98CE;&amp;#x683C;&amp;#x56FE;&amp;#x50CF;&amp;#x7684;&amp;#x98CE;&amp;#x683C;&amp;#x201C;&amp;#x8FC1;&amp;#x">
-<meta property="og:type" content="article">
-<meta property="og:title" content="神经风格转移">
-<meta property="og:url" content="http://www.wangxin123.com/2018/01/27/神经风格转移/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x7B80;&amp;#x4ECB;&amp;#x795E;&amp;#x7ECF;&amp;#x98CE;&amp;#x683C;&amp;#x8FC1;&amp;#x79FB;&amp;#xFF08;Neural style transfer&amp;#xFF09;&amp;#x5C06;&amp;#x53C2;&amp;#x8003;&amp;#x98CE;&amp;#x683C;&amp;#x56FE;&amp;#x50CF;&amp;#x7684;&amp;#x98CE;&amp;#x683C;&amp;#x201C;&amp;#x8FC1;&amp;#x">
-<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Neural-style-transfer.png">
-<meta property="og:updated_time" content="2018-05-02T01:56:24.684Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="神经风格转移">
-<meta name="twitter:description" content="&amp;#x7B80;&amp;#x4ECB;&amp;#x795E;&amp;#x7ECF;&amp;#x98CE;&amp;#x683C;&amp;#x8FC1;&amp;#x79FB;&amp;#xFF08;Neural style transfer&amp;#xFF09;&amp;#x5C06;&amp;#x53C2;&amp;#x8003;&amp;#x98CE;&amp;#x683C;&amp;#x56FE;&amp;#x50CF;&amp;#x7684;&amp;#x98CE;&amp;#x683C;&amp;#x201C;&amp;#x8FC1;&amp;#x">
-<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Neural-style-transfer.png">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-神经风格转移" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            神经风格转移
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/01/27/神经风格转移/">
-            <time datetime="2018-01-27T14:22:00.000Z" itemprop="datePublished">2018-01-27</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/深度学习/">深度学习</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/StyleTransfer/">StyleTransfer</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#深度卷积网络在学什么？"><span class="toc-number">2.</span> <span class="toc-text">深度卷积网络在学什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代价函数"><span class="toc-number">3.</span> <span class="toc-text">代价函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#内容代价函数"><span class="toc-number">4.</span> <span class="toc-text">内容代价函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#风格代价函数"><span class="toc-number">5.</span> <span class="toc-text">风格代价函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#推广至一维和三维"><span class="toc-number">6.</span> <span class="toc-text">推广至一维和三维</span></a></li></ol>
-                </div>
-            
-            <h4 id="&#x7B80;&#x4ECB;"><a href="#&#x7B80;&#x4ECB;" class="headerlink" title="&#x7B80;&#x4ECB;"></a>&#x7B80;&#x4ECB;</h4><p><strong>&#x795E;&#x7ECF;&#x98CE;&#x683C;&#x8FC1;&#x79FB;&#xFF08;Neural style transfer&#xFF09;</strong>&#x5C06;&#x53C2;&#x8003;&#x98CE;&#x683C;&#x56FE;&#x50CF;&#x7684;&#x98CE;&#x683C;&#x201C;&#x8FC1;&#x79FB;&#x201D;&#x5230;&#x53E6;&#x5916;&#x4E00;&#x5F20;&#x5185;&#x5BB9;&#x56FE;&#x50CF;&#x4E2D;&#xFF0C;&#x751F;&#x6210;&#x5177;&#x6709;&#x5176;&#x7279;&#x8272;&#x7684;&#x56FE;&#x50CF;&#x3002;</p>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>神经风格转移 - Hexo</title><meta description="简介神经风格迁移（Neural style transfer）将参考风格图像的风格“迁移”到另外一张内容图像中，生成具有其特色的图像。  相关链接：  代码示例 fast-style-transfer github项目"><meta property="og:type" content="blog"><meta property="og:title" content="神经风格转移"><meta property="og:url" content="http://yoursite.com/2018/01/27/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="简介神经风格迁移（Neural style transfer）将参考风格图像的风格“迁移”到另外一张内容图像中，生成具有其特色的图像。  相关链接：  代码示例 fast-style-transfer github项目"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Neural-style-transfer.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Visualizing-deep-layers.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Intuition-about-style-of-an-image.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/神经风格转移/20180423210127_1.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/神经风格转移/20180423210127_2.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/神经风格转移/20180423210127_3.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/1D-3D-Convolution.png"><meta property="article:published_time" content="2018-01-27T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.568Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="StyleTransfer"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Neural-style-transfer.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2018/01/27/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/"},"headline":"Hexo","image":["http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Neural-style-transfer.png","http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Visualizing-deep-layers.png","http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Intuition-about-style-of-an-image.png","http://7xvfir.com1.z0.glb.clouddn.com/神经风格转移/20180423210127_1.png","http://7xvfir.com1.z0.glb.clouddn.com/神经风格转移/20180423210127_2.png","http://7xvfir.com1.z0.glb.clouddn.com/神经风格转移/20180423210127_3.png","http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/1D-3D-Convolution.png"],"datePublished":"2018-01-27T14:22:00.000Z","dateModified":"2020-05-19T06:34:18.568Z","author":{"@type":"Person","name":"John Doe"},"description":"简介神经风格迁移（Neural style transfer）将参考风格图像的风格“迁移”到另外一张内容图像中，生成具有其特色的图像。  相关链接：  代码示例 fast-style-transfer github项目"}</script><link rel="canonical" href="http://yoursite.com/2018/01/27/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-01-27T14:22:00.000Z" title="2018-01-27T14:22:00.000Z">2018-01-27</time><span class="level-item"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></span><span class="level-item">9 分钟 读完 (大约 1370 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">神经风格转移</h1><div class="content"><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><strong>神经风格迁移（Neural style transfer）</strong>将参考风格图像的风格“迁移”到另外一张内容图像中，生成具有其特色的图像。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Neural-style-transfer.png" alt=""></p>
-<p>&#x76F8;&#x5173;&#x94FE;&#x63A5;&#xFF1A;</p>
+<p>相关链接：</p>
 <ul>
-<li><a href="https://github.com/Wasim37/deeplearning-assignment/tree/master/4%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/Week4%20%E7%89%B9%E6%AE%8A%E7%9A%84%E5%BA%94%E7%94%A8/Neural%20Style%20Transfer" target="_blank" rel="external">&#x4EE3;&#x7801;&#x793A;&#x4F8B;</a></li>
-<li><a href="https://github.com/Wasim37/fast-style-transfer" target="_blank" rel="external">fast-style-transfer github&#x9879;&#x76EE;</a></li>
+<li><a href="https://github.com/Wasim37/deeplearning-assignment/tree/master/4%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/Week4%20%E7%89%B9%E6%AE%8A%E7%9A%84%E5%BA%94%E7%94%A8/Neural%20Style%20Transfer">代码示例</a></li>
+<li><a href="https://github.com/Wasim37/fast-style-transfer">fast-style-transfer github项目</a></li>
 </ul>
 <a id="more"></a>
 <hr>
-<h4 id="&#x6DF1;&#x5EA6;&#x5377;&#x79EF;&#x7F51;&#x7EDC;&#x5728;&#x5B66;&#x4EC0;&#x4E48;&#xFF1F;"><a href="#&#x6DF1;&#x5EA6;&#x5377;&#x79EF;&#x7F51;&#x7EDC;&#x5728;&#x5B66;&#x4EC0;&#x4E48;&#xFF1F;" class="headerlink" title="&#x6DF1;&#x5EA6;&#x5377;&#x79EF;&#x7F51;&#x7EDC;&#x5728;&#x5B66;&#x4EC0;&#x4E48;&#xFF1F;"></a>&#x6DF1;&#x5EA6;&#x5377;&#x79EF;&#x7F51;&#x7EDC;&#x5728;&#x5B66;&#x4EC0;&#x4E48;&#xFF1F;</h4><p>&#x60F3;&#x8981;&#x7406;&#x89E3;&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x795E;&#x7ECF;&#x98CE;&#x683C;&#x8F6C;&#x6362;&#xFF0C;&#x9996;&#x5148;&#x8981;&#x7406;&#x89E3;&#x5728;&#x8F93;&#x5165;&#x56FE;&#x50CF;&#x6570;&#x636E;&#x540E;&#xFF0C;&#x4E00;&#x4E2A;&#x6DF1;&#x5EA6;&#x5377;&#x79EF;&#x7F51;&#x7EDC;&#x4ECE;&#x4E2D;&#x90FD;&#x5B66;&#x5230;&#x4E86;&#x4E9B;&#x4EC0;&#x4E48;&#x3002;&#x6211;&#x4EEC;&#x501F;&#x52A9;&#x53EF;&#x89C6;&#x5316;&#x6765;&#x505A;&#x5230;&#x8FD9;&#x4E00;&#x70B9;&#x3002;</p>
+<h4 id="深度卷积网络在学什么？"><a href="#深度卷积网络在学什么？" class="headerlink" title="深度卷积网络在学什么？"></a>深度卷积网络在学什么？</h4><p>想要理解如何实现神经风格转换，首先要理解在输入图像数据后，一个深度卷积网络从中都学到了些什么。我们借助可视化来做到这一点。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Visualizing-deep-layers.png" alt=""></p>
-<p>&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x904D;&#x5386;&#x6240;&#x6709;&#x7684;&#x8BAD;&#x7EC3;&#x6837;&#x672C;&#xFF0C;&#x627E;&#x51FA;&#x4F7F;&#x8BE5;&#x5C42;&#x6FC0;&#x6D3B;&#x51FD;&#x6570;&#x8F93;&#x51FA;&#x6700;&#x5927;&#x7684; 9 &#x5757;&#x56FE;&#x50CF;&#x533A;&#x57DF;&#x3002;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x6D45;&#x5C42;&#x7684;&#x9690;&#x85CF;&#x5C42;&#x901A;&#x5E38;&#x68C0;&#x6D4B;&#x51FA;&#x7684;&#x662F;&#x539F;&#x59CB;&#x56FE;&#x50CF;&#x7684;&#x8FB9;&#x7F18;&#x3001;&#x989C;&#x8272;&#x3001;&#x9634;&#x5F71;&#x7B49;&#x7B80;&#x5355;&#x4FE1;&#x606F;&#x3002;&#x968F;&#x7740;&#x5C42;&#x6570;&#x7684;&#x589E;&#x52A0;&#xFF0C;&#x9690;&#x85CF;&#x5355;&#x5143;&#x80FD;&#x6355;&#x6349;&#x7684;&#x533A;&#x57DF;&#x66F4;&#x5927;&#xFF0C;&#x5B66;&#x4E60;&#x5230;&#x7684;&#x7279;&#x5F81;&#x4E5F;&#x7531;&#x4ECE;&#x8FB9;&#x7F18;&#x5230;&#x7EB9;&#x7406;&#x518D;&#x5230;&#x5177;&#x4F53;&#x7269;&#x4F53;&#xFF0C;&#x53D8;&#x5F97;&#x66F4;&#x52A0;&#x590D;&#x6742;&#x3002;</p>
-<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="https://arxiv.org/pdf/1311.2901.pdf" target="_blank" rel="external">Zeiler and Fergus., 2013, Visualizing and understanding convolutional networks</a></p>
+<p>我们通过遍历所有的训练样本，找出使该层激活函数输出最大的 9 块图像区域。可以看出，浅层的隐藏层通常检测出的是原始图像的边缘、颜色、阴影等简单信息。随着层数的增加，隐藏单元能捕捉的区域更大，学习到的特征也由从边缘到纹理再到具体物体，变得更加复杂。</p>
+<p>相关论文：<a href="https://arxiv.org/pdf/1311.2901.pdf">Zeiler and Fergus., 2013, Visualizing and understanding convolutional networks</a></p>
 <hr>
-<h4 id="&#x4EE3;&#x4EF7;&#x51FD;&#x6570;"><a href="#&#x4EE3;&#x4EF7;&#x51FD;&#x6570;" class="headerlink" title="&#x4EE3;&#x4EF7;&#x51FD;&#x6570;"></a>&#x4EE3;&#x4EF7;&#x51FD;&#x6570;</h4><p>&#x795E;&#x7ECF;&#x98CE;&#x683C;&#x8FC1;&#x79FB;&#x751F;&#x6210;&#x56FE;&#x7247; G &#x7684;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p>$$J(G) = \alpha \cdot J_{content}(C, G) + \beta \cdot J_{style}(S, G)$$</p>
-<p>&#x5176;&#x4E2D;&#xFF0C;$&#x3B1;$&#x3001;$&#x3B2;$ &#x662F;&#x7528;&#x4E8E;&#x63A7;&#x5236;&#x76F8;&#x4F3C;&#x5EA6;&#x6BD4;&#x91CD;&#x7684;&#x8D85;&#x53C2;&#x6570;&#x3002;</p>
-<p>&#x795E;&#x7ECF;&#x98CE;&#x683C;&#x8FC1;&#x79FB;&#x7684;&#x7B97;&#x6CD5;&#x6B65;&#x9AA4;&#x5982;&#x4E0B;&#xFF1A;</p>
+<h4 id="代价函数"><a href="#代价函数" class="headerlink" title="代价函数"></a>代价函数</h4><p>神经风格迁移生成图片 G 的代价函数如下：</p>
+<script type="math/tex; mode=display">J(G) = \alpha \cdot J_{content}(C, G) + \beta \cdot J_{style}(S, G)</script><p>其中，$α$、$β$ 是用于控制相似度比重的超参数。</p>
+<p>神经风格迁移的算法步骤如下：</p>
 <ol>
-<li>&#x968F;&#x673A;&#x751F;&#x6210;&#x56FE;&#x7247; G &#x7684;&#x6240;&#x6709;&#x50CF;&#x7D20;&#x70B9;&#xFF1B;</li>
-<li>&#x4F7F;&#x7528;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x7B97;&#x6CD5;&#x4F7F;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;&#x6700;&#x5C0F;&#x5316;&#xFF0C;&#x4EE5;&#x4E0D;&#x65AD;&#x4FEE;&#x6B63; G &#x7684;&#x6240;&#x6709;&#x50CF;&#x7D20;&#x70B9;&#x3002;</li>
+<li>随机生成图片 G 的所有像素点；</li>
+<li>使用梯度下降算法使代价函数最小化，以不断修正 G 的所有像素点。</li>
 </ol>
-<p>&#x76F8;&#x5173;&#x8BBA;&#x6587;&#xFF1A;<a href="https://arxiv.org/pdf/1508.06576v2.pdf" target="_blank" rel="external">Gatys al., 2015. A neural algorithm of artistic style</a></p>
+<p>相关论文：<a href="https://arxiv.org/pdf/1508.06576v2.pdf">Gatys al., 2015. A neural algorithm of artistic style</a></p>
 <hr>
-<h4 id="&#x5185;&#x5BB9;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;"><a href="#&#x5185;&#x5BB9;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;" class="headerlink" title="&#x5185;&#x5BB9;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;"></a>&#x5185;&#x5BB9;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;</h4><p>&#x4E0A;&#x8FF0;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;&#x5305;&#x542B;&#x4E00;&#x4E2A;&#x5185;&#x5BB9;&#x4EE3;&#x4EF7;&#x90E8;&#x5206;&#x548C;&#x98CE;&#x683C;&#x4EE3;&#x4EF7;&#x90E8;&#x5206;&#x3002;&#x6211;&#x4EEC;&#x5148;&#x6765;&#x8BA8;&#x8BBA;&#x5185;&#x5BB9;&#x4EE3;&#x4EF7;&#x51FD;&#x6570; $J_{content}(C, G)$&#xFF0C;&#x5B83;&#x8868;&#x793A;&#x5185;&#x5BB9;&#x56FE;&#x7247; C &#x548C;&#x751F;&#x6210;&#x56FE;&#x7247; G &#x4E4B;&#x95F4;&#x7684;&#x76F8;&#x4F3C;&#x5EA6;&#x3002;</p>
-<p>$J_{content}(C, G)$ &#x7684;&#x8BA1;&#x7B97;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<h4 id="内容代价函数"><a href="#内容代价函数" class="headerlink" title="内容代价函数"></a>内容代价函数</h4><p>上述代价函数包含一个内容代价部分和风格代价部分。我们先来讨论内容代价函数 $J_{content}(C, G)$，它表示内容图片 C 和生成图片 G 之间的相似度。</p>
+<p>$J_{content}(C, G)$ 的计算过程如下：</p>
 <ul>
-<li>&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x9884;&#x8BAD;&#x7EC3;&#x597D;&#x7684; CNN&#xFF08;&#x4F8B;&#x5982; VGG&#xFF09;&#xFF1B;</li>
-<li>&#x9009;&#x62E9;&#x4E00;&#x4E2A;&#x9690;&#x85CF;&#x5C42; l &#x6765;&#x8BA1;&#x7B97;&#x5185;&#x5BB9;&#x4EE3;&#x4EF7;&#x3002;l &#x592A;&#x5C0F;&#x5219;&#x5185;&#x5BB9;&#x56FE;&#x7247;&#x548C;&#x751F;&#x6210;&#x56FE;&#x7247;&#x50CF;&#x7D20;&#x7EA7;&#x522B;&#x76F8;&#x4F3C;&#xFF0C;l &#x592A;&#x5927;&#x5219;&#x53EF;&#x80FD;&#x53EA;&#x6709;&#x5177;&#x4F53;&#x7269;&#x4F53;&#x7EA7;&#x522B;&#x7684;&#x76F8;&#x4F3C;&#x3002;&#x56E0;&#x6B64;&#xFF0C;l &#x4E00;&#x822C;&#x9009;&#x4E00;&#x4E2A;&#x4E2D;&#x95F4;&#x5C42;&#xFF1B;</li>
-<li>&#x8BBE; a(C)[l]&#x3001;a(G)[l] &#x4E3A; C &#x548C; G &#x5728; l &#x5C42;&#x7684;&#x6FC0;&#x6D3B;&#xFF0C;&#x5219;&#x6709;&#xFF1A;</li>
+<li>使用一个预训练好的 CNN（例如 VGG）；</li>
+<li>选择一个隐藏层 l 来计算内容代价。l 太小则内容图片和生成图片像素级别相似，l 太大则可能只有具体物体级别的相似。因此，l 一般选一个中间层；</li>
+<li>设 a(C)[l]、a(G)[l] 为 C 和 G 在 l 层的激活，则有：</li>
 </ul>
-<p>$$J_{content}(C, G) = \frac{1}{2}||(a^{(C)[l]} - a^{(G)[l]})||^2$$</p>
-<p>$a^{(C)[l]}$ &#x548C; $a^{(G)[l]}$ &#x8D8A;&#x76F8;&#x4F3C;&#xFF0C;&#x5219; $J_{content}(C, G)$ &#x8D8A;&#x5C0F;&#x3002;</p>
+<script type="math/tex; mode=display">J_{content}(C, G) = \frac{1}{2}||(a^{(C)[l]} - a^{(G)[l]})||^2</script><p>$a^{(C)[l]}$ 和 $a^{(G)[l]}$ 越相似，则 $J_{content}(C, G)$ 越小。</p>
 <hr>
-<h4 id="&#x98CE;&#x683C;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;"><a href="#&#x98CE;&#x683C;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;" class="headerlink" title="&#x98CE;&#x683C;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;"></a>&#x98CE;&#x683C;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;</h4><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Intuition-about-style-of-an-image.png" alt=""></p>
-<p>&#x6BCF;&#x4E2A;&#x901A;&#x9053;&#x63D0;&#x53D6;&#x56FE;&#x7247;&#x7684;&#x7279;&#x5F81;&#x4E0D;&#x540C;&#xFF0C;&#x6BD4;&#x5982;&#x6807;&#x4E3A;&#x7EA2;&#x8272;&#x7684;&#x901A;&#x9053;&#x63D0;&#x53D6;&#x7684;&#x662F;&#x56FE;&#x7247;&#x7684;&#x5782;&#x76F4;&#x7EB9;&#x7406;&#x7279;&#x5F81;&#xFF0C;&#x6807;&#x4E3A;&#x9EC4;&#x8272;&#x7684;&#x901A;&#x9053;&#x63D0;&#x53D6;&#x7684;&#x662F;&#x56FE;&#x7247;&#x7684;&#x6A59;&#x8272;&#x80CC;&#x666F;&#x7279;&#x5F81;&#x3002;&#x90A3;&#x4E48;&#x8BA1;&#x7B97;&#x8FD9;&#x4E24;&#x4E2A;&#x901A;&#x9053;&#x7684;&#x76F8;&#x5173;&#x6027;&#xFF0C;&#x76F8;&#x5173;&#x6027;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x5373;&#x8868;&#x793A;&#x539F;&#x59CB;&#x56FE;&#x7247;&#x65E2;&#x5305;&#x542B;&#x4E86;&#x5782;&#x76F4;&#x7EB9;&#x7406;&#x4E5F;&#x5305;&#x542B;&#x4E86;&#x8BE5;&#x6A59;&#x8272;&#x80CC;&#x666F;&#x7684;&#x53EF;&#x80FD;&#x6027;&#x5927;&#x5C0F;&#x3002;&#x901A;&#x8FC7; CNN&#xFF0C;&#x201C;&#x98CE;&#x683C;&#x201D;&#x88AB;&#x5B9A;&#x4E49;&#x4E3A;&#x540C;&#x4E00;&#x4E2A;&#x9690;&#x85CF;&#x5C42;&#x4E0D;&#x540C;&#x901A;&#x9053;&#x4E4B;&#x95F4;&#x6FC0;&#x6D3B;&#x503C;&#x7684;&#x76F8;&#x5173;&#x7CFB;&#x6570;&#xFF0C;&#x56E0;&#x5176;&#x53CD;&#x6620;&#x4E86;&#x539F;&#x59CB;&#x56FE;&#x7247;&#x7279;&#x5F81;&#x95F4;&#x7684;&#x76F8;&#x4E92;&#x5173;&#x7CFB;&#x3002;</p>
-<p>&#x5BF9;&#x4E8E;&#x98CE;&#x683C;&#x56FE;&#x50CF; S&#xFF0C;&#x9009;&#x5B9A;&#x7F51;&#x7EDC;&#x4E2D;&#x7684;&#x7B2C; l &#x5C42;&#xFF0C;&#x5219;&#x76F8;&#x5173;&#x7CFB;&#x6570;&#x4EE5;&#x4E00;&#x4E2A; gram &#x77E9;&#x9635;&#x7684;&#x5F62;&#x5F0F;&#x8868;&#x793A;&#xFF1A;</p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/&#x795E;&#x7ECF;&#x98CE;&#x683C;&#x8F6C;&#x79FB;/20180423210127_1.png" alt=""></p>
-<p>&#x5176;&#x4E2D;&#xFF0C;$i$ &#x548C; $j$ &#x4E3A;&#x7B2C; $l$ &#x5C42;&#x7684;&#x9AD8;&#x5EA6;&#x548C;&#x5BBD;&#x5EA6;&#xFF1B;$k$ &#x548C; $k&#x2032;$ &#x4E3A;&#x9009;&#x5B9A;&#x7684;&#x901A;&#x9053;&#xFF0C;&#x5176;&#x8303;&#x56F4;&#x4E3A; 1 &#x5230; $n_C^{[l]}$&#xFF1B;$a^{<a href="S">l</a>}_{ijk}$ &#x4E3A;&#x6FC0;&#x6D3B;&#x3002;</p>
-<p>&#x540C;&#x7406;&#xFF0C;&#x5BF9;&#x4E8E;&#x751F;&#x6210;&#x56FE;&#x50CF; G&#xFF0C;&#x6709;&#xFF1A;</p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/&#x795E;&#x7ECF;&#x98CE;&#x683C;&#x8F6C;&#x79FB;/20180423210127_2.png" alt=""></p>
-<p>&#x56E0;&#x6B64;&#xFF0C;&#x7B2C; $l$ &#x5C42;&#x7684;&#x98CE;&#x683C;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;&#x4E3A;&#xFF1A;</p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/&#x795E;&#x7ECF;&#x98CE;&#x683C;&#x8F6C;&#x79FB;/20180423210127_3.png" alt=""></p>
-<p>&#x5982;&#x679C;&#x5BF9;&#x5404;&#x5C42;&#x90FD;&#x4F7F;&#x7528;&#x98CE;&#x683C;&#x4EE3;&#x4EF7;&#x51FD;&#x6570;&#xFF0C;&#x6548;&#x679C;&#x4F1A;&#x66F4;&#x597D;&#x3002;&#x56E0;&#x6B64;&#x6709;&#xFF1A;</p>
-<p>$$J_{style}(S, G) = \sum_l \lambda^{[l]} J^{[l]}_{style}(S, G)$$</p>
-<p>&#x5176;&#x4E2D;&#xFF0C;$lambda$ &#x662F;&#x7528;&#x4E8E;&#x8BBE;&#x7F6E;&#x4E0D;&#x540C;&#x5C42;&#x6240;&#x5360;&#x6743;&#x91CD;&#x7684;&#x8D85;&#x53C2;&#x6570;&#x3002;</p>
+<h4 id="风格代价函数"><a href="#风格代价函数" class="headerlink" title="风格代价函数"></a>风格代价函数</h4><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/Intuition-about-style-of-an-image.png" alt=""></p>
+<p>每个通道提取图片的特征不同，比如标为红色的通道提取的是图片的垂直纹理特征，标为黄色的通道提取的是图片的橙色背景特征。那么计算这两个通道的相关性，相关性的大小，即表示原始图片既包含了垂直纹理也包含了该橙色背景的可能性大小。通过 CNN，“风格”被定义为同一个隐藏层不同通道之间激活值的相关系数，因其反映了原始图片特征间的相互关系。</p>
+<p>对于风格图像 S，选定网络中的第 l 层，则相关系数以一个 gram 矩阵的形式表示：</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/神经风格转移/20180423210127_1.png" alt=""></p>
+<p>其中，$i$ 和 $j$ 为第 $l$ 层的高度和宽度；$k$ 和 $k′$ 为选定的通道，其范围为 1 到 $n<em>C^{[l]}$；$a^{<a href="S">l</a>}</em>{ijk}$ 为激活。</p>
+<p>同理，对于生成图像 G，有：</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/神经风格转移/20180423210127_2.png" alt=""></p>
+<p>因此，第 $l$ 层的风格代价函数为：</p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/神经风格转移/20180423210127_3.png" alt=""></p>
+<p>如果对各层都使用风格代价函数，效果会更好。因此有：</p>
+<script type="math/tex; mode=display">J_{style}(S, G) = \sum_l \lambda^{[l]} J^{[l]}_{style}(S, G)</script><p>其中，$lambda$ 是用于设置不同层所占权重的超参数。</p>
 <hr>
-<h4 id="&#x63A8;&#x5E7F;&#x81F3;&#x4E00;&#x7EF4;&#x548C;&#x4E09;&#x7EF4;"><a href="#&#x63A8;&#x5E7F;&#x81F3;&#x4E00;&#x7EF4;&#x548C;&#x4E09;&#x7EF4;" class="headerlink" title="&#x63A8;&#x5E7F;&#x81F3;&#x4E00;&#x7EF4;&#x548C;&#x4E09;&#x7EF4;"></a>&#x63A8;&#x5E7F;&#x81F3;&#x4E00;&#x7EF4;&#x548C;&#x4E09;&#x7EF4;</h4><p>&#x4E4B;&#x524D;&#x6211;&#x4EEC;&#x5904;&#x7406;&#x7684;&#x90FD;&#x662F;&#x4E8C;&#x7EF4;&#x56FE;&#x7247;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x5377;&#x79EF;&#x4E5F;&#x53EF;&#x4EE5;&#x5EF6;&#x4F38;&#x5230;&#x4E00;&#x7EF4;&#x548C;&#x4E09;&#x7EF4;&#x6570;&#x636E;&#x3002;&#x6211;&#x4EEC;&#x4E3E;&#x4E24;&#x4E2A;&#x793A;&#x4F8B;&#x6765;&#x8BF4;&#x660E;&#x3002;</p>
+<h4 id="推广至一维和三维"><a href="#推广至一维和三维" class="headerlink" title="推广至一维和三维"></a>推广至一维和三维</h4><p>之前我们处理的都是二维图片，实际上卷积也可以延伸到一维和三维数据。我们举两个示例来说明。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/1D-3D-Convolution.png" alt=""></p>
-<p>EKG &#x6570;&#x636E;&#xFF08;&#x5FC3;&#x7535;&#x56FE;&#xFF09;&#x662F;&#x7531;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x5BF9;&#x5E94;&#x7684;&#x6BCF;&#x4E2A;&#x77AC;&#x95F4;&#x7684;&#x7535;&#x538B;&#x7EC4;&#x6210;&#xFF0C;&#x662F;&#x4E00;&#x7EF4;&#x6570;&#x636E;&#x3002;&#x4E00;&#x822C;&#x6765;&#x8BF4;&#x6211;&#x4EEC;&#x4F1A;&#x7528; RNN&#xFF08;&#x5FAA;&#x73AF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF09;&#x6765;&#x5904;&#x7406;&#xFF0C;&#x4E0D;&#x8FC7;&#x5982;&#x679C;&#x7528;&#x5377;&#x79EF;&#x5904;&#x7406;&#xFF0C;&#x5219;&#x6709;&#xFF1A;</p>
+<p>EKG 数据（心电图）是由时间序列对应的每个瞬间的电压组成，是一维数据。一般来说我们会用 RNN（循环神经网络）来处理，不过如果用卷积处理，则有：</p>
 <ul>
-<li>&#x8F93;&#x5165;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x7EF4;&#x5EA6;&#xFF1A;14 x 1</li>
-<li>&#x6EE4;&#x6CE2;&#x5668;&#x5C3A;&#x5BF8;&#xFF1A;5 x 1&#xFF0C;&#x6EE4;&#x6CE2;&#x5668;&#x4E2A;&#x6570;&#xFF1A;16</li>
-<li>&#x8F93;&#x51FA;&#x65F6;&#x95F4;&#x5E8F;&#x5217;&#x7EF4;&#x5EA6;&#xFF1A;10 x 16</li>
+<li>输入时间序列维度：14 x 1</li>
+<li>滤波器尺寸：5 x 1，滤波器个数：16</li>
+<li>输出时间序列维度：10 x 16</li>
 </ul>
-<p>&#x800C;&#x5BF9;&#x4E8E;&#x4E09;&#x7EF4;&#x56FE;&#x7247;&#x7684;&#x793A;&#x4F8B;&#xFF0C;&#x6709;</p>
+<p>而对于三维图片的示例，有</p>
 <ul>
-<li>&#x8F93;&#x5165; 3D &#x56FE;&#x7247;&#x7EF4;&#x5EA6;&#xFF1A;14 x 14 x 14 x 1</li>
-<li>&#x6EE4;&#x6CE2;&#x5668;&#x5C3A;&#x5BF8;&#xFF1A;5 x 5 x 5 x 1&#xFF0C;&#x6EE4;&#x6CE2;&#x5668;&#x4E2A;&#x6570;&#xFF1A;16</li>
-<li>&#x8F93;&#x51FA; 3D &#x56FE;&#x7247;&#x7EF4;&#x5EA6;&#xFF1A;10 x 10 x 10 x 16</li>
+<li>输入 3D 图片维度：14 x 14 x 14 x 1</li>
+<li>滤波器尺寸：5 x 5 x 5 x 1，滤波器个数：16</li>
+<li>输出 3D 图片维度：10 x 10 x 10 x 16</li>
 </ul>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2018/02/27/循环训练模型/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    循环训练模型
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2018/01/21/人脸识别/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">人脸识别</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-		<!-- MathJax���ã���ͨ������Ԫ������д���ڹ�ʽ�� -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": { 
-        preferredFont: "TeX", 
-        availableFonts: ["STIX","TeX"], 
-        linebreaks: { automatic:true }, 
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
-    },
-    tex2jax: { 
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
-        processEscapes: true, 
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {  
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
-        Macros: { href: "{}" } 
-    },
-    messageStyle: "none"
-    }); 
-</script>
-<!-- ��MathJaxԪ������has-jax class -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<!-- ͨ������CDN����MathJax��js���� -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/StyleTransfer/">StyleTransfer</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2018/02/27/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">循环训练模型</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2018/01/21/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="level-item">人脸识别</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" href="#简介"><span class="mr-2">1</span><span>简介</span></a></li><li><a class="is-flex" href="#深度卷积网络在学什么？"><span class="mr-2">2</span><span>深度卷积网络在学什么？</span></a></li><li><a class="is-flex" href="#代价函数"><span class="mr-2">3</span><span>代价函数</span></a></li><li><a class="is-flex" href="#内容代价函数"><span class="mr-2">4</span><span>内容代价函数</span></a></li><li><a class="is-flex" href="#风格代价函数"><span class="mr-2">5</span><span>风格代价函数</span></a></li><li><a class="is-flex" href="#推广至一维和三维"><span class="mr-2">6</span><span>推广至一维和三维</span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

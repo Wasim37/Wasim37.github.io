@@ -1,527 +1,105 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>MySQL规约（阿里巴巴） | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x5EFA;&amp;#x8868;&amp;#x89C4;&amp;#x7EA6;
-&amp;#x3010;&amp;#x5F3A;&amp;#x5236;&amp;#x3011;&amp;#x8868;&amp;#x8FBE;&amp;#x662F;&amp;#x4E0E;&amp;#x5426;&amp;#x6982;&amp;#x5FF5;&amp;#x7684;&amp;#x5B57;&amp;#x6BB5;&amp;#xFF0C;&amp;#x5FC5;&amp;#x987B;&amp;#x4F7F;&amp;#x7528; is _ xxx &amp;#x76">
-<meta property="og:type" content="article">
-<meta property="og:title" content="MySQL规约（阿里巴巴）">
-<meta property="og:url" content="http://www.wangxin123.com/2017/03/02/MySQL规约（阿里巴巴）/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x5EFA;&amp;#x8868;&amp;#x89C4;&amp;#x7EA6;
-&amp;#x3010;&amp;#x5F3A;&amp;#x5236;&amp;#x3011;&amp;#x8868;&amp;#x8FBE;&amp;#x662F;&amp;#x4E0E;&amp;#x5426;&amp;#x6982;&amp;#x5FF5;&amp;#x7684;&amp;#x5B57;&amp;#x6BB5;&amp;#xFF0C;&amp;#x5FC5;&amp;#x987B;&amp;#x4F7F;&amp;#x7528; is _ xxx &amp;#x76">
-<meta property="og:updated_time" content="2017-06-26T11:34:25.988Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL规约（阿里巴巴）">
-<meta name="twitter:description" content="&amp;#x5EFA;&amp;#x8868;&amp;#x89C4;&amp;#x7EA6;
-&amp;#x3010;&amp;#x5F3A;&amp;#x5236;&amp;#x3011;&amp;#x8868;&amp;#x8FBE;&amp;#x662F;&amp;#x4E0E;&amp;#x5426;&amp;#x6982;&amp;#x5FF5;&amp;#x7684;&amp;#x5B57;&amp;#x6BB5;&amp;#xFF0C;&amp;#x5FC5;&amp;#x987B;&amp;#x4F7F;&amp;#x7528; is _ xxx &amp;#x76">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-MySQL规约（阿里巴巴）" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            MySQL规约（阿里巴巴）
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/03/02/MySQL规约（阿里巴巴）/">
-            <time datetime="2017-03-02T13:18:00.000Z" itemprop="datePublished">2017-03-02</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/数据库/">数据库</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/编码规范/">编码规范</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#建表规约"><span class="toc-number">1.</span> <span class="toc-text">建表规约</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引规约"><span class="toc-number">2.</span> <span class="toc-text">索引规约</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL规约"><span class="toc-number">3.</span> <span class="toc-text">SQL规约</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ORM规约"><span class="toc-number">4.</span> <span class="toc-text">ORM规约</span></a></li></ol>
-                </div>
-            
-            <h3 id="&#x5EFA;&#x8868;&#x89C4;&#x7EA6;"><a href="#&#x5EFA;&#x8868;&#x89C4;&#x7EA6;" class="headerlink" title="&#x5EFA;&#x8868;&#x89C4;&#x7EA6;"></a>&#x5EFA;&#x8868;&#x89C4;&#x7EA6;</h3><ol>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x8868;&#x8FBE;&#x662F;&#x4E0E;&#x5426;&#x6982;&#x5FF5;&#x7684;&#x5B57;&#x6BB5;&#xFF0C;&#x5FC5;&#x987B;&#x4F7F;&#x7528; is _ xxx &#x7684;&#x65B9;&#x5F0F;&#x547D;&#x540D;&#xFF0C;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x662F; unsigned tinyint<br>&#xFF08; 1 &#x8868;&#x793A;&#x662F;&#xFF0C;0 &#x8868;&#x793A;&#x5426; &#xFF09; &#xFF0C;&#x6B64;&#x89C4;&#x5219;&#x540C;&#x6837;&#x9002;&#x7528;&#x4E8E; odps &#x5EFA;&#x8868;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x4EFB;&#x4F55;&#x5B57;&#x6BB5;&#x5982;&#x679C;&#x4E3A;&#x975E;&#x8D1F;&#x6570;&#xFF0C;&#x5FC5;&#x987B;&#x662F; unsigned &#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x8868;&#x540D;&#x3001;&#x5B57;&#x6BB5;&#x540D;&#x5FC5;&#x987B;&#x4F7F;&#x7528;&#x5C0F;&#x5199;&#x5B57;&#x6BCD;&#x6216;&#x6570;&#x5B57; &#xFF1B; &#x7981;&#x6B62;&#x51FA;&#x73B0;&#x6570;&#x5B57;&#x5F00;&#x5934;&#xFF0C;&#x7981;&#x6B62;&#x4E24;&#x4E2A;&#x4E0B;&#x5212;&#x7EBF;&#x4E2D;&#x95F4;&#x53EA;<br>&#x51FA;&#x73B0;&#x6570;&#x5B57;&#x3002;&#x6570;&#x636E;&#x5E93;&#x5B57;&#x6BB5;&#x540D;&#x7684;&#x4FEE;&#x6539;&#x4EE3;&#x4EF7;&#x5F88;&#x5927;&#xFF0C;&#x56E0;&#x4E3A;&#x65E0;&#x6CD5;&#x8FDB;&#x884C;&#x9884;&#x53D1;&#x5E03;&#xFF0C;&#x6240;&#x4EE5;&#x5B57;&#x6BB5;&#x540D;&#x79F0;&#x9700;&#x8981;&#x614E;&#x91CD;&#x8003;&#x8651;&#x3002;<br>&#x6B63;&#x4F8B;&#xFF1A; getter _ admin &#xFF0C; task _ config &#xFF0C; level 3_ name<br>&#x53CD;&#x4F8B;&#xFF1A; GetterAdmin &#xFF0C; taskConfig &#xFF0C; level _3_ name</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x8868;&#x540D;&#x4E0D;&#x4F7F;&#x7528;&#x590D;&#x6570;&#x540D;&#x8BCD;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x8868;&#x540D;&#x5E94;&#x8BE5;&#x4EC5;&#x4EC5;&#x8868;&#x793A;&#x8868;&#x91CC;&#x9762;&#x7684;&#x5B9E;&#x4F53;&#x5185;&#x5BB9;&#xFF0C;&#x4E0D;&#x5E94;&#x8BE5;&#x8868;&#x793A;&#x5B9E;&#x4F53;&#x6570;&#x91CF;&#xFF0C;&#x5BF9;&#x5E94;&#x4E8E; DO &#x7C7B;&#x540D;&#x4E5F;&#x662F;&#x5355;&#x6570;<br>&#x5F62;&#x5F0F;&#xFF0C;&#x7B26;&#x5408;&#x8868;&#x8FBE;&#x4E60;&#x60EF;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x7981;&#x7528;&#x4FDD;&#x7559;&#x5B57;&#xFF0C;&#x5982; desc &#x3001; range &#x3001; match &#x3001; delayed &#x7B49;&#xFF0C;&#x8BF7;&#x53C2;&#x8003; MySQL &#x5B98;&#x65B9;&#x4FDD;&#x7559;&#x5B57;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x552F;&#x4E00;&#x7D22;&#x5F15;&#x540D;&#x4E3A; uk _&#x5B57;&#x6BB5;&#x540D; &#xFF1B; &#x666E;&#x901A;&#x7D22;&#x5F15;&#x540D;&#x5219;&#x4E3A; idx _&#x5B57;&#x6BB5;&#x540D;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A; uk _ &#x5373;  unique key&#xFF1B;idx _ &#x5373; index &#x7684;&#x7B80;&#x79F0;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x5C0F;&#x6570;&#x7C7B;&#x578B;&#x4E3A; decimal &#xFF0C;&#x7981;&#x6B62;&#x4F7F;&#x7528; float &#x548C; double &#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A; float &#x548C; double &#x5728;&#x5B58;&#x50A8;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5B58;&#x5728;&#x7CBE;&#x5EA6;&#x635F;&#x5931;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x5F88;&#x53EF;&#x80FD;&#x5728;&#x503C;&#x7684;&#x6BD4;&#x8F83;&#x65F6;&#xFF0C;&#x5F97;&#x5230;&#x4E0D;<br>&#x6B63;&#x786E;&#x7684;&#x7ED3;&#x679C;&#x3002;&#x5982;&#x679C;&#x5B58;&#x50A8;&#x7684;&#x6570;&#x636E;&#x8303;&#x56F4;&#x8D85;&#x8FC7; decimal &#x7684;&#x8303;&#x56F4;&#xFF0C;&#x5EFA;&#x8BAE;&#x5C06;&#x6570;&#x636E;&#x62C6;&#x6210;&#x6574;&#x6570;&#x548C;&#x5C0F;&#x6570;&#x5206;&#x5F00;&#x5B58;&#x50A8;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x5982;&#x679C;&#x5B58;&#x50A8;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x957F;&#x5EA6;&#x51E0;&#x4E4E;&#x76F8;&#x7B49;&#xFF0C;&#x4F7F;&#x7528; char &#x5B9A;&#x957F;&#x5B57;&#x7B26;&#x4E32;&#x7C7B;&#x578B;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font> varchar &#x662F;&#x53EF;&#x53D8;&#x957F;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x4E0D;&#x9884;&#x5148;&#x5206;&#x914D;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#xFF0C;&#x957F;&#x5EA6;&#x4E0D;&#x8981;&#x8D85;&#x8FC7; 5000&#xFF0C;&#x5982;&#x679C;&#x5B58;&#x50A8;&#x957F;<br>&#x5EA6;&#x5927;&#x4E8E;&#x6B64;&#x503C;&#xFF0C;&#x5B9A;&#x4E49;&#x5B57;&#x6BB5;&#x7C7B;&#x578B;&#x4E3A; text &#xFF0C;&#x72EC;&#x7ACB;&#x51FA;&#x6765;&#x4E00;&#x5F20;&#x8868;&#xFF0C;&#x7528;&#x4E3B;&#x952E;&#x6765;&#x5BF9;&#x5E94;&#xFF0C;&#x907F;&#x514D;&#x5F71;&#x54CD;&#x5176;&#x5B83;&#x5B57;&#x6BB5;&#x7D22;<br>&#x5F15;&#x6548;&#x7387;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x8868;&#x5FC5;&#x5907;&#x4E09;&#x5B57;&#x6BB5;&#xFF1A; id ,  gmt _ create ,  gmt _ modified &#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x5176;&#x4E2D; id &#x5FC5;&#x4E3A;&#x4E3B;&#x952E;&#xFF0C;&#x7C7B;&#x578B;&#x4E3A; unsigned bigint &#x3001;&#x5355;&#x8868;&#x65F6;&#x81EA;&#x589E;&#x3001;&#x6B65;&#x957F;&#x4E3A; 1&#x3002; gmt _ create ,<br>gmt _ modified &#x7684;&#x7C7B;&#x578B;&#x5747;&#x4E3A; date _ time &#x7C7B;&#x578B;&#x3002;</li>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011;&#x8868;&#x7684;&#x547D;&#x540D;&#x6700;&#x597D;&#x662F;&#x52A0;&#x4E0A;&#x201C;&#x4E1A;&#x52A1;&#x540D;&#x79F0;_&#x8868;&#x7684;&#x4F5C;&#x7528;&#x201D;&#x3002;<br>&#x6B63;&#x4F8B;&#xFF1A; tiger _ task /  tiger _ reader /  mpp _ config</li>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>MySQL规约（阿里巴巴） - Hexo</title><meta description="建表规约 【强制】表达是与否概念的字段，必须使用 is _ xxx 的方式命名，数据类型是 unsigned tinyint（ 1 表示是，0 表示否 ） ，此规则同样适用于 odps 建表。说明：任何字段如果为非负数，必须是 unsigned 。 【强制】表名、字段名必须使用小写字母或数字 ； 禁止出现数字开头，禁止两个下划线中间只出现数字。数据库字段名的修改代价很大，因为无法进行预发布，所以字"><meta property="og:type" content="blog"><meta property="og:title" content="MySQL规约（阿里巴巴）"><meta property="og:url" content="http://yoursite.com/2017/03/02/MySQL%E8%A7%84%E7%BA%A6%EF%BC%88%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%EF%BC%89/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="建表规约 【强制】表达是与否概念的字段，必须使用 is _ xxx 的方式命名，数据类型是 unsigned tinyint（ 1 表示是，0 表示否 ） ，此规则同样适用于 odps 建表。说明：任何字段如果为非负数，必须是 unsigned 。 【强制】表名、字段名必须使用小写字母或数字 ； 禁止出现数字开头，禁止两个下划线中间只出现数字。数据库字段名的修改代价很大，因为无法进行预发布，所以字"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://yoursite.com/img/og_image.png"><meta property="article:published_time" content="2017-03-02T13:18:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.238Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="编码规范"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2017/03/02/MySQL%E8%A7%84%E7%BA%A6%EF%BC%88%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%EF%BC%89/"},"headline":"Hexo","image":["http://yoursite.com/img/og_image.png"],"datePublished":"2017-03-02T13:18:00.000Z","dateModified":"2020-05-19T06:34:18.238Z","author":{"@type":"Person","name":"John Doe"},"description":"建表规约 【强制】表达是与否概念的字段，必须使用 is _ xxx 的方式命名，数据类型是 unsigned tinyint（ 1 表示是，0 表示否 ） ，此规则同样适用于 odps 建表。说明：任何字段如果为非负数，必须是 unsigned 。 【强制】表名、字段名必须使用小写字母或数字 ； 禁止出现数字开头，禁止两个下划线中间只出现数字。数据库字段名的修改代价很大，因为无法进行预发布，所以字"}</script><link rel="canonical" href="http://yoursite.com/2017/03/02/MySQL%E8%A7%84%E7%BA%A6%EF%BC%88%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%EF%BC%89/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2017-03-02T13:18:00.000Z" title="2017-03-02T13:18:00.000Z">2017-03-02</time><span class="level-item"><a class="link-muted" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span><span class="level-item">24 分钟 读完 (大约 3615 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">MySQL规约（阿里巴巴）</h1><div class="content"><h3 id="建表规约"><a href="#建表规约" class="headerlink" title="建表规约"></a>建表规约</h3><ol>
+<li><font style="color:red">【强制】</font>表达是与否概念的字段，必须使用 is _ xxx 的方式命名，数据类型是 unsigned tinyint<br>（ 1 表示是，0 表示否 ） ，此规则同样适用于 odps 建表。<br><strong>说明</strong>：任何字段如果为非负数，必须是 unsigned 。</li>
+<li><font style="color:red">【强制】</font>表名、字段名必须使用小写字母或数字 ； 禁止出现数字开头，禁止两个下划线中间只<br>出现数字。数据库字段名的修改代价很大，因为无法进行预发布，所以字段名称需要慎重考虑。<br>正例： getter <em> admin ， task </em> config ， level 3<em> name<br>反例： GetterAdmin ， taskConfig ， level _3</em> name</li>
+<li><font style="color:red">【强制】</font>表名不使用复数名词。<br><strong>说明</strong>：表名应该仅仅表示表里面的实体内容，不应该表示实体数量，对应于 DO 类名也是单数<br>形式，符合表达习惯。</li>
+<li><font style="color:red">【强制】</font>禁用保留字，如 desc 、 range 、 match 、 delayed 等，请参考 MySQL 官方保留字。</li>
+<li><font style="color:red">【强制】</font>唯一索引名为 uk <em>字段名 ； 普通索引名则为 idx </em>字段名。<br><strong>说明</strong>： uk <em> 即  unique key；idx </em> 即 index 的简称。</li>
+<li><font style="color:red">【强制】</font>小数类型为 decimal ，禁止使用 float 和 double 。<br><strong>说明</strong>： float 和 double 在存储的时候，存在精度损失的问题，很可能在值的比较时，得到不<br>正确的结果。如果存储的数据范围超过 decimal 的范围，建议将数据拆成整数和小数分开存储。</li>
+<li><font style="color:red">【强制】</font>如果存储的字符串长度几乎相等，使用 char 定长字符串类型。</li>
+<li><font style="color:red">【强制】</font> varchar 是可变长字符串，不预先分配存储空间，长度不要超过 5000，如果存储长<br>度大于此值，定义字段类型为 text ，独立出来一张表，用主键来对应，避免影响其它字段索<br>引效率。</li>
+<li><font style="color:red">【强制】</font>表必备三字段： id ,  gmt <em> create ,  gmt </em> modified 。<br><strong>说明</strong>：其中 id 必为主键，类型为 unsigned bigint 、单表时自增、步长为 1。 gmt <em> create ,<br>gmt </em> modified 的类型均为 date _ time 类型。</li>
+<li>【推荐】表的命名最好是加上“业务名称<em>表的作用”。<br>正例： tiger </em> task /  tiger <em> reader /  mpp </em> config</li>
 </ol>
 <a id="more"></a>
 <ol>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011;&#x5E93;&#x540D;&#x4E0E;&#x5E94;&#x7528;&#x540D;&#x79F0;&#x5C3D;&#x91CF;&#x4E00;&#x81F4;&#x3002;</li>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011;&#x5982;&#x679C;&#x4FEE;&#x6539;&#x5B57;&#x6BB5;&#x542B;&#x4E49;&#x6216;&#x5BF9;&#x5B57;&#x6BB5;&#x8868;&#x793A;&#x7684;&#x72B6;&#x6001;&#x8FFD;&#x52A0;&#x65F6;&#xFF0C;&#x9700;&#x8981;&#x53CA;&#x65F6;&#x66F4;&#x65B0;&#x5B57;&#x6BB5;&#x6CE8;&#x91CA;&#x3002;</li>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011;&#x5B57;&#x6BB5;&#x5141;&#x8BB8;&#x9002;&#x5F53;&#x5197;&#x4F59;&#xFF0C;&#x4EE5;&#x63D0;&#x9AD8;&#x6027;&#x80FD;&#xFF0C;&#x4F46;&#x662F;&#x5FC5;&#x987B;&#x8003;&#x8651;&#x6570;&#x636E;&#x540C;&#x6B65;&#x7684;&#x60C5;&#x51B5;&#x3002;&#x5197;&#x4F59;&#x5B57;&#x6BB5;&#x5E94;&#x9075;&#x5FAA;&#xFF1A;<br>1 &#xFF09; &#x4E0D;&#x662F;&#x9891;&#x7E41;&#x4FEE;&#x6539;&#x7684;&#x5B57;&#x6BB5;&#x3002;<br>2 &#xFF09; &#x4E0D;&#x662F; varchar &#x8D85;&#x957F;&#x5B57;&#x6BB5;&#xFF0C;&#x66F4;&#x4E0D;&#x80FD;&#x662F; text &#x5B57;&#x6BB5;&#x3002;<br>&#x6B63;&#x4F8B;&#xFF1A;&#x5546;&#x54C1;&#x7C7B;&#x76EE;&#x540D;&#x79F0;&#x4F7F;&#x7528;&#x9891;&#x7387;&#x9AD8;&#xFF0C;&#x5B57;&#x6BB5;&#x957F;&#x5EA6;&#x77ED;&#xFF0C;&#x540D;&#x79F0;&#x57FA;&#x672C;&#x4E00;&#x6210;&#x4E0D;&#x53D8;&#xFF0C;&#x53EF;&#x5728;&#x76F8;&#x5173;&#x8054;&#x7684;&#x8868;&#x4E2D;&#x5197;&#x4F59;&#x5B58;<br>&#x50A8;&#x7C7B;&#x76EE;&#x540D;&#x79F0;&#xFF0C;&#x907F;&#x514D;&#x5173;&#x8054;&#x67E5;&#x8BE2;&#x3002;</li>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011;&#x5355;&#x8868;&#x884C;&#x6570;&#x8D85;&#x8FC7; 500 &#x4E07;&#x884C;&#x6216;&#x8005;&#x5355;&#x8868;&#x5BB9;&#x91CF;&#x8D85;&#x8FC7; 2 GB &#xFF0C;&#x624D;&#x63A8;&#x8350;&#x8FDB;&#x884C;&#x5206;&#x5E93;&#x5206;&#x8868;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x5982;&#x679C;&#x9884;&#x8BA1;&#x4E09;&#x5E74;&#x540E;&#x7684;&#x6570;&#x636E;&#x91CF;&#x6839;&#x672C;&#x8FBE;&#x4E0D;&#x5230;&#x8FD9;&#x4E2A;&#x7EA7;&#x522B;&#xFF0C;&#x8BF7;&#x4E0D;&#x8981;&#x5728;&#x521B;&#x5EFA;&#x8868;&#x65F6;&#x5C31;&#x5206;&#x5E93;&#x5206;&#x8868;&#x3002;</li>
-<li>&#x3010;&#x53C2;&#x8003;&#x3011;&#x5408;&#x9002;&#x7684;&#x5B57;&#x7B26;&#x5B58;&#x50A8;&#x957F;&#x5EA6;&#xFF0C;&#x4E0D;&#x4F46;&#x8282;&#x7EA6;&#x6570;&#x636E;&#x5E93;&#x8868;&#x7A7A;&#x95F4;&#x3001;&#x8282;&#x7EA6;&#x7D22;&#x5F15;&#x5B58;&#x50A8;&#xFF0C;&#x66F4;&#x91CD;&#x8981;&#x7684;&#x662F;&#x63D0;&#x5347;&#x68C0;<br>&#x7D22;&#x901F;&#x5EA6;&#x3002;<br>&#x6B63;&#x4F8B;&#xFF1A;&#x4EBA;&#x7684;&#x5E74;&#x9F84;&#x7528; unsigned tinyint&#xFF08; &#x8868;&#x793A;&#x8303;&#x56F4; 0-255&#xFF0C;&#x4EBA;&#x7684;&#x5BFF;&#x547D;&#x4E0D;&#x4F1A;&#x8D85;&#x8FC7; 255 &#x5C81; &#xFF09;&#xFF1B; &#x6D77;&#x9F9F;<br>&#x5C31;&#x5FC5;&#x987B;&#x662F; smallint &#xFF0C;&#x4F46;&#x5982;&#x679C;&#x662F;&#x592A;&#x9633;&#x7684;&#x5E74;&#x9F84;&#xFF0C;&#x5C31;&#x5FC5;&#x987B;&#x662F; int&#xFF1B; &#x5982;&#x679C;&#x662F;&#x6240;&#x6709;&#x6052;&#x661F;&#x7684;&#x5E74;&#x9F84;&#x90FD;&#x52A0;&#x8D77;&#x6765;&#xFF0C;<br>&#x90A3;&#x4E48;&#x5C31;&#x5FC5;&#x987B;&#x4F7F;&#x7528; bigint &#x3002;</li>
+<li>【推荐】库名与应用名称尽量一致。</li>
+<li>【推荐】如果修改字段含义或对字段表示的状态追加时，需要及时更新字段注释。</li>
+<li>【推荐】字段允许适当冗余，以提高性能，但是必须考虑数据同步的情况。冗余字段应遵循：<br>1 ） 不是频繁修改的字段。<br>2 ） 不是 varchar 超长字段，更不能是 text 字段。<br>正例：商品类目名称使用频率高，字段长度短，名称基本一成不变，可在相关联的表中冗余存<br>储类目名称，避免关联查询。</li>
+<li>【推荐】单表行数超过 500 万行或者单表容量超过 2 GB ，才推荐进行分库分表。<br><strong>说明</strong>：如果预计三年后的数据量根本达不到这个级别，请不要在创建表时就分库分表。</li>
+<li>【参考】合适的字符存储长度，不但节约数据库表空间、节约索引存储，更重要的是提升检<br>索速度。<br>正例：人的年龄用 unsigned tinyint（ 表示范围 0-255，人的寿命不会超过 255 岁 ）； 海龟<br>就必须是 smallint ，但如果是太阳的年龄，就必须是 int； 如果是所有恒星的年龄都加起来，<br>那么就必须使用 bigint 。</li>
 </ol>
 <hr>
-<h3 id="&#x7D22;&#x5F15;&#x89C4;&#x7EA6;"><a href="#&#x7D22;&#x5F15;&#x89C4;&#x7EA6;" class="headerlink" title="&#x7D22;&#x5F15;&#x89C4;&#x7EA6;"></a>&#x7D22;&#x5F15;&#x89C4;&#x7EA6;</h3><ol>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x4E1A;&#x52A1;&#x4E0A;&#x5177;&#x6709;&#x552F;&#x4E00;&#x7279;&#x6027;&#x7684;&#x5B57;&#x6BB5;&#xFF0C;&#x5373;&#x4F7F;&#x662F;&#x7EC4;&#x5408;&#x5B57;&#x6BB5;&#xFF0C;&#x4E5F;&#x5FC5;&#x987B;&#x5EFA;&#x6210;&#x552F;&#x4E00;&#x7D22;&#x5F15;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x4E0D;&#x8981;&#x4EE5;&#x4E3A;&#x552F;&#x4E00;&#x7D22;&#x5F15;&#x5F71;&#x54CD;&#x4E86; insert &#x901F;&#x5EA6;&#xFF0C;&#x8FD9;&#x4E2A;&#x901F;&#x5EA6;&#x635F;&#x8017;&#x53EF;&#x4EE5;&#x5FFD;&#x7565;&#xFF0C;&#x4F46;&#x63D0;&#x9AD8;&#x67E5;&#x627E;&#x901F;&#x5EA6;&#x662F;&#x660E;<br>&#x663E;&#x7684; &#xFF1B; &#x53E6;&#x5916;&#xFF0C;&#x5373;&#x4F7F;&#x5728;&#x5E94;&#x7528;&#x5C42;&#x505A;&#x4E86;&#x975E;&#x5E38;&#x5B8C;&#x5584;&#x7684;&#x6821;&#x9A8C;&#x548C;&#x63A7;&#x5236;&#xFF0C;&#x53EA;&#x8981;&#x6CA1;&#x6709;&#x552F;&#x4E00;&#x7D22;&#x5F15;&#xFF0C;&#x6839;&#x636E;&#x58A8;&#x83F2;&#x5B9A;&#x5F8B;&#xFF0C;<br>&#x5FC5;&#x7136;&#x6709;&#x810F;&#x6570;&#x636E;&#x4EA7;&#x751F;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font> &#x8D85;&#x8FC7;&#x4E09;&#x4E2A;&#x8868;&#x7981;&#x6B62; join &#x3002;&#x9700;&#x8981; join &#x7684;&#x5B57;&#x6BB5;&#xFF0C;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x4FDD;&#x6301;&#x7EDD;&#x5BF9;&#x4E00;&#x81F4; &#xFF1B; &#x591A;&#x8868;&#x5173;&#x8054;&#x67E5;&#x8BE2;<br>&#x65F6;&#xFF0C;&#x4FDD;&#x8BC1;&#x88AB;&#x5173;&#x8054;&#x7684;&#x5B57;&#x6BB5;&#x9700;&#x8981;&#x6709;&#x7D22;&#x5F15;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x5373;&#x4F7F;&#x53CC;&#x8868; join &#x4E5F;&#x8981;&#x6CE8;&#x610F;&#x8868;&#x7D22;&#x5F15;&#x3001; SQL &#x6027;&#x80FD;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x5728; varchar &#x5B57;&#x6BB5;&#x4E0A;&#x5EFA;&#x7ACB;&#x7D22;&#x5F15;&#x65F6;&#xFF0C;&#x5FC5;&#x987B;&#x6307;&#x5B9A;&#x7D22;&#x5F15;&#x957F;&#x5EA6;&#xFF0C;&#x6CA1;&#x5FC5;&#x8981;&#x5BF9;&#x5168;&#x5B57;&#x6BB5;&#x5EFA;&#x7ACB;&#x7D22;&#x5F15;&#xFF0C;&#x6839;&#x636E;<br>&#x5B9E;&#x9645;&#x6587;&#x672C;&#x533A;&#x5206;&#x5EA6;&#x51B3;&#x5B9A;&#x7D22;&#x5F15;&#x957F;&#x5EA6;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x7D22;&#x5F15;&#x7684;&#x957F;&#x5EA6;&#x4E0E;&#x533A;&#x5206;&#x5EA6;&#x662F;&#x4E00;&#x5BF9;&#x77DB;&#x76FE;&#x4F53;&#xFF0C;&#x4E00;&#x822C;&#x5BF9;&#x5B57;&#x7B26;&#x4E32;&#x7C7B;&#x578B;&#x6570;&#x636E;&#xFF0C;&#x957F;&#x5EA6;&#x4E3A; 20 &#x7684;&#x7D22;&#x5F15;&#xFF0C;&#x533A;&#x5206;<br>&#x5EA6;&#x4F1A;&#x9AD8;&#x8FBE; 90%&#x4EE5;&#x4E0A;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; count(distinct left( &#x5217;&#x540D;, &#x7D22;&#x5F15;&#x957F;&#x5EA6; )) / count( * ) &#x7684;&#x533A;&#x5206;&#x5EA6;<br>&#x6765;&#x786E;&#x5B9A;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x9875;&#x9762;&#x641C;&#x7D22;&#x4E25;&#x7981;&#x5DE6;&#x6A21;&#x7CCA;&#x6216;&#x8005;&#x5168;&#x6A21;&#x7CCA;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x8BF7;&#x8D70;&#x641C;&#x7D22;&#x5F15;&#x64CE;&#x6765;&#x89E3;&#x51B3;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x7D22;&#x5F15;&#x6587;&#x4EF6;&#x5177;&#x6709; B - Tree &#x7684;&#x6700;&#x5DE6;&#x524D;&#x7F00;&#x5339;&#x914D;&#x7279;&#x6027;&#xFF0C;&#x5982;&#x679C;&#x5DE6;&#x8FB9;&#x7684;&#x503C;&#x672A;&#x786E;&#x5B9A;&#xFF0C;&#x90A3;&#x4E48;&#x65E0;&#x6CD5;&#x4F7F;&#x7528;&#x6B64;&#x7D22;<br>&#x5F15;&#x3002;</li>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011;&#x5982;&#x679C;&#x6709; order by &#x7684;&#x573A;&#x666F;&#xFF0C;&#x8BF7;&#x6CE8;&#x610F;&#x5229;&#x7528;&#x7D22;&#x5F15;&#x7684;&#x6709;&#x5E8F;&#x6027;&#x3002; order by &#x6700;&#x540E;&#x7684;&#x5B57;&#x6BB5;&#x662F;&#x7EC4;&#x5408;<br>&#x7D22;&#x5F15;&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x5E76;&#x4E14;&#x653E;&#x5728;&#x7D22;&#x5F15;&#x7EC4;&#x5408;&#x987A;&#x5E8F;&#x7684;&#x6700;&#x540E;&#xFF0C;&#x907F;&#x514D;&#x51FA;&#x73B0; file _ sort &#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x5F71;&#x54CD;&#x67E5;&#x8BE2;&#x6027;&#x80FD;&#x3002;<br>&#x6B63;&#x4F8B;&#xFF1A; where a =?  and b =?  order by c; &#x7D22;&#x5F15;&#xFF1A; a _ b _ c<br>&#x53CD;&#x4F8B;&#xFF1A;&#x7D22;&#x5F15;&#x4E2D;&#x6709;&#x8303;&#x56F4;&#x67E5;&#x627E;&#xFF0C;&#x90A3;&#x4E48;&#x7D22;&#x5F15;&#x6709;&#x5E8F;&#x6027;&#x65E0;&#x6CD5;&#x5229;&#x7528;&#xFF0C;&#x5982;&#xFF1A; WHERE a &gt;10  ORDER BY b; &#x7D22;&#x5F15;<br>a _ b &#x65E0;&#x6CD5;&#x6392;&#x5E8F;&#x3002;</li>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011;&#x5229;&#x7528;&#x8986;&#x76D6;&#x7D22;&#x5F15;&#x6765;&#x8FDB;&#x884C;&#x67E5;&#x8BE2;&#x64CD;&#x4F5C;&#xFF0C;&#x6765;&#x907F;&#x514D;&#x56DE;&#x8868;&#x64CD;&#x4F5C;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x5982;&#x679C;&#x4E00;&#x672C;&#x4E66;&#x9700;&#x8981;&#x77E5;&#x9053;&#x7B2C; 11 &#x7AE0;&#x662F;&#x4EC0;&#x4E48;&#x6807;&#x9898;&#xFF0C;&#x4F1A;&#x7FFB;&#x5F00;&#x7B2C; 11 &#x7AE0;&#x5BF9;&#x5E94;&#x7684;&#x90A3;&#x4E00;&#x9875;&#x5417;&#xFF1F;&#x76EE;&#x5F55;&#x6D4F;&#x89C8;<br>&#x4E00;&#x4E0B;&#x5C31;&#x597D;&#xFF0C;&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#x5C31;&#x662F;&#x8D77;&#x5230;&#x8986;&#x76D6;&#x7D22;&#x5F15;&#x7684;&#x4F5C;&#x7528;&#x3002;<br>&#x6B63;&#x4F8B;&#xFF1A;&#x80FD;&#x591F;&#x5EFA;&#x7ACB;&#x7D22;&#x5F15;&#x7684;&#x79CD;&#x7C7B;&#xFF1A;&#x4E3B;&#x952E;&#x7D22;&#x5F15;&#x3001;&#x552F;&#x4E00;&#x7D22;&#x5F15;&#x3001;&#x666E;&#x901A;&#x7D22;&#x5F15;&#xFF0C;&#x800C;&#x8986;&#x76D6;&#x7D22;&#x5F15;&#x662F;&#x4E00;&#x79CD;&#x67E5;&#x8BE2;&#x7684;&#x4E00;&#x79CD;<br>&#x6548;&#x679C;&#xFF0C;&#x7528; explain &#x7684;&#x7ED3;&#x679C;&#xFF0C; extra &#x5217;&#x4F1A;&#x51FA;&#x73B0;&#xFF1A; using index &#x3002;</li>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011;&#x5229;&#x7528;&#x5EF6;&#x8FDF;&#x5173;&#x8054;&#x6216;&#x8005;&#x5B50;&#x67E5;&#x8BE2;&#x4F18;&#x5316;&#x8D85;&#x591A;&#x5206;&#x9875;&#x573A;&#x666F;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A; MySQL &#x5E76;&#x4E0D;&#x662F;&#x8DF3;&#x8FC7; offset &#x884C;&#xFF0C;&#x800C;&#x662F;&#x53D6; offset + N &#x884C;&#xFF0C;&#x7136;&#x540E;&#x8FD4;&#x56DE;&#x653E;&#x5F03;&#x524D; offset &#x884C;&#xFF0C;&#x8FD4;&#x56DE;<br>N &#x884C;&#xFF0C;&#x90A3;&#x5F53; offset &#x7279;&#x522B;&#x5927;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6548;&#x7387;&#x5C31;&#x975E;&#x5E38;&#x7684;&#x4F4E;&#x4E0B;&#xFF0C;&#x8981;&#x4E48;&#x63A7;&#x5236;&#x8FD4;&#x56DE;&#x7684;&#x603B;&#x9875;&#x6570;&#xFF0C;&#x8981;&#x4E48;&#x5BF9;&#x8D85;&#x8FC7;<br>&#x7279;&#x5B9A;&#x9608;&#x503C;&#x7684;&#x9875;&#x6570;&#x8FDB;&#x884C; SQL &#x6539;&#x5199;&#x3002;<br>&#x6B63;&#x4F8B;&#xFF1A;&#x5148;&#x5FEB;&#x901F;&#x5B9A;&#x4F4D;&#x9700;&#x8981;&#x83B7;&#x53D6;&#x7684; id &#x6BB5;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x5173;&#x8054;&#xFF1A;<br>SELECT a.* FROM &#x8868; 1 a, (select id from &#x8868; 1 where &#x6761;&#x4EF6; LIMIT 100000,20 ) b where a.id=b.id</li>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011;  SQL &#x6027;&#x80FD;&#x4F18;&#x5316;&#x7684;&#x76EE;&#x6807;&#xFF1A;&#x81F3;&#x5C11;&#x8981;&#x8FBE;&#x5230;  range &#x7EA7;&#x522B;&#xFF0C;&#x8981;&#x6C42;&#x662F; ref &#x7EA7;&#x522B;&#xFF0C;&#x5982;&#x679C;&#x53EF;&#x4EE5;&#x662F; consts<br>&#x6700;&#x597D;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;<br>1 &#xFF09;consts &#x5355;&#x8868;&#x4E2D;&#x6700;&#x591A;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x5339;&#x914D;&#x884C; &#xFF08; &#x4E3B;&#x952E;&#x6216;&#x8005;&#x552F;&#x4E00;&#x7D22;&#x5F15; &#xFF09; &#xFF0C;&#x5728;&#x4F18;&#x5316;&#x9636;&#x6BB5;&#x5373;&#x53EF;&#x8BFB;&#x53D6;&#x5230;&#x6570;&#x636E;&#x3002;<br>2 &#xFF09;ref &#x6307;&#x7684;&#x662F;&#x4F7F;&#x7528;&#x666E;&#x901A;&#x7684;&#x7D22;&#x5F15; &#xFF08;normal index&#xFF09; &#x3002;<br>3 &#xFF09;range &#x5BF9;&#x7D22;&#x5F15;&#x8FDB;&#x884C;&#x8303;&#x56F4;&#x68C0;&#x7D22;&#x3002;<br>&#x53CD;&#x4F8B;&#xFF1A; explain &#x8868;&#x7684;&#x7ED3;&#x679C;&#xFF0C; type = index &#xFF0C;&#x7D22;&#x5F15;&#x7269;&#x7406;&#x6587;&#x4EF6;&#x5168;&#x626B;&#x63CF;&#xFF0C;&#x901F;&#x5EA6;&#x975E;&#x5E38;&#x6162;&#xFF0C;&#x8FD9;&#x4E2A; index &#x7EA7;<br>&#x522B;&#x6BD4;&#x8F83; range &#x8FD8;&#x4F4E;&#xFF0C;&#x4E0E;&#x5168;&#x8868;&#x626B;&#x63CF;&#x662F;&#x5C0F;&#x5DEB;&#x89C1;&#x5927;&#x5DEB;&#x3002;</li>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011;&#x5EFA;&#x7EC4;&#x5408;&#x7D22;&#x5F15;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x533A;&#x5206;&#x5EA6;&#x6700;&#x9AD8;&#x7684;&#x5728;&#x6700;&#x5DE6;&#x8FB9;&#x3002;<br>&#x6B63;&#x4F8B;&#xFF1A;&#x5982;&#x679C; where a =?  and b =? &#xFF0C; a &#x5217;&#x7684;&#x51E0;&#x4E4E;&#x63A5;&#x8FD1;&#x4E8E;&#x552F;&#x4E00;&#x503C;&#xFF0C;&#x90A3;&#x4E48;&#x53EA;&#x9700;&#x8981;&#x5355;&#x5EFA; idx _ a &#x7D22;&#x5F15;&#x5373;<br>&#x53EF;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x5B58;&#x5728;&#x975E;&#x7B49;&#x53F7;&#x548C;&#x7B49;&#x53F7;&#x6DF7;&#x5408;&#x5224;&#x65AD;&#x6761;&#x4EF6;&#x65F6;&#xFF0C;&#x5728;&#x5EFA;&#x7D22;&#x5F15;&#x65F6;&#xFF0C;&#x8BF7;&#x628A;&#x7B49;&#x53F7;&#x6761;&#x4EF6;&#x7684;&#x5217;&#x524D;&#x7F6E;&#x3002;&#x5982;&#xFF1A; where a &gt;?<br>and b =? &#x90A3;&#x4E48;&#x5373;&#x4F7F; a &#x7684;&#x533A;&#x5206;&#x5EA6;&#x66F4;&#x9AD8;&#xFF0C;&#x4E5F;&#x5FC5;&#x987B;&#x628A; b &#x653E;&#x5728;&#x7D22;&#x5F15;&#x7684;&#x6700;&#x524D;&#x5217;&#x3002;</li>
-<li>&#x3010;&#x53C2;&#x8003;&#x3011;&#x521B;&#x5EFA;&#x7D22;&#x5F15;&#x65F6;&#x907F;&#x514D;&#x6709;&#x5982;&#x4E0B;&#x6781;&#x7AEF;&#x8BEF;&#x89E3;&#xFF1A;<br>1 &#xFF09; &#x8BEF;&#x8BA4;&#x4E3A;&#x4E00;&#x4E2A;&#x67E5;&#x8BE2;&#x5C31;&#x9700;&#x8981;&#x5EFA;&#x4E00;&#x4E2A;&#x7D22;&#x5F15;&#x3002;<br>2 &#xFF09; &#x8BEF;&#x8BA4;&#x4E3A;&#x7D22;&#x5F15;&#x4F1A;&#x6D88;&#x8017;&#x7A7A;&#x95F4;&#x3001;&#x4E25;&#x91CD;&#x62D6;&#x6162;&#x66F4;&#x65B0;&#x548C;&#x65B0;&#x589E;&#x901F;&#x5EA6;&#x3002;<br>3 &#xFF09; &#x8BEF;&#x8BA4;&#x4E3A;&#x552F;&#x4E00;&#x7D22;&#x5F15;&#x4E00;&#x5F8B;&#x9700;&#x8981;&#x5728;&#x5E94;&#x7528;&#x5C42;&#x901A;&#x8FC7;&#x201C;&#x5148;&#x67E5;&#x540E;&#x63D2;&#x201D;&#x65B9;&#x5F0F;&#x89E3;&#x51B3;&#x3002;</li>
+<h3 id="索引规约"><a href="#索引规约" class="headerlink" title="索引规约"></a>索引规约</h3><ol>
+<li><font style="color:red">【强制】</font>业务上具有唯一特性的字段，即使是组合字段，也必须建成唯一索引。<br><strong>说明</strong>：不要以为唯一索引影响了 insert 速度，这个速度损耗可以忽略，但提高查找速度是明<br>显的 ； 另外，即使在应用层做了非常完善的校验和控制，只要没有唯一索引，根据墨菲定律，<br>必然有脏数据产生。</li>
+<li><font style="color:red">【强制】</font> 超过三个表禁止 join 。需要 join 的字段，数据类型保持绝对一致 ； 多表关联查询<br>时，保证被关联的字段需要有索引。<br><strong>说明</strong>：即使双表 join 也要注意表索引、 SQL 性能。</li>
+<li><font style="color:red">【强制】</font>在 varchar 字段上建立索引时，必须指定索引长度，没必要对全字段建立索引，根据<br>实际文本区分度决定索引长度。<br><strong>说明</strong>：索引的长度与区分度是一对矛盾体，一般对字符串类型数据，长度为 20 的索引，区分<br>度会高达 90%以上，可以使用 count(distinct left( 列名, 索引长度 )) / count( * ) 的区分度<br>来确定。</li>
+<li><font style="color:red">【强制】</font>页面搜索严禁左模糊或者全模糊，如果需要请走搜索引擎来解决。<br><strong>说明</strong>：索引文件具有 B - Tree 的最左前缀匹配特性，如果左边的值未确定，那么无法使用此索<br>引。</li>
+<li>【推荐】如果有 order by 的场景，请注意利用索引的有序性。 order by 最后的字段是组合<br>索引的一部分，并且放在索引组合顺序的最后，避免出现 file <em> sort 的情况，影响查询性能。<br>正例： where a =?  and b =?  order by c; 索引： a </em> b <em> c<br>反例：索引中有范围查找，那么索引有序性无法利用，如： WHERE a &gt;10  ORDER BY b; 索引<br>a </em> b 无法排序。</li>
+<li>【推荐】利用覆盖索引来进行查询操作，来避免回表操作。<br><strong>说明</strong>：如果一本书需要知道第 11 章是什么标题，会翻开第 11 章对应的那一页吗？目录浏览<br>一下就好，这个目录就是起到覆盖索引的作用。<br>正例：能够建立索引的种类：主键索引、唯一索引、普通索引，而覆盖索引是一种查询的一种<br>效果，用 explain 的结果， extra 列会出现： using index 。</li>
+<li>【推荐】利用延迟关联或者子查询优化超多分页场景。<br><strong>说明</strong>： MySQL 并不是跳过 offset 行，而是取 offset + N 行，然后返回放弃前 offset 行，返回<br>N 行，那当 offset 特别大的时候，效率就非常的低下，要么控制返回的总页数，要么对超过<br>特定阈值的页数进行 SQL 改写。<br>正例：先快速定位需要获取的 id 段，然后再关联：<br>SELECT a.* FROM 表 1 a, (select id from 表 1 where 条件 LIMIT 100000,20 ) b where a.id=b.id</li>
+<li>【推荐】  SQL 性能优化的目标：至少要达到  range 级别，要求是 ref 级别，如果可以是 consts<br>最好。<br><strong>说明</strong>：<br>1 ）consts 单表中最多只有一个匹配行 （ 主键或者唯一索引 ） ，在优化阶段即可读取到数据。<br>2 ）ref 指的是使用普通的索引 （normal index） 。<br>3 ）range 对索引进行范围检索。<br>反例： explain 表的结果， type = index ，索引物理文件全扫描，速度非常慢，这个 index 级<br>别比较 range 还低，与全表扫描是小巫见大巫。</li>
+<li>【推荐】建组合索引的时候，区分度最高的在最左边。<br>正例：如果 where a =?  and b =? ， a 列的几乎接近于唯一值，那么只需要单建 idx _ a 索引即<br>可。<br><strong>说明</strong>：存在非等号和等号混合判断条件时，在建索引时，请把等号条件的列前置。如： where a &gt;?<br>and b =? 那么即使 a 的区分度更高，也必须把 b 放在索引的最前列。</li>
+<li>【参考】创建索引时避免有如下极端误解：<br>1 ） 误认为一个查询就需要建一个索引。<br>2 ） 误认为索引会消耗空间、严重拖慢更新和新增速度。<br>3 ） 误认为唯一索引一律需要在应用层通过“先查后插”方式解决。</li>
 </ol>
 <hr>
-<h3 id="SQL&#x89C4;&#x7EA6;"><a href="#SQL&#x89C4;&#x7EA6;" class="headerlink" title="SQL&#x89C4;&#x7EA6;"></a>SQL&#x89C4;&#x7EA6;</h3><ol>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x4E0D;&#x8981;&#x4F7F;&#x7528; count( &#x5217;&#x540D; ) &#x6216; count( &#x5E38;&#x91CF; ) &#x6765;&#x66FF;&#x4EE3; count( <em> ) &#xFF0C; count( </em> ) &#x5C31;&#x662F; SQL 92 &#x5B9A;&#x4E49;<br>&#x7684;&#x6807;&#x51C6;&#x7EDF;&#x8BA1;&#x884C;&#x6570;&#x7684;&#x8BED;&#x6CD5;&#xFF0C;&#x8DDF;&#x6570;&#x636E;&#x5E93;&#x65E0;&#x5173;&#xFF0C;&#x8DDF; NULL &#x548C;&#x975E; NULL &#x65E0;&#x5173;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A; count( * ) &#x4F1A;&#x7EDF;&#x8BA1;&#x503C;&#x4E3A; NULL &#x7684;&#x884C;&#xFF0C;&#x800C; count( &#x5217;&#x540D; ) &#x4E0D;&#x4F1A;&#x7EDF;&#x8BA1;&#x6B64;&#x5217;&#x4E3A; NULL &#x503C;&#x7684;&#x884C;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font> count(distinct col) &#x8BA1;&#x7B97;&#x8BE5;&#x5217;&#x9664; NULL &#x4E4B;&#x5916;&#x7684;&#x4E0D;&#x91CD;&#x590D;&#x6570;&#x91CF;&#x3002;&#x6CE8;&#x610F;  count(distinct<br>col 1,  col 2 ) &#x5982;&#x679C;&#x5176;&#x4E2D;&#x4E00;&#x5217;&#x5168;&#x4E3A; NULL &#xFF0C;&#x90A3;&#x4E48;&#x5373;&#x4F7F;&#x53E6;&#x4E00;&#x5217;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x503C;&#xFF0C;&#x4E5F;&#x8FD4;&#x56DE;&#x4E3A; 0&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x5F53;&#x67D0;&#x4E00;&#x5217;&#x7684;&#x503C;&#x5168;&#x662F; NULL &#x65F6;&#xFF0C; count(col) &#x7684;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x4E3A; 0&#xFF0C;&#x4F46; sum(col) &#x7684;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x4E3A;<br>NULL &#xFF0C;&#x56E0;&#x6B64;&#x4F7F;&#x7528; sum() &#x65F6;&#x9700;&#x6CE8;&#x610F; NPE &#x95EE;&#x9898;&#x3002;<br>&#x6B63;&#x4F8B;&#xFF1A;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x65B9;&#x5F0F;&#x6765;&#x907F;&#x514D; sum &#x7684; NPE &#x95EE;&#x9898;&#xFF1A; SELECT IF(ISNULL(SUM(g)) ,0, SUM(g))<br>FROM table;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x4F7F;&#x7528; ISNULL() &#x6765;&#x5224;&#x65AD;&#x662F;&#x5426;&#x4E3A; NULL &#x503C;&#x3002;&#x6CE8;&#x610F;&#xFF1A; NULL &#x4E0E;&#x4EFB;&#x4F55;&#x503C;&#x7684;&#x76F4;&#x63A5;&#x6BD4;&#x8F83;&#x90FD;&#x4E3A; NULL&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;<br>1 &#xFF09; NULL&lt;&gt;NULL &#x7684;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x662F; NULL &#xFF0C;&#x800C;&#x4E0D;&#x662F; false &#x3002;<br>2 &#xFF09; NULL=NULL &#x7684;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x662F; NULL &#xFF0C;&#x800C;&#x4E0D;&#x662F; true &#x3002;<br>3 &#xFF09; NULL&lt;&gt;1 &#x7684;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x662F; NULL &#xFF0C;&#x800C;&#x4E0D;&#x662F; true &#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font> &#x5728;&#x4EE3;&#x7801;&#x4E2D;&#x5199;&#x5206;&#x9875;&#x67E5;&#x8BE2;&#x903B;&#x8F91;&#x65F6;&#xFF0C;&#x82E5; count &#x4E3A; 0 &#x5E94;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;&#xFF0C;&#x907F;&#x514D;&#x6267;&#x884C;&#x540E;&#x9762;&#x7684;&#x5206;&#x9875;&#x8BED;&#x53E5;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x4E0D;&#x5F97;&#x4F7F;&#x7528;&#x5916;&#x952E;&#x4E0E;&#x7EA7;&#x8054;&#xFF0C;&#x4E00;&#x5207;&#x5916;&#x952E;&#x6982;&#x5FF5;&#x5FC5;&#x987B;&#x5728;&#x5E94;&#x7528;&#x5C42;&#x89E3;&#x51B3;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A; &#xFF08; &#x6982;&#x5FF5;&#x89E3;&#x91CA; &#xFF09; &#x5B66;&#x751F;&#x8868;&#x4E2D;&#x7684; student _ id &#x662F;&#x4E3B;&#x952E;&#xFF0C;&#x90A3;&#x4E48;&#x6210;&#x7EE9;&#x8868;&#x4E2D;&#x7684; student _ id &#x5219;&#x4E3A;&#x5916;&#x952E;&#x3002;<br>&#x5982;&#x679C;&#x66F4;&#x65B0;&#x5B66;&#x751F;&#x8868;&#x4E2D;&#x7684; student _ id &#xFF0C;&#x540C;&#x65F6;&#x89E6;&#x53D1;&#x6210;&#x7EE9;&#x8868;&#x4E2D;&#x7684; student _ id &#x66F4;&#x65B0;&#xFF0C;&#x5219;&#x4E3A;&#x7EA7;&#x8054;&#x66F4;&#x65B0;&#x3002;<br>&#x5916;&#x952E;&#x4E0E;&#x7EA7;&#x8054;&#x66F4;&#x65B0;&#x9002;&#x7528;&#x4E8E;&#x5355;&#x673A;&#x4F4E;&#x5E76;&#x53D1;&#xFF0C;&#x4E0D;&#x9002;&#x5408;&#x5206;&#x5E03;&#x5F0F;&#x3001;&#x9AD8;&#x5E76;&#x53D1;&#x96C6;&#x7FA4; &#xFF1B; &#x7EA7;&#x8054;&#x66F4;&#x65B0;&#x662F;&#x5F3A;&#x963B;&#x585E;&#xFF0C;&#x5B58;&#x5728;&#x6570;<br>&#x636E;&#x5E93;&#x66F4;&#x65B0;&#x98CE;&#x66B4;&#x7684;&#x98CE;&#x9669; &#xFF1B; &#x5916;&#x952E;&#x5F71;&#x54CD;&#x6570;&#x636E;&#x5E93;&#x7684;&#x63D2;&#x5165;&#x901F;&#x5EA6;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x7981;&#x6B62;&#x4F7F;&#x7528;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#xFF0C;&#x5B58;&#x50A8;&#x8FC7;&#x7A0B;&#x96BE;&#x4EE5;&#x8C03;&#x8BD5;&#x548C;&#x6269;&#x5C55;&#xFF0C;&#x66F4;&#x6CA1;&#x6709;&#x79FB;&#x690D;&#x6027;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x6570;&#x636E;&#x8BA2;&#x6B63;&#x65F6;&#xFF0C;&#x5220;&#x9664;&#x548C;&#x4FEE;&#x6539;&#x8BB0;&#x5F55;&#x65F6;&#xFF0C;&#x8981;&#x5148; select &#xFF0C;&#x907F;&#x514D;&#x51FA;&#x73B0;&#x8BEF;&#x5220;&#x9664;&#xFF0C;&#x786E;&#x8BA4;&#x65E0;&#x8BEF;&#x624D;&#x80FD;&#x6267;<br>&#x884C;&#x66F4;&#x65B0;&#x8BED;&#x53E5;&#x3002;</li>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011; in &#x64CD;&#x4F5C;&#x80FD;&#x907F;&#x514D;&#x5219;&#x907F;&#x514D;&#xFF0C;&#x82E5;&#x5B9E;&#x5728;&#x907F;&#x514D;&#x4E0D;&#x4E86;&#xFF0C;&#x9700;&#x8981;&#x4ED4;&#x7EC6;&#x8BC4;&#x4F30; in &#x540E;&#x8FB9;&#x7684;&#x96C6;&#x5408;&#x5143;&#x7D20;&#x6570;&#x91CF;&#xFF0C;&#x63A7;<br>&#x5236;&#x5728; 1000 &#x4E2A;&#x4E4B;&#x5185;&#x3002;</li>
-<li>&#x3010;&#x53C2;&#x8003;&#x3011;&#x5982;&#x679C;&#x6709;&#x5168;&#x7403;&#x5316;&#x9700;&#x8981;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x5B57;&#x7B26;&#x5B58;&#x50A8;&#x4E0E;&#x8868;&#x793A;&#xFF0C;&#x5747;&#x4EE5; utf -8 &#x7F16;&#x7801;&#xFF0C;&#x90A3;&#x4E48;&#x5B57;&#x7B26;&#x8BA1;&#x6570;&#x65B9;&#x6CD5;<br>&#x6CE8;&#x610F;&#xFF1A;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;<br>SELECT LENGTH( &#x201C;&#x8F7B;&#x677E;&#x5DE5;&#x4F5C;&#x201D; )&#xFF1B; &#x8FD4;&#x56DE;&#x4E3A; 12<br>SELECT CHARACTER _ LENGTH( &#x201C;&#x8F7B;&#x677E;&#x5DE5;&#x4F5C;&#x201D; )&#xFF1B; &#x8FD4;&#x56DE;&#x4E3A; 4<br>&#x5982;&#x679C;&#x8981;&#x4F7F;&#x7528;&#x8868;&#x60C5;&#xFF0C;&#x90A3;&#x4E48;&#x4F7F;&#x7528; utfmb 4 &#x6765;&#x8FDB;&#x884C;&#x5B58;&#x50A8;&#xFF0C;&#x6CE8;&#x610F;&#x5B83;&#x4E0E; utf -8 &#x7F16;&#x7801;&#x7684;&#x533A;&#x522B;&#x3002;</li>
-<li>&#x3010;&#x53C2;&#x8003;&#x3011;  TRUNCATE TABLE &#x6BD4;  DELETE &#x901F;&#x5EA6;&#x5FEB;&#xFF0C;&#x4E14;&#x4F7F;&#x7528;&#x7684;&#x7CFB;&#x7EDF;&#x548C;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#x8D44;&#x6E90;&#x5C11;&#xFF0C;&#x4F46; TRUNCATE<br>&#x65E0;&#x4E8B;&#x52A1;&#x4E14;&#x4E0D;&#x89E6;&#x53D1; trigger &#xFF0C;&#x6709;&#x53EF;&#x80FD;&#x9020;&#x6210;&#x4E8B;&#x6545;&#xFF0C;&#x6545;&#x4E0D;&#x5EFA;&#x8BAE;&#x5728;&#x5F00;&#x53D1;&#x4EE3;&#x7801;&#x4E2D;&#x4F7F;&#x7528;&#x6B64;&#x8BED;&#x53E5;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A; TRUNCATE TABLE &#x5728;&#x529F;&#x80FD;&#x4E0A;&#x4E0E;&#x4E0D;&#x5E26;  WHERE &#x5B50;&#x53E5;&#x7684;  DELETE &#x8BED;&#x53E5;&#x76F8;&#x540C;&#x3002;</li>
+<h3 id="SQL规约"><a href="#SQL规约" class="headerlink" title="SQL规约"></a>SQL规约</h3><ol>
+<li><font style="color:red">【强制】</font>不要使用 count( 列名 ) 或 count( 常量 ) 来替代 count( <em> ) ， count( </em> ) 就是 SQL 92 定义<br>的标准统计行数的语法，跟数据库无关，跟 NULL 和非 NULL 无关。<br><strong>说明</strong>： count( * ) 会统计值为 NULL 的行，而 count( 列名 ) 不会统计此列为 NULL 值的行。</li>
+<li><font style="color:red">【强制】</font> count(distinct col) 计算该列除 NULL 之外的不重复数量。注意  count(distinct<br>col 1,  col 2 ) 如果其中一列全为 NULL ，那么即使另一列有不同的值，也返回为 0。</li>
+<li><font style="color:red">【强制】</font>当某一列的值全是 NULL 时， count(col) 的返回结果为 0，但 sum(col) 的返回结果为<br>NULL ，因此使用 sum() 时需注意 NPE 问题。<br>正例：可以使用如下方式来避免 sum 的 NPE 问题： SELECT IF(ISNULL(SUM(g)) ,0, SUM(g))<br>FROM table;</li>
+<li><font style="color:red">【强制】</font>使用 ISNULL() 来判断是否为 NULL 值。注意： NULL 与任何值的直接比较都为 NULL。<br><strong>说明</strong>：<br>1 ） NULL&lt;&gt;NULL 的返回结果是 NULL ，而不是 false 。<br>2 ） NULL=NULL 的返回结果是 NULL ，而不是 true 。<br>3 ） NULL&lt;&gt;1 的返回结果是 NULL ，而不是 true 。</li>
+<li><font style="color:red">【强制】</font> 在代码中写分页查询逻辑时，若 count 为 0 应直接返回，避免执行后面的分页语句。</li>
+<li><font style="color:red">【强制】</font>不得使用外键与级联，一切外键概念必须在应用层解决。<br><strong>说明</strong>： （ 概念解释 ） 学生表中的 student <em> id 是主键，那么成绩表中的 student </em> id 则为外键。<br>如果更新学生表中的 student <em> id ，同时触发成绩表中的 student </em> id 更新，则为级联更新。<br>外键与级联更新适用于单机低并发，不适合分布式、高并发集群 ； 级联更新是强阻塞，存在数<br>据库更新风暴的风险 ； 外键影响数据库的插入速度。</li>
+<li><font style="color:red">【强制】</font>禁止使用存储过程，存储过程难以调试和扩展，更没有移植性。</li>
+<li><font style="color:red">【强制】</font>数据订正时，删除和修改记录时，要先 select ，避免出现误删除，确认无误才能执<br>行更新语句。</li>
+<li>【推荐】 in 操作能避免则避免，若实在避免不了，需要仔细评估 in 后边的集合元素数量，控<br>制在 1000 个之内。</li>
+<li>【参考】如果有全球化需要，所有的字符存储与表示，均以 utf -8 编码，那么字符计数方法<br>注意：<br><strong>说明</strong>：<br>SELECT LENGTH( “轻松工作” )； 返回为 12<br>SELECT CHARACTER _ LENGTH( “轻松工作” )； 返回为 4<br>如果要使用表情，那么使用 utfmb 4 来进行存储，注意它与 utf -8 编码的区别。</li>
+<li>【参考】  TRUNCATE TABLE 比  DELETE 速度快，且使用的系统和事务日志资源少，但 TRUNCATE<br>无事务且不触发 trigger ，有可能造成事故，故不建议在开发代码中使用此语句。<br><strong>说明</strong>： TRUNCATE TABLE 在功能上与不带  WHERE 子句的  DELETE 语句相同。</li>
 </ol>
 <hr>
-<h3 id="ORM&#x89C4;&#x7EA6;"><a href="#ORM&#x89C4;&#x7EA6;" class="headerlink" title="ORM&#x89C4;&#x7EA6;"></a>ORM&#x89C4;&#x7EA6;</h3><ol>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x5728;&#x8868;&#x67E5;&#x8BE2;&#x4E2D;&#xFF0C;&#x4E00;&#x5F8B;&#x4E0D;&#x8981;&#x4F7F;&#x7528; <em> &#x4F5C;&#x4E3A;&#x67E5;&#x8BE2;&#x7684;&#x5B57;&#x6BB5;&#x5217;&#x8868;&#xFF0C;&#x9700;&#x8981;&#x54EA;&#x4E9B;&#x5B57;&#x6BB5;&#x5FC5;&#x987B;&#x660E;&#x786E;&#x5199;&#x660E;&#x3002;<br><em>*&#x8BF4;&#x660E;</em></em>&#xFF1A;1 &#xFF09; &#x589E;&#x52A0;&#x67E5;&#x8BE2;&#x5206;&#x6790;&#x5668;&#x89E3;&#x6790;&#x6210;&#x672C;&#x3002;2 &#xFF09; &#x589E;&#x51CF;&#x5B57;&#x6BB5;&#x5BB9;&#x6613;&#x4E0E; resultMap &#x914D;&#x7F6E;&#x4E0D;&#x4E00;&#x81F4;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font> POJO &#x7C7B;&#x7684; boolean &#x5C5E;&#x6027;&#x4E0D;&#x80FD;&#x52A0; is &#xFF0C;&#x800C;&#x6570;&#x636E;&#x5E93;&#x5B57;&#x6BB5;&#x5FC5;&#x987B;&#x52A0; is _&#xFF0C;&#x8981;&#x6C42;&#x5728; resultMap &#x4E2D;<br>&#x8FDB;&#x884C;&#x5B57;&#x6BB5;&#x4E0E;&#x5C5E;&#x6027;&#x4E4B;&#x95F4;&#x7684;&#x6620;&#x5C04;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x53C2;&#x89C1;&#x5B9A;&#x4E49; POJO &#x7C7B;&#x4EE5;&#x53CA;&#x6570;&#x636E;&#x5E93;&#x5B57;&#x6BB5;&#x5B9A;&#x4E49;&#x89C4;&#x5B9A;&#xFF0C;&#x5728; sql . xml &#x589E;&#x52A0;&#x6620;&#x5C04;&#xFF0C;&#x662F;&#x5FC5;&#x987B;&#x7684;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x4E0D;&#x8981;&#x7528; resultClass &#x5F53;&#x8FD4;&#x56DE;&#x53C2;&#x6570;&#xFF0C;&#x5373;&#x4F7F;&#x6240;&#x6709;&#x7C7B;&#x5C5E;&#x6027;&#x540D;&#x4E0E;&#x6570;&#x636E;&#x5E93;&#x5B57;&#x6BB5;&#x4E00;&#x4E00;&#x5BF9;&#x5E94;&#xFF0C;&#x4E5F;&#x9700;<br>&#x8981;&#x5B9A;&#x4E49; &#xFF1B; &#x53CD;&#x8FC7;&#x6765;&#xFF0C;&#x6BCF;&#x4E00;&#x4E2A;&#x8868;&#x4E5F;&#x5FC5;&#x7136;&#x6709;&#x4E00;&#x4E2A;&#x4E0E;&#x4E4B;&#x5BF9;&#x5E94;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x914D;&#x7F6E;&#x6620;&#x5C04;&#x5173;&#x7CFB;&#xFF0C;&#x4F7F;&#x5B57;&#x6BB5;&#x4E0E; DO &#x7C7B;&#x89E3;&#x8026;&#xFF0C;&#x65B9;&#x4FBF;&#x7EF4;&#x62A4;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font> xml &#x914D;&#x7F6E;&#x4E2D;&#x53C2;&#x6570;&#x6CE8;&#x610F;&#x4F7F;&#x7528;&#xFF1A;#{}&#xFF0C;# param # &#x4E0D;&#x8981;&#x4F7F;&#x7528;${} &#x6B64;&#x79CD;&#x65B9;&#x5F0F;&#x5BB9;&#x6613;&#x51FA;&#x73B0; SQL &#x6CE8;<br>&#x5165;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font> iBATIS &#x81EA;&#x5E26;&#x7684; queryForList(String statementName , int start , int size) &#x4E0D;&#x63A8;<br>&#x8350;&#x4F7F;&#x7528;&#x3002;<br><strong>&#x8BF4;&#x660E;</strong>&#xFF1A;&#x5176;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;&#x662F;&#x5728;&#x6570;&#x636E;&#x5E93;&#x53D6;&#x5230; statementName &#x5BF9;&#x5E94;&#x7684; SQL &#x8BED;&#x53E5;&#x7684;&#x6240;&#x6709;&#x8BB0;&#x5F55;&#xFF0C;&#x518D;&#x901A;&#x8FC7; subList<br>&#x53D6; start , size &#x7684;&#x5B50;&#x96C6;&#x5408;&#xFF0C;&#x7EBF;&#x4E0A;&#x56E0;&#x4E3A;&#x8FD9;&#x4E2A;&#x539F;&#x56E0;&#x66FE;&#x7ECF;&#x51FA;&#x73B0;&#x8FC7; OOM &#x3002;<br>&#x6B63;&#x4F8B;&#xFF1A;&#x5728; sqlmap . xml &#x4E2D;&#x5F15;&#x5165; #start#, #size#<br>Map<string, object=""> map = new HashMap<string, object="">();<br>map.put(&#x201C;start&#x201D;, start);<br>map.put(&#x201C;size&#x201D;, size);</string,></string,></li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x4E0D;&#x5141;&#x8BB8;&#x76F4;&#x63A5;&#x62FF; HashMap &#x4E0E; Hashtable &#x4F5C;&#x4E3A;&#x67E5;&#x8BE2;&#x7ED3;&#x679C;&#x96C6;&#x7684;&#x8F93;&#x51FA;&#x3002;</li>
-<li><font style="color:red">&#x3010;&#x5F3A;&#x5236;&#x3011;</font>&#x66F4;&#x65B0;&#x6570;&#x636E;&#x8868;&#x8BB0;&#x5F55;&#x65F6;&#xFF0C;&#x5FC5;&#x987B;&#x540C;&#x65F6;&#x66F4;&#x65B0;&#x8BB0;&#x5F55;&#x5BF9;&#x5E94;&#x7684; gmt _ modified &#x5B57;&#x6BB5;&#x503C;&#x4E3A;&#x5F53;&#x524D;&#x65F6;&#x95F4;&#x3002;</li>
-<li>&#x3010;&#x63A8;&#x8350;&#x3011;&#x4E0D;&#x8981;&#x5199;&#x4E00;&#x4E2A;&#x5927;&#x800C;&#x5168;&#x7684;&#x6570;&#x636E;&#x66F4;&#x65B0;&#x63A5;&#x53E3;&#xFF0C;&#x4F20;&#x5165;&#x4E3A; POJO &#x7C7B;&#xFF0C;&#x4E0D;&#x7BA1;&#x662F;&#x4E0D;&#x662F;&#x81EA;&#x5DF1;&#x7684;&#x76EE;&#x6807;&#x66F4;&#x65B0;&#x5B57;<br>&#x6BB5;&#xFF0C;&#x90FD;&#x8FDB;&#x884C; update table set c1=value1,c2=value2,c3=value3;  &#x8FD9;&#x662F;&#x4E0D;&#x5BF9;&#x7684;&#x3002;&#x6267;&#x884C; SQL<br>&#x65F6;&#xFF0C;&#x5C3D;&#x91CF;&#x4E0D;&#x8981;&#x66F4;&#x65B0;&#x65E0;&#x6539;&#x52A8;&#x7684;&#x5B57;&#x6BB5;&#xFF0C;&#x4E00;&#x662F;&#x6613;&#x51FA;&#x9519; &#xFF1B; &#x4E8C;&#x662F;&#x6548;&#x7387;&#x4F4E; &#xFF1B; &#x4E09;&#x662F; binlog &#x589E;&#x52A0;&#x5B58;&#x50A8;&#x3002;</li>
-<li>&#x3010;&#x53C2;&#x8003;&#x3011;@ Transactional &#x4E8B;&#x52A1;&#x4E0D;&#x8981;&#x6EE5;&#x7528;&#x3002;&#x4E8B;&#x52A1;&#x4F1A;&#x5F71;&#x54CD;&#x6570;&#x636E;&#x5E93;&#x7684; QPS &#xFF0C;&#x53E6;&#x5916;&#x4F7F;&#x7528;&#x4E8B;&#x52A1;&#x7684;&#x5730;&#x65B9;&#x9700;<br>&#x8981;&#x8003;&#x8651;&#x5404;&#x65B9;&#x9762;&#x7684;&#x56DE;&#x6EDA;&#x65B9;&#x6848;&#xFF0C;&#x5305;&#x62EC;&#x7F13;&#x5B58;&#x56DE;&#x6EDA;&#x3001;&#x641C;&#x7D22;&#x5F15;&#x64CE;&#x56DE;&#x6EDA;&#x3001;&#x6D88;&#x606F;&#x8865;&#x507F;&#x3001;&#x7EDF;&#x8BA1;&#x4FEE;&#x6B63;&#x7B49;&#x3002;</li>
-<li>&#x3010;&#x53C2;&#x8003;&#x3011;&lt; isEqual &gt;&#x4E2D;&#x7684; compareValue &#x662F;&#x4E0E;&#x5C5E;&#x6027;&#x503C;&#x5BF9;&#x6BD4;&#x7684;&#x5E38;&#x91CF;&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x6570;&#x5B57;&#xFF0C;&#x8868;&#x793A;&#x76F8;&#x7B49;&#x65F6;&#x5E26;<br>&#x4E0A;&#x6B64;&#x6761;&#x4EF6; &#xFF1B; &lt; isNotEmpty &gt;&#x8868;&#x793A;&#x4E0D;&#x4E3A;&#x7A7A;&#x4E14;&#x4E0D;&#x4E3A; null &#x65F6;&#x6267;&#x884C; &#xFF1B; &lt; isNotNull &gt;&#x8868;&#x793A;&#x4E0D;&#x4E3A; null &#x503C;&#x65F6;<br>&#x6267;&#x884C;</li>
+<h3 id="ORM规约"><a href="#ORM规约" class="headerlink" title="ORM规约"></a>ORM规约</h3><ol>
+<li><font style="color:red">【强制】</font>在表查询中，一律不要使用 <em> 作为查询的字段列表，需要哪些字段必须明确写明。<br><em>*说明</em></em>：1 ） 增加查询分析器解析成本。2 ） 增减字段容易与 resultMap 配置不一致。</li>
+<li><font style="color:red">【强制】</font> POJO 类的 boolean 属性不能加 is ，而数据库字段必须加 is _，要求在 resultMap 中<br>进行字段与属性之间的映射。<br><strong>说明</strong>：参见定义 POJO 类以及数据库字段定义规定，在 sql . xml 增加映射，是必须的。</li>
+<li><font style="color:red">【强制】</font>不要用 resultClass 当返回参数，即使所有类属性名与数据库字段一一对应，也需<br>要定义 ； 反过来，每一个表也必然有一个与之对应。<br><strong>说明</strong>：配置映射关系，使字段与 DO 类解耦，方便维护。</li>
+<li><font style="color:red">【强制】</font> xml 配置中参数注意使用：#{}，# param # 不要使用${} 此种方式容易出现 SQL 注<br>入。</li>
+<li><font style="color:red">【强制】</font> iBATIS 自带的 queryForList(String statementName , int start , int size) 不推<br>荐使用。<br><strong>说明</strong>：其实现方式是在数据库取到 statementName 对应的 SQL 语句的所有记录，再通过 subList<br>取 start , size 的子集合，线上因为这个原因曾经出现过 OOM 。<br>正例：在 sqlmap . xml 中引入 #start#, #size#<br>Map<String, Object> map = new HashMap<String, Object>();<br>map.put(“start”, start);<br>map.put(“size”, size);</li>
+<li><font style="color:red">【强制】</font>不允许直接拿 HashMap 与 Hashtable 作为查询结果集的输出。</li>
+<li><font style="color:red">【强制】</font>更新数据表记录时，必须同时更新记录对应的 gmt _ modified 字段值为当前时间。</li>
+<li>【推荐】不要写一个大而全的数据更新接口，传入为 POJO 类，不管是不是自己的目标更新字<br>段，都进行 update table set c1=value1,c2=value2,c3=value3;  这是不对的。执行 SQL<br>时，尽量不要更新无改动的字段，一是易出错 ； 二是效率低 ； 三是 binlog 增加存储。</li>
+<li>【参考】@ Transactional 事务不要滥用。事务会影响数据库的 QPS ，另外使用事务的地方需<br>要考虑各方面的回滚方案，包括缓存回滚、搜索引擎回滚、消息补偿、统计修正等。</li>
+<li>【参考】&lt; isEqual &gt;中的 compareValue 是与属性值对比的常量，一般是数字，表示相等时带<br>上此条件 ； &lt; isNotEmpty &gt;表示不为空且不为 null 时执行 ； &lt; isNotNull &gt;表示不为 null 值时<br>执行</li>
 </ol>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2017/03/03/数据库规约解读/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    数据库规约解读
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2017/03/01/MapReduce详解/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">MapReduce详解</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/">编码规范</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2017/03/03/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A7%84%E7%BA%A6%E8%A7%A3%E8%AF%BB/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">数据库规约解读</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2017/03/01/MapReduce%E8%AF%A6%E8%A7%A3/"><span class="level-item">MapReduce详解</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" href="#建表规约"><span class="mr-2">1</span><span>建表规约</span></a></li><li><a class="is-flex" href="#索引规约"><span class="mr-2">2</span><span>索引规约</span></a></li><li><a class="is-flex" href="#SQL规约"><span class="mr-2">3</span><span>SQL规约</span></a></li><li><a class="is-flex" href="#ORM规约"><span class="mr-2">4</span><span>ORM规约</span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

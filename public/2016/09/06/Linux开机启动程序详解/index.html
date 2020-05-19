@@ -1,468 +1,59 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>Linux开机启动程序详解 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="init&amp;#x8FDB;&amp;#x7A0B;init&amp;#x8FDB;&amp;#x7A0B;&amp;#x662F;&amp;#x975E;&amp;#x5185;&amp;#x6838;&amp;#x8FDB;&amp;#x7A0B;&amp;#x4E2D;&amp;#x7B2C;&amp;#x4E00;&amp;#x4E2A;&amp;#x88AB;&amp;#x542F;&amp;#x52A8;&amp;#x8FD0;&amp;#x884C;&amp;#x7684;&amp;#xFF0C;&amp;#x56E0;&amp;#x6B64;&amp;#x5B83;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Linux开机启动程序详解">
-<meta property="og:url" content="http://www.wangxin123.com/2016/09/06/Linux开机启动程序详解/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="init&amp;#x8FDB;&amp;#x7A0B;init&amp;#x8FDB;&amp;#x7A0B;&amp;#x662F;&amp;#x975E;&amp;#x5185;&amp;#x6838;&amp;#x8FDB;&amp;#x7A0B;&amp;#x4E2D;&amp;#x7B2C;&amp;#x4E00;&amp;#x4E2A;&amp;#x88AB;&amp;#x542F;&amp;#x52A8;&amp;#x8FD0;&amp;#x884C;&amp;#x7684;&amp;#xFF0C;&amp;#x56E0;&amp;#x6B64;&amp;#x5B83;">
-<meta property="og:updated_time" content="2017-06-26T05:01:43.952Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux开机启动程序详解">
-<meta name="twitter:description" content="init&amp;#x8FDB;&amp;#x7A0B;init&amp;#x8FDB;&amp;#x7A0B;&amp;#x662F;&amp;#x975E;&amp;#x5185;&amp;#x6838;&amp;#x8FDB;&amp;#x7A0B;&amp;#x4E2D;&amp;#x7B2C;&amp;#x4E00;&amp;#x4E2A;&amp;#x88AB;&amp;#x542F;&amp;#x52A8;&amp;#x8FD0;&amp;#x884C;&amp;#x7684;&amp;#xFF0C;&amp;#x56E0;&amp;#x6B64;&amp;#x5B83;">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-Linux开机启动程序详解" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            Linux开机启动程序详解
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/09/06/Linux开机启动程序详解/">
-            <time datetime="2016-09-06T14:41:19.000Z" itemprop="datePublished">2016-09-06</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/运维部署/">运维部署</a>
-    </div>
-
-                    
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h3 id="init&#x8FDB;&#x7A0B;"><a href="#init&#x8FDB;&#x7A0B;" class="headerlink" title="init&#x8FDB;&#x7A0B;"></a>init&#x8FDB;&#x7A0B;</h3><p>init&#x8FDB;&#x7A0B;&#x662F;&#x975E;&#x5185;&#x6838;&#x8FDB;&#x7A0B;&#x4E2D;&#x7B2C;&#x4E00;&#x4E2A;&#x88AB;&#x542F;&#x52A8;&#x8FD0;&#x884C;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x5B83;&#x7684;&#x8FDB;&#x7A0B;&#x7F16;&#x53F7;PID&#x7684;&#x503C;&#x603B;&#x662F;1&#x3002;init&#x8BFB;&#x5B83;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;/etc/inittab&#xFF0C;&#x51B3;&#x5B9A;&#x9700;&#x8981;&#x542F;&#x52A8;&#x7684;&#x8FD0;&#x884C;&#x7EA7;&#x522B;(Runlevel)&#x3002;&#x4ECE;&#x6839;&#x672C;&#x4E0A;&#x8BF4;&#xFF0C;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x89C4;&#x5B9A;&#x4E86;&#x6574;&#x4E2A;&#x7CFB;&#x7EDF;&#x7684;&#x884C;&#x4E3A;&#xFF0C;&#x6BCF;&#x4E2A;&#x7EA7;&#x522B;(&#x5206;&#x522B;&#x7531;0&#x5230;6&#x7684;&#x6574;&#x6570;&#x8868;&#x793A;)&#x6EE1;&#x8DB3;&#x7279;&#x5B9A;&#x7684;&#x76EE;&#x7684;&#x3002;&#x5982;&#x679C;&#x5B9A;&#x4E49;&#x4E86;initdefault&#x7EA7;&#x522B;&#xFF0C;&#x8FD9;&#x4E2A;&#x503C;&#x5C31;&#x76F4;&#x63A5;&#x88AB;&#x9009;&#x4E2D;&#xFF0C;&#x5426;&#x5219;&#x9700;&#x8981;&#x7531;&#x7528;&#x6237;&#x8F93;&#x5165;&#x4E00;&#x4E2A;&#x4EE3;&#x8868;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x7684;&#x6570;&#x503C;&#x3002;<br>&#x8F93;&#x5165;&#x4EE3;&#x8868;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x7684;&#x6570;&#x5B57;&#x4E4B;&#x540E;&#xFF0C;init&#x6839;&#x636E;/etc/inittab&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x5B9A;&#x4E49;&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x3002;&#x7F3A;&#x7701;&#x7684;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x53D6;&#x51B3;&#x4E8E;&#x5B89;&#x88C5;&#x9636;&#x6BB5;&#x5BF9;&#x767B;&#x5F55;&#x7A0B;&#x5E8F;&#x7684;&#x9009;&#x62E9;&#xFF1A;&#x662F;&#x4F7F;&#x7528;&#x57FA;&#x4E8E;&#x6587;&#x672C;&#x7684;&#xFF0C;&#x8FD8;&#x662F;&#x4F7F;&#x7528;&#x57FA;&#x4E8E;X-Window&#x7684;&#x767B;&#x5F55;&#x7A0B;&#x5E8F;&#x3002;<br>rc&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x77E5;&#x9053;&#xFF0C;&#x5F53;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x53D1;&#x751F;&#x6539;&#x53D8;&#x65F6;&#xFF0C;&#x5C06;&#x7531;/etc/inittab&#x6587;&#x4EF6;&#x5B9A;&#x4E49;&#x9700;&#x8981;&#x8FD0;&#x884C;&#x54EA;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x3002;&#x8FD9;&#x4E9B;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x8D1F;&#x8D23;&#x542F;&#x52A8;&#x6216;&#x8005;&#x505C;&#x6B62;&#x8BE5;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x7279;&#x5B9A;&#x7684;&#x5404;&#x79CD;&#x670D;&#x52A1;&#x3002;&#x7531;&#x4E8E;&#x9700;&#x8981;&#x7BA1;&#x7406;&#x7684;&#x670D;&#x52A1;&#x6570;&#x91CF;&#x5F88;&#x591A;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x4F7F;&#x7528;rc&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x3002;&#x5176;&#x4E2D;&#xFF0C;&#x6700;&#x4E3B;&#x8981;&#x7684;&#x4E00;&#x4E2A;&#x662F;/etc/rc.d/rc&#xFF0C;&#x5B83;&#x8D1F;&#x8D23;&#x4E3A;&#x6BCF;&#x4E00;&#x4E2A;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x6309;&#x7167;&#x6B63;&#x786E;&#x7684;&#x987A;&#x5E8F;&#x8C03;&#x7528;&#x76F8;&#x5E94;&#x7684;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x60F3;&#x8C61;&#xFF0C;&#x8FD9;&#x6837;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x5F88;&#x5BB9;&#x6613;&#x53D8;&#x5F97;&#x96BE;&#x4EE5;&#x63A7;&#x5236;&#xFF01;&#x4E3A;&#x4E86;&#x9632;&#x6B62;&#x8FD9;&#x7C7B;&#x4E8B;&#x4EF6;&#x7684;&#x53D1;&#x751F;&#xFF0C;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x7CBE;&#x5FC3;&#x8BBE;&#x8BA1;&#x7684;&#x65B9;&#x6848;&#x3002;</p>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Linux开机启动程序详解 - Hexo</title><meta description="init进程init进程是非内核进程中第一个被启动运行的，因此它的进程编号PID的值总是1。init读它的配置文件&amp;#x2F;etc&amp;#x2F;inittab，决定需要启动的运行级别(Runlevel)。从根本上说，运行级别规定了整个系统的行为，每个级别(分别由0到6的整数表示)满足特定的目的。如果定义了initdefault级别，这个值就直接被选中，否则需要由用户输入一个代表运行级别的数值。输入代表运行级别的数字之"><meta property="og:type" content="blog"><meta property="og:title" content="Linux开机启动程序详解"><meta property="og:url" content="http://yoursite.com/2016/09/06/Linux%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F%E8%AF%A6%E8%A7%A3/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="init进程init进程是非内核进程中第一个被启动运行的，因此它的进程编号PID的值总是1。init读它的配置文件&amp;#x2F;etc&amp;#x2F;inittab，决定需要启动的运行级别(Runlevel)。从根本上说，运行级别规定了整个系统的行为，每个级别(分别由0到6的整数表示)满足特定的目的。如果定义了initdefault级别，这个值就直接被选中，否则需要由用户输入一个代表运行级别的数值。输入代表运行级别的数字之"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://yoursite.com/img/og_image.png"><meta property="article:published_time" content="2016-09-06T14:41:19.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.200Z"><meta property="article:author" content="John Doe"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2016/09/06/Linux%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F%E8%AF%A6%E8%A7%A3/"},"headline":"Hexo","image":["http://yoursite.com/img/og_image.png"],"datePublished":"2016-09-06T14:41:19.000Z","dateModified":"2020-05-19T06:34:18.200Z","author":{"@type":"Person","name":"John Doe"},"description":"init进程init进程是非内核进程中第一个被启动运行的，因此它的进程编号PID的值总是1。init读它的配置文件&#x2F;etc&#x2F;inittab，决定需要启动的运行级别(Runlevel)。从根本上说，运行级别规定了整个系统的行为，每个级别(分别由0到6的整数表示)满足特定的目的。如果定义了initdefault级别，这个值就直接被选中，否则需要由用户输入一个代表运行级别的数值。输入代表运行级别的数字之"}</script><link rel="canonical" href="http://yoursite.com/2016/09/06/Linux%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E7%A8%8B%E5%BA%8F%E8%AF%A6%E8%A7%A3/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2016-09-06T14:41:19.000Z" title="2016-09-06T14:41:19.000Z">2016-09-06</time><span class="level-item"><a class="link-muted" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/">运维部署</a></span><span class="level-item">13 分钟 读完 (大约 1912 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">Linux开机启动程序详解</h1><div class="content"><h3 id="init进程"><a href="#init进程" class="headerlink" title="init进程"></a>init进程</h3><p>init进程是非内核进程中第一个被启动运行的，因此它的进程编号PID的值总是1。init读它的配置文件/etc/inittab，决定需要启动的运行级别(Runlevel)。从根本上说，运行级别规定了整个系统的行为，每个级别(分别由0到6的整数表示)满足特定的目的。如果定义了initdefault级别，这个值就直接被选中，否则需要由用户输入一个代表运行级别的数值。<br>输入代表运行级别的数字之后，init根据/etc/inittab文件中的定义执行一个命令脚本程序。缺省的运行级别取决于安装阶段对登录程序的选择：是使用基于文本的，还是使用基于X-Window的登录程序。<br>rc命令脚本程序我们已经知道，当运行级别发生改变时，将由/etc/inittab文件定义需要运行哪一个命令脚本程序。这些命令脚本程序负责启动或者停止该运行级别特定的各种服务。由于需要管理的服务数量很多，因此需要使用rc命令脚本程序。其中，最主要的一个是/etc/rc.d/rc，它负责为每一个运行级别按照正确的顺序调用相应的命令脚本程序。我们可以想象，这样一个命令脚本程序很容易变得难以控制！为了防止这类事件的发生，需要使用精心设计的方案。</p>
 <a id="more"></a>
-<p>&#x5BF9;&#x6BCF;&#x4E00;&#x4E2A;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x6765;&#x8BF4;&#xFF0C;&#x5728;/etc/rc.d&#x5B50;&#x76EE;&#x5F55;&#x4E2D;&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x5BF9;&#x5E94;&#x7684;&#x4E0B;&#x7EA7;&#x76EE;&#x5F55;&#x3002;&#x8FD9;&#x4E9B;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x7684;&#x4E0B;&#x7EA7;&#x5B50;&#x76EE;&#x5F55;&#x7684;&#x547D;&#x540D;&#x65B9;&#x6CD5;&#x662F;rcX.d&#xFF0C;&#x5176;&#x4E2D;&#x7684;X&#x5C31;&#x662F;&#x4EE3;&#x8868;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x7684;&#x6570;&#x5B57;&#x3002;&#x6BD4;&#x5982;&#x8BF4;&#xFF0C;&#x8FD0;&#x884C;&#x7EA7;&#x522B;3&#x7684;&#x5168;&#x90E8;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x90FD;&#x4FDD;&#x5B58;&#x5728;/etc/rc.d/rc3.d&#x5B50;&#x76EE;&#x5F55;&#x4E2D;&#x3002;&#x5728;&#x5404;&#x4E2A;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x7684;&#x5B50;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x90FD;&#x5EFA;&#x7ACB;&#x6709;&#x5230;/etc/rc.d/init.d&#x5B50;&#x76EE;&#x5F55;&#x4E2D;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x7684;&#x7B26;&#x53F7;&#x94FE;&#x63A5;&#xFF0C;&#x4F46;&#x662F;&#xFF0C;&#x8FD9;&#x4E9B;&#x7B26;&#x53F7;&#x94FE;&#x63A5;&#x5E76;&#x4E0D;&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x5728;/etc/rc.d/init.d&#x5B50;&#x76EE;&#x5F55;&#x4E2D;&#x539F;&#x6765;&#x7684;&#x540D;&#x5B57;&#x3002;&#x5982;&#x679C;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x662F;&#x7528;&#x6765;&#x542F;&#x52A8;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x7684;&#xFF0C;&#x5176;&#x7B26;&#x53F7;&#x94FE;&#x63A5;&#x7684;&#x540D;&#x5B57;&#x5C31;&#x4EE5;&#x5B57;&#x6BCD;S&#x6253;&#x5934;&#xFF1B;&#x5982;&#x679C;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x662F;&#x7528;&#x6765;&#x5173;&#x95ED;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x7684;&#xFF0C;&#x5176;&#x7B26;&#x53F7;&#x94FE;&#x63A5;&#x7684;&#x540D;&#x5B57;&#x5C31;&#x4EE5;&#x5B57;&#x6BCD;K&#x6253;&#x5934;&#x3002;<br>&#x8BB8;&#x591A;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x8FD9;&#x4E9B;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x7684;&#x6267;&#x884C;&#x987A;&#x5E8F;&#x90FD;&#x5F88;&#x91CD;&#x8981;&#x3002;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5148;&#x914D;&#x7F6E;&#x7F51;&#x7EDC;&#x63A5;&#x53E3;&#xFF0C;&#x5C31;&#x6CA1;&#x6709;&#x529E;&#x6CD5;&#x4F7F;&#x7528;DNS&#x670D;&#x52A1;&#x89E3;&#x6790;&#x4E3B;&#x673A;&#x540D;&#xFF01;&#x4E3A;&#x4E86;&#x5B89;&#x6392;&#x5B83;&#x4EEC;&#x7684;&#x6267;&#x884C;&#x987A;&#x5E8F;&#xFF0C;&#x5728;&#x5B57;&#x6BCD;S&#x6216;&#x8005;K&#x7684;&#x540E;&#x9762;&#x7D27;&#x8DDF;&#x7740;&#x4E00;&#x4E2A;&#x4E24;&#x4F4D;&#x6570;&#x5B57;&#xFF0C;&#x6570;&#x503C;&#x5C0F;&#x7684;&#x5728;&#x6570;&#x503C;&#x5927;&#x7684;&#x524D;&#x9762;&#x6267;&#x884C;&#x3002;&#x6BD4;&#x5982;&#xFF1A;/etc/rc.d/rc3.d/S50inet&#x5C31;&#x4F1A;&#x5728;/etc/rc.d/rc3.d/S55named&#x4E4B;&#x524D;&#x6267;&#x884C;(S50inet&#x914D;&#x7F6E;&#x7F51;&#x7EDC;&#x8BBE;&#x7F6E;&#xFF0C;55named&#x542F;&#x52A8;DNS&#x670D;&#x52A1;&#x5668;)&#x3002;&#x5B58;&#x653E;&#x5728;/etc/rc.d/init.d&#x5B50;&#x76EE;&#x5F55;&#x4E2D;&#x7684;&#x3001;&#x88AB;&#x7B26;&#x53F7;&#x94FE;&#x63A5;&#x4E0A;&#x7684;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x662F;&#x771F;&#x6B63;&#x7684;&#x5B9E;&#x5E72;&#x5BB6;&#xFF0C;&#x662F;&#x5B83;&#x4EEC;&#x5B8C;&#x6210;&#x4E86;&#x542F;&#x52A8;&#x6216;&#x8005;&#x505C;&#x6B62;&#x5404;&#x79CD;&#x670D;&#x52A1;&#x7684;&#x64CD;&#x4F5C;&#x8FC7;&#x7A0B;&#x3002;&#x5F53;/etc/rc.d/rc&#x8FD0;&#x884C;&#x901A;&#x8FC7;&#x6BCF;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x5B50;&#x76EE;&#x5F55;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5B83;&#x4F1A;&#x6839;&#x636E;&#x6570;&#x5B57;&#x7684;&#x987A;&#x5E8F;&#x4F9D;&#x6B21;&#x8C03;&#x7528;&#x5404;&#x4E2A;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x6267;&#x884C;&#x3002;&#x5B83;&#x5148;&#x8FD0;&#x884C;&#x4EE5;&#x5B57;&#x6BCD;K&#x6253;&#x5934;&#x7684;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x8FD0;&#x884C;&#x4EE5;&#x5B57;&#x6BCD;S&#x6253;&#x5934;&#x7684;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x3002;&#x5BF9;&#x4EE5;&#x5B57;&#x6BCD;K&#x6253;&#x5934;&#x7684;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x6765;&#x8BF4;&#xFF0C;&#x4F1A;&#x4F20;&#x9012;Stop&#x53C2;&#x6570;&#xFF1B;&#x7C7B;&#x4F3C;&#x5730;&#x5BF9;&#x4EE5;&#x5B57;&#x6BCD;S&#x6253;&#x5934;&#x7684;&#x547D;&#x4EE4;&#x811A;&#x672C;&#x7A0B;&#x5E8F;&#x6765;&#x8BF4;&#xFF0C;&#x4F1A;&#x4F20;&#x9012;Start&#x53C2;&#x6570;&#x3002;&#x7F16;&#x5199;&#x81EA;&#x5DF1;&#x7684;rc&#x547D;&#x4EE4;&#x811A;&#x672C;&#x5728;&#x7EF4;&#x62A4;Linux&#x7CFB;&#x7EDF;&#x8FD0;&#x8F6C;&#x7684;&#x65E5;&#x5B50;&#x91CC;&#xFF0C;&#x80AF;&#x5B9A;&#x4F1A;&#x9047;&#x5230;&#x9700;&#x8981;&#x7CFB;&#x7EDF;&#x7BA1;&#x7406;&#x5458;&#x5BF9;&#x5F00;&#x673A;&#x6216;&#x8005;&#x5173;&#x673A;&#x547D;&#x4EE4;&#x811A;<br>&#x672C;&#x8FDB;&#x884C;&#x4FEE;&#x6539;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
-<h3 id="&#x4E00;&#x3001;-etc-rc-d-rc-local"><a href="#&#x4E00;&#x3001;-etc-rc-d-rc-local" class="headerlink" title="&#x4E00;&#x3001;/etc/rc.d/rc.local"></a>&#x4E00;&#x3001;/etc/rc.d/rc.local</h3><p>&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x7F16;&#x8F91;&#x201C;/etc/rc.d/rc.local(&#x94FE;&#x63A5;&#x5730;&#x5740;&#x4E3A;/etc/rc.local)&#x201D;&#xFF0C;&#x628A;&#x542F;&#x52A8;&#x7A0B;&#x5E8F;&#x7684;shell&#x547D;&#x4EE4;&#x8F93;&#x5165;&#x8FDB;&#x53BB;&#x5373;&#x53EF;&#xFF0C;&#x8F93;&#x5165;&#x547D;&#x4EE4;&#x7684;&#x5168;&#x8DEF;&#x5F84;&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E;windows&#x4E0B;&#x7684;&#x201C;&#x542F;&#x52A8;&#x201D;&#x3002;</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#&#x5728;centos7&#x4E2D;,/etc/rc.d/rc.local&#x6587;&#x4EF6;&#x7684;&#x6743;&#x9650;&#x88AB;&#x964D;&#x4F4E;&#x4E86;,&#x5F00;&#x673A;&#x7684;&#x65F6;&#x5019;&#x6267;&#x884C;&#x81EA;&#x5DF1;&#x7684;&#x811A;&#x672C;&#x662F;&#x4E0D;&#x80FD;&#x8D77;&#x52A8;&#x4E00;&#x4E9B;&#x670D;&#x52A1;&#x7684;,&#x6267;&#x884C;&#x4E0B;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x5C06;&#x6587;&#x4EF6;&#x6807;&#x8BB0;&#x4E3A;&#x53EF;&#x6267;&#x884C;&#x7684;&#x6587;&#x4EF6;</span></span><br><span class="line">chmod +x /etc/rc.d/rc.local</span><br><span class="line"></span><br><span class="line">vim /etc/rc.d/rc.local</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x6587;&#x4EF6;&#x6700;&#x540E;&#x6DFB;&#x52A0;&#x53EF;&#x6267;&#x884C;&#x811A;&#x672C;</span></span><br><span class="line">/data/run/script/start-service.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">#&#x5728;&#x811A;&#x672C;&#x4E2D;&#x8F93;&#x5165;&#x542F;&#x52A8;&#x670D;&#x52A1;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x5982;&#x5F00;&#x673A;&#x542F;&#x52A8;tomcat</span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">export</span> JDK_HOME=/home/java/jdk1.8.0_91</span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/java/jdk1.8.0_91</span><br><span class="line">/home/tomcat/apache-tomcat-8.0.36/bin/startup.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">#&#x8D4B;&#x4E88;&#x6267;&#x884C;&#x6743;&#x9650;</span></span><br><span class="line">chmod +x /data/run/script/start-service.sh</span><br></pre></td></tr></table></figure>
-<p>&#x8FD9;&#x6837;&#xFF0C;start-service.sh&#x811A;&#x672C;&#x5728;&#x5F00;&#x673A;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x4F1A;&#x88AB;&#x6267;&#x884C;&#x4E86;,&#x4EE5;&#x540E;&#x81EA;&#x542F;&#x52A8;&#x670D;&#x52A1;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x6DFB;&#x52A0;&#x5728;&#x8BE5;&#x811A;&#x672C;&#x4E2D;&#x3002;</p>
-<h3 id="&#x4E8C;&#x3001;chkconfig"><a href="#&#x4E8C;&#x3001;chkconfig" class="headerlink" title="&#x4E8C;&#x3001;chkconfig"></a>&#x4E8C;&#x3001;chkconfig</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x67E5;&#x770B;nginx&#x670D;&#x52A1;&#x542F;&#x52A8;&#x9009;&#x9879;&#x7684;&#x914D;&#x7F6E;&#x72B6;&#x6001;</span></span><br><span class="line">chkconfig --list | grep nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 0 - &#x505C;&#x673A;</span></span><br><span class="line"><span class="comment"># 1 - &#x5355;&#x7528;&#x6237;&#x6A21;&#x5F0F; </span></span><br><span class="line"><span class="comment"># 2 - &#x591A;&#x7528;&#x6237;&#xFF0C;&#x6CA1;&#x6709;NFS </span></span><br><span class="line"><span class="comment"># 3 - &#x5B8C;&#x5168;&#x591A;&#x7528;&#x6237;&#x6A21;&#x5F0F;(&#x6807;&#x51C6;&#x7684;&#x8FD0;&#x884C;&#x7EA7;&#xFF0C;&#x547D;&#x4EE4;&#x884C;&#x6A21;&#x5F0F;&#x542F;&#x52A8;) </span></span><br><span class="line"><span class="comment"># 4 - &#x6CA1;&#x6709;&#x7528;&#x5230; </span></span><br><span class="line"><span class="comment"># 5 - X11(xwindow&#xFF0C;&#x56FE;&#x5F62;&#x754C;&#x9762;&#x542F;&#x52A8;) </span></span><br><span class="line"><span class="comment"># 6 - &#x91CD;&#x65B0;&#x542F;&#x52A8; </span></span><br><span class="line"><span class="comment"># &#x8FD0;&#x884C;&#x7EA7;&#x522B;&#x6700;&#x5E38;&#x7528;&#x7684;&#x8BBE;&#x7F6E;&#x4E3A;2,3,5</span></span><br><span class="line">nginx   0:off	1:off	2:on	3:on	4:on	5:on	6:off</span><br><span class="line"></span><br><span class="line"><span class="comment">#&#x6DFB;&#x52A0;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;</span></span><br><span class="line">chkconfig --add nginx</span><br><span class="line"></span><br><span class="line"><span class="comment">#&#x5220;&#x9664;&#x7CFB;&#x7EDF;&#x670D;&#x52A1;</span></span><br><span class="line">chkconfig --del nginx</span><br><span class="line"></span><br><span class="line"><span class="comment">#&#x8BA9;mysql&#x670D;&#x52A1;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x6A21;&#x5F0F;&#xFF0C;&#x968F;&#x7CFB;&#x7EDF;&#x542F;&#x52A8;</span></span><br><span class="line">chkconfig --level 3 mysql on</span><br><span class="line"></span><br><span class="line"><span class="comment">#&#x53D6;&#x6D88;mysql service&#x5728;runlevel3&#x7684;&#x81EA;&#x52A8;&#x542F;&#x52A8;&#x8BBE;&#x7F6E;</span></span><br><span class="line">chkconfig --level 5 mysql off</span><br><span class="line"></span><br><span class="line"><span class="comment">#&#x67E5;&#x770B;&#x54EA;&#x4E9B;&#x7A0B;&#x5E8F;&#x88AB;&#x6DFB;&#x52A0;&#x4E3A;&#x81EA;&#x542F;&#x52A8;&#xFF0C;&#x5373;&#x67E5;&#x770B;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x4E2D;&#x6DFB;&#x52A0;&#x4E86;&#x54EA;&#x4E9B;&#x7A0B;&#x5E8F;&#x8DEF;&#x5F84;</span></span><br><span class="line">cat /etc/rc.local</span><br></pre></td></tr></table></figure>
-<h3 id="&#x4E09;&#x3001;crontab"><a href="#&#x4E09;&#x3001;crontab" class="headerlink" title="&#x4E09;&#x3001;crontab"></a>&#x4E09;&#x3001;crontab</h3><p>&#x901A;&#x8FC7;crontab&#x53EF;&#x4EE5;&#x8BBE;&#x5B9A;&#x7A0B;&#x5E8F;&#x7684;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x8868;&#xFF0C;&#x4F8B;&#x5982;&#x8BA9;&#x7A0B;&#x5E8F;&#x5728;&#x6BCF;&#x5929;&#x7684;8&#x70B9;&#xFF0C;&#x6216;&#x8005;&#x6BCF;&#x4E2A;&#x661F;&#x671F;&#x4E00;&#x7684;10&#x70B9;&#x6267;&#x884C;&#x4E00;&#x6B21;&#x3002;<br>crontab -l &#x5217;&#x51FA;&#x65F6;&#x95F4;&#x8868;&#xFF1B;<br>crontab -e&#x7F16;&#x8F91;&#x65F6;&#x95F4;&#x8868;&#xFF1B;<br>crontab -d&#x5220;&#x9664;&#x65F6;&#x95F4;&#x8868;&#xFF1B;</p>
-<p>&#x201C;-l&#x201D;&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x67E5;&#x770B;&#x800C;&#x5DF2;&#xFF1B;<br>&#x201C;-e&#x201D;&#x662F;&#x7F16;&#x8F91;&#xFF0C;&#x548C;vi&#x6CA1;&#x4EC0;&#x4E48;&#x5DEE;&#x522B;&#xFF08;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x7528;vi&#x7F16;&#x8F91;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x6587;&#x4EF6;&#xFF09;&#xFF1B;<br>&#x201C;-d&#x201D;&#x57FA;&#x672C;&#x4E0D;&#x7528;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x628A;&#x8BE5;&#x7528;&#x6237;&#x6240;&#x6709;&#x7684;&#x65F6;&#x95F4;&#x8868;&#x90FD;&#x5220;&#x9664;&#x4E86;&#xFF0C;&#x4E00;&#x822C;&#x90FD;&#x662F;&#x7528;&#x201C;-e&#x201D;&#x7F16;&#x8F91;&#x628A;&#x4E0D;&#x8981;&#x4E86;&#x7684;&#x65F6;&#x95F4;&#x8868;&#x9010;&#x884C;&#x5220;&#x9664;&#xFF1B;</p>
-<p>&#x90A3;&#x5230;&#x5E95;&#x8BE5;&#x5982;&#x4F55;&#x7F16;&#x8F91;&#x5462;&#xFF1F;</p>
-<p>crontab&#x6587;&#x4EF6;&#x7684;&#x683C;&#x5F0F;&#x662F;&#xFF1A;M H D m d CMD&#x3002;<br>&#x4E00;&#x4E2A;6&#x4E2A;&#x5B57;&#x6BB5;&#xFF0C;&#x5176;&#x4E2D;&#x6700;&#x540E;&#x4E00;&#x4E2A;CMD&#x5C31;&#x662F;&#x6240;&#x8981;&#x6267;&#x884C;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x5982;haha.sh&#x3002;<br>M&#xFF1A;&#x5206;&#x949F;&#xFF08;0-59&#xFF09;<br>H&#xFF1A;&#x5C0F;&#x65F6;&#xFF08;0-23&#xFF09;<br>D&#xFF1A;&#x65E5;&#x671F;&#xFF08;1-31&#xFF09;<br>m&#xFF1A;&#x6708;&#x4EFD;&#xFF08;1-12&#xFF09;<br>d&#xFF1A;&#x4E00;&#x4E2A;&#x661F;&#x671F;&#x4E2D;&#x7684;&#x67D0;&#x5929;&#xFF08;0-6&#xFF0C;0&#x4EE3;&#x8868;&#x5468;&#x65E5;&#xFF09;</p>
-<p>&#x8FD9;5&#x4E2A;&#x65F6;&#x95F4;&#x5B57;&#x6BB5;&#x7528;&#x7A7A;&#x683C;&#x9694;&#x5F00;&#xFF0C;&#x5176;&#x503C;&#x53EF;&#x4EE5;&#x662F;&#x4E00;&#x4E2A;&#x6570;&#x5B57;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x9017;&#x53F7;&#x9694;&#x5F00;&#x7684;&#x591A;&#x4E2A;&#x6570;&#x5B57;&#xFF08;&#x6216;&#x5176;&#x4ED6;&#xFF09; &#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x9700;&#x8BBE;&#x7F6E;&#xFF0C;&#x5219;&#x9ED8;&#x8BA4;&#x4E3A;&#x201C;*&#x201D;&#x3002;</p>
-<p>&#x4F8B;&#x5982;&#xFF0C;&#x6BCF;&#x5929;&#x7684;8&#x70B9;5&#x5206;&#x6267;&#x884C;haha.sh&#xFF0C;&#x5C31;&#x662F;&#x201C;5 8 <em> </em> * /opt/./haha.sh&#x201D;&#x3002;</p>
-<p>&#x597D;&#x50CF;&#x548C;&#x201C;&#x5F00;&#x673A;&#x7A0B;&#x5E8F;&#x81EA;&#x52A8;&#x542F;&#x52A8;&#x201D;&#x626F;&#x8FDC;&#x4E86;&#xFF0C;&#x73B0;&#x5728;&#x56DE;&#x5F52;&#x6B63;&#x9898;&#x3002;<br><strong>&#x5176;&#x5B9E;&#x4E0A;&#x9762;&#x4ECB;&#x7ECD;&#x7684;crontab&#x7684;&#x529F;&#x80FD;&#x5DF2;&#x7ECF;&#x5177;&#x5907;&#x4E86;&#x5F00;&#x673A;&#x81EA;&#x52A8;&#x542F;&#x52A8;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x53EF;&#x4EE5;&#x5199;&#x4E00;&#x4E2A;&#x76D1;&#x6D4B;&#x811A;&#x672C;&#xFF0C;&#x6BCF;5&#x5206;&#x949F;&#x6267;&#x884C;&#x4E00;&#x6B21;&#xFF08;<em>/5 </em> <em> </em> * ./haha.sh&#xFF09;&#xFF0C;&#x5982;&#x679C;&#x7A0B;&#x5E8F;&#x4E0D;&#x5728;&#x4E86;&#x5C31;&#x91CD;&#x65B0;&#x542F;&#x52A8;&#x4E00;&#x6B21;&#x3002;</strong></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2016/09/10/API文档工具-Swagger的集成/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    API文档工具-Swagger的集成
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2016/08/30/VPSMate/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">VPSMate</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+<p>对每一个运行级别来说，在/etc/rc.d子目录中都有一个对应的下级目录。这些运行级别的下级子目录的命名方法是rcX.d，其中的X就是代表运行级别的数字。比如说，运行级别3的全部命令脚本程序都保存在/etc/rc.d/rc3.d子目录中。在各个运行级别的子目录中，都建立有到/etc/rc.d/init.d子目录中命令脚本程序的符号链接，但是，这些符号链接并不使用命令脚本程序在/etc/rc.d/init.d子目录中原来的名字。如果命令脚本程序是用来启动一个服务的，其符号链接的名字就以字母S打头；如果命令脚本程序是用来关闭一个服务的，其符号链接的名字就以字母K打头。<br>许多情况下，这些命令脚本程序的执行顺序都很重要。如果没有先配置网络接口，就没有办法使用DNS服务解析主机名！为了安排它们的执行顺序，在字母S或者K的后面紧跟着一个两位数字，数值小的在数值大的前面执行。比如：/etc/rc.d/rc3.d/S50inet就会在/etc/rc.d/rc3.d/S55named之前执行(S50inet配置网络设置，55named启动DNS服务器)。存放在/etc/rc.d/init.d子目录中的、被符号链接上的命令脚本程序是真正的实干家，是它们完成了启动或者停止各种服务的操作过程。当/etc/rc.d/rc运行通过每个特定的运行级别子目录的时候，它会根据数字的顺序依次调用各个命令脚本程序执行。它先运行以字母K打头的命令脚本程序，然后再运行以字母S打头的命令脚本程序。对以字母K打头的命令脚本程序来说，会传递Stop参数；类似地对以字母S打头的命令脚本程序来说，会传递Start参数。编写自己的rc命令脚本在维护Linux系统运转的日子里，肯定会遇到需要系统管理员对开机或者关机命令脚<br>本进行修改的情况。</p>
+<h3 id="一、-etc-rc-d-rc-local"><a href="#一、-etc-rc-d-rc-local" class="headerlink" title="一、/etc/rc.d/rc.local"></a>一、/etc/rc.d/rc.local</h3><p>这是一个最简单的方法，编辑“/etc/rc.d/rc.local(链接地址为/etc/rc.local)”，把启动程序的shell命令输入进去即可，输入命令的全路径，类似于windows下的“启动”。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在centos7中,/etc/rc.d/rc.local文件的权限被降低了,开机的时候执行自己的脚本是不能起动一些服务的,执行下面的命令可以将文件标记为可执行的文件</span></span><br><span class="line">chmod +x /etc/rc.d/rc.local</span><br><span class="line"></span><br><span class="line">vim /etc/rc.d/rc.local</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件最后添加可执行脚本</span></span><br><span class="line">/data/run/script/start-service.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">#在脚本中输入启动服务的命令，如开机启动tomcat</span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">export</span> JDK_HOME=/home/java/jdk1.8.0_91</span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/home/java/jdk1.8.0_91</span><br><span class="line">/home/tomcat/apache-tomcat-8.0.36/bin/startup.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">#赋予执行权限</span></span><br><span class="line">chmod +x /data/run/script/start-service.sh</span><br></pre></td></tr></table></figure>
+<p>这样，start-service.sh脚本在开机的时候就会被执行了,以后自启动服务可以直接添加在该脚本中。</p>
+<h3 id="二、chkconfig"><a href="#二、chkconfig" class="headerlink" title="二、chkconfig"></a>二、chkconfig</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看nginx服务启动选项的配置状态</span></span><br><span class="line">chkconfig --list | grep nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 0 - 停机</span></span><br><span class="line"><span class="comment"># 1 - 单用户模式 </span></span><br><span class="line"><span class="comment"># 2 - 多用户，没有NFS </span></span><br><span class="line"><span class="comment"># 3 - 完全多用户模式(标准的运行级，命令行模式启动) </span></span><br><span class="line"><span class="comment"># 4 - 没有用到 </span></span><br><span class="line"><span class="comment"># 5 - X11(xwindow，图形界面启动) </span></span><br><span class="line"><span class="comment"># 6 - 重新启动 </span></span><br><span class="line"><span class="comment"># 运行级别最常用的设置为2,3,5</span></span><br><span class="line">nginx   0:off	1:off	2:on	3:on	4:on	5:on	6:off</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加系统服务</span></span><br><span class="line">chkconfig --add nginx</span><br><span class="line"></span><br><span class="line"><span class="comment">#删除系统服务</span></span><br><span class="line">chkconfig --del nginx</span><br><span class="line"></span><br><span class="line"><span class="comment">#让mysql服务在命令行模式，随系统启动</span></span><br><span class="line">chkconfig --level 3 mysql on</span><br><span class="line"></span><br><span class="line"><span class="comment">#取消mysql service在runlevel3的自动启动设置</span></span><br><span class="line">chkconfig --level 5 mysql off</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看哪些程序被添加为自启动，即查看这个文件中添加了哪些程序路径</span></span><br><span class="line">cat /etc/rc.local</span><br></pre></td></tr></table></figure>
+<h3 id="三、crontab"><a href="#三、crontab" class="headerlink" title="三、crontab"></a>三、crontab</h3><p>通过crontab可以设定程序的执行时间表，例如让程序在每天的8点，或者每个星期一的10点执行一次。<br>crontab -l 列出时间表；<br>crontab -e编辑时间表；<br>crontab -d删除时间表；</p>
+<p>“-l”就是一个查看而已；<br>“-e”是编辑，和vi没什么差别（其实就是用vi编辑一个特定文件）；<br>“-d”基本不用，因为它把该用户所有的时间表都删除了，一般都是用“-e”编辑把不要了的时间表逐行删除；</p>
+<p>那到底该如何编辑呢？</p>
+<p>crontab文件的格式是：M H D m d CMD。<br>一个6个字段，其中最后一个CMD就是所要执行的程序，如haha.sh。<br>M：分钟（0-59）<br>H：小时（0-23）<br>D：日期（1-31）<br>m：月份（1-12）<br>d：一个星期中的某天（0-6，0代表周日）</p>
+<p>这5个时间字段用空格隔开，其值可以是一个数字，也可以用逗号隔开的多个数字（或其他） ，如果不需设置，则默认为“*”。</p>
+<p>例如，每天的8点5分执行haha.sh，就是“5 8 <em> </em> * /opt/./haha.sh”。</p>
+<p>好像和“开机程序自动启动”扯远了，现在回归正题。<br><strong>其实上面介绍的crontab的功能已经具备了开机自动启动的能力，可以写一个监测脚本，每5分钟执行一次（<em>/5 </em> <em> </em> * ./haha.sh），如果程序不在了就重新启动一次。</strong></p>
+</div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2016/09/10/API%E6%96%87%E6%A1%A3%E5%B7%A5%E5%85%B7-Swagger%E7%9A%84%E9%9B%86%E6%88%90/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">API文档工具-Swagger的集成</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2016/08/30/VPSMate/"><span class="level-item">VPSMate</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><!--!--><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

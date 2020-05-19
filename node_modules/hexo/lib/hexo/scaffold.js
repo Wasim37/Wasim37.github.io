@@ -1,7 +1,7 @@
 'use strict';
 
-var pathFn = require('path');
-var fs = require('hexo-fs');
+const { extname, join } = require('path');
+const fs = require('hexo-fs');
 
 function Scaffold(context) {
   this.context = context;
@@ -10,6 +10,7 @@ function Scaffold(context) {
 
 Scaffold.prototype.defaults = {
   normal: [
+    '---',
     'layout: {{ layout }}',
     'title: {{ title }}',
     'date: {{ date }}',
@@ -19,58 +20,47 @@ Scaffold.prototype.defaults = {
 };
 
 Scaffold.prototype._listDir = function() {
-  var scaffoldDir = this.scaffoldDir;
+  const { scaffoldDir } = this;
 
-  return fs.exists(scaffoldDir).then(function(exist) {
+  return fs.exists(scaffoldDir).then(exist => {
     if (!exist) return [];
 
     return fs.listDir(scaffoldDir, {
       ignoreFilesRegex: /^_|\/_/
     });
-  }).map(function(item) {
-    return {
-      name: item.substring(0, item.length - pathFn.extname(item).length),
-      path: pathFn.join(scaffoldDir, item)
-    };
-  });
+  }).map(item => ({
+    name: item.substring(0, item.length - extname(item).length),
+    path: join(scaffoldDir, item)
+  }));
 };
 
 Scaffold.prototype._getScaffold = function(name) {
-  return this._listDir().then(function(list) {
-    var item;
-
-    for (var i = 0, len = list.length; i < len; i++) {
-      item = list[i];
-      if (item.name === name) return item;
-    }
-  });
+  return this._listDir().then(list => list.find(item => item.name === name));
 };
 
 Scaffold.prototype.get = function(name, callback) {
-  var self = this;
-
-  return this._getScaffold(name).then(function(item) {
+  return this._getScaffold(name).then(item => {
     if (item) {
       return fs.readFile(item.path);
     }
 
-    return self.defaults[name];
+    return this.defaults[name];
   }).asCallback(callback);
 };
 
 Scaffold.prototype.set = function(name, content, callback) {
-  var scaffoldDir = this.scaffoldDir;
+  const { scaffoldDir } = this;
 
-  return this._getScaffold(name).then(function(item) {
-    var path = item ? item.path : pathFn.join(scaffoldDir, name);
-    if (!pathFn.extname(path)) path += '.md';
+  return this._getScaffold(name).then(item => {
+    let path = item ? item.path : join(scaffoldDir, name);
+    if (!extname(path)) path += '.md';
 
     return fs.writeFile(path, content);
   }).asCallback(callback);
 };
 
 Scaffold.prototype.remove = function(name, callback) {
-  return this._getScaffold(name).then(function(item) {
+  return this._getScaffold(name).then(item => {
     if (!item) return;
 
     return fs.unlink(item.path);

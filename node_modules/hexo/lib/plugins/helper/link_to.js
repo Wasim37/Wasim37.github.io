@@ -1,29 +1,20 @@
 'use strict';
 
-var htmlTag = require('hexo-util').htmlTag;
+const { htmlTag } = require('hexo-util');
 
-function linkToHelper(path, text, options) {
+function linkToHelper(path, text, options = {}) {
   if (typeof options === 'boolean') options = {external: options};
-  options = options || {};
 
   if (!text) text = path.replace(/^https?:\/\/|\/$/g, '');
 
-  var attrs = {
+  const attrs = Object.assign({
     href: this.url_for(path),
     title: text
-  };
-
-  var keys = Object.keys(options);
-  var key = '';
-
-  for (var i = 0, len = keys.length; i < len; i++) {
-    key = keys[i];
-    attrs[key] = options[key];
-  }
+  }, options);
 
   if (attrs.external) {
     attrs.target = '_blank';
-    attrs.rel = 'external';
+    attrs.rel = 'noopener';
     attrs.external = null;
   }
 

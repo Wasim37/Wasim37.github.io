@@ -1,568 +1,162 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>在Hexo中渲染MathJax数学公式 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x5B66;&amp;#x673A;&amp;#x5668;&amp;#x5B66;&amp;#x4E60;&amp;#x6D89;&amp;#x53CA;&amp;#x5F88;&amp;#x591A;&amp;#x7684;&amp;#x6570;&amp;#x5B66;&amp;#x516C;&amp;#x5F0F;&amp;#xFF0C;&amp;#x516C;&amp;#x5F0F;&amp;#x5982;&amp;#x679C;&amp;#x7528;&amp;#x622A;&amp;#x56FE;&amp;#x663E;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="在Hexo中渲染MathJax数学公式">
-<meta property="og:url" content="http://www.wangxin123.com/2017/09/20/在Hexo中渲染MathJax数学公式/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x5B66;&amp;#x673A;&amp;#x5668;&amp;#x5B66;&amp;#x4E60;&amp;#x6D89;&amp;#x53CA;&amp;#x5F88;&amp;#x591A;&amp;#x7684;&amp;#x6570;&amp;#x5B66;&amp;#x516C;&amp;#x5F0F;&amp;#xFF0C;&amp;#x516C;&amp;#x5F0F;&amp;#x5982;&amp;#x679C;&amp;#x7528;&amp;#x622A;&amp;#x56FE;&amp;#x663E;">
-<meta property="og:updated_time" content="2018-01-16T08:05:48.704Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在Hexo中渲染MathJax数学公式">
-<meta name="twitter:description" content="&amp;#x6700;&amp;#x8FD1;&amp;#x5B66;&amp;#x673A;&amp;#x5668;&amp;#x5B66;&amp;#x4E60;&amp;#x6D89;&amp;#x53CA;&amp;#x5F88;&amp;#x591A;&amp;#x7684;&amp;#x6570;&amp;#x5B66;&amp;#x516C;&amp;#x5F0F;&amp;#xFF0C;&amp;#x516C;&amp;#x5F0F;&amp;#x5982;&amp;#x679C;&amp;#x7528;&amp;#x622A;&amp;#x56FE;&amp;#x663E;">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-在Hexo中渲染MathJax数学公式" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            在Hexo中渲染MathJax数学公式
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/09/20/在Hexo中渲染MathJax数学公式/">
-            <time datetime="2017-09-20T14:22:00.000Z" itemprop="datePublished">2017-09-20</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/其他/">其他</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/hexo/">hexo</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>&#x6700;&#x8FD1;&#x5B66;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6D89;&#x53CA;&#x5F88;&#x591A;&#x7684;&#x6570;&#x5B66;&#x516C;&#x5F0F;&#xFF0C;&#x516C;&#x5F0F;&#x5982;&#x679C;&#x7528;&#x622A;&#x56FE;&#x663E;&#x793A;&#xFF0C;&#x4F1A;&#x6BD4;&#x8F83;low&#x800C;&#x4E14;&#x4E0D;&#x65B9;&#x4FBF;&#x3002;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x5BF9;Hexo&#x505A;&#x4E9B;&#x914D;&#x7F6E;&#xFF0C;&#x652F;&#x6301;&#x516C;&#x5F0F;&#x6E32;&#x67D3;&#x3002;&#x540C;&#x65F6;&#x6587;&#x672B;&#x6574;&#x7406;&#x4E86;&#x5404;&#x79CD;&#x516C;&#x5F0F;&#x7684;&#x4E66;&#x5199;&#x5FC3;&#x5F97;&#xFF0C;&#x6BD4;&#x5982;&#x77E9;&#x9635;&#x3001;&#x5927;&#x5C0F;&#x62EC;&#x53F7;&#x3001;&#x624B;&#x52A8;&#x7F16;&#x53F7;&#x3001;&#x4E0A;&#x4E0B;&#x89D2;&#x6807;&#x548C;&#x591A;&#x884C;&#x5BF9;&#x5176;&#x7B49;&#xFF0C;&#x6709;&#x5174;&#x8DA3;&#x7684;&#x53EF;&#x4EE5;&#x770B;&#x770B;&#x3002;</p>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>在Hexo中渲染MathJax数学公式 - Hexo</title><meta description="最近学机器学习涉及很多的数学公式，公式如果用截图显示，会比较low而且不方便。因此需要对Hexo做些配置，支持公式渲染。同时文末整理了各种公式的书写心得，比如矩阵、大小括号、手动编号、上下角标和多行对其等，有兴趣的可以看看。  通过hexo-math插件安装MathJax有个插件hexo-math，可以给Hexo博客添加MathJax公式支持，GitHub地址 https:&amp;#x2F;&amp;#x2F;github.com"><meta property="og:type" content="blog"><meta property="og:title" content="在Hexo中渲染MathJax数学公式"><meta property="og:url" content="http://yoursite.com/2017/09/20/%E5%9C%A8Hexo%E4%B8%AD%E6%B8%B2%E6%9F%93MathJax%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="最近学机器学习涉及很多的数学公式，公式如果用截图显示，会比较low而且不方便。因此需要对Hexo做些配置，支持公式渲染。同时文末整理了各种公式的书写心得，比如矩阵、大小括号、手动编号、上下角标和多行对其等，有兴趣的可以看看。  通过hexo-math插件安装MathJax有个插件hexo-math，可以给Hexo博客添加MathJax公式支持，GitHub地址 https:&amp;#x2F;&amp;#x2F;github.com"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://yoursite.com/img/og_image.png"><meta property="article:published_time" content="2017-09-20T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.405Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="hexo"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2017/09/20/%E5%9C%A8Hexo%E4%B8%AD%E6%B8%B2%E6%9F%93MathJax%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/"},"headline":"Hexo","image":["http://yoursite.com/img/og_image.png"],"datePublished":"2017-09-20T14:22:00.000Z","dateModified":"2020-05-19T06:34:18.405Z","author":{"@type":"Person","name":"John Doe"},"description":"最近学机器学习涉及很多的数学公式，公式如果用截图显示，会比较low而且不方便。因此需要对Hexo做些配置，支持公式渲染。同时文末整理了各种公式的书写心得，比如矩阵、大小括号、手动编号、上下角标和多行对其等，有兴趣的可以看看。  通过hexo-math插件安装MathJax有个插件hexo-math，可以给Hexo博客添加MathJax公式支持，GitHub地址 https:&#x2F;&#x2F;github.com"}</script><link rel="canonical" href="http://yoursite.com/2017/09/20/%E5%9C%A8Hexo%E4%B8%AD%E6%B8%B2%E6%9F%93MathJax%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2017-09-20T14:22:00.000Z" title="2017-09-20T14:22:00.000Z">2017-09-20</time><span class="level-item"><a class="link-muted" href="/categories/%E5%85%B6%E4%BB%96/">其他</a></span><span class="level-item">18 分钟 读完 (大约 2660 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">在Hexo中渲染MathJax数学公式</h1><div class="content"><p>最近学机器学习涉及很多的数学公式，公式如果用截图显示，会比较low而且不方便。因此需要对Hexo做些配置，支持公式渲染。同时文末整理了各种公式的书写心得，比如矩阵、大小括号、手动编号、上下角标和多行对其等，有兴趣的可以看看。</p>
 <hr>
-<h2 id="&#x901A;&#x8FC7;hexo-math&#x63D2;&#x4EF6;&#x5B89;&#x88C5;MathJax"><a href="#&#x901A;&#x8FC7;hexo-math&#x63D2;&#x4EF6;&#x5B89;&#x88C5;MathJax" class="headerlink" title="&#x901A;&#x8FC7;hexo-math&#x63D2;&#x4EF6;&#x5B89;&#x88C5;MathJax"></a>&#x901A;&#x8FC7;hexo-math&#x63D2;&#x4EF6;&#x5B89;&#x88C5;MathJax</h2><p>&#x6709;&#x4E2A;&#x63D2;&#x4EF6;hexo-math&#xFF0C;&#x53EF;&#x4EE5;&#x7ED9;Hexo&#x535A;&#x5BA2;&#x6DFB;&#x52A0;MathJax&#x516C;&#x5F0F;&#x652F;&#x6301;&#xFF0C;GitHub&#x5730;&#x5740; <a href="https://github.com/hexojs/hexo-math" target="_blank" rel="external">https://github.com/hexojs/hexo-math</a></p>
-<p>&#x5B89;&#x88C5;&#x65B9;&#x6CD5;&#x53EF;&#x5176;&#x4ED6;hexo&#x63D2;&#x4EF6;&#x4E00;&#x6837;&#xFF0C;&#x5728;&#x535A;&#x5BA2;&#x6839;&#x76EE;&#x5F55;&#x6267;&#x884C;npm install hexo-math &#x2013;save&#x5B89;&#x88C5;&#xFF0C;&#x914D;&#x7F6E;&#x89C1;GitHub&#x8BF4;&#x660E;&#x9875;&#xFF0C;&#x8FD9;&#x91CC;&#x6211;&#x6CA1;&#x6709;&#x901A;&#x8FC7;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x5B89;&#x88C5;&#xFF0C;&#x800C;&#x662F;&#x76F4;&#x63A5;&#x5728;&#x4E3B;&#x9898;&#x914D;&#x7F6E;&#x4E2D;&#x6DFB;&#x52A0;MathJax&#x7684;js&#x6765;&#x5B89;&#x88C5;&#x7684;&#x3002;</p>
+<h2 id="通过hexo-math插件安装MathJax"><a href="#通过hexo-math插件安装MathJax" class="headerlink" title="通过hexo-math插件安装MathJax"></a>通过hexo-math插件安装MathJax</h2><p>有个插件hexo-math，可以给Hexo博客添加MathJax公式支持，GitHub地址 <a href="https://github.com/hexojs/hexo-math">https://github.com/hexojs/hexo-math</a></p>
+<p>安装方法可其他hexo插件一样，在博客根目录执行npm install hexo-math —save安装，配置见GitHub说明页，这里我没有通过这种方式安装，而是直接在主题配置中添加MathJax的js来安装的。</p>
 <hr>
-<h2 id="&#x5728;&#x4E3B;&#x9898;&#x4E2D;&#x624B;&#x52A8;&#x6DFB;&#x52A0;js&#x5B89;&#x88C5;MathJax"><a href="#&#x5728;&#x4E3B;&#x9898;&#x4E2D;&#x624B;&#x52A8;&#x6DFB;&#x52A0;js&#x5B89;&#x88C5;MathJax" class="headerlink" title="&#x5728;&#x4E3B;&#x9898;&#x4E2D;&#x624B;&#x52A8;&#x6DFB;&#x52A0;js&#x5B89;&#x88C5;MathJax"></a>&#x5728;&#x4E3B;&#x9898;&#x4E2D;&#x624B;&#x52A8;&#x6DFB;&#x52A0;js&#x5B89;&#x88C5;MathJax</h2><p>&#x7C7B;&#x4F3C;&#x6240;&#x6709;&#x7B2C;&#x4E09;&#x65B9;js&#x63D2;&#x4EF6;&#xFF0C;js&#x52A0;&#x8F7D;&#x65B9;&#x5F0F;&#x6709;&#x4E24;&#x79CD;&#xFF1A;</p>
+<h2 id="在主题中手动添加js安装MathJax"><a href="#在主题中手动添加js安装MathJax" class="headerlink" title="在主题中手动添加js安装MathJax"></a>在主题中手动添加js安装MathJax</h2><p>类似所有第三方js插件，js加载方式有两种：</p>
 <ul>
-<li>&#x7B2C;&#x4E00;&#x79CD;&#xFF0C;&#x901A;&#x8FC7;&#x8FDE;&#x63A5;CDN&#x52A0;&#x8F7D;js&#x4EE3;&#x7801;&#x3002;&#x597D;&#x5904;&#x662F;&#x7701;&#x4E86;&#x672C;&#x5730;&#x914D;&#x7F6E;js&#x4EE3;&#x7801;&#xFF0C;&#x5E76;&#x4E14;&#x6BCF;&#x6B21;&#x52A0;&#x8F7D;&#x90FD;&#x662F;&#x6700;&#x65B0;&#x7684;&#xFF0C;&#x7F3A;&#x70B9;&#x662F;&#x4E00;&#x65E6;&#x8FDE;&#x63A5;&#x7684;CDN&#x51FA;&#x95EE;&#x9898;&#xFF0C;&#x53EF;&#x80FD;&#x5361;&#x4F4F;&#x9875;&#x9762;&#x7684;js&#x52A0;&#x8F7D;&#x3002;</li>
-<li>&#x7B2C;&#x4E8C;&#x79CD;&#xFF0C;&#x5C06;js&#x4EE3;&#x7801;&#x4E0B;&#x8F7D;&#x4E0B;&#x6765;&#xFF0C;&#x653E;&#x5230;&#x4E3B;&#x9898;&#x7684;js&#x6587;&#x4EF6;&#x5939;&#x4E2D;&#xFF0C;&#x901A;&#x8FC7;&#x672C;&#x5730;&#x76F8;&#x5BF9;&#x76EE;&#x5F55;&#x52A0;&#x8F7D;&#x3002;&#x4F18;&#x7F3A;&#x70B9;&#x548C;&#x7B2C;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#x6B63;&#x76F8;&#x53CD;&#x3002;</li>
+<li>第一种，通过连接CDN加载js代码。好处是省了本地配置js代码，并且每次加载都是最新的，缺点是一旦连接的CDN出问题，可能卡住页面的js加载。</li>
+<li>第二种，将js代码下载下来，放到主题的js文件夹中，通过本地相对目录加载。优缺点和第一种方法正相反。</li>
 </ul>
-<p>&#x8FD9;&#x91CC;&#x6211;&#x9009;&#x62E9;&#x901A;&#x8FC7;CDN&#x52A0;&#x8F7D;&#xFF0C;&#x56E0;&#x4E3A;&#x628A;&#x4EE3;&#x7801;&#x4E0B;&#x8F7D;&#x4E0B;&#x6765;&#x540E;&#x53D1;&#x73B0;&#x6709;&#x597D;&#x591A;js&#xFF0C;&#x641E;&#x4E0D;&#x6E05;&#x695A;&#x5176;&#x4E2D;&#x7684;&#x5F15;&#x7528;&#x5173;&#x7CFB;&#xFF0C;&#x8FD8;&#x662F;&#x76F4;&#x63A5;&#x7528;&#x5B98;&#x65B9;&#x7ED9;&#x51FA;&#x7684;&#x901A;&#x8FC7;CDN&#x52A0;&#x8F7D;&#x7684;&#x7B80;&#x4FBF;&#x65B9;&#x6CD5;&#x5427;&#xFF1A;<a href="http://docs.mathjax.org/en/latest/start.html" target="_blank" rel="external">Getting Started with MathJax</a></p>
+<p>这里我选择通过CDN加载，因为把代码下载下来后发现有好多js，搞不清楚其中的引用关系，还是直接用官方给出的通过CDN加载的简便方法吧：<a href="http://docs.mathjax.org/en/latest/start.html">Getting Started with MathJax</a></p>
 <a id="more"></a>
-<p>&#x53C8;&#x7EFC;&#x5408;&#x4E86;&#x7F51;&#x4E0A;&#x5176;&#x4ED6;&#x4EBA;&#x7ED9;&#x51FA;&#x7684;&#x4E00;&#x4E9B;&#x914D;&#x7F6E;&#xFF0C;&#x6700;&#x7EC8;&#x4EE3;&#x7801;&#x5982;&#x4E0B;&#x3002;</p>
-<p>&#x5728;themes/free2mind/layout/_partial &#x76EE;&#x5F55;&#x4E2D;&#x65B0;&#x5EFA;mathjax.ejs&#xFF0C;&#x586B;&#x5165;&#x5982;&#x4E0B;js&#x4EE3;&#x7801;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- MathJax&#x914D;&#x7F6E;&#xFF0C;&#x53EF;&#x901A;&#x8FC7;&#x5355;&#x7F8E;&#x5143;&#x7B26;&#x53F7;&#x4E66;&#x5199;&#x884C;&#x5185;&#x516C;&#x5F0F;&#x7B49; --&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">    MathJax.Hub.Config({</span><br><span class="line">    <span class="string">&quot;HTML-CSS&quot;</span>: { </span><br><span class="line">        preferredFont: <span class="string">&quot;TeX&quot;</span>, </span><br><span class="line">        availableFonts: [<span class="string">&quot;STIX&quot;</span>,<span class="string">&quot;TeX&quot;</span>], </span><br><span class="line">        linebreaks: { automatic:<span class="literal">true</span> }, </span><br><span class="line">        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) </span><br><span class="line">    },</span><br><span class="line">    tex2jax: { </span><br><span class="line">        inlineMath: [ [<span class="string">&quot;$&quot;</span>, <span class="string">&quot;$&quot;</span>], [<span class="string">&quot;\\(&quot;</span>,<span class="string">&quot;\\)&quot;</span>] ], </span><br><span class="line">        processEscapes: <span class="literal">true</span>, </span><br><span class="line">        ignoreClass: <span class="string">&quot;tex2jax_ignore|dno&quot;</span>,</span><br><span class="line">        skipTags: [<span class="string">&apos;script&apos;</span>, <span class="string">&apos;noscript&apos;</span>, <span class="string">&apos;style&apos;</span>, <span class="string">&apos;textarea&apos;</span>, <span class="string">&apos;pre&apos;</span>, <span class="string">&apos;code&apos;</span>]</span><br><span class="line">    },</span><br><span class="line">    TeX: {  </span><br><span class="line">        equationNumbers: { autoNumber: <span class="string">&quot;AMS&quot;</span> },</span><br><span class="line">        noUndefined: { attributes: { mathcolor: <span class="string">&quot;red&quot;</span>, mathbackground: <span class="string">&quot;#FFEEEE&quot;</span>, mathsize: <span class="string">&quot;90%&quot;</span> } }, </span><br><span class="line">        Macros: { href: <span class="string">&quot;{}&quot;</span> } </span><br><span class="line">    },</span><br><span class="line">    messageStyle: <span class="string">&quot;none&quot;</span></span><br><span class="line">    }); </span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;!-- &#x7ED9;MathJax&#x5143;&#x7D20;&#x6DFB;&#x52A0;has-jax class --&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">    MathJax.Hub.Queue(<span class="function"><span class="title">function</span></span>() {</span><br><span class="line">        var all = MathJax.Hub.getAllJax(), i;</span><br><span class="line">        <span class="keyword">for</span>(i=0; i &lt; all.length; i += 1) {</span><br><span class="line">            all[i].SourceElement().parentNode.className += <span class="string">&apos; has-jax&apos;</span>;</span><br><span class="line">        }</span><br><span class="line">    });</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;!-- &#x901A;&#x8FC7;&#x8FDE;&#x63A5;CDN&#x52A0;&#x8F7D;MathJax&#x7684;js&#x4EE3;&#x7801; --&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">&quot;text/javascript&quot;</span> async</span><br><span class="line">  src=<span class="string">&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML&quot;</span>&gt;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>又综合了网上其他人给出的一些配置，最终代码如下。</p>
+<p>在themes/free2mind/layout/_partial 目录中新建mathjax.ejs，填入如下js代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- MathJax配置，可通过单美元符号书写行内公式等 --&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><br><span class="line">    MathJax.Hub.Config(&#123;</span><br><span class="line">    <span class="string">"HTML-CSS"</span>: &#123; </span><br><span class="line">        preferredFont: <span class="string">"TeX"</span>, </span><br><span class="line">        availableFonts: [<span class="string">"STIX"</span>,<span class="string">"TeX"</span>], </span><br><span class="line">        linebreaks: &#123; automatic:<span class="literal">true</span> &#125;, </span><br><span class="line">        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) </span><br><span class="line">    &#125;,</span><br><span class="line">    tex2jax: &#123; </span><br><span class="line">        inlineMath: [ [<span class="string">"$"</span>, <span class="string">"$"</span>], [<span class="string">"\\("</span>,<span class="string">"\\)"</span>] ], </span><br><span class="line">        processEscapes: <span class="literal">true</span>, </span><br><span class="line">        ignoreClass: <span class="string">"tex2jax_ignore|dno"</span>,</span><br><span class="line">        skipTags: [<span class="string">'script'</span>, <span class="string">'noscript'</span>, <span class="string">'style'</span>, <span class="string">'textarea'</span>, <span class="string">'pre'</span>, <span class="string">'code'</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    TeX: &#123;  </span><br><span class="line">        equationNumbers: &#123; autoNumber: <span class="string">"AMS"</span> &#125;,</span><br><span class="line">        noUndefined: &#123; attributes: &#123; mathcolor: <span class="string">"red"</span>, mathbackground: <span class="string">"#FFEEEE"</span>, mathsize: <span class="string">"90%"</span> &#125; &#125;, </span><br><span class="line">        Macros: &#123; href: <span class="string">"&#123;&#125;"</span> &#125; </span><br><span class="line">    &#125;,</span><br><span class="line">    messageStyle: <span class="string">"none"</span></span><br><span class="line">    &#125;); </span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;!-- 给MathJax元素添加has-jax class --&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><br><span class="line">    MathJax.Hub.Queue(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">        var all = MathJax.Hub.getAllJax(), i;</span><br><span class="line">        <span class="keyword">for</span>(i=0; i &lt; all.length; i += 1) &#123;</span><br><span class="line">            all[i].SourceElement().parentNode.className += <span class="string">' has-jax'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;!-- 通过连接CDN加载MathJax的js代码 --&gt;</span><br><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/javascript"</span> async</span><br><span class="line">  src=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"</span>&gt;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
 <hr>
-<h2 id="&#x53EA;&#x5728;&#x6709;&#x516C;&#x5F0F;&#x7684;&#x9875;&#x9762;&#x624D;&#x52A0;&#x8F7D;MathJax"><a href="#&#x53EA;&#x5728;&#x6709;&#x516C;&#x5F0F;&#x7684;&#x9875;&#x9762;&#x624D;&#x52A0;&#x8F7D;MathJax" class="headerlink" title="&#x53EA;&#x5728;&#x6709;&#x516C;&#x5F0F;&#x7684;&#x9875;&#x9762;&#x624D;&#x52A0;&#x8F7D;MathJax"></a>&#x53EA;&#x5728;&#x6709;&#x516C;&#x5F0F;&#x7684;&#x9875;&#x9762;&#x624D;&#x52A0;&#x8F7D;MathJax</h2><p>&#x6709;&#x516C;&#x5F0F;&#x624D;&#x52A0;&#x8F7D;MathJax&#xFF0C;&#x8FD9;&#x70B9;&#x6BD4;&#x8F83;&#x91CD;&#x8981;&#xFF0C;&#x6CA1;&#x6709;&#x516C;&#x5F0F;&#x4ECD;&#x7136;&#x52A0;&#x8F7D;js&#x6E32;&#x67D3;&#x516C;&#x5F0F;&#xFF0C;&#x4F1A;&#x5F71;&#x54CD;&#x9875;&#x9762;&#x52A0;&#x8F7D;&#x901F;&#x5EA6;&#x3002;</p>
-<p>&#x5728;&#x6240;&#x6709;&#x6709;&#x516C;&#x5F0F;&#x7684;&#x6587;&#x7AE0;&#x7684;front-matter&#x4E2D;&#x589E;&#x52A0;&#x4E00;&#x9879;&#x914D;&#x7F6E; mathjax: true&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#x7ED3;&#x6784;&#x5316;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x9879;&#x76EE;</span><br><span class="line">tags:</span><br><span class="line">  - &#x673A;&#x5668;&#x5B66;&#x4E60;</span><br><span class="line">categories:</span><br><span class="line">  - &#x673A;&#x5668;&#x5B66;&#x4E60;</span><br><span class="line">date: 2017-10-9 22:22:00</span><br><span class="line">toc: <span class="literal">false</span></span><br><span class="line">mathjax: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
-<p>&#x7136;&#x540E;&#x5728;themes/free2mind/layout/_partial/footer.ejs &#x4E2D;&#x901A;&#x8FC7;&#x6B64;&#x914D;&#x7F6E;&#x53D8;&#x91CF;&#x51B3;&#x5B9A;&#x662F;&#x5426;&#x52A0;&#x8F7D;mathjax.ejs &#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- &#x6839;&#x636E;&#x9875;&#x9762;mathjax&#x53D8;&#x91CF;&#x51B3;&#x5B9A;&#x662F;&#x5426;&#x52A0;&#x8F7D;MathJax&#x6570;&#x5B66;&#x516C;&#x5F0F;js --&gt;</span><br><span class="line">&lt;% <span class="keyword">if</span> (page.mathjax){ %&gt;</span><br><span class="line">&lt;%- partial(<span class="string">&apos;mathjax&apos;</span>) %&gt;</span><br><span class="line">&lt;% } %&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="只在有公式的页面才加载MathJax"><a href="#只在有公式的页面才加载MathJax" class="headerlink" title="只在有公式的页面才加载MathJax"></a>只在有公式的页面才加载MathJax</h2><p>有公式才加载MathJax，这点比较重要，没有公式仍然加载js渲染公式，会影响页面加载速度。</p>
+<p>在所有有公式的文章的front-matter中增加一项配置 mathjax: true，例如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 结构化机器学习项目</span><br><span class="line">tags:</span><br><span class="line">  - 机器学习</span><br><span class="line">categories:</span><br><span class="line">  - 机器学习</span><br><span class="line">date: 2017-10-9 22:22:00</span><br><span class="line">toc: <span class="literal">false</span></span><br><span class="line">mathjax: <span class="literal">true</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
+<p>然后在themes/free2mind/layout/_partial/footer.ejs 中通过此配置变量决定是否加载mathjax.ejs ：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 根据页面mathjax变量决定是否加载MathJax数学公式js --&gt;</span><br><span class="line">&lt;% <span class="keyword">if</span> (page.mathjax)&#123; %&gt;</span><br><span class="line">&lt;%- partial(<span class="string">'mathjax'</span>) %&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure></p>
 <hr>
-<h2 id="&#x89E3;&#x51B3;MarkDown&#x4E0E;MathJax&#x6E32;&#x67D3;&#x51B2;&#x7A81;"><a href="#&#x89E3;&#x51B3;MarkDown&#x4E0E;MathJax&#x6E32;&#x67D3;&#x51B2;&#x7A81;" class="headerlink" title="&#x89E3;&#x51B3;MarkDown&#x4E0E;MathJax&#x6E32;&#x67D3;&#x51B2;&#x7A81;"></a>&#x89E3;&#x51B3;MarkDown&#x4E0E;MathJax&#x6E32;&#x67D3;&#x51B2;&#x7A81;</h2><p>&#x6DFB;&#x52A0;MathJax&#x540E;&#x5199;&#x51E0;&#x4E2A;&#x516C;&#x5F0F;&#x53D1;&#x73B0;&#x6E32;&#x67D3;&#x51FA;&#x4E86;&#x5F88;&#x591A;&#x95EE;&#x9898;&#xFF0C;&#x539F;&#x56E0;&#x662F;Hexo&#x9ED8;&#x8BA4;&#x5148;&#x4F7F;&#x7528;hexo-renderer-marked&#x5F15;&#x64CE;&#x6E32;&#x67D3;MarkDown&#xFF0C;&#x7136;&#x540E;&#x518D;&#x4EA4;&#x7ED9;MathJax&#x6E32;&#x67D3;&#x3002;hexo-renderer-marked&#x4F1A;&#x628A;&#x4E00;&#x4E9B;&#x7279;&#x6B8A;&#x7684;markdown&#x7B26;&#x53F7;&#x8F6C;&#x6362;&#x4E3A;&#x76F8;&#x5E94;&#x7684;html&#x6807;&#x7B7E;&#xFF0C;&#x6BD4;&#x5982;&#x5728;markdown&#x8BED;&#x6CD5;&#x4E2D;&#xFF0C;&#x4E0B;&#x5212;&#x7EBF; _ &#x4EE3;&#x8868;&#x659C;&#x4F53;&#xFF0C;&#x4F1A;&#x88AB;&#x8F6C;&#x5316;&#x4E3A;&lt; em&gt;&#x6807;&#x7B7E;&#xFF0C;\\&#x4E5F;&#x4F1A;&#x88AB;&#x8F6C;&#x4E49;&#x6210;&#x4E00;&#x4E2A;\&#x3002;&#x800C;&#x7C7B;Latex&#x683C;&#x5F0F;&#x4E66;&#x5199;&#x7684;&#x6570;&#x5B66;&#x516C;&#x5F0F;&#x4E0B;&#x5212;&#x7EBF; _ &#x8868;&#x793A;&#x89D2;&#x6807;&#xFF0C;\\&#x8868;&#x793A;&#x516C;&#x5F0F;&#x6362;&#x884C;&#xFF0C;&#x6709;&#x7279;&#x6B8A;&#x7684;&#x542B;&#x4E49;&#xFF0C;&#x6240;&#x4EE5;MathJax&#x5F15;&#x64CE;&#x5728;&#x6E32;&#x67D3;&#x6570;&#x5B66;&#x516C;&#x5F0F;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x4F1A;&#x51FA;&#x9519;&#x3002;</p>
-<p>&#x89E3;&#x51B3;&#x65B9;&#x6CD5;&#x6709;&#x4EBA;&#x63D0;&#x51FA;&#x66F4;&#x6362;Hexo&#x7684;MarkDown&#x6E32;&#x67D3;&#x5F15;&#x64CE;&#xFF0C;&#x7528;hexo-renderer-kramed &#x66FF;&#x6362;&#x9ED8;&#x8BA4;&#x7684;hexo-renderer-marked&#x5F15;&#x64CE;&#xFF0C;&#x4F46;&#x6211;&#x770B;&#x4E86;&#x4E0B;hexo-renderer-kramed&#x7684;&#x6587;&#x6863;&#x8BF4;&#x660E;&#xFF0C;&#x5982;&#x679C;&#x7528;&#x8FD9;&#x4E2A;&#x5F15;&#x64CE;&#x7684;&#x8BDD;&#xFF0C;&#x8981;&#x6539;&#x53D8;&#x6211;&#x7684;MarkDown&#x4E66;&#x5199;&#x4E60;&#x60EF;&#xFF0C;&#x8FD8;&#x662F;&#x4E0D;&#x7528;&#x4E86;&#xFF0C;&#x5E76;&#x4E14;&#x6362;&#x4E86;&#x8FD9;&#x4E2A;&#x5F15;&#x64CE;&#x8FD8;&#x662F;&#x6CA1;&#x6709;&#x5B8C;&#x5168;&#x89E3;&#x51B3;&#x95EE;&#x9898;&#x3002;</p>
-<p>&#x6700;&#x7EC8;&#x89E3;&#x51B3;&#x65B9;&#x6CD5;&#x662F;&#x53C2;&#x8003;&#x4E00;&#x7BC7;&#x535A;&#x6587;&#x4E2D;&#x4FEE;&#x6539;hexo-renderer-marked&#x6E32;&#x67D3;&#x5F15;&#x64CE;&#x7684;js&#x811A;&#x672C;&#xFF0C;&#x53BB;&#x6389;&#x5BF9; _ &#x548C;\\&#x7684;&#x8F6C;&#x4E49;&#x3002;<br>Hexo&#x9ED8;&#x8BA4;&#x7684;MarkDown&#x6E32;&#x67D3;&#x5F15;&#x64CE;hexo-renderer-marked&#x4F1A;&#x8C03;&#x7528;marked&#x6A21;&#x5757;&#x7684;marked.js&#x811A;&#x672C;&#x8FDB;&#x884C;&#x6700;&#x7EC8;&#x7684;&#x89E3;&#x91CA;&#xFF0C;&#x8FD9;&#x4E2A;&#x811A;&#x672C;&#x5728;Hexo&#x5B89;&#x88C5;&#x540E;&#x7684;node_modules\marked\lib\&#x76EE;&#x5F55;&#x4E2D;&#x3002;<br>&#x6709;&#x4E24;&#x70B9;&#x4FEE;&#x6539;&#xFF1A;</p>
-<p>&#x9488;&#x5BF9;&#x4E0B;&#x5212;&#x7EBF;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x53D6;&#x6D88;_&#x4F5C;&#x4E3A;&#x659C;&#x4F53;&#x8F6C;&#x4E49;&#xFF0C;&#x56E0;&#x4E3A;marked.js&#x4E2D;*&#x4E5F;&#x662F;&#x659C;&#x4F53;&#x7684;&#x610F;&#x601D;&#xFF0C;&#x6240;&#x4EE5;&#x53D6;&#x6D88;&#x6389;_&#x7684;&#x8F6C;&#x4E49;&#x5E76;&#x4E0D;&#x5F71;&#x54CD;&#x4F7F;&#x7528;markdown&#xFF0C;&#x6211;&#x5E73;&#x65F6;&#x4E00;&#x822C;&#x4E0D;&#x7528;&#x659C;&#x4F53;&#xFF0C;&#x5C31;&#x662F;&#x7528;&#x4E5F;&#x66F4;&#x4E60;&#x60EF;&#x7528;*&#x4F5C;&#x4E3A;&#x659C;&#x4F53;&#x6807;&#x8BB0;&#x3002;<br>&#x9488;&#x5BF9;marked.js&#x4E0E;Mathjax&#x5BF9;&#x4E8E;&#x4E2A;&#x522B;&#x5B57;&#x7B26;&#x4E8C;&#x6B21;&#x8F6C;&#x4E49;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x8981;&#x4E0D;&#x8BA9;marked.js&#x53BB;&#x8F6C;&#x4E49;\\,\{,\}&#x5728;MathJax&#x4E2D;&#x6709;&#x7279;&#x6B8A;&#x7528;&#x9014;&#x7684;&#x5B57;&#x7B26;&#x5C31;&#x884C;&#x4E86;&#x3002;<br>&#x7F16;&#x8F91;node_modules\marked\lib\marked.js &#x811A;&#x672C;&#xFF0C;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x3010;&#x7B2C;&#x4E00;&#x6B65;&#x3011;</span><br><span class="line">&#x5C06;451&#x884C;&#x7684;escape: /^\\([\\`*{}\[\]()# +\-.!_&gt;])/,</span><br><span class="line">&#x66FF;&#x6362;&#x4E3A;</span><br><span class="line">escape: /^\\([`*\[\]()# +\-.!_&gt;])/,</span><br><span class="line">&#x8FD9;&#x4E00;&#x6B65;&#x53D6;&#x6D88;&#x4E86;&#x5BF9;\\,\{,\}&#x7684;&#x8F6C;&#x4E49;(escape)</span><br><span class="line"></span><br><span class="line">&#x3010;&#x7B2C;&#x4E8C;&#x6B65;&#x3011;</span><br><span class="line">&#x5C06;459&#x884C;&#x7684;em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br><span class="line">&#x66FF;&#x6362;&#x4E3A;</span><br><span class="line">em:/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br><span class="line">&#x8FD9;&#x4E00;&#x6B65;&#x53D6;&#x6D88;&#x4E86;&#x5BF9;&#x659C;&#x4F53;&#x6807;&#x8BB0;_&#x7684;&#x8F6C;&#x4E49;</span><br></pre></td></tr></table></figure>
-<p>&#x8FD9;&#x6837;&#x5E26;&#x6765;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x5C31;&#x662F;&#xFF0C;&#x4EE5;&#x540E;&#x6BCF;&#x6B21;&#x66F4;&#x6362;&#x7535;&#x8111;&#xFF0C;&#x5728;&#x65B0;&#x7535;&#x8111;&#x4E0A;&#x5B89;&#x88C5;&#x5B8C;Hexo&#x73AF;&#x5883;&#x540E;&#xFF0C;&#x90FD;&#x8981;&#x624B;&#x52A8;&#x4FEE;&#x6539;marked.js&#x6587;&#x4EF6;&#x3002;</p>
+<h2 id="解决MarkDown与MathJax渲染冲突"><a href="#解决MarkDown与MathJax渲染冲突" class="headerlink" title="解决MarkDown与MathJax渲染冲突"></a>解决MarkDown与MathJax渲染冲突</h2><p>添加MathJax后写几个公式发现渲染出了很多问题，原因是Hexo默认先使用hexo-renderer-marked引擎渲染MarkDown，然后再交给MathJax渲染。hexo-renderer-marked会把一些特殊的markdown符号转换为相应的html标签，比如在markdown语法中，下划线 <em> 代表斜体，会被转化为&lt; em>标签，\也会被转义成一个\。而类Latex格式书写的数学公式下划线 </em> 表示角标，\表示公式换行，有特殊的含义，所以MathJax引擎在渲染数学公式的时候就会出错。</p>
+<p>解决方法有人提出更换Hexo的MarkDown渲染引擎，用hexo-renderer-kramed 替换默认的hexo-renderer-marked引擎，但我看了下hexo-renderer-kramed的文档说明，如果用这个引擎的话，要改变我的MarkDown书写习惯，还是不用了，并且换了这个引擎还是没有完全解决问题。</p>
+<p>最终解决方法是参考一篇博文中修改hexo-renderer-marked渲染引擎的js脚本，去掉对 _ 和\的转义。<br>Hexo默认的MarkDown渲染引擎hexo-renderer-marked会调用marked模块的marked.js脚本进行最终的解释，这个脚本在Hexo安装后的node_modules\marked\lib\目录中。<br>有两点修改：</p>
+<p>针对下划线的问题，取消<em>作为斜体转义，因为marked.js中*也是斜体的意思，所以取消掉</em>的转义并不影响使用markdown，我平时一般不用斜体，就是用也更习惯用*作为斜体标记。<br>针对marked.js与Mathjax对于个别字符二次转义的问题，我们只要不让marked.js去转义\,{,}在MathJax中有特殊用途的字符就行了。<br>编辑node_modules\marked\lib\marked.js 脚本，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">【第一步】</span><br><span class="line">将451行的escape: &#x2F;^\\([\\&#96;*&#123;&#125;\[\]()# +\-.!_&gt;])&#x2F;,</span><br><span class="line">替换为</span><br><span class="line">escape: &#x2F;^\\([&#96;*\[\]()# +\-.!_&gt;])&#x2F;,</span><br><span class="line">这一步取消了对\\,\&#123;,\&#125;的转义(escape)</span><br><span class="line"></span><br><span class="line">【第二步】</span><br><span class="line">将459行的em: &#x2F;^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)&#x2F;,</span><br><span class="line">替换为</span><br><span class="line">em:&#x2F;^\*((?:\*\*|[\s\S])+?)\*(?!\*)&#x2F;,</span><br><span class="line">这一步取消了对斜体标记_的转义</span><br></pre></td></tr></table></figure>
+<p>这样带来一个问题就是，以后每次更换电脑，在新电脑上安装完Hexo环境后，都要手动修改marked.js文件。</p>
 <hr>
-<h2 id="MathJax&#x516C;&#x5F0F;&#x4E66;&#x5199;"><a href="#MathJax&#x516C;&#x5F0F;&#x4E66;&#x5199;" class="headerlink" title="MathJax&#x516C;&#x5F0F;&#x4E66;&#x5199;"></a>MathJax&#x516C;&#x5F0F;&#x4E66;&#x5199;</h2><p>&#x516C;&#x5F0F;&#x4E66;&#x5199;&#x4F9D;&#x7136;&#x6309;&#x7167;MarkDown&#x8BED;&#x6CD5;&#x6765;&#xFF0C;&#x57FA;&#x672C;&#x4E0A;&#x4E5F;&#x548C;LaTeX&#x76F8;&#x540C;&#xFF0C;&#x5355;\$&#x7B26;&#x5F15;&#x4F4F;&#x7684;&#x662F;&#x884C;&#x5185;&#x516C;&#x5F0F;&#xFF0C;&#x53CC;\$&#x7B26;&#x5F15;&#x4F4F;&#x7684;&#x662F;&#x884C;&#x95F4;&#x516C;&#x5F0F;&#x3002;</p>
+<h2 id="MathJax公式书写"><a href="#MathJax公式书写" class="headerlink" title="MathJax公式书写"></a>MathJax公式书写</h2><p>公式书写依然按照MarkDown语法来，基本上也和LaTeX相同，单$符引住的是行内公式，双$符引住的是行间公式。</p>
 <ul>
-<li>MathJax&#x516C;&#x5F0F;&#x4E66;&#x5199;&#x53C2;&#x8003;<br><a href="http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference" target="_blank" rel="external">http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference</a></li>
+<li>MathJax公式书写参考<br><a href="http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference">http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference</a></li>
 </ul>
-<h4 id="MathJax&#x884C;&#x5185;&#x516C;&#x5F0F;"><a href="#MathJax&#x884C;&#x5185;&#x516C;&#x5F0F;" class="headerlink" title="MathJax&#x884C;&#x5185;&#x516C;&#x5F0F;"></a><font color="blue">MathJax&#x884C;&#x5185;&#x516C;&#x5F0F;</font></h4><p>&#x542B;&#x4E0B;&#x5212;&#x7EBF;_&#x7684;&#x516C;&#x5F0F;\$x_mu\$ : $x_mu$<br>&#x5E0C;&#x814A;&#x5B57;&#x7B26;\$\sigma\$ : $\sigma$<br>&#x884C;&#x5185;&#x516C;&#x5F0F;\$y=ax+b\$ : $y=ax+b$<br>&#x884C;&#x5185;&#x516C;&#x5F0F;\$\cos 2\theta = \cos^2 \theta - \sin^2 \theta = 2 \cos^2 \theta\$ : $\cos 2\theta = \cos^2 \theta - \sin^2 \theta = 2 \cos^2 \theta$<br>&#x884C;&#x5185;&#x516C;&#x5F0F;\$M(\beta^{\ast}(D),D) \subseteq C\$ : $M(\beta^{\ast}(D),D) \subseteq C$</p>
-<h4 id="MathJax&#x884C;&#x95F4;&#x516C;&#x5F0F;"><a href="#MathJax&#x884C;&#x95F4;&#x516C;&#x5F0F;" class="headerlink" title="MathJax&#x884C;&#x95F4;&#x516C;&#x5F0F;"></a><font color="blue">MathJax&#x884C;&#x95F4;&#x516C;&#x5F0F;</font></h4><p>&#x884C;&#x95F4;&#x516C;&#x5F0F; \$\$ \sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6} \$\$&#xFF1A;<br>$$ \sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6} $$</p>
-<p>&#x884C;&#x95F4;&#x516C;&#x5F0F; \$\$ x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} \$\$&#xFF1A;<br>$$ x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$</p>
-<h4 id="MathJax&#x5927;&#x62EC;&#x53F7;&#x53F3;&#x591A;&#x884C;&#x8D4B;&#x503C;"><a href="#MathJax&#x5927;&#x62EC;&#x53F7;&#x53F3;&#x591A;&#x884C;&#x8D4B;&#x503C;" class="headerlink" title="MathJax&#x5927;&#x62EC;&#x53F7;&#x53F3;&#x591A;&#x884C;&#x8D4B;&#x503C;"></a><font color="blue">MathJax&#x5927;&#x62EC;&#x53F7;&#x53F3;&#x591A;&#x884C;&#x8D4B;&#x503C;</font></h4><p>&#x53CC;\\&#x516C;&#x5F0F;&#x5185;&#x6362;&#x884C;&#xFF0C;cases&#x5B9E;&#x73B0;&#x5927;&#x62EC;&#x53F7;&#x53F3;&#x591A;&#x884C;&#x8D4B;&#x503C;&#xFF0C;&amp;&#x7528;&#x6765;&#x5BF9;&#x9F50;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">f(n) =</span><br><span class="line">\begin{cases}</span><br><span class="line">n/2,  &amp; \text{<span class="keyword">if</span> <span class="variable">$n</span>$ is even} \\</span><br><span class="line">3n+1, &amp; \text{<span class="keyword">if</span> <span class="variable">$n</span>$ is odd}</span><br><span class="line">\end{cases}</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
-<p>$$<br>f(n) =<br>\begin{cases}<br>n/2,  &amp; \text{if $n$ is even} \\<br>3n+1, &amp; \text{if $n$ is odd}<br>\end{cases}<br>$$</p>
-<h4 id="MathJax&#x591A;&#x884C;&#x516C;&#x5F0F;&#x5BF9;&#x9F50;"><a href="#MathJax&#x591A;&#x884C;&#x516C;&#x5F0F;&#x5BF9;&#x9F50;" class="headerlink" title="MathJax&#x591A;&#x884C;&#x516C;&#x5F0F;&#x5BF9;&#x9F50;"></a><font color="blue">MathJax&#x591A;&#x884C;&#x516C;&#x5F0F;&#x5BF9;&#x9F50;</font></h4><p>&#x6BD4;&#x5982;&#x591A;&#x884C;&#x516C;&#x5F0F;&#x63A8;&#x5BFC;&#x4E2D;&#x5E38;&#x7528;&#x7684;&#x7B49;&#x53F7;&#x5BF9;&#x9F50;<br>begin{split} &#x8868;&#x793A;&#x5F00;&#x59CB;&#x591A;&#x884C;&#x516C;&#x5F0F;&#xFF0C;end{split}&#x8868;&#x793A;&#x7ED3;&#x675F;&#xFF1B;&#x516C;&#x5F0F;&#x4E2D;&#x7528;\\&#x8868;&#x793A;&#x56DE;&#x8F66;&#x5230;&#x4E0B;&#x4E00;&#x884C;&#xFF0C;&amp;&#x8868;&#x793A;&#x5BF9;&#x9F50;&#x7684;&#x4F4D;&#x7F6E;&#x3002;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin{equation}</span><br><span class="line">\begin{split}</span><br><span class="line">\frac{\partial^2 f}{\partial{x^2}} &amp;= \frac{\partial(\Delta_x f(i,j))}{\partial x} = \frac{\partial(f(i+1,j)<span class="_">-f</span>(i,j))}{\partial x} \\</span><br><span class="line">&amp;= \frac{\partial f(i+1,j)}{\partial x} - \frac{\partial f(i,j)}{\partial x} \\</span><br><span class="line">&amp;= f(i+2,j) -2f(f+1,j) + f(i,j)</span><br><span class="line">\end{split}</span><br><span class="line">\nonumber</span><br><span class="line">\end{equation}</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
-<p>$$<br>\begin{equation}<br>\begin{split}<br>\frac{\partial^2 f}{\partial{x^2}} &amp;= \frac{\partial(\Delta_x f(i,j))}{\partial x} = \frac{\partial(f(i+1,j)-f(i,j))}{\partial x} \\<br>&amp;= \frac{\partial f(i+1,j)}{\partial x} - \frac{\partial f(i,j)}{\partial x} \\<br>&amp;= f(i+2,j) -2f(f+1,j) + f(i,j)<br>\end{split}<br>\nonumber<br>\end{equation}<br>$$</p>
-<h4 id="MathJax&#x516C;&#x5F0F;&#x81EA;&#x52A8;&#x7F16;&#x53F7;"><a href="#MathJax&#x516C;&#x5F0F;&#x81EA;&#x52A8;&#x7F16;&#x53F7;" class="headerlink" title="MathJax&#x516C;&#x5F0F;&#x81EA;&#x52A8;&#x7F16;&#x53F7;"></a><font color="blue">MathJax&#x516C;&#x5F0F;&#x81EA;&#x52A8;&#x7F16;&#x53F7;</font></h4><p>&#x8981;&#x60F3;MathJax&#x652F;&#x6301;&#x516C;&#x5F0F;&#x7F16;&#x53F7;&#xFF0C;&#x9700;&#x6DFB;&#x52A0;AMS&#x652F;&#x6301;&#xFF0C;&#x5728;&#x811A;&#x672C;&#x4E2D;&#x6DFB;&#x52A0;&#x5982;&#x4E0B;MathJax&#x914D;&#x7F6E;&#x9879;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">&quot;text/x-mathjax-config&quot;</span>&gt;</span><br><span class="line">MathJax.Hub.Config({</span><br><span class="line">  TeX: { equationNumbers: { autoNumber: <span class="string">&quot;AMS&quot;</span> } }</span><br><span class="line">});</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="MathJax行内公式"><a href="#MathJax行内公式" class="headerlink" title="MathJax行内公式"></a><font color='blue'>MathJax行内公式</h4><p>含下划线_的公式$x_mu$ : $x_mu$<br>希腊字符$\sigma$ : $\sigma$<br>行内公式$y=ax+b$ : $y=ax+b$<br>行内公式$\cos 2\theta = \cos^2 \theta - \sin^2 \theta = 2 \cos^2 \theta$ : $\cos 2\theta = \cos^2 \theta - \sin^2 \theta = 2 \cos^2 \theta$<br>行内公式$M(\beta^{\ast}(D),D) \subseteq C$ : $M(\beta^{\ast}(D),D) \subseteq C$</p>
+<h4 id="MathJax行间公式"><a href="#MathJax行间公式" class="headerlink" title="MathJax行间公式"></a><font color='blue'>MathJax行间公式</h4><p>行间公式 $$ \sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6} $$：</p>
+<script type="math/tex; mode=display">\sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6}</script><p>行间公式 $$ x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$：</p>
+<script type="math/tex; mode=display">x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}</script><h4 id="MathJax大括号右多行赋值"><a href="#MathJax大括号右多行赋值" class="headerlink" title="MathJax大括号右多行赋值"></a><font color='blue'>MathJax大括号右多行赋值</h4><p>双\公式内换行，cases实现大括号右多行赋值，&amp;用来对齐<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">f(n) =</span><br><span class="line">\begin&#123;cases&#125;</span><br><span class="line">n/2,  &amp; \text&#123;<span class="keyword">if</span> <span class="variable">$n</span>$ is even&#125; \\</span><br><span class="line">3n+1, &amp; \text&#123;<span class="keyword">if</span> <span class="variable">$n</span>$ is odd&#125;</span><br><span class="line">\end&#123;cases&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
+<script type="math/tex; mode=display">
+f(n) =
+\begin{cases}
+n/2,  & \text{if $n$ is even} \\
+3n+1, & \text{if $n$ is odd}
+\end{cases}</script><h4 id="MathJax多行公式对齐"><a href="#MathJax多行公式对齐" class="headerlink" title="MathJax多行公式对齐"></a><font color='blue'>MathJax多行公式对齐</h4><p>比如多行公式推导中常用的等号对齐<br>begin{split} 表示开始多行公式，end{split}表示结束；公式中用\表示回车到下一行，&amp;表示对齐的位置。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;equation&#125;</span><br><span class="line">\begin&#123;split&#125;</span><br><span class="line">\frac&#123;\partial^2 f&#125;&#123;\partial&#123;x^2&#125;&#125; &amp;= \frac&#123;\partial(\Delta_x f(i,j))&#125;&#123;\partial x&#125; = \frac&#123;\partial(f(i+1,j)-f(i,j))&#125;&#123;\partial x&#125; \\</span><br><span class="line">&amp;= \frac&#123;\partial f(i+1,j)&#125;&#123;\partial x&#125; - \frac&#123;\partial f(i,j)&#125;&#123;\partial x&#125; \\</span><br><span class="line">&amp;= f(i+2,j) -2f(f+1,j) + f(i,j)</span><br><span class="line">\end&#123;split&#125;</span><br><span class="line">\nonumber</span><br><span class="line">\end&#123;equation&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\frac{\partial^2 f}{\partial{x^2}} &= \frac{\partial(\Delta_x f(i,j))}{\partial x} = \frac{\partial(f(i+1,j)-f(i,j))}{\partial x} \\
+&= \frac{\partial f(i+1,j)}{\partial x} - \frac{\partial f(i,j)}{\partial x} \\
+&= f(i+2,j) -2f(f+1,j) + f(i,j)
+\end{split}
+\nonumber
+\end{equation}</script><h4 id="MathJax公式自动编号"><a href="#MathJax公式自动编号" class="headerlink" title="MathJax公式自动编号"></a><font color='blue'>MathJax公式自动编号</h4><p>要想MathJax支持公式编号，需添加AMS支持，在脚本中添加如下MathJax配置项：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;script <span class="built_in">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><br><span class="line">MathJax.Hub.Config(&#123;</span><br><span class="line">  TeX: &#123; equationNumbers: &#123; autoNumber: <span class="string">"AMS"</span> &#125; &#125;</span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: "AMS" } }
 });
 </script>
 
-<p>&#x6211;&#x4E0A;&#x9762;mathjax.ejs&#x811A;&#x672C;&#x4E2D;&#x5DF2;&#x52A0;&#x5165;&#x516C;&#x5F0F;&#x7F16;&#x53F7;&#x7684;&#x914D;&#x7F6E;&#x3002;<br>&#x4E66;&#x5199;&#x65F6;&#x53EA;&#x8981;&#x4F7F;&#x7528;begin{equation}&#x73AF;&#x5883;&#x5C31;&#x4F1A;&#x81EA;&#x52A8;&#x7F16;&#x53F7;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin{equation}</span><br><span class="line">\end{equation}</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
-<p>&#x6CE8;&#x610F;&#x6B64;&#x65F6;&#x4F1A;&#x81EA;&#x52A8;&#x5C06;&#x6587;&#x6863;&#x5185;&#x7684;&#x6240;&#x6709;begin{equation}&#x516C;&#x5F0F;&#x8FDE;&#x7EED;&#x7F16;&#x53F7;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin{equation}</span><br><span class="line">\sum_{i=0}^n F_i \cdot \phi (H, p_i) - \sum_{i=1}^n a_i \cdot ( \tilde{x_i}, \tilde{y_i}) + b_i \cdot ( \tilde{x_i}^2 , \tilde{y_i}^2 )</span><br><span class="line">\end{equation}</span><br><span class="line">$$</span><br><span class="line">$$</span><br><span class="line">\begin{equation}</span><br><span class="line">\beta^*(D) = \mathop{argmin} \limits_{\beta} \lambda {||\beta||}^2 + \sum_{i=1}^n max(0, 1 - y_i f_{\beta}(x_i)) </span><br><span class="line">\end{equation}</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
-<p>$$<br>\begin{equation}<br>\sum_{i=0}^n F_i \cdot \phi (H, p_i) - \sum_{i=1}^n a_i \cdot ( \tilde{x_i}, \tilde{y_i}) + b_i \cdot ( \tilde{x_i}^2 , \tilde{y_i}^2 )<br>\end{equation}<br>$$<br>$$<br>\begin{equation}<br>\beta^*(D) = \mathop{argmin} \limits_{\beta} \lambda {||\beta||}^2 + \sum_{i=1}^n max(0, 1 - y_i f_{\beta}(x_i))<br>\end{equation}<br>$$</p>
-<h4 id="&#x7981;&#x6B62;&#x81EA;&#x52A8;&#x7F16;&#x53F7;"><a href="#&#x7981;&#x6B62;&#x81EA;&#x52A8;&#x7F16;&#x53F7;" class="headerlink" title="&#x7981;&#x6B62;&#x81EA;&#x52A8;&#x7F16;&#x53F7;"></a><font color="blue">&#x7981;&#x6B62;&#x81EA;&#x52A8;&#x7F16;&#x53F7;</font></h4><p>&#x5728;end{equation}&#x524D;&#x52A0;\nonumber&#x53EF;&#x7981;&#x6B62;&#x5BF9;&#x6B64;&#x516C;&#x5F0F;&#x81EA;&#x52A8;&#x7F16;&#x53F7;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin{equation}</span><br><span class="line">\sum_{i=0}^n F_i \cdot \phi (H, p_i) - \sum_{i=1}^n a_i \cdot ( \tilde{x_i}, \tilde{y_i}) + b_i \cdot ( \tilde{x_i}^2 , \tilde{y_i}^2 )</span><br><span class="line">\nonumber</span><br><span class="line">\end{equation}</span><br><span class="line">$$</span><br><span class="line">$$</span><br><span class="line">\begin{equation}</span><br><span class="line">\beta^*(D) = \mathop{argmin} \limits_{\beta} \lambda {||\beta||}^2 + \sum_{i=1}^n max(0, 1 - y_i f_{\beta}(x_i)) </span><br><span class="line">\end{equation}</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
-<p>$$<br>\begin{equation}<br>\sum_{i=0}^n F_i \cdot \phi (H, p_i) - \sum_{i=1}^n a_i \cdot ( \tilde{x_i}, \tilde{y_i}) + b_i \cdot ( \tilde{x_i}^2 , \tilde{y_i}^2 )<br>\nonumber<br>\end{equation}<br>$$<br>$$<br>\begin{equation}<br>\beta^*(D) = \mathop{argmin} \limits_{\beta} \lambda {||\beta||}^2 + \sum_{i=1}^n max(0, 1 - y_i f_{\beta}(x_i))<br>\end{equation}<br>$$</p>
-<h4 id="MathJax&#x516C;&#x5F0F;&#x624B;&#x52A8;&#x7F16;&#x53F7;"><a href="#MathJax&#x516C;&#x5F0F;&#x624B;&#x52A8;&#x7F16;&#x53F7;" class="headerlink" title="MathJax&#x516C;&#x5F0F;&#x624B;&#x52A8;&#x7F16;&#x53F7;"></a><font color="blue">MathJax&#x516C;&#x5F0F;&#x624B;&#x52A8;&#x7F16;&#x53F7;</font></h4><p>&#x53EF;&#x4EE5;&#x5728;&#x516C;&#x5F0F;&#x4E66;&#x5199;&#x65F6;&#x4F7F;&#x7528;\tag{&#x624B;&#x52A8;&#x7F16;&#x53F7;}&#x6DFB;&#x52A0;&#x624B;&#x52A8;&#x7F16;&#x53F7;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin{equation}</span><br><span class="line">\sum_{i=0}^n F_i \cdot \phi (H, p_i) - \sum_{i=1}^n a_i \cdot ( \tilde{x_i}, \tilde{y_i}) + b_i \cdot ( \tilde{x_i}^2 , \tilde{y_i}^2 ) \tag{1.2.3}</span><br><span class="line">\end{equation}</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
-<p>$$<br>\begin{equation}<br>\sum_{i=0}^n F_i \cdot \phi (H, p_i) - \sum_{i=1}^n a_i \cdot ( \tilde{x_i}, \tilde{y_i}) + b_i \cdot ( \tilde{x_i}^2 , \tilde{y_i}^2 ) \tag{1.2.3}<br>\end{equation}<br>$$</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x4E0D;&#x52A0;\begin{equation}, \end{equation}&#x4E5F;&#x53EF;&#x4EE5;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</span><br><span class="line"></span><br><span class="line">$$</span><br><span class="line">\beta^*(D) = \mathop{argmin} \limits_{\beta} \lambda {||\beta||}^2 + \sum_{i=1}^n max(0, 1 - y_i f_{\beta}(x_i)) \tag{&#x6211;&#x7684;&#x516C;&#x5F0F;3}</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
-<p>$$<br>\beta^*(D) = \mathop{argmin} \limits_{\beta} \lambda {||\beta||}^2 + \sum_{i=1}^n max(0, 1 - y_i f_{\beta}(x_i)) \tag{&#x6211;&#x7684;&#x516C;&#x5F0F;3}<br>$$</p>
-<p>&#x884C;&#x5185;&#x516C;&#x5F0F;&#x52A0;\tag{}&#x540E;&#x4F1A;&#x81EA;&#x52A8;&#x6210;&#x4E3A;&#x884C;&#x95F4;&#x516C;&#x5F0F;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$z = (p_0, ..... , p_n) \tag{&#x516C;&#x5F0F;<span class="number">21</span>} $</span><br></pre></td></tr></table></figure></p>
-<p>$z = (p_0, &#x2026;.. , p_n) \tag{&#x516C;&#x5F0F;21} $</p>
-<p>&#x53C8;&#x5982;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ s = r cos(a+b) = r cos(a) cos(b) - r sin(a) sin(b) \tag{1.1} $</span><br><span class="line">$ t = r sin(a+b) = r sin(a) cos(b) - r cos(a) sin(b) \tag{1.2} $</span><br></pre></td></tr></table></figure></p>
-<p>$ s = r cos(a+b) = r cos(a) cos(b) - r sin(a) sin(b) \tag{1.1} $<br>$ t = r sin(a+b) = r sin(a) cos(b) - r cos(a) sin(b) \tag{1.2} $</p>
+<p>我上面mathjax.ejs脚本中已加入公式编号的配置。<br>书写时只要使用begin{equation}环境就会自动编号：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;equation&#125;</span><br><span class="line">\end&#123;equation&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure><br>注意此时会自动将文档内的所有begin{equation}公式连续编号，例如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;equation&#125;</span><br><span class="line">\sum_&#123;i=0&#125;^n F_i \cdot \phi (H, p_i) - \sum_&#123;i=1&#125;^n a_i \cdot ( \tilde&#123;x_i&#125;, \tilde&#123;y_i&#125;) + b_i \cdot ( \tilde&#123;x_i&#125;^2 , \tilde&#123;y_i&#125;^2 )</span><br><span class="line">\end&#123;equation&#125;</span><br><span class="line">$$</span><br><span class="line">$$</span><br><span class="line">\begin&#123;equation&#125;</span><br><span class="line">\beta^*(D) = \mathop&#123;argmin&#125; \limits_&#123;\beta&#125; \lambda &#123;||\beta||&#125;^2 + \sum_&#123;i=1&#125;^n max(0, 1 - y_i f_&#123;\beta&#125;(x_i)) </span><br><span class="line">\end&#123;equation&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\sum_{i=0}^n F_i \cdot \phi (H, p_i) - \sum_{i=1}^n a_i \cdot ( \tilde{x_i}, \tilde{y_i}) + b_i \cdot ( \tilde{x_i}^2 , \tilde{y_i}^2 )
+\end{equation}</script><script type="math/tex; mode=display">
+\begin{equation}
+\beta^*(D) = \mathop{argmin} \limits_{\beta} \lambda {||\beta||}^2 + \sum_{i=1}^n max(0, 1 - y_i f_{\beta}(x_i)) 
+\end{equation}</script><h4 id="禁止自动编号"><a href="#禁止自动编号" class="headerlink" title="禁止自动编号"></a><font color='blue'>禁止自动编号</h4><p>在end{equation}前加\nonumber可禁止对此公式自动编号，例如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;equation&#125;</span><br><span class="line">\sum_&#123;i=0&#125;^n F_i \cdot \phi (H, p_i) - \sum_&#123;i=1&#125;^n a_i \cdot ( \tilde&#123;x_i&#125;, \tilde&#123;y_i&#125;) + b_i \cdot ( \tilde&#123;x_i&#125;^2 , \tilde&#123;y_i&#125;^2 )</span><br><span class="line">\nonumber</span><br><span class="line">\end&#123;equation&#125;</span><br><span class="line">$$</span><br><span class="line">$$</span><br><span class="line">\begin&#123;equation&#125;</span><br><span class="line">\beta^*(D) = \mathop&#123;argmin&#125; \limits_&#123;\beta&#125; \lambda &#123;||\beta||&#125;^2 + \sum_&#123;i=1&#125;^n max(0, 1 - y_i f_&#123;\beta&#125;(x_i)) </span><br><span class="line">\end&#123;equation&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\sum_{i=0}^n F_i \cdot \phi (H, p_i) - \sum_{i=1}^n a_i \cdot ( \tilde{x_i}, \tilde{y_i}) + b_i \cdot ( \tilde{x_i}^2 , \tilde{y_i}^2 )
+\nonumber
+\end{equation}</script><script type="math/tex; mode=display">
+\begin{equation}
+\beta^*(D) = \mathop{argmin} \limits_{\beta} \lambda {||\beta||}^2 + \sum_{i=1}^n max(0, 1 - y_i f_{\beta}(x_i)) 
+\end{equation}</script><h4 id="MathJax公式手动编号"><a href="#MathJax公式手动编号" class="headerlink" title="MathJax公式手动编号"></a><font color='blue'>MathJax公式手动编号</h4><p>可以在公式书写时使用\tag{手动编号}添加手动编号，例如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;equation&#125;</span><br><span class="line">\sum_&#123;i=0&#125;^n F_i \cdot \phi (H, p_i) - \sum_&#123;i=1&#125;^n a_i \cdot ( \tilde&#123;x_i&#125;, \tilde&#123;y_i&#125;) + b_i \cdot ( \tilde&#123;x_i&#125;^2 , \tilde&#123;y_i&#125;^2 ) \tag&#123;1.2.3&#125;</span><br><span class="line">\end&#123;equation&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\sum_{i=0}^n F_i \cdot \phi (H, p_i) - \sum_{i=1}^n a_i \cdot ( \tilde{x_i}, \tilde{y_i}) + b_i \cdot ( \tilde{x_i}^2 , \tilde{y_i}^2 ) \tag{1.2.3}
+\end{equation}</script><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">不加\begin&#123;equation&#125;, \end&#123;equation&#125;也可以，例如：</span><br><span class="line"></span><br><span class="line">$$</span><br><span class="line">\beta^*(D) = \mathop&#123;argmin&#125; \limits_&#123;\beta&#125; \lambda &#123;||\beta||&#125;^2 + \sum_&#123;i=1&#125;^n max(0, 1 - y_i f_&#123;\beta&#125;(x_i)) \tag&#123;我的公式3&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+\beta^*(D) = \mathop{argmin} \limits_{\beta} \lambda {||\beta||}^2 + \sum_{i=1}^n max(0, 1 - y_i f_{\beta}(x_i)) \tag{我的公式3}</script><p>行内公式加\tag{}后会自动成为行间公式，例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$z = (p_0, ..... , p_n) \tag&#123;公式<span class="number">21</span>&#125; $</span><br></pre></td></tr></table></figure><br>$z = (p_0, ….. , p_n) \tag{公式21} $</p>
+<p>又如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ s = r cos(a+b) = r cos(a) cos(b) - r sin(a) sin(b) \tag&#123;1.1&#125; $</span><br><span class="line">$ t = r sin(a+b) = r sin(a) cos(b) - r cos(a) sin(b) \tag&#123;1.2&#125; $</span><br></pre></td></tr></table></figure><br>$ s = r cos(a+b) = r cos(a) cos(b) - r sin(a) sin(b) \tag{1.1} $<br>$ t = r sin(a+b) = r sin(a) cos(b) - r cos(a) sin(b) \tag{1.2} $</p>
 <ul>
-<li>&#x53C2;&#x8003;Automatic Equation Numbering<br><a href="http://docs.mathjax.org/en/latest/tex.html#automatic-equation-numbering" target="_blank" rel="external">http://docs.mathjax.org/en/latest/tex.html#automatic-equation-numbering</a></li>
+<li>参考Automatic Equation Numbering<br><a href="http://docs.mathjax.org/en/latest/tex.html#automatic-equation-numbering">http://docs.mathjax.org/en/latest/tex.html#automatic-equation-numbering</a></li>
 </ul>
-<h4 id="&#x5C06;&#x4E0B;&#x6807;&#x653E;&#x5230;&#x6B63;&#x4E0B;&#x65B9;"><a href="#&#x5C06;&#x4E0B;&#x6807;&#x653E;&#x5230;&#x6B63;&#x4E0B;&#x65B9;" class="headerlink" title="&#x5C06;&#x4E0B;&#x6807;&#x653E;&#x5230;&#x6B63;&#x4E0B;&#x65B9;"></a><font color="blue">&#x5C06;&#x4E0B;&#x6807;&#x653E;&#x5230;&#x6B63;&#x4E0B;&#x65B9;</font></h4><p>1&#x3001;&#x5982;&#x679C;&#x662F;&#x6570;&#x5B66;&#x7B26;&#x53F7;&#xFF0C;&#x90A3;&#x4E48;&#x76F4;&#x63A5;&#x7528;\limits&#x547D;&#x4EE4;&#x653E;&#x5728;&#x6B63;&#x4E0B;&#x65B9;&#xFF0C;&#x5982;Max&#x51FD;&#x6570;&#x4E0B;&#x9762;&#x7684;&#x53D6;&#x503C;&#x8303;&#x56F4;&#xFF0C;&#x9700;&#x8981;&#x653E;&#x5728;Max&#x7684;&#x6B63;&#x4E0B;&#x65B9;&#x3002;&#x53EF;&#x4EE5;&#x5982;&#x4E0B;&#x5B9E;&#x73B0;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ \max \limits_{a&lt;x&lt;b}\{f(x)\} $</span><br></pre></td></tr></table></figure></p>
-<p>$ \max \limits_{a&lt;x&lt;b}\{f(x)\} $</p>
-<p>2&#x3001;&#x82E5;&#x662F;&#x666E;&#x901A;&#x7B26;&#x53F7;&#xFF0C;&#x90A3;&#x4E48;&#x8981;&#x7528;\mathop&#x5148;&#x8F6C;&#x6210;&#x6570;&#x5B66;&#x7B26;&#x53F7;&#x518D;&#x7528;\limits&#xFF0C;&#x5982;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ \mathop{a}\limits_{i=1} $</span><br></pre></td></tr></table></figure></p>
-<p>$ \mathop{a}\limits_{i=1} $</p>
-<h4 id="MathJax&#x77E9;&#x9635;&#x8F93;&#x5165;"><a href="#MathJax&#x77E9;&#x9635;&#x8F93;&#x5165;" class="headerlink" title="MathJax&#x77E9;&#x9635;&#x8F93;&#x5165;"></a><font color="blue">MathJax&#x77E9;&#x9635;&#x8F93;&#x5165;</font></h4><p>&#x65E0;&#x62EC;&#x53F7;&#x77E9;&#x9635;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin{matrix}</span><br><span class="line">1 &amp; x &amp; x^2 \\</span><br><span class="line">1 &amp; y &amp; y^2 \\</span><br><span class="line">1 &amp; z &amp; z^2 \\</span><br><span class="line">\end{matrix}</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
-<p>$$<br>\begin{matrix}<br>1 &amp; x &amp; x^2 \\<br>1 &amp; y &amp; y^2 \\<br>1 &amp; z &amp; z^2 \\<br>\end{matrix}<br>$$</p>
-<p>&#x77E9;&#x9635;&#x8FD0;&#x7B97;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\left(</span><br><span class="line">    \begin{array}{c}</span><br><span class="line">      s \\</span><br><span class="line">      t</span><br><span class="line">    \end{array}</span><br><span class="line">\right)</span><br><span class="line">=</span><br><span class="line">\left(</span><br><span class="line">    \begin{array}{cc}</span><br><span class="line">      cos(b) &amp; -sin(b) \\</span><br><span class="line">      sin(b) &amp; cos(b)</span><br><span class="line">    \end{array}</span><br><span class="line">\right)</span><br><span class="line">\left(</span><br><span class="line">    \begin{array}{c}</span><br><span class="line">      x \\</span><br><span class="line">      y</span><br><span class="line">    \end{array}</span><br><span class="line">\right)</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
-<p>$$<br>\left(<br>    \begin{array}{c}<br>      s \\<br>      t<br>    \end{array}<br>\right)<br>=<br>\left(<br>    \begin{array}{cc}<br>      cos(b) &amp; -sin(b) \\<br>      sin(b) &amp; cos(b)<br>    \end{array}<br>\right)<br>\left(<br>    \begin{array}{c}<br>      x \\<br>      y<br>    \end{array}<br>\right)<br>$$</p>
-<p>&#x6709;&#x62EC;&#x53F7;&#x6709;&#x7AD6;&#x7EBF;&#x77E9;&#x9635;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\left[</span><br><span class="line">    \begin{array}{cc|c}</span><br><span class="line">      1&amp;2&amp;3\\</span><br><span class="line">      4&amp;5&amp;6</span><br><span class="line">    \end{array}</span><br><span class="line">\right] </span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
-<p>$$<br>\left[<br>    \begin{array}{cc|c}<br>      1&amp;2&amp;3\\<br>      4&amp;5&amp;6<br>    \end{array}<br>\right]<br>$$</p>
-<p>&#x884C;&#x5185;&#x5C0F;&#x77E9;&#x9635;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$\bigl( \begin{smallmatrix} a &amp; b \\ c &amp; d \end{smallmatrix} \bigr)$</span><br></pre></td></tr></table></figure></p>
-<p>&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x884C;&#x5185;&#x5C0F;&#x77E9;&#x9635;$\bigl( \begin{smallmatrix} a &amp; b \\ c &amp; d \end{smallmatrix} \bigr)$&#xFF0C;&#x76F4;&#x63A5;&#x5D4C;&#x5165;&#x884C;&#x5185;&#x3002;</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2017/10/16/吴恩达2014机器学习教程笔记目录/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    吴恩达2014机器学习教程笔记目录
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2017/05/27/Redis开启AOF导致的删库事件/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">Redis开启AOF导致的删库事件</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-		<!-- MathJax���ã���ͨ������Ԫ������д���ڹ�ʽ�� -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": { 
-        preferredFont: "TeX", 
-        availableFonts: ["STIX","TeX"], 
-        linebreaks: { automatic:true }, 
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
-    },
-    tex2jax: { 
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
-        processEscapes: true, 
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {  
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
-        Macros: { href: "{}" } 
-    },
-    messageStyle: "none"
-    }); 
-</script>
-<!-- ��MathJaxԪ������has-jax class -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<!-- ͨ������CDN����MathJax��js���� -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+<h4 id="将下标放到正下方"><a href="#将下标放到正下方" class="headerlink" title="将下标放到正下方"></a><font color='blue'>将下标放到正下方</h4><p>1、如果是数学符号，那么直接用\limits命令放在正下方，如Max函数下面的取值范围，需要放在Max的正下方。可以如下实现：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ \max \limits_&#123;a&lt;x&lt;b&#125;\&#123;f(x)\&#125; $</span><br></pre></td></tr></table></figure><br>$ \max \limits_{a&lt;x&lt;b}{f(x)} $</p>
+<p>2、若是普通符号，那么要用\mathop先转成数学符号再用\limits，如<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ \mathop&#123;a&#125;\limits_&#123;i=1&#125; $</span><br></pre></td></tr></table></figure><br>$ \mathop{a}\limits_{i=1} $</p>
+<h4 id="MathJax矩阵输入"><a href="#MathJax矩阵输入" class="headerlink" title="MathJax矩阵输入"></a><font color='blue'>MathJax矩阵输入</h4><p>无括号矩阵：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line">1 &amp; x &amp; x^2 \\</span><br><span class="line">1 &amp; y &amp; y^2 \\</span><br><span class="line">1 &amp; z &amp; z^2 \\</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
+<script type="math/tex; mode=display">
+\begin{matrix}
+1 & x & x^2 \\
+1 & y & y^2 \\
+1 & z & z^2 \\
+\end{matrix}</script><p>矩阵运算：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\left(</span><br><span class="line">    \begin&#123;array&#125;&#123;c&#125;</span><br><span class="line">      s \\</span><br><span class="line">      t</span><br><span class="line">    \end&#123;array&#125;</span><br><span class="line">\right)</span><br><span class="line">=</span><br><span class="line">\left(</span><br><span class="line">    \begin&#123;array&#125;&#123;cc&#125;</span><br><span class="line">      cos(b) &amp; -sin(b) \\</span><br><span class="line">      sin(b) &amp; cos(b)</span><br><span class="line">    \end&#123;array&#125;</span><br><span class="line">\right)</span><br><span class="line">\left(</span><br><span class="line">    \begin&#123;array&#125;&#123;c&#125;</span><br><span class="line">      x \\</span><br><span class="line">      y</span><br><span class="line">    \end&#123;array&#125;</span><br><span class="line">\right)</span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
+<script type="math/tex; mode=display">
+\left(
+    \begin{array}{c}
+      s \\
+      t
+    \end{array}
+\right)
+=
+\left(
+    \begin{array}{cc}
+      cos(b) & -sin(b) \\
+      sin(b) & cos(b)
+    \end{array}
+\right)
+\left(
+    \begin{array}{c}
+      x \\
+      y
+    \end{array}
+\right)</script><p>有括号有竖线矩阵：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\left[</span><br><span class="line">    \begin&#123;array&#125;&#123;cc|c&#125;</span><br><span class="line">      1&amp;2&amp;3\\</span><br><span class="line">      4&amp;5&amp;6</span><br><span class="line">    \end&#123;array&#125;</span><br><span class="line">\right] </span><br><span class="line">$$</span><br></pre></td></tr></table></figure></p>
+<script type="math/tex; mode=display">
+\left[
+    \begin{array}{cc|c}
+      1&2&3\\
+      4&5&6
+    \end{array}
+\right]</script><p>行内小矩阵：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$\bigl( \begin&#123;smallmatrix&#125; a &amp; b \\ c &amp; d \end&#123;smallmatrix&#125; \bigr)$</span><br></pre></td></tr></table></figure><br>这是一个行内小矩阵$\bigl( \begin{smallmatrix} a &amp; b \ c &amp; d \end{smallmatrix} \bigr)$，直接嵌入行内。</p>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/hexo/">hexo</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2017/10/16/%E5%90%B4%E6%81%A9%E8%BE%BE2014%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%94%E8%AE%B0%E7%9B%AE%E5%BD%95/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">吴恩达2014机器学习教程笔记目录</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2017/05/27/Redis%E5%BC%80%E5%90%AFAOF%E5%AF%BC%E8%87%B4%E7%9A%84%E5%88%A0%E5%BA%93%E4%BA%8B%E4%BB%B6/"><span class="level-item">Redis开启AOF导致的删库事件</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><!--!--><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

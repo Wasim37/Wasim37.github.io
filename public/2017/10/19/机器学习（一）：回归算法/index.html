@@ -1,658 +1,205 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>机器学习（一）：回归算法 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x6301;&amp;#x7EED;&amp;#x66F4;&amp;#x65B0;&amp;#x4E2D;&amp;#x3002;&amp;#x3002;&amp;#x3002;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="机器学习（一）：回归算法">
-<meta property="og:url" content="http://www.wangxin123.com/2017/10/19/机器学习（一）：回归算法/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x6301;&amp;#x7EED;&amp;#x66F4;&amp;#x65B0;&amp;#x4E2D;&amp;#x3002;&amp;#x3002;&amp;#x3002;">
-<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130175609.png">
-<meta property="og:updated_time" content="2018-06-06T03:31:33.185Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="机器学习（一）：回归算法">
-<meta name="twitter:description" content="&amp;#x6301;&amp;#x7EED;&amp;#x66F4;&amp;#x65B0;&amp;#x4E2D;&amp;#x3002;&amp;#x3002;&amp;#x3002;">
-<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130175609.png">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-机器学习（一）：回归算法" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            机器学习（一）：回归算法
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/10/19/机器学习（一）：回归算法/">
-            <time datetime="2017-10-19T14:22:00.000Z" itemprop="datePublished">2017-10-19</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/线性回归/">线性回归</a>, <a class="tag-link" href="/tags/逻辑回归/">逻辑回归</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>&#x6301;&#x7EED;&#x66F4;&#x65B0;&#x4E2D;&#x3002;&#x3002;&#x3002;</p>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>机器学习（一）：回归算法 - Hexo</title><meta description="持续更新中。。。"><meta property="og:type" content="blog"><meta property="og:title" content="机器学习（一）：回归算法"><meta property="og:url" content="http://yoursite.com/2017/10/19/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="持续更新中。。。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130175609.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130173938.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130174843.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130174857.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/线性回归损失函数.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/加权线性损失函数.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/加权回归W公式.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130181113.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/L1%E6%AD%A3%E5%88%99%E4%B8%8EL2%E6%AD%A3%E5%88%99.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/48.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/49.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180419180432.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180419180432.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/73.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180131114108.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/6.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/7.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/9.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/10.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/11.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/12.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/13.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/18.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/39.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/52.png"><meta property="article:published_time" content="2017-10-19T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.515Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="线性回归"><meta property="article:tag" content="逻辑回归"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130175609.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2017/10/19/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95/"},"headline":"Hexo","image":["http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130175609.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130173938.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130174843.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130174857.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/线性回归损失函数.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/加权线性损失函数.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/加权回归W公式.png","http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130181113.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/L1%E6%AD%A3%E5%88%99%E4%B8%8EL2%E6%AD%A3%E5%88%99.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/48.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/49.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180419180432.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180419180432.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/73.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180131114108.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/6.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/7.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/9.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/10.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/11.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/12.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/13.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/18.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/39.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/52.png"],"datePublished":"2017-10-19T14:22:00.000Z","dateModified":"2020-05-19T06:34:18.515Z","author":{"@type":"Person","name":"John Doe"},"description":"持续更新中。。。"}</script><link rel="canonical" href="http://yoursite.com/2017/10/19/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2017-10-19T14:22:00.000Z" title="2017-10-19T14:22:00.000Z">2017-10-19</time><span class="level-item"><a class="link-muted" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span><span class="level-item">1 小时 读完 (大约 7537 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">机器学习（一）：回归算法</h1><div class="content"><p>持续更新中。。。</p>
 <a id="more"></a>
 <ul>
-<li><a href="https://github.com/Wasim37/machine_learning_code/tree/master/02%20%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%20Linear%20regression" target="_blank" rel="external">&#x793A;&#x4F8B;&#x4EE3;&#x7801;</a></li>
-<li><a href="#&#x4EC0;&#x4E48;&#x662F;&#x56DE;&#x5F52;&#x7B97;&#x6CD5;">&#x4EC0;&#x4E48;&#x662F;&#x56DE;&#x5F52;&#x7B97;&#x6CD5;</a></li>
-<li>&#x56DE;&#x5F52;&#x7B97;&#x6CD5;&#x63A8;&#x5BFC;&#xFF1A;&#x76EE;&#x6807;&#x51FD;&#x6570;&#x3001;&#x5BF9;&#x6570;&#x4F3C;&#x7136;&#x53CA;&#x6700;&#x5C0F;&#x4E8C;&#x4E58;</li>
-<li>&#x56DE;&#x5F52;&#x600E;&#x4E48;&#x9884;&#x9632;&#x8FC7;&#x62DF;&#x5408;</li>
-<li><a href="#&#x56DE;&#x5F52;&#x8981;&#x8C03;&#x7684;&#x53C2;&#x6570;&#x6709;&#x54EA;&#x4E9B;">&#x56DE;&#x5F52;&#x8981;&#x8C03;&#x7684;&#x53C2;&#x6570;&#x6709;&#x54EA;&#x4E9B;</a></li>
-<li><a href="#&#x5C40;&#x90E8;&#x52A0;&#x6743;&#x56DE;&#x5F52;">&#x5C40;&#x90E8;&#x52A0;&#x6743;&#x56DE;&#x5F52;</a></li>
-<li><a href="#Softmax&#x56DE;&#x5F52;">Softmax&#x56DE;&#x5F52;</a></li>
+<li><a href="https://github.com/Wasim37/machine_learning_code/tree/master/02%20%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%20Linear%20regression">示例代码</a></li>
+<li><a href="#什么是回归算法">什么是回归算法</a></li>
+<li>回归算法推导：目标函数、对数似然及最小二乘</li>
+<li>回归怎么预防过拟合</li>
+<li><a href="#回归要调的参数有哪些">回归要调的参数有哪些</a></li>
+<li><a href="#局部加权回归">局部加权回归</a></li>
+<li><a href="#Softmax回归">Softmax回归</a></li>
 </ul>
 <ul>
-<li><a href="#&#x68AF;&#x5EA6;&#x7684;&#x5B9A;&#x4E49;">&#x68AF;&#x5EA6;&#x7684;&#x5B9A;&#x4E49;</a></li>
-<li><a href="#&#x4EC0;&#x4E48;&#x662F;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x7528;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;">&#x4EC0;&#x4E48;&#x662F;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x7528;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;</a></li>
-<li><a href="#&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x5BB9;&#x6613;&#x6536;&#x655B;&#x5230;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x5E94;&#x7528;&#x5E7F;&#x6CDB;">&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x5BB9;&#x6613;&#x6536;&#x655B;&#x5230;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x5E94;&#x7528;&#x5E7F;&#x6CDB;</a></li>
-<li><a href="#&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x627E;&#x5230;&#x7684;&#x4E00;&#x5B9A;&#x662F;&#x4E0B;&#x964D;&#x6700;&#x5FEB;&#x7684;&#x65B9;&#x5411;&#x4E48;">&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x627E;&#x5230;&#x7684;&#x4E00;&#x5B9A;&#x662F;&#x4E0B;&#x964D;&#x6700;&#x5FEB;&#x7684;&#x65B9;&#x5411;&#x4E48;</a></li>
-<li><a href="#BGD&#x3001;SGD&#x3001;MBGD&#x4ECB;&#x7ECD;&#x4E0E;&#x533A;&#x522B;">BGD&#x3001;SGD&#x3001;MBGD&#x4ECB;&#x7ECD;&#x4E0E;&#x533A;&#x522B;</a></li>
-<li>BGD&#x3001;SGD&#x3001;MBGD&#x7684;&#x63A8;&#x5BFC;</li>
-<li><a href="https://blog.csdn.net/itplus/article/details/21896453" target="_blank" rel="external">&#x725B;&#x987F;&#x6CD5;</a></li>
-<li><a href="https://blog.csdn.net/itplus/article/details/21896619" target="_blank" rel="external">&#x62DF;&#x725B;&#x987F;&#x6CD5;</a></li>
-<li><a href="#&#x725B;&#x987F;&#x6CD5;&#x548C;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x7684;&#x533A;&#x522B;">&#x725B;&#x987F;&#x6CD5;&#x548C;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x7684;&#x533A;&#x522B;</a></li>
-<li><a href="#&#x5171;&#x8F6D;&#x68AF;&#x5EA6;">&#x5171;&#x8F6D;&#x68AF;&#x5EA6;</a></li>
+<li><a href="#梯度的定义">梯度的定义</a></li>
+<li><a href="#什么是梯度下降？为什么要用梯度下降">什么是梯度下降？为什么要用梯度下降</a></li>
+<li><a href="#梯度下降法容易收敛到局部最优，为什么应用广泛">梯度下降法容易收敛到局部最优，为什么应用广泛</a></li>
+<li><a href="#梯度下降法找到的一定是下降最快的方向么">梯度下降法找到的一定是下降最快的方向么</a></li>
+<li><a href="#BGD、SGD、MBGD介绍与区别">BGD、SGD、MBGD介绍与区别</a></li>
+<li>BGD、SGD、MBGD的推导</li>
+<li><a href="https://blog.csdn.net/itplus/article/details/21896453">牛顿法</a></li>
+<li><a href="https://blog.csdn.net/itplus/article/details/21896619">拟牛顿法</a></li>
+<li><a href="#牛顿法和梯度下降法的区别">牛顿法和梯度下降法的区别</a></li>
+<li><a href="#共轭梯度">共轭梯度</a></li>
 </ul>
 <ul>
-<li><a href="#&#x4EC0;&#x4E48;&#x662F;&#x6B63;&#x5219;&#x5316;&#xFF1F;L1&#x6B63;&#x5219;&#x4E0E;L2&#x6B63;&#x5219;&#x4ECB;&#x7ECD;">&#x4EC0;&#x4E48;&#x662F;&#x6B63;&#x5219;&#x5316;&#xFF1F;L1&#x6B63;&#x5219;&#x4E0E;L2&#x6B63;&#x5219;&#x4ECB;&#x7ECD;</a></li>
-<li><a href="#&#x6B63;&#x5219;&#x5316;&#x4E3A;&#x4EC0;&#x4E48;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;">&#x6B63;&#x5219;&#x5316;&#x4E3A;&#x4EC0;&#x4E48;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;</a></li>
-<li><a href="#L1&#x548C;L2&#x6B63;&#x5219;&#x5148;&#x9A8C;&#x5206;&#x522B;&#x670D;&#x4ECE;&#x4EC0;&#x4E48;&#x5206;&#x5E03;">L1&#x548C;L2&#x6B63;&#x5219;&#x5148;&#x9A8C;&#x5206;&#x522B;&#x670D;&#x4ECE;&#x4EC0;&#x4E48;&#x5206;&#x5E03;</a></li>
+<li><a href="#什么是正则化？L1正则与L2正则介绍">什么是正则化？L1正则与L2正则介绍</a></li>
+<li><a href="#正则化为什么可以防止过拟合">正则化为什么可以防止过拟合</a></li>
+<li><a href="#L1和L2正则先验分别服从什么分布">L1和L2正则先验分别服从什么分布</a></li>
 </ul>
 <ul>
-<li><a href="#&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E0B;LR">&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E0B;LR</a></li>
-<li><a href="#LR&#x4E0E;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;">LR&#x4E0E;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;</a></li>
-<li><a href="#LR&#x6A21;&#x578B;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;sigmoid&#x51FD;&#x6570;">LR&#x6A21;&#x578B;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;sigmoid&#x51FD;&#x6570;</a></li>
-<li><a href="#&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x76F8;&#x5173;&#x95EE;&#x9898;">&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x76F8;&#x5173;&#x95EE;&#x9898;</a></li>
-<li><a href="#&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x5BF9;&#x7279;&#x5F81;&#x8FDB;&#x884C;&#x79BB;&#x6563;&#x5316;">&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x5BF9;&#x7279;&#x5F81;&#x8FDB;&#x884C;&#x79BB;&#x6563;&#x5316;</a></li>
-<li><a href="#&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x5E76;&#x884C;&#x5316;&#x600E;&#x4E48;&#x505A;&#xFF0C;&#x6709;&#x51E0;&#x79CD;&#x5E76;&#x884C;&#x5316;&#x65B9;&#x5F0F;&#xFF0C;&#x8BFB;&#x8FC7;&#x54EA;&#x4E9B;&#x5F00;&#x6E90;&#x7684;&#x5B9E;&#x73B0;">&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x5E76;&#x884C;&#x5316;&#x600E;&#x4E48;&#x505A;&#xFF0C;&#x6709;&#x51E0;&#x79CD;&#x5E76;&#x884C;&#x5316;&#x65B9;&#x5F0F;&#xFF0C;&#x8BFB;&#x8FC7;&#x54EA;&#x4E9B;&#x5F00;&#x6E90;&#x7684;&#x5B9E;&#x73B0;</a></li>
+<li><a href="#简单介绍下LR">简单介绍下LR</a></li>
+<li><a href="#LR与线性回归的区别与联系">LR与线性回归的区别与联系</a></li>
+<li><a href="#LR模型为什么要使用sigmoid函数">LR模型为什么要使用sigmoid函数</a></li>
+<li><a href="#逻辑回归相关问题">逻辑回归相关问题</a></li>
+<li><a href="#逻辑回归为什么要对特征进行离散化">逻辑回归为什么要对特征进行离散化</a></li>
+<li><a href="#逻辑回归并行化怎么做，有几种并行化方式，读过哪些开源的实现">逻辑回归并行化怎么做，有几种并行化方式，读过哪些开源的实现</a></li>
 </ul>
 <hr>
-<h3 id="&#x4EC0;&#x4E48;&#x662F;&#x56DE;&#x5F52;&#x7B97;&#x6CD5;"><a href="#&#x4EC0;&#x4E48;&#x662F;&#x56DE;&#x5F52;&#x7B97;&#x6CD5;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;&#x56DE;&#x5F52;&#x7B97;&#x6CD5;"></a><h2 id="&#x4EC0;&#x4E48;&#x662F;&#x56DE;&#x5F52;&#x7B97;&#x6CD5;">&#x4EC0;&#x4E48;&#x662F;&#x56DE;&#x5F52;&#x7B97;&#x6CD5;</h2></h3><p>&#x56DE;&#x5F52;&#x7B97;&#x6CD5;&#x662F;&#x4E00;&#x79CD;&#x6BD4;&#x8F83;&#x5E38;&#x7528;&#x7684;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7B97;&#x6CD5;&#xFF0C;<strong>&#x7528;&#x6765;&#x5EFA;&#x7ACB;&#x201D;&#x89E3;&#x91CA;&#x201D;&#x53D8;&#x91CF;&#x548C;&#x89C2;&#x6D4B;&#x503C;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;&#xFF1B;</strong><br>&#x4ECE;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7684;&#x89D2;&#x5EA6;&#x6765;&#x8BB2;&#xFF0C;&#x5C31;&#x662F;&#x901A;&#x8FC7;&#x5B66;&#x4E60;&#xFF0C;&#x6784;&#x5EFA;&#x4E00;&#x4E2A;&#x7B97;&#x6CD5;&#x6A21;&#x578B;(&#x51FD;&#x6570;)&#xFF0C;&#x6765;&#x505A;&#x5C5E;&#x6027;&#x4E0E;&#x6807;&#x7B7E;&#x4E4B;&#x95F4;&#x7684;&#x6620;&#x5C04;&#x5173;&#x7CFB;&#x3002;</p>
-<p>&#x56DE;&#x5F52;&#x7B97;&#x6CD5;&#x4E2D;&#x7B97;&#x6CD5;(&#x51FD;&#x6570;)&#x7684;&#x6700;&#x7EC8;&#x7ED3;&#x679C;&#x662F;&#x4E00;&#x4E2A; <strong>&#x8FDE;&#x7EED;</strong> &#x7684;&#x6570;&#x636E;&#x503C;&#xFF0C;&#x8F93;&#x5165;&#x503C;(&#x5C5E;&#x6027;&#x503C;)&#x662F;&#x4E00;&#x4E2A;d&#x7EF4;&#x5EA6;&#x7684;&#x5C5E;&#x6027;/&#x6570;&#x503C;&#x5411;&#x91CF;&#x3002;</p>
-<p><strong>&#x56DE;&#x5F52;&#x6D89;&#x53CA;&#x7684;&#x7B97;&#x6CD5;&#x6A21;&#x578B;&#xFF1A;</strong>&#x7EBF;&#x6027;&#x56DE;&#x5F52;(Linear)&#x3001;&#x5CAD;&#x56DE;&#x5F52;(Ridge)&#x3001;LASSO&#x56DE;&#x5F52;&#x3001;Elastic Net&#x5F39;&#x6027;&#x7F51;&#x7EDC;&#x7B97;&#x6CD5;<br><strong>&#x6B63;&#x5219;&#x5316;&#xFF1A;</strong>L1-norm&#x3001;L2-norm<br><strong>&#x635F;&#x5931;&#x51FD;&#x6570;/&#x76EE;&#x6807;&#x51FD;&#x6570;&#xFF1A;</strong><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130175609.png" alt=""><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130173938.png" alt=""><br><strong>&#x3B8;&#x6C42;&#x89E3;&#x65B9;&#x5F0F;&#xFF1A;</strong>&#x6700;&#x5C0F;&#x4E8C;&#x4E58;&#x6CD5;(&#x76F4;&#x63A5;&#x8BA1;&#x7B97;&#xFF0C;&#x76EE;&#x6807;&#x51FD;&#x6570;&#x662F;&#x5E73;&#x65B9;&#x548C;&#x635F;&#x5931;&#x51FD;&#x6570;)&#x3001;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;(BGD\SGD\MBGD)</p>
-<p>&#x5E7F;&#x4E49;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#x5BF9;&#x6837;&#x672C;&#x8981;&#x6C42;&#x4E0D;&#x5FC5;&#x8981;&#x670D;&#x4ECE;&#x6B63;&#x6001;&#x5206;&#x5E03;&#x3001;&#x53EA;&#x9700;&#x8981;&#x670D;&#x4ECE;&#x6307;&#x6570;&#x5206;&#x5E03;&#x7C07;(&#x4E8C;&#x9879;&#x5206;&#x5E03;&#x3001;&#x6CCA;&#x677E;&#x5206;&#x5E03;&#x3001;&#x4F2F;&#x52AA;&#x5229;&#x5206;&#x5E03;&#x3001;&#x6307;&#x6570;&#x5206;&#x5E03;&#x7B49;)&#x5373;&#x53EF;&#xFF1B;&#x5E7F;&#x4E49;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#x7684;&#x81EA;&#x53D8;&#x91CF;&#x53EF;&#x4EE5;&#x662F;&#x8FDE;&#x7EED;&#x7684;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;&#x79BB;&#x6563;&#x7684;&#x3002;</p>
+<h3 id="什么是回归算法"><a href="#什么是回归算法" class="headerlink" title="什么是回归算法"></a><h2 id="什么是回归算法">什么是回归算法</h2></h3><p>回归算法是一种比较常用的机器学习算法，<strong>用来建立”解释”变量和观测值之间的关系；</strong><br>从机器学习的角度来讲，就是通过学习，构建一个算法模型(函数)，来做属性与标签之间的映射关系。</p>
+<p>回归算法中算法(函数)的最终结果是一个 <strong>连续</strong> 的数据值，输入值(属性值)是一个d维度的属性/数值向量。</p>
+<p><strong>回归涉及的算法模型：</strong>线性回归(Linear)、岭回归(Ridge)、LASSO回归、Elastic Net弹性网络算法<br><strong>正则化：</strong>L1-norm、L2-norm<br><strong>损失函数/目标函数：</strong><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130175609.png" alt=""><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130173938.png" alt=""><br><strong>θ求解方式：</strong>最小二乘法(直接计算，目标函数是平方和损失函数)、梯度下降(BGD\SGD\MBGD)</p>
+<p>广义线性模型对样本要求不必要服从正态分布、只需要服从指数分布簇(二项分布、泊松分布、伯努利分布、指数分布等)即可；广义线性模型的自变量可以是连续的也可以是离散的。</p>
 <hr>
-<h3 id="BGD&#x3001;SGD&#x3001;MBGD&#x4ECB;&#x7ECD;&#x4E0E;&#x533A;&#x522B;"><a href="#BGD&#x3001;SGD&#x3001;MBGD&#x4ECB;&#x7ECD;&#x4E0E;&#x533A;&#x522B;" class="headerlink" title="BGD&#x3001;SGD&#x3001;MBGD&#x4ECB;&#x7ECD;&#x4E0E;&#x533A;&#x522B;"></a><h2 id="BGD&#x3001;SGD&#x3001;MBGD&#x4ECB;&#x7ECD;&#x4E0E;&#x533A;&#x522B;">BGD&#x3001;SGD&#x3001;MBGD&#x4ECB;&#x7ECD;&#x4E0E;&#x533A;&#x522B;</h2></h3><ul>
-<li>BGD&#xFF1A;&#x6279;&#x91CF;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5; Batch Gradient Descent<br>&#x66F4;&#x65B0;&#x6BCF;&#x4E00;&#x53C2;&#x6570;&#x65F6;&#x90FD;&#x4F7F;&#x7528;&#x6240;&#x6709;&#x7684;&#x6837;&#x672C;&#x6765;&#x8FDB;&#x884C;&#x66F4;&#x65B0;&#x3002;<br><strong>&#x4F18;&#x70B9;&#xFF1A;</strong>&#x5168;&#x5C40;&#x6700;&#x4F18;&#x89E3;&#xFF1B;&#x6613;&#x4E8E;&#x5E76;&#x884C;&#x5B9E;&#x73B0;&#xFF1B;<br><strong>&#x7F3A;&#x70B9;&#xFF1A;</strong>&#x5F53;&#x6837;&#x672C;&#x6570;&#x76EE;&#x5F88;&#x591A;&#x65F6;&#xFF0C;&#x8BAD;&#x7EC3;&#x8FC7;&#x7A0B;&#x4F1A;&#x5F88;&#x6162;&#x3002;</li>
+<h3 id="BGD、SGD、MBGD介绍与区别"><a href="#BGD、SGD、MBGD介绍与区别" class="headerlink" title="BGD、SGD、MBGD介绍与区别"></a><h2 id="BGD、SGD、MBGD介绍与区别">BGD、SGD、MBGD介绍与区别</h2></h3><ul>
+<li>BGD：批量梯度下降法 Batch Gradient Descent<br>更新每一参数时都使用所有的样本来进行更新。<br><strong>优点：</strong>全局最优解；易于并行实现；<br><strong>缺点：</strong>当样本数目很多时，训练过程会很慢。</li>
 </ul>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130174843.png" alt=""></p>
 <ul>
-<li><p>SGD&#xFF1A;&#x968F;&#x673A;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5; Stochastic Gradient Descent<br>&#x968F;&#x673A;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x662F;&#x901A;&#x8FC7;&#x6BCF;&#x4E2A;&#x6837;&#x672C;&#x6765;&#x8FED;&#x4EE3;&#x66F4;&#x65B0;&#x4E00;&#x6B21;&#xFF0C;&#x5982;&#x679C;&#x6837;&#x672C;&#x91CF;&#x5F88;&#x5927;&#x7684;&#x60C5;&#x51B5;&#xFF08;&#x4F8B;&#x5982;&#x51E0;&#x5341;&#x4E07;&#xFF09;&#xFF0C;&#x90A3;&#x4E48;&#x53EF;&#x80FD;&#x53EA;&#x7528;&#x5176;&#x4E2D;&#x51E0;&#x4E07;&#x6761;&#x6216;&#x8005;&#x51E0;&#x5343;&#x6761;&#x7684;&#x6837;&#x672C;&#xFF0C;&#x5C31;&#x5DF2;&#x7ECF;&#x5C06;theta&#x8FED;&#x4EE3;&#x5230;&#x6700;&#x4F18;&#x89E3;&#x4E86;&#xFF0C;&#x5BF9;&#x6BD4;&#x4E0A;&#x9762;&#x7684;&#x6279;&#x91CF;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#xFF0C;&#x8FED;&#x4EE3;&#x4E00;&#x6B21;&#x9700;&#x8981;&#x7528;&#x5230;&#x5341;&#x51E0;&#x4E07;&#x8BAD;&#x7EC3;&#x6837;&#x672C;&#xFF0C;&#x4E00;&#x6B21;&#x8FED;&#x4EE3;&#x4E0D;&#x53EF;&#x80FD;&#x6700;&#x4F18;&#xFF0C;&#x5982;&#x679C;&#x8FED;&#x4EE3;10&#x6B21;&#x7684;&#x8BDD;&#x5C31;&#x9700;&#x8981;&#x904D;&#x5386;&#x8BAD;&#x7EC3;&#x6837;&#x672C;10&#x6B21;&#x3002;&#x4F46;&#x662F;&#xFF0C;SGD&#x4F34;&#x968F;&#x7684;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x662F;&#x566A;&#x97F3;&#x8F83;BGD&#x8981;&#x591A;&#xFF0C;&#x4F7F;&#x5F97;SGD&#x5E76;&#x4E0D;&#x662F;&#x6BCF;&#x6B21;&#x8FED;&#x4EE3;&#x90FD;&#x5411;&#x7740;&#x6574;&#x4F53;&#x6700;&#x4F18;&#x5316;&#x65B9;&#x5411;&#x3002;<br><strong>&#x4F18;&#x70B9;&#xFF1A;</strong>&#x8BAD;&#x7EC3;&#x901F;&#x5EA6;&#x5FEB;&#xFF1B;<br><strong>&#x7F3A;&#x70B9;&#xFF1A;</strong>&#x51C6;&#x786E;&#x5EA6;&#x4E0B;&#x964D;&#xFF0C;&#x5E76;&#x4E0D;&#x662F;&#x5168;&#x5C40;&#x6700;&#x4F18;&#xFF1B;&#x4E0D;&#x6613;&#x4E8E;&#x5E76;&#x884C;&#x5B9E;&#x73B0;&#x3002;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130174857.png" alt=""></p>
+<li><p>SGD：随机梯度下降法 Stochastic Gradient Descent<br>随机梯度下降是通过每个样本来迭代更新一次，如果样本量很大的情况（例如几十万），那么可能只用其中几万条或者几千条的样本，就已经将theta迭代到最优解了，对比上面的批量梯度下降，迭代一次需要用到十几万训练样本，一次迭代不可能最优，如果迭代10次的话就需要遍历训练样本10次。但是，SGD伴随的一个问题是噪音较BGD要多，使得SGD并不是每次迭代都向着整体最优化方向。<br><strong>优点：</strong>训练速度快；<br><strong>缺点：</strong>准确度下降，并不是全局最优；不易于并行实现。<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130174857.png" alt=""></p>
 </li>
-<li><p>MBGD&#xFF1A;&#x5C0F;&#x6279;&#x91CF;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5; Mini-batch Gradient Descent&#x3002;<br>&#x5982;&#x679C;&#x5373;&#x9700;&#x8981;&#x4FDD;&#x8BC1;&#x7B97;&#x6CD5;&#x7684;&#x8BAD;&#x7EC3;&#x901F;&#x5EA6;&#xFF0C;&#x53C8;&#x9700;&#x8981;&#x4FDD;&#x8BC1;&#x6700;&#x7EC8;&#x53C2;&#x6570;&#x8BAD;&#x7EC3;&#x7684;&#x51C6;&#x786E;&#x7387;&#xFF0C;&#x53EF;&#x4EE5;&#x91C7;&#x53D6;&#x6298;&#x8877;&#x65B9;&#x6848;MBGD&#x3002;MBGD&#x5728;&#x6BCF;&#x6B21;&#x66F4;&#x65B0;&#x53C2;&#x6570;&#x65F6;&#x4F7F;&#x7528;b&#x4E2A;&#x6837;&#x672C;&#xFF08;b&#x4E00;&#x822C;&#x4E3A;10&#xFF09;&#x3002;</p>
+<li><p>MBGD：小批量梯度下降法 Mini-batch Gradient Descent。<br>如果即需要保证算法的训练速度，又需要保证最终参数训练的准确率，可以采取折衷方案MBGD。MBGD在每次更新参数时使用b个样本（b一般为10）。</p>
 </li>
-<li><p>BGD&#x548C;SGD&#x6BD4;&#x8F83;<br>1&#xFF09;SGD&#x901F;&#x5EA6;&#x6BD4;BGD&#x5FEB;(&#x8FED;&#x4EE3;&#x6B21;&#x6570;&#x5C11;)<br>2&#xFF09;SGD&#x5728;&#x67D0;&#x4E9B;&#x60C5;&#x51B5;&#x4E0B;(&#x5168;&#x5C40;&#x5B58;&#x5728;&#x591A;&#x4E2A;&#x76F8;&#x5BF9;&#x6700;&#x4F18;&#x89E3;/J(&#x3B8;)&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x4E8C;&#x6B21;)&#x6709;&#x53EF;&#x80FD;&#x8DF3;&#x51FA;&#x67D0;&#x4E9B;&#x5C0F;&#x7684;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#x89E3;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x4F1A;&#x6BD4;BGD&#x574F;<br>3&#xFF09;BGD&#x4E00;&#x5B9A;&#x80FD;&#x591F;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#x89E3;(&#x5728;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x6A21;&#x578B;&#x4E2D;&#x4E00;&#x5B9A;&#x662F;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x5168;&#x5C40;&#x6700;&#x4F18;&#x89E3;)&#xFF0C;SGD&#x7531;&#x4E8E;&#x968F;&#x673A;&#x6027;&#x7684;&#x5B58;&#x5728;&#x53EF;&#x80FD;&#x5BFC;&#x81F4;&#x6700;&#x7EC8;&#x7ED3;&#x679C;&#x6BD4;BGD&#x7684;&#x5DEE;<br><strong>&#x6CE8;&#x610F;&#xFF1A;&#x4E24;&#x8005;&#x4F18;&#x5148;&#x9009;&#x62E9;SGD</strong></p>
+<li><p>BGD和SGD比较<br>1）SGD速度比BGD快(迭代次数少)<br>2）SGD在某些情况下(全局存在多个相对最优解/J(θ)不是一个二次)有可能跳出某些小的局部最优解，所以不会比BGD坏<br>3）BGD一定能够得到一个局部最优解(在线性回归模型中一定是得到一个全局最优解)，SGD由于随机性的存在可能导致最终结果比BGD的差<br><strong>注意：两者优先选择SGD</strong></p>
 </li>
 </ul>
-<p>&#x635F;&#x5931;&#x51FD;&#x6570;&#xFF1A;$J_{train}(\theta)=1/(2m)\sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})^{2}$</p>
+<p>损失函数：$J<em>{train}(\theta)=1/(2m)\sum</em>{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)})^{2}$</p>
 <hr>
-<h3 id="&#x56DE;&#x5F52;&#x8981;&#x8C03;&#x7684;&#x53C2;&#x6570;&#x6709;&#x54EA;&#x4E9B;"><a href="#&#x56DE;&#x5F52;&#x8981;&#x8C03;&#x7684;&#x53C2;&#x6570;&#x6709;&#x54EA;&#x4E9B;" class="headerlink" title="&#x56DE;&#x5F52;&#x8981;&#x8C03;&#x7684;&#x53C2;&#x6570;&#x6709;&#x54EA;&#x4E9B;"></a><h2 id="&#x56DE;&#x5F52;&#x8981;&#x8C03;&#x7684;&#x53C2;&#x6570;&#x6709;&#x54EA;&#x4E9B;">&#x56DE;&#x5F52;&#x8981;&#x8C03;&#x7684;&#x53C2;&#x6570;&#x6709;&#x54EA;&#x4E9B;</h2></h3><p>&#x5BF9;&#x4E8E;&#x5404;&#x79CD;&#x7B97;&#x6CD5;&#x6A21;&#x578B;(&#x7EBF;&#x6027;&#x56DE;&#x5F52;)&#x6765;&#x8BB2;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x83B7;&#x53D6;&#x3B8;&#x3001;&#x3BB;&#x3001;p&#x7684;&#x503C;&#xFF1B;<br>&#x3B8;&#x7684;&#x6C42;&#x89E3;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x7B97;&#x6CD5;&#x6A21;&#x578B;&#x7684;&#x6C42;&#x89E3;&#xFF0C;&#x4E00;&#x822C;&#x4E0D;&#x9700;&#x8981;&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x53C2;&#x4E0E;(&#x7B97;&#x6CD5;&#x5DF2;&#x7ECF;&#x5B9E;&#x73B0;)&#xFF0C;<br>&#x4E3B;&#x8981;&#x9700;&#x8981;&#x6C42;&#x89E3;&#x7684;&#x662F;&#x3BB;&#x548C;p&#x7684;&#x503C;&#xFF0C;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x5C31;&#x53EB;&#x505A;&#x8C03;&#x53C2;(&#x8D85;&#x53C2;)</p>
+<h3 id="回归要调的参数有哪些"><a href="#回归要调的参数有哪些" class="headerlink" title="回归要调的参数有哪些"></a><h2 id="回归要调的参数有哪些">回归要调的参数有哪些</h2></h3><p>对于各种算法模型(线性回归)来讲，我们需要获取θ、λ、p的值；<br>θ的求解其实就是算法模型的求解，一般不需要开发人员参与(算法已经实现)，<br>主要需要求解的是λ和p的值，这个过程就叫做调参(超参)</p>
 <hr>
-<h3 id="&#x5C40;&#x90E8;&#x52A0;&#x6743;&#x56DE;&#x5F52;"><a href="#&#x5C40;&#x90E8;&#x52A0;&#x6743;&#x56DE;&#x5F52;" class="headerlink" title="&#x5C40;&#x90E8;&#x52A0;&#x6743;&#x56DE;&#x5F52;"></a><h2 id="&#x5C40;&#x90E8;&#x52A0;&#x6743;&#x56DE;&#x5F52;">&#x5C40;&#x90E8;&#x52A0;&#x6743;&#x56DE;&#x5F52;</h2></h3><p>&#x666E;&#x901A;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x635F;&#x5931;&#x51FD;&#x6570;&#xFF1A;<img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x635F;&#x5931;&#x51FD;&#x6570;.png" alt=""><br>&#x5C40;&#x90E8;&#x52A0;&#x6743;&#x56DE;&#x5F52;&#x635F;&#x5931;&#x51FD;&#x6570;&#xFF1A;<img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/&#x52A0;&#x6743;&#x7EBF;&#x6027;&#x635F;&#x5931;&#x51FD;&#x6570;.png" alt=""></p>
-<p>$W^i$&#x662F;&#x6743;&#x91CD;&#xFF0C;&#x5B83;&#x6839;&#x636E;&#x8981;&#x9884;&#x6D4B;&#x7684;&#x70B9;&#x4E0E;&#x6570;&#x636E;&#x96C6;&#x4E2D;&#x7684;&#x70B9;&#x7684;&#x8DDD;&#x79BB;&#x6765;&#x4E3A;&#x6570;&#x636E;&#x96C6;&#x4E2D;&#x7684;&#x70B9;&#x8D4B;&#x6743;&#x503C;&#x3002;<br>&#x5F53;&#x67D0;&#x70B9;&#x79BB;&#x8981;&#x9884;&#x6D4B;&#x7684;&#x70B9;&#x8D8A;&#x8FDC;&#xFF0C;&#x5176;&#x6743;&#x91CD;&#x8D8A;&#x5C0F;&#xFF0C;&#x5426;&#x5219;&#x8D8A;&#x5927;&#x3002;&#x5E38;&#x7528;&#x503C;&#x9009;&#x62E9;&#x516C;&#x5F0F;&#x4E3A;&#xFF1A;<img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/&#x52A0;&#x6743;&#x56DE;&#x5F52;W&#x516C;&#x5F0F;.png" alt=""></p>
-<p>&#x8BE5;&#x51FD;&#x6570;&#x79F0;&#x4E3A;&#x6307;&#x6570;&#x8870;&#x51CF;&#x51FD;&#x6570;&#xFF0C;&#x5176;&#x4E2D;k&#x4E3A;&#x6CE2;&#x957F;&#x53C2;&#x6570;&#xFF0C;&#x5B83;&#x63A7;&#x5236;&#x4E86;&#x6743;&#x503C;&#x968F;&#x8DDD;&#x79BB;&#x4E0B;&#x964D;&#x7684;&#x901F;&#x7387;<br><strong>&#x6CE8;&#x610F;&#xFF1A;&#x4F7F;&#x7528;&#x8BE5;&#x65B9;&#x5F0F;&#x4E3B;&#x8981;&#x5E94;&#x7528;&#x5230;&#x6837;&#x672C;&#x4E4B;&#x95F4;&#x7684;&#x76F8;&#x4F3C;&#x6027;&#x8003;&#x8651;&#xFF0C;&#x4E3B;&#x8981;&#x5185;&#x5BB9;&#x5728;SVM&#x4E2D;&#x518D;&#x8003;&#x8651;(&#x6838;&#x51FD;&#x6570;)</strong></p>
+<h3 id="局部加权回归"><a href="#局部加权回归" class="headerlink" title="局部加权回归"></a><h2 id="局部加权回归">局部加权回归</h2></h3><p>普通线性回归损失函数：<img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/线性回归损失函数.png" alt=""><br>局部加权回归损失函数：<img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/加权线性损失函数.png" alt=""></p>
+<p>$W^i$是权重，它根据要预测的点与数据集中的点的距离来为数据集中的点赋权值。<br>当某点离要预测的点越远，其权重越小，否则越大。常用值选择公式为：<img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/加权回归W公式.png" alt=""></p>
+<p>该函数称为指数衰减函数，其中k为波长参数，它控制了权值随距离下降的速率<br><strong>注意：使用该方式主要应用到样本之间的相似性考虑，主要内容在SVM中再考虑(核函数)</strong></p>
 <hr>
-<h3 id="Softmax&#x56DE;&#x5F52;"><a href="#Softmax&#x56DE;&#x5F52;" class="headerlink" title="Softmax&#x56DE;&#x5F52;"></a><h2 id="Softmax&#x56DE;&#x5F52;">Softmax&#x56DE;&#x5F52;</h2></h3><p>Softmax&#x56DE;&#x5F52;&#x662F;logistic&#x56DE;&#x5F52;&#x7684;&#x4E00;&#x822C;&#x5316;&#xFF0C;&#x9002;&#x7528;&#x4E8E;K&#x5206;&#x7C7B;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x7B2C;k&#x7C7B;&#x7684;&#x53C2;&#x6570;&#x4E3A;&#x5411;&#x91CF;$&#x3B8;_k$ &#xFF0C;&#x7EC4;&#x6210;&#x7684;&#x4E8C;&#x7EF4;&#x77E9;&#x9635;&#x4E3A;$&#x3B8;_k*n$ &#x3002;<br>Softmax&#x51FD;&#x6570;&#x7684;&#x672C;&#x8D28;&#x5C31;&#x662F;&#x5C06;&#x4E00;&#x4E2A;K&#x7EF4;&#x7684;&#x4EFB;&#x610F;&#x5B9E;&#x6570;&#x5411;&#x91CF;&#x538B;&#x7F29;&#xFF08;&#x6620;&#x5C04;&#xFF09;&#x6210;&#x53E6;&#x4E00;&#x4E2A;K&#x7EF4;&#x7684;&#x5B9E;&#x6570;&#x5411;&#x91CF;&#xFF0C;&#x5176;&#x4E2D;&#x5411;&#x91CF;&#x4E2D;&#x7684;&#x6BCF;&#x4E2A;&#x5143;&#x7D20;&#x53D6;&#x503C;&#x90FD;&#x4ECB;&#x4E8E;&#xFF08;0&#xFF0C;1&#xFF09;&#x4E4B;&#x95F4;&#x3002;</p>
-<p>softmax&#x56DE;&#x5F52;&#x6982;&#x7387;&#x51FD;&#x6570;&#x4E3A;&#xFF1A;<img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130181113.png" alt=""></p>
+<h3 id="Softmax回归"><a href="#Softmax回归" class="headerlink" title="Softmax回归"></a><h2 id="Softmax回归">Softmax回归</h2></h3><p>Softmax回归是logistic回归的一般化，适用于K分类的问题，第k类的参数为向量$θ_k$ ，组成的二维矩阵为$θ_k*n$ 。<br>Softmax函数的本质就是将一个K维的任意实数向量压缩（映射）成另一个K维的实数向量，其中向量中的每个元素取值都介于（0，1）之间。</p>
+<p>softmax回归概率函数为：<img src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%9E%E5%BD%92/20180130181113.png" alt=""></p>
 <hr>
-<h3 id="&#x4EC0;&#x4E48;&#x662F;&#x6B63;&#x5219;&#x5316;&#xFF1F;L1&#x6B63;&#x5219;&#x4E0E;L2&#x6B63;&#x5219;&#x4ECB;&#x7ECD;"><a href="#&#x4EC0;&#x4E48;&#x662F;&#x6B63;&#x5219;&#x5316;&#xFF1F;L1&#x6B63;&#x5219;&#x4E0E;L2&#x6B63;&#x5219;&#x4ECB;&#x7ECD;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;&#x6B63;&#x5219;&#x5316;&#xFF1F;L1&#x6B63;&#x5219;&#x4E0E;L2&#x6B63;&#x5219;&#x4ECB;&#x7ECD;"></a><h2 id="&#x4EC0;&#x4E48;&#x662F;&#x6B63;&#x5219;&#x5316;&#xFF1F;L1&#x6B63;&#x5219;&#x4E0E;L2&#x6B63;&#x5219;&#x4ECB;&#x7ECD;">&#x4EC0;&#x4E48;&#x662F;&#x6B63;&#x5219;&#x5316;&#xFF1F;L1&#x6B63;&#x5219;&#x4E0E;L2&#x6B63;&#x5219;&#x4ECB;&#x7ECD;</h2></h3><p><strong>&#x4E3A;&#x4E86;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;</strong>&#xFF0C;&#x5728;&#x6210;&#x672C;&#x51FD;&#x6570;&#x4E2D;&#x52A0;&#x5165;&#x4E00;&#x4E2A;&#x6B63;&#x5219;&#x9879;&#xFF0C;<strong>&#x60E9;&#x7F5A;&#x6A21;&#x578B;&#x7684;&#x590D;&#x6742;&#x5EA6;</strong>&#x3002;</p>
-<p><strong>Logistic &#x56DE;&#x5F52;&#x4E2D;&#x7684;&#x6B63;&#x5219;&#x5316;</strong><br>&#x5BF9;&#x4E8E; Logistic &#x56DE;&#x5F52;&#xFF0C;&#x52A0;&#x5165; L2 &#x6B63;&#x5219;&#x5316;&#xFF08;&#x4E5F;&#x79F0;&#x201C;L2 &#x8303;&#x6570;&#x201D;&#xFF09;&#x7684;&#x6210;&#x672C;&#x51FD;&#x6570;&#xFF1A;<br>$$J(w,b) = \frac{1}{m}\sum_{i=1}^mL(\hat{y}^{(i)},y^{(i)})+\frac{\lambda}{2m}{||w||}^2_2$$</p>
+<h3 id="什么是正则化？L1正则与L2正则介绍"><a href="#什么是正则化？L1正则与L2正则介绍" class="headerlink" title="什么是正则化？L1正则与L2正则介绍"></a><h2 id="什么是正则化？L1正则与L2正则介绍">什么是正则化？L1正则与L2正则介绍</h2></h3><p><strong>为了防止过拟合</strong>，在成本函数中加入一个正则项，<strong>惩罚模型的复杂度</strong>。</p>
+<p><strong>Logistic 回归中的正则化</strong><br>对于 Logistic 回归，加入 L2 正则化（也称“L2 范数”）的成本函数：</p>
+<script type="math/tex; mode=display">J(w,b) = \frac{1}{m}\sum_{i=1}^mL(\hat{y}^{(i)},y^{(i)})+\frac{\lambda}{2m}{||w||}^2_2</script><ul>
+<li><strong>L1 正则化（LASSO回归 Least Absolute Shrinkage and Selection Operator）</strong>：<script type="math/tex; mode=display">\frac{\lambda}{2m}{||w||}_1 = \frac{\lambda}{2m}\sum_{j=1}^{n_x}{|w_j|}</script></li>
+<li><strong>L2 正则化（Ridge回归 岭回归）</strong>：<script type="math/tex; mode=display">\frac{\lambda}{2m}{||w||}^2_2 = \frac{\lambda}{2m}\sum_{j=1}^{n_x}w^2_j = \frac{\lambda}{2m}w^Tw</script></li>
+</ul>
+<p>其中，λ 为正则化因子，是超参数。<br>注意，lambda在 Python 中属于保留字，所以在编程的时候，用lambd代替这里的正则化因子。</p>
+<p><strong>L1范数可以使权值稀疏，方便特征提取。 </strong><br><strong>L2范数可以防止过拟合，提升模型的泛化能力。</strong></p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/L1%E6%AD%A3%E5%88%99%E4%B8%8EL2%E6%AD%A3%E5%88%99.png" alt="L1正则与L2正则"></p>
+<p>L2-norm（岭回归）中，由于对于各个维度的参数缩放是在一个圆内缩放的，不可能导致有维度参数变为0的情况，那么也就不会产生稀疏解；实际应用中，数据的维度中是存在噪音和冗余的，L1（LASSO回归）稀疏的解可以找到有用的维度并且减少冗余，因此LASSO模型也具有较高的求解速度</p>
+<p><strong>同时使用L1正则和L2正则的线性回归模型就称为Elasitc Net算法(弹性网络算法)</strong><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C.png" alt="弹性网络"></p>
+<hr>
+<h3 id="正则化为什么可以防止过拟合"><a href="#正则化为什么可以防止过拟合" class="headerlink" title="正则化为什么可以防止过拟合"></a><h2 id="正则化为什么可以防止过拟合">正则化为什么可以防止过拟合</h2></h3><p>正则化是在成本函数中加入一个正则化项，惩罚模型的复杂度。是针对过拟合而提出的。</p>
 <ul>
-<li><strong>L1 &#x6B63;&#x5219;&#x5316;&#xFF08;LASSO&#x56DE;&#x5F52; Least Absolute Shrinkage and Selection Operator&#xFF09;</strong>&#xFF1A;<br>$$\frac{\lambda}{2m}{||w||}_1 = \frac{\lambda}{2m}\sum_{j=1}^{n_x}{|w_j|}$$</li>
-<li><strong>L2 &#x6B63;&#x5219;&#x5316;&#xFF08;Ridge&#x56DE;&#x5F52; &#x5CAD;&#x56DE;&#x5F52;&#xFF09;</strong>&#xFF1A;<br>$$\frac{\lambda}{2m}{||w||}^2_2 = \frac{\lambda}{2m}\sum_{j=1}^{n_x}w^2_j = \frac{\lambda}{2m}w^Tw$$</li>
-</ul>
-<p>&#x5176;&#x4E2D;&#xFF0C;&#x3BB; &#x4E3A;&#x6B63;&#x5219;&#x5316;&#x56E0;&#x5B50;&#xFF0C;&#x662F;&#x8D85;&#x53C2;&#x6570;&#x3002;<br>&#x6CE8;&#x610F;&#xFF0C;lambda&#x5728; Python &#x4E2D;&#x5C5E;&#x4E8E;&#x4FDD;&#x7559;&#x5B57;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x7F16;&#x7A0B;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x7528;lambd&#x4EE3;&#x66FF;&#x8FD9;&#x91CC;&#x7684;&#x6B63;&#x5219;&#x5316;&#x56E0;&#x5B50;&#x3002;</p>
-<p><strong>L1&#x8303;&#x6570;&#x53EF;&#x4EE5;&#x4F7F;&#x6743;&#x503C;&#x7A00;&#x758F;&#xFF0C;&#x65B9;&#x4FBF;&#x7279;&#x5F81;&#x63D0;&#x53D6;&#x3002; </strong><br><strong>L2&#x8303;&#x6570;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;&#xFF0C;&#x63D0;&#x5347;&#x6A21;&#x578B;&#x7684;&#x6CDB;&#x5316;&#x80FD;&#x529B;&#x3002;</strong></p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/L1%E6%AD%A3%E5%88%99%E4%B8%8EL2%E6%AD%A3%E5%88%99.png" alt="L1&#x6B63;&#x5219;&#x4E0E;L2&#x6B63;&#x5219;"></p>
-<p>L2-norm&#xFF08;&#x5CAD;&#x56DE;&#x5F52;&#xFF09;&#x4E2D;&#xFF0C;&#x7531;&#x4E8E;&#x5BF9;&#x4E8E;&#x5404;&#x4E2A;&#x7EF4;&#x5EA6;&#x7684;&#x53C2;&#x6570;&#x7F29;&#x653E;&#x662F;&#x5728;&#x4E00;&#x4E2A;&#x5706;&#x5185;&#x7F29;&#x653E;&#x7684;&#xFF0C;&#x4E0D;&#x53EF;&#x80FD;&#x5BFC;&#x81F4;&#x6709;&#x7EF4;&#x5EA6;&#x53C2;&#x6570;&#x53D8;&#x4E3A;0&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x90A3;&#x4E48;&#x4E5F;&#x5C31;&#x4E0D;&#x4F1A;&#x4EA7;&#x751F;&#x7A00;&#x758F;&#x89E3;&#xFF1B;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x4E2D;&#xFF0C;&#x6570;&#x636E;&#x7684;&#x7EF4;&#x5EA6;&#x4E2D;&#x662F;&#x5B58;&#x5728;&#x566A;&#x97F3;&#x548C;&#x5197;&#x4F59;&#x7684;&#xFF0C;L1&#xFF08;LASSO&#x56DE;&#x5F52;&#xFF09;&#x7A00;&#x758F;&#x7684;&#x89E3;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x6709;&#x7528;&#x7684;&#x7EF4;&#x5EA6;&#x5E76;&#x4E14;&#x51CF;&#x5C11;&#x5197;&#x4F59;&#xFF0C;&#x56E0;&#x6B64;LASSO&#x6A21;&#x578B;&#x4E5F;&#x5177;&#x6709;&#x8F83;&#x9AD8;&#x7684;&#x6C42;&#x89E3;&#x901F;&#x5EA6;</p>
-<p><strong>&#x540C;&#x65F6;&#x4F7F;&#x7528;L1&#x6B63;&#x5219;&#x548C;L2&#x6B63;&#x5219;&#x7684;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x6A21;&#x578B;&#x5C31;&#x79F0;&#x4E3A;Elasitc Net&#x7B97;&#x6CD5;(&#x5F39;&#x6027;&#x7F51;&#x7EDC;&#x7B97;&#x6CD5;)</strong><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/%E5%BC%B9%E6%80%A7%E7%BD%91%E7%BB%9C.png" alt="&#x5F39;&#x6027;&#x7F51;&#x7EDC;"></p>
-<hr>
-<h3 id="&#x6B63;&#x5219;&#x5316;&#x4E3A;&#x4EC0;&#x4E48;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;"><a href="#&#x6B63;&#x5219;&#x5316;&#x4E3A;&#x4EC0;&#x4E48;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;" class="headerlink" title="&#x6B63;&#x5219;&#x5316;&#x4E3A;&#x4EC0;&#x4E48;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;"></a><h2 id="&#x6B63;&#x5219;&#x5316;&#x4E3A;&#x4EC0;&#x4E48;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;">&#x6B63;&#x5219;&#x5316;&#x4E3A;&#x4EC0;&#x4E48;&#x53EF;&#x4EE5;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;</h2></h3><p>&#x6B63;&#x5219;&#x5316;&#x662F;&#x5728;&#x6210;&#x672C;&#x51FD;&#x6570;&#x4E2D;&#x52A0;&#x5165;&#x4E00;&#x4E2A;&#x6B63;&#x5219;&#x5316;&#x9879;&#xFF0C;&#x60E9;&#x7F5A;&#x6A21;&#x578B;&#x7684;&#x590D;&#x6742;&#x5EA6;&#x3002;&#x662F;&#x9488;&#x5BF9;&#x8FC7;&#x62DF;&#x5408;&#x800C;&#x63D0;&#x51FA;&#x7684;&#x3002;</p>
-<ul>
-<li><p>&#x76F4;&#x89C2;&#x89E3;&#x91CA;<br>&#x6B63;&#x5219;&#x5316;&#x56E0;&#x5B50;&#x8BBE;&#x7F6E;&#x7684;&#x8DB3;&#x591F;&#x5927;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x4E3A;&#x4E86;&#x4F7F;&#x6210;&#x672C;&#x51FD;&#x6570;&#x6700;&#x5C0F;&#x5316;&#xFF0C;<strong>&#x76F8;&#x5E94;&#x7684;&#x53C2;&#x6570;&#x5C31;&#x4F1A;&#x88AB;&#x8C03;&#x5C0F;&#xFF0C;&#x751A;&#x81F3;&#x63A5;&#x8FD1;&#x4E8E;0&#x503C;&#xFF0C;&#x76F4;&#x89C2;&#x4E0A;&#x76F8;&#x5F53;&#x4E8E;&#x6D88;&#x9664;&#x4E86;&#x5F88;&#x591A;&#x7279;&#x5F81;&#x503C;&#x7684;&#x5F71;&#x54CD;</strong>&#x3002;&#x800C;&#x4E14;&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;<strong>&#x53C2;&#x6570;&#x8D8A;&#x5C0F;(&#x6216;&#x8005;&#x7279;&#x5F81;&#x503C;&#x8D8A;&#x5C11;)&#xFF0C;&#x51FD;&#x6570;&#x8D8A;&#x5149;&#x6ED1;&#xFF0C;&#x6A21;&#x578B;&#x8D8A;&#x7B80;&#x5355;&#xFF0C;&#x5965;&#x5361;&#x59C6;&#x5243;&#x5200;&#x539F;&#x7406;&#x3002;</strong></p>
+<li><p>直观解释<br>正则化因子设置的足够大的情况下，为了使成本函数最小化，<strong>相应的参数就会被调小，甚至接近于0值，直观上相当于消除了很多特征值的影响</strong>。而且一般情况下<strong>参数越小(或者特征值越少)，函数越光滑，模型越简单，奥卡姆剃刀原理。</strong></p>
 </li>
-<li><p>&#x5176;&#x4ED6;&#x89E3;&#x91CA;<br>&#x5728;&#x6743;&#x503C; w&#x53D8;&#x5C0F;&#x4E4B;&#x4E0B;&#xFF0C;<strong>&#x8F93;&#x5165;&#x6837;&#x672C; X &#x968F;&#x673A;&#x7684;&#x53D8;&#x5316;&#x4E0D;&#x4F1A;&#x5BF9;&#x6A21;&#x578B;&#x9020;&#x6210;&#x8FC7;&#x5927;&#x7684;&#x5F71;&#x54CD;</strong>&#xFF0C;&#x6A21;&#x578B;&#x53D7;&#x5C40;&#x90E8;&#x566A;&#x97F3;&#x7684;&#x5F71;&#x54CD;&#x7684;&#x53EF;&#x80FD;&#x6027;&#x53D8;&#x5C0F;&#x3002;&#x8FD9;&#x5C31;&#x662F;&#x6B63;&#x5219;&#x5316;&#x80FD;&#x591F;&#x964D;&#x4F4E;&#x6A21;&#x578B;&#x65B9;&#x5DEE;&#x7684;&#x539F;&#x56E0;&#x3002;</p>
+<li><p>其他解释<br>在权值 w变小之下，<strong>输入样本 X 随机的变化不会对模型造成过大的影响</strong>，模型受局部噪音的影响的可能性变小。这就是正则化能够降低模型方差的原因。</p>
 </li>
-<li><p>&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;&#x8FD8;&#x6709;&#x4E00;&#x79CD;&#x6570;&#x5B66;&#x89E3;&#x91CA;&#xFF0C;&#x5373;&#x6BCF;&#x5C42;&#x6743;&#x91CD;&#x53D8;&#x5C0F;&#xFF0C;<strong>&#x5728; z &#x8F83;&#x5C0F;&#xFF08;&#x63A5;&#x8FD1;&#x4E8E; 0&#xFF09;&#x7684;&#x533A;&#x57DF;&#x91CC;&#xFF0C;tanh(z)&#x51FD;&#x6570;&#x5C31;&#x8FD1;&#x4F3C;&#x7EBF;&#x6027;&#xFF0C;&#x6240;&#x4EE5;&#x6BCF;&#x5C42;&#x7684;&#x51FD;&#x6570;&#x5C31;&#x8FD1;&#x4F3C;&#x7EBF;&#x6027;&#x51FD;&#x6570;</strong>&#xFF0C;&#x6240;&#x4EE5;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;&#x3002;</p>
+<li><p>神经网络防止过拟合还有一种数学解释，即每层权重变小，<strong>在 z 较小（接近于 0）的区域里，tanh(z)函数就近似线性，所以每层的函数就近似线性函数</strong>，所以防止过拟合。</p>
 </li>
 </ul>
 <hr>
-<h3 id="L1&#x548C;L2&#x6B63;&#x5219;&#x5148;&#x9A8C;&#x5206;&#x522B;&#x670D;&#x4ECE;&#x4EC0;&#x4E48;&#x5206;&#x5E03;"><a href="#L1&#x548C;L2&#x6B63;&#x5219;&#x5148;&#x9A8C;&#x5206;&#x522B;&#x670D;&#x4ECE;&#x4EC0;&#x4E48;&#x5206;&#x5E03;" class="headerlink" title="L1&#x548C;L2&#x6B63;&#x5219;&#x5148;&#x9A8C;&#x5206;&#x522B;&#x670D;&#x4ECE;&#x4EC0;&#x4E48;&#x5206;&#x5E03;"></a><h2 id="L1&#x548C;L2&#x6B63;&#x5219;&#x5148;&#x9A8C;&#x5206;&#x522B;&#x670D;&#x4ECE;&#x4EC0;&#x4E48;&#x5206;&#x5E03;">L1&#x548C;L2&#x6B63;&#x5219;&#x5148;&#x9A8C;&#x5206;&#x522B;&#x670D;&#x4ECE;&#x4EC0;&#x4E48;&#x5206;&#x5E03;</h2></h3><p>&#x9762;&#x8BD5;&#x4E2D;&#x9047;&#x5230;&#x7684;&#xFF0C;L1&#x548C;L2&#x6B63;&#x5219;&#x5148;&#x9A8C;&#x5206;&#x522B;&#x670D;&#x4ECE;&#x4EC0;&#x4E48;&#x5206;&#x5E03;&#xFF0C;<strong>L1&#x662F;&#x62C9;&#x666E;&#x62C9;&#x65AF;&#x5206;&#x5E03;&#xFF0C;L2&#x662F;&#x9AD8;&#x65AF;&#x5206;&#x5E03;</strong>&#x3002;</p>
-<p>&#x5148;&#x9A8C;&#x5C31;&#x662F;&#x4F18;&#x5316;&#x7684;&#x8D77;&#x8DD1;&#x7EBF;&#xFF0C; &#x6709;&#x5148;&#x9A8C;&#x7684;&#x597D;&#x5904;&#x5C31;&#x662F;&#x53EF;&#x4EE5;&#x5728;&#x8F83;&#x5C0F;&#x7684;&#x6570;&#x636E;&#x96C6;&#x4E2D;&#x6709;&#x826F;&#x597D;&#x7684;&#x6CDB;&#x5316;&#x6027;&#x80FD;&#xFF0C;&#x5F53;&#x7136;&#x8FD9;&#x662F;&#x5728;&#x5148;&#x9A8C;&#x5206;&#x5E03;&#x662F;&#x63A5;&#x8FD1;&#x771F;&#x5B9E;&#x5206;&#x5E03;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x5F97;&#x5230;&#x7684;&#x4E86;&#xFF0C;&#x4ECE;&#x4FE1;&#x606F;&#x8BBA;&#x7684;&#x89D2;&#x5EA6;&#x770B;&#xFF0C;&#x5411;&#x7CFB;&#x7EDF;&#x52A0;&#x5165;&#x4E86;&#x6B63;&#x786E;&#x5148;&#x9A8C;&#x8FD9;&#x4E2A;&#x4FE1;&#x606F;&#xFF0C;&#x80AF;&#x5B9A;&#x4F1A;&#x63D0;&#x9AD8;&#x7CFB;&#x7EDF;&#x7684;&#x6027;&#x80FD;&#x3002;<br>&#x5BF9;&#x53C2;&#x6570;&#x5F15;&#x5165;&#x9AD8;&#x65AF;&#x6B63;&#x6001;&#x5148;&#x9A8C;&#x5206;&#x5E03;&#x76F8;&#x5F53;&#x4E8E;L2&#x6B63;&#x5219;&#x5316;&#xFF0C; &#x8FD9;&#x4E2A;&#x5927;&#x5BB6;&#x90FD;&#x719F;&#x6089;&#xFF1A;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/48.png" alt=""><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/49.png" alt=""><br>&#x5BF9;&#x53C2;&#x6570;&#x5F15;&#x5165;&#x62C9;&#x666E;&#x62C9;&#x65AF;&#x5148;&#x9A8C;&#x7B49;&#x4EF7;&#x4E8E; L1&#x6B63;&#x5219;&#x5316;&#xFF0C; &#x5982;&#x4E0B;&#x56FE;&#xFF1A;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180419180432.png" alt=""><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180419180432.png" alt=""><br>&#x4ECE;&#x4E0A;&#x9762;&#x4E24;&#x56FE;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C; L2&#x5148;&#x9A8C;&#x8D8B;&#x5411;&#x96F6;&#x5468;&#x56F4;&#xFF0C; L1&#x5148;&#x9A8C;&#x8D8B;&#x5411;&#x96F6;&#x672C;&#x8EAB;&#x3002;</p>
+<h3 id="L1和L2正则先验分别服从什么分布"><a href="#L1和L2正则先验分别服从什么分布" class="headerlink" title="L1和L2正则先验分别服从什么分布"></a><h2 id="L1和L2正则先验分别服从什么分布">L1和L2正则先验分别服从什么分布</h2></h3><p>面试中遇到的，L1和L2正则先验分别服从什么分布，<strong>L1是拉普拉斯分布，L2是高斯分布</strong>。</p>
+<p>先验就是优化的起跑线， 有先验的好处就是可以在较小的数据集中有良好的泛化性能，当然这是在先验分布是接近真实分布的情况下得到的了，从信息论的角度看，向系统加入了正确先验这个信息，肯定会提高系统的性能。<br>对参数引入高斯正态先验分布相当于L2正则化， 这个大家都熟悉：<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/48.png" alt=""><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/49.png" alt=""><br>对参数引入拉普拉斯先验等价于 L1正则化， 如下图：<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180419180432.png" alt=""><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180419180432.png" alt=""><br>从上面两图可以看出， L2先验趋向零周围， L1先验趋向零本身。</p>
 <hr>
-<h3 id="&#x68AF;&#x5EA6;&#x7684;&#x5B9A;&#x4E49;"><a href="#&#x68AF;&#x5EA6;&#x7684;&#x5B9A;&#x4E49;" class="headerlink" title="&#x68AF;&#x5EA6;&#x7684;&#x5B9A;&#x4E49;"></a><h2 id="&#x68AF;&#x5EA6;&#x7684;&#x5B9A;&#x4E49;">&#x68AF;&#x5EA6;&#x7684;&#x5B9A;&#x4E49;</h2></h3><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/73.png" alt=""></p>
+<h3 id="梯度的定义"><a href="#梯度的定义" class="headerlink" title="梯度的定义"></a><h2 id="梯度的定义">梯度的定义</h2></h3><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/73.png" alt=""></p>
 <hr>
-<h3 id="&#x4EC0;&#x4E48;&#x662F;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x7528;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;"><a href="#&#x4EC0;&#x4E48;&#x662F;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x7528;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x7528;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;"></a><h2 id="&#x4EC0;&#x4E48;&#x662F;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x7528;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;">&#x4EC0;&#x4E48;&#x662F;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x7528;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;</h2></h3><p>&#x63A8;&#x8350;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#xFF1A;<a href="http://www.ai-start.com/ml2014/week1.html#header-n274" target="_blank" rel="external">&#x5434;&#x6069;&#x8FBE;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x603B;&#x7ED3;</a></p>
-<p>&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#xFF08;gradient descent&#xFF09;&#x662F;&#x89E3;&#x51B3;&#x65E0;&#x7EA6;&#x675F;&#x4F18;&#x5316;&#x95EE;&#x9898;&#x7684;&#x6700;&#x7B80;&#x5355;&#x548C;&#x6700;&#x53E4;&#x8001;&#x7684;&#x65B9;&#x6CD5;&#x4E4B;&#x4E00;&#xFF0C;&#x5E38;&#x7528;&#x5728;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x4E2D; <strong>&#x903C;&#x8FD1;&#x6700;&#x5C0F;&#x504F;&#x5DEE;</strong>&#x3002;<strong>&#x641C;&#x7D22;&#x65B9;&#x5411;&#x4E3A;&#x68AF;&#x5EA6;&#x7684;&#x8D1F;&#x65B9;&#x5411;&#xFF0C;&#x8D8A;&#x63A5;&#x8FD1;&#x76EE;&#x6807;&#x503C;&#xFF0C;&#x6B65;&#x957F;&#x8D8A;&#x5C0F;&#xFF0C;&#x524D;&#x8FDB;&#x8D8A;&#x6162;&#x3002;</strong></p>
+<h3 id="什么是梯度下降？为什么要用梯度下降"><a href="#什么是梯度下降？为什么要用梯度下降" class="headerlink" title="什么是梯度下降？为什么要用梯度下降"></a><h2 id="什么是梯度下降？为什么要用梯度下降">什么是梯度下降？为什么要用梯度下降</h2></h3><p>推荐一篇文章：<a href="http://www.ai-start.com/ml2014/week1.html#header-n274">吴恩达机器学习线性回归总结</a></p>
+<p>梯度下降法（gradient descent）是解决无约束优化问题的最简单和最古老的方法之一，常用在机器学习中 <strong>逼近最小偏差</strong>。<strong>搜索方向为梯度的负方向，越接近目标值，步长越小，前进越慢。</strong></p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180131114108.png" alt=""><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/6.png" alt=""><br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/7.png" alt=""></p>
-<p>X1&#xFF0C;X2..Xn &#x63CF;&#x8FF0;&#x7684;&#x662F;feature&#x91CC;&#x9762;&#x7684;&#x5206;&#x91CF;&#xFF0C;&#x6BD4;&#x5982;x1=&#x623F;&#x95F4;&#x7684;&#x9762;&#x79EF;&#xFF0C;x2=&#x623F;&#x95F4;&#x7684;&#x671D;&#x5411;&#x7B49;&#x7B49;&#x3002;&#x3B8;&#x662F;&#x6211;&#x4EEC;&#x8981;&#x8C03;&#x7684;&#x53C2;&#x6570;&#xFF0C;<strong>&#x901A;&#x8FC7;&#x8C03;&#x6574;&#x3B8;&#x53EF;&#x4EE5;&#x63A7;&#x5236;feature&#x4E2D;&#x6BCF;&#x4E2A;&#x5206;&#x91CF;&#x7684;&#x5F71;&#x54CD;&#x529B;&#x3002;</strong></p>
-<p><strong>&#x635F;&#x5931;&#x51FD;&#x6570;J(&#x3B8;)&#x662F;&#x7528;&#x6765;&#x5224;&#x65AD;&#x3B8;&#x53D6;&#x503C;&#x662F;&#x5426;&#x6BD4;&#x8F83;&#x597D;</strong>&#x3002;&#x6362;&#x8A00;&#x4E4B;&#xFF0C;&#x6211;&#x4EEC;&#x628A;&#x5BF9;x(i)&#x7684;&#x4F30;&#x8BA1;&#x503C;&#x4E0E;&#x771F;&#x5B9E;&#x503C;y(i)&#x5DEE;&#x7684;&#x5E73;&#x65B9;&#x548C;&#x4F5C;&#x4E3A;&#x635F;&#x5931;&#x51FD;&#x6570;&#xFF0C;&#x524D;&#x9762;&#x4E58;&#x4E0A;&#x7684;1/2&#x662F;&#x4E3A;&#x4E86;&#x5728;&#x6C42;&#x5BFC;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8FD9;&#x4E2A;&#x7CFB;&#x6570;&#x5C31;&#x4E0D;&#x89C1;&#x4E86;&#x3002;</p>
-<p><strong>&#x5982;&#x4F55;&#x8C03;&#x6574;&#x3B8;&#x4EE5;&#x4F7F;&#x5F97;J(&#x3B8;)&#x53D6;&#x5F97;&#x6700;&#x5C0F;&#x503C;&#x6709;&#x5F88;&#x591A;&#x65B9;&#x6CD5;&#xFF0C;&#x5176;&#x4E2D;&#x6709;&#x6700;&#x5C0F;&#x4E8C;&#x4E58;&#x6CD5;(min square)&#xFF0C;&#x53E6;&#x5916;&#x4E00;&#x79CD;&#x5C31;&#x662F;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x3002;</strong></p>
-<p><strong>&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x7684;&#x7B97;&#x6CD5;&#x6D41;&#x7A0B;</strong>&#xFF1A;<br>1&#xFF09;&#x9996;&#x5148;&#x5BF9;&#x3B8;&#x8D4B;&#x503C;&#xFF0C;&#x8FD9;&#x4E2A;&#x503C;&#x53EF;&#x4EE5;&#x662F;&#x968F;&#x673A;&#x7684;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x8BA9;&#x3B8;&#x662F;&#x4E00;&#x4E2A;&#x5168;&#x96F6;&#x7684;&#x5411;&#x91CF;&#x3002;<br>2&#xFF09;&#x6539;&#x53D8;&#x3B8;&#x7684;&#x503C;&#xFF0C;&#x4F7F;&#x5F97;J(&#x3B8;)&#x6309;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x7684;&#x65B9;&#x5411;&#x8FDB;&#x884C;&#x51CF;&#x5C11;&#x3002;</p>
-<p>&#x4E3A;&#x4E86;&#x63CF;&#x8FF0;&#x7684;&#x66F4;&#x6E05;&#x695A;&#xFF0C;&#x7ED9;&#x51FA;&#x4E0B;&#x9762;&#x7684;&#x56FE;&#xFF1A;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/9.png" alt=""></p>
-<p>&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x8868;&#x793A;&#x53C2;&#x6570;&#x3B8;&#x4E0E;&#x8BEF;&#x5DEE;&#x51FD;&#x6570;J(&#x3B8;)&#x7684;&#x5173;&#x7CFB;&#x56FE;&#xFF0C;&#x7EA2;&#x8272;&#x7684;&#x90E8;&#x5206;&#x662F;&#x8868;&#x793A;J(&#x3B8;)&#x6709;&#x7740;&#x6BD4;&#x8F83;&#x9AD8;&#x7684;&#x53D6;&#x503C;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7684;&#x662F;&#xFF0C;&#x80FD;&#x591F;&#x8BA9;J(&#x3B8;)&#x7684;&#x503C;&#x5C3D;&#x91CF;&#x7684;&#x4F4E;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8FBE;&#x5230;&#x6DF1;&#x84DD;&#x8272;&#x7684;&#x90E8;&#x5206;&#x3002;&#x3B8;0&#xFF0C;&#x3B8;1&#x8868;&#x793A;&#x3B8;&#x5411;&#x91CF;&#x7684;&#x4E24;&#x4E2A;&#x7EF4;&#x5EA6;&#x3002;<br>&#x5728;&#x4E0A;&#x9762;&#x63D0;&#x5230;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x7684;&#x7B2C;&#x4E00;&#x6B65;&#x662F;&#x7ED9;&#x3B8;&#x7ED9;&#x4E00;&#x4E2A;&#x521D;&#x503C;&#xFF0C;&#x5047;&#x8BBE;&#x968F;&#x673A;&#x7ED9;&#x7684;&#x521D;&#x503C;&#x662F;&#x5728;&#x56FE;&#x4E0A;&#x7684;&#x5341;&#x5B57;&#x70B9;&#x3002;<br>&#x7136;&#x540E;&#x6211;&#x4EEC;&#x5C06;&#x3B8;&#x6309;&#x7167;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x7684;&#x65B9;&#x5411;&#x8FDB;&#x884C;&#x8C03;&#x6574;&#xFF0C;&#x5C31;&#x4F1A;&#x4F7F;&#x5F97;J(&#x3B8;)&#x5F80;&#x66F4;&#x4F4E;&#x7684;&#x65B9;&#x5411;&#x8FDB;&#x884C;&#x53D8;&#x5316;&#xFF0C;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF0C;&#x7B97;&#x6CD5;&#x7684;&#x7ED3;&#x675F;&#x5C06;&#x662F;&#x5728;&#x3B8;&#x4E0B;&#x964D;&#x5230;&#x65E0;&#x6CD5;&#x7EE7;&#x7EED;&#x4E0B;&#x964D;&#x4E3A;&#x6B62;&#x3002;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/10.png" alt=""></p>
-<p>&#x5F53;&#x7136;&#xFF0C;&#x53EF;&#x80FD;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x7684;&#x6700;&#x7EC8;&#x70B9;&#x5E76;&#x975E;&#x662F;&#x5168;&#x5C40;&#x6700;&#x5C0F;&#x70B9;&#xFF0C;&#x5373;&#x4E5F;&#x53EF;&#x80FD;&#x662F;&#x4E00;&#x4E2A;&#x5C40;&#x90E8;&#x6700;&#x5C0F;&#x70B9;&#xFF0C;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/11.png" alt=""></p>
-<p>&#x4E0A;&#x9762;&#x8FD9;&#x5F20;&#x56FE;&#x5C31;&#x662F;&#x63CF;&#x8FF0;&#x7684;&#x4E00;&#x4E2A;&#x5C40;&#x90E8;&#x6700;&#x5C0F;&#x70B9;&#xFF0C;&#x8FD9;&#x662F;&#x6211;&#x4EEC;&#x91CD;&#x65B0;&#x9009;&#x62E9;&#x4E86;&#x4E00;&#x4E2A;&#x521D;&#x59CB;&#x70B9;&#x5F97;&#x5230;&#x7684;&#xFF0C;&#x770B;&#x6765;&#x6211;&#x4EEC;&#x8FD9;&#x4E2A;&#x7B97;&#x6CD5;&#x5C06;&#x4F1A;&#x5728;&#x5F88;&#x5927;&#x7684;&#x7A0B;&#x5EA6;&#x4E0A;&#x88AB;&#x521D;&#x59CB;&#x70B9;&#x7684;&#x9009;&#x62E9;&#x5F71;&#x54CD;&#x800C;&#x9677;&#x5165;&#x5C40;&#x90E8;&#x6700;&#x5C0F;&#x70B9;&#x3002;<br>&#x4E0B;&#x9762;&#x6211;&#x5C06;&#x7528;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#x63CF;&#x8FF0;&#x4E00;&#x4E0B;&#x68AF;&#x5EA6;&#x51CF;&#x5C11;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x5BF9;&#x4E8E;&#x6211;&#x4EEC;&#x7684;&#x51FD;&#x6570;J(&#x3B8;)&#x6C42;&#x504F;&#x5BFC;J&#xFF1A;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/12.png" alt=""></p>
-<p>&#x4E0B;&#x9762;&#x662F;&#x66F4;&#x65B0;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x3B8;i&#x4F1A;&#x5411;&#x7740;&#x68AF;&#x5EA6;&#x6700;&#x5C0F;&#x7684;&#x65B9;&#x5411;&#x8FDB;&#x884C;&#x51CF;&#x5C11;&#x3002;&#x3B8;i&#x8868;&#x793A;&#x66F4;&#x65B0;&#x4E4B;&#x524D;&#x7684;&#x503C;&#xFF0C;-&#x540E;&#x9762;&#x7684;&#x90E8;&#x5206;&#x8868;&#x793A;&#x6309;&#x68AF;&#x5EA6;&#x65B9;&#x5411;&#x51CF;&#x5C11;&#x7684;&#x91CF;&#xFF0C;&#x3B1;&#x8868;&#x793A;&#x6B65;&#x957F;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x6BCF;&#x6B21;&#x6309;&#x7167;&#x68AF;&#x5EA6;&#x51CF;&#x5C11;&#x7684;&#x65B9;&#x5411;&#x53D8;&#x5316;&#x591A;&#x5C11;&#x3002;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/13.png" alt=""></p>
-<p>&#x4E00;&#x4E2A;&#x5F88;&#x91CD;&#x8981;&#x7684;&#x5730;&#x65B9;&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x68AF;&#x5EA6;&#x662F;&#x6709;&#x65B9;&#x5411;&#x7684;&#xFF0C;&#x5BF9;&#x4E8E;&#x4E00;&#x4E2A;&#x5411;&#x91CF;&#x3B8;&#xFF0C;&#x6BCF;&#x4E00;&#x7EF4;&#x5206;&#x91CF;&#x3B8;i&#x90FD;&#x53EF;&#x4EE5;&#x6C42;&#x51FA;&#x4E00;&#x4E2A;&#x68AF;&#x5EA6;&#x7684;&#x65B9;&#x5411;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x4E00;&#x4E2A;&#x6574;&#x4F53;&#x7684;&#x65B9;&#x5411;&#xFF0C;&#x5728;&#x53D8;&#x5316;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x671D;&#x7740;&#x4E0B;&#x964D;&#x6700;&#x591A;&#x7684;&#x65B9;&#x5411;&#x8FDB;&#x884C;&#x53D8;&#x5316;&#x5C31;&#x53EF;&#x4EE5;&#x8FBE;&#x5230;&#x4E00;&#x4E2A;&#x6700;&#x5C0F;&#x70B9;&#xFF0C;&#x4E0D;&#x7BA1;&#x5B83;&#x662F;&#x5C40;&#x90E8;&#x7684;&#x8FD8;&#x662F;&#x5168;&#x5C40;&#x7684;&#x3002;</p>
+<p>X1，X2..Xn 描述的是feature里面的分量，比如x1=房间的面积，x2=房间的朝向等等。θ是我们要调的参数，<strong>通过调整θ可以控制feature中每个分量的影响力。</strong></p>
+<p><strong>损失函数J(θ)是用来判断θ取值是否比较好</strong>。换言之，我们把对x(i)的估计值与真实值y(i)差的平方和作为损失函数，前面乘上的1/2是为了在求导的时候，这个系数就不见了。</p>
+<p><strong>如何调整θ以使得J(θ)取得最小值有很多方法，其中有最小二乘法(min square)，另外一种就是梯度下降法。</strong></p>
+<p><strong>梯度下降法的算法流程</strong>：<br>1）首先对θ赋值，这个值可以是随机的，也可以让θ是一个全零的向量。<br>2）改变θ的值，使得J(θ)按梯度下降的方向进行减少。</p>
+<p>为了描述的更清楚，给出下面的图：<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/9.png" alt=""></p>
+<p>这是一个表示参数θ与误差函数J(θ)的关系图，红色的部分是表示J(θ)有着比较高的取值，我们需要的是，能够让J(θ)的值尽量的低，也就是达到深蓝色的部分。θ0，θ1表示θ向量的两个维度。<br>在上面提到梯度下降法的第一步是给θ给一个初值，假设随机给的初值是在图上的十字点。<br>然后我们将θ按照梯度下降的方向进行调整，就会使得J(θ)往更低的方向进行变化，如下图所示，算法的结束将是在θ下降到无法继续下降为止。<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/10.png" alt=""></p>
+<p>当然，可能梯度下降的最终点并非是全局最小点，即也可能是一个局部最小点，如下图所示：<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/11.png" alt=""></p>
+<p>上面这张图就是描述的一个局部最小点，这是我们重新选择了一个初始点得到的，看来我们这个算法将会在很大的程度上被初始点的选择影响而陷入局部最小点。<br>下面我将用一个例子描述一下梯度减少的过程，对于我们的函数J(θ)求偏导J：<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/12.png" alt=""></p>
+<p>下面是更新的过程，也就是θi会向着梯度最小的方向进行减少。θi表示更新之前的值，-后面的部分表示按梯度方向减少的量，α表示步长，也就是每次按照梯度减少的方向变化多少。<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/13.png" alt=""></p>
+<p>一个很重要的地方值得注意的是，梯度是有方向的，对于一个向量θ，每一维分量θi都可以求出一个梯度的方向，我们就可以找到一个整体的方向，在变化的时候，我们就朝着下降最多的方向进行变化就可以达到一个最小点，不管它是局部的还是全局的。</p>
 <hr>
-<h3 id="&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x5BB9;&#x6613;&#x6536;&#x655B;&#x5230;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x5E94;&#x7528;&#x5E7F;&#x6CDB;"><a href="#&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x5BB9;&#x6613;&#x6536;&#x655B;&#x5230;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x5E94;&#x7528;&#x5E7F;&#x6CDB;" class="headerlink" title="&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x5BB9;&#x6613;&#x6536;&#x655B;&#x5230;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x5E94;&#x7528;&#x5E7F;&#x6CDB;"></a><h2 id="&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x5BB9;&#x6613;&#x6536;&#x655B;&#x5230;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x5E94;&#x7528;&#x5E7F;&#x6CDB;">&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x5BB9;&#x6613;&#x6536;&#x655B;&#x5230;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x5E94;&#x7528;&#x5E7F;&#x6CDB;</h2></h3><p>&#x6DF1;&#x5EA6;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x201C;&#x5BB9;&#x6613;&#x6536;&#x655B;&#x5230;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#x201D;&#xFF0C;&#x5F88;&#x53EF;&#x80FD;&#x662F;&#x4E00;&#x79CD;&#x60F3;&#x8C61;&#xFF0C;&#x5B9E;&#x9645;&#x60C5;&#x51B5;&#x662F;&#xFF0C;&#x4F60;&#x53EF;&#x80FD;&#x4ECE;&#x6765;&#x6CA1;&#x6709;&#x627E;&#x5230;&#x8FC7;&#x201C;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#x201D;&#xFF0C;&#x66F4;&#x522B;&#x8BF4;&#x5168;&#x5C40;&#x6700;&#x4F18;&#x4E86;&#x3002;</p>
-<p>&#x5927;&#x90E8;&#x5206;&#x60C5;&#x51B5;&#x4F60;&#x8FBE;&#x5230;&#x7684;&#x662F; <strong>&#x978D;&#x70B9;</strong>&#xFF0C;&#x978D;&#x70B9;&#x8BE6;&#x89E3;&#x89C1;&#x6211;&#x7684;&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x7B14;&#x8BB0;</p>
+<h3 id="梯度下降法容易收敛到局部最优，为什么应用广泛"><a href="#梯度下降法容易收敛到局部最优，为什么应用广泛" class="headerlink" title="梯度下降法容易收敛到局部最优，为什么应用广泛"></a><h2 id="梯度下降法容易收敛到局部最优，为什么应用广泛">梯度下降法容易收敛到局部最优，为什么应用广泛</h2></h3><p>深度神经网络“容易收敛到局部最优”，很可能是一种想象，实际情况是，你可能从来没有找到过“局部最优”，更别说全局最优了。</p>
+<p>大部分情况你达到的是 <strong>鞍点</strong>，鞍点详解见我的深度学习笔记</p>
 <hr>
-<h3 id="&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x627E;&#x5230;&#x7684;&#x4E00;&#x5B9A;&#x662F;&#x4E0B;&#x964D;&#x6700;&#x5FEB;&#x7684;&#x65B9;&#x5411;&#x4E48;"><a href="#&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x627E;&#x5230;&#x7684;&#x4E00;&#x5B9A;&#x662F;&#x4E0B;&#x964D;&#x6700;&#x5FEB;&#x7684;&#x65B9;&#x5411;&#x4E48;" class="headerlink" title="&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x627E;&#x5230;&#x7684;&#x4E00;&#x5B9A;&#x662F;&#x4E0B;&#x964D;&#x6700;&#x5FEB;&#x7684;&#x65B9;&#x5411;&#x4E48;"></a><h2 id="&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x627E;&#x5230;&#x7684;&#x4E00;&#x5B9A;&#x662F;&#x4E0B;&#x964D;&#x6700;&#x5FEB;&#x7684;&#x65B9;&#x5411;&#x4E48;">&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x627E;&#x5230;&#x7684;&#x4E00;&#x5B9A;&#x662F;&#x4E0B;&#x964D;&#x6700;&#x5FEB;&#x7684;&#x65B9;&#x5411;&#x4E48;</h2></h3><p>&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x5E76;&#x4E0D;&#x662F;&#x4E0B;&#x964D;&#x6700;&#x5FEB;&#x7684;&#x65B9;&#x5411;&#xFF0C;&#x5B83;&#x53EA;&#x662F;&#x76EE;&#x6807;&#x51FD;&#x6570;&#x5728;&#x5F53;&#x524D;&#x70B9;&#x7684;&#x5207;&#x5E73;&#x9762;&#x4E0B;&#x964D;&#x6700;&#x5FEB;&#x7684;&#x65B9;&#x5411;&#x3002;&#x4E00;&#x822C;&#x8BA4;&#x4E3A;&#x725B;&#x987F;&#x65B9;&#x5411;&#xFF08;&#x8003;&#x8651;&#x6D77;&#x68EE;&#x8DDD;&#x79BB;&#xFF09;&#x624D;&#x662F;&#x4E0B;&#x964D;&#x6700;&#x5FEB;&#x7684;&#x65B9;&#x5411;&#x3002;</p>
+<h3 id="梯度下降法找到的一定是下降最快的方向么"><a href="#梯度下降法找到的一定是下降最快的方向么" class="headerlink" title="梯度下降法找到的一定是下降最快的方向么"></a><h2 id="梯度下降法找到的一定是下降最快的方向么">梯度下降法找到的一定是下降最快的方向么</h2></h3><p>梯度下降法并不是下降最快的方向，它只是目标函数在当前点的切平面下降最快的方向。一般认为牛顿方向（考虑海森距离）才是下降最快的方向。</p>
 <hr>
-<h3 id="&#x725B;&#x987F;&#x6CD5;&#x548C;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x7684;&#x533A;&#x522B;"><a href="#&#x725B;&#x987F;&#x6CD5;&#x548C;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x7684;&#x533A;&#x522B;" class="headerlink" title="&#x725B;&#x987F;&#x6CD5;&#x548C;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x7684;&#x533A;&#x522B;"></a><h2 id="&#x725B;&#x987F;&#x6CD5;&#x548C;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x7684;&#x533A;&#x522B;">&#x725B;&#x987F;&#x6CD5;&#x548C;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x7684;&#x533A;&#x522B;</h2></h3><p><strong>&#x6548;&#x7387;&#x5BF9;&#x6BD4;&#xFF1A;</strong><br>&#xFF08;a&#xFF09;&#x4ECE;&#x6536;&#x655B;&#x901F;&#x5EA6;&#x4E0A;&#x770B; &#xFF0C;&#x725B;&#x987F;&#x6CD5;&#x662F;&#x4E8C;&#x9636;&#x6536;&#x655B;&#xFF0C;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x662F;&#x4E00;&#x9636;&#x6536;&#x655B;&#xFF0C;&#x524D;&#x8005;&#x725B;&#x987F;&#x6CD5;&#x6536;&#x655B;&#x901F;&#x5EA6;&#x66F4;&#x5FEB;&#x3002;&#x4F46;&#x725B;&#x987F;&#x6CD5;&#x4ECD;&#x7136;&#x662F;&#x5C40;&#x90E8;&#x7B97;&#x6CD5;&#xFF0C;&#x53EA;&#x662F;&#x5728;&#x5C40;&#x90E8;&#x4E0A;&#x770B;&#x7684;&#x66F4;&#x7EC6;&#x81F4;&#xFF0C;&#x68AF;&#x5EA6;&#x6CD5;&#x4EC5;&#x8003;&#x8651;&#x65B9;&#x5411;&#xFF0C;&#x725B;&#x987F;&#x6CD5;&#x4E0D;&#x4F46;&#x8003;&#x8651;&#x4E86;&#x65B9;&#x5411;&#x8FD8;&#x517C;&#x987E;&#x4E86;&#x6B65;&#x5B50;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x5176;&#x5BF9;&#x6B65;&#x957F;&#x7684;&#x4F30;&#x8BA1;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x4E8C;&#x9636;&#x903C;&#x8FD1;&#x3002;<br>&#xFF08;b&#xFF09;&#x6839;&#x636E;wiki&#x4E0A;&#x7684;&#x89E3;&#x91CA;&#xFF0C;&#x4ECE;&#x51E0;&#x4F55;&#x4E0A;&#x8BF4;&#xFF0C;&#x725B;&#x987F;&#x6CD5;&#x5C31;&#x662F;&#x7528;&#x4E00;&#x4E2A;&#x4E8C;&#x6B21;&#x66F2;&#x9762;&#x53BB;&#x62DF;&#x5408;&#x4F60;&#x5F53;&#x524D;&#x6240;&#x5904;&#x4F4D;&#x7F6E;&#x7684;&#x5C40;&#x90E8;&#x66F2;&#x9762;&#xFF0C;&#x800C;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x662F;&#x7528;&#x4E00;&#x4E2A;&#x5E73;&#x9762;&#x53BB;&#x62DF;&#x5408;&#x5F53;&#x524D;&#x7684;&#x5C40;&#x90E8;&#x66F2;&#x9762;&#xFF0C;&#x901A;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x4E8C;&#x6B21;&#x66F2;&#x9762;&#x7684;&#x62DF;&#x5408;&#x4F1A;&#x6BD4;&#x5E73;&#x9762;&#x66F4;&#x597D;&#xFF0C;&#x6240;&#x4EE5;&#x725B;&#x987F;&#x6CD5;&#x9009;&#x62E9;&#x7684;&#x4E0B;&#x964D;&#x8DEF;&#x5F84;&#x4F1A;&#x66F4;&#x7B26;&#x5408;&#x771F;&#x5B9E;&#x7684;&#x6700;&#x4F18;&#x4E0B;&#x964D;&#x8DEF;&#x5F84;&#x3002;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/18.png" alt="&#x6CE8;&#xFF1A;&#x7EA2;&#x8272;&#x7684;&#x725B;&#x987F;&#x6CD5;&#x7684;&#x8FED;&#x4EE3;&#x8DEF;&#x5F84;&#xFF0C;&#x7EFF;&#x8272;&#x7684;&#x662F;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x7684;&#x8FED;&#x4EE3;&#x8DEF;&#x5F84;"></p>
-<p><strong>&#x725B;&#x987F;&#x6CD5;&#x7684;&#x4F18;&#x7F3A;&#x70B9;&#x603B;&#x7ED3;&#xFF1A;</strong><br>&#x4F18;&#x70B9;&#xFF1A;&#x4E8C;&#x9636;&#x6536;&#x655B;&#xFF0C;&#x6536;&#x655B;&#x901F;&#x5EA6;&#x5FEB;&#xFF1B;<br>&#x7F3A;&#x70B9;&#xFF1A;&#x51FD;&#x6570;&#x5FC5;&#x987B;&#x5177;&#x6709;&#x8FDE;&#x7EED;&#x7684;&#x4E00;&#x9636;&#x4E8C;&#x9636;&#x504F;&#x5BFC;&#x6570;&#xFF0C;&#x6D77;&#x68EE;&#x77E9;&#x9635;&#x5FC5;&#x987B;&#x6B63;&#x5B9A;&#x3002;&#x5176;&#x6B21;&#x8BA1;&#x7B97;&#x975E;&#x5E38;&#x590D;&#x6742;&#x3002;</p>
+<h3 id="牛顿法和梯度下降法的区别"><a href="#牛顿法和梯度下降法的区别" class="headerlink" title="牛顿法和梯度下降法的区别"></a><h2 id="牛顿法和梯度下降法的区别">牛顿法和梯度下降法的区别</h2></h3><p><strong>效率对比：</strong><br>（a）从收敛速度上看 ，牛顿法是二阶收敛，梯度下降是一阶收敛，前者牛顿法收敛速度更快。但牛顿法仍然是局部算法，只是在局部上看的更细致，梯度法仅考虑方向，牛顿法不但考虑了方向还兼顾了步子的大小，其对步长的估计使用的是二阶逼近。<br>（b）根据wiki上的解释，从几何上说，牛顿法就是用一个二次曲面去拟合你当前所处位置的局部曲面，而梯度下降法是用一个平面去拟合当前的局部曲面，通常情况下，二次曲面的拟合会比平面更好，所以牛顿法选择的下降路径会更符合真实的最优下降路径。<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/18.png" alt="注：红色的牛顿法的迭代路径，绿色的是梯度下降法的迭代路径"></p>
+<p><strong>牛顿法的优缺点总结：</strong><br>优点：二阶收敛，收敛速度快；<br>缺点：函数必须具有连续的一阶二阶偏导数，海森矩阵必须正定。其次计算非常复杂。</p>
 <hr>
-<h3 id="&#x5171;&#x8F6D;&#x68AF;&#x5EA6;"><a href="#&#x5171;&#x8F6D;&#x68AF;&#x5EA6;" class="headerlink" title="&#x5171;&#x8F6D;&#x68AF;&#x5EA6;"></a><h2 id="&#x5171;&#x8F6D;&#x68AF;&#x5EA6;">&#x5171;&#x8F6D;&#x68AF;&#x5EA6;</h2></h3><p><strong>&#x5171;&#x8F6D;&#xFF1A;&#x4E24;&#x4E2A;&#x6982;&#x7387;&#x5206;&#x5E03;&#x5982;&#x679C;&#x5177;&#x6709;&#x76F8;&#x540C;&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x8BF4;&#x5B83;&#x4EEC;&#x662F;&#x5171;&#x8F6D;&#x7684;</strong></p>
-<p>&#x5171;&#x8F6D;&#x68AF;&#x5EA6;&#x6CD5;&#x662F;&#x4ECB;&#x4E8E;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#xFF08;&#x6700;&#x901F;&#x4E0B;&#x964D;&#x6CD5;&#xFF09;&#x4E0E;&#x725B;&#x987F;&#x6CD5;&#x4E4B;&#x95F4;&#x7684;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x5B83;&#x4EC5;&#x9700;&#x5229;&#x7528;&#x4E00;&#x9636;&#x5BFC;&#x6570;&#x4FE1;&#x606F;&#xFF0C;&#x4F46;&#x514B;&#x670D;&#x4E86;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x6536;&#x655B;&#x6162;&#x7684;&#x7F3A;&#x70B9;&#xFF0C;&#x53C8;&#x907F;&#x514D;&#x4E86;&#x725B;&#x987F;&#x6CD5;&#x9700;&#x8981;&#x5B58;&#x50A8;&#x548C;&#x8BA1;&#x7B97;Hessian&#x77E9;&#x9635;&#x5E76;&#x6C42;&#x9006;&#x7684;&#x7F3A;&#x70B9;&#xFF0C;&#x5171;&#x8F6D;&#x68AF;&#x5EA6;&#x6CD5;&#x4E0D;&#x4EC5;&#x662F;&#x89E3;&#x51B3;&#x5927;&#x578B;&#x7EBF;&#x6027;&#x65B9;&#x7A0B;&#x7EC4;&#x6700;&#x6709;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#x4E4B;&#x4E00;&#xFF0C;&#x4E5F;&#x662F;&#x89E3;&#x5927;&#x578B;&#x975E;&#x7EBF;&#x6027;&#x6700;&#x4F18;&#x5316;&#x6700;&#x6709;&#x6548;&#x7684;&#x7B97;&#x6CD5;&#x4E4B;&#x4E00;&#x3002;&#x5728;&#x5404;&#x79CD;&#x4F18;&#x5316;&#x7B97;&#x6CD5;&#x4E2D;&#xFF0C;&#x5171;&#x8F6D;&#x68AF;&#x5EA6;&#x6CD5;&#x662F;&#x975E;&#x5E38;&#x91CD;&#x8981;&#x7684;&#x4E00;&#x79CD;&#x3002;&#x5176;&#x4F18;&#x70B9;&#x662F;&#x6240;&#x9700;&#x5B58;&#x50A8;&#x91CF;&#x5C0F;&#xFF0C;&#x5177;&#x6709;&#x9010;&#x6B65;&#x6536;&#x655B;&#x6027;&#xFF0C;&#x7A33;&#x5B9A;&#x6027;&#x9AD8;&#xFF0C;&#x800C;&#x4E14;&#x4E0D;&#x9700;&#x8981;&#x4EFB;&#x4F55;&#x5916;&#x6765;&#x53C2;&#x6570;&#x3002;</p>
-<p>&#x4E0B;&#x56FE;&#x4E3A;&#x5171;&#x8F6D;&#x68AF;&#x5EA6;&#x6CD5;&#x548C;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x641C;&#x7D22;&#x6700;&#x4F18;&#x89E3;&#x7684;&#x8DEF;&#x5F84;&#x5BF9;&#x6BD4;&#x793A;&#x610F;&#x56FE;&#xFF1A;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/39.png" alt=""></p>
-<p>&#x6CE8;&#xFF1A;&#x7EFF;&#x8272;&#x4E3A;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#xFF0C;&#x7EA2;&#x8272;&#x4EE3;&#x8868;&#x5171;&#x8F6D;&#x68AF;&#x5EA6;&#x6CD5;</p>
+<h3 id="共轭梯度"><a href="#共轭梯度" class="headerlink" title="共轭梯度"></a><h2 id="共轭梯度">共轭梯度</h2></h3><p><strong>共轭：两个概率分布如果具有相同的形式，我们就说它们是共轭的</strong></p>
+<p>共轭梯度法是介于梯度下降法（最速下降法）与牛顿法之间的一个方法，它仅需利用一阶导数信息，但克服了梯度下降法收敛慢的缺点，又避免了牛顿法需要存储和计算Hessian矩阵并求逆的缺点，共轭梯度法不仅是解决大型线性方程组最有用的方法之一，也是解大型非线性最优化最有效的算法之一。在各种优化算法中，共轭梯度法是非常重要的一种。其优点是所需存储量小，具有逐步收敛性，稳定性高，而且不需要任何外来参数。</p>
+<p>下图为共轭梯度法和梯度下降法搜索最优解的路径对比示意图：<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/39.png" alt=""></p>
+<p>注：绿色为梯度下降法，红色代表共轭梯度法</p>
 <hr>
-<h3 id="&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E0B;LR"><a href="#&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E0B;LR" class="headerlink" title="&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E0B;LR"></a><h2 id="&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E0B;LR">&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E0B;LR</h2></h3><p>1&#xFF09;<a href="http://www.ai-start.com/ml2014/week3.html" target="_blank" rel="external">&#x5434;&#x6069;&#x8FBE;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x603B;&#x7ED3;</a><br>2&#xFF09;<a href="http://blog.csdn.net/cyh_24/article/details/50359055" target="_blank" rel="external">Logistic Regression &#x7684;&#x524D;&#x4E16;&#x4ECA;&#x751F;</a><br>3&#xFF09;<a href="http://blog.csdn.net/zouxy09/article/details/20319673" target="_blank" rel="external">&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7B97;&#x6CD5;&#x4E0E;Python&#x5B9E;&#x8DF5;&#x4E4B;&#x4E03;-&#x903B;&#x8F91;&#x56DE;&#x5F52;</a></p>
-<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/52.png" alt=""><br>&#x628A;LR&#x4ECE;&#x5934;&#x5230;&#x811A;&#x90FD;&#x7ED9;&#x8BB2;&#x4E00;&#x904D;&#x3002;&#x5EFA;&#x6A21;&#xFF0C;&#x73B0;&#x573A;&#x6570;&#x5B66;&#x63A8;&#x5BFC;&#xFF0C;&#x6BCF;&#x79CD;&#x89E3;&#x6CD5;&#x7684;&#x539F;&#x7406;&#xFF0C;&#x6B63;&#x5219;&#x5316;&#xFF0C;LR&#x548C;maxent&#x6A21;&#x578B;&#x5565;&#x5173;&#x7CFB;&#xFF0C;lr&#x4E3A;&#x5565;&#x6BD4;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x597D;&#x3002;&#x6709;&#x4E0D;&#x5C11;&#x4F1A;&#x80CC;&#x7B54;&#x6848;&#x7684;&#x4EBA;&#xFF0C;&#x95EE;&#x903B;&#x8F91;&#x7EC6;&#x8282;&#x5C31;&#x7CCA;&#x6D82;&#x4E86;&#x3002;&#x539F;&#x7406;&#x90FD;&#x4F1A;? &#x90A3;&#x5C31;&#x95EE;&#x5DE5;&#x7A0B;&#xFF0C;&#x5E76;&#x884C;&#x5316;&#x600E;&#x4E48;&#x505A;&#xFF0C;&#x6709;&#x51E0;&#x79CD;&#x5E76;&#x884C;&#x5316;&#x65B9;&#x5F0F;&#xFF0C;&#x8BFB;&#x8FC7;&#x54EA;&#x4E9B;&#x5F00;&#x6E90;&#x7684;&#x5B9E;&#x73B0;&#x3002;&#x8FD8;&#x4F1A;&#xFF0C;&#x90A3;&#x5C31;&#x51C6;&#x5907;&#x6536;&#x4E86;&#x5427;&#xFF0C;&#x987A;&#x4FBF;&#x903C;&#x95EE;LR&#x6A21;&#x578B;&#x53D1;&#x5C55;&#x5386;&#x53F2;&#x3002;</p>
+<h3 id="简单介绍下LR"><a href="#简单介绍下LR" class="headerlink" title="简单介绍下LR"></a><h2 id="简单介绍下LR">简单介绍下LR</h2></h3><p>1）<a href="http://www.ai-start.com/ml2014/week3.html">吴恩达机器学习逻辑回归总结</a><br>2）<a href="http://blog.csdn.net/cyh_24/article/details/50359055">Logistic Regression 的前世今生</a><br>3）<a href="http://blog.csdn.net/zouxy09/article/details/20319673">机器学习算法与Python实践之七-逻辑回归</a></p>
+<p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/52.png" alt=""><br>把LR从头到脚都给讲一遍。建模，现场数学推导，每种解法的原理，正则化，LR和maxent模型啥关系，lr为啥比线性回归好。有不少会背答案的人，问逻辑细节就糊涂了。原理都会? 那就问工程，并行化怎么做，有几种并行化方式，读过哪些开源的实现。还会，那就准备收了吧，顺便逼问LR模型发展历史。</p>
 <hr>
-<h3 id="LR&#x4E0E;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;"><a href="#LR&#x4E0E;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;" class="headerlink" title="LR&#x4E0E;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;"></a><h2 id="LR&#x4E0E;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;">LR&#x4E0E;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x7684;&#x533A;&#x522B;&#x4E0E;&#x8054;&#x7CFB;</h2></h3><p>&#x6574;&#x7406;&#x4E2D;&#x3002;&#x3002;&#x3002;</p>
-<p>LR &#x5DE5;&#x4E1A;&#x4E0A;&#x4E00;&#x822C;&#x6307;Logistic Regression&#xFF08;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#xFF09;&#x800C;&#x4E0D;&#x662F;Linear Regression&#xFF08;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#xFF09;&#x3002;LR&#x5728;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x7684;&#x5B9E;&#x6570;&#x8303;&#x56F4;&#x8F93;&#x51FA;&#x503C;&#x4E0A;&#x65BD;&#x52A0; sigmoid &#x51FD;&#x6570;&#x5C06;&#x503C;&#x6536;&#x655B;&#x5230; 0~1 &#x8303;&#x56F4;&#xFF0C;&#x5176;&#x76EE;&#x6807;&#x51FD;&#x6570;&#x4E5F;&#x56E0;&#x6B64;&#x4ECE;&#x5DEE;&#x5E73;&#x65B9;&#x548C;&#x51FD;&#x6570;&#x53D8;&#x4E3A;&#x5BF9;&#x6570;&#x635F;&#x5931;&#x51FD;&#x6570;&#xFF0C;&#x4EE5;&#x63D0;&#x4F9B;&#x6700;&#x4F18;&#x5316;&#x6240;&#x9700;&#x5BFC;&#x6570;&#xFF08;sigmoid&#x51FD;&#x6570;&#x662F;softmax&#x51FD;&#x6570;&#x7684;&#x4E8C;&#x5143;&#x7279;&#x4F8B;&#xFF0C; &#x5176;&#x5BFC;&#x6570;&#x5747;&#x4E3A;&#x51FD;&#x6570;&#x503C;&#x7684;f*(1-f)&#x5F62;&#x5F0F;&#xFF09;&#x3002;</p>
-<p>&#x8BF7;&#x6CE8;&#x610F;&#xFF0C; LR &#x5F80;&#x5F80;&#x662F;&#x89E3;&#x51B3;&#x4E8C;&#x5143; 0/1 &#x5206;&#x7C7B;&#x95EE;&#x9898;&#x7684;&#xFF0C; &#x53EA;&#x662F;&#x5B83;&#x548C;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x8026;&#x5408;&#x592A;&#x7D27;&#xFF0C; &#x4E0D;&#x81EA;&#x89C9;&#x4E5F;&#x51A0;&#x4E86;&#x4E2A;&#x56DE;&#x5F52;&#x7684;&#x540D;&#x5B57;&#x3002;&#x82E5;&#x8981;&#x6C42;&#x591A;&#x5143;&#x5206;&#x7C7B;&#xFF0C;&#x5C31;&#x8981;&#x628A;sigmoid&#x6362;&#x6210;&#x5927;&#x540D;&#x9F0E;&#x9F0E;&#x7684;softmax&#x4E86;&#x3002;</p>
+<h3 id="LR与线性回归的区别与联系"><a href="#LR与线性回归的区别与联系" class="headerlink" title="LR与线性回归的区别与联系"></a><h2 id="LR与线性回归的区别与联系">LR与线性回归的区别与联系</h2></h3><p>整理中。。。</p>
+<p>LR 工业上一般指Logistic Regression（逻辑回归）而不是Linear Regression（线性回归）。LR在线性回归的实数范围输出值上施加 sigmoid 函数将值收敛到 0~1 范围，其目标函数也因此从差平方和函数变为对数损失函数，以提供最优化所需导数（sigmoid函数是softmax函数的二元特例， 其导数均为函数值的f*(1-f)形式）。</p>
+<p>请注意， LR 往往是解决二元 0/1 分类问题的， 只是它和线性回归耦合太紧， 不自觉也冠了个回归的名字。若要求多元分类，就要把sigmoid换成大名鼎鼎的softmax了。</p>
 <ul>
-<li>&#x4E2A;&#x4EBA;&#x611F;&#x89C9;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x548C;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x9996;&#x5148;&#x90FD;&#x662F;&#x5E7F;&#x4E49;&#x7684;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#xFF0C;</li>
-<li>&#x5176;&#x6B21;&#x7ECF;&#x5178;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#x7684;&#x4F18;&#x5316;&#x76EE;&#x6807;&#x51FD;&#x6570;&#x662F;&#x6700;&#x5C0F;&#x4E8C;&#x4E58;&#xFF0C;&#x800C;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x5219;&#x662F;&#x4F3C;&#x7136;&#x51FD;&#x6570;&#xFF0C;</li>
-<li>&#x53E6;&#x5916;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x5728;&#x6574;&#x4E2A;&#x5B9E;&#x6570;&#x57DF;&#x8303;&#x56F4;&#x5185;&#x8FDB;&#x884C;&#x9884;&#x6D4B;&#xFF0C;&#x654F;&#x611F;&#x5EA6;&#x4E00;&#x81F4;&#xFF0C;&#x800C;&#x5206;&#x7C7B;&#x8303;&#x56F4;&#xFF0C;&#x9700;&#x8981;&#x5728;[0&#xFF0C;1]&#x3002;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x5C31;&#x662F;&#x4E00;&#x79CD;&#x51CF;&#x5C0F;&#x9884;&#x6D4B;&#x8303;&#x56F4;&#xFF0C;&#x5C06;&#x9884;&#x6D4B;&#x503C;&#x9650;&#x5B9A;&#x4E3A;[0&#xFF0C;1]&#x95F4;&#x7684;&#x4E00;&#x79CD;&#x56DE;&#x5F52;&#x6A21;&#x578B;&#xFF0C;&#x56E0;&#x800C;&#x5BF9;&#x4E8E;&#x8FD9;&#x7C7B;&#x95EE;&#x9898;&#x6765;&#x8BF4;&#xFF0C;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x7684;&#x9C81;&#x68D2;&#x6027;&#x6BD4;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x7684;&#x8981;&#x597D;&#x3002;</li>
+<li>个人感觉逻辑回归和线性回归首先都是广义的线性回归，</li>
+<li>其次经典线性模型的优化目标函数是最小二乘，而逻辑回归则是似然函数，</li>
+<li>另外线性回归在整个实数域范围内进行预测，敏感度一致，而分类范围，需要在[0，1]。逻辑回归就是一种减小预测范围，将预测值限定为[0，1]间的一种回归模型，因而对于这类问题来说，逻辑回归的鲁棒性比线性回归的要好。</li>
 </ul>
-<p>&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x7684;&#x6A21;&#x578B;&#x672C;&#x8D28;&#x4E0A;&#x662F;&#x4E00;&#x4E2A;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x6A21;&#x578B;&#xFF0C;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x90FD;&#x662F;&#x4EE5;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x4E3A;&#x7406;&#x8BBA;&#x652F;&#x6301;&#x7684;&#x3002;&#x4F46;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#x6A21;&#x578B;&#x65E0;&#x6CD5;&#x505A;&#x5230;sigmoid&#x7684;&#x975E;&#x7EBF;&#x6027;&#x5F62;&#x5F0F;&#xFF0C;sigmoid&#x53EF;&#x4EE5;&#x8F7B;&#x677E;&#x5904;&#x7406;0/1&#x5206;&#x7C7B;&#x95EE;&#x9898;&#x3002;</p>
+<p>逻辑回归的模型本质上是一个线性回归模型，逻辑回归都是以线性回归为理论支持的。但线性回归模型无法做到sigmoid的非线性形式，sigmoid可以轻松处理0/1分类问题。</p>
 <hr>
-<h3 id="LR&#x6A21;&#x578B;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;sigmoid&#x51FD;&#x6570;"><a href="#LR&#x6A21;&#x578B;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;sigmoid&#x51FD;&#x6570;" class="headerlink" title="LR&#x6A21;&#x578B;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;sigmoid&#x51FD;&#x6570;"></a><h2 id="LR&#x6A21;&#x578B;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;sigmoid&#x51FD;&#x6570;">LR&#x6A21;&#x578B;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4F7F;&#x7528;sigmoid&#x51FD;&#x6570;</h2></h3><p>&#x5047;&#x8BBE;W&#x5DF2;&#x77E5;&#xFF0C;&#x73B0;&#x6709;&#x51FD;&#x6570; P(y|x) = f(wx)&#xFF0C;&#x6C42;&#x5206;&#x5E03;f&#xFF0C;&#x4F7F;&#x5F97;&#x5728;&#x6B63;&#x6837;&#x672C;&#x91CC; P(y=1|w,x)&#x5C3D;&#x53EF;&#x80FD;&#x5927;&#xFF0C;&#x5728;&#x8D1F;&#x6837;&#x672C;&#x91CC;&#x5C3D;&#x53EF;&#x80FD;&#x5C0F;&#x3002;&#x6839;&#x636E;&#x6700;&#x5927;&#x71B5;&#x539F;&#x5219;&#xFF0C;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x6240;&#x6709;&#x53EF;&#x80FD;&#x7684;&#x5206;&#x5E03;&#x6A21;&#x578B;&#x96C6;&#x5408;&#x4E2D;&#xFF0C;<strong>&#x71B5;&#x6700;&#x5927;&#x7684;&#x6A21;&#x578B;&#x662F;&#x6700;&#x597D;&#x7684;&#x6A21;&#x578B;</strong>&#x3002;&#x5373;<strong>&#x5BF9;&#x672A;&#x77E5;&#x5206;&#x5E03;&#x6700;&#x5408;&#x7406;&#x7684;&#x63A8;&#x65AD;&#x5C31;&#x662F;&#x7B26;&#x5408;&#x5DF2;&#x6709;&#x524D;&#x63D0;&#x4E0B;&#x6700;&#x4E0D;&#x786E;&#x5B9A;&#x6216;&#x6700;&#x968F;&#x673A;&#x7684;&#x63A8;&#x65AD;</strong>&#x3002;&#x53C8;&#x5DF2;&#x77E5;LR&#x7B26;&#x5408;&#x4F2F;&#x52AA;&#x5229;&#x5206;&#x5E03;&#xFF0C;&#x5C06;&#x4F2F;&#x52AA;&#x5229;&#x5206;&#x5E03;&#x8F6C;&#x6362;&#x4E3A;&#x6307;&#x6570;&#x5206;&#x5E03;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x5F97;&#x5230;sigmod&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;LR&#x7684;&#x7406;&#x8BBA;&#x57FA;&#x7840;&#x3002;</p>
+<h3 id="LR模型为什么要使用sigmoid函数"><a href="#LR模型为什么要使用sigmoid函数" class="headerlink" title="LR模型为什么要使用sigmoid函数"></a><h2 id="LR模型为什么要使用sigmoid函数">LR模型为什么要使用sigmoid函数</h2></h3><p>假设W已知，现有函数 P(y|x) = f(wx)，求分布f，使得在正样本里 P(y=1|w,x)尽可能大，在负样本里尽可能小。根据最大熵原则，我们知道所有可能的分布模型集合中，<strong>熵最大的模型是最好的模型</strong>。即<strong>对未知分布最合理的推断就是符合已有前提下最不确定或最随机的推断</strong>。又已知LR符合伯努利分布，将伯努利分布转换为指数分布的过程中，可以得到sigmod函数，这就是LR的理论基础。</p>
 <ul>
-<li><a href="https://www.zhihu.com/question/35322351" target="_blank" rel="external">LR&#x6A21;&#x578B;&#x4F7F;&#x7528;sigmoid&#x51FD;&#x6570;&#x80CC;&#x540E;&#x7684;&#x6570;&#x5B66;&#x539F;&#x7406;&#x662F;&#x4EC0;&#x4E48;&#xFF1F;</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/24967776" target="_blank" rel="external">&#x5E7F;&#x4E49;&#x7EBF;&#x6027;&#x6A21;&#x578B;</a></li>
-<li><a href="#&#x4EC0;&#x4E48;&#x662F;&#x6700;&#x5927;&#x71B5;">&#x4EC0;&#x4E48;&#x662F;&#x6700;&#x5927;&#x71B5;</a></li>
+<li><a href="https://www.zhihu.com/question/35322351">LR模型使用sigmoid函数背后的数学原理是什么？</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/24967776">广义线性模型</a></li>
+<li><a href="#什么是最大熵">什么是最大熵</a></li>
 </ul>
 <hr>
-<h3 id="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x76F8;&#x5173;&#x95EE;&#x9898;"><a href="#&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x76F8;&#x5173;&#x95EE;&#x9898;" class="headerlink" title="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x76F8;&#x5173;&#x95EE;&#x9898;"></a><h2 id="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x76F8;&#x5173;&#x95EE;&#x9898;">&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x76F8;&#x5173;&#x95EE;&#x9898;</h2></h3><p>&#xFF08;3&#xFF09;L1-norm&#x548C;L2-norm<br>&#x3000;&#x3000;&#x5176;&#x5B9E;&#x7A00;&#x758F;&#x7684;&#x6839;&#x672C;&#x8FD8;&#x662F;&#x5728;&#x4E8E;L0-norm&#x4E5F;&#x5C31;&#x662F;&#x76F4;&#x63A5;&#x7EDF;&#x8BA1;&#x53C2;&#x6570;&#x4E0D;&#x4E3A;0&#x7684;&#x4E2A;&#x6570;&#x4F5C;&#x4E3A;&#x89C4;&#x5219;&#x9879;&#xFF0C;&#x4F46;&#x5B9E;&#x9645;&#x4E0A;&#x5374;&#x4E0D;&#x597D;&#x6267;&#x884C;&#x4E8E;&#x662F;&#x5F15;&#x5165;&#x4E86;L1-norm&#xFF1B;&#x800C;L1norm&#x672C;&#x8D28;&#x4E0A;&#x662F;&#x5047;&#x8BBE;&#x53C2;&#x6570;&#x5148;&#x9A8C;&#x662F;&#x670D;&#x4ECE;Laplace&#x5206;&#x5E03;&#x7684;&#xFF0C;&#x800C;L2-norm&#x662F;&#x5047;&#x8BBE;&#x53C2;&#x6570;&#x5148;&#x9A8C;&#x4E3A;Gaussian&#x5206;&#x5E03;&#xFF0C;&#x6211;&#x4EEC;&#x5728;&#x7F51;&#x4E0A;&#x770B;&#x5230;&#x7684;&#x901A;&#x5E38;&#x7528;&#x56FE;&#x50CF;&#x6765;&#x89E3;&#x7B54;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x7684;&#x539F;&#x7406;&#x5C31;&#x5728;&#x8FD9;&#x3002;<br>&#x3000;&#x3000;&#x4F46;&#x662F;L1-norm&#x7684;&#x6C42;&#x89E3;&#x6BD4;&#x8F83;&#x56F0;&#x96BE;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x5750;&#x6807;&#x8F74;&#x4E0B;&#x964D;&#x6CD5;&#x6216;&#x662F;&#x6700;&#x5C0F;&#x89D2;&#x56DE;&#x5F52;&#x6CD5;&#x6C42;&#x89E3;&#x3002;</p>
-<p>&#xFF08;4&#xFF09;LR&#x548C;SVM&#x5BF9;&#x6BD4;<br>&#x3000;&#x3000;&#x9996;&#x5148;&#xFF0C;LR&#x548C;SVM&#x6700;&#x5927;&#x7684;&#x533A;&#x522B;&#x5728;&#x4E8E;&#x635F;&#x5931;&#x51FD;&#x6570;&#x7684;&#x9009;&#x62E9;&#xFF0C;LR&#x7684;&#x635F;&#x5931;&#x51FD;&#x6570;&#x4E3A;Log&#x635F;&#x5931;&#xFF08;&#x6216;&#x8005;&#x8BF4;&#x662F;&#x903B;&#x8F91;&#x635F;&#x5931;&#x90FD;&#x53EF;&#x4EE5;&#xFF09;&#x3001;&#x800C;SVM&#x7684;&#x635F;&#x5931;&#x51FD;&#x6570;&#x4E3A;hinge loss&#x3002; </p>
-<p>&#x3000;&#x3000;&#x5176;&#x6B21;&#xFF0C;&#x4E24;&#x8005;&#x90FD;&#x662F;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#x3002;<br>&#x3000;&#x3000;&#x6700;&#x540E;&#xFF0C;SVM&#x53EA;&#x8003;&#x8651;&#x652F;&#x6301;&#x5411;&#x91CF;&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x548C;&#x5206;&#x7C7B;&#x76F8;&#x5173;&#x7684;&#x5C11;&#x6570;&#x70B9;&#xFF09; </p>
-<p>&#xFF08;5&#xFF09;LR&#x548C;&#x968F;&#x673A;&#x68EE;&#x6797;&#x533A;&#x522B;<br>&#x3000;&#x3000;&#x968F;&#x673A;&#x68EE;&#x6797;&#x7B49;&#x6811;&#x7B97;&#x6CD5;&#x90FD;&#x662F;&#x975E;&#x7EBF;&#x6027;&#x7684;&#xFF0C;&#x800C;LR&#x662F;&#x7EBF;&#x6027;&#x7684;&#x3002;LR&#x66F4;&#x4FA7;&#x91CD;&#x5168;&#x5C40;&#x4F18;&#x5316;&#xFF0C;&#x800C;&#x6811;&#x6A21;&#x578B;&#x4E3B;&#x8981;&#x662F;&#x5C40;&#x90E8;&#x7684;&#x4F18;&#x5316;&#x3002; </p>
-<p>&#xFF08;6&#xFF09;&#x5E38;&#x7528;&#x7684;&#x4F18;&#x5316;&#x65B9;&#x6CD5;<br>&#x3000;&#x3000;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x672C;&#x8EAB;&#x662F;&#x53EF;&#x4EE5;&#x7528;&#x516C;&#x5F0F;&#x6C42;&#x89E3;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x56E0;&#x4E3A;&#x9700;&#x8981;&#x6C42;&#x9006;&#x7684;&#x590D;&#x6742;&#x5EA6;&#x592A;&#x9AD8;&#xFF0C;&#x6240;&#x4EE5;&#x624D;&#x5F15;&#x5165;&#x4E86;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x7B97;&#x6CD5;&#x3002;<br>&#x3000;&#x3000;&#x4E00;&#x9636;&#x65B9;&#x6CD5;&#xFF1A;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x3001;&#x968F;&#x673A;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x3001;mini &#x968F;&#x673A;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x964D;&#x6CD5;&#x3002;&#x968F;&#x673A;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x4E0D;&#x4F46;&#x901F;&#x5EA6;&#x4E0A;&#x6BD4;&#x539F;&#x59CB;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x8981;&#x5FEB;&#xFF0C;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#x5316;&#x95EE;&#x9898;&#x65F6;&#x53EF;&#x4EE5;&#x4E00;&#x5B9A;&#x7A0B;&#x5EA6;&#x4E0A;&#x6291;&#x5236;&#x5C40;&#x90E8;&#x6700;&#x4F18;&#x89E3;&#x7684;&#x53D1;&#x751F;&#x3002; </p>
-<p>&#x3000;&#x3000;&#x4E8C;&#x9636;&#x65B9;&#x6CD5;&#xFF1A;&#x725B;&#x987F;&#x6CD5;&#x3001;&#x62DF;&#x725B;&#x987F;&#x6CD5;&#xFF1A;<br>&#x3000;&#x3000;&#x8FD9;&#x91CC;&#x8BE6;&#x7EC6;&#x8BF4;&#x4E00;&#x4E0B;&#x725B;&#x987F;&#x6CD5;&#x7684;&#x57FA;&#x672C;&#x539F;&#x7406;&#x548C;&#x725B;&#x987F;&#x6CD5;&#x7684;&#x5E94;&#x7528;&#x65B9;&#x5F0F;&#x3002;&#x725B;&#x987F;&#x6CD5;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x901A;&#x8FC7;&#x5207;&#x7EBF;&#x4E0E;x&#x8F74;&#x7684;&#x4EA4;&#x70B9;&#x4E0D;&#x65AD;&#x66F4;&#x65B0;&#x5207;&#x7EBF;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x76F4;&#x5230;&#x8FBE;&#x5230;&#x66F2;&#x7EBF;&#x4E0E;x&#x8F74;&#x7684;&#x4EA4;&#x70B9;&#x5F97;&#x5230;&#x65B9;&#x7A0B;&#x89E3;&#x3002;&#x5728;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x4E2D;&#x6211;&#x4EEC;&#x56E0;&#x4E3A;&#x5E38;&#x5E38;&#x8981;&#x6C42;&#x89E3;&#x51F8;&#x4F18;&#x5316;&#x95EE;&#x9898;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8981;&#x6C42;&#x89E3;&#x51FD;&#x6570;&#x4E00;&#x9636;&#x5BFC;&#x6570;&#x4E3A;0&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x800C;&#x725B;&#x987F;&#x6CD5;&#x6070;&#x597D;&#x53EF;&#x4EE5;&#x7ED9;&#x8FD9;&#x79CD;&#x95EE;&#x9898;&#x63D0;&#x4F9B;&#x89E3;&#x51B3;&#x65B9;&#x6CD5;&#x3002;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x4E2D;&#x725B;&#x987F;&#x6CD5;&#x9996;&#x5148;&#x9009;&#x62E9;&#x4E00;&#x4E2A;&#x70B9;&#x4F5C;&#x4E3A;&#x8D77;&#x59CB;&#x70B9;&#xFF0C;&#x5E76;&#x8FDB;&#x884C;&#x4E00;&#x6B21;&#x4E8C;&#x9636;&#x6CF0;&#x52D2;&#x5C55;&#x5F00;&#x5F97;&#x5230;&#x5BFC;&#x6570;&#x4E3A;0&#x7684;&#x70B9;&#x8FDB;&#x884C;&#x4E00;&#x4E2A;&#x66F4;&#x65B0;&#xFF0C;&#x76F4;&#x5230;&#x8FBE;&#x5230;&#x8981;&#x6C42;&#xFF0C;&#x8FD9;&#x65F6;&#x725B;&#x987F;&#x6CD5;&#x4E5F;&#x5C31;&#x6210;&#x4E86;&#x4E8C;&#x9636;&#x6C42;&#x89E3;&#x95EE;&#x9898;&#xFF0C;&#x6BD4;&#x4E00;&#x9636;&#x65B9;&#x6CD5;&#x66F4;&#x5FEB;&#x3002;&#x6211;&#x4EEC;&#x5E38;&#x5E38;&#x770B;&#x5230;&#x7684;x&#x901A;&#x5E38;&#x4E3A;&#x4E00;&#x4E2A;&#x591A;&#x7EF4;&#x5411;&#x91CF;&#xFF0C;&#x8FD9;&#x4E5F;&#x5C31;&#x5F15;&#x51FA;&#x4E86;Hessian&#x77E9;&#x9635;&#x7684;&#x6982;&#x5FF5;&#xFF08;&#x5C31;&#x662F;x&#x7684;&#x4E8C;&#x9636;&#x5BFC;&#x6570;&#x77E9;&#x9635;&#xFF09;&#x3002;<br>    &#x7F3A;&#x70B9;&#xFF1A;&#x725B;&#x987F;&#x6CD5;&#x662F;&#x5B9A;&#x957F;&#x8FED;&#x4EE3;&#xFF0C;&#x6CA1;&#x6709;&#x6B65;&#x957F;&#x56E0;&#x5B50;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;&#x51FD;&#x6570;&#x503C;&#x7A33;&#x5B9A;&#x7684;&#x4E0B;&#x964D;&#xFF0C;&#x4E25;&#x91CD;&#x65F6;&#x751A;&#x81F3;&#x4F1A;&#x5931;&#x8D25;&#x3002;&#x8FD8;&#x6709;&#x5C31;&#x662F;&#x725B;&#x987F;&#x6CD5;&#x8981;&#x6C42;&#x51FD;&#x6570;&#x4E00;&#x5B9A;&#x662F;&#x4E8C;&#x9636;&#x53EF;&#x5BFC;&#x7684;&#x3002;&#x800C;&#x4E14;&#x8BA1;&#x7B97;Hessian&#x77E9;&#x9635;&#x7684;&#x9006;&#x590D;&#x6742;&#x5EA6;&#x5F88;&#x5927;&#x3002; </p>
-<p>&#x62DF;&#x725B;&#x987F;&#x6CD5;&#xFF1A;&#x4E0D;&#x7528;&#x4E8C;&#x9636;&#x504F;&#x5BFC;&#x800C;&#x662F;&#x6784;&#x9020;&#x51FA;Hessian&#x77E9;&#x9635;&#x7684;&#x8FD1;&#x4F3C;&#x6B63;&#x5B9A;&#x5BF9;&#x79F0;&#x77E9;&#x9635;&#x7684;&#x65B9;&#x6CD5;&#x79F0;&#x4E3A;&#x62DF;&#x725B;&#x987F;&#x6CD5;&#x3002;&#x62DF;&#x725B;&#x987F;&#x6CD5;&#x7684;&#x601D;&#x8DEF;&#x5C31;&#x662F;&#x7528;&#x4E00;&#x4E2A;&#x7279;&#x522B;&#x7684;&#x8868;&#x8FBE;&#x5F62;&#x5F0F;&#x6765;&#x6A21;&#x62DF;Hessian&#x77E9;&#x9635;&#x6216;&#x8005;&#x662F;&#x4ED6;&#x7684;&#x9006;&#x4F7F;&#x5F97;&#x8868;&#x8FBE;&#x5F0F;&#x6EE1;&#x8DB3;&#x62DF;&#x725B;&#x987F;&#x6761;&#x4EF6;&#x3002;&#x4E3B;&#x8981;&#x6709;DFP&#x6CD5;&#xFF08;&#x903C;&#x8FD1;Hession&#x7684;&#x9006;&#xFF09;&#x3001;BFGS&#xFF08;&#x76F4;&#x63A5;&#x903C;&#x8FD1;Hession&#x77E9;&#x9635;&#xFF09;&#x3001; L-BFGS&#xFF08;&#x53EF;&#x4EE5;&#x51CF;&#x5C11;BFGS&#x6240;&#x9700;&#x7684;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#xFF09;&#x3002;</p>
+<h3 id="逻辑回归相关问题"><a href="#逻辑回归相关问题" class="headerlink" title="逻辑回归相关问题"></a><h2 id="逻辑回归相关问题">逻辑回归相关问题</h2></h3><p>（3）L1-norm和L2-norm<br>　　其实稀疏的根本还是在于L0-norm也就是直接统计参数不为0的个数作为规则项，但实际上却不好执行于是引入了L1-norm；而L1norm本质上是假设参数先验是服从Laplace分布的，而L2-norm是假设参数先验为Gaussian分布，我们在网上看到的通常用图像来解答这个问题的原理就在这。<br>　　但是L1-norm的求解比较困难，可以用坐标轴下降法或是最小角回归法求解。</p>
+<p>（4）LR和SVM对比<br>　　首先，LR和SVM最大的区别在于损失函数的选择，LR的损失函数为Log损失（或者说是逻辑损失都可以）、而SVM的损失函数为hinge loss。 </p>
+<p>　　其次，两者都是线性模型。<br>　　最后，SVM只考虑支持向量（也就是和分类相关的少数点） </p>
+<p>（5）LR和随机森林区别<br>　　随机森林等树算法都是非线性的，而LR是线性的。LR更侧重全局优化，而树模型主要是局部的优化。 </p>
+<p>（6）常用的优化方法<br>　　逻辑回归本身是可以用公式求解的，但是因为需要求逆的复杂度太高，所以才引入了梯度下降算法。<br>　　一阶方法：梯度下降、随机梯度下降、mini 随机梯度下降降法。随机梯度下降不但速度上比原始梯度下降要快，局部最优化问题时可以一定程度上抑制局部最优解的发生。 </p>
+<p>　　二阶方法：牛顿法、拟牛顿法：<br>　　这里详细说一下牛顿法的基本原理和牛顿法的应用方式。牛顿法其实就是通过切线与x轴的交点不断更新切线的位置，直到达到曲线与x轴的交点得到方程解。在实际应用中我们因为常常要求解凸优化问题，也就是要求解函数一阶导数为0的位置，而牛顿法恰好可以给这种问题提供解决方法。实际应用中牛顿法首先选择一个点作为起始点，并进行一次二阶泰勒展开得到导数为0的点进行一个更新，直到达到要求，这时牛顿法也就成了二阶求解问题，比一阶方法更快。我们常常看到的x通常为一个多维向量，这也就引出了Hessian矩阵的概念（就是x的二阶导数矩阵）。<br>    缺点：牛顿法是定长迭代，没有步长因子，所以不能保证函数值稳定的下降，严重时甚至会失败。还有就是牛顿法要求函数一定是二阶可导的。而且计算Hessian矩阵的逆复杂度很大。 </p>
+<p>拟牛顿法：不用二阶偏导而是构造出Hessian矩阵的近似正定对称矩阵的方法称为拟牛顿法。拟牛顿法的思路就是用一个特别的表达形式来模拟Hessian矩阵或者是他的逆使得表达式满足拟牛顿条件。主要有DFP法（逼近Hession的逆）、BFGS（直接逼近Hession矩阵）、 L-BFGS（可以减少BFGS所需的存储空间）。</p>
 <hr>
-<h3 id="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x5BF9;&#x7279;&#x5F81;&#x8FDB;&#x884C;&#x79BB;&#x6563;&#x5316;"><a href="#&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x5BF9;&#x7279;&#x5F81;&#x8FDB;&#x884C;&#x79BB;&#x6563;&#x5316;" class="headerlink" title="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x5BF9;&#x7279;&#x5F81;&#x8FDB;&#x884C;&#x79BB;&#x6563;&#x5316;"></a><h2 id="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x5BF9;&#x7279;&#x5F81;&#x8FDB;&#x884C;&#x79BB;&#x6563;&#x5316;">&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x5BF9;&#x7279;&#x5F81;&#x8FDB;&#x884C;&#x79BB;&#x6563;&#x5316;</h2></h3><p>&#x5728;&#x5DE5;&#x4E1A;&#x754C;&#xFF0C;&#x5F88;&#x5C11;&#x76F4;&#x63A5;&#x5C06;&#x8FDE;&#x7EED;&#x503C;&#x4F5C;&#x4E3A;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x6A21;&#x578B;&#x7684;&#x7279;&#x5F81;&#x8F93;&#x5165;&#xFF0C;&#x800C;&#x662F;&#x5C06;&#x8FDE;&#x7EED;&#x7279;&#x5F81;&#x79BB;&#x6563;&#x5316;&#x4E3A;&#x4E00;&#x7CFB;&#x5217;0&#x3001;1&#x7279;&#x5F81;&#x4EA4;&#x7ED9;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x6A21;&#x578B;&#xFF0C;&#x8FD9;&#x6837;&#x505A;&#x7684;&#x4F18;&#x52BF;&#x6709;&#x4EE5;&#x4E0B;&#x51E0;&#x70B9;&#xFF1A;</p>
+<h3 id="逻辑回归为什么要对特征进行离散化"><a href="#逻辑回归为什么要对特征进行离散化" class="headerlink" title="逻辑回归为什么要对特征进行离散化"></a><h2 id="逻辑回归为什么要对特征进行离散化">逻辑回归为什么要对特征进行离散化</h2></h3><p>在工业界，很少直接将连续值作为逻辑回归模型的特征输入，而是将连续特征离散化为一系列0、1特征交给逻辑回归模型，这样做的优势有以下几点：</p>
 <ol>
-<li>&#x79BB;&#x6563;&#x7279;&#x5F81;&#x7684;&#x589E;&#x52A0;&#x548C;&#x51CF;&#x5C11;&#x90FD;&#x5F88;&#x5BB9;&#x6613;&#xFF0C;&#x6613;&#x4E8E;&#x6A21;&#x578B;&#x7684;&#x5FEB;&#x901F;&#x8FED;&#x4EE3;&#xFF1B;</li>
-<li>&#x7A00;&#x758F;&#x5411;&#x91CF;&#x5185;&#x79EF;&#x4E58;&#x6CD5;&#x8FD0;&#x7B97;&#x901F;&#x5EA6;&#x5FEB;&#xFF0C;&#x8BA1;&#x7B97;&#x7ED3;&#x679C;&#x65B9;&#x4FBF;&#x5B58;&#x50A8;&#xFF0C;&#x5BB9;&#x6613;&#x6269;&#x5C55;&#xFF1B;</li>
-<li>&#x79BB;&#x6563;&#x5316;&#x540E;&#x7684;&#x7279;&#x5F81;&#x5BF9;&#x5F02;&#x5E38;&#x6570;&#x636E;&#x6709;&#x5F88;&#x5F3A;&#x7684;&#x9C81;&#x68D2;&#x6027;&#xFF1A;&#x6BD4;&#x5982;&#x4E00;&#x4E2A;&#x7279;&#x5F81;&#x662F;&#x5E74;&#x9F84;&gt;30&#x662F;1&#xFF0C;&#x5426;&#x5219;0&#x3002;&#x5982;&#x679C;&#x7279;&#x5F81;&#x6CA1;&#x6709;&#x79BB;&#x6563;&#x5316;&#xFF0C;&#x4E00;&#x4E2A;&#x5F02;&#x5E38;&#x6570;&#x636E;&#x201C;&#x5E74;&#x9F84;300&#x5C81;&#x201D;&#x4F1A;&#x7ED9;&#x6A21;&#x578B;&#x9020;&#x6210;&#x5F88;&#x5927;&#x7684;&#x5E72;&#x6270;&#xFF1B;</li>
-<li>&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x5C5E;&#x4E8E;&#x5E7F;&#x4E49;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#xFF0C;&#x8868;&#x8FBE;&#x80FD;&#x529B;&#x53D7;&#x9650;&#xFF1B;&#x5355;&#x53D8;&#x91CF;&#x79BB;&#x6563;&#x5316;&#x4E3A;N&#x4E2A;&#x540E;&#xFF0C;&#x6BCF;&#x4E2A;&#x53D8;&#x91CF;&#x6709;&#x5355;&#x72EC;&#x7684;&#x6743;&#x91CD;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;&#x4E3A;&#x6A21;&#x578B;&#x5F15;&#x5165;&#x4E86;&#x975E;&#x7EBF;&#x6027;&#xFF0C;&#x80FD;&#x591F;&#x63D0;&#x5347;&#x6A21;&#x578B;&#x8868;&#x8FBE;&#x80FD;&#x529B;&#xFF0C;&#x52A0;&#x5927;&#x62DF;&#x5408;&#xFF1B;</li>
-<li>&#x79BB;&#x6563;&#x5316;&#x540E;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x7279;&#x5F81;&#x4EA4;&#x53C9;&#xFF0C;&#x7531;M+N&#x4E2A;&#x53D8;&#x91CF;&#x53D8;&#x4E3A;M*N&#x4E2A;&#x53D8;&#x91CF;&#xFF0C;&#x8FDB;&#x4E00;&#x6B65;&#x5F15;&#x5165;&#x975E;&#x7EBF;&#x6027;&#xFF0C;&#x63D0;&#x5347;&#x8868;&#x8FBE;&#x80FD;&#x529B;&#xFF1B;</li>
-<li>&#x7279;&#x5F81;&#x79BB;&#x6563;&#x5316;&#x540E;&#xFF0C;&#x6A21;&#x578B;&#x4F1A;&#x66F4;&#x7A33;&#x5B9A;&#xFF0C;&#x6BD4;&#x5982;&#x5982;&#x679C;&#x5BF9;&#x7528;&#x6237;&#x5E74;&#x9F84;&#x79BB;&#x6563;&#x5316;&#xFF0C;20-30&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x533A;&#x95F4;&#xFF0C;&#x4E0D;&#x4F1A;&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;&#x7528;&#x6237;&#x5E74;&#x9F84;&#x957F;&#x4E86;&#x4E00;&#x5C81;&#x5C31;&#x53D8;&#x6210;&#x4E00;&#x4E2A;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#x7684;&#x4EBA;&#x3002;&#x5F53;&#x7136;&#x5904;&#x4E8E;&#x533A;&#x95F4;&#x76F8;&#x90BB;&#x5904;&#x7684;&#x6837;&#x672C;&#x4F1A;&#x521A;&#x597D;&#x76F8;&#x53CD;&#xFF0C;&#x6240;&#x4EE5;&#x600E;&#x4E48;&#x5212;&#x5206;&#x533A;&#x95F4;&#x662F;&#x95E8;&#x5B66;&#x95EE;&#xFF1B;</li>
-<li>&#x7279;&#x5F81;&#x79BB;&#x6563;&#x5316;&#x4EE5;&#x540E;&#xFF0C;&#x8D77;&#x5230;&#x4E86;&#x7B80;&#x5316;&#x4E86;&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x6A21;&#x578B;&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x964D;&#x4F4E;&#x4E86;&#x6A21;&#x578B;&#x8FC7;&#x62DF;&#x5408;&#x7684;&#x98CE;&#x9669;&#x3002;<br>&#x674E;&#x6C90;&#x66FE;&#x7ECF;&#x8BF4;&#x8FC7;&#xFF1A;&#x6A21;&#x578B;&#x662F;&#x4F7F;&#x7528;&#x79BB;&#x6563;&#x7279;&#x5F81;&#x8FD8;&#x662F;&#x8FDE;&#x7EED;&#x7279;&#x5F81;&#xFF0C;&#x5176;&#x5B9E;&#x662F;&#x4E00;&#x4E2A;&#x201C;&#x6D77;&#x91CF;&#x79BB;&#x6563;&#x7279;&#x5F81;+&#x7B80;&#x5355;&#x6A21;&#x578B;&#x201D; &#x540C; &#x201C;&#x5C11;&#x91CF;&#x8FDE;&#x7EED;&#x7279;&#x5F81;+&#x590D;&#x6742;&#x6A21;&#x578B;&#x201D;&#x7684;&#x6743;&#x8861;&#x3002;&#x65E2;&#x53EF;&#x4EE5;&#x79BB;&#x6563;&#x5316;&#x7528;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x8FDE;&#x7EED;&#x7279;&#x5F81;&#x52A0;&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x3002;&#x5C31;&#x770B;&#x662F;&#x559C;&#x6B22;&#x6298;&#x817E;&#x7279;&#x5F81;&#x8FD8;&#x662F;&#x6298;&#x817E;&#x6A21;&#x578B;&#x4E86;&#x3002;&#x901A;&#x5E38;&#x6765;&#x8BF4;&#xFF0C;&#x524D;&#x8005;&#x5BB9;&#x6613;&#xFF0C;&#x800C;&#x4E14;&#x53EF;&#x4EE5;n&#x4E2A;&#x4EBA;&#x4E00;&#x8D77;&#x5E76;&#x884C;&#x505A;&#xFF0C;&#x6709;&#x6210;&#x529F;&#x7ECF;&#x9A8C;&#xFF1B;&#x540E;&#x8005;&#x76EE;&#x524D;&#x770B;&#x5F88;&#x8D5E;&#xFF0C;&#x80FD;&#x8D70;&#x591A;&#x8FDC;&#x8FD8;&#x987B;&#x62ED;&#x76EE;&#x4EE5;&#x5F85;&#x3002;</li>
+<li>离散特征的增加和减少都很容易，易于模型的快速迭代；</li>
+<li>稀疏向量内积乘法运算速度快，计算结果方便存储，容易扩展；</li>
+<li>离散化后的特征对异常数据有很强的鲁棒性：比如一个特征是年龄&gt;30是1，否则0。如果特征没有离散化，一个异常数据“年龄300岁”会给模型造成很大的干扰；</li>
+<li>逻辑回归属于广义线性模型，表达能力受限；单变量离散化为N个后，每个变量有单独的权重，相当于为模型引入了非线性，能够提升模型表达能力，加大拟合；</li>
+<li>离散化后可以进行特征交叉，由M+N个变量变为M*N个变量，进一步引入非线性，提升表达能力；</li>
+<li>特征离散化后，模型会更稳定，比如如果对用户年龄离散化，20-30作为一个区间，不会因为一个用户年龄长了一岁就变成一个完全不同的人。当然处于区间相邻处的样本会刚好相反，所以怎么划分区间是门学问；</li>
+<li>特征离散化以后，起到了简化了逻辑回归模型的作用，降低了模型过拟合的风险。<br>李沐曾经说过：模型是使用离散特征还是连续特征，其实是一个“海量离散特征+简单模型” 同 “少量连续特征+复杂模型”的权衡。既可以离散化用线性模型，也可以用连续特征加深度学习。就看是喜欢折腾特征还是折腾模型了。通常来说，前者容易，而且可以n个人一起并行做，有成功经验；后者目前看很赞，能走多远还须拭目以待。</li>
 </ol>
 <hr>
-<h3 id="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x5E76;&#x884C;&#x5316;&#x600E;&#x4E48;&#x505A;&#xFF0C;&#x6709;&#x51E0;&#x79CD;&#x5E76;&#x884C;&#x5316;&#x65B9;&#x5F0F;&#xFF0C;&#x8BFB;&#x8FC7;&#x54EA;&#x4E9B;&#x5F00;&#x6E90;&#x7684;&#x5B9E;&#x73B0;"><a href="#&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x5E76;&#x884C;&#x5316;&#x600E;&#x4E48;&#x505A;&#xFF0C;&#x6709;&#x51E0;&#x79CD;&#x5E76;&#x884C;&#x5316;&#x65B9;&#x5F0F;&#xFF0C;&#x8BFB;&#x8FC7;&#x54EA;&#x4E9B;&#x5F00;&#x6E90;&#x7684;&#x5B9E;&#x73B0;" class="headerlink" title="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x5E76;&#x884C;&#x5316;&#x600E;&#x4E48;&#x505A;&#xFF0C;&#x6709;&#x51E0;&#x79CD;&#x5E76;&#x884C;&#x5316;&#x65B9;&#x5F0F;&#xFF0C;&#x8BFB;&#x8FC7;&#x54EA;&#x4E9B;&#x5F00;&#x6E90;&#x7684;&#x5B9E;&#x73B0;"></a><h2 id="&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x5E76;&#x884C;&#x5316;&#x600E;&#x4E48;&#x505A;&#xFF0C;&#x6709;&#x51E0;&#x79CD;&#x5E76;&#x884C;&#x5316;&#x65B9;&#x5F0F;&#xFF0C;&#x8BFB;&#x8FC7;&#x54EA;&#x4E9B;&#x5F00;&#x6E90;&#x7684;&#x5B9E;&#x73B0;">&#x903B;&#x8F91;&#x56DE;&#x5F52;&#x5E76;&#x884C;&#x5316;&#x600E;&#x4E48;&#x505A;&#xFF0C;&#x6709;&#x51E0;&#x79CD;&#x5E76;&#x884C;&#x5316;&#x65B9;&#x5F0F;&#xFF0C;&#x8BFB;&#x8FC7;&#x54EA;&#x4E9B;&#x5F00;&#x6E90;&#x7684;&#x5B9E;&#x73B0;</h2></h3><p><a href="http://www.csdn.net/article/2014-02-13/2818400-2014-02-13" target="_blank" rel="external">http://www.csdn.net/article/2014-02-13/2818400-2014-02-13</a></p>
+<h3 id="逻辑回归并行化怎么做，有几种并行化方式，读过哪些开源的实现"><a href="#逻辑回归并行化怎么做，有几种并行化方式，读过哪些开源的实现" class="headerlink" title="逻辑回归并行化怎么做，有几种并行化方式，读过哪些开源的实现"></a><h2 id="逻辑回归并行化怎么做，有几种并行化方式，读过哪些开源的实现">逻辑回归并行化怎么做，有几种并行化方式，读过哪些开源的实现</h2></h3><p><a href="http://www.csdn.net/article/2014-02-13/2818400-2014-02-13">http://www.csdn.net/article/2014-02-13/2818400-2014-02-13</a></p>
 <hr>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2017/10/21/机器学习（二）：决策树、随机森林和提升算法/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    机器学习（二）：决策树、随机森林和提升算法
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2017/10/18/机器学习选择题集锦/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">机器学习选择题集锦</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-		<!-- MathJax���ã���ͨ������Ԫ������д���ڹ�ʽ�� -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": { 
-        preferredFont: "TeX", 
-        availableFonts: ["STIX","TeX"], 
-        linebreaks: { automatic:true }, 
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
-    },
-    tex2jax: { 
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
-        processEscapes: true, 
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {  
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
-        Macros: { href: "{}" } 
-    },
-    messageStyle: "none"
-    }); 
-</script>
-<!-- ��MathJaxԪ������has-jax class -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<!-- ͨ������CDN����MathJax��js���� -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">线性回归</a><a class="link-muted mr-2" rel="tag" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/">逻辑回归</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2017/10/21/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E5%86%B3%E7%AD%96%E6%A0%91%E3%80%81%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%92%8C%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">机器学习（二）：决策树、随机森林和提升算法</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2017/10/18/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E9%80%89%E6%8B%A9%E9%A2%98%E9%9B%86%E9%94%A6/"><span class="level-item">机器学习选择题集锦</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><!--!--><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

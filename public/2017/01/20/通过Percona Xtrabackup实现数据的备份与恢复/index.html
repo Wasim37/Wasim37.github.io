@@ -1,519 +1,134 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>通过Percona Xtrabackup实现数据的备份与恢复 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Xtrabackup&amp;#x7B80;&amp;#x4ECB;Percona XtraBackup&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5F00;&amp;#x6E90;&amp;#x3001;&amp;#x514D;&amp;#x8D39;&amp;#x7684;MySQL&amp;#x70ED;&amp;#x5907;&amp;#x4EFD;&amp;#x8F6F;&amp;#x4EF6;,&amp;#x80FD;&amp;#x591F;&amp;#x4E3A;InnoDB&amp;#x548C;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="通过Percona Xtrabackup实现数据的备份与恢复">
-<meta property="og:url" content="http://www.wangxin123.com/2017/01/20/通过Percona Xtrabackup实现数据的备份与恢复/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="Xtrabackup&amp;#x7B80;&amp;#x4ECB;Percona XtraBackup&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5F00;&amp;#x6E90;&amp;#x3001;&amp;#x514D;&amp;#x8D39;&amp;#x7684;MySQL&amp;#x70ED;&amp;#x5907;&amp;#x4EFD;&amp;#x8F6F;&amp;#x4EF6;,&amp;#x80FD;&amp;#x591F;&amp;#x4E3A;InnoDB&amp;#x548C;">
-<meta property="og:updated_time" content="2017-06-26T05:01:44.110Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="通过Percona Xtrabackup实现数据的备份与恢复">
-<meta name="twitter:description" content="Xtrabackup&amp;#x7B80;&amp;#x4ECB;Percona XtraBackup&amp;#x662F;&amp;#x4E00;&amp;#x4E2A;&amp;#x5F00;&amp;#x6E90;&amp;#x3001;&amp;#x514D;&amp;#x8D39;&amp;#x7684;MySQL&amp;#x70ED;&amp;#x5907;&amp;#x4EFD;&amp;#x8F6F;&amp;#x4EF6;,&amp;#x80FD;&amp;#x591F;&amp;#x4E3A;InnoDB&amp;#x548C;">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-通过Percona Xtrabackup实现数据的备份与恢复" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            通过Percona Xtrabackup实现数据的备份与恢复
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/01/20/通过Percona Xtrabackup实现数据的备份与恢复/">
-            <time datetime="2017-01-20T14:22:00.000Z" itemprop="datePublished">2017-01-20</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/数据库/">数据库</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Percona-Xtrabackup/">Percona Xtrabackup</a>, <a class="tag-link" href="/tags/mysql/">mysql</a>, <a class="tag-link" href="/tags/增量备份/">增量备份</a>, <a class="tag-link" href="/tags/完全备份/">完全备份</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Xtrabackup简介"><span class="toc-number">1.</span> <span class="toc-text">Xtrabackup简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Xtrabackup备份原理"><span class="toc-number">2.</span> <span class="toc-text">Xtrabackup备份原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Xtrabackup实现细节"><span class="toc-number">3.</span> <span class="toc-text">Xtrabackup实现细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Xtrabackup安装与卸载"><span class="toc-number">4.</span> <span class="toc-text">Xtrabackup安装与卸载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Xtrabackup常用参数"><span class="toc-number">5.</span> <span class="toc-text">Xtrabackup常用参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#完全备份与恢复"><span class="toc-number">6.</span> <span class="toc-text">完全备份与恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增量备份与恢复"><span class="toc-number">7.</span> <span class="toc-text">增量备份与恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#备份恢复常见错误"><span class="toc-number">8.</span> <span class="toc-text">备份恢复常见错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#备份方案的选择"><span class="toc-number">9.</span> <span class="toc-text">备份方案的选择</span></a></li></ol>
-                </div>
-            
-            <h3 id="Xtrabackup&#x7B80;&#x4ECB;"><a href="#Xtrabackup&#x7B80;&#x4ECB;" class="headerlink" title="Xtrabackup&#x7B80;&#x4ECB;"></a>Xtrabackup&#x7B80;&#x4ECB;</h3><p>Percona XtraBackup&#x662F;&#x4E00;&#x4E2A;&#x5F00;&#x6E90;&#x3001;&#x514D;&#x8D39;&#x7684;MySQL&#x70ED;&#x5907;&#x4EFD;&#x8F6F;&#x4EF6;,&#x80FD;&#x591F;&#x4E3A;InnoDB&#x548C;XtraDB&#x6570;&#x636E;&#x5E93;&#x6267;&#x884C;&#x975E;&#x963B;&#x585E;&#x5907;&#x4EFD;&#xFF0C;&#x7279;&#x70B9;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p>1&#x3001;&#x5FEB;&#x901F;&#x3001;&#x53EF;&#x9760;&#x7684;&#x5B8C;&#x6210;&#x5907;&#x4EFD;<br>2&#x3001;&#x5907;&#x4EFD;&#x671F;&#x95F4;&#x4E0D;&#x95F4;&#x65AD;&#x4E8B;&#x52A1;&#x5904;&#x7406;<br>3&#x3001;&#x8282;&#x7701;&#x78C1;&#x76D8;&#x7A7A;&#x95F4;&#x548C;&#x7F51;&#x7EDC;&#x5E26;&#x5BBD;<br>4&#x3001;&#x81EA;&#x52A8;&#x5BF9;&#x5907;&#x4EFD;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x9A8C;&#x8BC1;<br>5&#x3001;&#x6062;&#x590D;&#x5FEB;&#xFF0C;&#x4FDD;&#x969C;&#x5728;&#x7EBF;&#x8FD0;&#x884C;&#x65F6;&#x95F4;&#x6301;&#x4E45;&#x6027;</p>
-<p>&#x53E6;&#x5916;&#xFF0C;&#x5B98;&#x7F51;&#x5173;&#x4E8E;Xtrabackup&#x8FD8;&#x6709;&#x5982;&#x4E0B;&#x4ECB;&#x7ECD;&#xFF0C;&#x5B83;&#x80FD;&#x589E;&#x91CF;&#x5907;&#x4EFD;MySQL&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x901A;&#x8FC7;&#x6D41;&#x538B;&#x7F29;&#x5907;&#x4EFD;MySQL&#x6570;&#x636E;&#x5230;&#x53E6;&#x5916;&#x4E00;&#x53F0;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x5728;&#x7EBF;MySQL&#x670D;&#x52A1;&#x5668;&#x4E4B;&#x95F4;&#x8FDB;&#x884C;&#x8868;&#x7A7A;&#x95F4;&#x8FC1;&#x79FB;&#xFF0C;&#x5F88;easy&#x7684;&#x521B;&#x5EFA;&#x65B0;&#x7684;MySQL&#x4ECE;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x5E76;&#x4E14;&#x5907;&#x4EFD;MySQL&#x6570;&#x636E;&#x5E93;&#x65F6;&#x4E0D;&#x4F1A;&#x5E26;&#x6765;&#x989D;&#x5916;&#x7684;&#x7CFB;&#x7EDF;&#x538B;&#x529B;&#x3002;</p>
-<p><strong>XtraBackup &#x6709;&#x4E24;&#x4E2A;&#x5DE5;&#x5177;&#xFF1A;xtrabackup &#x548C; innobackupex&#xFF1A;</strong><br>xtrabackup &#x672C;&#x8EAB;&#x53EA;&#x80FD;&#x5907;&#x4EFD; InnoDB &#x548C; XtraDB &#xFF0C;&#x4E0D;&#x80FD;&#x5907;&#x4EFD; MyISAM&#xFF1B;<br>innobackupex &#x672C;&#x8EAB;&#x662F; Hot Backup &#x811A;&#x672C;&#x4FEE;&#x6539;&#x800C;&#x6765;&#xFF0C;&#x540C;&#x65F6;&#x53EF;&#x4EE5;&#x5907;&#x4EFD; MyISAM &#x548C; InnoDB&#xFF0C;&#x4F46;&#x662F;&#x5907;&#x4EFD; MyISAM &#x9700;&#x8981;&#x52A0;&#x8BFB;&#x9501;&#x3002;</p>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>通过Percona Xtrabackup实现数据的备份与恢复 - Hexo</title><meta description="Xtrabackup简介Percona XtraBackup是一个开源、免费的MySQL热备份软件,能够为InnoDB和XtraDB数据库执行非阻塞备份，特点如下： 1、快速、可靠的完成备份2、备份期间不间断事务处理3、节省磁盘空间和网络带宽4、自动对备份文件进行验证5、恢复快，保障在线运行时间持久性 另外，官网关于Xtrabackup还有如下介绍，它能增量备份MySQL数据库，通过流压缩备份My"><meta property="og:type" content="blog"><meta property="og:title" content="通过Percona Xtrabackup实现数据的备份与恢复"><meta property="og:url" content="http://yoursite.com/2017/01/20/%E9%80%9A%E8%BF%87Percona%20Xtrabackup%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="Xtrabackup简介Percona XtraBackup是一个开源、免费的MySQL热备份软件,能够为InnoDB和XtraDB数据库执行非阻塞备份，特点如下： 1、快速、可靠的完成备份2、备份期间不间断事务处理3、节省磁盘空间和网络带宽4、自动对备份文件进行验证5、恢复快，保障在线运行时间持久性 另外，官网关于Xtrabackup还有如下介绍，它能增量备份MySQL数据库，通过流压缩备份My"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://yoursite.com/img/og_image.png"><meta property="article:published_time" content="2017-01-20T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.581Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="mysql"><meta property="article:tag" content="完全备份"><meta property="article:tag" content="增量备份"><meta property="article:tag" content="Percona Xtrabackup"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2017/01/20/%E9%80%9A%E8%BF%87Percona%20Xtrabackup%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/"},"headline":"Hexo","image":["http://yoursite.com/img/og_image.png"],"datePublished":"2017-01-20T14:22:00.000Z","dateModified":"2020-05-19T06:34:18.581Z","author":{"@type":"Person","name":"John Doe"},"description":"Xtrabackup简介Percona XtraBackup是一个开源、免费的MySQL热备份软件,能够为InnoDB和XtraDB数据库执行非阻塞备份，特点如下： 1、快速、可靠的完成备份2、备份期间不间断事务处理3、节省磁盘空间和网络带宽4、自动对备份文件进行验证5、恢复快，保障在线运行时间持久性 另外，官网关于Xtrabackup还有如下介绍，它能增量备份MySQL数据库，通过流压缩备份My"}</script><link rel="canonical" href="http://yoursite.com/2017/01/20/%E9%80%9A%E8%BF%87Percona%20Xtrabackup%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2017-01-20T14:22:00.000Z" title="2017-01-20T14:22:00.000Z">2017-01-20</time><span class="level-item"><a class="link-muted" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span><span class="level-item">25 分钟 读完 (大约 3718 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">通过Percona Xtrabackup实现数据的备份与恢复</h1><div class="content"><h3 id="Xtrabackup简介"><a href="#Xtrabackup简介" class="headerlink" title="Xtrabackup简介"></a>Xtrabackup简介</h3><p>Percona XtraBackup是一个开源、免费的MySQL热备份软件,能够为InnoDB和XtraDB数据库执行非阻塞备份，特点如下：</p>
+<p>1、快速、可靠的完成备份<br>2、备份期间不间断事务处理<br>3、节省磁盘空间和网络带宽<br>4、自动对备份文件进行验证<br>5、恢复快，保障在线运行时间持久性</p>
+<p>另外，官网关于Xtrabackup还有如下介绍，它能增量备份MySQL数据库，通过流压缩备份MySQL数据到另外一台服务器，在线MySQL服务器之间进行表空间迁移，很easy的创建新的MySQL从服务器，并且备份MySQL数据库时不会带来额外的系统压力。</p>
+<p><strong>XtraBackup 有两个工具：xtrabackup 和 innobackupex：</strong><br>xtrabackup 本身只能备份 InnoDB 和 XtraDB ，不能备份 MyISAM；<br>innobackupex 本身是 Hot Backup 脚本修改而来，同时可以备份 MyISAM 和 InnoDB，但是备份 MyISAM 需要加读锁。</p>
 <a id="more"></a>
-<p><strong>&#x4E3A;&#x4EC0;&#x4E48;&#x8BF4;Xtrabackup&#x662F;&#x9488;&#x5BF9;InnoDB&#x5F15;&#x64CE;&#x7684;&#x5907;&#x4EFD;&#x5DE5;&#x5177;&#xFF1F;</strong><br>&#x5BF9;&#x4E8E;MyISAM&#x8868;&#x53EA;&#x80FD;&#x662F;&#x6E29;&#x5907;&#xFF0C;&#x800C;&#x4E14;&#x4E5F;&#x4E0D;&#x652F;&#x6301;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x3002;&#x800C;XtraBackup&#x66F4;&#x591A;&#x9AD8;&#x7EA7;&#x7279;&#x6027;&#x901A;&#x5E38;&#x53EA;&#x80FD;&#x5728;innodb&#x5B58;&#x50A8;&#x5F15;&#x64CE;&#x4E0A;&#x5B9E;&#x73B0;&#xFF0C;&#x800C;&#x4E14;&#x9AD8;&#x7EA7;&#x7279;&#x6027;&#x8FD8;&#x90FD;&#x4F9D;&#x8D56;&#x4E8E;mysql&#x6570;&#x636E;&#x5E93;&#x5BF9;innodb&#x5F15;&#x64CE;&#x5B9E;&#x73B0;&#x4E86;&#x5355;&#x72EC;&#x8868;&#x7A7A;&#x95F4;&#xFF0C;&#x5426;&#x5219;&#x6CA1;&#x529E;&#x6CD5;&#x5B9E;&#x73B0;&#x5355;&#x8868;&#x6216;&#x5355;&#x5E93;&#x5BFC;&#x51FA;&#xFF0C;&#x56E0;&#x6B64;&#x53EF;&#x4EE5;&#x8BF4;Xtrabackup&#x662F;&#x4E3A;InnoDB&#x800C;&#x751F;&#x4E5F;&#x4E0D;&#x4E3A;&#x8FC7;&#xFF01;</p>
-<p>&#x5B98;&#x7F51;&#x8F6F;&#x4EF6;&#x4E0B;&#x8F7D;&#xFF1A;<a href="https://www.percona.com/downloads/XtraBackup/LATEST/" target="_blank" rel="external">https://www.percona.com/downloads/XtraBackup/LATEST/</a><br>&#x7528;&#x6237;&#x64CD;&#x4F5C;&#x624B;&#x518C;&#xFF1A;<a href="http://www.percona.com/doc/percona-xtrabackup/2.4/index.html" target="_blank" rel="external">http://www.percona.com/doc/percona-xtrabackup/2.4/index.html</a></p>
+<p><strong>为什么说Xtrabackup是针对InnoDB引擎的备份工具？</strong><br>对于MyISAM表只能是温备，而且也不支持增量备份。而XtraBackup更多高级特性通常只能在innodb存储引擎上实现，而且高级特性还都依赖于mysql数据库对innodb引擎实现了单独表空间，否则没办法实现单表或单库导出，因此可以说Xtrabackup是为InnoDB而生也不为过！</p>
+<p>官网软件下载：<a href="https://www.percona.com/downloads/XtraBackup/LATEST/">https://www.percona.com/downloads/XtraBackup/LATEST/</a><br>用户操作手册：<a href="http://www.percona.com/doc/percona-xtrabackup/2.4/index.html">http://www.percona.com/doc/percona-xtrabackup/2.4/index.html</a></p>
 <hr>
-<h3 id="Xtrabackup&#x5907;&#x4EFD;&#x539F;&#x7406;"><a href="#Xtrabackup&#x5907;&#x4EFD;&#x539F;&#x7406;" class="headerlink" title="Xtrabackup&#x5907;&#x4EFD;&#x539F;&#x7406;"></a>Xtrabackup&#x5907;&#x4EFD;&#x539F;&#x7406;</h3><p><strong>1&#x3001;InnoDB&#x7684;&#x5907;&#x4EFD;&#x539F;&#x7406;</strong><br>&#x5728;InnoDB&#x5185;&#x90E8;&#x4F1A;&#x7EF4;&#x62A4;&#x4E00;&#x4E2A;redo&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#xFF0C;&#x6211;&#x4EEC;&#x4E5F;&#x53EF;&#x4EE5;&#x53EB;&#x505A;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x3002;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#x4F1A;&#x5B58;&#x50A8;&#x6BCF;&#x4E00;&#x4E2A;InnoDB&#x8868;&#x6570;&#x636E;&#x7684;&#x8BB0;&#x5F55;&#x4FEE;&#x6539;&#x3002;&#x5F53;InnoDB&#x542F;&#x52A8;&#x65F6;&#xFF0C;InnoDB&#x4F1A;&#x68C0;&#x67E5;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x548C;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#xFF0C;&#x5E76;&#x6267;&#x884C;&#x4E24;&#x4E2A;&#x6B65;&#x9AA4;&#xFF1A;&#x5B83;&#x5E94;&#x7528;&#xFF08;&#x524D;&#x6EDA;&#xFF09;&#x5DF2;&#x7ECF;&#x63D0;&#x4EA4;&#x7684;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#x5230;&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x5C06;&#x4FEE;&#x6539;&#x8FC7;&#x4F46;&#x6CA1;&#x6709;&#x63D0;&#x4EA4;&#x7684;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x56DE;&#x6EDA;&#x64CD;&#x4F5C;&#x3002;</p>
+<h3 id="Xtrabackup备份原理"><a href="#Xtrabackup备份原理" class="headerlink" title="Xtrabackup备份原理"></a>Xtrabackup备份原理</h3><p><strong>1、InnoDB的备份原理</strong><br>在InnoDB内部会维护一个redo日志文件，我们也可以叫做事务日志文件。事务日志会存储每一个InnoDB表数据的记录修改。当InnoDB启动时，InnoDB会检查数据文件和事务日志，并执行两个步骤：它应用（前滚）已经提交的事务日志到数据文件，并将修改过但没有提交的数据进行回滚操作。</p>
 <ul>
-<li><p>&#x5907;&#x4EFD;&#x8FC7;&#x7A0B;<br>Xtrabackup&#x5728;&#x542F;&#x52A8;&#x65F6;&#x4F1A;&#x8BB0;&#x4F4F;log sequence number&#xFF08;LSN&#xFF09;&#xFF0C;&#x5E76;&#x4E14;&#x590D;&#x5236;&#x6240;&#x6709;&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x3002;&#x590D;&#x5236;&#x8FC7;&#x7A0B;&#x9700;&#x8981;&#x4E00;&#x4E9B;&#x65F6;&#x95F4;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x671F;&#x95F4;&#x5982;&#x679C;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x6709;&#x6539;&#x52A8;&#xFF0C;&#x90A3;&#x4E48;&#x5C06;&#x4F1A;&#x4F7F;&#x6570;&#x636E;&#x5E93;&#x5904;&#x4E8E;&#x4E00;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x65F6;&#x95F4;&#x70B9;&#x3002;&#x8FD9;&#x65F6;&#xFF0C;xtrabackup&#x4F1A;&#x8FD0;&#x884C;&#x4E00;&#x4E2A;&#x540E;&#x53F0;&#x8FDB;&#x7A0B;&#xFF0C;&#x7528;&#x4E8E;&#x76D1;&#x89C6;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#xFF0C;&#x5E76;&#x4ECE;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#x590D;&#x5236;&#x6700;&#x65B0;&#x7684;&#x4FEE;&#x6539;&#x3002;Xtrabackup&#x5FC5;&#x987B;&#x6301;&#x7EED;&#x7684;&#x505A;&#x8FD9;&#x4E2A;&#x64CD;&#x4F5C;&#xFF0C;&#x662F;&#x56E0;&#x4E3A;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#x662F;&#x4F1A;&#x8F6E;&#x8F6C;&#x91CD;&#x590D;&#x7684;&#x5199;&#x5165;&#xFF0C;&#x5E76;&#x4E14;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#x53EF;&#x4EE5;&#x88AB;&#x91CD;&#x7528;&#x3002;&#x6240;&#x4EE5;xtrabackup&#x81EA;&#x542F;&#x52A8;&#x5F00;&#x59CB;&#xFF0C;&#x5C31;&#x4E0D;&#x505C;&#x7684;&#x5C06;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#x4E2D;&#x6BCF;&#x4E2A;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x7684;&#x4FEE;&#x6539;&#x90FD;&#x8BB0;&#x5F55;&#x4E0B;&#x6765;&#x3002;</p>
+<li><p>备份过程<br>Xtrabackup在启动时会记住log sequence number（LSN），并且复制所有的数据文件。复制过程需要一些时间，所以这期间如果数据文件有改动，那么将会使数据库处于一个不同的时间点。这时，xtrabackup会运行一个后台进程，用于监视事务日志，并从事务日志复制最新的修改。Xtrabackup必须持续的做这个操作，是因为事务日志是会轮转重复的写入，并且事务日志可以被重用。所以xtrabackup自启动开始，就不停的将事务日志中每个数据文件的修改都记录下来。</p>
 </li>
-<li><p>&#x51C6;&#x5907;&#x8FC7;&#x7A0B;<br>&#x4E0A;&#x9762;&#x5C31;&#x662F;xtrabackup&#x7684;&#x5907;&#x4EFD;&#x8FC7;&#x7A0B;&#x3002;&#x63A5;&#x4E0B;&#x6765;&#x662F;&#x51C6;&#x5907;&#xFF08;prepare&#xFF09;&#x8FC7;&#x7A0B;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;xtrabackup&#x4F7F;&#x7528;&#x4E4B;&#x524D;&#x590D;&#x5236;&#x7684;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#xFF0C;&#x5BF9;&#x5404;&#x4E2A;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x6267;&#x884C;&#x707E;&#x96BE;&#x6062;&#x590D;&#xFF08;&#x5C31;&#x50CF;mysql&#x521A;&#x542F;&#x52A8;&#x65F6;&#x8981;&#x505A;&#x7684;&#x4E00;&#x6837;&#xFF09;&#x3002;&#x5F53;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x7ED3;&#x675F;&#x540E;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x5C31;&#x53EF;&#x4EE5;&#x505A;&#x6062;&#x590D;&#x8FD8;&#x539F;&#x4E86;&#x3002;</p>
+<li><p>准备过程<br>上面就是xtrabackup的备份过程。接下来是准备（prepare）过程。在这个过程中，xtrabackup使用之前复制的事务日志，对各个数据文件执行灾难恢复（就像mysql刚启动时要做的一样）。当这个过程结束后，数据库就可以做恢复还原了。</p>
 </li>
 </ul>
-<p><strong>2&#x3001;MyISAM&#x7684;&#x5907;&#x4EFD;&#x539F;&#x7406;</strong><br>&#x4EE5;&#x4E0A;&#x7684;&#x8FC7;&#x7A0B;&#x5728;xtrabackup&#x7684;&#x7F16;&#x8BD1;&#x4E8C;&#x8FDB;&#x5236;&#x7A0B;&#x5E8F;&#x4E2D;&#x5B9E;&#x73B0;&#x3002;&#x7A0B;&#x5E8F;innobackupex&#x53EF;&#x4EE5;&#x5141;&#x8BB8;&#x6211;&#x4EEC;&#x5907;&#x4EFD;MyISAM&#x8868;&#x548C;frm&#x6587;&#x4EF6;&#x4ECE;&#x800C;&#x589E;&#x52A0;&#x4E86;&#x4FBF;&#x6377;&#x548C;&#x529F;&#x80FD;&#x3002;Innobackupex&#x4F1A;&#x542F;&#x52A8;xtrabackup&#xFF0C;&#x76F4;&#x5230;xtrabackup&#x590D;&#x5236;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x540E;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;FLUSH TABLES WITH READ LOCK&#x6765;&#x963B;&#x6B62;&#x65B0;&#x7684;&#x5199;&#x5165;&#x8FDB;&#x6765;&#x5E76;&#x628A;MyISAM&#x8868;&#x6570;&#x636E;&#x5237;&#x5230;&#x786C;&#x76D8;&#x4E0A;&#xFF0C;&#x4E4B;&#x540E;&#x590D;&#x5236;MyISAM&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x6700;&#x540E;&#x91CA;&#x653E;&#x9501;&#x3002;</p>
-<p>&#x5907;&#x4EFD;MyISAM&#x548C;InnoDB&#x8868;&#x6700;&#x7EC8;&#x4F1A;&#x5904;&#x4E8E;&#x4E00;&#x81F4;&#xFF0C;&#x5728;&#x51C6;&#x5907;&#xFF08;prepare&#xFF09;&#x8FC7;&#x7A0B;&#x7ED3;&#x675F;&#x540E;&#xFF0C;InnoDB&#x8868;&#x6570;&#x636E;&#x5DF2;&#x7ECF;&#x524D;&#x6EDA;&#x5230;&#x6574;&#x4E2A;&#x5907;&#x4EFD;&#x7ED3;&#x675F;&#x7684;&#x70B9;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x56DE;&#x6EDA;&#x5230;xtrabackup&#x521A;&#x5F00;&#x59CB;&#x65F6;&#x7684;&#x70B9;&#x3002;&#x8FD9;&#x4E2A;&#x65F6;&#x95F4;&#x70B9;&#x4E0E;&#x6267;&#x884C;FLUSH TABLES WITH READ LOCK&#x7684;&#x65F6;&#x95F4;&#x70B9;&#x76F8;&#x540C;&#xFF0C;&#x6240;&#x4EE5;myisam&#x8868;&#x6570;&#x636E;&#x4E0E;InnoDB&#x8868;&#x6570;&#x636E;&#x662F;&#x540C;&#x6B65;&#x7684;&#x3002;&#x7C7B;&#x4F3C;oracle&#x7684;&#xFF0C;InnoDB&#x7684;prepare&#x8FC7;&#x7A0B;&#x53EF;&#x4EE5;&#x79F0;&#x4E3A;recover&#xFF08;&#x6062;&#x590D;&#xFF09;&#xFF0C;myisam&#x7684;&#x6570;&#x636E;&#x590D;&#x5236;&#x8FC7;&#x7A0B;&#x53EF;&#x4EE5;&#x79F0;&#x4E3A;restore&#xFF08;&#x8FD8;&#x539F;&#xFF09;&#x3002;</p>
-<p>Xtrabackup&#x548C;innobackupex&#x8FD9;&#x4E24;&#x4E2A;&#x5DE5;&#x5177;&#x90FD;&#x63D0;&#x4F9B;&#x4E86;&#x8BB8;&#x591A;&#x524D;&#x6587;&#x6CA1;&#x6709;&#x63D0;&#x5230;&#x7684;&#x529F;&#x80FD;&#x7279;&#x70B9;&#x3002;&#x624B;&#x518C;&#x4E0A;&#x6709;&#x5BF9;&#x5404;&#x4E2A;&#x529F;&#x80FD;&#x90FD;&#x6709;&#x8BE6;&#x7EC6;&#x7684;&#x4ECB;&#x7ECD;&#x3002;&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x4E0B;&#xFF0C;&#x8FD9;&#x4E9B;&#x5DE5;&#x5177;&#x63D0;&#x4F9B;&#x4E86;&#x5982;&#x6D41;&#xFF08;streaming&#xFF09;&#x5907;&#x4EFD;&#xFF0C;&#x589E;&#x91CF;&#xFF08;incremental&#xFF09;&#x5907;&#x4EFD;&#x7B49;&#xFF0C;&#x901A;&#x8FC7;&#x590D;&#x5236;&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x590D;&#x5236;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x548C;&#x63D0;&#x4EA4;&#x65E5;&#x5FD7;&#x5230;&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF08;&#x524D;&#x6EDA;&#xFF09;&#x5B9E;&#x73B0;&#x4E86;&#x5404;&#x79CD;&#x590D;&#x5408;&#x5907;&#x4EFD;&#x65B9;&#x5F0F;&#x3002;</p>
-<p><strong>&#x4EC0;&#x4E48;&#x662F;&#x6D41;&#x5907;&#x4EFD;&#xFF1F;</strong><br>&#x6D41;&#x5907;&#x4EFD;&#x662F;&#x6307;&#x5907;&#x4EFD;&#x7684;&#x6570;&#x636E;&#x901A;&#x8FC7;&#x6807;&#x51C6;&#x8F93;&#x51FA;STDOUT&#x4F20;&#x8F93;&#x7ED9;tar&#x7A0B;&#x5E8F;&#x8FDB;&#x884C;&#x5F52;&#x6863;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5355;&#x7EAF;&#x7684;&#x5C06;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x5230;&#x6307;&#x5B9A;&#x7684;&#x5907;&#x4EFD;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x53C2;&#x6570;&#x2013;stream=tar&#x8868;&#x793A;&#x5F00;&#x542F;&#x6D41;&#x5907;&#x4EFD;&#x529F;&#x80FD;&#x5E76;&#x6253;&#x5305;&#x3002;&#x540C;&#x65F6;&#x4E5F;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x6D41;&#x5907;&#x4EFD;&#x5230;&#x8FDC;&#x7A0B;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x3002;</p>
+<p><strong>2、MyISAM的备份原理</strong><br>以上的过程在xtrabackup的编译二进制程序中实现。程序innobackupex可以允许我们备份MyISAM表和frm文件从而增加了便捷和功能。Innobackupex会启动xtrabackup，直到xtrabackup复制数据文件后，然后执行FLUSH TABLES WITH READ LOCK来阻止新的写入进来并把MyISAM表数据刷到硬盘上，之后复制MyISAM数据文件，最后释放锁。</p>
+<p>备份MyISAM和InnoDB表最终会处于一致，在准备（prepare）过程结束后，InnoDB表数据已经前滚到整个备份结束的点，而不是回滚到xtrabackup刚开始时的点。这个时间点与执行FLUSH TABLES WITH READ LOCK的时间点相同，所以myisam表数据与InnoDB表数据是同步的。类似oracle的，InnoDB的prepare过程可以称为recover（恢复），myisam的数据复制过程可以称为restore（还原）。</p>
+<p>Xtrabackup和innobackupex这两个工具都提供了许多前文没有提到的功能特点。手册上有对各个功能都有详细的介绍。简单介绍下，这些工具提供了如流（streaming）备份，增量（incremental）备份等，通过复制数据文件，复制日志文件和提交日志到数据文件（前滚）实现了各种复合备份方式。</p>
+<p><strong>什么是流备份？</strong><br>流备份是指备份的数据通过标准输出STDOUT传输给tar程序进行归档，而不是单纯的将数据文件保存到指定的备份目录中，参数—stream=tar表示开启流备份功能并打包。同时也可以利用流备份到远程服务器上。</p>
 <hr>
-<h3 id="Xtrabackup&#x5B9E;&#x73B0;&#x7EC6;&#x8282;"><a href="#Xtrabackup&#x5B9E;&#x73B0;&#x7EC6;&#x8282;" class="headerlink" title="Xtrabackup&#x5B9E;&#x73B0;&#x7EC6;&#x8282;"></a>Xtrabackup&#x5B9E;&#x73B0;&#x7EC6;&#x8282;</h3><p>XtraBackup&#x4EE5;read-write&#x6A21;&#x5F0F;&#x6253;&#x5F00;innodb&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF0C;&#x7136;&#x540E;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x590D;&#x5236;&#x3002;&#x5176;&#x5B9E;&#x5B83;&#x4E0D;&#x4F1A;&#x4FEE;&#x6539;&#x6B64;&#x6587;&#x4EF6;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x8FD0;&#x884C; XtraBackup&#x7684;&#x7528;&#x6237;&#xFF0C;&#x5FC5;&#x987B;&#x5BF9;innodb&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x5177;&#x6709;&#x8BFB;&#x5199;&#x6743;&#x9650;&#x3002;&#x4E4B;&#x6240;&#x4EE5;&#x91C7;&#x7528;read-write&#x6A21;&#x5F0F;&#x662F;&#x56E0;&#x4E3A;XtraBackup&#x91C7;&#x7528;&#x4E86;&#x5176;&#x5185;&#x7F6E;&#x7684; innodb&#x5E93;&#x6765;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#xFF0C;&#x800C;innodb&#x5E93;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x662F;rw&#x7684;&#x3002;</p>
-<p>XtraBackup&#x8981;&#x4ECE;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E2D;&#x590D;&#x5236;&#x5927;&#x91CF;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x6240;&#x4EE5;&#x5B83;&#x5C3D;&#x53EF;&#x80FD;&#x5730;&#x4F7F;&#x7528;posix_fadvise()&#xFF0C;&#x6765;&#x544A;&#x8BC9;OS&#x4E0D;&#x8981;&#x7F13;&#x5B58;&#x8BFB;&#x53D6;&#x5230;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x4ECE; &#x800C;&#x63D0;&#x5347;&#x6027;&#x80FD;&#x3002;&#x56E0;&#x4E3A;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x4E0D;&#x4F1A;&#x91CD;&#x7528;&#x5230;&#x4E86;&#xFF0C;OS&#x5374;&#x6CA1;&#x6709;&#x8FD9;&#x4E48;&#x806A;&#x660E;&#x3002;&#x5982;&#x679C;&#x8981;&#x7F13;&#x5B58;&#x4E00;&#x4E0B;&#x7684;&#x8BDD;&#xFF0C;&#x51E0;&#x4E2A;G&#x7684;&#x6570;&#x636E;&#xFF0C;&#x4F1A;&#x5BF9;OS&#x7684;&#x865A;&#x62DF;&#x5185;&#x5B58;&#x9020;&#x6210;&#x5F88;&#x5927;&#x7684;&#x538B;&#x529B;&#xFF0C;&#x5176;&#x5B83;&#x8FDB;&#x7A0B;&#xFF0C;&#x6BD4;&#x5982; mysqld&#x5F88;&#x6709;&#x53EF;&#x80FD;&#x88AB;swap&#x51FA;&#x53BB;&#xFF0C;&#x8FD9;&#x6837;&#x7CFB;&#x7EDF;&#x5C31;&#x4F1A;&#x53D7;&#x5230;&#x5F88;&#x5927;&#x5F71;&#x54CD;&#x4E86;&#x3002;</p>
-<p>&#x5728;&#x5907;&#x4EFD;innodb page&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;XtraBackup&#x6BCF;&#x6B21;&#x8BFB;&#x5199;1MB&#x7684;&#x6570;&#x636E;&#xFF0C;1MB/16KB=64&#x4E2A;page&#x3002;&#x8FD9;&#x4E2A;&#x4E0D;&#x53EF;&#x914D;&#x7F6E;&#x3002;&#x8BFB;1MB&#x6570;&#x636E;&#x4E4B; &#x540E;&#xFF0C;XtraBackup&#x4E00;&#x9875;&#x4E00;&#x9875;&#x5730;&#x904D;&#x5386;&#x8FD9;1MB&#x6570;&#x636E;&#xFF0C;&#x4F7F;&#x7528;innodb&#x7684;buf_page_is_corrupted()&#x51FD;&#x6570;&#x68C0;&#x67E5;&#x6B64;&#x9875;&#x7684;&#x6570;&#x636E;&#x662F;&#x5426;&#x6B63;&#x5E38;&#xFF0C;&#x5982;&#x679C;&#x6570;&#x636E;&#x4E0D;&#x6B63;&#x5E38;&#xFF0C;&#x5C31;&#x91CD;&#x65B0;&#x8BFB;&#x53D6;&#x8FD9;&#x4E00;&#x9875;&#xFF0C;&#x6700;&#x591A;&#x91CD;&#x65B0;&#x8BFB;&#x53D6;10&#x6B21;&#xFF0C;&#x5982;&#x679C;&#x8FD8;&#x662F;&#x5931;&#x8D25;&#xFF0C;&#x5907;&#x4EFD;&#x5C31;&#x5931;&#x8D25;&#x4E86;&#xFF0C;&#x9000;&#x51FA;&#x3002;&#x5728;&#x590D;&#x5236;transactions log&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6BCF;&#x6B21;&#x8BFB;&#x5199;512KB&#x7684;&#x6570;&#x636E;&#x3002;&#x540C;&#x6837;&#x4E0D;&#x53EF;&#x4EE5;&#x914D;&#x7F6E;&#x3002;</p>
+<h3 id="Xtrabackup实现细节"><a href="#Xtrabackup实现细节" class="headerlink" title="Xtrabackup实现细节"></a>Xtrabackup实现细节</h3><p>XtraBackup以read-write模式打开innodb的数据文件，然后对其进行复制。其实它不会修改此文件。也就是说，运行 XtraBackup的用户，必须对innodb的数据文件具有读写权限。之所以采用read-write模式是因为XtraBackup采用了其内置的 innodb库来打开文件，而innodb库打开文件的时候就是rw的。</p>
+<p>XtraBackup要从文件系统中复制大量的数据，所以它尽可能地使用posix_fadvise()，来告诉OS不要缓存读取到的数据，从 而提升性能。因为这些数据不会重用到了，OS却没有这么聪明。如果要缓存一下的话，几个G的数据，会对OS的虚拟内存造成很大的压力，其它进程，比如 mysqld很有可能被swap出去，这样系统就会受到很大影响了。</p>
+<p>在备份innodb page的过程中，XtraBackup每次读写1MB的数据，1MB/16KB=64个page。这个不可配置。读1MB数据之 后，XtraBackup一页一页地遍历这1MB数据，使用innodb的buf_page_is_corrupted()函数检查此页的数据是否正常，如果数据不正常，就重新读取这一页，最多重新读取10次，如果还是失败，备份就失败了，退出。在复制transactions log的时候，每次读写512KB的数据。同样不可以配置。</p>
 <hr>
-<h3 id="Xtrabackup&#x5B89;&#x88C5;&#x4E0E;&#x5378;&#x8F7D;"><a href="#Xtrabackup&#x5B89;&#x88C5;&#x4E0E;&#x5378;&#x8F7D;" class="headerlink" title="Xtrabackup&#x5B89;&#x88C5;&#x4E0E;&#x5378;&#x8F7D;"></a>Xtrabackup&#x5B89;&#x88C5;&#x4E0E;&#x5378;&#x8F7D;</h3><p>&#x5728;&#x5B98;&#x7F51;&#x4E2D;&#xFF0C;&#x590D;&#x5236;&#x76F8;&#x5173;&#x94FE;&#x63A5;&#x4E0B;&#x8F7D;&#x6700;&#x65B0;&#x7248;&#x672C;<br><a href="https://www.percona.com/downloads/XtraBackup/LATEST/" target="_blank" rel="external">https://www.percona.com/downloads/XtraBackup/LATEST/</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x5B89;&#x88C5;</span></span><br><span class="line"><span class="built_in">cd</span> /data/install_packages</span><br><span class="line">wget https://www.percona.com/downloads/XtraBackup/Percona-XtraBackup-2.4.5/binary/redhat/6/x86_64/percona-xtrabackup-24-2.4.5-1.el6.x86_64.rpm</span><br><span class="line">yum install percona-xtrabackup-24-2.4.5-1.el6.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x5982;&#x679C;&#x63D0;&#x793A;&#x7F3A;&#x5931;&#x4F9D;&#x8D56;&#x5305;</span></span><br><span class="line"><span class="comment"># yum -y install perl perl-devel libaio libaio-devel perl-Time-HiRes perl-DBD-MySQL</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x5982;&#x679C;&#x7248;&#x672C;&#x9519;&#x8BEF;&#xFF0C;&#x67E5;&#x770B;&#x5DF2;&#x5B89;&#x88C5;&#x7684;percona&#x7248;&#x672C;</span></span><br><span class="line">yum list installed |grep percona</span><br><span class="line">percona-xtrabackup-24.x86_64    2.4.5-1.el6    @/percona-xtrabackup-24-2.4.5-1.el6.x86_64</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x5378;&#x8F7D;</span></span><br><span class="line">yum remove percona-xtrabackup-24.x86_64</span><br></pre></td></tr></table></figure>
+<h3 id="Xtrabackup安装与卸载"><a href="#Xtrabackup安装与卸载" class="headerlink" title="Xtrabackup安装与卸载"></a>Xtrabackup安装与卸载</h3><p>在官网中，复制相关链接下载最新版本<br><a href="https://www.percona.com/downloads/XtraBackup/LATEST/">https://www.percona.com/downloads/XtraBackup/LATEST/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line"><span class="built_in">cd</span> /data/install_packages</span><br><span class="line">wget https://www.percona.com/downloads/XtraBackup/Percona-XtraBackup-2.4.5/binary/redhat/6/x86_64/percona-xtrabackup-24-2.4.5-1.el6.x86_64.rpm</span><br><span class="line">yum install percona-xtrabackup-24-2.4.5-1.el6.x86_64.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果提示缺失依赖包</span></span><br><span class="line"><span class="comment"># yum -y install perl perl-devel libaio libaio-devel perl-Time-HiRes perl-DBD-MySQL</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果版本错误，查看已安装的percona版本</span></span><br><span class="line">yum list installed |grep percona</span><br><span class="line">percona-xtrabackup-24.x86_64    2.4.5-1.el6    @/percona-xtrabackup-24-2.4.5-1.el6.x86_64</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载</span></span><br><span class="line">yum remove percona-xtrabackup-24.x86_64</span><br></pre></td></tr></table></figure>
 <hr>
-<h3 id="Xtrabackup&#x5E38;&#x7528;&#x53C2;&#x6570;"><a href="#Xtrabackup&#x5E38;&#x7528;&#x53C2;&#x6570;" class="headerlink" title="Xtrabackup&#x5E38;&#x7528;&#x53C2;&#x6570;"></a>Xtrabackup&#x5E38;&#x7528;&#x53C2;&#x6570;</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x5E38;&#x7528;&#x53C2;&#x6570;&#xFF1A;</span><br><span class="line">--user=USER                     &#x6307;&#x5B9A;&#x5907;&#x4EFD;&#x7528;&#x6237;&#xFF0C;&#x4E0D;&#x6307;&#x5B9A;&#x7684;&#x8BDD;&#x4E3A;&#x5F53;&#x524D;&#x7CFB;&#x7EDF;&#x7528;&#x6237;</span><br><span class="line">--password=PASSWD               &#x6307;&#x5B9A;&#x5907;&#x4EFD;&#x7528;&#x6237;&#x5BC6;&#x7801;</span><br><span class="line">--port=PORT                     &#x6307;&#x5B9A;&#x6570;&#x636E;&#x5E93;&#x7AEF;&#x53E3;</span><br><span class="line">--defaults-group=GROUP-NAME     &#x5728;&#x591A;&#x5B9E;&#x4F8B;&#x7684;&#x65F6;&#x5019;&#x4F7F;&#x7528;</span><br><span class="line">--host=HOST                     &#x6307;&#x5B9A;&#x5907;&#x4EFD;&#x7684;&#x4E3B;&#x673A;&#xFF0C;&#x53EF;&#x4EE5;&#x4E3A;&#x8FDC;&#x7A0B;&#x6570;&#x636E;&#x5E93;&#x670D;&#x52A1;&#x5668;</span><br><span class="line">--apply-log                     &#x56DE;&#x6EDA;&#x65E5;&#x5FD7;</span><br><span class="line">--database                      &#x6307;&#x5B9A;&#x9700;&#x8981;&#x5907;&#x4EFD;&#x7684;&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x4E4B;&#x95F4;&#x4EE5;&#x7A7A;&#x683C;&#x5206;&#x5F00;</span><br><span class="line">--defaults-file                 &#x6307;&#x5B9A;mysql&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</span><br><span class="line">--copy-back                     &#x5C06;&#x5907;&#x4EFD;&#x6570;&#x636E;&#x590D;&#x5236;&#x56DE;&#x539F;&#x59CB;&#x4F4D;&#x7F6E;</span><br><span class="line">--incremental                   &#x589E;&#x91CF;&#x5907;&#x4EFD;&#xFF0C;&#x540E;&#x9762;&#x8DDF;&#x8981;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x7684;&#x8DEF;&#x5F84;</span><br><span class="line">--incremental-basedir=DIRECTORY &#x589E;&#x91CF;&#x5907;&#x4EFD;&#x65F6;&#x4F7F;&#x7528;&#x6307;&#x5411;&#x4E0A;&#x4E00;&#x6B21;&#x7684;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x6240;&#x5728;&#x7684;&#x76EE;&#x5F55;</span><br><span class="line">--incremental-dir=DIRECTORY     &#x589E;&#x91CF;&#x5907;&#x4EFD;&#x8FD8;&#x539F;&#x7684;&#x65F6;&#x5019;&#x7528;&#x6765;&#x5408;&#x5E76;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x5230;&#x5168;&#x91CF;&#xFF0C;&#x7528;&#x6765;&#x6307;&#x5B9A;&#x5168;&#x5907;&#x8DEF;&#x5F84;</span><br><span class="line">--redo-only                     &#x5BF9;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x8FDB;&#x884C;&#x5408;&#x5E76;</span><br><span class="line">--rsync                         &#x52A0;&#x5FEB;&#x672C;&#x5730;&#x6587;&#x4EF6;&#x4F20;&#x8F93;&#xFF0C;&#x9002;&#x7528;&#x4E8E;non-InnoDB&#x6570;&#x636E;&#x5E93;&#x5F15;&#x64CE;&#x3002;&#x4E0D;&#x4E0E;--stream&#x5171;&#x7528;</span><br><span class="line">--safe-slave-backup</span><br><span class="line">--no-timestamp                  &#x751F;&#x6210;&#x7684;&#x5907;&#x4EFD;&#x6587;&#x4EF6;&#x4E0D;&#x4EE5;&#x65F6;&#x95F4;&#x6233;&#x4E3A;&#x76EE;&#x5F55;.</span><br></pre></td></tr></table></figure>
+<h3 id="Xtrabackup常用参数"><a href="#Xtrabackup常用参数" class="headerlink" title="Xtrabackup常用参数"></a>Xtrabackup常用参数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">常用参数：</span><br><span class="line">--user=USER                     指定备份用户，不指定的话为当前系统用户</span><br><span class="line">--password=PASSWD               指定备份用户密码</span><br><span class="line">--port=PORT                     指定数据库端口</span><br><span class="line">--defaults-group=GROUP-NAME     在多实例的时候使用</span><br><span class="line">--host=HOST                     指定备份的主机，可以为远程数据库服务器</span><br><span class="line">--apply-log                     回滚日志</span><br><span class="line">--database                      指定需要备份的数据库，多个数据库之间以空格分开</span><br><span class="line">--defaults-file                 指定mysql的配置文件</span><br><span class="line">--copy-back                     将备份数据复制回原始位置</span><br><span class="line">--incremental                   增量备份，后面跟要增量备份的路径</span><br><span class="line">--incremental-basedir=DIRECTORY 增量备份时使用指向上一次的增量备份所在的目录</span><br><span class="line">--incremental-dir=DIRECTORY     增量备份还原的时候用来合并增量备份到全量，用来指定全备路径</span><br><span class="line">--redo-only                     对增量备份进行合并</span><br><span class="line">--rsync                         加快本地文件传输，适用于non-InnoDB数据库引擎。不与--stream共用</span><br><span class="line">--safe-slave-backup</span><br><span class="line">--no-timestamp                  生成的备份文件不以时间戳为目录.</span><br></pre></td></tr></table></figure>
 <hr>
-<h3 id="&#x5B8C;&#x5168;&#x5907;&#x4EFD;&#x4E0E;&#x6062;&#x590D;"><a href="#&#x5B8C;&#x5168;&#x5907;&#x4EFD;&#x4E0E;&#x6062;&#x590D;" class="headerlink" title="&#x5B8C;&#x5168;&#x5907;&#x4EFD;&#x4E0E;&#x6062;&#x590D;"></a>&#x5B8C;&#x5168;&#x5907;&#x4EFD;&#x4E0E;&#x6062;&#x590D;</h3><p>&#x5B8C;&#x5168;&#x5907;&#x4EFD;&#x76EE;&#x5F55;&#xFF1A;/data/backup/full<br><strong>&#x5B8C;&#x5168;&#x5907;&#x4EFD;&#x4E0E;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x6BCF;&#x6B21;&#x547D;&#x4EE4;&#x64CD;&#x4F5C;&#x6210;&#x529F;&#x7684;&#x6807;&#x5FD7;&#x662F;&#xFF0C;&#x65E5;&#x5FD7;&#x7ED3;&#x5C3E;&#x5904;&#x6253;&#x5370;&#x3010;completed OK!&#x3011;</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x5168;&#x91CF;&#x5907;&#x4EFD;</span></span><br><span class="line">innobackupex --user=root --password=passwd /data/backup/full</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x4E0A;&#x4E2A;&#x547D;&#x4EE4;&#x5728;&#x6211;&#x7684; /data/backup/full/ &#x76EE;&#x5F55;&#x751F;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x5939;&#x3010;2017-01-20_10-52-43&#x3011;</span></span><br><span class="line"><span class="comment"># &#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x8FD9;&#x4E2A;&#x5907;&#x4EFD;&#x4E0D;&#x80FD;&#x7528;&#x4E8E;&#x6062;&#x590D;&#xFF0C;&#x56E0;&#x4E3A;&#x5907;&#x4EFD;&#x7684;&#x6570;&#x636E;&#x4E2D;&#x53EF;&#x80FD;&#x4F1A;&#x5305;&#x542B;&#x5C1A;&#x672A;&#x63D0;&#x4EA4;&#x7684;&#x4E8B;&#x52A1;&#x6216;&#x5DF2;&#x7ECF;&#x63D0;&#x4EA4;&#x4F46;&#x5C1A;&#x672A;&#x540C;&#x6B65;&#x81F3;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x4E8B;&#x52A1;&#xFF0C;&#x6B64;&#x65F6;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x5904;&#x4E8E;&#x4E0D;&#x4E00;&#x81F4;&#x7684;&#x72B6;&#x6001;</span></span><br><span class="line"><span class="comment"># &#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x73B0;&#x5728;&#x5C31;&#x662F;&#x8981;&#x901A;&#x8FC7;&#x56DE;&#x6EDA;&#x672A;&#x63D0;&#x4EA4;&#x7684;&#x4E8B;&#x52A1;&#x53CA;&#x540C;&#x6B65;&#x5DF2;&#x7ECF;&#x63D0;&#x4EA4;&#x7684;&#x4E8B;&#x52A1;&#x81F3;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x4E5F;&#x4F7F;&#x5F97;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x5904;&#x4E8E;&#x4E00;&#x81F4;&#x6027;&#x72B6;&#x6001;&#x3002;</span></span><br><span class="line">innobackupex --user=root --password --defaults-file=/data/mysql/my.cnf --apply-log /data/backup/full/2017-01-20_10-52-43</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x6062;&#x590D;&#x64CD;&#x4F5C;&#x6F14;&#x7EC3;</span></span><br><span class="line"><span class="comment"># &#x5173;&#x6389;&#x670D;&#x52A1;&#xFF0C;&#x8FC1;&#x79FB;&#x5DF2;&#x6709;&#x7684;&#x6570;&#x636E;&#x76EE;&#x5F55;</span></span><br><span class="line">service mysql stop</span><br><span class="line">mv /data/mysql/data /data/mysql/data_old</span><br><span class="line">mkdir -p /data/mysql/data</span><br><span class="line"><span class="comment"># &#x6267;&#x884C;innobackupex&#x6062;&#x590D;&#x547D;&#x4EE4;</span></span><br><span class="line">innobackupex --defaults-file=/data/mysql/my.cnf --user=root --password=passwd --copy-back /data/backup/full/2017-01-20_10-52-43</span><br><span class="line"><span class="comment"># &#x5BF9;&#x65B0;&#x76EE;&#x5F55;&#x6267;&#x884C;&#x8D4B;&#x6743;&#x64CD;&#x4F5C;&#xFF0C;&#x6B64;&#x64CD;&#x4F5C;&#x9700;&#x5728;innobackupex&#x6062;&#x590D;&#x547D;&#x4EE4;&#x540E;</span></span><br><span class="line">chown -R mysql.mysql /data/mysql/data</span><br><span class="line"><span class="comment"># &#x91CD;&#x542F;&#x670D;&#x52A1;&#xFF0C;&#x5E76;&#x68C0;&#x67E5;&#x6570;&#x636E;&#x662F;&#x5426;&#x6062;&#x590D;</span></span><br><span class="line">service mysqld start</span><br></pre></td></tr></table></figure>
+<h3 id="完全备份与恢复"><a href="#完全备份与恢复" class="headerlink" title="完全备份与恢复"></a>完全备份与恢复</h3><p>完全备份目录：/data/backup/full<br><strong>完全备份与增量备份每次命令操作成功的标志是，日志结尾处打印【completed OK!】</strong></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全量备份</span></span><br><span class="line">innobackupex --user=root --password=passwd /data/backup/full</span><br><span class="line"></span><br><span class="line"><span class="comment"># 上个命令在我的 /data/backup/full/ 目录生成了一个文件夹【2017-01-20_10-52-43】</span></span><br><span class="line"><span class="comment"># 一般情况下，这个备份不能用于恢复，因为备份的数据中可能会包含尚未提交的事务或已经提交但尚未同步至数据文件中的事务，此时数据文件处于不一致的状态</span></span><br><span class="line"><span class="comment"># 因此，我们现在就是要通过回滚未提交的事务及同步已经提交的事务至数据文件也使得数据文件处于一致性状态。</span></span><br><span class="line">innobackupex --user=root --password --defaults-file=/data/mysql/my.cnf --apply-log /data/backup/full/2017-01-20_10-52-43</span><br><span class="line"></span><br><span class="line"><span class="comment"># 恢复操作演练</span></span><br><span class="line"><span class="comment"># 关掉服务，迁移已有的数据目录</span></span><br><span class="line">service mysql stop</span><br><span class="line">mv /data/mysql/data /data/mysql/data_old</span><br><span class="line">mkdir -p /data/mysql/data</span><br><span class="line"><span class="comment"># 执行innobackupex恢复命令</span></span><br><span class="line">innobackupex --defaults-file=/data/mysql/my.cnf --user=root --password=passwd --copy-back /data/backup/full/2017-01-20_10-52-43</span><br><span class="line"><span class="comment"># 对新目录执行赋权操作，此操作需在innobackupex恢复命令后</span></span><br><span class="line">chown -R mysql.mysql /data/mysql/data</span><br><span class="line"><span class="comment"># 重启服务，并检查数据是否恢复</span></span><br><span class="line">service mysqld start</span><br></pre></td></tr></table></figure></h2><h3 id="增量备份与恢复"><a href="#增量备份与恢复" class="headerlink" title="增量备份与恢复"></a>增量备份与恢复</h3><p>增量备份目录1：/data/backup/inc1<br>增量备份目录2：/data/backup/inc2</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全量备份</span></span><br><span class="line">innobackupex  --defaults-file=/data/mysql/my.cnf  --user=root --password=passwd /data/backup/full</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第一次增量备份</span></span><br><span class="line">innobackupex  --defaults-file=/data/mysql/my.cnf  --user=root --password=passwd --incremental /data/backup/inc1  --incremental-basedir=/data/backup/full/2017-01-20_10-52-43</span><br><span class="line"></span><br><span class="line"><span class="comment"># --incremental-basedir指的是完全备份所在的目录</span></span><br><span class="line"><span class="comment"># 此命令执行结束后，innobackupex命令会在/data/backup目录中创建一个新的以时间命名的目录以存放所有的增量备份数据。</span></span><br><span class="line"><span class="comment"># 另外，在执行过增量备份之后再一次进行增量备份时，其--incremental-basedir应该指向上一次的增量备份所在的目录。</span></span><br><span class="line"><span class="comment"># 需要注意的是，增量备份仅能应用于InnoDB或XtraDB表，对于MyISAM表而言，执行增量备份时其实进行的是完全备份。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二次增量备份</span></span><br><span class="line">innobackupex  --defaults-file=/data/mysql/my.cnf  --user=root --password=passwd --incremental /data/backup/inc2  --incremental-basedir=/data/backup/inc1/2017-01-20_11-04-31</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果需要恢复的话需要先执行如下操作</span></span><br><span class="line">innobackupex --apply-log --redo-only /data/backup/full/2017-01-20_10-52-43</span><br><span class="line">innobackupex --apply-log --redo-only /data/backup/full/2017-01-20_10-52-43 --incremental-dir=/data/backup/inc1/2017-01-20_11-04-31</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果存在多次增量备份的话，就多次执行如下命令。此处执行针对的是第二次增量备份</span></span><br><span class="line">innobackupex --apply-log --redo-only /data/backup/full/2017-01-20_10-52-43 --incremental-dir=/data/backup/inc2/2017-01-20_11-06-41</span><br><span class="line"></span><br><span class="line"><span class="comment"># 恢复操作演练，需先停掉服务器并迁移已有的数据目录，详情见全量备份</span></span><br><span class="line"><span class="comment"># 执行恢复命令</span></span><br><span class="line">innobackupex --defaults-file=/data/mysql/my.cnf --user=root --password=passwd --copy-back  /data/backup/full/2017-01-20_10-52-43</span><br></pre></td></tr></table></figure>
 <hr>
-<h3 id="&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x4E0E;&#x6062;&#x590D;"><a href="#&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x4E0E;&#x6062;&#x590D;" class="headerlink" title="&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x4E0E;&#x6062;&#x590D;"></a>&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x4E0E;&#x6062;&#x590D;</h3><p>&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x76EE;&#x5F55;1&#xFF1A;/data/backup/inc1<br>&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x76EE;&#x5F55;2&#xFF1A;/data/backup/inc2</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x5168;&#x91CF;&#x5907;&#x4EFD;</span></span><br><span class="line">innobackupex  --defaults-file=/data/mysql/my.cnf  --user=root --password=passwd /data/backup/full</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x7B2C;&#x4E00;&#x6B21;&#x589E;&#x91CF;&#x5907;&#x4EFD;</span></span><br><span class="line">innobackupex  --defaults-file=/data/mysql/my.cnf  --user=root --password=passwd --incremental /data/backup/inc1  --incremental-basedir=/data/backup/full/2017-01-20_10-52-43</span><br><span class="line"></span><br><span class="line"><span class="comment"># --incremental-basedir&#x6307;&#x7684;&#x662F;&#x5B8C;&#x5168;&#x5907;&#x4EFD;&#x6240;&#x5728;&#x7684;&#x76EE;&#x5F55;</span></span><br><span class="line"><span class="comment"># &#x6B64;&#x547D;&#x4EE4;&#x6267;&#x884C;&#x7ED3;&#x675F;&#x540E;&#xFF0C;innobackupex&#x547D;&#x4EE4;&#x4F1A;&#x5728;/data/backup&#x76EE;&#x5F55;&#x4E2D;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x4EE5;&#x65F6;&#x95F4;&#x547D;&#x540D;&#x7684;&#x76EE;&#x5F55;&#x4EE5;&#x5B58;&#x653E;&#x6240;&#x6709;&#x7684;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x6570;&#x636E;&#x3002;</span></span><br><span class="line"><span class="comment"># &#x53E6;&#x5916;&#xFF0C;&#x5728;&#x6267;&#x884C;&#x8FC7;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x4E4B;&#x540E;&#x518D;&#x4E00;&#x6B21;&#x8FDB;&#x884C;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x65F6;&#xFF0C;&#x5176;--incremental-basedir&#x5E94;&#x8BE5;&#x6307;&#x5411;&#x4E0A;&#x4E00;&#x6B21;&#x7684;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x6240;&#x5728;&#x7684;&#x76EE;&#x5F55;&#x3002;</span></span><br><span class="line"><span class="comment"># &#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x4EC5;&#x80FD;&#x5E94;&#x7528;&#x4E8E;InnoDB&#x6216;XtraDB&#x8868;&#xFF0C;&#x5BF9;&#x4E8E;MyISAM&#x8868;&#x800C;&#x8A00;&#xFF0C;&#x6267;&#x884C;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x65F6;&#x5176;&#x5B9E;&#x8FDB;&#x884C;&#x7684;&#x662F;&#x5B8C;&#x5168;&#x5907;&#x4EFD;&#x3002;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x7B2C;&#x4E8C;&#x6B21;&#x589E;&#x91CF;&#x5907;&#x4EFD;</span></span><br><span class="line">innobackupex  --defaults-file=/data/mysql/my.cnf  --user=root --password=passwd --incremental /data/backup/inc2  --incremental-basedir=/data/backup/inc1/2017-01-20_11-04-31</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x5982;&#x679C;&#x9700;&#x8981;&#x6062;&#x590D;&#x7684;&#x8BDD;&#x9700;&#x8981;&#x5148;&#x6267;&#x884C;&#x5982;&#x4E0B;&#x64CD;&#x4F5C;</span></span><br><span class="line">innobackupex --apply-log --redo-only /data/backup/full/2017-01-20_10-52-43</span><br><span class="line">innobackupex --apply-log --redo-only /data/backup/full/2017-01-20_10-52-43 --incremental-dir=/data/backup/inc1/2017-01-20_11-04-31</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x5982;&#x679C;&#x5B58;&#x5728;&#x591A;&#x6B21;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x7684;&#x8BDD;&#xFF0C;&#x5C31;&#x591A;&#x6B21;&#x6267;&#x884C;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#x3002;&#x6B64;&#x5904;&#x6267;&#x884C;&#x9488;&#x5BF9;&#x7684;&#x662F;&#x7B2C;&#x4E8C;&#x6B21;&#x589E;&#x91CF;&#x5907;&#x4EFD;</span></span><br><span class="line">innobackupex --apply-log --redo-only /data/backup/full/2017-01-20_10-52-43 --incremental-dir=/data/backup/inc2/2017-01-20_11-06-41</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x6062;&#x590D;&#x64CD;&#x4F5C;&#x6F14;&#x7EC3;&#xFF0C;&#x9700;&#x5148;&#x505C;&#x6389;&#x670D;&#x52A1;&#x5668;&#x5E76;&#x8FC1;&#x79FB;&#x5DF2;&#x6709;&#x7684;&#x6570;&#x636E;&#x76EE;&#x5F55;&#xFF0C;&#x8BE6;&#x60C5;&#x89C1;&#x5168;&#x91CF;&#x5907;&#x4EFD;</span></span><br><span class="line"><span class="comment"># &#x6267;&#x884C;&#x6062;&#x590D;&#x547D;&#x4EE4;</span></span><br><span class="line">innobackupex --defaults-file=/data/mysql/my.cnf --user=root --password=passwd --copy-back  /data/backup/full/2017-01-20_10-52-43</span><br></pre></td></tr></table></figure>
+<h3 id="备份恢复常见错误"><a href="#备份恢复常见错误" class="headerlink" title="备份恢复常见错误"></a>备份恢复常见错误</h3><p><strong>Q：针对增量备份已经执行了增量恢复，再次执行相关恢复命令时，报如下错误</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">xtrabackup: <span class="comment">########################################################</span></span><br><span class="line">xtrabackup: <span class="comment"># !!WARNING!!                                          #</span></span><br><span class="line">xtrabackup: <span class="comment"># The transaction log file is corrupted.               #</span></span><br><span class="line">xtrabackup: <span class="comment"># The log was not applied to the intended LSN!         #</span></span><br><span class="line">xtrabackup: <span class="comment">########################################################</span></span><br><span class="line">xtrabackup: The intended lsn is 1614986</span><br><span class="line">xtrabackup: starting shutdown with innodb_fast_shutdown = 1</span><br></pre></td></tr></table></figure><br><strong>A：</strong>此错误是提示你日志已损坏，即上次的恢复命令已经对日志进行了回滚。所以每次对增量备份执行恢复时，可事先备份数据，以防万一。</p>
+<p><strong>Q：对备份文件执行恢复命令时，报错如下：</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">innobackupex: Connecting to MySQL server with DSN <span class="string">'dbi:mysql:;mysql_read_default_group=xtrabackup'</span> as <span class="string">'root'</span>  (using password: YES).</span><br><span class="line">innobackupex: Error: Failed to connect to MySQL server: DBI connect(<span class="string">';mysql_read_default_group=xtrabackup'</span>,<span class="string">'root'</span>,...) failed: Can<span class="string">'t connect to local MySQL server through socket '</span>/var/lib/mysql/mysql.sock<span class="string">' (2) at /usr/bin/innobackupex line 2995</span></span><br></pre></td></tr></table></figure><br><strong>A：</strong> 说明没有读取到my.cnf中的socket路径，也说明备份连接数据库时候走的是socket接口形式，我们可以换做走tcp/ip，执行命令中新增参数—host=127.0.0.1即可。如果仍然报错，检查相关命令是否有拼错的单词，检查datadir目录是否有【mysql:mysql】权限等。</p>
+<p><strong>Q：xtrabackup Error: datadir must be specified.</strong><br><strong>A：</strong>—defaults-file 对应的 my.cnf 文件没有指明datadir目录。如果指明了目录，执行相关命令仍然报错。把命令中的 —defaults-file 顺序从 —password后移至innobackupex后试试。innobackupex查找datadir不够智能。</p>
 <hr>
-<h3 id="&#x5907;&#x4EFD;&#x6062;&#x590D;&#x5E38;&#x89C1;&#x9519;&#x8BEF;"><a href="#&#x5907;&#x4EFD;&#x6062;&#x590D;&#x5E38;&#x89C1;&#x9519;&#x8BEF;" class="headerlink" title="&#x5907;&#x4EFD;&#x6062;&#x590D;&#x5E38;&#x89C1;&#x9519;&#x8BEF;"></a>&#x5907;&#x4EFD;&#x6062;&#x590D;&#x5E38;&#x89C1;&#x9519;&#x8BEF;</h3><p><strong>Q&#xFF1A;&#x9488;&#x5BF9;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x5DF2;&#x7ECF;&#x6267;&#x884C;&#x4E86;&#x589E;&#x91CF;&#x6062;&#x590D;&#xFF0C;&#x518D;&#x6B21;&#x6267;&#x884C;&#x76F8;&#x5173;&#x6062;&#x590D;&#x547D;&#x4EE4;&#x65F6;&#xFF0C;&#x62A5;&#x5982;&#x4E0B;&#x9519;&#x8BEF;</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">xtrabackup: <span class="comment">########################################################</span></span><br><span class="line">xtrabackup: <span class="comment"># !!WARNING!!                                          #</span></span><br><span class="line">xtrabackup: <span class="comment"># The transaction log file is corrupted.               #</span></span><br><span class="line">xtrabackup: <span class="comment"># The log was not applied to the intended LSN!         #</span></span><br><span class="line">xtrabackup: <span class="comment">########################################################</span></span><br><span class="line">xtrabackup: The intended lsn is 1614986</span><br><span class="line">xtrabackup: starting shutdown with innodb_fast_shutdown = 1</span><br></pre></td></tr></table></figure></p>
-<p><strong>A&#xFF1A;</strong>&#x6B64;&#x9519;&#x8BEF;&#x662F;&#x63D0;&#x793A;&#x4F60;&#x65E5;&#x5FD7;&#x5DF2;&#x635F;&#x574F;&#xFF0C;&#x5373;&#x4E0A;&#x6B21;&#x7684;&#x6062;&#x590D;&#x547D;&#x4EE4;&#x5DF2;&#x7ECF;&#x5BF9;&#x65E5;&#x5FD7;&#x8FDB;&#x884C;&#x4E86;&#x56DE;&#x6EDA;&#x3002;&#x6240;&#x4EE5;&#x6BCF;&#x6B21;&#x5BF9;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x6267;&#x884C;&#x6062;&#x590D;&#x65F6;&#xFF0C;&#x53EF;&#x4E8B;&#x5148;&#x5907;&#x4EFD;&#x6570;&#x636E;&#xFF0C;&#x4EE5;&#x9632;&#x4E07;&#x4E00;&#x3002;</p>
-<p><strong>Q&#xFF1A;&#x5BF9;&#x5907;&#x4EFD;&#x6587;&#x4EF6;&#x6267;&#x884C;&#x6062;&#x590D;&#x547D;&#x4EE4;&#x65F6;&#xFF0C;&#x62A5;&#x9519;&#x5982;&#x4E0B;&#xFF1A;</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">innobackupex: Connecting to MySQL server with DSN <span class="string">&apos;dbi:mysql:;mysql_read_default_group=xtrabackup&apos;</span> as <span class="string">&apos;root&apos;</span>  (using password: YES).</span><br><span class="line">innobackupex: Error: Failed to connect to MySQL server: DBI connect(<span class="string">&apos;;mysql_read_default_group=xtrabackup&apos;</span>,<span class="string">&apos;root&apos;</span>,...) failed: Can<span class="string">&apos;t connect to local MySQL server through socket &apos;</span>/var/lib/mysql/mysql.sock<span class="string">&apos; (2) at /usr/bin/innobackupex line 2995</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>A&#xFF1A;</strong> &#x8BF4;&#x660E;&#x6CA1;&#x6709;&#x8BFB;&#x53D6;&#x5230;my.cnf&#x4E2D;&#x7684;socket&#x8DEF;&#x5F84;&#xFF0C;&#x4E5F;&#x8BF4;&#x660E;&#x5907;&#x4EFD;&#x8FDE;&#x63A5;&#x6570;&#x636E;&#x5E93;&#x65F6;&#x5019;&#x8D70;&#x7684;&#x662F;socket&#x63A5;&#x53E3;&#x5F62;&#x5F0F;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x6362;&#x505A;&#x8D70;tcp/ip&#xFF0C;&#x6267;&#x884C;&#x547D;&#x4EE4;&#x4E2D;&#x65B0;&#x589E;&#x53C2;&#x6570;&#x2013;host=127.0.0.1&#x5373;&#x53EF;&#x3002;&#x5982;&#x679C;&#x4ECD;&#x7136;&#x62A5;&#x9519;&#xFF0C;&#x68C0;&#x67E5;&#x76F8;&#x5173;&#x547D;&#x4EE4;&#x662F;&#x5426;&#x6709;&#x62FC;&#x9519;&#x7684;&#x5355;&#x8BCD;&#xFF0C;&#x68C0;&#x67E5;datadir&#x76EE;&#x5F55;&#x662F;&#x5426;&#x6709;&#x3010;mysql:mysql&#x3011;&#x6743;&#x9650;&#x7B49;&#x3002;</p>
-<p><strong>Q&#xFF1A;xtrabackup Error: datadir must be specified.</strong><br><strong>A&#xFF1A;</strong>&#x2013;defaults-file &#x5BF9;&#x5E94;&#x7684; my.cnf &#x6587;&#x4EF6;&#x6CA1;&#x6709;&#x6307;&#x660E;datadir&#x76EE;&#x5F55;&#x3002;&#x5982;&#x679C;&#x6307;&#x660E;&#x4E86;&#x76EE;&#x5F55;&#xFF0C;&#x6267;&#x884C;&#x76F8;&#x5173;&#x547D;&#x4EE4;&#x4ECD;&#x7136;&#x62A5;&#x9519;&#x3002;&#x628A;&#x547D;&#x4EE4;&#x4E2D;&#x7684; &#x2013;defaults-file &#x987A;&#x5E8F;&#x4ECE; &#x2013;password&#x540E;&#x79FB;&#x81F3;innobackupex&#x540E;&#x8BD5;&#x8BD5;&#x3002;innobackupex&#x67E5;&#x627E;datadir&#x4E0D;&#x591F;&#x667A;&#x80FD;&#x3002;</p>
-<hr>
-<h3 id="&#x5907;&#x4EFD;&#x65B9;&#x6848;&#x7684;&#x9009;&#x62E9;"><a href="#&#x5907;&#x4EFD;&#x65B9;&#x6848;&#x7684;&#x9009;&#x62E9;" class="headerlink" title="&#x5907;&#x4EFD;&#x65B9;&#x6848;&#x7684;&#x9009;&#x62E9;"></a>&#x5907;&#x4EFD;&#x65B9;&#x6848;&#x7684;&#x9009;&#x62E9;</h3><p>&#x5E38;&#x89C1;&#x7684;&#x5907;&#x4EFD;&#x6709;&#x5168;&#x91CF;&#x5907;&#x4EFD;&#x3001;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x548C;&#x5DEE;&#x5F02;&#x5907;&#x4EFD;&#x3002;</p>
-<p>&#x9996;&#x5148;&#x9700;&#x8981;&#x5F04;&#x660E;&#x767D;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x548C;&#x5DEE;&#x5F02;&#x5907;&#x4EFD;&#x7684;&#x533A;&#x522B;:<br><strong>&#x589E;&#x91CF;&#x5907;&#x4EFD;</strong>&#xFF1A;&#x81EA;&#x4ECE;&#x4EFB;&#x610F;&#x7C7B;&#x578B;&#x7684;&#x4E0A;&#x6B21;&#x5907;&#x4EFD;&#x540E;&#x6709;&#x6240;&#x4FEE;&#x6539;&#x505A;&#x7684;&#x5907;&#x4EFD;&#x3002;<br><strong>&#x5DEE;&#x5F02;&#x5907;&#x4EFD;</strong>&#xFF1A;&#x81EA;&#x4E0A;&#x6B21;&#x5168;&#x5907;&#x4EFD;&#x540E;&#x6709;&#x6240;&#x6539;&#x53D8;&#x7684;&#x90E8;&#x5206;&#x800C;&#x505A;&#x7684;&#x5907;&#x4EFD;&#x3002;</p>
+<h3 id="备份方案的选择"><a href="#备份方案的选择" class="headerlink" title="备份方案的选择"></a>备份方案的选择</h3><p>常见的备份有全量备份、增量备份和差异备份。</p>
+<p>首先需要弄明白增量备份和差异备份的区别:<br><strong>增量备份</strong>：自从任意类型的上次备份后有所修改做的备份。<br><strong>差异备份</strong>：自上次全备份后有所改变的部分而做的备份。</p>
 <ul>
-<li><p><strong>&#x5168;&#x91CF;&#x5907;&#x4EFD;&#x4E0E;&#x5DEE;&#x5F02;&#x5907;&#x4EFD;&#x7ED3;&#x5408;</strong><br>&#x4EE5;&#x6BCF;&#x5468;&#x6570;&#x636E;&#x5907;&#x4EFD;&#x8BA1;&#x5212;&#x4E3A;&#x4F8B;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5728;&#x5468;&#x4E00;&#x8FDB;&#x884C;&#x5B8C;&#x5168;&#x5907;&#x4EFD;&#xFF0C;&#x5728;&#x5468;&#x4E8C;&#x81F3;&#x5468;&#x65E5;&#x8FDB;&#x884C;&#x5DEE;&#x5F02;&#x5907;&#x4EFD;&#x3002;&#x5982;&#x679C;&#x5728;&#x5468;&#x65E5;&#x6570;&#x636E;&#x88AB;&#x7834;&#x574F;&#x4E86;&#xFF0C;&#x5219;&#x4F60;&#x53EA;&#x9700;&#x8981;&#x8FD8;&#x539F;&#x5468;&#x4E00;&#x7684;&#x5168;&#x91CF;&#x5907;&#x4EFD;&#x548C;&#x5468;&#x516D;&#x7684;&#x5DEE;&#x5F02;&#x5907;&#x4EFD;&#x3002;&#x8FD9;&#x79CD;&#x7B56;&#x7565;&#x5907;&#x4EFD;&#x6570;&#x636E;&#x9700;&#x8981;&#x65F6;&#x95F4;&#x8F83;&#x591A;&#xFF0C;&#x4F46;&#x8FD8;&#x539F;&#x6570;&#x636E;&#x4F7F;&#x7528;&#x65F6;&#x95F4;&#x8F83;&#x5C11;&#x3002;</p>
+<li><p><strong>全量备份与差异备份结合</strong><br>以每周数据备份计划为例，我们可以在周一进行完全备份，在周二至周日进行差异备份。如果在周日数据被破坏了，则你只需要还原周一的全量备份和周六的差异备份。这种策略备份数据需要时间较多，但还原数据使用时间较少。</p>
 </li>
-<li><p><strong>&#x5168;&#x91CF;&#x5907;&#x4EFD;&#x4E0E;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x7ED3;&#x5408;</strong><br>&#x4EE5;&#x6BCF;&#x5468;&#x6570;&#x636E;&#x5907;&#x4EFD;&#x8BA1;&#x5212;&#x4E3A;&#x4F8B;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5728;&#x5468;&#x4E00;&#x8FDB;&#x884C;&#x5B8C;&#x5168;&#x5907;&#x4EFD;&#xFF0C;&#x5728;&#x5468;&#x4E8C;&#x81F3;&#x5468;&#x65E5;&#x8FDB;&#x884C;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x3002;&#x5982;&#x679C;&#x5728;&#x5468;&#x65E5;&#x6570;&#x636E;&#x88AB;&#x7834;&#x574F;&#x4E86;&#xFF0C;&#x5219;&#x4F60;&#x9700;&#x8981;&#x8FD8;&#x539F;&#x5468;&#x4E00;&#x7684;&#x5168;&#x91CF;&#x5907;&#x4EFD;&#x548C;&#x4ECE;&#x5468;&#x4E8C;&#x81F3;&#x5468;&#x516D;&#x7684;&#x6240;&#x6709;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x3002;&#x8FD9;&#x79CD;&#x7B56;&#x7565;&#x5907;&#x4EFD;&#x6570;&#x636E;&#x9700;&#x8981;&#x65F6;&#x95F4;&#x8F83;&#x5C11;&#xFF0C;&#x4F46;&#x8FD8;&#x539F;&#x6570;&#x636E;&#x4F7F;&#x7528;&#x65F6;&#x95F4;&#x8F83;&#x591A;&#x3002;&#x4E14;&#x5468;&#x4E8C;&#x81F3;&#x5468;&#x516D;&#x4EFB;&#x4F55;&#x4E00;&#x4E2A;&#x589E;&#x91CF;&#x6570;&#x636E;&#x635F;&#x574F;&#xFF0C;&#x6240;&#x6709;&#x5907;&#x4EFD;&#x4E0D;&#x53EF;&#x7528;&#x3002;</p>
+<li><p><strong>全量备份与增量备份结合</strong><br>以每周数据备份计划为例，我们可以在周一进行完全备份，在周二至周日进行增量备份。如果在周日数据被破坏了，则你需要还原周一的全量备份和从周二至周六的所有增量备份。这种策略备份数据需要时间较少，但还原数据使用时间较多。且周二至周六任何一个增量数据损坏，所有备份不可用。</p>
 </li>
-<li><p><strong>&#x5168;&#x91CF;&#x5907;&#x4EFD;&#x3001;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x548C;&#x5DEE;&#x5F02;&#x5907;&#x4EFD;&#x7ED3;&#x5408;</strong><br>&#x4EE5;&#x6BCF;&#x5468;&#x6570;&#x636E;&#x5907;&#x4EFD;&#x8BA1;&#x5212;&#x4E3A;&#x4F8B;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5728;&#x5468;&#x4E00;&#x8FDB;&#x884C;&#x5B8C;&#x5168;&#x5907;&#x4EFD;&#xFF0C;&#x5728;&#x5468;&#x4E8C;&#x81F3;&#x5468;&#x65E5;&#x8FDB;&#x884C;&#x5DEE;&#x5F02;&#x5907;&#x4EFD;&#xFF0C;&#x5E76;&#x4E14;&#x6BCF;&#x5929;&#x9488;&#x5BF9;&#x5F53;&#x5929;&#x7684;&#x5DEE;&#x5F02;&#x5907;&#x4EFD;&#x6BCF;&#x9694;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#xFF08;&#x6BD4;&#x5982;&#x534A;&#x5C0F;&#x65F6;&#xFF09;&#x8FDB;&#x884C;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x3002;&#x5982;&#x679C;&#x5728;&#x5468;&#x65E5;&#x67D0;&#x4E2A;&#x65F6;&#x95F4;&#x70B9;&#x6570;&#x636E;&#x88AB;&#x7834;&#x574F;&#x4E86;&#xFF0C;&#x5219;&#x4F60;&#x9700;&#x8981;&#x8FD8;&#x539F;&#x5468;&#x4E00;&#x7684;&#x5168;&#x91CF;&#x5907;&#x4EFD;&#x548C;&#x5468;&#x516D;&#x7684;&#x5DEE;&#x5F02;&#x5907;&#x4EFD;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x8FD8;&#x539F;&#x5468;&#x65E5;&#x6240;&#x505A;&#x7684;&#x6240;&#x6709;&#x589E;&#x91CF;&#x5907;&#x4EFD;&#x3002;&#x8FD9;&#x79CD;&#x7B56;&#x7565;&#x64CD;&#x4F5C;&#x6700;&#x590D;&#x6742;&#xFF0C;&#x4F46;&#x662F;&#x6570;&#x636E;&#x5E93;&#x6700;&#x591A;&#x635F;&#x5931;&#x534A;&#x4E2A;&#x5C0F;&#x65F6;&#x7684;&#x6570;&#x636E;&#x3002;</p>
+<li><p><strong>全量备份、增量备份和差异备份结合</strong><br>以每周数据备份计划为例，我们可以在周一进行完全备份，在周二至周日进行差异备份，并且每天针对当天的差异备份每隔一段时间（比如半小时）进行增量备份。如果在周日某个时间点数据被破坏了，则你需要还原周一的全量备份和周六的差异备份，然后再还原周日所做的所有增量备份。这种策略操作最复杂，但是数据库最多损失半个小时的数据。</p>
 </li>
 </ul>
-<font style="color:red"><blod>PS&#xFF1A; &#x53EA;&#x505A;&#x5907;&#x4EFD;&#xFF0C;&#x4E0D;&#x505A;&#x6062;&#x590D;&#x6F14;&#x7EC3;&#xFF0C;&#x53EF;&#x80FD;&#x6700;&#x540E;&#x4E00;&#x573A;&#x7A7A;&#x3002;</blod></font>
+<font style="color:red"><blod>PS： 只做备份，不做恢复演练，可能最后一场空。</blod></font>
 
-<p><br></p>
+<p>&lt;/br&gt;</p>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/mysql/">mysql</a><a class="link-muted mr-2" rel="tag" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/">完全备份</a><a class="link-muted mr-2" rel="tag" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/">增量备份</a><a class="link-muted mr-2" rel="tag" href="/tags/Percona-Xtrabackup/">Percona Xtrabackup</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2017/02/08/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99%E5%85%B1%E4%BA%AB/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">大数据学习资料共享</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2017/01/17/MySQL%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/"><span class="level-item">MySQL备份与恢复</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><ul class="menu-list"><li><a class="is-flex" href="#Xtrabackup简介"><span class="mr-2">1.1</span><span>Xtrabackup简介</span></a></li><li><a class="is-flex" href="#Xtrabackup备份原理"><span class="mr-2">1.2</span><span>Xtrabackup备份原理</span></a></li><li><a class="is-flex" href="#Xtrabackup实现细节"><span class="mr-2">1.3</span><span>Xtrabackup实现细节</span></a></li><li><a class="is-flex" href="#Xtrabackup安装与卸载"><span class="mr-2">1.4</span><span>Xtrabackup安装与卸载</span></a></li><li><a class="is-flex" href="#Xtrabackup常用参数"><span class="mr-2">1.5</span><span>Xtrabackup常用参数</span></a></li><li><a class="is-flex" href="#完全备份与恢复"><span class="mr-2">1.6</span><span>完全备份与恢复</span></a></li></ul><li><a class="is-flex" href="#"><span class="mr-2">2</span><span>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+# 全量备份
+innobackupex --user=root --password=passwd /data/backup/full
 
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
+# 上个命令在我的 /data/backup/full/ 目录生成了一个文件夹【2017-01-20_10-52-43】
+# 一般情况下，这个备份不能用于恢复，因为备份的数据中可能会包含尚未提交的事务或已经提交但尚未同步至数据文件中的事务，此时数据文件处于不一致的状态
+# 因此，我们现在就是要通过回滚未提交的事务及同步已经提交的事务至数据文件也使得数据文件处于一致性状态。
+innobackupex --user=root --password --defaults-file=/data/mysql/my.cnf --apply-log /data/backup/full/2017-01-20_10-52-43
 
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2017/02/08/大数据学习资料共享/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    大数据学习资料共享
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2017/01/17/MySQL备份与恢复/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">MySQL备份与恢复</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+# 恢复操作演练
+# 关掉服务，迁移已有的数据目录
+service mysql stop
+mv /data/mysql/data /data/mysql/data_old
+mkdir -p /data/mysql/data
+# 执行innobackupex恢复命令
+innobackupex --defaults-file=/data/mysql/my.cnf --user=root --password=passwd --copy-back /data/backup/full/2017-01-20_10-52-43
+# 对新目录执行赋权操作，此操作需在innobackupex恢复命令后
+chown -R mysql.mysql /data/mysql/data
+# 重启服务，并检查数据是否恢复
+service mysqld start
+</span></a><ul class="menu-list"><li><a class="is-flex" href="#增量备份与恢复"><span class="mr-2">2.1</span><span>增量备份与恢复</span></a></li><li><a class="is-flex" href="#备份恢复常见错误"><span class="mr-2">2.2</span><span>备份恢复常见错误</span></a></li><li><a class="is-flex" href="#备份方案的选择"><span class="mr-2">2.3</span><span>备份方案的选择</span></a></li></ul></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

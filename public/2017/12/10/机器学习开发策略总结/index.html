@@ -1,632 +1,178 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>机器学习开发策略 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x5434;&amp;#x5927;&amp;#x5927;&amp;#x7ED3;&amp;#x6784;&amp;#x5316;&amp;#x673A;&amp;#x5668;&amp;#x5B66;&amp;#x4E60;&amp;#x9879;&amp;#x76EE;&amp;#x603B;&amp;#x7ED3;&amp;#xFF0C;&amp;#x5B8C;&amp;#x5584;&amp;#x4E2D;&amp;#x2026;
-ML&amp;#x7B56;&amp;#x7565;&amp;#x5047;&amp;#x8BBE;&amp;#x4F60;&amp;#x67">
-<meta property="og:type" content="article">
-<meta property="og:title" content="机器学习开发策略">
-<meta property="og:url" content="http://www.wangxin123.com/2017/12/10/机器学习开发策略总结/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x5434;&amp;#x5927;&amp;#x5927;&amp;#x7ED3;&amp;#x6784;&amp;#x5316;&amp;#x673A;&amp;#x5668;&amp;#x5B66;&amp;#x4E60;&amp;#x9879;&amp;#x76EE;&amp;#x603B;&amp;#x7ED3;&amp;#xFF0C;&amp;#x5B8C;&amp;#x5584;&amp;#x4E2D;&amp;#x2026;
-ML&amp;#x7B56;&amp;#x7565;&amp;#x5047;&amp;#x8BBE;&amp;#x4F60;&amp;#x67">
-<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/1.png">
-<meta property="og:updated_time" content="2018-01-29T12:22:57.396Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="机器学习开发策略">
-<meta name="twitter:description" content="&amp;#x5434;&amp;#x5927;&amp;#x5927;&amp;#x7ED3;&amp;#x6784;&amp;#x5316;&amp;#x673A;&amp;#x5668;&amp;#x5B66;&amp;#x4E60;&amp;#x9879;&amp;#x76EE;&amp;#x603B;&amp;#x7ED3;&amp;#xFF0C;&amp;#x5B8C;&amp;#x5584;&amp;#x4E2D;&amp;#x2026;
-ML&amp;#x7B56;&amp;#x7565;&amp;#x5047;&amp;#x8BBE;&amp;#x4F60;&amp;#x67">
-<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/1.png">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-机器学习开发策略总结" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            机器学习开发策略
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/12/10/机器学习开发策略总结/">
-            <time datetime="2017-12-10T14:22:00.000Z" itemprop="datePublished">2017-12-10</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/机器学习/">机器学习</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/吴恩达/">吴恩达</a>, <a class="tag-link" href="/tags/机器学习/">机器学习</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ML策略"><span class="toc-number">1.</span> <span class="toc-text">ML策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#正交化-Orthogonalization"><span class="toc-number">2.</span> <span class="toc-text">正交化 Orthogonalization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单一数字评估指标-Single-number-evaluation-metric"><span class="toc-number">3.</span> <span class="toc-text">单一数字评估指标 Single number evaluation metric</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#满足和优化指标"><span class="toc-number">4.</span> <span class="toc-text">满足和优化指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#训练-开发-测试集划分"><span class="toc-number">5.</span> <span class="toc-text">训练/开发/测试集划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开发集和测试集的大小"><span class="toc-number">6.</span> <span class="toc-text">开发集和测试集的大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么时候该改变开发集-测试集和指标"><span class="toc-number">7.</span> <span class="toc-text">什么时候该改变开发集/测试集和指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#比较人类表现水平"><span class="toc-number">8.</span> <span class="toc-text">比较人类表现水平</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可避免偏差"><span class="toc-number">9.</span> <span class="toc-text">可避免偏差</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#理解人类表现水平"><span class="toc-number">10.</span> <span class="toc-text">理解人类表现水平</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">11.</span> <span class="toc-text">总结</span></a></li></ol>
-                </div>
-            
-            <p>&#x5434;&#x5927;&#x5927;&#x7ED3;&#x6784;&#x5316;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x9879;&#x76EE;&#x603B;&#x7ED3;&#xFF0C;&#x5B8C;&#x5584;&#x4E2D;&#x2026;</p>
-<h3 id="ML&#x7B56;&#x7565;"><a href="#ML&#x7B56;&#x7565;" class="headerlink" title="ML&#x7B56;&#x7565;"></a>ML&#x7B56;&#x7565;</h3><p>&#x5047;&#x8BBE;&#x4F60;&#x6784;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A;&#x55B5;&#x54AA;&#x5206;&#x7C7B;&#x5668;&#xFF0C;&#x8BAD;&#x7EC3;&#x4E4B;&#x540E;&#x51C6;&#x786E;&#x7387;&#x8FBE;&#x5230;90%&#xFF0C;&#x4F46;&#x5728;&#x6D4B;&#x8BD5;&#x96C6;&#x4E0A;&#x8FD8;&#x4E0D;&#x591F;&#x597D;&#x3002;&#x6B64;&#x65F6;&#x4F60;&#x53EF;&#x4EE5;&#x60F3;&#x5230;&#x7684;&#x4F18;&#x5316;&#x65B9;&#x6CD5;&#x6709;&#x54EA;&#x4E9B;&#x5462;&#xFF1F;&#x603B;&#x7ED3;&#x540E;&#x5927;&#x81F4;&#x5982;&#x4E0B;&#xFF1A;</p>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>机器学习开发策略 - Hexo</title><meta description="吴大大结构化机器学习项目总结，完善中… ML策略假设你构建了一个喵咪分类器，训练之后准确率达到90%，但在测试集上还不够好。此时你可以想到的优化方法有哪些呢？总结后大致如下：  收集更多的数据 收集更多的多样化训练集，比如不同姿势的猫咪图片等 用梯度下降法训练更长时间 尝试Adam算法 尝试更大的网路 尝试小一点的网络 尝试dropout随机失活算法 加上L2正则项 改善网络结构，如变更激活函数，"><meta property="og:type" content="blog"><meta property="og:title" content="机器学习开发策略"><meta property="og:url" content="http://yoursite.com/2017/12/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5%E6%80%BB%E7%BB%93/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="吴大大结构化机器学习项目总结，完善中… ML策略假设你构建了一个喵咪分类器，训练之后准确率达到90%，但在测试集上还不够好。此时你可以想到的优化方法有哪些呢？总结后大致如下：  收集更多的数据 收集更多的多样化训练集，比如不同姿势的猫咪图片等 用梯度下降法训练更长时间 尝试Adam算法 尝试更大的网路 尝试小一点的网络 尝试dropout随机失活算法 加上L2正则项 改善网络结构，如变更激活函数，"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/1.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/2.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/3.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/4.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/9.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/10.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/5.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/11.png"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/8.png"><meta property="article:published_time" content="2017-12-10T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.446Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="机器学习"><meta property="article:tag" content="吴恩达"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/1.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2017/12/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5%E6%80%BB%E7%BB%93/"},"headline":"Hexo","image":["http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/1.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/2.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/3.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/4.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/9.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/10.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/5.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/11.png","http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/8.png"],"datePublished":"2017-12-10T14:22:00.000Z","dateModified":"2020-05-19T06:34:18.446Z","author":{"@type":"Person","name":"John Doe"},"description":"吴大大结构化机器学习项目总结，完善中… ML策略假设你构建了一个喵咪分类器，训练之后准确率达到90%，但在测试集上还不够好。此时你可以想到的优化方法有哪些呢？总结后大致如下：  收集更多的数据 收集更多的多样化训练集，比如不同姿势的猫咪图片等 用梯度下降法训练更长时间 尝试Adam算法 尝试更大的网路 尝试小一点的网络 尝试dropout随机失活算法 加上L2正则项 改善网络结构，如变更激活函数，"}</script><link rel="canonical" href="http://yoursite.com/2017/12/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5%E6%80%BB%E7%BB%93/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2017-12-10T14:22:00.000Z" title="2017-12-10T14:22:00.000Z">2017-12-10</time><span class="level-item"><a class="link-muted" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span><span class="level-item">29 分钟 读完 (大约 4409 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">机器学习开发策略</h1><div class="content"><p>吴大大结构化机器学习项目总结，完善中…</p>
+<h3 id="ML策略"><a href="#ML策略" class="headerlink" title="ML策略"></a>ML策略</h3><p>假设你构建了一个喵咪分类器，训练之后准确率达到90%，但在测试集上还不够好。此时你可以想到的优化方法有哪些呢？总结后大致如下：</p>
 <ul>
-<li>&#x6536;&#x96C6;&#x66F4;&#x591A;&#x7684;&#x6570;&#x636E;</li>
-<li>&#x6536;&#x96C6;&#x66F4;&#x591A;&#x7684;&#x591A;&#x6837;&#x5316;&#x8BAD;&#x7EC3;&#x96C6;&#xFF0C;&#x6BD4;&#x5982;&#x4E0D;&#x540C;&#x59FF;&#x52BF;&#x7684;&#x732B;&#x54AA;&#x56FE;&#x7247;&#x7B49;</li>
-<li>&#x7528;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x6CD5;&#x8BAD;&#x7EC3;&#x66F4;&#x957F;&#x65F6;&#x95F4;</li>
-<li>&#x5C1D;&#x8BD5;Adam&#x7B97;&#x6CD5;</li>
-<li>&#x5C1D;&#x8BD5;&#x66F4;&#x5927;&#x7684;&#x7F51;&#x8DEF;</li>
-<li>&#x5C1D;&#x8BD5;&#x5C0F;&#x4E00;&#x70B9;&#x7684;&#x7F51;&#x7EDC;</li>
-<li>&#x5C1D;&#x8BD5;dropout&#x968F;&#x673A;&#x5931;&#x6D3B;&#x7B97;&#x6CD5;</li>
-<li>&#x52A0;&#x4E0A;L2&#x6B63;&#x5219;&#x9879;</li>
-<li>&#x6539;&#x5584;&#x7F51;&#x7EDC;&#x7ED3;&#x6784;&#xFF0C;&#x5982;&#x53D8;&#x66F4;&#x6FC0;&#x6D3B;&#x51FD;&#x6570;&#xFF0C;&#x53D8;&#x66F4;&#x9690;&#x85CF;&#x5C42;&#x8282;&#x70B9;&#x6570;&#x91CF;</li>
+<li>收集更多的数据</li>
+<li>收集更多的多样化训练集，比如不同姿势的猫咪图片等</li>
+<li>用梯度下降法训练更长时间</li>
+<li>尝试Adam算法</li>
+<li>尝试更大的网路</li>
+<li>尝试小一点的网络</li>
+<li>尝试dropout随机失活算法</li>
+<li>加上L2正则项</li>
+<li>改善网络结构，如变更激活函数，变更隐藏层节点数量</li>
 </ul>
-<p>&#x4F18;&#x5316;&#x7684;&#x65B9;&#x6CD5;&#x867D;&#x7136;&#x5F88;&#x591A;&#xFF0C;&#x4F46;&#x5982;&#x679C;&#x65B9;&#x5411;&#x9519;&#x8BEF;&#xFF0C;&#x53EF;&#x80FD;&#x767D;&#x8D39;&#x51E0;&#x4E2A;&#x6708;&#x65F6;&#x95F4;&#x3002;<br><strong>&#x90A3;&#x901A;&#x8FC7;&#x54EA;&#x4E9B;&#x7B56;&#x7565;&#x53EF;&#x4EE5;&#x51CF;&#x5C11;&#x9519;&#x8BEF;&#x53D1;&#x751F;&#x7684;&#x51E0;&#x7387;&#x5462;&#xFF1F;&#x600E;&#x4E48;&#x5224;&#x65AD;&#x54EA;&#x4E9B;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x5C1D;&#x8BD5;&#xFF0C;&#x54EA;&#x4E9B;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x4E22;&#x5F03;&#x5462;&#xFF1F;</strong></p>
+<p>优化的方法虽然很多，但如果方向错误，可能白费几个月时间。<br><strong>那通过哪些策略可以减少错误发生的几率呢？怎么判断哪些方法可以尝试，哪些方法可以丢弃呢？</strong></p>
 <a id="more"></a>
 <hr>
-<h3 id="&#x6B63;&#x4EA4;&#x5316;-Orthogonalization"><a href="#&#x6B63;&#x4EA4;&#x5316;-Orthogonalization" class="headerlink" title="&#x6B63;&#x4EA4;&#x5316; Orthogonalization"></a>&#x6B63;&#x4EA4;&#x5316; Orthogonalization</h3><p>&#x4F18;&#x5316;&#x524D;&#x9996;&#x5148;&#x9700;&#x8981;&#x660E;&#x767D;&#x6B63;&#x4EA4;&#x5316;&#x3002;&#x6559;&#x79D1;&#x4E66;&#x5F0F;&#x5B9A;&#x4E49;&#xFF08;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7565;&#x8FC7; =&#x3002;=&#xFF09;&#xFF1A;&#x6B63;&#x4EA4;&#x5316;&#x662F;&#x4E00;&#x79CD;&#x7CFB;&#x7EDF;&#x8BBE;&#x8BA1;&#x5C5E;&#x6027;&#xFF0C;&#x5B83;&#x786E;&#x4FDD;&#x4FEE;&#x6539;&#x6307;&#x4EE4;&#x6216;&#x7B97;&#x6CD5;&#x7684;&#x7EC4;&#x6210;&#x90E8;&#x5206;&#x4E0D;&#x4F1A;&#x5BF9;&#x7CFB;&#x7EDF;&#x7684;&#x5176;&#x4ED6;&#x7EC4;&#x4EF6;&#x4EA7;&#x751F;&#x6216;&#x4F20;&#x64AD;&#x526F;&#x4F5C;&#x7528;&#x3002;&#x72EC;&#x7ACB;&#x5730;&#x9A8C;&#x8BC1;&#x67D0;&#x90E8;&#x5206;&#x800C;&#x4E0D;&#x5BF9;&#x5176;&#x4ED6;&#x90E8;&#x5206;&#x4EA7;&#x751F;&#x5F71;&#x54CD;&#xFF0C;&#x80FD;&#x6709;&#x6548;&#x51CF;&#x5C11;&#x6D4B;&#x8BD5;&#x548C;&#x5F00;&#x53D1;&#x65F6;&#x95F4;&#x3002;</p>
-<p>&#x6B63;&#x4EA4;&#x6027;&#x5F88;&#x597D;&#x7406;&#x89E3;&#xFF0C;&#x5C31;&#x50CF;&#x4EE5;&#x524D;&#x7684;&#x8001;&#x5F0F;&#x9ED1;&#x767D;&#x7535;&#x89C6;&#x673A;&#xFF0C;&#x5B83;&#x6709;&#x5F88;&#x591A;&#x8C03;&#x8282;&#x753B;&#x9762;&#x7684;&#x65CB;&#x94AE;&#x3002;&#x5047;&#x8BBE;&#x7B2C;&#x4E00;&#x4E2A;&#x65CB;&#x94AE;&#x63A7;&#x5236;&#x4E0A;&#x4E0B;&#x65B9;&#x5411;&#xFF0C;&#x7B2C;&#x4E8C;&#x4E2A;&#x65CB;&#x94AE;&#x63A7;&#x5236;&#x5DE6;&#x53F3;&#x65B9;&#x5411;&#x3002;&#x5F53;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x8C03;&#x8282;&#x753B;&#x9762;&#x65F6;&#xFF0C;&#x8C03;&#x8282;&#x4E0A;&#x4E0B;&#x65B9;&#x5411;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;&#x5DE6;&#x53F3;&#x65B9;&#x5411;&#x3002;&#x8FD9;&#x6837;&#x4E92;&#x4E0D;&#x5F71;&#x54CD;&#x7684;&#x8BBE;&#x8BA1;&#x80FD;&#x5927;&#x5927;&#x51CF;&#x5C11;&#x8C03;&#x8282;&#x753B;&#x9762;&#x7684;&#x65F6;&#x95F4;&#x3002;</p>
-<p>&#x540C;&#x6837;&#xFF0C;&#x8981;&#x5F04;&#x597D;&#x4E00;&#x4E2A;&#x76D1;&#x7763;&#x5B66;&#x4E60;&#x7CFB;&#x7EDF;&#xFF0C;&#x6211;&#x4EEC;&#x4E5F;&#x9700;&#x8981;&#x8003;&#x8651;&#x7CFB;&#x7EDF;&#x7684;&#x65CB;&#x94AE;&#x3002;<br>&#x901A;&#x5E38;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4FDD;&#x8BC1;&#x4E0B;&#x9762;&#x56DB;&#x4E2A;&#x65B9;&#x9762;&#x662F;&#x6B63;&#x4EA4;&#x7684;&#x3002;</p>
+<h3 id="正交化-Orthogonalization"><a href="#正交化-Orthogonalization" class="headerlink" title="正交化 Orthogonalization"></a>正交化 Orthogonalization</h3><p>优化前首先需要明白正交化。教科书式定义（可以直接略过 =。=）：正交化是一种系统设计属性，它确保修改指令或算法的组成部分不会对系统的其他组件产生或传播副作用。独立地验证某部分而不对其他部分产生影响，能有效减少测试和开发时间。</p>
+<p>正交性很好理解，就像以前的老式黑白电视机，它有很多调节画面的旋钮。假设第一个旋钮控制上下方向，第二个旋钮控制左右方向。当我们需要调节画面时，调节上下方向不会影响左右方向。这样互不影响的设计能大大减少调节画面的时间。</p>
+<p>同样，要弄好一个监督学习系统，我们也需要考虑系统的旋钮。<br>通常我们需要保证下面四个方面是正交的。</p>
 <ul>
-<li>&#x9996;&#x5148;&#x7CFB;&#x7EDF;&#x5728;&#x8BAD;&#x7EC3;&#x96C6;&#x4E0A;&#x8868;&#x73B0;&#x826F;&#x597D;<ul>
-<li>&#x5982;&#x679C;&#x62DF;&#x5408;&#x4E0D;&#x597D;&#xFF0C;&#x90A3;&#x4E48;&#x5C1D;&#x8BD5;&#x4F7F;&#x7528;&#x66F4;&#x5927;&#x7684;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x6216;&#x8005;&#x5207;&#x6362;&#x66F4;&#x597D;&#x7684;&#x4F18;&#x5316;&#x7B97;&#x6CD5;&#xFF0C;&#x6BD4;&#x5982;Adam&#x7B49;</li>
+<li>首先系统在训练集上表现良好<ul>
+<li>如果拟合不好，那么尝试使用更大的神经网络或者切换更好的优化算法，比如Adam等</li>
 </ul>
 </li>
-<li>&#x5176;&#x6B21;&#x7CFB;&#x7EDF;&#x5728;&#x5F00;&#x53D1;&#x96C6;&#x4E0A;&#x8868;&#x73B0;&#x826F;&#x597D;<ul>
-<li>&#x5982;&#x679C;&#x62DF;&#x5408;&#x4E0D;&#x597D;&#xFF0C;&#x5C1D;&#x8BD5;&#x6B63;&#x5219;&#x5316;&#x6216;&#x8005;&#x66F4;&#x5927;&#x7684;&#x8BAD;&#x7EC3;&#x96C6;</li>
+<li>其次系统在开发集上表现良好<ul>
+<li>如果拟合不好，尝试正则化或者更大的训练集</li>
 </ul>
 </li>
-<li>&#x7136;&#x540E;&#x7CFB;&#x7EDF;&#x5728;&#x6D4B;&#x8BD5;&#x96C6;&#x4E0A;&#x8868;&#x73B0;&#x826F;&#x597D;<ul>
-<li>&#x5982;&#x679C;&#x62DF;&#x5408;&#x4E0D;&#x597D;&#xFF0C;&#x5C1D;&#x8BD5;&#x66F4;&#x5927;&#x7684;&#x5F00;&#x53D1;&#x96C6;</li>
+<li>然后系统在测试集上表现良好<ul>
+<li>如果拟合不好，尝试更大的开发集</li>
 </ul>
 </li>
-<li>&#x6700;&#x540E;&#x7CFB;&#x7EDF;&#x5728;&#x771F;&#x5B9E;(&#x751F;&#x4EA7;)&#x73AF;&#x5883;&#x4E2D;&#x8868;&#x73B0;&#x826F;&#x597D;<ul>
-<li>&#x5982;&#x679C;&#x8868;&#x73B0;&#x4E0D;&#x597D;&#xFF0C;&#x610F;&#x5473;&#x7740;&#x5F00;&#x53D1;&#x6D4B;&#x8BD5;&#x96C6;&#x5206;&#x5E03;&#x8BBE;&#x7F6E;&#x53EF;&#x80FD;&#x4E0D;&#x5BF9;&#xFF0C;&#x6216;&#x8005;&#x635F;&#x5931;&#x51FD;&#x6570;&#x4E0D;&#x80FD;&#x6709;&#x6548;&#x53CD;&#x6620;&#x7B97;&#x6CD5;&#x5728;&#x73B0;&#x5B9E;&#x4E16;&#x754C;&#x7684;&#x8868;&#x73B0;</li>
+<li>最后系统在真实(生产)环境中表现良好<ul>
+<li>如果表现不好，意味着开发测试集分布设置可能不对，或者损失函数不能有效反映算法在现实世界的表现</li>
 </ul>
 </li>
 </ul>
-<p><strong>&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x6B63;&#x4EA4;&#x5316;&#x7684;&#x601D;&#x60F3;&#x53BB;&#x5206;&#x6790;&#x7CFB;&#x7EDF;&#x7684;&#x74F6;&#x9888;&#x7A76;&#x7ADF;&#x51FA;&#x81EA;&#x54EA;&#x4E00;&#x4E2A;&#x65B9;&#x9762;&#xFF0C;&#x5F53;&#x7CFB;&#x7EDF;&#x8868;&#x73B0;&#x4E0D;&#x4F73;&#x65F6;&#xFF0C;&#x54EA;&#x4E9B;&#x65CB;&#x94AE;&#x662F;&#x503C;&#x5F97;&#x53BB;&#x5C1D;&#x8BD5;&#x7684;&#x3002;<font color="red">&#x5C1D;&#x8BD5;&#x8FC7;&#x7A0B;&#x4E2D;&#x9700;&#x8981;&#x8BAD;&#x7EC3;&#x7F51;&#x7EDC;&#xFF0C;&#x5434;&#x5927;&#x5927;&#x5728;&#x8FD9;&#x7279;&#x610F;&#x63D0;&#x5230;&#xFF0C;&#x4ED6;&#x81EA;&#x5DF1;&#x8BAD;&#x7EC3;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x65F6;&#x901A;&#x5E38;&#x4E0D;&#x4F1A;&#x63D0;&#x524D;&#x505C;&#x6B62;&#x7F51;&#x7EDC;&#x8BAD;&#x7EC3;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x4F1A;&#x8BA9;&#x95EE;&#x9898;&#x7684;&#x5206;&#x6790;&#x590D;&#x6742;&#x5316;&#x3002;&#x6BD4;&#x5982;&#x63D0;&#x524D;&#x505C;&#x6B62;&#x8BAD;&#x7EC3;&#x96C6;&#x7684;&#x8BAD;&#x7EC3;&#xFF0C;&#x5B83;&#x5728;&#x5F71;&#x54CD;&#x8BAD;&#x7EC3;&#x96C6;&#x7684;&#x62DF;&#x5408;&#x7684;&#x540C;&#x65F6;&#x4F1A;&#x6539;&#x5584;&#x5F00;&#x53D1;&#x96C6;&#x7684;&#x8868;&#x73B0;&#xFF0C;&#x8FD9;&#x6837;&#x95EE;&#x9898;&#x5C31;&#x4E0D;&#x6B63;&#x4EA4;&#x5316;&#x4E86;&#x3002;<font></font></font></strong></p>
+<p><strong>我们需要使用正交化的思想去分析系统的瓶颈究竟出自哪一个方面，当系统表现不佳时，哪些旋钮是值得去尝试的。<font color='red'>尝试过程中需要训练网络，吴大大在这特意提到，他自己训练神经网络时通常不会提前停止网络训练，因为这会让问题的分析复杂化。比如提前停止训练集的训练，它在影响训练集的拟合的同时会改善开发集的表现，这样问题就不正交化了。<font></strong></p>
 <hr>
-<h3 id="&#x5355;&#x4E00;&#x6570;&#x5B57;&#x8BC4;&#x4F30;&#x6307;&#x6807;-Single-number-evaluation-metric"><a href="#&#x5355;&#x4E00;&#x6570;&#x5B57;&#x8BC4;&#x4F30;&#x6307;&#x6807;-Single-number-evaluation-metric" class="headerlink" title="&#x5355;&#x4E00;&#x6570;&#x5B57;&#x8BC4;&#x4F30;&#x6307;&#x6807; Single number evaluation metric"></a>&#x5355;&#x4E00;&#x6570;&#x5B57;&#x8BC4;&#x4F30;&#x6307;&#x6807; Single number evaluation metric</h3><p><strong>&#x5F53;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x6A21;&#x578B;&#x5728;&#x54EA;&#x4E2A;&#x96C6;&#x5408;&#x62DF;&#x5408;&#x4E0D;&#x597D;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x6709;&#x4E86;&#x4F18;&#x5316;&#x7684;&#x65B9;&#x5411;&#x3002;&#x65E0;&#x8BBA;&#x662F;&#x8C03;&#x6574;&#x8D85;&#x53C2;&#x6570;&#xFF0C;&#x8FD8;&#x662F;&#x5C1D;&#x8BD5;&#x66F4;&#x597D;&#x7684;&#x4F18;&#x5316;&#x7B97;&#x6CD5;&#xFF0C;&#x4E3A;&#x4E86;&#x66F4;&#x597D;&#x66F4;&#x5FEB;&#x7684;&#x91CD;&#x65B0;&#x8BC4;&#x4F30;&#x6A21;&#x578B;&#xFF0C;&#x6211;&#x4EEC;&#x90FD;&#x9700;&#x8981;&#x4E3A;&#x95EE;&#x9898;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x7684;&#x6570;&#x5B57;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#x3002;</strong></p>
-<p>&#x4E0B;&#x9762;&#x662F;&#x5206;&#x522B;&#x8BAD;&#x7EC3;&#x7684;&#x4E24;&#x4E2A;&#x5206;&#x7C7B;&#x5668;&#x7684; Precision(&#x7CBE;&#x51C6;&#x7387;)&#x3001;Recall&#xFF08;&#x53EC;&#x56DE;&#x7387;&#xFF09;&#x4EE5;&#x53CA;F1 score&#x3002;</p>
+<h3 id="单一数字评估指标-Single-number-evaluation-metric"><a href="#单一数字评估指标-Single-number-evaluation-metric" class="headerlink" title="单一数字评估指标 Single number evaluation metric"></a>单一数字评估指标 Single number evaluation metric</h3><p><strong>当我们知道模型在哪个集合拟合不好时，我们就有了优化的方向。无论是调整超参数，还是尝试更好的优化算法，为了更好更快的重新评估模型，我们都需要为问题设置一个单一的数字评估指标。</strong></p>
+<p>下面是分别训练的两个分类器的 Precision(精准率)、Recall（召回率）以及F1 score。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/1.png" alt=""></p>
-<p>&#x7531;&#x4E0A;&#x8868;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x4EE5; <strong>Precision</strong> &#x4E3A;&#x6307;&#x6807;&#xFF0C;&#x5219;&#x5206;&#x7C7B;&#x5668; A &#x7684;&#x5206;&#x7C7B;&#x6548;&#x679C;&#x597D;&#xFF1B;&#x4EE5; <strong>Recall</strong> &#x4E3A;&#x6307;&#x6807;&#xFF0C;&#x5219;&#x5206;&#x7C7B;&#x5668; B &#x7684;&#x5206;&#x7C7B;&#x6548;&#x679C;&#x597D;&#x3002;&#x6240;&#x4EE5;&#x4EC5;&#x7528;&#x4EE5;&#x4E0A;&#x5224;&#x5B9A;&#x6307;&#x6807;&#xFF0C;&#x6211;&#x4EEC;&#x6709;&#x65F6;&#x5F88;&#x96BE;&#x51B3;&#x5B9A;&#x51FA; A &#x597D;&#x8FD8;&#x662F; B &#x597D;&#x3002;</p>
-<p>&#x8FD9;&#x91CC;&#x4EE5; Precision &#x548C; Recall &#x4E3A;&#x57FA;&#x7840;&#xFF0C;&#x6784;&#x6210;&#x4E00;&#x4E2A;&#x7EFC;&#x5408;&#x6307;&#x6807; <strong>F1 Score</strong> &#xFF0C;&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x5229;&#x7528;F1 Score&#x4FBF;&#x53EF;&#x4EE5;&#x66F4;&#x5BB9;&#x6613;&#x7684;&#x8BC4;&#x5224;&#x51FA;&#x5206;&#x7C7B;&#x5668;A&#x7684;&#x6548;&#x679C;&#x66F4;&#x597D;&#x3002;</p>
-<p><strong>&#x6307;&#x6807;&#x4ECB;&#x7ECD;&#xFF1A;</strong></p>
-<p>&#x5728;&#x4E8C;&#x5206;&#x7C7B;&#x95EE;&#x9898;&#x4E2D;&#xFF0C;&#x901A;&#x8FC7;&#x9884;&#x6D4B;&#x6211;&#x4EEC;&#x5F97;&#x5230;&#x4E0B;&#x9762;&#x7684;&#x771F;&#x5B9E;&#x503C; y &#x548C;&#x9884;&#x6D4B;&#x503C; y^ &#x7684;&#x8868;&#xFF1A;</p>
+<p>由上表可以看出，以 <strong>Precision</strong> 为指标，则分类器 A 的分类效果好；以 <strong>Recall</strong> 为指标，则分类器 B 的分类效果好。所以仅用以上判定指标，我们有时很难决定出 A 好还是 B 好。</p>
+<p>这里以 Precision 和 Recall 为基础，构成一个综合指标 <strong>F1 Score</strong> ，那么我们利用F1 Score便可以更容易的评判出分类器A的效果更好。</p>
+<p><strong>指标介绍：</strong></p>
+<p>在二分类问题中，通过预测我们得到下面的真实值 y 和预测值 y^ 的表：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/2.png" alt=""></p>
 <ul>
-<li><strong>Precision&#xFF08;&#x7CBE;&#x51C6;&#x7387;&#xFF09;&#xFF1A; </strong><br>$Precision = \dfrac{True\ positive}{Number\ of\ predicted\ positive} \times 100\%= \dfrac{True\ positive}{True\ positive + False\ positive}$</li>
+<li><strong>Precision（精准率）： </strong><br>$Precision = \dfrac{True\ positive}{Number\ of\ predicted\ positive} \times 100\%= \dfrac{True\ positive}{True\ positive + False\ positive}$</li>
 </ul>
-<p>&#x5047;&#x8BBE;&#x5728;&#x662F;&#x5426;&#x4E3A;&#x732B;&#x7684;&#x5206;&#x7C7B;&#x95EE;&#x9898;&#x4E2D;&#xFF0C;&#x67E5;&#x51C6;&#x7387;&#x4EE3;&#x8868;&#xFF1A;&#x6240;&#x6709;&#x6A21;&#x578B;&#x9884;&#x6D4B;&#x4E3A;&#x732B;&#x7684;&#x56FE;&#x7247;&#x4E2D;&#xFF0C;&#x786E;&#x5B9E;&#x4E3A;&#x732B;&#x7684;&#x6982;&#x7387;&#x3002;</p>
+<p>假设在是否为猫的分类问题中，查准率代表：所有模型预测为猫的图片中，确实为猫的概率。</p>
 <ul>
-<li><strong>Recall&#xFF08;&#x53EC;&#x56DE;&#x7387;&#xFF09;&#xFF1A;</strong><br>$Recall = \dfrac{True\ positive}{Number\ of\  actually\ positive} \times 100\%= \dfrac{True\ positive}{True\ positive + False\ negative}$</li>
+<li><strong>Recall（召回率）：</strong><br>$Recall = \dfrac{True\ positive}{Number\ of\  actually\ positive} \times 100\%= \dfrac{True\ positive}{True\ positive + False\ negative}$</li>
 </ul>
-<p>&#x5047;&#x8BBE;&#x5728;&#x662F;&#x5426;&#x4E3A;&#x732B;&#x7684;&#x5206;&#x7C7B;&#x95EE;&#x9898;&#x4E2D;&#xFF0C;&#x67E5;&#x5168;&#x7387;&#x4EE3;&#x8868;&#xFF1A;&#x771F;&#x5B9E;&#x4E3A;&#x732B;&#x7684;&#x56FE;&#x7247;&#x4E2D;&#xFF0C;&#x9884;&#x6D4B;&#x6B63;&#x786E;&#x7684;&#x6982;&#x7387;&#x3002;</p>
+<p>假设在是否为猫的分类问题中，查全率代表：真实为猫的图片中，预测正确的概率。</p>
 <ul>
-<li><strong>F1 Score&#xFF1A; </strong><br>$vF1-Socre = \dfrac {2} {\dfrac{1}{p}+\dfrac{1}{r}}$</li>
+<li><strong>F1 Score： </strong><br>$vF1-Socre = \dfrac {2} {\dfrac{1}{p}+\dfrac{1}{r}}$</li>
 </ul>
-<p>&#x76F8;&#x5F53;&#x4E0E;&#x7CBE;&#x51C6;&#x7387;&#x548C;&#x53EC;&#x56DE;&#x7387;&#x7684;&#x4E00;&#x4E2A;&#x7279;&#x522B;&#x5F62;&#x5F0F;&#x7684;&#x5E73;&#x5747;&#x6307;&#x6807;&#x3002;</p>
-<p><strong>&#x793A;&#x4F8B;&#xFF1A;</strong>&#x4E0B;&#x9762;&#x662F;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x591A;&#x79CD;&#x5206;&#x7C7B;&#x5668;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x56FD;&#x5BB6;&#x4E2D;&#x7684;&#x5206;&#x7C7B;&#x9519;&#x8BEF;&#x7387;&#x7ED3;&#x679C;&#xFF1A;</p>
+<p>相当与精准率和召回率的一个特别形式的平均指标。</p>
+<p><strong>示例：</strong>下面是另外一个问题多种分类器在不同的国家中的分类错误率结果：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/3.png" alt=""></p>
-<p>&#x6A21;&#x578B;&#x5728;&#x5404;&#x4E2A;&#x5730;&#x533A;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x8868;&#x73B0;&#xFF0C;&#x8FD9;&#x91CC;&#x7528;&#x5730;&#x533A;&#x7684;&#x5E73;&#x5747;&#x503C;&#x6765;&#x5BF9;&#x6A21;&#x578B;&#x6548;&#x679C;&#x8FDB;&#x884C;&#x8BC4;&#x4F30;&#xFF0C;&#x8F6C;&#x6362;&#x4E3A;&#x5355;&#x4E00;&#x6570;&#x5B57;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5F88;&#x5BB9;&#x6613;&#x7684;&#x5F97;&#x51FA;&#x8868;&#x73B0;&#x6700;&#x597D;&#x7684;&#x6A21;&#x578B;&#x3002;</p>
+<p>模型在各个地区有不同的表现，这里用地区的平均值来对模型效果进行评估，转换为单一数字评估指标，就可以很容易的得出表现最好的模型。</p>
 <hr>
-<h3 id="&#x6EE1;&#x8DB3;&#x548C;&#x4F18;&#x5316;&#x6307;&#x6807;"><a href="#&#x6EE1;&#x8DB3;&#x548C;&#x4F18;&#x5316;&#x6307;&#x6807;" class="headerlink" title="&#x6EE1;&#x8DB3;&#x548C;&#x4F18;&#x5316;&#x6307;&#x6807;"></a>&#x6EE1;&#x8DB3;&#x548C;&#x4F18;&#x5316;&#x6307;&#x6807;</h3><p><strong>&#x6709;&#x65F6;&#x5019;&#x628A;&#x6211;&#x4EEC;&#x6240;&#x6709;&#x987E;&#x53CA;&#x7684;&#x4E8B;&#x60C5;&#x7EC4;&#x6210;&#x5355;&#x4E00;&#x6570;&#x5B57;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#x5E76;&#x4E0D;&#x5BB9;&#x6613;&#x3002;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#xFF0C;&#x53EF;&#x4EE5;&#x5C1D;&#x8BD5;&#x628A;&#x6307;&#x6807;&#x5212;&#x5206;&#x4E3A;&#x6EE1;&#x8DB3;&#x6307;&#x6807;&#x548C;&#x4F18;&#x5316;&#x6307;&#x6807;&#x3002;</strong></p>
-<p>&#x6BD4;&#x5982;&#x73B0;&#x5728;&#x6709;&#x4E09;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x5206;&#x7C7B;&#x5668;&#x6027;&#x80FD;&#x8868;&#x73B0;&#x5982;&#x4E0B;&#xFF1A;</p>
+<h3 id="满足和优化指标"><a href="#满足和优化指标" class="headerlink" title="满足和优化指标"></a>满足和优化指标</h3><p><strong>有时候把我们所有顾及的事情组成单一数字评估指标并不容易。这个时候，可以尝试把指标划分为满足指标和优化指标。</strong></p>
+<p>比如现在有三个不同的分类器性能表现如下：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/4.png" alt=""></p>
-<p>&#x5047;&#x8BBE;&#x6211;&#x4EEC;&#x5BF9;&#x6A21;&#x578B;&#x6548;&#x679C;&#x6709;&#x4E00;&#x5B9A;&#x7684;&#x8981;&#x6C42;&#xFF0C;&#x4E0D;&#x4EC5;&#x8981;&#x6C42;&#x51C6;&#x786E;&#x7387;&#xFF0C;&#x8FD8;&#x8981;&#x6C42;&#x8FD0;&#x884C;&#x65F6;&#x95F4;&#x5728;100 ms&#x4EE5;&#x5185;&#x3002;&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4EE5; Accuracy &#x4E3A;&#x4F18;&#x5316;&#x6307;&#x6807;&#xFF0C;&#x4EE5; Running time &#x4E3A;&#x6EE1;&#x8DB3;&#x6307;&#x6807;&#x3002;&#x4E00;&#x65E6;Running time&#x8FBE;&#x5230;&#x8981;&#x6C42;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x628A;&#x5168;&#x90E8;&#x7CBE;&#x529B;&#x653E;&#x5728;&#x4F18;&#x5316;&#x6307;&#x6807;&#x4E0A;&#x3002;&#x4EE5;&#x8FD9;&#x4E2A;&#x601D;&#x60F3;&#xFF0C;&#x6211;&#x4EEC;&#x5F88;&#x5FEB;&#x53EF;&#x4EE5;&#x4ECE;&#x4E2D;&#x9009;&#x51FA;B&#x662F;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x7684;&#x6700;&#x597D;&#x7684;&#x5206;&#x7C7B;&#x5668;&#x3002;</p>
-<p><strong><font color="red">&#x4E00;&#x822C;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x8003;&#x8651;N&#x4E2A;&#x6307;&#x6807;&#xFF0C;&#x5219;&#x9009;&#x62E9;&#x4E00;&#x4E2A;&#x6307;&#x6807;&#x4E3A;&#x4F18;&#x5316;&#x6307;&#x6807;&#xFF0C;&#x5176;&#x4ED6;N-1&#x4E2A;&#x6307;&#x6807;&#x90FD;&#x662F;&#x6EE1;&#x8DB3;&#x6307;&#x6807;&#xFF1A;</font></strong><br>$$<br>N_{metric}:\left\{ \begin{array}{l}<br>1\qquad \qquad \qquad Optimizing\ metric\\<br>N_{metric}-1\qquad Satisificing\ metric<br>\end{array} \right.<br>$$</p>
-<hr>
-<h3 id="&#x8BAD;&#x7EC3;-&#x5F00;&#x53D1;-&#x6D4B;&#x8BD5;&#x96C6;&#x5212;&#x5206;"><a href="#&#x8BAD;&#x7EC3;-&#x5F00;&#x53D1;-&#x6D4B;&#x8BD5;&#x96C6;&#x5212;&#x5206;" class="headerlink" title="&#x8BAD;&#x7EC3;/&#x5F00;&#x53D1;/&#x6D4B;&#x8BD5;&#x96C6;&#x5212;&#x5206;"></a>&#x8BAD;&#x7EC3;/&#x5F00;&#x53D1;/&#x6D4B;&#x8BD5;&#x96C6;&#x5212;&#x5206;</h3><p><strong>&#x786E;&#x7ACB;&#x4E86;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#xFF0C;&#x5C31;&#x662F;&#x786E;&#x5B9A;&#x4E86;&#x9776;&#x5FC3;&#xFF0C;&#x56E2;&#x961F;&#x62FF;&#x5230;&#x6570;&#x636E;&#x5C31;&#x53EF;&#x4EE5;&#x5FEB;&#x901F;&#x8FED;&#x4EE3;&#x4E0D;&#x65AD;&#x903C;&#x8FD1;&#x6307;&#x6807;&#x3002;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x6B63;&#x786E;&#x7684;&#x6570;&#x636E;&#x96C6;&#x7684;&#x5212;&#x5206;&#x5C31;&#x975E;&#x5E38;&#x91CD;&#x8981;&#x4E86;&#xFF0C;&#x5B83;&#x76F4;&#x63A5;&#x5173;&#x4E4E;&#x4F60;&#x7684;&#x56E2;&#x961F;&#x6548;&#x7387;&#x3002;</strong></p>
-<p>&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x8BAD;&#x7EC3;&#x96C6;&#x662F;&#x7528;&#x6765;&#x8BAD;&#x7EC3;&#x6A21;&#x578B;&#x7684;&#xFF0C;&#x5F00;&#x53D1;&#x96C6;(&#x4E5F;&#x8981;&#x4EA4;&#x53C9;&#x9A8C;&#x8BC1;&#x96C6;)&#x7528;&#x6765;&#x5C1D;&#x8BD5;&#x8FED;&#x4EE3;&#x5404;&#x79CD;&#x60F3;&#x6CD5;&#xFF0C;&#x7528;&#x6765;&#x4F18;&#x5316;&#x6027;&#x80FD;&#xFF0C;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x6EE1;&#x610F;&#x7684;&#x635F;&#x5931;&#x7ED3;&#x679C;&#x540E;&#xFF0C;&#x6700;&#x540E;&#x7528;&#x6D4B;&#x8BD5;&#x96C6;&#x8BC4;&#x4F30;&#x3002;</p>
-<p>&#x73B0;&#x5728;&#x5047;&#x8BBE;&#x6709;&#x8FD9;&#x6837;&#x7684;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x96C6;&#xFF0C;&#x9700;&#x8981;&#x5C06;&#x4ED6;&#x4EEC;&#x5212;&#x5206;&#x4E3A;&#x5F00;&#x53D1;&#x96C6;&#x548C;&#x6D4B;&#x8BD5;&#x96C6;&#xFF0C; &#x6709;&#x4E9B;&#x4EBA;&#x53EF;&#x80FD;&#x4F1A;&#x968F;&#x673A;&#x9009;&#x62E9;&#x51E0;&#x4E2A;&#x56FD;&#x5BB6;&#x7684;&#x4F5C;&#x4E3A;&#x5F00;&#x53D1;&#x96C6;&#xFF0C;&#x5269;&#x4E0B;&#x7684;&#x4F5C;&#x4E3A;&#x6D4B;&#x8BD5;&#x96C6;&#xFF0C;&#x5C31;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#x3002;</p>
+<p>假设我们对模型效果有一定的要求，不仅要求准确率，还要求运行时间在100 ms以内。那么我们可以以 Accuracy 为优化指标，以 Running time 为满足指标。一旦Running time达到要求，我们就可以把全部精力放在优化指标上。以这个思想，我们很快可以从中选出B是满足条件的最好的分类器。</p>
+<p><strong><font color='red'>一般的，如果要考虑N个指标，则选择一个指标为优化指标，其他N-1个指标都是满足指标：</font></strong></p>
+<script type="math/tex; mode=display">
+N_{metric}:\left\{ \begin{array}{l}
+1\qquad \qquad \qquad Optimizing\ metric\\
+N_{metric}-1\qquad Satisificing\ metric
+\end{array} \right.</script><hr>
+<h3 id="训练-开发-测试集划分"><a href="#训练-开发-测试集划分" class="headerlink" title="训练/开发/测试集划分"></a>训练/开发/测试集划分</h3><p><strong>确立了评估指标，就是确定了靶心，团队拿到数据就可以快速迭代不断逼近指标。这个时候正确的数据集的划分就非常重要了，它直接关乎你的团队效率。</strong></p>
+<p>我们知道训练集是用来训练模型的，开发集(也要交叉验证集)用来尝试迭代各种想法，用来优化性能，得到一个满意的损失结果后，最后用测试集评估。</p>
+<p>现在假设有这样的一个数据集，需要将他们划分为开发集和测试集， 有些人可能会随机选择几个国家的作为开发集，剩下的作为测试集，就如下图所示。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/9.png" alt=""></p>
-<p>&#x6709;&#x4E9B;&#x4EBA;&#x53EF;&#x80FD;&#x89C9;&#x5F97;&#x6CA1;&#x95EE;&#x9898;&#xFF0C;&#x5176;&#x5B9E;&#x95EE;&#x9898;&#x5F88;&#x5927;&#xFF01;&#x56E0;&#x4E3A;&#x5F00;&#x53D1;&#x96C6;&#x548C;&#x6D4B;&#x8BD5;&#x96C6;&#x4E0D;&#x670D;&#x4ECE;&#x540C;&#x4E00;&#x5206;&#x5E03;&#xFF0C;&#x8FD9;&#x5C31;&#x597D;&#x50CF;&#x4F60;&#x5728;&#x51C6;&#x5907;&#x6258;&#x798F;&#x8003;&#x8BD5;&#xFF0C;&#x4F60;&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x5F97;&#x5230;&#x4E86;&#x6240;&#x6709;&#x7684;&#x8003;&#x8BD5;&#x6280;&#x5DE7;&#x548C;&#x5176;&#x4ED6;&#x8D44;&#x6599;&#xFF0C;&#x6700;&#x540E;&#x4F60;&#x7684;&#x786E;&#x5F97;&#x5230;&#x4E86;&#x4E0D;&#x9519;&#x7684;&#x6210;&#x7EE9;&#x3002;&#x4F46;&#x662F;&#x540E;&#x6765;&#x56E0;&#x4E3A;&#x5DE5;&#x4F5C;&#x9700;&#x6C42;&#x9700;&#x8981;&#x4F60;&#x4F1A;&#x8BF4;&#x4FC4;&#x8BED;&#xFF0C;&#x6B64;&#x65F6;&#x5982;&#x679C;&#x4F60;&#x7528;&#x4E4B;&#x524D;&#x6258;&#x798F;&#x7684;&#x8D44;&#x6599;&#x6765;&#x5BF9;&#x4ED8;&#x4FC4;&#x8BED;&#x8003;&#x8BD5;&#x5219;&#x663E;&#x7136;&#x4E0D;&#x5BF9;&#xFF0C;&#x8FD9;&#x4E5F;&#x5C31;&#x662F;&#x4E3A;&#x4EC0;&#x4E48;&#x6709;&#x65F6;&#x5019;&#x5F00;&#x53D1;&#x96C6;&#x51C6;&#x786E;&#x7387;&#x9AD8;&#xFF0C;&#x4F46;&#x662F;&#x6D4B;&#x8BD5;&#x96C6;&#x4F4E;&#x3002;</p>
-<p><strong><font color="red">&#x6240;&#x4EE5;&#x6570;&#x636E;&#x8981;&#x968F;&#x673A;&#x6D17;&#x724C;&#xFF0C;&#x7136;&#x540E;&#x653E;&#x5230;&#x8BAD;&#x7EC3;&#x3001;&#x5F00;&#x53D1;&#x548C;&#x6D4B;&#x8BD5;&#x96C6;&#x4E2D;&#x3002;&#x5176;&#x6B21;&#xFF0C;&#x8FD9;&#x4E9B;&#x968F;&#x673A;&#x6D17;&#x724C;&#x7684;&#x6570;&#x636E;&#x7684;&#x6765;&#x6E90;&#x4E5F;&#x9700;&#x8981;&#x6CE8;&#x610F;&#xFF0C;&#x5373;&#x4F60;&#x9009;&#x62E9;&#x7684;&#x6570;&#x636E;&#x96C6;&#xFF0C;&#x8981;&#x80FD;&#x53CD;&#x5E94;&#x51FA;&#x4F60;&#x672A;&#x6765;&#x5E0C;&#x671B;&#x5F97;&#x5230;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5373;&#x6A21;&#x578B;&#x6570;&#x636E;&#x8981;&#x548C;&#x672A;&#x6765;&#x6570;&#x636E;&#x76F8;&#x4F3C;&#xFF0C;&#x8FD9;&#x6837;&#x6A21;&#x578B;&#x5728;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x4E2D;&#x9762;&#x5BF9;&#x65B0;&#x7684;&#x6570;&#x636E;&#x624D;&#x80FD;&#x6709;&#x597D;&#x7684;&#x8868;&#x73B0;&#x3002;</font></strong></p>
+<p>有些人可能觉得没问题，其实问题很大！因为开发集和测试集不服从同一分布，这就好像你在准备托福考试，你尽可能的得到了所有的考试技巧和其他资料，最后你的确得到了不错的成绩。但是后来因为工作需求需要你会说俄语，此时如果你用之前托福的资料来对付俄语考试则显然不对，这也就是为什么有时候开发集准确率高，但是测试集低。</p>
+<p><strong><font color='red'>所以数据要随机洗牌，然后放到训练、开发和测试集中。其次，这些随机洗牌的数据的来源也需要注意，即你选择的数据集，要能反应出你未来希望得到的数据，即模型数据要和未来数据相似，这样模型在生产环境中面对新的数据才能有好的表现。</font></strong></p>
 <hr>
-<h3 id="&#x5F00;&#x53D1;&#x96C6;&#x548C;&#x6D4B;&#x8BD5;&#x96C6;&#x7684;&#x5927;&#x5C0F;"><a href="#&#x5F00;&#x53D1;&#x96C6;&#x548C;&#x6D4B;&#x8BD5;&#x96C6;&#x7684;&#x5927;&#x5C0F;" class="headerlink" title="&#x5F00;&#x53D1;&#x96C6;&#x548C;&#x6D4B;&#x8BD5;&#x96C6;&#x7684;&#x5927;&#x5C0F;"></a>&#x5F00;&#x53D1;&#x96C6;&#x548C;&#x6D4B;&#x8BD5;&#x96C6;&#x7684;&#x5927;&#x5C0F;</h3><p>&#x673A;&#x5668;&#x5B66;&#x4E60;&#x53D1;&#x5C55;&#x5230;&#x73B0;&#x5728;&#xFF0C;&#x6570;&#x636E;&#x96C6;&#x7684;&#x5212;&#x5206;&#x4E0E;&#x4F20;&#x7EDF;&#x7A0D;&#x6709;&#x4E0D;&#x540C;&#x3002;&#x5177;&#x4F53;&#x8BE6;&#x60C5;&#x89C1;&#x4E0B;&#x56FE;&#xFF1A;</p>
+<h3 id="开发集和测试集的大小"><a href="#开发集和测试集的大小" class="headerlink" title="开发集和测试集的大小"></a>开发集和测试集的大小</h3><p>机器学习发展到现在，数据集的划分与传统稍有不同。具体详情见下图：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/10.png" alt=""></p>
-<p><strong><font color="red">&#x5F00;&#x53D1;&#x96C6;&#x6709;&#x65F6;&#x5019;&#x9700;&#x8981;&#x8DB3;&#x591F;&#x5927;&#x624D;&#x80FD;&#x8BC4;&#x4F30;&#x4E0D;&#x540C;&#x7684;&#x60F3;&#x6CD5;&#xFF0C;&#x81F3;&#x4E8E;&#x6D4B;&#x8BD5;&#x96C6;&#x7684;&#x91CF;&#xFF0C;&#x9664;&#x975E;&#x4F60;&#x5BF9;&#x6700;&#x7EC8;&#x6295;&#x4EA7;&#x7684;&#x7CFB;&#x7EDF;&#x6709;&#x975E;&#x5E38;&#x9AD8;&#x7684;&#x7CBE;&#x51C6;&#x6307;&#x6807;&#xFF0C;&#x5426;&#x5219;&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;1W&#x7684;&#x6570;&#x636E;&#x91CF;&#x8DB3;&#x591F;&#x3002;&#x6CE8;&#x610F;&#x6D4B;&#x8BD5;&#x96C6;&#x7684;&#x5212;&#x5206;&#x4E0D;&#x518D;&#x9700;&#x8981;&#x6309;&#x7167;&#x4F20;&#x7EDF;&#x5360;&#x636E;30%&#xFF0C;&#x4EE5;&#x73B0;&#x5728;&#x7684;&#x6570;&#x636E;&#x91CF;&#xFF0C;30%&#x5F88;&#x53EF;&#x80FD;&#x8D85;&#x8FC7;&#x767E;&#x4E07;&#x3002;</font></strong></p>
+<p><strong><font color='red'>开发集有时候需要足够大才能评估不同的想法，至于测试集的量，除非你对最终投产的系统有非常高的精准指标，否则一般情况下，1W的数据量足够。注意测试集的划分不再需要按照传统占据30%，以现在的数据量，30%很可能超过百万。</font></strong></p>
 <hr>
-<h3 id="&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x8BE5;&#x6539;&#x53D8;&#x5F00;&#x53D1;&#x96C6;-&#x6D4B;&#x8BD5;&#x96C6;&#x548C;&#x6307;&#x6807;"><a href="#&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x8BE5;&#x6539;&#x53D8;&#x5F00;&#x53D1;&#x96C6;-&#x6D4B;&#x8BD5;&#x96C6;&#x548C;&#x6307;&#x6807;" class="headerlink" title="&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x8BE5;&#x6539;&#x53D8;&#x5F00;&#x53D1;&#x96C6;/&#x6D4B;&#x8BD5;&#x96C6;&#x548C;&#x6307;&#x6807;"></a>&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x8BE5;&#x6539;&#x53D8;&#x5F00;&#x53D1;&#x96C6;/&#x6D4B;&#x8BD5;&#x96C6;&#x548C;&#x6307;&#x6807;</h3><p>&#x5728;&#x9488;&#x5BF9;&#x67D0;&#x4E00;&#x95EE;&#x9898;&#x6211;&#x4EEC;&#x8BBE;&#x7F6E;&#x5F00;&#x53D1;&#x96C6;&#x548C;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#x540E;&#xFF0C;&#x8FD9;&#x5C31;&#x50CF;&#x628A;&#x76EE;&#x6807;&#x5B9A;&#x5728;&#x67D0;&#x4E2A;&#x4F4D;&#x7F6E;&#xFF0C;&#x540E;&#x9762;&#x7684;&#x8FC7;&#x7A0B;&#x5C31;&#x805A;&#x7126;&#x5728;&#x8BE5;&#x4F4D;&#x7F6E;&#x4E0A;&#x3002;&#x4F46;&#x6709;&#x65F6;&#x5019;&#x5728;&#x8FD9;&#x4E2A;&#x9879;&#x76EE;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x53D1;&#x73B0;&#x76EE;&#x6807;&#x7684;&#x4F4D;&#x7F6E;&#x8BBE;&#x7F6E;&#x9519;&#x4E86;&#xFF0C;&#x6240;&#x4EE5;&#x8981;&#x79FB;&#x52A8;&#x6539;&#x53D8;&#x6211;&#x4EEC;&#x7684;&#x76EE;&#x6807;&#x3002;</p>
+<h3 id="什么时候该改变开发集-测试集和指标"><a href="#什么时候该改变开发集-测试集和指标" class="headerlink" title="什么时候该改变开发集/测试集和指标"></a>什么时候该改变开发集/测试集和指标</h3><p>在针对某一问题我们设置开发集和评估指标后，这就像把目标定在某个位置，后面的过程就聚焦在该位置上。但有时候在这个项目的过程中，可能会发现目标的位置设置错了，所以要移动改变我们的目标。</p>
 <p>example1</p>
-<p>&#x5047;&#x8BBE;&#x6709;&#x4E24;&#x4E2A;&#x732B;&#x7684;&#x56FE;&#x7247;&#x7684;&#x5206;&#x7C7B;&#x5668;&#xFF1A;</p>
+<p>假设有两个猫的图片的分类器：</p>
 <ul>
-<li>&#x8BC4;&#x4F30;&#x6307;&#x6807;&#xFF1A;&#x5206;&#x7C7B;&#x9519;&#x8BEF;&#x7387;</li>
-<li>&#x7B97;&#x6CD5;A&#xFF1A;3%&#x9519;&#x8BEF;&#x7387;</li>
-<li>&#x7B97;&#x6CD5;B&#xFF1A;5%&#x9519;&#x8BEF;&#x7387;</li>
+<li>评估指标：分类错误率</li>
+<li>算法A：3%错误率</li>
+<li>算法B：5%错误率</li>
 </ul>
-<p>&#x8FD9;&#x6837;&#x6765;&#x770B;&#xFF0C;&#x7B97;&#x6CD5;A&#x7684;&#x8868;&#x73B0;&#x66F4;&#x597D;&#x3002;&#x4F46;&#x662F;&#x5728;&#x5B9E;&#x9645;&#x7684;&#x6D4B;&#x8BD5;&#x4E2D;&#xFF0C;&#x7B97;&#x6CD5;A&#x53EF;&#x80FD;&#x56E0;&#x4E3A;&#x67D0;&#x4E9B;&#x539F;&#x56E0;&#xFF0C;&#x5C06;&#x5F88;&#x591A;&#x8272;&#x60C5;&#x56FE;&#x7247;&#x5206;&#x7C7B;&#x6210;&#x4E86;&#x732B;&#x3002;&#x6240;&#x4EE5;&#x5F53;&#x6211;&#x4EEC;&#x5728;&#x7EBF;&#x4E0A;&#x90E8;&#x7F72;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x7B97;&#x6CD5;A&#x4F1A;&#x7ED9;&#x7231;&#x732B;&#x4EBA;&#x58EB;&#x63A8;&#x9001;&#x66F4;&#x591A;&#x66F4;&#x51C6;&#x786E;&#x7684;&#x732B;&#x7684;&#x56FE;&#x7247;&#xFF08;&#x56E0;&#x4E3A;&#x5176;&#x8BEF;&#x5DEE;&#x7387;&#x53EA;&#x6709;3%&#xFF09;&#xFF0C;&#x4F46;&#x540C;&#x65F6;&#x4E5F;&#x4F1A;&#x7ED9;&#x7528;&#x6237;&#x63A8;&#x9001;&#x4E00;&#x4E9B;&#x8272;&#x60C5;&#x56FE;&#x7247;&#xFF0C;&#x8FD9;&#x662F;&#x4E0D;&#x80FD;&#x5FCD;&#x53D7;&#x7684;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x867D;&#x7136;&#x7B97;&#x6CD5;A&#x7684;&#x9519;&#x8BEF;&#x7387;&#x5F88;&#x4F4E;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x5374;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x597D;&#x7684;&#x7B97;&#x6CD5;&#x3002;</p>
-<p>&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x6211;&#x4EEC;&#x5C31;&#x9700;&#x8981;&#x6539;&#x53D8;&#x5F00;&#x53D1;&#x96C6;&#x3001;&#x6D4B;&#x8BD5;&#x96C6;&#x6216;&#x8005;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#x3002;</p>
-<p>&#x5047;&#x8BBE;&#x5F00;&#x59CB;&#x6211;&#x4EEC;&#x7684;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#x5982;&#x4E0B;&#xFF1A;<br>$Error = \dfrac{1}{m_{dev}}\sum\limits_{i=1}^{m_{dev}}I\{y^{(i)}_{pred}\neq y^{(i)}\}$</p>
-<p>&#x8BE5;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#x5BF9;&#x8272;&#x60C5;&#x56FE;&#x7247;&#x548C;&#x975E;&#x8272;&#x60C5;&#x56FE;&#x7247;&#x4E00;&#x89C6;&#x540C;&#x4EC1;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x5E0C;&#x671B;&#xFF0C;&#x5206;&#x7C7B;&#x5668;&#x4E0D;&#x4F1A;&#x9519;&#x8BEF;&#x5C06;&#x8272;&#x60C5;&#x56FE;&#x7247;&#x6807;&#x8BB0;&#x4E3A;&#x732B;&#x3002;</p>
-<p>&#x4FEE;&#x6539;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5728;&#x5176;&#x4E2D;&#x52A0;&#x5165;&#x6743;&#x91CD;$w^{(i)}$&#xFF1A; </p>
-<p>$Error = \dfrac{1}{\sum w^{(i)}}\sum\limits_{i=1}^{m_{dev}} w^{(i)}I\{y^{(i)}_{pred}\neq y^{(i)}\}$<br>&#x5176;&#x4E2D;&#xFF1A; </p>
-<p>$$<br>w^{(i)}=\left\{ \begin{array}{l}<br>1\qquad \qquad \qquad &#x5982;&#x679C;x^{(i)}&#x4E0D;&#x662F;&#x8272;&#x60C5;&#x56FE;&#x7247;\\<br>10&#x6216;100\qquad \qquad&#x5982;&#x679C;x^{(i)}&#x662F;&#x8272;&#x60C5;&#x56FE;&#x7247;<br>\end{array} \right.<br>$$</p>
-<p>&#x8FD9;&#x6837;&#x901A;&#x8FC7;&#x8BBE;&#x7F6E;&#x6743;&#x91CD;&#xFF0C;&#x5F53;&#x7B97;&#x6CD5;&#x5C06;&#x8272;&#x60C5;&#x56FE;&#x7247;&#x5206;&#x7C7B;&#x4E3A;&#x732B;&#x65F6;&#xFF0C;&#x8BEF;&#x5DEE;&#x9879;&#x4F1A;&#x5FEB;&#x901F;&#x53D8;&#x5927;&#x3002;<br>&#x603B;&#x7ED3;&#x6765;&#x8BF4;&#x5C31;&#x662F;&#xFF1A;&#x5982;&#x679C;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#x65E0;&#x6CD5;&#x6B63;&#x786E;&#x8BC4;&#x4F30;&#x7B97;&#x6CD5;&#x7684;&#x6392;&#x540D;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#x3002;</p>
+<p>这样来看，算法A的表现更好。但是在实际的测试中，算法A可能因为某些原因，将很多色情图片分类成了猫。所以当我们在线上部署的时候，算法A会给爱猫人士推送更多更准确的猫的图片（因为其误差率只有3%），但同时也会给用户推送一些色情图片，这是不能忍受的。所以，虽然算法A的错误率很低，但是它却不是一个好的算法。</p>
+<p>这个时候我们就需要改变开发集、测试集或者评估指标。</p>
+<p>假设开始我们的评估指标如下：<br>$Error = \dfrac{1}{m<em>{dev}}\sum\limits</em>{i=1}^{m<em>{dev}}I{y^{(i)}</em>{pred}\neq y^{(i)}}$</p>
+<p>该评估指标对色情图片和非色情图片一视同仁，但是我们希望，分类器不会错误将色情图片标记为猫。</p>
+<p>修改的方法，在其中加入权重$w^{(i)}$： </p>
+<p>$Error = \dfrac{1}{\sum w^{(i)}}\sum\limits<em>{i=1}^{m</em>{dev}} w^{(i)}I{y^{(i)}_{pred}\neq y^{(i)}}$<br>其中： </p>
+<script type="math/tex; mode=display">
+w^{(i)}=\left\{ \begin{array}{l}
+1\qquad \qquad \qquad 如果x^{(i)}不是色情图片\\
+10或100\qquad \qquad如果x^{(i)}是色情图片
+\end{array} \right.</script><p>这样通过设置权重，当算法将色情图片分类为猫时，误差项会快速变大。<br>总结来说就是：如果评估指标无法正确评估算法的排名，则需要重新定义一个新的评估指标。</p>
 <p>example2</p>
-<p>&#x540C;&#x6837;&#x9488;&#x5BF9;example1&#x4E2D;&#x7684;&#x4E24;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x732B;&#x56FE;&#x7247;&#x7684;&#x5206;&#x7C7B;&#x5668;A&#x548C;B&#x3002;</p>
+<p>同样针对example1中的两个不同的猫图片的分类器A和B。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/5.png" alt=""></p>
-<p>&#x4F46;&#x5B9E;&#x9645;&#x60C5;&#x51B5;&#x662F;&#x5BF9;&#xFF0C;&#x6211;&#x4EEC;&#x4E00;&#x76F4;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x7F51;&#x4E0A;&#x4E0B;&#x8F7D;&#x7684;&#x9AD8;&#x8D28;&#x91CF;&#x7684;&#x56FE;&#x7247;&#x8FDB;&#x884C;&#x8BAD;&#x7EC3;&#xFF1B;&#x800C;&#x5F53;&#x90E8;&#x7F72;&#x5230;&#x624B;&#x673A;&#x4E0A;&#x65F6;&#xFF0C;&#x7531;&#x4E8E;&#x56FE;&#x7247;&#x7684;&#x6E05;&#x6670;&#x5EA6;&#x53CA;&#x62CD;&#x7167;&#x6C34;&#x5E73;&#x7684;&#x539F;&#x56E0;&#xFF0C;&#x5F53;&#x5B9E;&#x9645;&#x6D4B;&#x8BD5;&#x7B97;&#x6CD5;&#x65F6;&#xFF0C;&#x4F1A;&#x53D1;&#x73B0;&#x7B97;&#x6CD5;B&#x7684;&#x8868;&#x73B0;&#x5176;&#x5B9E;&#x66F4;&#x597D;&#x3002;</p>
-<p>&#x5982;&#x679C;&#x5728;&#x8BAD;&#x7EC3;&#x5F00;&#x53D1;&#x6D4B;&#x8BD5;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x5F97;&#x5230;&#x7684;&#x6A21;&#x578B;&#x6548;&#x679C;&#x6BD4;&#x8F83;&#x597D;&#xFF0C;&#x4F46;&#x662F;&#x5728;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x4E2D;&#x81EA;&#x5DF1;&#x6240;&#x771F;&#x6B63;&#x5173;&#x5FC3;&#x7684;&#x95EE;&#x9898;&#x6548;&#x679C;&#x5374;&#x4E0D;&#x597D;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x9700;&#x8981;&#x6539;&#x53D8;&#x5F00;&#x53D1;&#x3001;&#x6D4B;&#x8BD5;&#x96C6;&#x6216;&#x8005;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#x3002;</p>
-<p>Guideline&#xFF1A;</p>
+<p>但实际情况是对，我们一直使用的是网上下载的高质量的图片进行训练；而当部署到手机上时，由于图片的清晰度及拍照水平的原因，当实际测试算法时，会发现算法B的表现其实更好。</p>
+<p>如果在训练开发测试的过程中得到的模型效果比较好，但是在实际应用中自己所真正关心的问题效果却不好的时候，就需要改变开发、测试集或者评估指标。</p>
+<p>Guideline：</p>
 <ul>
-<li>&#x5B9A;&#x4E49;&#x6B63;&#x786E;&#x7684;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#x6765;&#x66F4;&#x597D;&#x7684;&#x7ED9;&#x5206;&#x7C7B;&#x5668;&#x7684;&#x597D;&#x574F;&#x8FDB;&#x884C;&#x6392;&#x5E8F;&#xFF1B;</li>
-<li>&#x4F18;&#x5316;&#x8BC4;&#x4F30;&#x6307;&#x6807;&#x3002;</li>
+<li>定义正确的评估指标来更好的给分类器的好坏进行排序；</li>
+<li>优化评估指标。</li>
 </ul>
 <hr>
-<h3 id="&#x6BD4;&#x8F83;&#x4EBA;&#x7C7B;&#x8868;&#x73B0;&#x6C34;&#x5E73;"><a href="#&#x6BD4;&#x8F83;&#x4EBA;&#x7C7B;&#x8868;&#x73B0;&#x6C34;&#x5E73;" class="headerlink" title="&#x6BD4;&#x8F83;&#x4EBA;&#x7C7B;&#x8868;&#x73B0;&#x6C34;&#x5E73;"></a>&#x6BD4;&#x8F83;&#x4EBA;&#x7C7B;&#x8868;&#x73B0;&#x6C34;&#x5E73;</h3><p>&#x5F88;&#x591A;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6A21;&#x578B;&#x7684;&#x8BDE;&#x751F;&#x662F;&#x4E3A;&#x4E86;&#x53D6;&#x4EE3;&#x4EBA;&#x7C7B;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x56E0;&#x6B64;&#x5176;&#x8868;&#x73B0;&#x4E5F;&#x4F1A;&#x8DDF;&#x4EBA;&#x7C7B;&#x8868;&#x73B0;&#x6C34;&#x5E73;&#x4F5C;&#x6BD4;&#x8F83;&#x3002;<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/11.png" alt=""></p>
-<p>&#x4E0A;&#x56FE;&#x5C55;&#x793A;&#x4E86;&#x968F;&#x7740;&#x65F6;&#x95F4;&#x7684;&#x63A8;&#x8FDB;&#xFF0C;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7CFB;&#x7EDF;&#x548C;&#x4EBA;&#x7684;&#x8868;&#x73B0;&#x6C34;&#x5E73;&#x7684;&#x53D8;&#x5316;&#x3002;&#x4E00;&#x822C;&#x7684;&#xFF0C;&#x5F53;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x8D85;&#x8FC7;&#x4EBA;&#x7684;&#x8868;&#x73B0;&#x6C34;&#x5E73;&#x540E;&#xFF0C;&#x5B83;&#x7684;&#x8FDB;&#x6B65;&#x901F;&#x5EA6;&#x9010;&#x6E10;&#x53D8;&#x5F97;&#x7F13;&#x6162;&#xFF0C;&#x6700;&#x7EC8;&#x6027;&#x80FD;&#x65E0;&#x6CD5;&#x8D85;&#x8FC7;&#x67D0;&#x4E2A;&#x7406;&#x8BBA;&#x4E0A;&#x9650;&#xFF0C;&#x8FD9;&#x4E2A;&#x4E0A;&#x9650;&#x88AB;&#x79F0;&#x4E3A;<strong>&#x8D1D;&#x53F6;&#x65AF;&#x6700;&#x4F18;&#x8BEF;&#x5DEE;&#xFF08;Bayes Optimal Error&#xFF09;</strong>&#x3002;</p>
-<p>&#x8D1D;&#x53F6;&#x65AF;&#x6700;&#x4F18;&#x8BEF;&#x5DEE;&#x4E00;&#x822C;&#x8BA4;&#x4E3A;&#x662F;&#x7406;&#x8BBA;&#x4E0A;&#x53EF;&#x80FD;&#x8FBE;&#x5230;&#x7684;&#x6700;&#x4F18;&#x8BEF;&#x5DEE;&#xFF0C;&#x6362;&#x53E5;&#x8BDD;&#x8BF4;&#xFF0C;&#x5176;&#x5C31;&#x662F;&#x7406;&#x8BBA;&#x6700;&#x4F18;&#x51FD;&#x6570;&#xFF0C;&#x4EFB;&#x4F55;&#x4ECE; x &#x5230;&#x7CBE;&#x786E;&#x5EA6; y &#x6620;&#x5C04;&#x7684;&#x51FD;&#x6570;&#x90FD;&#x4E0D;&#x53EF;&#x80FD;&#x8D85;&#x8FC7;&#x8FD9;&#x4E2A;&#x503C;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5BF9;&#x4E8E;&#x8BED;&#x97F3;&#x8BC6;&#x522B;&#xFF0C;&#x67D0;&#x4E9B;&#x97F3;&#x9891;&#x7247;&#x6BB5;&#x5608;&#x6742;&#x5230;&#x57FA;&#x672C;&#x4E0D;&#x53EF;&#x80FD;&#x77E5;&#x9053;&#x8BF4;&#x7684;&#x662F;&#x4EC0;&#x4E48;&#xFF0C;&#x6240;&#x4EE5;&#x5B8C;&#x7F8E;&#x7684;&#x8BC6;&#x522B;&#x7387;&#x4E0D;&#x53EF;&#x80FD;&#x8FBE;&#x5230; 100%&#x3002;</p>
-<p>&#x56E0;&#x4E3A;&#x4EBA;&#x7C7B;&#x5BF9;&#x4E8E;&#x4E00;&#x4E9B;&#x81EA;&#x7136;&#x611F;&#x77E5;&#x95EE;&#x9898;&#x7684;&#x8868;&#x73B0;&#x6C34;&#x5E73;&#x5341;&#x5206;&#x63A5;&#x8FD1;&#x8D1D;&#x53F6;&#x65AF;&#x6700;&#x4F18;&#x8BEF;&#x5DEE;&#xFF0C;&#x6240;&#x4EE5;&#x5F53;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x7CFB;&#x7EDF;&#x7684;&#x8868;&#x73B0;&#x8D85;&#x8FC7;&#x4EBA;&#x7C7B;&#x540E;&#xFF0C;&#x5C31;&#x6CA1;&#x6709;&#x592A;&#x591A;&#x7EE7;&#x7EED;&#x6539;&#x5584;&#x7684;&#x7A7A;&#x95F4;&#x4E86;&#x3002;</p>
-<p>&#x4E5F;&#x56E0;&#x6B64;&#xFF0C;&#x53EA;&#x8981;&#x5EFA;&#x7ACB;&#x7684;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6A21;&#x578B;&#x7684;&#x8868;&#x73B0;&#x8FD8;&#x6CA1;&#x8FBE;&#x5230;&#x4EBA;&#x7C7B;&#x7684;&#x8868;&#x73B0;&#x6C34;&#x5E73;&#x65F6;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5404;&#x79CD;&#x624B;&#x6BB5;&#x6765;&#x63D0;&#x5347;&#x5B83;&#x3002;&#x4F8B;&#x5982;&#x91C7;&#x7528;&#x4EBA;&#x5DE5;&#x6807;&#x8BB0;&#x8FC7;&#x7684;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x8BAD;&#x7EC3;&#xFF0C;&#x901A;&#x8FC7;&#x4EBA;&#x5DE5;&#x8BEF;&#x5DEE;&#x5206;&#x6790;&#x4E86;&#x89E3;&#x4E3A;&#x4EC0;&#x4E48;&#x4EBA;&#x80FD;&#x591F;&#x6B63;&#x786E;&#x8BC6;&#x522B;&#xFF0C;&#x6216;&#x8005;&#x662F;&#x8FDB;&#x884C;&#x504F;&#x5DEE;&#x3001;&#x65B9;&#x5DEE;&#x5206;&#x6790;&#x3002;</p>
-<p>&#x5F53;&#x6A21;&#x578B;&#x7684;&#x8868;&#x73B0;&#x8D85;&#x8FC7;&#x4EBA;&#x7C7B;&#x540E;&#xFF0C;&#x8FD9;&#x4E9B;&#x624B;&#x6BB5;&#x8D77;&#x7684;&#x4F5C;&#x7528;&#x5C31;&#x5FAE;&#x4E4E;&#x5176;&#x5FAE;&#x4E86;&#x3002;</p>
+<h3 id="比较人类表现水平"><a href="#比较人类表现水平" class="headerlink" title="比较人类表现水平"></a>比较人类表现水平</h3><p>很多机器学习模型的诞生是为了取代人类的工作，因此其表现也会跟人类表现水平作比较。<br><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/11.png" alt=""></p>
+<p>上图展示了随着时间的推进，机器学习系统和人的表现水平的变化。一般的，当机器学习超过人的表现水平后，它的进步速度逐渐变得缓慢，最终性能无法超过某个理论上限，这个上限被称为<strong>贝叶斯最优误差（Bayes Optimal Error）</strong>。</p>
+<p>贝叶斯最优误差一般认为是理论上可能达到的最优误差，换句话说，其就是理论最优函数，任何从 x 到精确度 y 映射的函数都不可能超过这个值。例如，对于语音识别，某些音频片段嘈杂到基本不可能知道说的是什么，所以完美的识别率不可能达到 100%。</p>
+<p>因为人类对于一些自然感知问题的表现水平十分接近贝叶斯最优误差，所以当机器学习系统的表现超过人类后，就没有太多继续改善的空间了。</p>
+<p>也因此，只要建立的机器学习模型的表现还没达到人类的表现水平时，就可以通过各种手段来提升它。例如采用人工标记过的数据进行训练，通过人工误差分析了解为什么人能够正确识别，或者是进行偏差、方差分析。</p>
+<p>当模型的表现超过人类后，这些手段起的作用就微乎其微了。</p>
 <hr>
-<h3 id="&#x53EF;&#x907F;&#x514D;&#x504F;&#x5DEE;"><a href="#&#x53EF;&#x907F;&#x514D;&#x504F;&#x5DEE;" class="headerlink" title="&#x53EF;&#x907F;&#x514D;&#x504F;&#x5DEE;"></a>&#x53EF;&#x907F;&#x514D;&#x504F;&#x5DEE;</h3><p>&#x901A;&#x8FC7;&#x4E0E;&#x8D1D;&#x53F6;&#x65AF;&#x6700;&#x4F18;&#x8BEF;&#x5DEE;&#xFF0C;&#x6216;&#x8005;&#x8BF4;&#xFF0C;&#x4E0E;&#x4EBA;&#x7C7B;&#x8868;&#x73B0;&#x6C34;&#x5E73;&#x7684;&#x6BD4;&#x8F83;&#xFF0C;&#x53EF;&#x4EE5;&#x8868;&#x660E;&#x4E00;&#x4E2A;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6A21;&#x578B;&#x8868;&#x73B0;&#x7684;&#x597D;&#x574F;&#x7A0B;&#x5EA6;&#xFF0C;&#x7531;&#x6B64;&#x5224;&#x65AD;&#x540E;&#x7EED;&#x64CD;&#x4F5C;&#x5E94;&#x8BE5;&#x6CE8;&#x91CD;&#x4E8E;&#x51CF;&#x5C0F;&#x504F;&#x5DEE;&#x8FD8;&#x662F;&#x51CF;&#x5C0F;&#x65B9;&#x5DEE;&#x3002;</p>
-<p>&#x6A21;&#x578B;&#x5728;<strong>&#x8BAD;&#x7EC3;&#x96C6;</strong>&#x4E0A;&#x7684;&#x8BEF;&#x5DEE;&#x4E0E;&#x4EBA;&#x7C7B;&#x8868;&#x73B0;&#x6C34;&#x5E73;&#x7684;&#x5DEE;&#x503C;&#x88AB;&#x79F0;&#x4F5C;<strong>&#x53EF;&#x907F;&#x514D;&#x504F;&#x5DEE;</strong>&#xFF08;Avoidable Bias&#xFF09;&#x3002;&#x53EF;&#x907F;&#x514D;&#x504F;&#x5DEE;&#x4F4E;&#x4FBF;&#x610F;&#x5473;&#x7740;&#x6A21;&#x578B;&#x5728;&#x8BAD;&#x7EC3;&#x96C6;&#x4E0A;&#x7684;&#x8868;&#x73B0;&#x5F88;&#x597D;&#xFF0C;&#x800C;<strong>&#x8BAD;&#x7EC3;&#x96C6;&#x4E0E;&#x9A8C;&#x8BC1;&#x96C6;&#x4E4B;&#x95F4;&#x9519;&#x8BEF;&#x7387;&#x7684;&#x5DEE;&#x503C;&#x8D8A;&#x5C0F;</strong>&#xFF0C;&#x610F;&#x5473;&#x7740;&#x6A21;&#x578B;&#x5728;&#x9A8C;&#x8BC1;&#x96C6;&#x4E0E;&#x6D4B;&#x8BD5;&#x96C6;&#x4E0A;&#x7684;&#x8868;&#x73B0;&#x548C;&#x8BAD;&#x7EC3;&#x96C6;&#x540C;&#x6837;&#x597D;&#x3002;</p>
-<p>&#x5982;&#x679C;<strong>&#x53EF;&#x907F;&#x514D;&#x504F;&#x5DEE;&#x5927;&#x4E8E;&#x8BAD;&#x7EC3;&#x96C6;&#x4E0E;&#x9A8C;&#x8BC1;&#x96C6;&#x4E4B;&#x95F4;&#x9519;&#x8BEF;&#x7387;&#x7684;&#x5DEE;&#x503C;</strong>&#xFF0C;&#x4E4B;&#x540E;&#x7684;&#x5DE5;&#x4F5C;&#x5C31;&#x5E94;&#x8BE5;&#x4E13;&#x6CE8;&#x4E8E;&#x51CF;&#x5C0F;&#x504F;&#x5DEE;&#xFF1B;&#x53CD;&#x4E4B;&#xFF0C;&#x5C31;&#x5E94;&#x8BE5;&#x4E13;&#x6CE8;&#x4E8E;&#x51CF;&#x5C0F;&#x65B9;&#x5DEE;&#x3002;</p>
+<h3 id="可避免偏差"><a href="#可避免偏差" class="headerlink" title="可避免偏差"></a>可避免偏差</h3><p>通过与贝叶斯最优误差，或者说，与人类表现水平的比较，可以表明一个机器学习模型表现的好坏程度，由此判断后续操作应该注重于减小偏差还是减小方差。</p>
+<p>模型在<strong>训练集</strong>上的误差与人类表现水平的差值被称作<strong>可避免偏差</strong>（Avoidable Bias）。可避免偏差低便意味着模型在训练集上的表现很好，而<strong>训练集与验证集之间错误率的差值越小</strong>，意味着模型在验证集与测试集上的表现和训练集同样好。</p>
+<p>如果<strong>可避免偏差大于训练集与验证集之间错误率的差值</strong>，之后的工作就应该专注于减小偏差；反之，就应该专注于减小方差。</p>
 <hr>
-<h3 id="&#x7406;&#x89E3;&#x4EBA;&#x7C7B;&#x8868;&#x73B0;&#x6C34;&#x5E73;"><a href="#&#x7406;&#x89E3;&#x4EBA;&#x7C7B;&#x8868;&#x73B0;&#x6C34;&#x5E73;" class="headerlink" title="&#x7406;&#x89E3;&#x4EBA;&#x7C7B;&#x8868;&#x73B0;&#x6C34;&#x5E73;"></a>&#x7406;&#x89E3;&#x4EBA;&#x7C7B;&#x8868;&#x73B0;&#x6C34;&#x5E73;</h3><p><strong>&#x6211;&#x4EEC;&#x4E00;&#x822C;&#x7528;&#x4EBA;&#x7C7B;&#x6C34;&#x5E73;&#x8BEF;&#x5DEE;&#xFF08;Human-level Error&#xFF09;&#x6765;&#x4EE3;&#x8868;&#x8D1D;&#x53F6;&#x65AF;&#x6700;&#x4F18;&#x8BEF;&#x5DEE;&#xFF08;&#x6216;&#x8005;&#x7B80;&#x79F0;&#x8D1D;&#x53F6;&#x65AF;&#x8BEF;&#x5DEE;&#xFF09;</strong>&#x3002;&#x5BF9;&#x4E8E;&#x4E0D;&#x540C;&#x9886;&#x57DF;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x4E0D;&#x540C;&#x4EBA;&#x7FA4;&#x7531;&#x4E8E;&#x5176;&#x7ECF;&#x9A8C;&#x6C34;&#x5E73;&#x4E0D;&#x4E00;&#xFF0C;&#x9519;&#x8BEF;&#x7387;&#x4E5F;&#x4E0D;&#x540C;&#x3002;&#x4E00;&#x822C;&#x6765;&#x8BF4;&#xFF0C;<strong>&#x6211;&#x4EEC;&#x5C06;&#x8868;&#x73B0;&#x6700;&#x597D;&#x7684;&#x4F5C;&#x4E3A;&#x4EBA;&#x7C7B;&#x6C34;&#x5E73;&#x8BEF;&#x5DEE;</strong>&#x3002;&#x4F46;&#x662F;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x4E2D;&#xFF0C;&#x4E0D;&#x540C;&#x4EBA;&#x9009;&#x62E9;&#x4EBA;&#x7C7B;&#x6C34;&#x5E73;&#x8BEF;&#x5DEE;&#x7684;&#x57FA;&#x51C6;&#x662F;&#x4E0D;&#x540C;&#x7684;&#xFF0C;&#x8FD9;&#x4F1A;&#x5E26;&#x6765;&#x4E00;&#x5B9A;&#x7684;&#x5F71;&#x54CD;&#x3002;</p>
-<p>&#x4F8B;&#x5982;&#xFF0C;&#x5982;&#x679C;&#x67D0;&#x6A21;&#x578B;&#x5728;&#x8BAD;&#x7EC3;&#x96C6;&#x4E0A;&#x7684;&#x9519;&#x8BEF;&#x7387;&#x4E3A; 0.7%&#xFF0C;&#x9A8C;&#x8BC1;&#x96C6;&#x7684;&#x9519;&#x8BEF;&#x7387;&#x4E3A; 0.8%&#x3002;&#x5982;&#x679C;&#x9009;&#x62E9;&#x7684;&#x4EBA;&#x7C7B;&#x6C34;&#x5E73;&#x8BEF;&#x5DEE;&#x4E3A; 0.5%&#xFF0C;&#x90A3;&#x4E48;&#x504F;&#x5DEE;&#xFF08;bias&#xFF09;&#x6BD4;&#x65B9;&#x5DEE;&#xFF08;variance&#xFF09;&#x66F4;&#x52A0;&#x7A81;&#x51FA;&#xFF1B;&#x800C;&#x5982;&#x679C;&#x9009;&#x62E9;&#x7684;&#x4EBA;&#x7C7B;&#x6C34;&#x5E73;&#x8BEF;&#x5DEE;&#x4E3A; 0.7%&#xFF0C;&#x5219;&#x65B9;&#x5DEE;&#x66F4;&#x52A0;&#x7A81;&#x51FA;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x6839;&#x636E;&#x4EBA;&#x7C7B;&#x6C34;&#x5E73;&#x8BEF;&#x5DEE;&#x7684;&#x4E0D;&#x540C;&#x9009;&#x62E9;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x80FD;&#x56E0;&#x6B64;&#x9009;&#x62E9;&#x4E0D;&#x540C;&#x7684;&#x4F18;&#x5316;&#x64CD;&#x4F5C;&#x3002;</p>
-<p>&#x8FD9;&#x79CD;&#x95EE;&#x9898;&#x53EA;&#x4F1A;&#x53D1;&#x751F;&#x5728;&#x6A21;&#x578B;&#x8868;&#x73B0;&#x5F88;&#x597D;&#xFF0C;&#x63A5;&#x8FD1;&#x4EBA;&#x7C7B;&#x6C34;&#x5E73;&#x8BEF;&#x5DEE;&#x7684;&#x65F6;&#x5019;&#x624D;&#x4F1A;&#x51FA;&#x73B0;&#x3002;&#x4EBA;&#x7C7B;&#x6C34;&#x5E73;&#x8BEF;&#x5DEE;&#x7ED9;&#x4E86;&#x6211;&#x4EEC;&#x4E00;&#x79CD;&#x4F30;&#x8BA1;&#x8D1D;&#x53F6;&#x65AF;&#x8BEF;&#x5DEE;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x50CF;&#x4E4B;&#x524D;&#x4E00;&#x6837;&#x5C06;&#x8BAD;&#x7EC3;&#x7684;&#x9519;&#x8BEF;&#x7387;&#x76F4;&#x63A5;&#x5BF9;&#x7740; 0% &#x7684;&#x65B9;&#x5411;&#x8FDB;&#x884C;&#x4F18;&#x5316;&#x3002;</p>
-<p>&#x5F53;&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6A21;&#x578B;&#x7684;&#x8868;&#x73B0;&#x8D85;&#x8FC7;&#x4E86;&#x4EBA;&#x7C7B;&#x6C34;&#x5E73;&#x8BEF;&#x5DEE;&#x65F6;&#xFF0C;&#x5F88;&#x96BE;&#x518D;&#x901A;&#x8FC7;&#x4EBA;&#x7684;&#x76F4;&#x89C9;&#x53BB;&#x5224;&#x65AD;&#x6A21;&#x578B;&#x8FD8;&#x80FD;&#x591F;&#x5F80;&#x4EC0;&#x4E48;&#x65B9;&#x5411;&#x4F18;&#x5316;&#x4EE5;&#x63D0;&#x9AD8;&#x6027;&#x80FD;&#x3002;</p>
+<h3 id="理解人类表现水平"><a href="#理解人类表现水平" class="headerlink" title="理解人类表现水平"></a>理解人类表现水平</h3><p><strong>我们一般用人类水平误差（Human-level Error）来代表贝叶斯最优误差（或者简称贝叶斯误差）</strong>。对于不同领域的例子，不同人群由于其经验水平不一，错误率也不同。一般来说，<strong>我们将表现最好的作为人类水平误差</strong>。但是实际应用中，不同人选择人类水平误差的基准是不同的，这会带来一定的影响。</p>
+<p>例如，如果某模型在训练集上的错误率为 0.7%，验证集的错误率为 0.8%。如果选择的人类水平误差为 0.5%，那么偏差（bias）比方差（variance）更加突出；而如果选择的人类水平误差为 0.7%，则方差更加突出。也就是说，根据人类水平误差的不同选择，我们可能因此选择不同的优化操作。</p>
+<p>这种问题只会发生在模型表现很好，接近人类水平误差的时候才会出现。人类水平误差给了我们一种估计贝叶斯误差的方式，而不是像之前一样将训练的错误率直接对着 0% 的方向进行优化。</p>
+<p>当机器学习模型的表现超过了人类水平误差时，很难再通过人的直觉去判断模型还能够往什么方向优化以提高性能。</p>
 <hr>
-<h3 id="&#x603B;&#x7ED3;"><a href="#&#x603B;&#x7ED3;" class="headerlink" title="&#x603B;&#x7ED3;"></a>&#x603B;&#x7ED3;</h3><p>&#x60F3;&#x8BA9;&#x4E00;&#x4E2A;&#x76D1;&#x7763;&#x5B66;&#x4E60;&#x7B97;&#x6CD5;&#x8FBE;&#x5230;&#x4F7F;&#x7528;&#x7A0B;&#x5EA6;&#xFF0C;&#x5E94;&#x8BE5;&#x505A;&#x5230;&#x4EE5;&#x4E0B;&#x4E24;&#x70B9;&#xFF1A;<br>1&#xFF09;&#x7B97;&#x6CD5;&#x5BF9;&#x8BAD;&#x7EC3;&#x96C6;&#x7684;&#x62DF;&#x5408;&#x5F88;&#x597D;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x4F5C;&#x53EF;&#x907F;&#x514D;&#x504F;&#x5DEE;&#x5F88;&#x4F4E;&#xFF1B;<br>2&#xFF09;&#x63A8;&#x5E7F;&#x5230;&#x9A8C;&#x8BC1;&#x96C6;&#x548C;&#x6D4B;&#x8BD5;&#x96C6;&#x6548;&#x679C;&#x4E5F;&#x5F88;&#x597D;&#xFF0C;&#x5373;&#x65B9;&#x5DEE;&#x4E0D;&#x662F;&#x5F88;&#x5927;&#x3002;</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>想让一个监督学习算法达到使用程度，应该做到以下两点：<br>1）算法对训练集的拟合很好，可以看作可避免偏差很低；<br>2）推广到验证集和测试集效果也很好，即方差不是很大。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%8F%91%E7%AD%96%E7%95%A5/8.png" alt=""></p>
-<p>&#x6839;&#x636E;&#x6B63;&#x4EA4;&#x5316;&#x7684;&#x601D;&#x60F3;&#xFF0C;&#x6211;&#x4EEC;&#x6709;&#x4E00;&#x4E9B;&#x63AA;&#x65BD;&#x53EF;&#x4EE5;&#x72EC;&#x7ACB;&#x5730;&#x4F18;&#x5316;&#x4E8C;&#x8005;&#x4E4B;&#x4E00;&#x3002;</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2017/12/18/吴恩达2017深度学习课后作业笔记/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    吴恩达2017深度学习课后作业笔记
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2017/11/02/机器学习（九）：特征工程/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">机器学习（九）：特征工程</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-		<!-- MathJax���ã���ͨ������Ԫ������д���ڹ�ʽ�� -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": { 
-        preferredFont: "TeX", 
-        availableFonts: ["STIX","TeX"], 
-        linebreaks: { automatic:true }, 
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
-    },
-    tex2jax: { 
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
-        processEscapes: true, 
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {  
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
-        Macros: { href: "{}" } 
-    },
-    messageStyle: "none"
-    }); 
-</script>
-<!-- ��MathJaxԪ������has-jax class -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<!-- ͨ������CDN����MathJax��js���� -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+<p>根据正交化的思想，我们有一些措施可以独立地优化二者之一。</p>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="link-muted mr-2" rel="tag" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/">吴恩达</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2017/12/18/%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">卷积网络的边缘检测</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2017/11/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B9%9D%EF%BC%89%EF%BC%9A%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="level-item">机器学习（九）：特征工程</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" href="#ML策略"><span class="mr-2">1</span><span>ML策略</span></a></li><li><a class="is-flex" href="#正交化-Orthogonalization"><span class="mr-2">2</span><span>正交化 Orthogonalization</span></a></li><li><a class="is-flex" href="#单一数字评估指标-Single-number-evaluation-metric"><span class="mr-2">3</span><span>单一数字评估指标 Single number evaluation metric</span></a></li><li><a class="is-flex" href="#满足和优化指标"><span class="mr-2">4</span><span>满足和优化指标</span></a></li><li><a class="is-flex" href="#训练-开发-测试集划分"><span class="mr-2">5</span><span>训练/开发/测试集划分</span></a></li><li><a class="is-flex" href="#开发集和测试集的大小"><span class="mr-2">6</span><span>开发集和测试集的大小</span></a></li><li><a class="is-flex" href="#什么时候该改变开发集-测试集和指标"><span class="mr-2">7</span><span>什么时候该改变开发集/测试集和指标</span></a></li><li><a class="is-flex" href="#比较人类表现水平"><span class="mr-2">8</span><span>比较人类表现水平</span></a></li><li><a class="is-flex" href="#可避免偏差"><span class="mr-2">9</span><span>可避免偏差</span></a></li><li><a class="is-flex" href="#理解人类表现水平"><span class="mr-2">10</span><span>理解人类表现水平</span></a></li><li><a class="is-flex" href="#总结"><span class="mr-2">11</span><span>总结</span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

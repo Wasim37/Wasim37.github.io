@@ -1,481 +1,69 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>Redis开启AOF导致的删库事件 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="&amp;#x4E8B;&amp;#x4EF6;&amp;#x80CC;&amp;#x666F;Redis&amp;#x4E3B;&amp;#x4ECE;&amp;#x5F00;&amp;#x542F;AOF&amp;#xFF0C;&amp;#x9519;&amp;#x8BEF;&amp;#x64CD;&amp;#x4F5C;&amp;#x5BFC;&amp;#x81F4;&amp;#x6570;&amp;#x636E;&amp;#x88AB;&amp;#x6E05;&amp;#x7A7A;&amp;#x3002;Redis&amp;#x4E3B;&amp;#x8981;&amp;#x">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Redis开启AOF导致的删库事件">
-<meta property="og:url" content="http://www.wangxin123.com/2017/05/27/Redis开启AOF导致的删库事件/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="&amp;#x4E8B;&amp;#x4EF6;&amp;#x80CC;&amp;#x666F;Redis&amp;#x4E3B;&amp;#x4ECE;&amp;#x5F00;&amp;#x542F;AOF&amp;#xFF0C;&amp;#x9519;&amp;#x8BEF;&amp;#x64CD;&amp;#x4F5C;&amp;#x5BFC;&amp;#x81F4;&amp;#x6570;&amp;#x636E;&amp;#x88AB;&amp;#x6E05;&amp;#x7A7A;&amp;#x3002;Redis&amp;#x4E3B;&amp;#x8981;&amp;#x">
-<meta property="og:updated_time" content="2017-08-22T04:41:37.688Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Redis开启AOF导致的删库事件">
-<meta name="twitter:description" content="&amp;#x4E8B;&amp;#x4EF6;&amp;#x80CC;&amp;#x666F;Redis&amp;#x4E3B;&amp;#x4ECE;&amp;#x5F00;&amp;#x542F;AOF&amp;#xFF0C;&amp;#x9519;&amp;#x8BEF;&amp;#x64CD;&amp;#x4F5C;&amp;#x5BFC;&amp;#x81F4;&amp;#x6570;&amp;#x636E;&amp;#x88AB;&amp;#x6E05;&amp;#x7A7A;&amp;#x3002;Redis&amp;#x4E3B;&amp;#x8981;&amp;#x">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-Redis开启AOF导致的删库事件" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            Redis开启AOF导致的删库事件
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/05/27/Redis开启AOF导致的删库事件/">
-            <time datetime="2017-05-27T13:18:00.000Z" itemprop="datePublished">2017-05-27</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/错误集锦/">错误集锦</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/aof/">aof</a>, <a class="tag-link" href="/tags/redis/">redis</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#事件背景"><span class="toc-number">1.</span> <span class="toc-text">事件背景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事故过程"><span class="toc-number">2.</span> <span class="toc-text">事故过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#问题分析"><span class="toc-number">3.</span> <span class="toc-text">问题分析</span></a></li></ol>
-                </div>
-            
-            <h4 id="&#x4E8B;&#x4EF6;&#x80CC;&#x666F;"><a href="#&#x4E8B;&#x4EF6;&#x80CC;&#x666F;" class="headerlink" title="&#x4E8B;&#x4EF6;&#x80CC;&#x666F;"></a>&#x4E8B;&#x4EF6;&#x80CC;&#x666F;</h4><font style="color:red">Redis&#x4E3B;&#x4ECE;&#x5F00;&#x542F;AOF&#xFF0C;&#x9519;&#x8BEF;&#x64CD;&#x4F5C;&#x5BFC;&#x81F4;&#x6570;&#x636E;&#x88AB;&#x6E05;&#x7A7A;&#x3002;<br>Redis&#x4E3B;&#x8981;&#x4F5C;&#x7528;&#xFF1A;&#x7F13;&#x5B58;&#x3001;&#x961F;&#x5217;&#x3002;</font>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Redis开启AOF导致的删库事件 - Hexo</title><meta description="事件背景Redis主从开启AOF，错误操作导致数据被清空。 Redis主要作用：缓存、队列。   事故过程Redis搭建了主从，持久化方式为RDB，RDB没有定时备份，且AOF都没有开启。考虑到开启AOF会使Redis安全性更高，所以尝试先在从机做测试，没问题后再上主机。 Redis开启AOF的方式非常简单，打开Redis的conf文件，找到【appendonly】配置项，将【no】改为【yes】"><meta property="og:type" content="blog"><meta property="og:title" content="Redis开启AOF导致的删库事件"><meta property="og:url" content="http://yoursite.com/2017/05/27/Redis%E5%BC%80%E5%90%AFAOF%E5%AF%BC%E8%87%B4%E7%9A%84%E5%88%A0%E5%BA%93%E4%BA%8B%E4%BB%B6/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="事件背景Redis主从开启AOF，错误操作导致数据被清空。 Redis主要作用：缓存、队列。   事故过程Redis搭建了主从，持久化方式为RDB，RDB没有定时备份，且AOF都没有开启。考虑到开启AOF会使Redis安全性更高，所以尝试先在从机做测试，没问题后再上主机。 Redis开启AOF的方式非常简单，打开Redis的conf文件，找到【appendonly】配置项，将【no】改为【yes】"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://yoursite.com/img/og_image.png"><meta property="article:published_time" content="2017-05-27T13:18:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.255Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="redis"><meta property="article:tag" content="aof"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2017/05/27/Redis%E5%BC%80%E5%90%AFAOF%E5%AF%BC%E8%87%B4%E7%9A%84%E5%88%A0%E5%BA%93%E4%BA%8B%E4%BB%B6/"},"headline":"Hexo","image":["http://yoursite.com/img/og_image.png"],"datePublished":"2017-05-27T13:18:00.000Z","dateModified":"2020-05-19T06:34:18.255Z","author":{"@type":"Person","name":"John Doe"},"description":"事件背景Redis主从开启AOF，错误操作导致数据被清空。 Redis主要作用：缓存、队列。   事故过程Redis搭建了主从，持久化方式为RDB，RDB没有定时备份，且AOF都没有开启。考虑到开启AOF会使Redis安全性更高，所以尝试先在从机做测试，没问题后再上主机。 Redis开启AOF的方式非常简单，打开Redis的conf文件，找到【appendonly】配置项，将【no】改为【yes】"}</script><link rel="canonical" href="http://yoursite.com/2017/05/27/Redis%E5%BC%80%E5%90%AFAOF%E5%AF%BC%E8%87%B4%E7%9A%84%E5%88%A0%E5%BA%93%E4%BA%8B%E4%BB%B6/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2017-05-27T13:18:00.000Z" title="2017-05-27T13:18:00.000Z">2017-05-27</time><span class="level-item"><a class="link-muted" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/">错误集锦</a></span><span class="level-item">11 分钟 读完 (大约 1697 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">Redis开启AOF导致的删库事件</h1><div class="content"><h4 id="事件背景"><a href="#事件背景" class="headerlink" title="事件背景"></a>事件背景</h4><font style="color:red">Redis主从开启AOF，错误操作导致数据被清空。
+Redis主要作用：缓存、队列。</font>
 
 <hr>
-<h4 id="&#x4E8B;&#x6545;&#x8FC7;&#x7A0B;"><a href="#&#x4E8B;&#x6545;&#x8FC7;&#x7A0B;" class="headerlink" title="&#x4E8B;&#x6545;&#x8FC7;&#x7A0B;"></a>&#x4E8B;&#x6545;&#x8FC7;&#x7A0B;</h4><p>Redis&#x642D;&#x5EFA;&#x4E86;&#x4E3B;&#x4ECE;&#xFF0C;&#x6301;&#x4E45;&#x5316;&#x65B9;&#x5F0F;&#x4E3A;RDB&#xFF0C;RDB&#x6CA1;&#x6709;&#x5B9A;&#x65F6;&#x5907;&#x4EFD;&#xFF0C;&#x4E14;AOF&#x90FD;&#x6CA1;&#x6709;&#x5F00;&#x542F;&#x3002;<br>&#x8003;&#x8651;&#x5230;&#x5F00;&#x542F;AOF&#x4F1A;&#x4F7F;Redis&#x5B89;&#x5168;&#x6027;&#x66F4;&#x9AD8;&#xFF0C;&#x6240;&#x4EE5;&#x5C1D;&#x8BD5;&#x5148;&#x5728;&#x4ECE;&#x673A;&#x505A;&#x6D4B;&#x8BD5;&#xFF0C;&#x6CA1;&#x95EE;&#x9898;&#x540E;&#x518D;&#x4E0A;&#x4E3B;&#x673A;&#x3002;</p>
-<p>Redis&#x5F00;&#x542F;AOF&#x7684;&#x65B9;&#x5F0F;&#x975E;&#x5E38;&#x7B80;&#x5355;&#xFF0C;&#x6253;&#x5F00;Redis&#x7684;conf&#x6587;&#x4EF6;&#xFF0C;&#x627E;&#x5230;&#x3010;appendonly&#x3011;&#x914D;&#x7F6E;&#x9879;&#xFF0C;&#x5C06;&#x3010;no&#x3011;&#x6539;&#x4E3A;&#x3010;yes&#x3011;&#x91CD;&#x542F;&#x670D;&#x52A1;&#x5373;&#x53EF;&#x3002;</p>
-<p>Redis&#x4ECE;&#x673A;&#x91CD;&#x542F;&#x540E;&#xFF0C;&#x6210;&#x529F;&#x5728;&#x6570;&#x636E;&#x76EE;&#x5F55;&#x751F;&#x6210;&#x4E86;&#x767E;M&#x4EE5;&#x4E0A;&#x7684;&#x3010;appendonly.aof&#x3011;&#x6587;&#x4EF6;&#xFF0C;&#x4EE5;&#x8BE5;aof&#x6587;&#x4EF6;&#x5355;&#x72EC;&#x542F;&#x52A8;Redis&#x5B9E;&#x4F8B;&#xFF0C;&#x751F;&#x6210;&#x7684;&#x6570;&#x636E;&#x548C;&#x5355;&#x72EC;&#x4EE5;RDB&#x6587;&#x4EF6;&#x542F;&#x52A8;&#x751F;&#x6210;&#x7684;&#x6570;&#x636E;&#x4E00;&#x6837;&#xFF0C;&#x56E0;&#x6B64;&#x5224;&#x65AD;&#x4ECE;&#x673A;AOF&#x914D;&#x7F6E;&#x6210;&#x529F;&#x3002;</p>
-<p>&#x63A5;&#x7740;&#x76F4;&#x63A5;&#x4E0A;&#x4E86;&#x4E3B;&#x673A;&#xFF0C;Redis&#x4E3B;&#x673A;&#x4EE5;&#x540C;&#x6837;&#x7684;&#x65B9;&#x5F0F;&#x914D;&#x7F6E;AOF&#x540E;&#xFF0C;&#x7ED3;&#x679C;&#x5B9E;&#x4F8B;&#x91CD;&#x542F;&#x7684;&#x77AC;&#x95F4;&#xFF0C;Redis&#x4E3B;&#x4ECE;&#x6570;&#x636E;&#x88AB;&#x6E05;&#x7A7A;&#xFF0C;&#x4E3B;&#x4ECE;AOF&#x53CA;RDB&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x63A5;&#x8FD1;0M&#x3002;</p>
+<h4 id="事故过程"><a href="#事故过程" class="headerlink" title="事故过程"></a>事故过程</h4><p>Redis搭建了主从，持久化方式为RDB，RDB没有定时备份，且AOF都没有开启。<br>考虑到开启AOF会使Redis安全性更高，所以尝试先在从机做测试，没问题后再上主机。</p>
+<p>Redis开启AOF的方式非常简单，打开Redis的conf文件，找到【appendonly】配置项，将【no】改为【yes】重启服务即可。</p>
+<p>Redis从机重启后，成功在数据目录生成了百M以上的【appendonly.aof】文件，以该aof文件单独启动Redis实例，生成的数据和单独以RDB文件启动生成的数据一样，因此判断从机AOF配置成功。</p>
+<p>接着直接上了主机，Redis主机以同样的方式配置AOF后，结果实例重启的瞬间，Redis主从数据被清空，主从AOF及RDB文件大小接近0M。</p>
 <hr>
 <a id="more"></a>
-<h4 id="&#x95EE;&#x9898;&#x5206;&#x6790;"><a href="#&#x95EE;&#x9898;&#x5206;&#x6790;" class="headerlink" title="&#x95EE;&#x9898;&#x5206;&#x6790;"></a>&#x95EE;&#x9898;&#x5206;&#x6790;</h4><font style="color:red">1&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x5728;&#x5DF2;&#x7ECF;&#x5F00;&#x542F;RDB&#x6301;&#x4E45;&#x5316;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x8FD8;&#x6253;&#x7B97;&#x5F00;&#x542F;AOF&#xFF1F;</font><br>&#x89E3;&#x7B54;&#xFF1A;&#x540C;&#x65F6;&#x5F00;&#x542F;&#x4E24;&#x79CD;&#x6301;&#x4E45;&#x5316;&#xFF0C;Redis&#x62E5;&#x6709;&#x8DB3;&#x4EE5;&#x5AB2;&#x7F8E;PostgreSQL&#x7684;&#x6570;&#x636E;&#x5B89;&#x5168;&#x6027;&#x3002;<br><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">RDB &#x6301;&#x4E45;&#x5316;&#x53EF;&#x4EE5;&#x5728;&#x6307;&#x5B9A;&#x7684;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x5185;&#x751F;&#x6210;&#x6570;&#x636E;&#x96C6;&#x7684;&#x65F6;&#x95F4;&#x70B9;&#x5FEB;&#x7167;&#xFF0C;&#x5E38;&#x7528;&#x505A;&#x5907;&#x4EFD;&#x3002;</span><br><span class="line">AOF &#x6301;&#x4E45;&#x5316;&#x8BB0;&#x5F55;&#x670D;&#x52A1;&#x5668;&#x6267;&#x884C;&#x7684;&#x6240;&#x6709;&#x5199;&#x64CD;&#x4F5C;&#x547D;&#x4EE4;&#xFF0C;&#x5E76;&#x5728;&#x670D;&#x52A1;&#x5668;&#x542F;&#x52A8;&#x65F6;&#xFF0C;&#x901A;&#x8FC7;&#x91CD;&#x65B0;&#x6267;&#x884C;&#x8FD9;&#x4E9B;&#x547D;&#x4EE4;&#x6765;&#x8FD8;&#x539F;&#x6570;&#x636E;&#x96C6;&#x3002;</span><br><span class="line"></span><br><span class="line">RDB&#x9ED8;&#x8BA4;&#x7684;&#x5FEB;&#x7167;&#x4FDD;&#x5B58;&#x914D;&#x7F6E;&#xFF1A;</span><br><span class="line">save 900 1     #900&#x79D2;&#x5185;&#x5982;&#x679C;&#x8D85;&#x8FC7;1&#x4E2A;key&#x88AB;&#x4FEE;&#x6539;&#xFF0C;&#x5219;&#x53D1;&#x8D77;&#x5FEB;&#x7167;&#x4FDD;&#x5B58;</span><br><span class="line">save 300 10    #300&#x79D2;&#x5185;&#x5BB9;&#x5982;&#x8D85;&#x8FC7;10&#x4E2A;key&#x88AB;&#x4FEE;&#x6539;&#xFF0C;&#x5219;&#x53D1;&#x8D77;&#x5FEB;&#x7167;&#x4FDD;&#x5B58;</span><br><span class="line">save 60 10000  #60&#x79D2;&#x5185;&#x5BB9;&#x5982;&#x8D85;&#x8FC7;10000&#x4E2A;key&#x88AB;&#x4FEE;&#x6539;&#xFF0C;&#x5219;&#x53D1;&#x8D77;&#x5FEB;&#x7167;&#x4FDD;&#x5B58;</span><br><span class="line"></span><br><span class="line">&#x800C;AOF&#x9ED8;&#x8BA4;&#x7B56;&#x7565;&#x5219;&#x4E3A;&#x6BCF;&#x79D2;&#x949F;&#x4E00;&#x6B21;fsync</span><br><span class="line">&#x5F53;&#x7136;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x4E0D;&#x540C;&#x7684;fsync&#x7B56;&#x7565;&#xFF0C;&#x6BD4;&#x5982;&#x65E0;fsync</span><br><span class="line">&#x6216;&#x8005;&#x6BCF;&#x79D2;&#x949F;&#x4E00;&#x6B21;fsync&#xFF0C;&#x6216;&#x8005;&#x6BCF;&#x6B21;&#x6267;&#x884C;&#x5199;&#x5165;&#x547D;&#x4EE4;&#x65F6;fsync</span><br><span class="line"></span><br><span class="line">AOF&#x6587;&#x4EF6;&#x6709;&#x5E8F;&#x5730;&#x4FDD;&#x5B58;&#x4E86;&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x6267;&#x884C;&#x7684;&#x6240;&#x6709;&#x5199;&#x5165;&#x64CD;&#x4F5C;&#xFF0C;</span><br><span class="line">&#x8FD9;&#x4E9B;&#x5199;&#x5165;&#x64CD;&#x4F5C;&#x4EE5;Redis&#x534F;&#x8BAE;&#x7684;&#x683C;&#x5F0F;&#x4FDD;&#x5B58;&#x3002;</span><br><span class="line">&#x56E0;&#x6B64;AOF&#x6587;&#x4EF6;&#x7684;&#x5185;&#x5BB9;&#x975E;&#x5E38;&#x5BB9;&#x6613;&#x88AB;&#x4EBA;&#x8BFB;&#x61C2;&#xFF0C;&#x5BF9;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x5206;&#x6790;&#x4E5F;&#x5F88;&#x8F7B;&#x677E;&#x3002; </span><br><span class="line">&#x5BFC;&#x51FA;AOF&#x6587;&#x4EF6;&#x4E5F;&#x975E;&#x5E38;&#x7B80;&#x5355;&#xFF1A;&#x4E3E;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x4E0D;&#x5C0F;&#x5FC3;&#x6267;&#x884C;&#x4E86; FLUSHALL &#x547D;&#x4EE4;&#xFF0C;</span><br><span class="line">&#x4F46;&#x53EA;&#x8981;AOF&#x6587;&#x4EF6;&#x672A;&#x88AB;&#x91CD;&#x5199;&#xFF0C;&#x90A3;&#x4E48;&#x53EA;&#x8981;&#x505C;&#x6B62;&#x670D;&#x52A1;&#x5668;&#xFF0C;</span><br><span class="line">&#x79FB;&#x9664;AOF&#x6587;&#x4EF6;&#x672B;&#x5C3E;&#x7684;FLUSHALL&#x547D;&#x4EE4;&#xFF0C;&#x5E76;&#x91CD;&#x542F;Redis&#xFF0C;</span><br><span class="line">&#x5C31;&#x53EF;&#x4EE5;&#x5C06;&#x6570;&#x636E;&#x96C6;&#x6062;&#x590D;&#x5230;FLUSHALL&#x6267;&#x884C;&#x4E4B;&#x524D;&#x7684;&#x72B6;&#x6001;&#x3002;</span><br><span class="line"></span><br><span class="line">&#x6709;&#x6548;&#x5730;&#x5229;&#x7528;&#x4EE5;&#x4E0A;&#x7684;RDB&#x548C;AOF&#x7279;&#x6027;&#xFF0C;&#x80FD;&#x4F7F;Redis&#x62E5;&#x6709;&#x8DB3;&#x4EE5;&#x5AB2;&#x7F8E;PostgreSQL&#x7684;&#x6570;&#x636E;&#x5B89;&#x5168;&#x6027;&#x3002;</span><br></pre></td></tr></table></figure><br><br><font style="color:red">2&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x5728;&#x4ECE;&#x673A;AOF&#x914D;&#x7F6E;&#x6210;&#x529F;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x4E3B;&#x673A;&#x5F00;&#x542F;AOF&#xFF0C;&#x4E3B;&#x4ECE;&#x6570;&#x636E;&#x77AC;&#x95F4;&#x88AB;&#x6E05;&#x7A7A;&#xFF1F;</font><br>&#x89E3;&#x7B54;&#xFF1A;&#x9996;&#x5148;&#x5F97;&#x660E;&#x767D;Redis&#x6709;&#x8FD9;&#x4E48;&#x4E00;&#x4E2A;&#x7279;&#x6027;&#xFF0C;&#x5373;<font style="color:red">&#x4E24;&#x79CD;&#x6301;&#x4E45;&#x5316;&#x540C;&#x65F6;&#x5F00;&#x542F;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;Redis&#x542F;&#x52A8;&#x9ED8;&#x8BA4;&#x52A0;&#x8F7D;AOF&#x6587;&#x4EF6;&#x6062;&#x590D;&#x6570;&#x636E;&#x3002;</font>
+<h4 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h4><font style="color:red">1、为什么在已经开启RDB持久化的情况下，还打算开启AOF？</font>
+解答：同时开启两种持久化，Redis拥有足以媲美PostgreSQL的数据安全性。
 
-<p>Redis&#x4ECE;&#x673A;&#x7531;&#x4E8E;&#x4E8B;&#x5148;&#x6CA1;&#x6709;&#x5F00;&#x542F;AOF&#xFF0C;&#x914D;&#x7F6E;&#x91CD;&#x542F;&#x540E;&#xFF0C;&#x4ECE;&#x673A;&#x4F1A;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x7A7A;&#x7684;AOF&#x6587;&#x4EF6;&#x5E76;&#x9ED8;&#x8BA4;&#x52A0;&#x8F7D;&#xFF0C;&#x8FD9;&#x65F6;&#x4ECE;&#x673A;&#x6570;&#x636E;&#x662F;&#x7A7A;&#x7684;&#xFF0C;&#x4F46;&#x7531;&#x4E8E;&#x914D;&#x7F6E;&#x4E86;&#x4E3B;&#x4ECE;&#xFF0C;&#x4ECE;&#x673A;&#x4F1A;&#x540C;&#x6B65;&#x4E3B;&#x673A;&#x6570;&#x636E;&#xFF0C;&#x6240;&#x4EE5;&#x4F60;&#x4F1A;&#x53D1;&#x73B0;&#x65B0;&#x751F;&#x6210;&#x7684;AOF&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x5728;&#x8FC5;&#x901F;&#x589E;&#x957F;&#x3002;&#x56E0;&#x6B64;Redis&#x4ECE;&#x673A;&#x5F00;&#x542F;AOF&#x540E;&#xFF0C;&#x6570;&#x636E;&#x6700;&#x7EC8;&#x662F;&#x6CA1;&#x6709;&#x95EE;&#x9898;&#x7684;&#x3002;</p>
-<p>&#x8FD9;&#x65F6;&#x5019;Redis&#x4E3B;&#x673A;&#x4E5F;&#x914D;&#x7F6E;AOF&#x5E76;&#x91CD;&#x542F;&#xFF0C;&#x4E3B;&#x673A;&#x751F;&#x6210;AOF&#x5E76;&#x9ED8;&#x8BA4;&#x52A0;&#x8F7D;&#xFF0C;&#x6570;&#x636E;&#x77AC;&#x95F4;&#x88AB;&#x6E05;&#x7A7A;&#xFF0C;&#x540C;&#x65F6;&#x4E3B;&#x673A;RDB&#x53D1;&#x73B0;60&#x79D2;&#x5185;&#x6709;&#x8D85;&#x8FC7;10000&#x4E2A;key&#x88AB;&#x4FEE;&#x6539;&#xFF0C;&#x53D1;&#x8D77;&#x4E86;&#x5FEB;&#x7167;&#x4FDD;&#x5B58;&#xFF0C;RDB&#x6570;&#x636E;&#x4E5F;&#x88AB;&#x6E05;&#x7A7A;&#x3002;&#x7531;&#x4E8E;&#x90FD;&#x662F;&#x5185;&#x5B58;&#x64CD;&#x4F5C;&#xFF0C;&#x6240;&#x4EE5;&#x975E;&#x5E38;&#x5FEB;&#x3002;&#x6700;&#x540E;&#x518D;&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#xFF0C;&#x6240;&#x6709;&#x6570;&#x636E;&#x88AB;&#x5220;&#x3002;</p>
-<p><font style="color:red">3&#x3001;&#x4E24;&#x79CD;&#x6301;&#x4E45;&#x5316;&#x540C;&#x65F6;&#x5F00;&#x542F;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;Redis&#x542F;&#x52A8;&#x4E3A;&#x4EC0;&#x4E48;&#x9ED8;&#x8BA4;&#x9009;&#x62E9;&#x52A0;&#x8F7D;AOF&#x800C;&#x4E0D;&#x662F;RDB&#x6587;&#x4EF6;&#x6765;&#x6062;&#x590D;&#x6570;&#x636E;&#xFF1F;</font><br>&#x89E3;&#x7B54;&#xFF1A;AOF&#x9ED8;&#x8BA4;&#x7B56;&#x7565;&#x4E3A;&#x6BCF;&#x79D2;&#x949F;&#x4E00;&#x6B21;fsync&#xFF0C;&#x6240;&#x4EE5;&#x901A;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;AOF&#x6587;&#x4EF6;&#x6240;&#x4FDD;&#x5B58;&#x7684;&#x6570;&#x636E;&#x76F8;&#x5BF9;RDB&#x66F4;&#x5B8C;&#x6574;&#x3002;</p>
-<p><font style="color:red">4&#x3001;AOF &#x6301;&#x4E45;&#x5316;&#x4F1A;&#x8BB0;&#x5F55;&#x670D;&#x52A1;&#x5668;&#x6267;&#x884C;&#x7684;&#x6240;&#x6709;&#x5199;&#x64CD;&#x4F5C;&#x547D;&#x4EE4;&#xFF0C;&#x90A3;&#x4E48;&#x6570;&#x636E;&#x88AB;&#x6E05;&#x7A7A;&#x540E;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x4E0D;&#x80FD;&#x901A;&#x8FC7;AOF&#x6587;&#x4EF6;&#x7684;&#x65E5;&#x5FD7;&#x8BB0;&#x5F55;&#x6062;&#x590D;&#x6570;&#x636E;&#xFF1F;</font><br>&#x89E3;&#x7B54;&#xFF1A;Redis&#x4F1A;&#x81EA;&#x52A8;&#x5730;&#x5728;&#x540E;&#x53F0;&#x5BF9;AOF&#x8FDB;&#x884C;&#x91CD;&#x5199;&#xFF0C;&#x91CD;&#x5199;&#x540E;&#x7684;&#x65B0;AOF&#x6587;&#x4EF6;&#x5305;&#x542B;&#x4E86;&#x6062;&#x590D;&#x5F53;&#x524D;&#x6570;&#x636E;&#x96C6;&#x6240;&#x9700;&#x7684;&#x6700;&#x5C0F;&#x547D;&#x4EE4;&#x96C6;&#x5408;</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x4E3A;&#x4EC0;&#x4E48;&#x4F1A;&#x91CD;&#x5199;&#xFF1F;</span><br><span class="line"></span><br><span class="line">&#x56E0;&#x4E3A;AOF&#x8BB0;&#x5F55;&#x4E86;&#x670D;&#x52A1;&#x5668;&#x6267;&#x884C;&#x7684;&#x6240;&#x6709;&#x5199;&#x64CD;&#x4F5C;&#x547D;&#x4EE4;&#xFF0C;&#x800C;RDB&#x672C;&#x8EAB;&#x53C8;&#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x7D27;&#x51D1;&#x7684;&#x6587;&#x4EF6;</span><br><span class="line">&#x6240;&#x4EE5;&#x5BF9;&#x4E8E;&#x76F8;&#x540C;&#x7684;&#x6570;&#x636E;&#x96C6;&#x6765;&#x8BF4;&#xFF0C;AOF&#x6587;&#x4EF6;&#x7684;&#x4F53;&#x79EF;&#x901A;&#x5E38;&#x8981;&#x5927;&#x4E8E;RDB&#x6587;&#x4EF6;&#x7684;&#x4F53;&#x79EF;</span><br><span class="line">&#x800C;&#x4F53;&#x79EF;&#x5927;&#x4E86;&#x7EC8;&#x7A76;&#x4E0D;&#x597D;&#xFF0C;&#x6BD4;&#x5982;Redis&#x91CD;&#x542F;&#x9ED8;&#x8BA4;&#x52A0;&#x8F7D;AOF&#x6587;&#x4EF6;&#x5C31;&#x8981;&#x66F4;&#x591A;&#x7684;&#x65F6;&#x95F4;</span><br></pre></td></tr></table></figure>
-<p><font style="color:red">5&#x3001;&#x9762;&#x8BD5;&#x5B98;&#x5982;&#x679C;&#x95EE;&#x4F60;&#xFF0C;&#x5982;&#x4F55;&#x5728;&#x4E0D;&#x7528;&#x3010;config set&#x3011;&#x547D;&#x4EE4;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5C06;Redis&#x6301;&#x4E45;&#x5316;&#x7531;RDB&#x5207;&#x6362;&#x5230;AOF&#xFF0C;&#x4F60;&#x600E;&#x4E48;&#x56DE;&#x7B54;&#xFF1F;</font><br>&#x89E3;&#x7B54;&#xFF1A;&#x5475;&#x5475;&#xFF0C;&#x5229;&#x7528;&#x4E3B;&#x4ECE;&#x3002;&#x3002;&#x3002;&#x4ECE;&#x673A;&#x914D;&#x7F6E;AOF&#x91CD;&#x542F;&#x540E;&#xFF0C;&#x5C06;&#x751F;&#x6210;&#x7684;AOF&#x6587;&#x4EF6;&#x590D;&#x5236;&#x81F3;&#x4E3B;&#x673A;Redis&#x6570;&#x636E;&#x76EE;&#x5F55;&#xFF0C;&#x4E3B;&#x673A;&#x914D;&#x7F6E;AOF&#x540E;&#x518D;&#x91CD;&#x542F;&#x3002;</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x6CE8;&#xFF1A;&#x5728; Redis 2.2 &#x6216;&#x4EE5;&#x4E0A;&#x7248;&#x672C;&#xFF0C;&#x901A;&#x8FC7;&#x3010;config <span class="built_in">set</span>&#x3011;&#x53EF;&#x4EE5;&#x5728;&#x4E0D;&#x91CD;&#x542F;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x4ECE; RDB &#x5207;&#x6362;&#x5230; AOF&#x3002;</span><br><span class="line">1&#xFF09;&#x4E3A;&#x6700;&#x65B0;&#x7684; dump.rdb &#x6587;&#x4EF6;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5907;&#x4EFD;&#x3002;</span><br><span class="line">2&#xFF09;&#x5C06;&#x5907;&#x4EFD;&#x653E;&#x5230;&#x4E00;&#x4E2A;&#x5B89;&#x5168;&#x7684;&#x5730;&#x65B9;&#x3002;</span><br><span class="line">3&#xFF09;&#x6267;&#x884C;&#x4EE5;&#x4E0B;&#x4E24;&#x6761;&#x547D;&#x4EE4;&#xFF1A;</span><br><span class="line">redis-cli&gt; CONFIG SET appendonly yes</span><br><span class="line">redis-cli&gt; CONFIG SET save <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">4&#xFF09;&#x786E;&#x4FDD;&#x547D;&#x4EE4;&#x6267;&#x884C;&#x4E4B;&#x540E;&#xFF0C;&#x6570;&#x636E;&#x5E93;&#x7684;&#x952E;&#x7684;&#x6570;&#x91CF;&#x6CA1;&#x6709;&#x6539;&#x53D8;&#x3002;</span><br><span class="line">5&#xFF09;&#x786E;&#x4FDD;&#x5199;&#x547D;&#x4EE4;&#x4F1A;&#x88AB;&#x6B63;&#x786E;&#x5730;&#x8FFD;&#x52A0;&#x5230; AOF &#x6587;&#x4EF6;&#x7684;&#x672B;&#x5C3E;&#x3002;</span><br><span class="line"></span><br><span class="line">&#x6B65;&#x9AA4; 3 &#x6267;&#x884C;&#x7684;&#x7B2C;&#x4E00;&#x6761;&#x547D;&#x4EE4;&#x5F00;&#x542F;&#x4E86;AOF&#x529F;&#x80FD;&#xFF1A;&lt;font style=<span class="string">&quot;color:red&quot;</span>&gt;Redis&#x4F1A;&#x963B;&#x585E;&#x76F4;&#x5230;&#x521D;&#x59CB;AOF&#x6587;&#x4EF6;&#x521B;&#x5EFA;&#x5B8C;&#x6210;&#x4E3A;&#x6B62;&lt;/font&gt;&#xFF0C;&#x4E4B;&#x540E;Redis&#x4F1A;&#x7EE7;&#x7EED;&#x5904;&#x7406;&#x547D;&#x4EE4;&#x8BF7;&#x6C42;&#xFF0C; &#x5E76;&#x5F00;&#x59CB;&#x5C06;&#x5199;&#x5165;&#x547D;&#x4EE4;&#x8FFD;&#x52A0;&#x5230; AOF &#x6587;&#x4EF6;&#x672B;&#x5C3E;&#x3002;</span><br><span class="line">&#x6B65;&#x9AA4; 3 &#x6267;&#x884C;&#x7684;&#x7B2C;&#x4E8C;&#x6761;&#x547D;&#x4EE4;&#x7528;&#x4E8E;&#x5173;&#x95ED;RDB&#x529F;&#x80FD;&#x3002;&#x8FD9;&#x4E00;&#x6B65;&#x662F;&#x53EF;&#x9009;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x613F;&#x610F;&#x7684;&#x8BDD;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x4F7F;&#x7528;RDB&#x548C;AOF&#x8FD9;&#x4E24;&#x79CD;&#x6301;&#x4E45;&#x5316;&#x529F;&#x80FD;&#x3002;</span><br><span class="line"></span><br><span class="line">&#x4E0D;&#x8FC7;&#x522B;&#x5FD8;&#x4E86;&#x5728;redis.conf&#x4E2D;&#x6253;&#x5F00;AOF&#x529F;&#x80FD;&#xFF01;&#x5426;&#x5219;&#x7684;&#x8BDD;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x91CD;&#x542F;&#x4E4B;&#x540E;&#xFF0C;&#x4E4B;&#x524D;&#x901A;&#x8FC7;&#x3010;CONFIG SET&#x3011;&#x8BBE;&#x7F6E;&#x7684;&#x914D;&#x7F6E;&#x5C31;&#x4F1A;&#x88AB;&#x9057;&#x5FD8;&#xFF0C;&#x7A0B;&#x5E8F;&#x4F1A;&#x6309;&#x539F;&#x6765;&#x7684;&#x914D;&#x7F6E;&#x6765;&#x542F;&#x52A8;&#x670D;&#x52A1;&#x5668;&#x3002;</span><br></pre></td></tr></table></figure>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">RDB 持久化可以在指定的时间间隔内生成数据集的时间点快照，常用做备份。</span><br><span class="line">AOF 持久化记录服务器执行的所有写操作命令，并在服务器启动时，通过重新执行这些命令来还原数据集。</span><br><span class="line"></span><br><span class="line">RDB默认的快照保存配置：</span><br><span class="line">save 900 1     #900秒内如果超过1个key被修改，则发起快照保存</span><br><span class="line">save 300 10    #300秒内容如超过10个key被修改，则发起快照保存</span><br><span class="line">save 60 10000  #60秒内容如超过10000个key被修改，则发起快照保存</span><br><span class="line"></span><br><span class="line">而AOF默认策略则为每秒钟一次fsync</span><br><span class="line">当然你也可以设置不同的fsync策略，比如无fsync</span><br><span class="line">或者每秒钟一次fsync，或者每次执行写入命令时fsync</span><br><span class="line"></span><br><span class="line">AOF文件有序地保存了对数据库执行的所有写入操作，</span><br><span class="line">这些写入操作以Redis协议的格式保存。</span><br><span class="line">因此AOF文件的内容非常容易被人读懂，对文件进行分析也很轻松。 </span><br><span class="line">导出AOF文件也非常简单：举个例子，如果你不小心执行了 FLUSHALL 命令，</span><br><span class="line">但只要AOF文件未被重写，那么只要停止服务器，</span><br><span class="line">移除AOF文件末尾的FLUSHALL命令，并重启Redis，</span><br><span class="line">就可以将数据集恢复到FLUSHALL执行之前的状态。</span><br><span class="line"></span><br><span class="line">有效地利用以上的RDB和AOF特性，能使Redis拥有足以媲美PostgreSQL的数据安全性。</span><br></pre></td></tr></table></figure>
 
+<font style="color:red">2、为什么在从机AOF配置成功的情况下，主机开启AOF，主从数据瞬间被清空？</font>
+解答：首先得明白Redis有这么一个特性，即<font style="color:red">两种持久化同时开启的情况下，Redis启动默认加载AOF文件恢复数据。</font>
 
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2017/09/20/在Hexo中渲染MathJax数学公式/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    在Hexo中渲染MathJax数学公式
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2017/05/02/从表扩展增加列属性说起/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">从表扩展增加列属性说起</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+<p>Redis从机由于事先没有开启AOF，配置重启后，从机会生成一个空的AOF文件并默认加载，这时从机数据是空的，但由于配置了主从，从机会同步主机数据，所以你会发现新生成的AOF文件大小在迅速增长。因此Redis从机开启AOF后，数据最终是没有问题的。</p>
+<p>这时候Redis主机也配置AOF并重启，主机生成AOF并默认加载，数据瞬间被清空，同时主机RDB发现60秒内有超过10000个key被修改，发起了快照保存，RDB数据也被清空。由于都是内存操作，所以非常快。最后再主从同步，所有数据被删。</p>
+<p><font style="color:red">3、两种持久化同时开启的情况下，Redis启动为什么默认选择加载AOF而不是RDB文件来恢复数据？</font><br>解答：AOF默认策略为每秒钟一次fsync，所以通常情况下，AOF文件所保存的数据相对RDB更完整。</p>
+<p><font style="color:red">4、AOF 持久化会记录服务器执行的所有写操作命令，那么数据被清空后，为什么不能通过AOF文件的日志记录恢复数据？</font><br>解答：Redis会自动地在后台对AOF进行重写，重写后的新AOF文件包含了恢复当前数据集所需的最小命令集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">为什么会重写？</span><br><span class="line"></span><br><span class="line">因为AOF记录了服务器执行的所有写操作命令，而RDB本身又是一个非常紧凑的文件</span><br><span class="line">所以对于相同的数据集来说，AOF文件的体积通常要大于RDB文件的体积</span><br><span class="line">而体积大了终究不好，比如Redis重启默认加载AOF文件就要更多的时间</span><br></pre></td></tr></table></figure>
+<p><font style="color:red">5、面试官如果问你，如何在不用【config set】命令的情况下，将Redis持久化由RDB切换到AOF，你怎么回答？</font><br>解答：呵呵，利用主从。。。从机配置AOF重启后，将生成的AOF文件复制至主机Redis数据目录，主机配置AOF后再重启。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">注：在 Redis 2.2 或以上版本，通过【config <span class="built_in">set</span>】可以在不重启的情况下，从 RDB 切换到 AOF。</span><br><span class="line">1）为最新的 dump.rdb 文件创建一个备份。</span><br><span class="line">2）将备份放到一个安全的地方。</span><br><span class="line">3）执行以下两条命令：</span><br><span class="line">redis-cli&gt; CONFIG SET appendonly yes</span><br><span class="line">redis-cli&gt; CONFIG SET save <span class="string">""</span></span><br><span class="line"></span><br><span class="line">4）确保命令执行之后，数据库的键的数量没有改变。</span><br><span class="line">5）确保写命令会被正确地追加到 AOF 文件的末尾。</span><br><span class="line"></span><br><span class="line">步骤 3 执行的第一条命令开启了AOF功能：&lt;font style=<span class="string">"color:red"</span>&gt;Redis会阻塞直到初始AOF文件创建完成为止&lt;/font&gt;，之后Redis会继续处理命令请求， 并开始将写入命令追加到 AOF 文件末尾。</span><br><span class="line">步骤 3 执行的第二条命令用于关闭RDB功能。这一步是可选的，如果你愿意的话，也可以同时使用RDB和AOF这两种持久化功能。</span><br><span class="line"></span><br><span class="line">不过别忘了在redis.conf中打开AOF功能！否则的话，服务器重启之后，之前通过【CONFIG SET】设置的配置就会被遗忘，程序会按原来的配置来启动服务器。</span><br></pre></td></tr></table></figure></div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/redis/">redis</a><a class="link-muted mr-2" rel="tag" href="/tags/aof/">aof</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2017/09/20/%E5%9C%A8Hexo%E4%B8%AD%E6%B8%B2%E6%9F%93MathJax%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">在Hexo中渲染MathJax数学公式</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2017/05/02/%E4%BB%8E%E8%A1%A8%E6%89%A9%E5%B1%95%E5%A2%9E%E5%8A%A0%E5%88%97%E5%B1%9E%E6%80%A7%E8%AF%B4%E8%B5%B7/"><span class="level-item">从表扩展增加列属性说起</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" href="#事件背景"><span class="mr-2">1</span><span>事件背景</span></a></li><li><a class="is-flex" href="#事故过程"><span class="mr-2">2</span><span>事故过程</span></a></li><li><a class="is-flex" href="#问题分析"><span class="mr-2">3</span><span>问题分析</span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

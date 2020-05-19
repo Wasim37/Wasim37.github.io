@@ -1,517 +1,90 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <meta charset="utf-8">
-    
-    <title>TCP三次握手与四次分手 | 星空博客</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="TCP&amp;#x7B80;&amp;#x4ECB;&amp;#x9996;&amp;#x5148;&amp;#x6765;&amp;#x770B;&amp;#x770B;OSI&amp;#x7684;&amp;#x4E03;&amp;#x5C42;&amp;#x6A21;&amp;#x578B;&amp;#xFF1A;
-
-&amp;#x6211;&amp;#x4EEC;&amp;#x9700;&amp;#x8981;&amp;#x77E5;&amp;#x9053;TCP&amp;#x5DE5;&amp;#x4F5C;&amp;#x5728;&amp;#x7F51;&amp;#x7E">
-<meta property="og:type" content="article">
-<meta property="og:title" content="TCP三次握手与四次分手">
-<meta property="og:url" content="http://www.wangxin123.com/2016/10/29/TCP三次握手与四次分手/index.html">
-<meta property="og:site_name" content="星空博客">
-<meta property="og:description" content="TCP&amp;#x7B80;&amp;#x4ECB;&amp;#x9996;&amp;#x5148;&amp;#x6765;&amp;#x770B;&amp;#x770B;OSI&amp;#x7684;&amp;#x4E03;&amp;#x5C42;&amp;#x6A21;&amp;#x578B;&amp;#xFF1A;
-
-&amp;#x6211;&amp;#x4EEC;&amp;#x9700;&amp;#x8981;&amp;#x77E5;&amp;#x9053;TCP&amp;#x5DE5;&amp;#x4F5C;&amp;#x5728;&amp;#x7F51;&amp;#x7E">
-<meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/1.jpg">
-<meta property="og:updated_time" content="2017-06-26T05:01:43.993Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TCP三次握手与四次分手">
-<meta name="twitter:description" content="TCP&amp;#x7B80;&amp;#x4ECB;&amp;#x9996;&amp;#x5148;&amp;#x6765;&amp;#x770B;&amp;#x770B;OSI&amp;#x7684;&amp;#x4E03;&amp;#x5C42;&amp;#x6A21;&amp;#x578B;&amp;#xFF1A;
-
-&amp;#x6211;&amp;#x4EEC;&amp;#x9700;&amp;#x8981;&amp;#x77E5;&amp;#x9053;TCP&amp;#x5DE5;&amp;#x4F5C;&amp;#x5728;&amp;#x7F51;&amp;#x7E">
-<meta name="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/1.jpg">
-    
-
-    
-
-    
-        <link rel="icon" href="/css/images/wu.png" />
-    
-
-    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
-    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
-    
-    
-    
-    
-
-</head>
-<body>
-    <div id="container">
-        <header id="header">
-    <div id="header-main" class="header-inner">
-        <div class="outer">
-            <a href="/" id="logo">
-                <i class="logo"></i>
-                <span class="site-title">星空博客</span>
-            </a>
-            <nav id="main-nav">
-                
-                    <a class="main-nav-link" href="/.">Home</a>
-                
-                    <a class="main-nav-link" href="/archives">Archives</a>
-                
-                    <a class="main-nav-link" href="/categories">Categories</a>
-                
-                    <a class="main-nav-link" href="/tags">Tags</a>
-                
-                    <a class="main-nav-link" href="/about">About</a>
-                
-            </nav>
-            
-                
-                <nav id="sub-nav">
-                    <div class="profile" id="profile-nav">
-                        <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-                            <i class="fa fa-caret-down"></i>
-                        </a>
-                    </div>
-                </nav>
-            
-            <div id="search-form-wrap">
-
-    <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-        <button type="submit" class="search-form-submit"></button>
-    </form>
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: '文章',
-            PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
-            UNTITLED: '(未命名)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
-
-</div>
-        </div>
-    </div>
-    <div id="main-nav-mobile" class="header-sub header-inner">
-        <table class="menu outer">
-            <tr>
-                
-                    <td><a class="main-nav-link" href="/.">Home</a></td>
-                
-                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
-                
-                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
-                
-                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
-                
-                    <td><a class="main-nav-link" href="/about">About</a></td>
-                
-                <td>
-                    
-    <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
-    </div>
-
-                </td>
-            </tr>
-        </table>
-    </div>
-</header>
-
-        <div class="outer">
-            
-                
-
-<aside id="profile">
-    <div class="inner profile-inner">
-        <div class="base-info profile-block">
-            <img id="avatar" src="http://7xvfir.com1.z0.glb.clouddn.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F.jpg" />
-            <h2 id="name">Wasim</h2>
-            <h3 id="title">Full Stack Developer</h3>
-            <span id="location"><i class="fa fa-map-marker"></i>GuangZhou, China</span>
-            <a id="follow" target="_blank" href="https://github.com/Wasim37">GitHub</a>
-        </div>
-        <div class="article-info profile-block">
-            <div class="article-info-block">
-                111
-                <span>文章</span>
-            </div>
-            <div class="article-info-block">
-                93
-                <span>标签</span>
-            </div>
-        </div>
-        
-        <div class="profile-block social-links">
-            <table>
-                <tr>
-                    
-                    <td><a href="https://github.com/Wasim37" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
-                    
-                    <td><a href="/" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
-                    
-                </tr>
-            </table>
-        </div>
-        
-    </div>
-</aside>
-
-            
-            <section id="main"><article id="post-TCP三次握手与四次分手" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-            TCP三次握手与四次分手
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/10/29/TCP三次握手与四次分手/">
-            <time datetime="2016-10-29T14:10:00.000Z" itemprop="datePublished">2016-10-29</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/算法及理论/">算法及理论</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/tcp/">tcp</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP简介"><span class="toc-number">1.</span> <span class="toc-text">TCP简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP三次握手"><span class="toc-number">2.</span> <span class="toc-text">TCP三次握手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP四次挥手"><span class="toc-number">3.</span> <span class="toc-text">TCP四次挥手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关疑问"><span class="toc-number">4.</span> <span class="toc-text">相关疑问</span></a></li></ol>
-                </div>
-            
-            <h2 id="TCP&#x7B80;&#x4ECB;"><a href="#TCP&#x7B80;&#x4ECB;" class="headerlink" title="TCP&#x7B80;&#x4ECB;"></a>TCP&#x7B80;&#x4ECB;</h2><p>&#x9996;&#x5148;&#x6765;&#x770B;&#x770B;OSI&#x7684;&#x4E03;&#x5C42;&#x6A21;&#x578B;&#xFF1A;</p>
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>TCP三次握手与四次分手 - Hexo</title><meta description="TCP简介首先来看看OSI的七层模型：  我们需要知道TCP工作在网络OSI的七层模型中的第四层——Transport层，IP在第三层——Network层，ARP在第二层——Data Link层；在第二层上的数据，我们把它叫Frame，在第三层上的数据叫Packet，第四层的数据叫Segment。 同时，我们需要简单的知道，数据从应用层发下来，会在每一层都会加上头部信息，进行封装，然后再发送到数据"><meta property="og:type" content="blog"><meta property="og:title" content="TCP三次握手与四次分手"><meta property="og:url" content="http://yoursite.com/2016/10/29/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/"><meta property="og:site_name" content="Hexo"><meta property="og:description" content="TCP简介首先来看看OSI的七层模型：  我们需要知道TCP工作在网络OSI的七层模型中的第四层——Transport层，IP在第三层——Network层，ARP在第二层——Data Link层；在第二层上的数据，我们把它叫Frame，在第三层上的数据叫Packet，第四层的数据叫Segment。 同时，我们需要简单的知道，数据从应用层发下来，会在每一层都会加上头部信息，进行封装，然后再发送到数据"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/1.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/2.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/3.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/4.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/5.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/6.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/7.jpg"><meta property="og:image" content="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/8.jpg"><meta property="article:published_time" content="2016-10-29T14:10:00.000Z"><meta property="article:modified_time" content="2020-05-19T06:34:18.264Z"><meta property="article:author" content="John Doe"><meta property="article:tag" content="tcp"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/1.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://yoursite.com/2016/10/29/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/"},"headline":"Hexo","image":["http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/1.jpg","http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/2.jpg","http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/3.jpg","http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/4.jpg","http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/5.jpg","http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/6.jpg","http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/7.jpg","http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/8.jpg"],"datePublished":"2016-10-29T14:10:00.000Z","dateModified":"2020-05-19T06:34:18.264Z","author":{"@type":"Person","name":"John Doe"},"description":"TCP简介首先来看看OSI的七层模型：  我们需要知道TCP工作在网络OSI的七层模型中的第四层——Transport层，IP在第三层——Network层，ARP在第二层——Data Link层；在第二层上的数据，我们把它叫Frame，在第三层上的数据叫Packet，第四层的数据叫Segment。 同时，我们需要简单的知道，数据从应用层发下来，会在每一层都会加上头部信息，进行封装，然后再发送到数据"}</script><link rel="canonical" href="http://yoursite.com/2016/10/29/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/Wasim37"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2016-10-29T14:10:00.000Z" title="2016-10-29T14:10:00.000Z">2016-10-29</time><span class="level-item"><a class="link-muted" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/">算法及理论</a></span><span class="level-item">20 分钟 读完 (大约 2941 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">TCP三次握手与四次分手</h1><div class="content"><h2 id="TCP简介"><a href="#TCP简介" class="headerlink" title="TCP简介"></a>TCP简介</h2><p>首先来看看OSI的七层模型：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/1.jpg" alt=""></p>
-<p>&#x6211;&#x4EEC;&#x9700;&#x8981;&#x77E5;&#x9053;TCP&#x5DE5;&#x4F5C;&#x5728;&#x7F51;&#x7EDC;OSI&#x7684;&#x4E03;&#x5C42;&#x6A21;&#x578B;&#x4E2D;&#x7684;&#x7B2C;&#x56DB;&#x5C42;&#x2014;&#x2014;Transport&#x5C42;&#xFF0C;IP&#x5728;&#x7B2C;&#x4E09;&#x5C42;&#x2014;&#x2014;Network&#x5C42;&#xFF0C;ARP&#x5728;&#x7B2C;&#x4E8C;&#x5C42;&#x2014;&#x2014;Data Link&#x5C42;&#xFF1B;&#x5728;&#x7B2C;&#x4E8C;&#x5C42;&#x4E0A;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x6211;&#x4EEC;&#x628A;&#x5B83;&#x53EB;Frame&#xFF0C;&#x5728;&#x7B2C;&#x4E09;&#x5C42;&#x4E0A;&#x7684;&#x6570;&#x636E;&#x53EB;Packet&#xFF0C;&#x7B2C;&#x56DB;&#x5C42;&#x7684;&#x6570;&#x636E;&#x53EB;Segment&#x3002; &#x540C;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7B80;&#x5355;&#x7684;&#x77E5;&#x9053;&#xFF0C;&#x6570;&#x636E;&#x4ECE;&#x5E94;&#x7528;&#x5C42;&#x53D1;&#x4E0B;&#x6765;&#xFF0C;&#x4F1A;&#x5728;&#x6BCF;&#x4E00;&#x5C42;&#x90FD;&#x4F1A;&#x52A0;&#x4E0A;&#x5934;&#x90E8;&#x4FE1;&#x606F;&#xFF0C;&#x8FDB;&#x884C;&#x5C01;&#x88C5;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x53D1;&#x9001;&#x5230;&#x6570;&#x636E;&#x63A5;&#x6536;&#x7AEF;&#x3002;&#x8FD9;&#x4E2A;&#x57FA;&#x672C;&#x7684;&#x6D41;&#x7A0B;&#x4F60;&#x9700;&#x8981;&#x77E5;&#x9053;&#xFF0C;&#x5C31;&#x662F;&#x6BCF;&#x4E2A;&#x6570;&#x636E;&#x90FD;&#x4F1A;&#x7ECF;&#x8FC7;&#x6570;&#x636E;&#x7684;&#x5C01;&#x88C5;&#x548C;&#x89E3;&#x5C01;&#x88C5;&#x7684;&#x8FC7;&#x7A0B;&#x3002; &#x5728;OSI&#x4E03;&#x5C42;&#x6A21;&#x578B;&#x4E2D;&#xFF0C;&#x6BCF;&#x4E00;&#x5C42;&#x7684;&#x4F5C;&#x7528;&#x548C;&#x5BF9;&#x5E94;&#x7684;&#x534F;&#x8BAE;&#x5982;&#x4E0B;&#xFF1A; </p>
+<p>我们需要知道TCP工作在网络OSI的七层模型中的第四层——Transport层，IP在第三层——Network层，ARP在第二层——Data Link层；在第二层上的数据，我们把它叫Frame，在第三层上的数据叫Packet，第四层的数据叫Segment。 同时，我们需要简单的知道，数据从应用层发下来，会在每一层都会加上头部信息，进行封装，然后再发送到数据接收端。这个基本的流程你需要知道，就是每个数据都会经过数据的封装和解封装的过程。 在OSI七层模型中，每一层的作用和对应的协议如下： </p>
 <a id="more"></a>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/2.jpg" alt=""></p>
-<p>TCP&#x662F;&#x4E00;&#x4E2A;&#x534F;&#x8BAE;&#xFF0C;&#x90A3;&#x8FD9;&#x4E2A;&#x534F;&#x8BAE;&#x662F;&#x5982;&#x4F55;&#x5B9A;&#x4E49;&#x7684;&#xFF0C;&#x5B83;&#x7684;&#x6570;&#x636E;&#x683C;&#x5F0F;&#x662F;&#x4EC0;&#x4E48;&#x6837;&#x5B50;&#x7684;&#x5462;&#xFF1F;&#x8981;&#x8FDB;&#x884C;&#x66F4;&#x6DF1;&#x5C42;&#x6B21;&#x7684;&#x5256;&#x6790;&#xFF0C;&#x5C31;&#x9700;&#x8981;&#x4E86;&#x89E3;&#xFF0C;&#x751A;&#x81F3;&#x662F;&#x719F;&#x8BB0;TCP&#x534F;&#x8BAE;&#x4E2D;&#x6BCF;&#x4E2A;&#x5B57;&#x6BB5;&#x7684;&#x542B;&#x4E49;&#x3002;</p>
+<p>TCP是一个协议，那这个协议是如何定义的，它的数据格式是什么样子的呢？要进行更深层次的剖析，就需要了解，甚至是熟记TCP协议中每个字段的含义。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/3.jpg" alt=""></p>
-<p>&#x4E0A;&#x9762;&#x5C31;&#x662F;TCP&#x534F;&#x8BAE;&#x5934;&#x90E8;&#x7684;&#x683C;&#x5F0F;&#xFF0C;&#x7531;&#x4E8E;&#x5B83;&#x592A;&#x91CD;&#x8981;&#x4E86;&#xFF0C;&#x662F;&#x7406;&#x89E3;&#x5176;&#x5B83;&#x5185;&#x5BB9;&#x7684;&#x57FA;&#x7840;&#xFF0C;&#x4E0B;&#x9762;&#x5C31;&#x5C06;&#x6BCF;&#x4E2A;&#x5B57;&#x6BB5;&#x7684;&#x4FE1;&#x606F;&#x90FD;&#x8BE6;&#x7EC6;&#x7684;&#x8BF4;&#x660E;&#x4E00;&#x4E0B;&#x3002;</p>
+<p>上面就是TCP协议头部的格式，由于它太重要了，是理解其它内容的基础，下面就将每个字段的信息都详细的说明一下。</p>
 <ul>
-<li>Source Port&#x548C;Destination Port:&#x5206;&#x522B;&#x5360;&#x7528;16&#x4F4D;&#xFF0C;&#x8868;&#x793A;&#x6E90;&#x7AEF;&#x53E3;&#x53F7;&#x548C;&#x76EE;&#x7684;&#x7AEF;&#x53E3;&#x53F7;&#xFF1B;&#x7528;&#x4E8E;&#x533A;&#x522B;&#x4E3B;&#x673A;&#x4E2D;&#x7684;&#x4E0D;&#x540C;&#x8FDB;&#x7A0B;&#xFF0C;&#x800C;IP&#x5730;&#x5740;&#x662F;&#x7528;&#x6765;&#x533A;&#x5206;&#x4E0D;&#x540C;&#x7684;&#x4E3B;&#x673A;&#x7684;&#xFF0C;&#x6E90;&#x7AEF;&#x53E3;&#x53F7;&#x548C;&#x76EE;&#x7684;&#x7AEF;&#x53E3;&#x53F7;&#x914D;&#x5408;&#x4E0A;IP&#x9996;&#x90E8;&#x4E2D;&#x7684;&#x6E90;IP&#x5730;&#x5740;&#x548C;&#x76EE;&#x7684;IP&#x5730;&#x5740;&#x5C31;&#x80FD;&#x552F;&#x4E00;&#x7684;&#x786E;&#x5B9A;&#x4E00;&#x4E2A;TCP&#x8FDE;&#x63A5;&#xFF1B;</li>
-<li>Sequence Number:&#x7528;&#x6765;&#x6807;&#x8BC6;&#x4ECE;TCP&#x53D1;&#x7AEF;&#x5411;TCP&#x6536;&#x7AEF;&#x53D1;&#x9001;&#x7684;&#x6570;&#x636E;&#x5B57;&#x8282;&#x6D41;&#xFF0C;&#x5B83;&#x8868;&#x793A;&#x5728;&#x8FD9;&#x4E2A;&#x62A5;&#x6587;&#x6BB5;&#x4E2D;&#x7684;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5B57;&#x8282;&#x5728;&#x6570;&#x636E;&#x6D41;&#x4E2D;&#x7684;&#x5E8F;&#x53F7;&#xFF1B;&#x4E3B;&#x8981;&#x7528;&#x6765;&#x89E3;&#x51B3;&#x7F51;&#x7EDC;&#x62A5;&#x4E71;&#x5E8F;&#x7684;&#x95EE;&#x9898;&#xFF1B;</li>
-<li>Acknowledgment Number:32&#x4F4D;&#x786E;&#x8BA4;&#x5E8F;&#x5217;&#x53F7;&#x5305;&#x542B;&#x53D1;&#x9001;&#x786E;&#x8BA4;&#x7684;&#x4E00;&#x7AEF;&#x6240;&#x671F;&#x671B;&#x6536;&#x5230;&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x5E8F;&#x53F7;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x786E;&#x8BA4;&#x5E8F;&#x53F7;&#x5E94;&#x5F53;&#x662F;&#x4E0A;&#x6B21;&#x5DF2;&#x6210;&#x529F;&#x6536;&#x5230;&#x6570;&#x636E;&#x5B57;&#x8282;&#x5E8F;&#x53F7;&#x52A0;1&#x3002;&#x4E0D;&#x8FC7;&#xFF0C;&#x53EA;&#x6709;&#x5F53;&#x6807;&#x5FD7;&#x4F4D;&#x4E2D;&#x7684;ACK&#x6807;&#x5FD7;&#xFF08;&#x4E0B;&#x9762;&#x4ECB;&#x7ECD;&#xFF09;&#x4E3A;1&#x65F6;&#x8BE5;&#x786E;&#x8BA4;&#x5E8F;&#x5217;&#x53F7;&#x7684;&#x5B57;&#x6BB5;&#x624D;&#x6709;&#x6548;&#x3002;&#x4E3B;&#x8981;&#x7528;&#x6765;&#x89E3;&#x51B3;&#x4E0D;&#x4E22;&#x5305;&#x7684;&#x95EE;&#x9898;&#xFF1B;</li>
-<li>Offset:&#x7ED9;&#x51FA;&#x9996;&#x90E8;&#x4E2D;32 bit&#x5B57;&#x7684;&#x6570;&#x76EE;&#xFF0C;&#x9700;&#x8981;&#x8FD9;&#x4E2A;&#x503C;&#x662F;&#x56E0;&#x4E3A;&#x4EFB;&#x9009;&#x5B57;&#x6BB5;&#x7684;&#x957F;&#x5EA6;&#x662F;&#x53EF;&#x53D8;&#x7684;&#x3002;&#x8FD9;&#x4E2A;&#x5B57;&#x6BB5;&#x5360;4bit&#xFF08;&#x6700;&#x591A;&#x80FD;&#x8868;&#x793A;15&#x4E2A;32bit&#x7684;&#x7684;&#x5B57;&#xFF0C;&#x5373;4*15=60&#x4E2A;&#x5B57;&#x8282;&#x7684;&#x9996;&#x90E8;&#x957F;&#x5EA6;&#xFF09;&#xFF0C;&#x56E0;&#x6B64;TCP&#x6700;&#x591A;&#x6709;60&#x5B57;&#x8282;&#x7684;&#x9996;&#x90E8;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x6CA1;&#x6709;&#x4EFB;&#x9009;&#x5B57;&#x6BB5;&#xFF0C;&#x6B63;&#x5E38;&#x7684;&#x957F;&#x5EA6;&#x662F;20&#x5B57;&#x8282;&#xFF1B;</li>
-<li>TCP Flags:TCP&#x9996;&#x90E8;&#x4E2D;&#x6709;6&#x4E2A;&#x6807;&#x5FD7;&#x6BD4;&#x7279;&#xFF0C;&#x5B83;&#x4EEC;&#x4E2D;&#x7684;&#x591A;&#x4E2A;&#x53EF;&#x540C;&#x65F6;&#x88AB;&#x8BBE;&#x7F6E;&#x4E3A;1&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x7528;&#x4E8E;&#x64CD;&#x63A7;TCP&#x7684;&#x72B6;&#x6001;&#x673A;&#x7684;&#xFF0C;&#x4F9D;&#x6B21;&#x4E3A;URG&#xFF0C;ACK&#xFF0C;PSH&#xFF0C;RST&#xFF0C;SYN&#xFF0C;FIN&#x3002;&#x6BCF;&#x4E2A;&#x6807;&#x5FD7;&#x4F4D;&#x7684;&#x610F;&#x601D;&#x5982;&#x4E0B;&#xFF1A;<ul>
-<li>URG&#xFF1A;&#x6B64;&#x6807;&#x5FD7;&#x8868;&#x793A;TCP&#x5305;&#x7684;&#x7D27;&#x6025;&#x6307;&#x9488;&#x57DF;&#xFF08;&#x540E;&#x9762;&#x9A6C;&#x4E0A;&#x5C31;&#x8981;&#x8BF4;&#x5230;&#xFF09;&#x6709;&#x6548;&#xFF0C;&#x7528;&#x6765;&#x4FDD;&#x8BC1;TCP&#x8FDE;&#x63A5;&#x4E0D;&#x88AB;&#x4E2D;&#x65AD;&#xFF0C;&#x5E76;&#x4E14;&#x7763;&#x4FC3;&#x4E2D;&#x95F4;&#x5C42;&#x8BBE;&#x5907;&#x8981;&#x5C3D;&#x5FEB;&#x5904;&#x7406;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#xFF1B;</li>
-<li>ACK&#xFF1A;&#x6B64;&#x6807;&#x5FD7;&#x8868;&#x793A;&#x5E94;&#x7B54;&#x57DF;&#x6709;&#x6548;&#xFF0C;&#x5C31;&#x662F;&#x8BF4;&#x524D;&#x9762;&#x6240;&#x8BF4;&#x7684;TCP&#x5E94;&#x7B54;&#x53F7;&#x5C06;&#x4F1A;&#x5305;&#x542B;&#x5728;TCP&#x6570;&#x636E;&#x5305;&#x4E2D;&#xFF1B;&#x6709;&#x4E24;&#x4E2A;&#x53D6;&#x503C;&#xFF1A;0&#x548C;1&#xFF0C;&#x4E3A;1&#x7684;&#x65F6;&#x5019;&#x8868;&#x793A;&#x5E94;&#x7B54;&#x57DF;&#x6709;&#x6548;&#xFF0C;&#x53CD;&#x4E4B;&#x4E3A;0&#xFF1B;</li>
-<li>PSH&#xFF1A;&#x8FD9;&#x4E2A;&#x6807;&#x5FD7;&#x4F4D;&#x8868;&#x793A;Push&#x64CD;&#x4F5C;&#x3002;&#x6240;&#x8C13;Push&#x64CD;&#x4F5C;&#x5C31;&#x662F;&#x6307;&#x5728;&#x6570;&#x636E;&#x5305;&#x5230;&#x8FBE;&#x63A5;&#x6536;&#x7AEF;&#x4EE5;&#x540E;&#xFF0C;&#x7ACB;&#x5373;&#x4F20;&#x9001;&#x7ED9;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5728;&#x7F13;&#x51B2;&#x533A;&#x4E2D;&#x6392;&#x961F;&#xFF1B;</li>
-<li>RST&#xFF1A;&#x8FD9;&#x4E2A;&#x6807;&#x5FD7;&#x8868;&#x793A;&#x8FDE;&#x63A5;&#x590D;&#x4F4D;&#x8BF7;&#x6C42;&#x3002;&#x7528;&#x6765;&#x590D;&#x4F4D;&#x90A3;&#x4E9B;&#x4EA7;&#x751F;&#x9519;&#x8BEF;&#x7684;&#x8FDE;&#x63A5;&#xFF0C;&#x4E5F;&#x88AB;&#x7528;&#x6765;&#x62D2;&#x7EDD;&#x9519;&#x8BEF;&#x548C;&#x975E;&#x6CD5;&#x7684;&#x6570;&#x636E;&#x5305;&#xFF1B;</li>
-<li>SYN&#xFF1A;&#x8868;&#x793A;&#x540C;&#x6B65;&#x5E8F;&#x53F7;&#xFF0C;&#x7528;&#x6765;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x3002;SYN&#x6807;&#x5FD7;&#x4F4D;&#x548C;ACK&#x6807;&#x5FD7;&#x4F4D;&#x642D;&#x914D;&#x4F7F;&#x7528;&#xFF0C;&#x5F53;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x7684;&#x65F6;&#x5019;&#xFF0C;SYN=1&#xFF0C;ACK=0&#xFF1B;&#x8FDE;&#x63A5;&#x88AB;&#x54CD;&#x5E94;&#x7684;&#x65F6;&#x5019;&#xFF0C;SYN=1&#xFF0C;ACK=1&#xFF1B;&#x8FD9;&#x4E2A;&#x6807;&#x5FD7;&#x7684;&#x6570;&#x636E;&#x5305;&#x7ECF;&#x5E38;&#x88AB;&#x7528;&#x6765;&#x8FDB;&#x884C;&#x7AEF;&#x53E3;&#x626B;&#x63CF;&#x3002;&#x626B;&#x63CF;&#x8005;&#x53D1;&#x9001;&#x4E00;&#x4E2A;&#x53EA;&#x6709;SYN&#x7684;&#x6570;&#x636E;&#x5305;&#xFF0C;&#x5982;&#x679C;&#x5BF9;&#x65B9;&#x4E3B;&#x673A;&#x54CD;&#x5E94;&#x4E86;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5305;&#x56DE;&#x6765; &#xFF0C;&#x5C31;&#x8868;&#x660E;&#x8FD9;&#x53F0;&#x4E3B;&#x673A;&#x5B58;&#x5728;&#x8FD9;&#x4E2A;&#x7AEF;&#x53E3;&#xFF1B;&#x4F46;&#x662F;&#x7531;&#x4E8E;&#x8FD9;&#x79CD;&#x626B;&#x63CF;&#x65B9;&#x5F0F;&#x53EA;&#x662F;&#x8FDB;&#x884C;TCP&#x4E09;&#x6B21;&#x63E1;&#x624B;&#x7684;&#x7B2C;&#x4E00;&#x6B21;&#x63E1;&#x624B;&#xFF0C;&#x56E0;&#x6B64;&#x8FD9;&#x79CD;&#x626B;&#x63CF;&#x7684;&#x6210;&#x529F;&#x8868;&#x793A;&#x88AB;&#x626B;&#x63CF;&#x7684;&#x673A;&#x5668;&#x4E0D;&#x5F88;&#x5B89;&#x5168;&#xFF0C;&#x4E00;&#x53F0;&#x5B89;&#x5168;&#x7684;&#x4E3B;&#x673A;&#x5C06;&#x4F1A;&#x5F3A;&#x5236;&#x8981;&#x6C42;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#x4E25;&#x683C;&#x7684;&#x8FDB;&#x884C;TCP&#x7684;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#xFF1B;</li>
-<li>FIN&#xFF1A; &#x8868;&#x793A;&#x53D1;&#x9001;&#x7AEF;&#x5DF2;&#x7ECF;&#x8FBE;&#x5230;&#x6570;&#x636E;&#x672B;&#x5C3E;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x53CC;&#x65B9;&#x7684;&#x6570;&#x636E;&#x4F20;&#x9001;&#x5B8C;&#x6210;&#xFF0C;&#x6CA1;&#x6709;&#x6570;&#x636E;&#x53EF;&#x4EE5;&#x4F20;&#x9001;&#x4E86;&#xFF0C;&#x53D1;&#x9001;FIN&#x6807;&#x5FD7;&#x4F4D;&#x7684;TCP&#x6570;&#x636E;&#x5305;&#x540E;&#xFF0C;&#x8FDE;&#x63A5;&#x5C06;&#x88AB;&#x65AD;&#x5F00;&#x3002;&#x8FD9;&#x4E2A;&#x6807;&#x5FD7;&#x7684;&#x6570;&#x636E;&#x5305;&#x4E5F;&#x7ECF;&#x5E38;&#x88AB;&#x7528;&#x4E8E;&#x8FDB;&#x884C;&#x7AEF;&#x53E3;&#x626B;&#x63CF;&#x3002;</li>
+<li>Source Port和Destination Port:分别占用16位，表示源端口号和目的端口号；用于区别主机中的不同进程，而IP地址是用来区分不同的主机的，源端口号和目的端口号配合上IP首部中的源IP地址和目的IP地址就能唯一的确定一个TCP连接；</li>
+<li>Sequence Number:用来标识从TCP发端向TCP收端发送的数据字节流，它表示在这个报文段中的的第一个数据字节在数据流中的序号；主要用来解决网络报乱序的问题；</li>
+<li>Acknowledgment Number:32位确认序列号包含发送确认的一端所期望收到的下一个序号，因此，确认序号应当是上次已成功收到数据字节序号加1。不过，只有当标志位中的ACK标志（下面介绍）为1时该确认序列号的字段才有效。主要用来解决不丢包的问题；</li>
+<li>Offset:给出首部中32 bit字的数目，需要这个值是因为任选字段的长度是可变的。这个字段占4bit（最多能表示15个32bit的的字，即4*15=60个字节的首部长度），因此TCP最多有60字节的首部。然而，没有任选字段，正常的长度是20字节；</li>
+<li>TCP Flags:TCP首部中有6个标志比特，它们中的多个可同时被设置为1，主要是用于操控TCP的状态机的，依次为URG，ACK，PSH，RST，SYN，FIN。每个标志位的意思如下：<ul>
+<li>URG：此标志表示TCP包的紧急指针域（后面马上就要说到）有效，用来保证TCP连接不被中断，并且督促中间层设备要尽快处理这些数据；</li>
+<li>ACK：此标志表示应答域有效，就是说前面所说的TCP应答号将会包含在TCP数据包中；有两个取值：0和1，为1的时候表示应答域有效，反之为0；</li>
+<li>PSH：这个标志位表示Push操作。所谓Push操作就是指在数据包到达接收端以后，立即传送给应用程序，而不是在缓冲区中排队；</li>
+<li>RST：这个标志表示连接复位请求。用来复位那些产生错误的连接，也被用来拒绝错误和非法的数据包；</li>
+<li>SYN：表示同步序号，用来建立连接。SYN标志位和ACK标志位搭配使用，当连接请求的时候，SYN=1，ACK=0；连接被响应的时候，SYN=1，ACK=1；这个标志的数据包经常被用来进行端口扫描。扫描者发送一个只有SYN的数据包，如果对方主机响应了一个数据包回来 ，就表明这台主机存在这个端口；但是由于这种扫描方式只是进行TCP三次握手的第一次握手，因此这种扫描的成功表示被扫描的机器不很安全，一台安全的主机将会强制要求一个连接严格的进行TCP的三次握手；</li>
+<li>FIN： 表示发送端已经达到数据末尾，也就是说双方的数据传送完成，没有数据可以传送了，发送FIN标志位的TCP数据包后，连接将被断开。这个标志的数据包也经常被用于进行端口扫描。</li>
 </ul>
 </li>
-<li>Window:&#x7A97;&#x53E3;&#x5927;&#x5C0F;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x6709;&#x540D;&#x7684;&#x6ED1;&#x52A8;&#x7A97;&#x53E3;&#xFF0C;&#x7528;&#x6765;&#x8FDB;&#x884C;&#x6D41;&#x91CF;&#x63A7;&#x5236;&#xFF1B;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x590D;&#x6742;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x8FD9;&#x7BC7;&#x535A;&#x6587;&#x4E2D;&#x5E76;&#x4E0D;&#x4F1A;&#x8FDB;&#x884C;&#x603B;&#x7ED3;&#x7684;&#xFF1B;</li>
+<li>Window:窗口大小，也就是有名的滑动窗口，用来进行流量控制；这是一个复杂的问题，这篇博文中并不会进行总结的；</li>
 </ul>
 <hr>
-<h2 id="TCP&#x4E09;&#x6B21;&#x63E1;&#x624B;"><a href="#TCP&#x4E09;&#x6B21;&#x63E1;&#x624B;" class="headerlink" title="TCP&#x4E09;&#x6B21;&#x63E1;&#x624B;"></a>TCP&#x4E09;&#x6B21;&#x63E1;&#x624B;</h2><p>&#x5EFA;&#x7ACB;TCP&#x9700;&#x8981;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#x624D;&#x80FD;&#x5EFA;&#x7ACB;&#xFF0C;&#x800C;&#x65AD;&#x5F00;&#x8FDE;&#x63A5;&#x5219;&#x9700;&#x8981;&#x56DB;&#x6B21;&#x63E1;&#x624B;&#x3002;&#x6574;&#x4E2A;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#x56FE;&#x6240;&#x793A;&#xFF1A;</p>
+<h2 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h2><p>建立TCP需要三次握手才能建立，而断开连接则需要四次握手。整个过程如下图所示：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/4.jpg" alt=""></p>
-<p>&#x5148;&#x6765;&#x770B;&#x770B;&#x5982;&#x4F55;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x7684;&#x3002;</p>
+<p>先来看看如何建立连接的。</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/5.jpg" alt=""></p>
 <ul>
-<li>&#x7B2C;&#x4E00;&#x6B21;&#x63E1;&#x624B;&#xFF1A;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x3002;&#x5BA2;&#x6237;&#x7AEF;&#x53D1;&#x9001;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x62A5;&#x6587;&#x6BB5;&#xFF0C;&#x5C06;SYN&#x4F4D;&#x7F6E;&#x4E3A;1&#xFF0C;Sequence Number&#x4E3A;x&#xFF1B;&#x7136;&#x540E;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x8FDB;&#x5165;SYN_SEND&#x72B6;&#x6001;&#xFF0C;&#x7B49;&#x5F85;&#x670D;&#x52A1;&#x5668;&#x7684;&#x786E;&#x8BA4;&#xFF1B;</li>
-<li>&#x7B2C;&#x4E8C;&#x6B21;&#x63E1;&#x624B;&#xFF1A;&#x670D;&#x52A1;&#x5668;&#x6536;&#x5230;SYN&#x62A5;&#x6587;&#x6BB5;&#x3002;&#x670D;&#x52A1;&#x5668;&#x6536;&#x5230;&#x5BA2;&#x6237;&#x7AEF;&#x7684;SYN&#x62A5;&#x6587;&#x6BB5;&#xFF0C;&#x9700;&#x8981;&#x5BF9;&#x8FD9;&#x4E2A;SYN&#x62A5;&#x6587;&#x6BB5;&#x8FDB;&#x884C;&#x786E;&#x8BA4;&#xFF0C;&#x8BBE;&#x7F6E;Acknowledgment Number&#x4E3A;x+1(Sequence Number+1)&#xFF1B;&#x540C;&#x65F6;&#xFF0C;&#x81EA;&#x5DF1;&#x81EA;&#x5DF1;&#x8FD8;&#x8981;&#x53D1;&#x9001;SYN&#x8BF7;&#x6C42;&#x4FE1;&#x606F;&#xFF0C;&#x5C06;SYN&#x4F4D;&#x7F6E;&#x4E3A;1&#xFF0C;Sequence Number&#x4E3A;y&#xFF1B;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x5C06;&#x4E0A;&#x8FF0;&#x6240;&#x6709;&#x4FE1;&#x606F;&#x653E;&#x5230;&#x4E00;&#x4E2A;&#x62A5;&#x6587;&#x6BB5;&#xFF08;&#x5373;SYN+ACK&#x62A5;&#x6587;&#x6BB5;&#xFF09;&#x4E2D;&#xFF0C;&#x4E00;&#x5E76;&#x53D1;&#x9001;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x6B64;&#x65F6;&#x670D;&#x52A1;&#x5668;&#x8FDB;&#x5165;SYN_RECV&#x72B6;&#x6001;&#xFF1B;</li>
-<li>&#x7B2C;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#xFF1A;&#x5BA2;&#x6237;&#x7AEF;&#x6536;&#x5230;&#x670D;&#x52A1;&#x5668;&#x7684;SYN+ACK&#x62A5;&#x6587;&#x6BB5;&#x3002;&#x7136;&#x540E;&#x5C06;Acknowledgment Number&#x8BBE;&#x7F6E;&#x4E3A;y+1&#xFF0C;&#x5411;&#x670D;&#x52A1;&#x5668;&#x53D1;&#x9001;ACK&#x62A5;&#x6587;&#x6BB5;&#xFF0C;&#x8FD9;&#x4E2A;&#x62A5;&#x6587;&#x6BB5;&#x53D1;&#x9001;&#x5B8C;&#x6BD5;&#x4EE5;&#x540E;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x548C;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x90FD;&#x8FDB;&#x5165;ESTABLISHED&#x72B6;&#x6001;&#xFF0C;&#x5B8C;&#x6210;TCP&#x4E09;&#x6B21;&#x63E1;&#x624B;&#x3002;</li>
+<li>第一次握手：建立连接。客户端发送连接请求报文段，将SYN位置为1，Sequence Number为x；然后，客户端进入SYN_SEND状态，等待服务器的确认；</li>
+<li>第二次握手：服务器收到SYN报文段。服务器收到客户端的SYN报文段，需要对这个SYN报文段进行确认，设置Acknowledgment Number为x+1(Sequence Number+1)；同时，自己自己还要发送SYN请求信息，将SYN位置为1，Sequence Number为y；服务器端将上述所有信息放到一个报文段（即SYN+ACK报文段）中，一并发送给客户端，此时服务器进入SYN_RECV状态；</li>
+<li>第三次握手：客户端收到服务器的SYN+ACK报文段。然后将Acknowledgment Number设置为y+1，向服务器发送ACK报文段，这个报文段发送完毕以后，客户端和服务器端都进入ESTABLISHED状态，完成TCP三次握手。</li>
 </ul>
-<p><strong>&#x5176;&#x5B9E;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#x5C31;&#x662F;&#xFF0C;A&#x544A;&#x8BC9;B&#x8981;&#x8FDE;&#x63A5;&#xFF0C;B&#x901A;&#x77E5;A&#x53EF;&#x4EE5;&#x8FDE;&#x63A5;&#x4E86;&#xFF0C;A&#x518D;&#x544A;&#x8BC9;B&#xFF0C;&#x90A3;&#x6211;&#x8FDE;&#x63A5;&#x4E86;&#x3002;</strong></p>
+<p><strong>其实三次握手就是，A告诉B要连接，B通知A可以连接了，A再告诉B，那我连接了。</strong></p>
 <hr>
-<h2 id="TCP&#x56DB;&#x6B21;&#x6325;&#x624B;"><a href="#TCP&#x56DB;&#x6B21;&#x6325;&#x624B;" class="headerlink" title="TCP&#x56DB;&#x6B21;&#x6325;&#x624B;"></a>TCP&#x56DB;&#x6B21;&#x6325;&#x624B;</h2><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/6.jpg" alt=""><br>&#x5047;&#x8BBE;Client&#x7AEF;&#x53D1;&#x8D77;&#x4E2D;&#x65AD;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x53D1;&#x9001;FIN&#x62A5;&#x6587;&#x3002;Server&#x7AEF;&#x63A5;&#x5230;FIN&#x62A5;&#x6587;&#x540E;&#xFF0C;&#x610F;&#x601D;&#x662F;&#x8BF4;&#x201D;<strong>&#x6211;Client&#x7AEF;&#x6CA1;&#x6709;&#x6570;&#x636E;&#x8981;&#x53D1;&#x7ED9;&#x4F60;&#x4E86;</strong>&#x201C;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x4F60;&#x8FD8;&#x6709;&#x6570;&#x636E;&#x6CA1;&#x6709;&#x53D1;&#x9001;&#x5B8C;&#x6210;&#xFF0C;&#x5219;&#x4E0D;&#x5FC5;&#x6025;&#x7740;&#x5173;&#x95ED;Socket&#xFF0C;&#x53EF;&#x4EE5;&#x7EE7;&#x7EED;&#x53D1;&#x9001;&#x6570;&#x636E;&#x3002;&#x6240;&#x4EE5;&#x4F60;&#x5148;&#x53D1;&#x9001;ACK&#xFF0C;&#x201D;<strong>&#x544A;&#x8BC9;Client&#x7AEF;&#xFF0C;&#x4F60;&#x7684;&#x8BF7;&#x6C42;&#x6211;&#x6536;&#x5230;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x8FD8;&#x6CA1;&#x51C6;&#x5907;&#x597D;&#xFF0C;&#x8BF7;&#x7EE7;&#x7EED;&#x4F60;&#x7B49;&#x6211;&#x7684;&#x6D88;&#x606F;</strong>&#x201C;&#x3002;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;Client&#x7AEF;&#x5C31;&#x8FDB;&#x5165;FIN_WAIT&#x72B6;&#x6001;&#xFF0C;&#x7EE7;&#x7EED;&#x7B49;&#x5F85;Server&#x7AEF;&#x7684;FIN&#x62A5;&#x6587;&#x3002;&#x5F53;Server&#x7AEF;&#x786E;&#x5B9A;&#x6570;&#x636E;&#x5DF2;&#x53D1;&#x9001;&#x5B8C;&#x6210;&#xFF0C;&#x5219;&#x5411;Client&#x7AEF;&#x53D1;&#x9001;FIN&#x62A5;&#x6587;&#xFF0C;&#x201D;<strong>&#x544A;&#x8BC9;Client&#x7AEF;&#xFF0C;&#x597D;&#x4E86;&#xFF0C;&#x6211;&#x8FD9;&#x8FB9;&#x6570;&#x636E;&#x53D1;&#x5B8C;&#x4E86;&#xFF0C;&#x51C6;&#x5907;&#x597D;&#x5173;&#x95ED;&#x8FDE;&#x63A5;&#x4E86;</strong>&#x201C;&#x3002;Client&#x7AEF;&#x6536;&#x5230;FIN&#x62A5;&#x6587;&#x540E;&#xFF0C;&#x201D;<strong>&#x5C31;&#x77E5;&#x9053;&#x53EF;&#x4EE5;&#x5173;&#x95ED;&#x8FDE;&#x63A5;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x4ED6;&#x8FD8;&#x662F;&#x4E0D;&#x76F8;&#x4FE1;&#x7F51;&#x7EDC;&#xFF0C;&#x6015;Server&#x7AEF;&#x4E0D;&#x77E5;&#x9053;&#x8981;&#x5173;&#x95ED;&#xFF0C;&#x6240;&#x4EE5;&#x53D1;&#x9001;ACK&#x540E;&#x8FDB;&#x5165;TIME_WAIT&#x72B6;&#x6001;&#xFF0C;&#x5982;&#x679C;Server&#x7AEF;&#x6CA1;&#x6709;&#x6536;&#x5230;ACK&#x5219;&#x53EF;&#x4EE5;&#x91CD;&#x4F20;</strong>&#x3002;&#x201D;Server&#x7AEF;&#x6536;&#x5230;ACK&#x540E;&#xFF0C;&#x201D;<strong>&#x5C31;&#x77E5;&#x9053;&#x53EF;&#x4EE5;&#x65AD;&#x5F00;&#x8FDE;&#x63A5;&#x4E86;</strong>&#x201C;&#x3002;Client&#x7AEF;&#x7B49;&#x5F85;&#x4E86;2MSL&#x540E;&#x4F9D;&#x7136;&#x6CA1;&#x6709;&#x6536;&#x5230;&#x56DE;&#x590D;&#xFF0C;&#x5219;<strong>&#x8BC1;&#x660E;Server&#x7AEF;&#x5DF2;&#x6B63;&#x5E38;&#x5173;&#x95ED;&#xFF0C;&#x90A3;&#x597D;&#xFF0C;&#x6211;Client&#x7AEF;&#x4E5F;&#x53EF;&#x4EE5;&#x5173;&#x95ED;&#x8FDE;&#x63A5;&#x4E86;</strong>&#x3002;Ok&#xFF0C;TCP&#x8FDE;&#x63A5;&#x5C31;&#x8FD9;&#x6837;&#x5173;&#x95ED;&#x4E86;&#xFF01;</p>
-<p>&#x6574;&#x4E2A;&#x8FC7;&#x7A0B;Client&#x7AEF;&#x6240;&#x7ECF;&#x5386;&#x7684;&#x72B6;&#x6001;&#x5982;&#x4E0B;&#xFF1A;</p>
+<h2 id="TCP四次挥手"><a href="#TCP四次挥手" class="headerlink" title="TCP四次挥手"></a>TCP四次挥手</h2><p><img src="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/6.jpg" alt=""><br>假设Client端发起中断连接请求，也就是发送FIN报文。Server端接到FIN报文后，意思是说”<strong>我Client端没有数据要发给你了</strong>“，但是如果你还有数据没有发送完成，则不必急着关闭Socket，可以继续发送数据。所以你先发送ACK，”<strong>告诉Client端，你的请求我收到了，但是我还没准备好，请继续你等我的消息</strong>“。这个时候Client端就进入FIN_WAIT状态，继续等待Server端的FIN报文。当Server端确定数据已发送完成，则向Client端发送FIN报文，”<strong>告诉Client端，好了，我这边数据发完了，准备好关闭连接了</strong>“。Client端收到FIN报文后，”<strong>就知道可以关闭连接了，但是他还是不相信网络，怕Server端不知道要关闭，所以发送ACK后进入TIME_WAIT状态，如果Server端没有收到ACK则可以重传</strong>。”Server端收到ACK后，”<strong>就知道可以断开连接了</strong>“。Client端等待了2MSL后依然没有收到回复，则<strong>证明Server端已正常关闭，那好，我Client端也可以关闭连接了</strong>。Ok，TCP连接就这样关闭了！</p>
+<p>整个过程Client端所经历的状态如下：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/7.jpg" alt=""></p>
-<p>&#x800C;Server&#x7AEF;&#x6240;&#x7ECF;&#x5386;&#x7684;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>而Server端所经历的过程如下：</p>
 <p><img src="http://7xvfir.com1.z0.glb.clouddn.com/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E%E5%9B%9B%E6%AC%A1%E5%88%86%E6%89%8B/8.jpg" alt=""></p>
 <hr>
-<h2 id="&#x76F8;&#x5173;&#x7591;&#x95EE;"><a href="#&#x76F8;&#x5173;&#x7591;&#x95EE;" class="headerlink" title="&#x76F8;&#x5173;&#x7591;&#x95EE;"></a>&#x76F8;&#x5173;&#x7591;&#x95EE;</h2><p><strong>&#x3010;&#x95EE;&#x9898;1&#x3011;&#x4E3A;&#x4EC0;&#x4E48;&#x8FDE;&#x63A5;&#x7684;&#x65F6;&#x5019;&#x662F;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#xFF0C;&#x5173;&#x95ED;&#x7684;&#x65F6;&#x5019;&#x5374;&#x662F;&#x56DB;&#x6B21;&#x63E1;&#x624B;&#xFF1F;</strong><br>&#x7B54;&#xFF1A;&#x56E0;&#x4E3A;&#x5F53;Server&#x7AEF;&#x6536;&#x5230;Client&#x7AEF;&#x7684;SYN&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x62A5;&#x6587;&#x540E;&#xFF0C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x53D1;&#x9001;SYN+ACK&#x62A5;&#x6587;&#x3002;&#x5176;&#x4E2D;ACK&#x62A5;&#x6587;&#x662F;&#x7528;&#x6765;&#x5E94;&#x7B54;&#x7684;&#xFF0C;SYN&#x62A5;&#x6587;&#x662F;&#x7528;&#x6765;&#x540C;&#x6B65;&#x7684;&#x3002;&#x4F46;&#x662F;&#x5173;&#x95ED;&#x8FDE;&#x63A5;&#x65F6;&#xFF0C;&#x5F53;Server&#x7AEF;&#x6536;&#x5230;FIN&#x62A5;&#x6587;&#x65F6;&#xFF0C;&#x5F88;&#x53EF;&#x80FD;&#x5E76;&#x4E0D;&#x4F1A;&#x7ACB;&#x5373;&#x5173;&#x95ED;SOCKET&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x80FD;&#x5148;&#x56DE;&#x590D;&#x4E00;&#x4E2A;ACK&#x62A5;&#x6587;&#xFF0C;&#x544A;&#x8BC9;Client&#x7AEF;&#xFF0C;&#x201D;&#x4F60;&#x53D1;&#x7684;FIN&#x62A5;&#x6587;&#x6211;&#x6536;&#x5230;&#x4E86;&#x201D;&#x3002;&#x53EA;&#x6709;&#x7B49;&#x5230;&#x6211;Server&#x7AEF;&#x6240;&#x6709;&#x7684;&#x62A5;&#x6587;&#x90FD;&#x53D1;&#x9001;&#x5B8C;&#x4E86;&#xFF0C;&#x6211;&#x624D;&#x80FD;&#x53D1;&#x9001;FIN&#x62A5;&#x6587;&#xFF0C;&#x56E0;&#x6B64;&#x4E0D;&#x80FD;&#x4E00;&#x8D77;&#x53D1;&#x9001;&#x3002;&#x6545;&#x9700;&#x8981;&#x56DB;&#x6B65;&#x63E1;&#x624B;&#x3002;</p>
-<p><strong>&#x3010;&#x95EE;&#x9898;2&#x3011;&#x4E3A;&#x4EC0;&#x4E48;TIME_WAIT&#x72B6;&#x6001;&#x9700;&#x8981;&#x7ECF;&#x8FC7;2MSL(&#x6700;&#x5927;&#x62A5;&#x6587;&#x6BB5;&#x751F;&#x5B58;&#x65F6;&#x95F4;)&#x624D;&#x80FD;&#x8FD4;&#x56DE;&#x5230;CLOSE&#x72B6;&#x6001;&#xFF1F;</strong><br>&#x7B54;&#xFF1A;&#x867D;&#x7136;&#x6309;&#x9053;&#x7406;&#xFF0C;&#x56DB;&#x4E2A;&#x62A5;&#x6587;&#x90FD;&#x53D1;&#x9001;&#x5B8C;&#x6BD5;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8FDB;&#x5165;CLOSE&#x72B6;&#x6001;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x6211;&#x4EEC;&#x5FC5;&#x987B;&#x5047;&#x8C61;&#x7F51;&#x7EDC;&#x662F;&#x4E0D;&#x53EF;&#x9760;&#x7684;&#xFF0C;&#x6709;&#x53EF;&#x4EE5;&#x6700;&#x540E;&#x4E00;&#x4E2A;ACK&#x4E22;&#x5931;&#x3002;&#x6240;&#x4EE5;TIME_WAIT&#x72B6;&#x6001;&#x5C31;&#x662F;&#x7528;&#x6765;&#x91CD;&#x53D1;&#x53EF;&#x80FD;&#x4E22;&#x5931;&#x7684;ACK&#x62A5;&#x6587;&#x3002;</p>
-<p><strong>&#x3010;&#x95EE;&#x9898;3&#x3011;&#x4E3A;&#x4EC0;&#x4E48;&#x4E0D;&#x80FD;&#x7528;&#x4E24;&#x6B21;&#x63E1;&#x624B;&#x8FDB;&#x884C;&#x8FDE;&#x63A5;&#xFF1F;</strong><br>&#x6211;&#x4EEC;&#x77E5;&#x9053;&#xFF0C;3&#x6B21;&#x63E1;&#x624B;&#x5B8C;&#x6210;&#x4E24;&#x4E2A;&#x91CD;&#x8981;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x65E2;&#x8981;&#x53CC;&#x65B9;&#x505A;&#x597D;&#x53D1;&#x9001;&#x6570;&#x636E;&#x7684;&#x51C6;&#x5907;&#x5DE5;&#x4F5C;(&#x53CC;&#x65B9;&#x90FD;&#x77E5;&#x9053;&#x5F7C;&#x6B64;&#x5DF2;&#x51C6;&#x5907;&#x597D;)&#xFF0C;&#x4E5F;&#x8981;&#x5141;&#x8BB8;&#x53CC;&#x65B9;&#x5C31;&#x521D;&#x59CB;&#x5E8F;&#x5217;&#x53F7;&#x8FDB;&#x884C;&#x534F;&#x5546;&#xFF0C;&#x8FD9;&#x4E2A;&#x5E8F;&#x5217;&#x53F7;&#x5728;&#x63E1;&#x624B;&#x8FC7;&#x7A0B;&#x4E2D;&#x88AB;&#x53D1;&#x9001;&#x548C;&#x786E;&#x8BA4;&#x3002;<br>&#x73B0;&#x5728;&#x628A;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#x6539;&#x6210;&#x4EC5;&#x9700;&#x8981;&#x4E24;&#x6B21;&#x63E1;&#x624B;&#xFF0C;&#x6B7B;&#x9501;&#x662F;&#x53EF;&#x80FD;&#x53D1;&#x751F;&#x7684;&#x3002;&#x4F5C;&#x4E3A;&#x4F8B;&#x5B50;&#xFF0C;&#x8003;&#x8651;&#x8BA1;&#x7B97;&#x673A;S&#x548C;C&#x4E4B;&#x95F4;&#x7684;&#x901A;&#x4FE1;&#xFF0C;&#x5047;&#x5B9A;C&#x7ED9;S&#x53D1;&#x9001;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x5206;&#x7EC4;&#xFF0C;S&#x6536;&#x5230;&#x4E86;&#x8FD9;&#x4E2A;&#x5206;&#x7EC4;&#xFF0C;&#x5E76;&#x53D1;&#x9001;&#x4E86;&#x786E;&#x8BA4;&#x5E94;&#x7B54;&#x5206;&#x7EC4;&#x3002;&#x6309;&#x7167;&#x4E24;&#x6B21;&#x63E1;&#x624B;&#x7684;&#x534F;&#x5B9A;&#xFF0C;S&#x8BA4;&#x4E3A;&#x8FDE;&#x63A5;&#x5DF2;&#x7ECF;&#x6210;&#x529F;&#x5730;&#x5EFA;&#x7ACB;&#x4E86;&#xFF0C;&#x53EF;&#x4EE5;&#x5F00;&#x59CB;&#x53D1;&#x9001;&#x6570;&#x636E;&#x5206;&#x7EC4;&#x3002;&#x53EF;&#x662F;&#xFF0C;C&#x5728;S&#x7684;&#x5E94;&#x7B54;&#x5206;&#x7EC4;&#x5728;&#x4F20;&#x8F93;&#x4E2D;&#x88AB;&#x4E22;&#x5931;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5C06;&#x4E0D;&#x77E5;&#x9053;S&#x662F;&#x5426;&#x5DF2;&#x51C6;&#x5907;&#x597D;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;S&#x5EFA;&#x7ACB;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x5E8F;&#x5217;&#x53F7;&#xFF0C;C&#x751A;&#x81F3;&#x6000;&#x7591;S&#x662F;&#x5426;&#x6536;&#x5230;&#x81EA;&#x5DF1;&#x7684;&#x8FDE;&#x63A5;&#x8BF7;&#x6C42;&#x5206;&#x7EC4;&#x3002;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;C&#x8BA4;&#x4E3A;&#x8FDE;&#x63A5;&#x8FD8;&#x672A;&#x5EFA;&#x7ACB;&#x6210;&#x529F;&#xFF0C;&#x5C06;&#x5FFD;&#x7565;S&#x53D1;&#x6765;&#x7684;&#x4EFB;&#x4F55;&#x6570;&#x636E;&#x5206; &#x7EC4;&#xFF0C;&#x53EA;&#x7B49;&#x5F85;&#x8FDE;&#x63A5;&#x786E;&#x8BA4;&#x5E94;&#x7B54;&#x5206;&#x7EC4;&#x3002;&#x800C;S&#x5728;&#x53D1;&#x51FA;&#x7684;&#x5206;&#x7EC4;&#x8D85;&#x65F6;&#x540E;&#xFF0C;&#x91CD;&#x590D;&#x53D1;&#x9001;&#x540C;&#x6837;&#x7684;&#x5206;&#x7EC4;&#x3002;&#x8FD9;&#x6837;&#x5C31;&#x5F62;&#x6210;&#x4E86;&#x6B7B;&#x9501;&#x3002;</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more">分享到：</a>
-    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a>
-    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a>
-    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a>
-</div>
-<script>
-window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{"bdSize":16}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-</script>
-<style>
-    .bdshare_popup_box {
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .bdshare-button-style0-16 a,
-    .bdshare-button-style0-16 .bds_more {
-        padding-left: 20px;
-        margin: 6px 10px 6px 0;
-    }
-    .bdshare_dialog_list a,
-    .bdshare_popup_list a,
-    .bdshare_popup_bottom a {
-        font-family: 'Microsoft Yahei';
-    }
-    .bdshare_popup_top {
-        display: none;
-    }
-    .bdshare_popup_bottom {
-        height: auto;
-        padding: 5px;
-    }
-</style>
-
-
-</div>
-
-            
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2016/11/01/zabbix邮件报警/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    zabbix邮件报警
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2016/10/26/彻底清除Linux centos minerd木马/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">彻底清除Linux centos minerd木马</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    <section id="comments">
-    
-    </section>
-
-</section>
-            
-                <aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <object type="application/x-shockwave-flash" style="outline:none;" data="http://cdn.abowman.com/widgets/hamster/hamster.swf?" width="200" height="170"><param name="movie" value="http://cdn.abowman.com/widgets/hamster/hamster.swf?"></param><param name="AllowScriptAccess" value="always"></param><param name="wmode" value="opaque"></param></object>
-    </div>
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/深度学习笔记/" class="title">深度学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/知识总结/">知识总结</a></p>
-                            <p class="item-title"><a href="/2019/01/01/机器学习笔记/" class="title">机器学习笔记</a></p>
-                            <p class="item-date"><time datetime="2019-01-01T14:22:00.000Z" itemprop="datePublished">2019-01-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/20/目标检测流行算法总结/" class="title">目标检测流行算法总结</a></p>
-                            <p class="item-date"><time datetime="2018-07-20T14:22:00.000Z" itemprop="datePublished">2018-07-20</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/07/10/吴恩达目标检测课堂笔记/" class="title">吴恩达目标检测课堂笔记</a></p>
-                            <p class="item-date"><time datetime="2018-07-10T14:22:00.000Z" itemprop="datePublished">2018-07-10</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        <div class="item-thumbnail">
-                            <p class="item-category"><a class="article-category-link" href="/categories/深度学习/">深度学习</a></p>
-                            <p class="item-title"><a href="/2018/03/10/序列模型与注意力机制/" class="title">序列模型与注意力机制</a></p>
-                            <p class="item-date"><time datetime="2018-03-10T14:22:00.000Z" itemprop="datePublished">2018-03-10</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据/">大数据</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/深度学习/">深度学习</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/知识总结/">知识总结</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法及理论/">算法及理论</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/资源共享/">资源共享</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维部署/">运维部署</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/错误集锦/">错误集锦</a><span class="category-list-count">5</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li></ul>
-        </div>
-    </div -->
-
-    
-        
-    <!-- div class="widget-wrap">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/2pc/" style="font-size: 10px;">2pc</a> <a href="/tags/3pc/" style="font-size: 10px;">3pc</a> <a href="/tags/ACID/" style="font-size: 10px;">ACID</a> <a href="/tags/Attention-Model/" style="font-size: 10px;">Attention Model</a> <a href="/tags/BASE/" style="font-size: 10px;">BASE</a> <a href="/tags/Batch-Normalization/" style="font-size: 10px;">Batch Normalization</a> <a href="/tags/CAP/" style="font-size: 10px;">CAP</a> <a href="/tags/CNN/" style="font-size: 13.33px;">CNN</a> <a href="/tags/Druid/" style="font-size: 10px;">Druid</a> <a href="/tags/EM/" style="font-size: 10px;">EM</a> <a href="/tags/Flume/" style="font-size: 10px;">Flume</a> <a href="/tags/HDFS/" style="font-size: 10px;">HDFS</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Open-XML-SDK-2-0-Productivity-Tool/" style="font-size: 10px;">Open XML SDK 2.0 Productivity Tool</a> <a href="/tags/Percona-Xtrabackup/" style="font-size: 10px;">Percona Xtrabackup</a> <a href="/tags/RNN/" style="font-size: 11.67px;">RNN</a> <a href="/tags/SSD/" style="font-size: 10px;">SSD</a> <a href="/tags/SVM/" style="font-size: 10px;">SVM</a> <a href="/tags/Sqoop/" style="font-size: 10px;">Sqoop</a> <a href="/tags/StyleTransfer/" style="font-size: 10px;">StyleTransfer</a> <a href="/tags/Swagger/" style="font-size: 10px;">Swagger</a> <a href="/tags/VPSMate/" style="font-size: 10px;">VPSMate</a> <a href="/tags/YOLO/" style="font-size: 11.67px;">YOLO</a> <a href="/tags/aof/" style="font-size: 10px;">aof</a> <a href="/tags/atlas/" style="font-size: 10px;">atlas</a> <a href="/tags/concurrent/" style="font-size: 13.33px;">concurrent</a> <a href="/tags/elk/" style="font-size: 10px;">elk</a> <a href="/tags/es/" style="font-size: 10px;">es</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hadoop/" style="font-size: 10px;">hadoop</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hive/" style="font-size: 10px;">hive</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jenkins/" style="font-size: 10px;">jenkins</a> <a href="/tags/lambda/" style="font-size: 11.67px;">lambda</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/redis/" style="font-size: 16.67px;">redis</a> <a href="/tags/shiro/" style="font-size: 10px;">shiro</a> <a href="/tags/sonar/" style="font-size: 10px;">sonar</a> <a href="/tags/tcp/" style="font-size: 10px;">tcp</a> <a href="/tags/word2vec/" style="font-size: 10px;">word2vec</a> <a href="/tags/word解析/" style="font-size: 10px;">word解析</a> <a href="/tags/zabbix/" style="font-size: 18.33px;">zabbix</a> <a href="/tags/主题模型/" style="font-size: 10px;">主题模型</a> <a href="/tags/人脸识别/" style="font-size: 11.67px;">人脸识别</a> <a href="/tags/决策树/" style="font-size: 10px;">决策树</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/分布式算法/" style="font-size: 11.67px;">分布式算法</a> <a href="/tags/初始化块/" style="font-size: 10px;">初始化块</a> <a href="/tags/卷积/" style="font-size: 10px;">卷积</a> <a href="/tags/吴恩达/" style="font-size: 13.33px;">吴恩达</a> <a href="/tags/增量备份/" style="font-size: 10px;">增量备份</a> <a href="/tags/备份/" style="font-size: 10px;">备份</a> <a href="/tags/大数据/" style="font-size: 11.67px;">大数据</a> <a href="/tags/大数据教程/" style="font-size: 11.67px;">大数据教程</a> <a href="/tags/安全/" style="font-size: 11.67px;">安全</a> <a href="/tags/完全备份/" style="font-size: 10px;">完全备份</a> <a href="/tags/微信公众号/" style="font-size: 10px;">微信公众号</a> <a href="/tags/微服务教程/" style="font-size: 10px;">微服务教程</a> <a href="/tags/性能检测/" style="font-size: 10px;">性能检测</a> <a href="/tags/恢复/" style="font-size: 10px;">恢复</a> <a href="/tags/提升算法/" style="font-size: 10px;">提升算法</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/机器学习/" style="font-size: 15px;">机器学习</a> <a href="/tags/机器学习教程/" style="font-size: 10px;">机器学习教程</a> <a href="/tags/深度学习/" style="font-size: 11.67px;">深度学习</a> <a href="/tags/爬虫/" style="font-size: 11.67px;">爬虫</a> <a href="/tags/特征工程/" style="font-size: 10px;">特征工程</a> <a href="/tags/疑难杂症/" style="font-size: 11.67px;">疑难杂症</a> <a href="/tags/算法复杂度/" style="font-size: 10px;">算法复杂度</a> <a href="/tags/线性回归/" style="font-size: 10px;">线性回归</a> <a href="/tags/线程池/" style="font-size: 10px;">线程池</a> <a href="/tags/经典网络/" style="font-size: 10px;">经典网络</a> <a href="/tags/编码规范/" style="font-size: 15px;">编码规范</a> <a href="/tags/聚类/" style="font-size: 10px;">聚类</a> <a href="/tags/脚本/" style="font-size: 10px;">脚本</a> <a href="/tags/薛兆丰的北大经济学课/" style="font-size: 10px;">薛兆丰的北大经济学课</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/表扩展/" style="font-size: 10px;">表扩展</a> <a href="/tags/贝叶斯/" style="font-size: 10px;">贝叶斯</a> <a href="/tags/边缘检测/" style="font-size: 10px;">边缘检测</a> <a href="/tags/运维/" style="font-size: 11.67px;">运维</a> <a href="/tags/逻辑回归/" style="font-size: 10px;">逻辑回归</a> <a href="/tags/随机森林/" style="font-size: 10px;">随机森林</a> <a href="/tags/隐马尔科夫模型/" style="font-size: 10px;">隐马尔科夫模型</a> <a href="/tags/集合/" style="font-size: 10px;">集合</a> <a href="/tags/面向对象/" style="font-size: 10px;">面向对象</a>
-        </div>
-    </div -->
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://yq.aliyun.com/articles">阿里云栖社区</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://jm.taobao.org/">阿里中间件团队博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://tech.meituan.com/">美团点评技术团队</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://blogs.360.cn/">奇虎360技术博客</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.anquan.us/">乌云漏洞搜索系统</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.36dsj.com/">36大数据</a>
-                    </li>
-                
-                    <li>
-                        <a href="http://www.jiemodui.com/">芥末堆</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-            
-	    
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Wasim<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-            <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259376280'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259376280%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
-        </div>
-    </div>
-</footer>
-        
-
-    
-        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
-    
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-</body>
-</html>
+<h2 id="相关疑问"><a href="#相关疑问" class="headerlink" title="相关疑问"></a>相关疑问</h2><p><strong>【问题1】为什么连接的时候是三次握手，关闭的时候却是四次握手？</strong><br>答：因为当Server端收到Client端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭SOCKET，所以只能先回复一个ACK报文，告诉Client端，”你发的FIN报文我收到了”。只有等到我Server端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。</p>
+<p><strong>【问题2】为什么TIME_WAIT状态需要经过2MSL(最大报文段生存时间)才能返回到CLOSE状态？</strong><br>答：虽然按道理，四个报文都发送完毕，我们可以直接进入CLOSE状态了，但是我们必须假象网络是不可靠的，有可以最后一个ACK丢失。所以TIME_WAIT状态就是用来重发可能丢失的ACK报文。</p>
+<p><strong>【问题3】为什么不能用两次握手进行连接？</strong><br>我们知道，3次握手完成两个重要的功能，既要双方做好发送数据的准备工作(双方都知道彼此已准备好)，也要允许双方就初始序列号进行协商，这个序列号在握手过程中被发送和确认。<br>现在把三次握手改成仅需要两次握手，死锁是可能发生的。作为例子，考虑计算机S和C之间的通信，假定C给S发送一个连接请求分组，S收到了这个分组，并发送了确认应答分组。按照两次握手的协定，S认为连接已经成功地建立了，可以开始发送数据分组。可是，C在S的应答分组在传输中被丢失的情况下，将不知道S是否已准备好，不知道S建立什么样的序列号，C甚至怀疑S是否收到自己的连接请求分组。在这种情况下，C认为连接还未建立成功，将忽略S发来的任何数据分 组，只等待连接确认应答分组。而S在发出的分组超时后，重复发送同样的分组。这样就形成了死锁。</p>
+</div><div class="article-tags size-small is-uppercase mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/tcp/">tcp</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="/" alt="支付宝"></span></a><a class="button donate" href="/" style="background-color:rgba(255,128,62,.87);border-color:transparent;color:white;" target="_blank" rel="noopener"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button is-danger donate" href="/" target="_blank" rel="noopener"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><div class="notification is-danger">You forgot to set the <code>business</code> or <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.</div><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="/" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2016/11/01/zabbix%E9%82%AE%E4%BB%B6%E6%8A%A5%E8%AD%A6/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">zabbix邮件报警</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2016/10/26/%E5%BD%BB%E5%BA%95%E6%B8%85%E9%99%A4Linux%20centos%20minerd%E6%9C%A8%E9%A9%AC/"><span class="level-item">彻底清除Linux centos minerd木马</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="notification is-danger">You forgot to set the <code>shortname</code> for Disqus. Please set it in <code>_config.yml</code>.</div></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><!--!--><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/JAVA/"><span class="level-start"><span class="level-item">JAVA</span></span><span class="level-end"><span class="level-item tag">14</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%85%B6%E4%BB%96/"><span class="level-start"><span class="level-item">其他</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="level-start"><span class="level-item">大数据</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="level-start"><span class="level-item">数据库</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">13</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%AE%97%E6%B3%95%E5%8F%8A%E7%90%86%E8%AE%BA/"><span class="level-start"><span class="level-item">算法及理论</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/"><span class="level-start"><span class="level-item">资源共享</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%BF%90%E7%BB%B4%E9%83%A8%E7%BD%B2/"><span class="level-start"><span class="level-item">运维部署</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/"><span class="level-start"><span class="level-item">错误集锦</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2020-05-19T11:33:11.208Z">2020-05-19</time></p><p class="title is-6"><a class="link-muted" href="/2020/05/19/hello-world/">Hello World</a></p><p class="is-uppercase"></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-01-01T14:22:00.000Z">2019-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-20T14:22:00.000Z">2018-07-20</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/20/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%B5%81%E8%A1%8C%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">目标检测流行算法总结</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2020/05/"><span class="level-start"><span class="level-item">五月 2020</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/01/"><span class="level-start"><span class="level-item">一月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/11/"><span class="level-start"><span class="level-item">十一月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/10/"><span class="level-start"><span class="level-item">十月 2017</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/09/"><span class="level-start"><span class="level-item">九月 2017</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/05/"><span class="level-start"><span class="level-item">五月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/04/"><span class="level-start"><span class="level-item">四月 2017</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/03/"><span class="level-start"><span class="level-item">三月 2017</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/02/"><span class="level-start"><span class="level-item">二月 2017</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/01/"><span class="level-start"><span class="level-item">一月 2017</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/12/"><span class="level-start"><span class="level-item">十二月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/11/"><span class="level-start"><span class="level-item">十一月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/10/"><span class="level-start"><span class="level-item">十月 2016</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/09/"><span class="level-start"><span class="level-item">九月 2016</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/08/"><span class="level-start"><span class="level-item">八月 2016</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/07/"><span class="level-start"><span class="level-item">七月 2016</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/06/"><span class="level-start"><span class="level-item">六月 2016</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/05/"><span class="level-start"><span class="level-item">五月 2016</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2016/04/"><span class="level-start"><span class="level-item">四月 2016</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/2pc/"><span class="tag">2pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/3pc/"><span class="tag">3pc</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ACID/"><span class="tag">ACID</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Attention-Model/"><span class="tag">Attention Model</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BASE/"><span class="tag">BASE</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Batch-Normalization/"><span class="tag">Batch Normalization</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CAP/"><span class="tag">CAP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/CNN/"><span class="tag">CNN</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Druid/"><span class="tag">Druid</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/EM/"><span class="tag">EM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Flume/"><span class="tag">Flume</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/HDFS/"><span class="tag">HDFS</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JVM/"><span class="tag">JVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Lambda/"><span class="tag">Lambda</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/MapReduce/"><span class="tag">MapReduce</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Metrics/"><span class="tag">Metrics</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/NLP/"><span class="tag">NLP</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Open-XML-SDK-2-0-Productivity-Tool/"><span class="tag">Open XML SDK 2.0 Productivity Tool</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Percona-Xtrabackup/"><span class="tag">Percona Xtrabackup</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/RNN/"><span class="tag">RNN</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SSD/"><span class="tag">SSD</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/SVM/"><span class="tag">SVM</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Sqoop/"><span class="tag">Sqoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/StyleTransfer/"><span class="tag">StyleTransfer</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Swagger/"><span class="tag">Swagger</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/VPSMate/"><span class="tag">VPSMate</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/YOLO/"><span class="tag">YOLO</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/aof/"><span class="tag">aof</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/atlas/"><span class="tag">atlas</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/concurrent/"><span class="tag">concurrent</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/elk/"><span class="tag">elk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/es/"><span class="tag">es</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/github/"><span class="tag">github</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hadoop/"><span class="tag">hadoop</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hexo/"><span class="tag">hexo</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/hive/"><span class="tag">hive</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jdk/"><span class="tag">jdk</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/jenkins/"><span class="tag">jenkins</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/lambda/"><span class="tag">lambda</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/linux/"><span class="tag">linux</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/mysql/"><span class="tag">mysql</span><span class="tag is-grey-lightest">11</span></a></div><div class="control"><a class="tags has-addons" href="/tags/nginx/"><span class="tag">nginx</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/redis/"><span class="tag">redis</span><span class="tag is-grey-lightest">6</span></a></div><div class="control"><a class="tags has-addons" href="/tags/shiro/"><span class="tag">shiro</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/sonar/"><span class="tag">sonar</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/tcp/"><span class="tag">tcp</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word2vec/"><span class="tag">word2vec</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/word%E8%A7%A3%E6%9E%90/"><span class="tag">word解析</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/zabbix/"><span class="tag">zabbix</span><span class="tag is-grey-lightest">7</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%B8%BB%E9%A2%98%E6%A8%A1%E5%9E%8B/"><span class="tag">主题模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/"><span class="tag">人脸识别</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="tag">决策树</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"><span class="tag">分布式事务</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/"><span class="tag">分布式算法</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9D%97/"><span class="tag">初始化块</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8D%B7%E7%A7%AF/"><span class="tag">卷积</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/"><span class="tag">吴恩达</span><span class="tag is-grey-lightest">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD/"><span class="tag">增量备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%87%E4%BB%BD/"><span class="tag">备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"><span class="tag">大数据</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%95%99%E7%A8%8B/"><span class="tag">大数据教程</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%89%E5%85%A8/"><span class="tag">安全</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%AE%8C%E5%85%A8%E5%A4%87%E4%BB%BD/"><span class="tag">完全备份</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/"><span class="tag">微信公众号</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E7%A8%8B/"><span class="tag">微服务教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B/"><span class="tag">性能检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%81%A2%E5%A4%8D/"><span class="tag">恢复</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="tag">提升算法</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><span class="tag">数据库</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="tag">机器学习</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%95%99%E7%A8%8B/"><span class="tag">机器学习教程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="tag">深度学习</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%88%AC%E8%99%AB/"><span class="tag">爬虫</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="tag">特征工程</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"><span class="tag">疑难杂症</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6/"><span class="tag">算法复杂度</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="tag">线性回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"><span class="tag">线程池</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BB%8F%E5%85%B8%E7%BD%91%E7%BB%9C/"><span class="tag">经典网络</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/"><span class="tag">编码规范</span><span class="tag is-grey-lightest">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%81%9A%E7%B1%BB/"><span class="tag">聚类</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%84%9A%E6%9C%AC/"><span class="tag">脚本</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%96%9B%E5%85%86%E4%B8%B0%E7%9A%84%E5%8C%97%E5%A4%A7%E7%BB%8F%E6%B5%8E%E5%AD%A6%E8%AF%BE/"><span class="tag">薛兆丰的北大经济学课</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"><span class="tag">虚拟机</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%A1%A8%E6%89%A9%E5%B1%95/"><span class="tag">表扩展</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="tag">贝叶斯</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/"><span class="tag">边缘检测</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E8%BF%90%E7%BB%B4/"><span class="tag">运维</span><span class="tag is-grey-lightest">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><span class="tag">逻辑回归</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><span class="tag">随机森林</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9A%90%E9%A9%AC%E5%B0%94%E7%A7%91%E5%A4%AB%E6%A8%A1%E5%9E%8B/"><span class="tag">隐马尔科夫模型</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9B%86%E5%90%88/"><span class="tag">集合</span><span class="tag is-grey-lightest">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"><span class="tag">面向对象</span><span class="tag is-grey-lightest">1</span></a></div></div></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="Hexo" height="28"></a><p class="size-small"><span>&copy; 2020 John Doe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Wasim"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://yoursite.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
