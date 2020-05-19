@@ -5,7 +5,7 @@ keywords: null
 author: John Doe
 language: zh-CN
 timezone: ''
-url: 'http://www.wangxin123.com'
+url: 'http://yoursite.com'
 root: /
 permalink: ':year/:month/:day/:title/'
 permalink_defaults: null
@@ -56,11 +56,11 @@ include: null
 exclude: null
 ignore: null
 theme: icarus
-
-# Deployment
-## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: git
-  # repository: git@github.com:Wasim37/Wasim37.github.io.git
-  repo: https://github.com/Wasim37/Wasim37.github.io.git
-  branch: master
+  type: ''
+mathjax:
+  tags: none # or 'ams' or 'all'
+  single_dollars: true # enable single dollar signs as in-line math delimiters
+  cjk_width: 0.9 # relative CJK char width
+  normal_width: 0.6 # relative normal (monospace) width
+  append_css: true # add CSS to every page
