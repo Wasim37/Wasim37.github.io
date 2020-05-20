@@ -118,9 +118,10 @@ search:
 # Comment plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Comment/
 comment:
-    type: disqus
-    # Disqus shortname
-    shortname: ''
+    type: disqusjs
+    shortname: wangxin123-com
+    api_key: 9K1ugcVtYuwzOrHyHUjjtXOnwcrDbwjEej6qSeZPJzZdokdoZNYtWlEPVecBy5LX
+    nesting: 4                              # ¿ÉÑ¡Ìî
 # Donate plugin configurations
 # https://blog.zhangruipeng.me/hexo-theme-icarus/categories/Plugins/Donation/
 donates:

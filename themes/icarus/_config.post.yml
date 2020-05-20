@@ -1,4 +1,40 @@
 widgets:
+    # Profile widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: profile
+        # Author name
+        author: Wasim
+        # Author title
+        author_title: Developer
+        # Author's current location
+        location: GuangZhou, China
+        # URL or path to the avatar image
+        avatar: 
+        # Whether show the rounded avatar image
+        avatar_rounded: false
+        # Email address for the Gravatar
+        gravatar: 
+        # URL or path for the follow button
+        follow_link: 'https://github.com/Wasim37'
+        # Links to be shown on the bottom of the profile widget
+        social_links:
+            Github:
+                icon: fab fa-github
+                url: 'https://github.com/Wasim37'
+            Facebook:
+                icon: fab fa-facebook
+                url: 'https://facebook.com'
+            Twitter:
+                icon: fab fa-twitter
+                url: 'https://twitter.com'
+            Dribbble:
+                icon: fab fa-dribbble
+                url: 'https://dribbble.com'
+            RSS:
+                icon: fas fa-rss
+                url: /
     # Table of contents widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
