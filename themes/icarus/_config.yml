@@ -288,7 +288,7 @@ comment:
     type: gitalk
     # Disqus shortname
 #    shortname: ''
-    owner: wasim37         # (required) GitHub user name
+    owner: Wasim37         # (required) GitHub user name
     repo: blog_comment          # (required) GitHub repository name
     client_id: 55fcbea044b44e047f89     # (required) OAuth application client id
     client_secret: 47addd42a9469d80bd508118ac73033915e3142c # (required) OAuth application client secret
