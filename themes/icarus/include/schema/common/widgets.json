@@ -29,6 +29,12 @@
                 "$ref": "/widget/recent_posts.json"
             },
             {
+                "$ref": "/widget/latest_comment.json"
+            },
+            {
+                "$ref": "/widget/hot_recommend.json"
+            },
+            {
                 "$ref": "/widget/archives.json"
             },
             {

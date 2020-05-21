@@ -41,8 +41,7 @@
           "class",
           "onclick",
           "onload",
-          "onsubmit",
-          "crossorigin"
+          "onsubmit"
         ]
       }
     ],

@@ -3,7 +3,7 @@ version: 3.0.0
 # Icarus theme variant, can be "default" or "cyberpunk"
 variant: default
 # Path or URL to the website's logo
-logo: /img/logo.svg
+logo: https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg
 # Page metadata configurations
 head:
     # URL or path to the website's icon
@@ -13,76 +13,76 @@ head:
     open_graph:
         # Page title (og:title) (optional)
         # You should leave this blank for most of the time
-        title: 
+        title: Wasim37
         # Page type (og:type) (optional)
         # You should leave this blank for most of the time
         type: blog
         # Page URL (og:url) (optional)
         # You should leave this blank for most of the time
-        url: 
-        # Page cover (og:image) (optional)
+        url: https://wangxin123.com/
+        # Page cover (og:image) (optional) Default to the Open Graph image or thumbnail of the page
         # You should leave this blank for most of the time
-        image: 
+        image: /img/avatar.png
         # Site name (og:site_name) (optional)
         # You should leave this blank for most of the time
-        site_name: 
+        site_name: Wasim37
         # Page author (article:author) (optional)
         # You should leave this blank for most of the time
-        author: 
+        author: Wasim37
         # Page description (og:description) (optional)
         # You should leave this blank for most of the time
-        description: 
+        description: ai,机器学习,深度学习,算法,leetcode,java
         # Twitter card type (twitter:card)
-        twitter_card: 
+        twitter_card:
         # Twitter ID (twitter:creator)
-        twitter_id: 
-        # Twitter Site (twitter:site)
-        twitter_site: 
+        twitter_id:
+        # Twitter ID (twitter:creator)
+        twitter_site:
         # Google+ profile link (deprecated)
-        google_plus: 
+        google_plus:
         # Facebook admin ID
-        fb_admins: 
+        fb_admins:
         # Facebook App ID
-        fb_app_id: 
+        fb_app_id:
     # Structured data of the page
     # https://developers.google.com/search/docs/guides/intro-structured-data
     structured_data:
         # Page title (optional)
         # You should leave this blank for most of the time
-        title: 
+        title: Wasim37
         # Page description (optional)
         # You should leave this blank for most of the time
-        description: 
+        description: ai,机器学习,深度学习,算法,leetcode,java
         # Page URL (optional)
         # You should leave this blank for most of the time
-        url: 
+        url: http://wangxin123.com/
         # Page author (article:author) (optional)
         # You should leave this blank for most of the time
-        author: 
-        # Page images (optional)
+        author: Wasim37
+        # Page images (optional) Default to the Open Graph image or thumbnail of the page
         # You should leave this blank for most of the time
-        image: 
+        image: /img/avatar.png
     # Additional HTML meta tags in an array
     meta:
         # Meta tag specified in <attribute>=<value> style
         # E.g., name=theme-color;content=#123456 => <meta name="theme-color" content="#123456">
         - ''
     # URL or path to the website's RSS atom.xml
-    rss: 
+    rss: /atom.xml
 # Page top navigation bar configurations
 navbar:
     # Naviagtion menu items
     menu:
-        Home: /
-        Archives: /archives
-        Categories: /categories
-        Tags: /tags
-        About: /about
+        首页: /
+        归档: /archives
+        分类: /categories
+        标签: /tags
+        关于: /about
     # Links to be shown on the right of the navigation bar
     links:
         GitHub:
             icon: fab fa-github
-            url: 'https://github.com/Wasim37'
+            url: 'https://github.com/wasim37'
 # Page footer configurations
 footer:
     # Links to be shown on the right of the footer section
@@ -95,14 +95,14 @@ footer:
             url: 'https://creativecommons.org/licenses/by/4.0/'
         Download on GitHub:
             icon: fab fa-github
-            url: 'https://github.com/Wasim'
+            url: 'https://github.com/wasim37'
 # Article related configurations
 article:
     # Code highlight settings
     highlight:
         # Code highlight themes
         # https://github.com/highlightjs/highlight.js/tree/master/src/styles
-        theme: atom-one-light
+        theme: atom-one-dark
         # Show copy code button
         clipboard: true
         # Default folding status of the code blocks. Can be "", "folded", "unfolded"
@@ -115,47 +115,41 @@ article:
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Search/
 search:
     type: insight
-# Comment plugin configurations
-# https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Comment/
-comment:
-    type: disqusjs
-    shortname: wangxin123-com
-    api_key: 9K1ugcVtYuwzOrHyHUjjtXOnwcrDbwjEej6qSeZPJzZdokdoZNYtWlEPVecBy5LX
-    nesting: 4                              # ��ѡ��
+
 # Donate plugin configurations
-# https://blog.zhangruipeng.me/hexo-theme-icarus/categories/Plugins/Donation/
-donates:
+donate:
     # Alipay donate button configurations
     -
+        # Donation entry name
         type: alipay
-        # Alipay qrcode image URL
-        qrcode: ''
-    # "Buy me a coffee" donate button configurations
+        # Qrcode image URL
+        qrcode: 'https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/ali-zfb.png'
     -
-        type: buymeacoffee
-        # URL to the "Buy me a coffee" page
-        url: ''
-    # Patreon donate button configurations
-    -
-        type: patreon
-        # URL to the Patreon page
-        url: ''
-    # Paypal donate button configurations
-    -
-        type: paypal
-        # Paypal business ID or email address
-        business: ''
-        # Currency code
-        currency_code: USD
-    # Wechat donate button configurations
-    -
+        # Donation entry name
         type: wechat
-        # Wechat qrcode image URL
-        qrcode: ''
+        # Qrcode image URL
+        qrcode: 'https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/weixin-pay.png'
+#    -
+#    -
+#        type: patreon
+#        # URL to the Patreon page
+#        url: ''
+#    # Paypal donate button configurations
+#    -
+#        type: paypal
+#        # Paypal business ID or email address
+#        business: ''
+#        # Currency code
+#        currency_code: USD
+#    # Wechat donate button configurations
+#    -
+#        type: wechat
+#        # Wechat qrcode image URL
+#        qrcode: ''
 # Share plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Share/
 share:
-    type: sharethis
+    type: sharejs
     # URL to the ShareThis share plugin script
     install_url: ''
 # Sidebar configurations.
@@ -168,61 +162,66 @@ sidebar:
     # Right sidebar configurations
     right:
         # Whether the sidebar sticks to the top when page scrolls
-        sticky: true
+        sticky: false
 # Sidebar widget configurations
 # http://ppoffice.github.io/hexo-theme-icarus/categories/Widgets/
 widgets:
+    -
+            # Where should the widget be placed, left sidebar or right sidebar
+            position: left
+            type: toc
     # Profile widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
         position: left
         type: profile
         # Author name
-        author: Wasim
-        # Author title
+        author: Wasim37
+        # Title of the author to be shown in the profile widget
         author_title: Developer
-        # Author's current location
+        # Author's current location to be shown in the profile widget
         location: GuangZhou, China
-        # URL or path to the avatar image
-        avatar: 
+        # Path or URL to the avatar to be shown in the profile widget
+        avatar: https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@latest/img/avatar.jpg
         # Whether show the rounded avatar image
-        avatar_rounded: false
+        avatar_rounded: true
         # Email address for the Gravatar
-        gravatar: 
+        gravatar:
         # URL or path for the follow button
-        follow_link: 'https://github.com/Wasim37'
+        follow_link: 'https://github.com/wasim37'
         # Links to be shown on the bottom of the profile widget
         social_links:
             Github:
                 icon: fab fa-github
-                url: 'https://github.com/Wasim37'
-            Facebook:
-                icon: fab fa-facebook
-                url: 'https://facebook.com'
-            Twitter:
-                icon: fab fa-twitter
-                url: 'https://twitter.com'
-            Dribbble:
+                url: 'https://github.com/wasim37'
+            Weibo:
+                icon: fab fa-weibo
+                url: ''
+            Email:
+                icon: fa fa-envelope
+                url: ''
+            Next:
                 icon: fab fa-dribbble
-                url: 'https://dribbble.com'
+                url: ''
             RSS:
                 icon: fas fa-rss
-                url: /
+                url: /atom.xml
+
+    # Recommendation links widget configurations
     # Table of contents widget configurations
     -
-        # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: toc
-    # Categories widget configurations
-    -
-        # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: categories
+        position: right
+        type: latest_comment
     # Recent posts widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
         position: right
         type: recent_posts
+    # Categories widget configurations
+    -
+        # Where should the widget be placed, left sidebar or right sidebar
+        position: left
+        type: categories
     # Archives widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
@@ -233,17 +232,7 @@ widgets:
         # Where should the widget be placed, left sidebar or right sidebar
         position: right
         type: tags
-    # Recommendation links widget configurations
-    -
-        # Where should the widget be placed, left sidebar or right sidebar
-        position: left
-        type: links
-        # Names and URLs of the sites
-        links:
-            Hexo: 'https://hexo.io'
-            Bulma: 'https://bulma.io'
 # Plugin configurations
-# https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/
 plugins:
     # Enable page startup animations
     animejs: true
@@ -253,29 +242,23 @@ plugins:
     # https://tongji.baidu.com
     baidu_analytics:
         # Baidu Analytics tracking ID
-        tracking_id: 
+        tracking_id:
     # BuSuanZi site/page view counter
     # https://busuanzi.ibruce.info
-    busuanzi: false
-    # CNZZ statistics
-    # https://www.umeng.com/web
-    cnzz:
-        # CNZZ tracker id
-        id: 
-        # CNZZ website id
-        web_id: 
+    busuanzi: true
     # Enable the lightGallery and Justified Gallery plugins
+    # https://ppoffice.github.io/hexo-theme-icarus/Plugins/General/gallery-plugin/
     gallery: true
     # Google Analytics plugin settings
     # https://analytics.google.com
     google_analytics:
         # Google Analytics tracking ID
-        tracking_id: 
+        tracking_id:
     # Hotjar user feedback plugin
     # https://www.hotjar.com/
     hotjar:
         # Hotjar site id
-        site_id: 
+        site_id:
     # Enable the KaTeX math typesetting supprot
     # https://katex.org/
     katex: true
@@ -296,3 +279,23 @@ providers:
     fontcdn: google
     # Name or URL of the fontawesome icon font CDN provider
     iconcdn: fontawesome
+    # https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@v1.0.6/json_data/record.json
+    my_cdn_pre: https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@v1.0.6
+
+# Comment plugin configurations
+# https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Comment/
+comment:
+    type: gitalk
+    # Disqus shortname
+#    shortname: ''
+    owner: wasim37         # (required) GitHub user name
+    repo: blog_comment          # (required) GitHub repository name
+    client_id: 55fcbea044b44e047f89     # (required) OAuth application client id
+    client_secret: 47addd42a9469d80bd508118ac73033915e3142c # (required) OAuth application client secret
+    admin: ['wasim37']
+    create_issue_manually: true
+    distraction_free_mode: false
+    has_hot_recommend: false # 是否有热门推荐
+    has_latest_comment: false #是否有最新评论
+
+live2Dswitch: off #live2D开关 on 为打开

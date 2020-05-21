@@ -4,15 +4,14 @@ const path = require('path');
 const util = require('util');
 const crypto = require('crypto');
 const logger = require('hexo-log')();
-const { Migrator } = require('hexo-component-inferno/lib/core/migrate');
 
 module.exports = hexo => {
     if (!process.argv.includes('--icarus-dont-check-config')) {
         const SCHEMA_ROOT = path.join(hexo.theme_dir, 'include/schema/');
         const CONFIG_PATH = path.join(hexo.theme_dir, '_config.yml');
 
-        const yaml = require('hexo-component-inferno/lib/util/yaml');
-        const { SchemaLoader } = require('hexo-component-inferno/lib/core/schema');
+        const yaml = require('../include/util/yaml');
+        const { SchemaLoader } = require('../include/util/schema');
         const loader = SchemaLoader.load(require(path.join(SCHEMA_ROOT, 'config.json')), SCHEMA_ROOT);
         const schema = loader.getSchema('/config.json');
         logger.info('=== Checking the configuration file ===');
@@ -33,8 +32,7 @@ module.exports = hexo => {
             let cfg = yaml.parse(cfgStr);
             // Check config version
             if (!process.argv.includes('--icarus-dont-upgrade-config')) {
-                const head = require(path.join(hexo.theme_dir, 'include/migration/head'));
-                const migrator = new Migrator(head);
+                const migrator = new(require('../include/util/migrate'))(path.join(hexo.theme_dir, 'include/migration'));
                 // Upgrade config
                 if (migrator.isOudated(cfg.version)) {
                     logger.info(`Your configuration file is outdated (${cfg.version} < ${migrator.getLatestVersion()}). `
@@ -59,7 +57,7 @@ module.exports = hexo => {
             const result = schema.validate(cfg);
             if (result !== true) {
                 logger.warn('Configuration file failed one or more checks.');
-                logger.warn('Icarus may still run, but you will encounter unexcepted results.');
+                logger.warn('Icarus may still run, but you will encounter excepted results.');
                 logger.warn('Here is some information for you to correct the configuration file.');
                 logger.warn(util.inspect(result));
             }

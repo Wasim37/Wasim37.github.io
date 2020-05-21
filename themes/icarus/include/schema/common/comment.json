@@ -29,9 +29,6 @@
             "$ref": "/comment/livere.json"
         },
         {
-            "$ref": "/comment/utterances.json"
-        },
-        {
             "$ref": "/comment/valine.json"
         }
     ]

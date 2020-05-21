@@ -1,5 +1,5 @@
 const { Component } = require('inferno');
-const { cacheComponent } = require('hexo-component-inferno/lib/util/cache');
+const { cacheComponent } = require('../util/cache');
 
 class Footer extends Component {
     render() {
@@ -12,7 +12,8 @@ class Footer extends Component {
             author,
             links,
             showVisitorCounter,
-            visitorCounterTitle
+            visitorCounterTitle,
+            url_for
         } = this.props;
 
         return <footer class="footer">
@@ -24,11 +25,8 @@ class Footer extends Component {
                         </a>
                         <p class="size-small">
                             <span dangerouslySetInnerHTML={{ __html: `&copy; ${siteYear} ${author || siteTitle}` }}></span>
-                            &nbsp;&nbsp;Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>&nbsp;&&nbsp;
-                            <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
-                            {showVisitorCounter ? <br /> : null}
-                            {showVisitorCounter ? <span id="busuanzi_container_site_uv"
-                                dangerouslySetInnerHTML={{ __html: visitorCounterTitle }}></span> : null}
+                            &nbsp;&nbsp;Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                                href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
                         </p>
                     </div>
                     <div class="level-end">
@@ -66,6 +64,7 @@ module.exports = cacheComponent(Footer, 'common.footer', props => {
     }
 
     return {
+        url_for: url_for,
         logo,
         logoUrl: url_for(logo),
         siteUrl: url_for('/'),

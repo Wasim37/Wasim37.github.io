@@ -1,6 +1,5 @@
 const logger = require('hexo-log')();
 const { Component, Fragment } = require('inferno');
-const view = require('hexo-component-inferno/lib/core/view');
 
 module.exports = class extends Component {
     render() {
@@ -14,8 +13,7 @@ module.exports = class extends Component {
                     return null;
                 }
                 try {
-                    let Plugin = view.require('plugin/' + name);
-                    Plugin = Plugin.Cacheable ? Plugin.Cacheable : Plugin;
+                    const Plugin = require('../plugin/' + name);
                     return <Plugin site={site} config={config} page={page} helper={helper} plugin={plugins[name]} head={head} />;
                 } catch (e) {
                     logger.w(`Icarus cannot load plugin "${name}"`);

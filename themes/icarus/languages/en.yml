@@ -8,9 +8,6 @@ common:
     tag:
         one: 'Tag'
         other: 'Tags'
-    page:
-        one: 'Page'
-        other: 'Pages'
     post:
         one: 'Post'
         other: 'Posts'
@@ -45,6 +42,10 @@ plugin:
 search:
     search: 'Search'
     hint: 'Type something...'
-    no_result: 'No results for'
+insight:
+    hint: 'Type something...'
+    posts: 'Posts'
+    pages: 'Pages'
+    categories: 'Categories'
+    tags: 'Tags'
     untitled: '(Untitled)'
-    empty_preview: '(No preview)'

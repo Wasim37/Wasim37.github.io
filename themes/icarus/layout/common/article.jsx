@@ -3,14 +3,14 @@ const { Component, Fragment } = require('inferno');
 const Share = require('./share');
 const Donates = require('./donates');
 const Comment = require('./comment');
+const crypto = require('crypto');
+const RecommendPosts = require('../widget/recommend_post');
+
 
 /**
  * Get the word count of text.
  */
 function getWordCount(content) {
-    if (typeof content === 'undefined') {
-        return 0;
-    }
     content = content.replace(/<\/?[a-z][^>]*>/gi, '');
     content = content.trim();
     return content ? (content.match(/[\u00ff-\uffff]|[a-zA-Z]+/g) || []).length : 0;
@@ -18,14 +18,22 @@ function getWordCount(content) {
 
 module.exports = class extends Component {
     render() {
-        const { config, helper, page, index } = this.props;
-        const { article, plugins } = config;
+
+        const { config, helper, page, index, site } = this.props;
+        const { article, plugins,comment } = config;
         const { has_thumbnail, get_thumbnail, url_for, date, date_xml, __, _p } = helper;
 
-        const indexLaunguage = config.language || 'en';
         const language = page.lang || page.language || config.language || 'en';
 
+        const isGitalk = comment.type != 'undefined' && comment.type == 'gitalk';
+
+        const id = crypto.createHash('md5').update(helper.get_path_end_str(page.path,page.uniqueId,page.title)).digest('hex');
+
+
         return <Fragment>
+            {/*{console.log(index+","+count)}*/}
+            {/* First page add hot recommend*/}
+            {/*{ index && isGitalk ? <Widget helper={helper} type={'hot_recommend'} config={config} page={page}/> : null}*/}
             {/* Main content */}
             <div class="card">
                 {/* Thumbnail */}
@@ -40,14 +48,19 @@ module.exports = class extends Component {
                 <article class={`card-content article${'direction' in page ? ' ' + page.direction : ''}`} role="article">
                     {page.layout !== 'page' ? <div class="article-meta size-small is-uppercase level is-mobile">
                         <div class="level-left">
+                            {/*置顶图标*/}
+                            {page.top > 0 ?
+                            <div class="level-item tag is-danger" style="background-color: #3273dc;">已置顶</div>:null}
                             {/* Date */}
-                            <time class="level-item" dateTime={date_xml(page.date)} title={date_xml(page.date)}>{date(page.date)}</time>
-                            {/* author */}
-                            {page.author ? <span class="level-item"> {page.author} </span> : null}
+                            <time class="level-item" dateTime={date_xml(page.date)}>{date(page.date)}</time>
+
+                            {comment.type !== 'undefined' && comment.type == 'gitalk' ?
+                                <a class="commentCountImg" href={`${url_for(page.link || page.path)}#comment-container`}><span class="display-none-class">{id}</span><img class="not-gallery-item" src={`${url_for('https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/chat.svg')}`}/>&nbsp;<span class="commentCount" id={id}>&nbsp;99+</span>&nbsp;&nbsp;&nbsp;&nbsp;</a> : null}
                             {/* Categories */}
                             {page.categories && page.categories.length ? <span class="level-item">
                                 {(() => {
                                     const categories = [];
+                                    categories.push(<i class="fas fa-folder-open has-text-grey">&nbsp;</i>)
                                     page.categories.forEach((category, i) => {
                                         categories.push(<a class="link-muted" href={url_for(category.path)}>{category.name}</a>);
                                         if (i < page.categories.length - 1) {
@@ -62,7 +75,7 @@ module.exports = class extends Component {
                                 {(() => {
                                     const words = getWordCount(page._content);
                                     const time = moment.duration((words / 150.0) * 60, 'seconds');
-                                    return `${time.locale(index ? indexLaunguage : language).humanize()} ${__('article.read')} (${__('article.about')} ${words} ${__('article.words')})`;
+                                    return `${time.locale(language).humanize()} ${__('article.read')} (${__('article.about')} ${words} ${__('article.words')})`;
                                 })()}
                             </span> : null}
                             {/* Visitor counter */}
@@ -79,13 +92,42 @@ module.exports = class extends Component {
                     <div class="content" dangerouslySetInnerHTML={{ __html: index && page.excerpt ? page.excerpt : page.content }}></div>
                     {/* Tags */}
                     {!index && page.tags && page.tags.length ? <div class="article-tags size-small is-uppercase mb-4">
-                        <span class="mr-2">#</span>
+                        <i class="fas fa-tags has-text-grey"></i>&nbsp;
                         {page.tags.map(tag => {
                             return <a class="link-muted mr-2" rel="tag" href={url_for(tag.path)}>{tag.name}</a>;
                         })}
                     </div> : null}
                     {/* "Read more" button */}
-                    {index && page.excerpt ? <a class="article-more button is-small size-small" href={`${url_for(page.path)}#more`}>{__('article.more')}</a> : null}
+                    {index && page.excerpt ?
+                        <div class="level is-mobile is-flex">
+                            {page.tags && page.tags.length ?
+                                <div class="level-start">
+                                    <div class="is-uppercase article-more button is-small size-small">
+                                        <i class="fas fa-tags has-text-grey"></i>&nbsp;
+                                        {page.tags.map(tag => {
+                                            return <a class="link-muted mr-2" rel="tag"
+                                                      href={url_for(tag.path)}>{tag.name}</a>;
+                                        })}
+                                    </div>
+                                </div> : null}
+                          
+                            <div class="level-start">
+                                <div class="level-item">
+                                    <a class="article-more button is-small size-small link-muted"
+                                       href={`${url_for(page.path)}#more`}><i class="fas fa-book-reader has-text-grey">&nbsp;</i>{__('article.more')}>></a>
+                                </div>
+                            </div>
+                        </div> : null}
+                    {/*copyright*/}
+                    {!index && page.layout == 'post' ?
+                    <ul class="post-copyright">
+                        <li><strong>本文标题：</strong><a href={url_for(page.permalink)}>{page.title}</a></li>
+                        <li><strong>本文作者：</strong><a href={url_for(config.url)}>{config.author}</a></li>
+                        <li><strong>本文链接：</strong><a href={url_for(page.permalink)}>{config.url+'/'+page.path}</a></li>
+                        <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+                        </li>
+                    </ul>:null}
+                    {!index && page.layout == 'post' ? <RecommendPosts config={config} page={page} helper={helper} site={site}/>:null}
                     {/* Share button */}
                     {!index ? <Share config={config} page={page} helper={helper} /> : null}
                 </article>

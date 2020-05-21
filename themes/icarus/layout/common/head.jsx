@@ -1,7 +1,7 @@
 const { Component } = require('inferno');
-const MetaTags = require('hexo-component-inferno/lib/view/misc/meta');
-const OpenGraph = require('hexo-component-inferno/lib/view/misc/open_graph');
-const StructuredData = require('hexo-component-inferno/lib/view/misc/structured_data');
+const MetaTags = require('../misc/meta');
+const OpenGraph = require('../misc/open_graph');
+const StructuredData = require('../misc/structured_data');
 const Plugins = require('./plugins');
 
 function getPageTitle(page, siteTitle, helper) {
@@ -30,29 +30,24 @@ function getPageTitle(page, siteTitle, helper) {
 module.exports = class extends Component {
     render() {
         const { env, site, config, helper, page } = this.props;
-        const { url_for, cdn, fontcdn, iconcdn, is_post } = helper;
+        const { url_for, cdn, iconcdn, fontcdn, is_post } = helper;
         const {
             url,
             meta_generator = true,
             head = {},
             article,
-            highlight,
-            variant = 'default'
+            highlight
         } = config;
         const {
             meta = [],
             open_graph = {},
             structured_data = {},
-            canonical_url = page.permalink,
+            canonical_url,
             rss,
             favicon
         } = head;
 
         const language = page.lang || page.language || config.language;
-        const fontCssUrl = {
-            default: fontcdn('Ubuntu:wght@400;600&family=Source+Code+Pro', 'css2'),
-            cyberpunk: fontcdn('Oxanium:wght@300;400;600&family=Roboto+Mono', 'css2')
-        };
 
         let hlTheme, images;
         if (highlight && highlight.enable === false) {
@@ -89,16 +84,14 @@ module.exports = class extends Component {
         }
 
         let openGraphImages = images;
-        if ((typeof open_graph === 'object' && open_graph !== null)
-            && ((Array.isArray(open_graph.image) && open_graph.image.length > 0) || typeof open_graph.image === 'string')) {
+        if ((Array.isArray(open_graph.image) && open_graph.image.length > 0) || typeof open_graph.image === 'string') {
             openGraphImages = open_graph.image;
         } else if ((Array.isArray(page.photos) && page.photos.length > 0) || typeof page.photos === 'string') {
             openGraphImages = page.photos;
         }
 
         let structuredImages = images;
-        if ((typeof structured_data === 'object' && structured_data !== null)
-            && ((Array.isArray(structured_data.image) && structured_data.image.length > 0) || typeof structured_data.image === 'string')) {
+        if ((Array.isArray(structured_data.image) && structured_data.image.length > 0) || typeof structured_data.image === 'string') {
             structuredImages = structured_data.image;
         } else if ((Array.isArray(page.photos) && page.photos.length > 0) || typeof page.photos === 'string') {
             structuredImages = page.photos;
@@ -108,11 +101,11 @@ module.exports = class extends Component {
             <meta charset="utf-8" />
             {meta_generator ? <meta name="generator" content={`Hexo ${env.version}`} /> : null}
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-            {meta && meta.length ? <MetaTags meta={meta} /> : null}
+            <MetaTags meta={meta} />
 
             <title>{getPageTitle(page, config.title, helper)}</title>
 
-            {typeof open_graph === 'object' && open_graph !== null ? <OpenGraph
+            {typeof open_graph === 'object' ? <OpenGraph
                 type={open_graph.type || (is_post(page) ? 'article' : 'website')}
                 title={open_graph.title || page.title || config.title}
                 date={page.date}
@@ -120,7 +113,7 @@ module.exports = class extends Component {
                 author={open_graph.author || config.author}
                 description={open_graph.description || page.description || page.excerpt || page.content || config.description}
                 keywords={page.keywords || (page.tags && page.tags.length ? page.tags : undefined) || config.keywords}
-                url={open_graph.url || page.permalink || url}
+                url={open_graph.url || url}
                 images={openGraphImages}
                 siteName={open_graph.site_name || config.title}
                 language={language}
@@ -131,7 +124,7 @@ module.exports = class extends Component {
                 facebookAdmins={open_graph.fb_admins}
                 facebookAppId={open_graph.fb_app_id} /> : null}
 
-            {typeof structured_data === 'object' && structured_data !== null ? <StructuredData
+            {typeof structured_data === 'object' ? <StructuredData
                 title={structured_data.title || config.title}
                 description={structured_data.description || page.description || page.excerpt || page.content || config.description}
                 url={structured_data.url || page.permalink || url}
@@ -144,13 +137,19 @@ module.exports = class extends Component {
             {rss ? <link rel="alternative" href={url_for(rss)} title={config.title} type="application/atom+xml" /> : null}
             {favicon ? <link rel="icon" href={url_for(favicon)} /> : null}
             <link rel="stylesheet" href={iconcdn()} />
+            <link rel="stylesheet" href={fontcdn('Ubuntu:400,600|Source+Code+Pro')} />
             {hlTheme ? <link rel="stylesheet" href={cdn('highlight.js', '9.12.0', 'styles/' + hlTheme + '.css')} /> : null}
-            <link rel="stylesheet" href={fontCssUrl[variant]} />
-            <link rel="stylesheet" href={url_for('/css/' + variant + '.css')} />
+            <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;subset=latin,latin-ext"/>
+            {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Itim|Lobster.css"/> */}
             <Plugins site={site} config={config} helper={helper} page={page} head={true} />
-
+            <link rel="stylesheet" href={url_for('/css/style.css')} />
+            <script src={cdn('jquery', '3.3.1', 'dist/jquery.min.js')}></script>
+            <script src={url_for('/js/globalUtils.js')}></script>
             {adsenseClientId ? <script data-ad-client={adsenseClientId}
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async={true}></script> : null}
+            {config.live2Dswitch == 'on' ? <link rel="stylesheet" href={url_for('/live2d/waifu.css')}/> : null}
+            {config.live2Dswitch == 'on' ? <script type="text/javascript" async={true} src={url_for('/live2d/autoload.js')}></script>: null}
+
         </head>;
     }
 };

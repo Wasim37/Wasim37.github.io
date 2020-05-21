@@ -1,6 +1,6 @@
 const { Component, Fragment } = require('inferno');
-const { cacheComponent } = require('hexo-component-inferno/lib/util/cache');
-const classname = require('hexo-component-inferno/lib/util/classname');
+const { cacheComponent } = require('../util/cache');
+const classname = require('../util/classname');
 
 function isSameLink(a, b) {
     function santize(url) {
@@ -28,7 +28,7 @@ class Navbar extends Component {
             searchTitle
         } = this.props;
 
-        return <nav class="navbar navbar-main">
+        return <nav class="navbar navbar-main is-fixed-top">
             <div class="container">
                 <div class="navbar-brand justify-content-center">
                     <a class="navbar-item navbar-logo" href={siteUrl}>
