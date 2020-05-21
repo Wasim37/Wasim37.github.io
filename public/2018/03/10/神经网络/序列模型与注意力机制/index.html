@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>序列模型与注意力机制 - Wasim&#039;s Blog</title><meta description="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:type" content="blog"><meta property="og:title" content="Wasim37"><meta property="og:url" content="https://wangxin123.com/"><meta property="og:site_name" content="Wasim37"><meta property="og:description" content="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2018-03-10T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-20T08:36:49.655Z"><meta property="article:author" content="Wasim37"><meta property="article:tag" content="RNN"><meta property="article:tag" content="Attention Model"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://wangxin123.com/img/avatar.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://wangxin123.com/"},"headline":"Wasim37","image":["http://wangxin123.com/img/avatar.png"],"datePublished":"2018-03-10T14:22:00.000Z","dateModified":"2020-05-20T08:36:49.655Z","author":{"@type":"Person","name":"Wasim37"},"description":"ai,机器学习,深度学习,算法,leetcode,java"}</script><link rel="alternative" href="/atom.xml" title="Wasim&#039;s Blog" type="application/atom+xml"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><link rel="stylesheet" href="/css/style.css"><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="/js/globalUtils.js"></script></head><body class="is-2-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="Wasim&#039;s Blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2018-03-10T14:22:00.000Z">2018-03-10</time><a class="commentCountImg" href="/2018/03/10/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/#comment-container"><span class="display-none-class">dfdbae100df440537460ac904eb23fdd</span><img class="not-gallery-item" src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/chat.svg"> <span class="commentCount" id="dfdbae100df440537460ac904eb23fdd"> 99+</span>    </a><span class="level-item"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></span><span class="level-item">25 分钟 读完 (大约 3788 个字)</span><span class="level-item" id="busuanzi_container_page_pv"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">序列模型与注意力机制</h1><div class="content"><h3 id="Seq2Seq-模型"><a href="#Seq2Seq-模型" class="headerlink" title="Seq2Seq 模型"></a>Seq2Seq 模型</h3><div>
+$$
+i\hbar\frac{\partial}{\partial t}\psi=-\frac{\hbar^2}{2m}\nabla^2\psi+V\psi
+$$
+</div>
+
+<p><strong>Seq2Seq（Sequence-to-Sequence）</strong>模型能够应用于机器翻译、语音识别等各种序列到序列的转换问题。一个 Seq2Seq 模型包含<strong>编码器（Encoder）</strong>和<strong>解码器（Decoder）</strong>两部分，它们通常是两个不同的 RNN。如下图所示，将编码器的输出作为解码器的输入，由解码器负责输出正确的翻译结果。</p>
+<a id="more"></a>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Seq2Seq.png" alt=""></p>
+<p>提出 Seq2Seq 模型的相关论文：</p>
+<ul>
+<li><a href="https://arxiv.org/pdf/1409.3215.pdf">Sutskever et al., 2014. Sequence to sequence learning with neural networks</a></li>
+<li><a href="https://arxiv.org/abs/1406.1078">Cho et al., 2014. Learning phrase representaions using RNN encoder-decoder for statistical machine translation</a></li>
+</ul>
+<p>这种编码器-解码器的结构也可以用于图像描述（Image captioning）。将 AlexNet 作为编码器，最后一层的 Softmax 换成一个 RNN 作为解码器，网络的输出序列就是对图像的一个描述。</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Image-captioning.png" alt=""></p>
+<p>图像描述的相关论文：</p>
+<ul>
+<li><a href="https://arxiv.org/pdf/1412.6632.pdf">Mao et. al., 2014. Deep captioning with multimodal recurrent neural networks</a></li>
+<li><a href="https://arxiv.org/pdf/1411.4555.pdf">Vinyals et. al., 2014. Show and tell: Neural image caption generator</a></li>
+<li><a href="https://arxiv.org/pdf/1412.2306.pdf">Karpathy and Fei Fei, 2015. Deep visual-semantic alignments for generating image descriptions</a></li>
+</ul>
+<h4 id="选择最可能的句子"><a href="#选择最可能的句子" class="headerlink" title="选择最可能的句子"></a>选择最可能的句子</h4><p>机器翻译用到的模型与语言模型相似，只是用编码器的输出作为解码器第一个时间步的输入（而非 0）。因此机器翻译的过程其实相当于建立一个条件语言模型。</p>
+<p>由于解码器进行随机采样过程，输出的翻译结果可能有好有坏。因此需要找到能使条件概率最大化的翻译，即</p>
+<script type="math/tex; mode=display">arg \ max_{y^{⟨1⟩}, ..., y^{⟨T_y⟩}}P(y^{⟨1⟩}, ..., y^{⟨T_y⟩} | x)</script><p>鉴于贪心搜索算法得到的结果显然难以不符合上述要求，解决此问题最常使用的算法是 <strong>集束搜索（Beam Search）</strong>。</p>
+<hr>
+<h3 id="集束搜索"><a href="#集束搜索" class="headerlink" title="集束搜索"></a>集束搜索</h3><p>集束搜索会考虑每个时间步多个可能的选择。设定一个 <strong>集束宽（Bean Width）B</strong>，代表了解码器中每个时间步的预选单词数量。例如 B=3，则将第一个时间步最可能的三个预选单词及其概率值 $P(\hat y^{⟨1⟩}|x)$ 保存到计算机内存，以待后续使用。</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Beam-search.png" alt=""></p>
+<p>第二步中，分别将三个预选词作为第二个时间步的输入，得到 $P(\hat y^{⟨2⟩}|x, \hat y^{⟨1⟩})$。</p>
+<p>因为我们需要的其实是第一个和第二个单词对（而非只有第二个单词）有着最大概率，因此根据条件概率公式，有：</p>
+<p>$P(\hat y^{⟨1⟩}, \hat y^{⟨2⟩}|x) = P(\hat y^{⟨1⟩}|x) P(\hat y^{⟨2⟩}|x, \hat y^{⟨1⟩})$</p>
+<p>设词典中有 $N$ 个词，则当 $B=3$ 时，有 $3*N$ 个 $P(\hat y^{⟨1⟩}, \hat y^{⟨2⟩}|x)$。仍然取其中概率值最大的 3 个，作为对应第一个词条件下的第二个词的预选词。以此类推，最后输出一个最优的结果，即结果符合公式：</p>
+<script type="math/tex; mode=display">arg \ max \prod^{T_y}_{t=1} P(\hat y^{⟨t⟩} | x, \hat y^{⟨1⟩}, ..., \hat y^{⟨t-1⟩})</script><p>可以看到，当 $B=1$ 时，集束搜索就变为贪心搜索。</p>
+<h4 id="优化：长度标准化"><a href="#优化：长度标准化" class="headerlink" title="优化：长度标准化"></a>优化：长度标准化</h4><p><strong>长度标准化（Length Normalization）</strong>是对集束搜索算法的优化方式。对于公式</p>
+<script type="math/tex; mode=display">arg \ max \prod^{T_y}_{t=1} P(\hat y^{⟨t⟩} | x, \hat y^{⟨1⟩}, ..., \hat y^{⟨t-1⟩})</script><p>当多个小于 1 的概率值相乘后，会造成 <strong>数值下溢</strong>（Numerical Underflow），即得到的结果将会是一个电脑不能精确表示的极小浮点数。因此，我们会取 log 值，并进行标准化：</p>
+<script type="math/tex; mode=display">arg \ max \frac{1}{T_y^{\alpha}} \sum^{T_y}_{t=1} logP(\hat y^{⟨t⟩} | x, \hat y^{⟨1⟩}, ..., \hat y^{⟨t-1⟩})</script><p>其中，$T_y$ 是翻译结果的单词数量，$α$ 是一个需要根据实际情况进行调节的超参数。标准化用于减少对输出长的结果的惩罚（因为翻译结果一般没有长度限制）。</p>
+<p>关于集束宽 B 的取值，较大的 B 值意味着可能更好的结果和巨大的计算成本；而较小的 B 值代表较小的计算成本和可能表现较差的结果。通常来说，B 可以取一个 10 以下的值。</p>
+<p>和 BFS、DFS 等精确的查找算法相比，集束搜索算法运行速度更快，但是不能保证一定找到 arg max 准确的最大值。</p>
+<h4 id="误差分析"><a href="#误差分析" class="headerlink" title="误差分析"></a>误差分析</h4><p>集束搜索是一种启发式搜索算法，其输出结果不总为最优。当结合 Seq2Seq 模型和集束搜索算法所构建的系统出错（没有输出最佳翻译结果）时，我们通过误差分析来分析错误出现在 RNN 模型还是集束搜索算法中。</p>
+<p>例如，对于下述两个由人工和算法得到的翻译结果：</p>
+<p>Human: Jane visits Africa in September. (y∗)<br>Algorithm: Jane visited Africa last September. (y∗)</p>
+<p>将翻译中没有太大差别的前三个单词作为解码器前三个时间步的输入，得到第四个时间步的条件概率 $P(y^* | x)$ 和 $P(\hat y | x)$，比较其大小并分析：</p>
+<p>如果 $P(y^<em> | x) &gt; P(\hat y | x)$，说明是集束搜索算法出现错误，没有选择到概率最大的词；<br>如果 $P(y^</em> | x) \le P(\hat y | x)$，说明是 RNN 模型的效果不佳，预测的第四个词为“in”的概率小于“last”。<br>建立一个如下图所示的表格，记录对每一个错误的分析，有助于判断错误出现在 RNN 模型还是集束搜索算法中。如果错误出现在集束搜索算法中，可以考虑增大集束宽 B；否则，需要进一步分析，看是需要正则化、更多数据或是尝试一个不同的网络结构。</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Error-analysis-process.png" alt=""></p>
+<hr>
+<h3 id="Bleu-得分"><a href="#Bleu-得分" class="headerlink" title="Bleu 得分"></a>Bleu 得分</h3><p><strong>Bleu（Bilingual Evaluation Understudy）</strong> 得分用于评估机器翻译的质量，其思想是<strong>机器翻译的结果越接近于人工翻译，则评分越高。</strong></p>
+<p>最原始的 Bleu 将机器翻译结果中每个单词在人工翻译中出现的次数作为分子，机器翻译结果总词数作为分母得到。但是容易出现错误，例如，机器翻译结果单纯为某个在人工翻译结果中出现的单词的重复，则按照上述方法得到的 Bleu 为 1，显然有误。改进的方法是将每个单词在人工翻译结果中出现的次数作为分子，在机器翻译结果中出现的次数作为分母。</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Bleu-score-on-unigram.png" alt=""></p>
+<p>上述方法是以单个词为单位进行统计，以单个词为单位的集合称为unigram（一元组）。而以成对的词为单位的集合称为bigram（二元组）。对每个二元组，可以统计其在机器翻译结果（$count$）和人工翻译结果（$count_{clip}$）出现的次数，计算 Bleu 得分。</p>
+<p>以此类推，以 n 个单词为单位的集合称为n-gram（多元组），对应的 Blue（即翻译精确度）得分计算公式为：</p>
+<script type="math/tex; mode=display">p_n = \frac{\sum_{\text{n-gram} \in \hat y}count_{clip}(\text{n-gram})}{\sum_{\text{n-gram} \in \hat y}count(\text{n-gram})}</script><p>对 N 个 pn 进行几何加权平均得到：</p>
+<script type="math/tex; mode=display">p_{ave} = exp(\frac{1}{N}\sum^N_{i=1}log^{p_n})</script><p>有一个问题是，当机器翻译结果短于人工翻译结果时，比较容易能得到更大的精确度分值，因为输出的大部分词可能都出现在人工翻译结果中。改进的方法是设置一个<strong>最佳匹配长度（Best Match Length）</strong>，如果机器翻译的结果短于该最佳匹配长度，则需要接受 <strong>简短惩罚（Brevity Penalty，BP）</strong>：</p>
+<script type="math/tex; mode=display">
+BP = 
+\begin{cases} 
+1, &MT\_length \ge BM\_length \\ 
+exp(1 - \frac{MT\_length}{BM\_length}), &MT\_length \lt BM\_length 
+\end{cases}</script><p>因此，最后得到的 Bleu 得分为：</p>
+<script type="math/tex; mode=display">Blue = BP \times exp(\frac{1}{N}\sum^N_{i=1}log^{p_n})</script><p>Bleu 得分的贡献是提出了一个表现不错的<strong>单一实数评估指标</strong>，因此加快了整个机器翻译领域以及其他文本生成领域的进程。</p>
+<p>相关论文：<a href="http://www.aclweb.org/anthology/P02-1040.pdf">neni et. al., 2002. A method for automatic evaluation of machine translation</a></p>
+<hr>
+<h3 id="注意力模型"><a href="#注意力模型" class="headerlink" title="注意力模型"></a>注意力模型</h3><p>对于一大段文字，人工翻译一般每次阅读并翻译一小部分。因为难以记忆，很难每次将一大段文字一口气翻译完。同理，用 Seq2Seq 模型建立的翻译系统，对于长句子，Blue 得分会随着输入序列长度的增加而降低。</p>
+<p>实际上，我们也并不希望神经网络每次去“记忆”很长一段文字，而是想让它像人工翻译一样工作。因此，<strong>注意力模型（Attention Model）</strong>被提出。目前，其思想已经成为深度学习领域中最有影响力的思想之一。</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Attention-Model.png" alt=""></p>
+<p>注意力模型的一个示例网络结构如上图所示。其中，底层是一个双向循环神经网络（BRNN），该网络中每个时间步的激活都包含前向传播和反向传播产生的激活：</p>
+<script type="math/tex; mode=display">a^{\langle t’ \rangle} = ({\overrightarrow a}^{\langle t’ \rangle}, {\overleftarrow a}^{\langle t’ \rangle})</script><p>顶层是一个“多对多”结构的循环神经网络，第 t 个时间步的输入包含该网络中前一个时间步的激活 $s^{\langle t-1 \rangle}$、输出 $y^{\langle t-1 \rangle}$ 以及底层的 BRNN 中多个时间步的激活 c，其中 c 有（注意分辨 α 和 a）：</p>
+<script type="math/tex; mode=display">c^{\langle t \rangle} = \sum_{t’}\alpha^{\langle t,t’ \rangle}a^{\langle t’ \rangle}</script><p>其中，参数 $\alpha^{\langle t,t’ \rangle}$ 即代表着 $y^{\langle t \rangle}$ 对 $a^{\langle t’ \rangle}$ 的“注意力”，总有：</p>
+<script type="math/tex; mode=display">\sum_{t’}\alpha^{\langle t,t’ \rangle} = 1</script><p>我们使用 Softmax 来确保上式成立，因此有：</p>
+<script type="math/tex; mode=display">\alpha^{\langle t,t’ \rangle} = \frac{exp(e^{\langle t,t’ \rangle})}{\sum^{T_x}_{t'=1}exp(e^{\langle t,t’ \rangle})}</script><p>而对于 $e^{\langle t,t’ \rangle}$，我们通过神经网络学习得到。输入为 $s^{\langle t-1 \rangle}$ 和 $a^{\langle t’ \rangle}$，如下图所示：</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Computing-attention.png" alt=""></p>
+<p>注意力模型的一个缺点是时间复杂度为 $O(n^3)$。</p>
+<p>相关文章：<a href="https://blog.csdn.net/thriving_fcl/article/details/74853556">带Attention机制的Seq2Seq框架梳理</a></p>
+<p>相关论文：</p>
+<ul>
+<li><a href="https://arxiv.org/pdf/1409.0473.pdf">Bahdanau et. al., 2014. Neural machine translation by jointly learning to align and translate</a></li>
+<li><a href="https://arxiv.org/pdf/1502.03044.pdf">Xu et. al., 2015. Show, Attend and Tell: Neural Image Caption Generation with Visual Attention</a>：将注意力模型应用到图像标注中</li>
+</ul>
+<hr>
+<h3 id="语音识别"><a href="#语音识别" class="headerlink" title="语音识别"></a>语音识别</h3><p>在语音识别任务中，输入是一段以时间为横轴的音频片段，输出是文本。</p>
+<p>音频数据的常见预处理步骤是运行音频片段来生成一个声谱图，并将其作为特征。以前的语音识别系统通过语言学家人工设计的音素（Phonemes）来构建，<strong>音素</strong> 指的是一种语言中能区别两个词的最小语音单位。现在的端到端系统中，用深度学习就可以实现输入音频，直接输出文本。</p>
+<p>对于训练基于深度学习的语音识别系统，大规模的数据集是必要的。学术研究中通常使用 3000 小时长度的音频数据，而商业应用则需要超过一万小时的数据。</p>
+<p>语音识别系统可以用注意力模型来构建，一个简单的图例如下：</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Attention-model-for-speech-recognition.png" alt=""></p>
+<p>用 CTC（Connectionist Temporal Classification）损失函数来做语音识别的效果也不错。由于输入是音频数据，使用 RNN 所建立的系统含有很多个时间步，且输出数量往往小于输入。因此，不是每一个时间步都有对应的输出。CTC 允许 RNN 生成下图红字所示的输出，并将两个空白符（blank）中重复的字符折叠起来，再将空白符去掉，得到最终的输出文本。</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/CTC-for-speech-recognition.png" alt=""></p>
+<p>相关论文：<a href="http://people.idsia.ch/~santiago/papers/icml2006.pdf">Graves et al., 2006. Connectionist Temporal Classification: Labeling unsegmented sequence data with recurrent neural networks</a></p>
+<hr>
+<h3 id="触发词检测"><a href="#触发词检测" class="headerlink" title="触发词检测"></a>触发词检测</h3><p><strong>触发词检测（Trigger Word Detection）</strong>常用于各种智能设备，通过约定的触发词可以语音唤醒设备。</p>
+<p>使用 RNN 来实现触发词检测时，可以将触发词对应的序列的标签设置为“1”，而将其他的标签设置为“0”。</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/Trigger-word-detection-algorithm.png" alt=""></p>
+<hr>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p><a href="https://github.com/Wasim37/deeplearning-assignment/tree/master/5%20%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B/Week3%20%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6">序列模型和注意力机制</a></p>
+</div><div class="article-tags size-small is-uppercase mb-4"><i class="fas fa-tags has-text-grey"></i> <a class="link-muted mr-2" rel="tag" href="/tags/RNN/">RNN</a><a class="link-muted mr-2" rel="tag" href="/tags/Attention-Model/">Attention Model</a></div><ul class="post-copyright"><li><strong>本文标题：</strong><a href="http://wangxin123.com/2018/03/10/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">序列模型与注意力机制</a></li><li><strong>本文作者：</strong><a href="http://wangxin123.com">wasim37</a></li><li><strong>本文链接：</strong><a href="http://wangxin123.com/2018/03/10/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">http://wangxin123.com/2018/03/10/神经网络/序列模型与注意力机制/</a></li><li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li></ul><div class="recommend-post"><span class="is-size-6 has-text-grey has-mr-7"># 推荐文章</span><br></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><div class="social-share"></div><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/ali-zfb.png" alt="支付宝"></span></a><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/weixin-pay.png" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2018/07/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">吴恩达目标检测课堂笔记</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2018/03/02/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/"><span class="level-item">自然语言处理与词嵌入</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"><script src="/js/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: 'dfdbae100df440537460ac904eb23fdd',
+            repo: 'blog_comment',
+            owner: 'wasim37',
+            clientID: '55fcbea044b44e047f89',
+            clientSecret: '47addd42a9469d80bd508118ac73033915e3142c',
+            admin: ["wasim37"],
+            createIssueManually: true,
+            distractionFreeMode: false,
+            perPage: 10,
+            pagerDirection: 'last',
+            
+            
+            enableHotKey: true,
+            isLocked: false
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget toc-scroll" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" id="toc-item-Seq2Seq-模型" href="#Seq2Seq-模型"><span>Seq2Seq 模型</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-选择最可能的句子" href="#选择最可能的句子"><span>选择最可能的句子</span></a></li></ul></li><li><a class="is-flex" id="toc-item-集束搜索" href="#集束搜索"><span>集束搜索</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-优化：长度标准化" href="#优化：长度标准化"><span>优化：长度标准化</span></a></li><li><a class="is-flex" id="toc-item-误差分析" href="#误差分析"><span>误差分析</span></a></li></ul></li><li><a class="is-flex" id="toc-item-Bleu-得分" href="#Bleu-得分"><span>Bleu 得分</span></a></li><li><a class="is-flex" id="toc-item-注意力模型" href="#注意力模型"><span>注意力模型</span></a></li><li><a class="is-flex" id="toc-item-语音识别" href="#语音识别"><span>语音识别</span></a></li><li><a class="is-flex" id="toc-item-触发词检测" href="#触发词检测"><span>触发词检测</span></a></li><li><a class="is-flex" id="toc-item-代码示例" href="#代码示例"><span>代码示例</span></a></li></ul></div></div><script type="text/javascript" async>
+        $(document).ready(function () { //参考自 https://github.com/ppoffice/hexo-theme-icarus/pull/616/files
+            var observerTopMargin;
+            var scrollObserver;
+            var headerElems = $(".headerlink");
+            var activeTocItem;
+        
+            function initIntersectionObserver(docHeight) {
+                observerTopMargin = docHeight;
+                scrollObserver = new IntersectionObserver(scrollCallBack,
+                    {
+                        root: null,  // viewpoint
+                        rootMargin: docHeight + "px 0px -80% 0px"  // cover top 30% of viewport to the top of document
+                    })
+            }
+        
+            function scrollCallBack(entries, observer) {
+                if ($(window).scrollTop() > observerTopMargin * 0.7) { 
+                    // User somehow scroll to 70% of observerTopMargin (which is inited as 200% document height)
+                    // Observer top margin need to extend to cover all the space to the top of the document
+                    initIntersectionObserver(observerTopMargin * 2)
+                    observer.disconnect();
+                    return;
+                }
+                let toActive;
+                if (entries[0].intersectionRatio == 1) {  // enter viewed area
+                    let entry = entries.reduce((u, v) => (u.target.toc_id > v.target.toc_id ? u : v));  // get the lowest item
+                    toActive = $("#toc-item-" + $(entry.target).attr("href").substr(1));
+                } else {
+                    let entry = entries.reduce((u, v) => (u.target.toc_id < v.target.toc_id ? u : v));  // get the highest item
+                    let idx = Math.max(entry.target.toc_id - 1, 0);
+                    toActive = $("#toc-item-" + $(headerElems[idx]).attr("href").substr(1));
+                }
+                if (activeTocItem) activeTocItem.removeClass("is-current");
+                activeTocItem = toActive
+                activeTocItem.addClass("is-current");
+            }
+        
+            initIntersectionObserver($(document).height() * 2);
+            headerElems.each(function (index, obj) {
+                obj.toc_id = index;
+                scrollObserver.observe(obj);
+            })
+        });</script></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新评论</h3><span class="body_hot_comment">加载中，最新评论有1分钟延迟...</span></div></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-03-10T14:22:00.000Z">2018-03-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/03/10/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B%E4%B8%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">序列模型与注意力机制</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-03-02T14:22:00.000Z">2018-03-02</time></p><p class="title is-6"><a class="link-muted" href="/2018/03/02/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/">自然语言处理与词嵌入</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-02-27T14:22:00.000Z">2018-02-27</time></p><p class="title is-6"><a class="link-muted" href="/2018/02/27/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E5%BE%AA%E7%8E%AF%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/">循环训练模型</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-01-27T14:22:00.000Z">2018-01-27</time></p><p class="title is-6"><a class="link-muted" href="/2018/01/27/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/%E7%A5%9E%E7%BB%8F%E9%A3%8E%E6%A0%BC%E8%BD%AC%E7%A7%BB/">神经风格转移</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/"><span class="level-start"><span class="level-item">基础概念</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">9</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/01/"><span class="level-start"><span class="level-item">一月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2017/12/"><span class="level-start"><span class="level-item">十二月 2017</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><a class="level is-mobile is-marginless" href="/archives/"><span class="level-start"><span class="level-item">查看全部&gt;&gt;</span></span></a></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="Wasim&#039;s Blog" height="28"></a><p class="size-small"><span>&copy; 2020 wasim37</span>  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://wangxin123.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back-to-top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script src="/js/gallery.js" defer></script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            MathJax.Hub.Config({
+                'HTML-CSS': {
+                    matchFontHeight: false
+                },
+                SVG: {
+                    matchFontHeight: false
+                },
+                CommonHTML: {
+                    matchFontHeight: false
+                },
+                tex2jax: {
+                    inlineMath: [
+                        ['$','$'],
+                        ['\\(','\\)']
+                    ]
+                }
+            });
+        });</script><!--!--><script src="/js/main.js" defer></script><script src="/js/comment-issue-data.js" defer></script><link rel="stylesheet" href="/css/insight.css"><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="想要查找什么..."><span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>(function (window) {
+            var INSIGHT_CONFIG = {
+                TRANSLATION: {
+                    POSTS: '文章',
+                    PAGES: '页面',
+                    CATEGORIES: '分类',
+                    TAGS: '标签',
+                    UNTITLED: '(无标题)',
+                },
+                CONTENT_URL: '/content.json',
+            };
+            window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+        })(window);</script><script src="/js/insight.js" defer></script></body></html>

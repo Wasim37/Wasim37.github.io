@@ -1,5 +1,9 @@
 /* eslint-disable node/no-unsupported-features/node-builtins */
 (function($, moment, ClipboardJS, config) {
+    if (!$('.columns .column-right-shadow').children().length) {
+        $('.columns .column-right-shadow').append($('.columns .column-right').children().clone());
+    }
+
     $('.article img:not(".not-gallery-item")').each(function() {
         // wrap images with link and add caption if possible
         if ($(this).parent('a').length === 0) {
@@ -9,20 +13,6 @@
             }
         }
     });
-
-    if (typeof $.fn.lightGallery === 'function') {
-        $('.article').lightGallery({ selector: '.gallery-item' });
-    }
-    if (typeof $.fn.justifiedGallery === 'function') {
-        if ($('.justified-gallery > p > .gallery-item').length) {
-            $('.justified-gallery > p > .gallery-item').unwrap();
-        }
-        $('.justified-gallery').justifiedGallery();
-    }
-
-    if (!$('.columns .column-right-shadow').children().length) {
-        $('.columns .column-right-shadow').append($('.columns .column-right').children().clone());
-    }
 
     if (typeof moment === 'function') {
         $('.article-meta time').each(function() {
@@ -148,10 +138,12 @@
         if (!sitehost) return false;
 
         // handle relative url
-        let data;
+        var data;
         try {
             data = new URL(input, 'http://' + sitehost);
-        } catch (e) { return false; }
+        } catch (e) {
+            return false;
+        }
 
         // handle mailto: javascript: vbscript: and so on
         if (data.origin === 'null') return false;
@@ -190,3 +182,25 @@
         });
     }
 }(jQuery, window.moment, window.ClipboardJS, window.IcarusThemeSettings));
+
+$(document).ready(function () {
+    /* 添加背景色 */
+    var navbar = $(".is-fixed-top");
+    var navbar1 = $(".justify-content-start");
+    if (navbar.offset().top > 12) {
+        navbar.addClass("navbar-highlight");
+        navbar1.addClass("navbar-highlight");
+    } else {
+        navbar.removeClass("navbar-highlight");
+        navbar1.removeClass("navbar-highlight");
+    }
+    $(window).scroll(function () {
+        if (navbar.offset().top > 12) {
+            navbar.addClass("navbar-highlight");
+            navbar1.addClass("navbar-highlight");
+        } else {
+            navbar.removeClass("navbar-highlight");
+            navbar1.removeClass("navbar-highlight");
+        }
+    });
+});
