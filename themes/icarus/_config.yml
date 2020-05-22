@@ -22,7 +22,7 @@ head:
         url: https://wangxin123.com/
         # Page cover (og:image) (optional) Default to the Open Graph image or thumbnail of the page
         # You should leave this blank for most of the time
-        image: /img/avatar.png
+        image: https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png
         # Site name (og:site_name) (optional)
         # You should leave this blank for most of the time
         site_name: Wasim37
@@ -61,7 +61,7 @@ head:
         author: Wasim37
         # Page images (optional) Default to the Open Graph image or thumbnail of the page
         # You should leave this blank for most of the time
-        image: /img/avatar.png
+        image: https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png
     # Additional HTML meta tags in an array
     meta:
         # Meta tag specified in <attribute>=<value> style
@@ -176,13 +176,13 @@ widgets:
         position: left
         type: profile
         # Author name
-        author: Wasim37
+        author: 星空Str
         # Title of the author to be shown in the profile widget
         author_title: Developer
         # Author's current location to be shown in the profile widget
         location: GuangZhou, China
         # Path or URL to the avatar to be shown in the profile widget
-        avatar: https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@latest/img/avatar.jpg
+        avatar: https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png
         # Whether show the rounded avatar image
         avatar_rounded: true
         # Email address for the Gravatar
@@ -242,7 +242,7 @@ plugins:
     # https://tongji.baidu.com
     baidu_analytics:
         # Baidu Analytics tracking ID
-        tracking_id:
+        tracking_id: 060269356a8ca9046e6a13dcba6f9559
     # BuSuanZi site/page view counter
     # https://busuanzi.ibruce.info
     busuanzi: true
