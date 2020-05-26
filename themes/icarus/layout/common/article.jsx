@@ -118,10 +118,6 @@ module.exports = class extends Component {
                                 </div>
                             </div>
                         </div> : null}
-                    {/*copyright*/}
-                    {!index && page.layout == 'post' ? <RecommendPosts config={config} page={page} helper={helper} site={site}/>:null}
-                    {/* Share button */}
-                    {!index ? <Share config={config} page={page} helper={helper} /> : null}
                 </article>
             </div>
             {/* Donate button */}
