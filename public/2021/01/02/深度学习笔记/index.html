@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>深度学习笔记 - 星空str</title><meta description="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:type" content="blog"><meta property="og:title" content="Wasim37"><meta property="og:url" content="https://wangxin123.com/"><meta property="og:site_name" content="Wasim37"><meta property="og:description" content="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><meta property="article:published_time" content="2021-01-02T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-26T09:10:07.912Z"><meta property="article:author" content="Wasim37"><meta property="article:tag" content="深度学习"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://wangxin123.com/"},"headline":"Wasim37","image":["https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"],"datePublished":"2021-01-02T14:22:00.000Z","dateModified":"2020-05-26T09:10:07.912Z","author":{"@type":"Person","name":"Wasim37"},"description":"ai,机器学习,深度学习,算法,leetcode,java"}</script><link rel="alternative" href="/atom.xml" title="星空str" type="application/atom+xml"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?060269356a8ca9046e6a13dcba6f9559";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><link rel="stylesheet" href="/css/style.css"><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="/js/globalUtils.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body class="is-2-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2021-01-02T14:22:00.000Z">2021-01-02</time><a class="commentCountImg" href="/2021/01/02/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#comment-container"><span class="display-none-class">f97a32ffc3c51bf2f4626c8e8b3f93fd</span><img class="not-gallery-item" src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/chat.svg"> <span class="commentCount" id="f97a32ffc3c51bf2f4626c8e8b3f93fd"> 0</span>    </a><span class="level-item"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></span><span class="level-item">2 小时 读完 (大约 21828 个字)</span><span class="level-item" id="busuanzi_container_page_pv"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">深度学习笔记</h1><div class="content"><p>置顶</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><ul>
+<li><a href="#人工智能、机器学习和深度学习的关系">人工智能、机器学习和深度学习的关系</a></li>
+<li><a href="#深度学习的数据划分与传统机器学习有什么不同">深度学习与传统机器学习的数据划分区别</a></li>
+<li><a href="#请简要介绍下tensorflow的计算图">请简要介绍下tensorflow的计算图</a></li>
+<li><a href="#name_scope 和 variable_scope的区别">name_scope 和 variable_scope的区别</a></li>
+<li><a href="#什麽样的资料集不适合用深度学习">什麽样的资料集不适合用深度学习</a></li>
+<li><a href="#偏差方差及其应对方法">偏差方差及其应对方法</a></li>
+<li><a href="#神经网络隐层维度规则">神经网络隐层维度规则</a></li>
+<li><a href="http://wangxin123.com/2018/01/05/损失函数和成本函数/">损失函数和成本函数</a></li>
+</ul>
+<ul>
+<li><a href="#什么是激活函数，为什么要用非线性激活函数">什么是激活函数，为什么要用非线性激活函数</a></li>
+<li><a href="#神经网络里的正则化为什么能防止过拟合">神经网络里的正则化为什么能防止过拟合</a></li>
+<li><a href="#ReLu为什么要好过于tanh和sigmoid">ReLu为什么要好过于tanh和sigmoid</a></li>
+<li><a href="#Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数">Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数</a></li>
+<li><a href="#简单说下sigmoid激活函数">简单说下sigmoid激活函数</a></li>
+<li><a href="#神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的">神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的</a></li>
+</ul>
+<ul>
+<li><a href="#什么是梯度消失和梯度爆炸，分别会引发什么问题">什么是梯度消失和梯度爆炸，分别会引发什么问题</a></li>
+<li><a href="#如何确定是否出现梯度爆炸">如何确定是否出现梯度爆炸</a></li>
+<li><a href="#如何利用初始化缓解梯度消失和爆炸">如何利用初始化缓解梯度消失和爆炸</a></li>
+<li><a href="#如何解决梯度消失和梯度膨胀">如何解决梯度消失和梯度膨胀</a></li>
+<li><a href="#如何解决RNN梯度爆炸和弥散的问题">如何解决RNN梯度爆炸和弥散的问题</a></li>
+<li><a href="#神经网络初始化权重为什么不能初始化为0">神经网络初始化权重为什么不能初始化为0</a></li>
+</ul>
+<ul>
+<li><a href="#常见的学习率衰减方法">常见的学习率衰减方法</a></li>
+<li><a href="#局部最优问题（鞍点）">局部最优问题（鞍点）</a></li>
+<li><a href="#神经网络的优化算法">神经网络的优化算法</a></li>
+<li><a href="#参数和超参数">参数和超参数</a></li>
+<li><a href="#超参数调试处理">超参数调试处理</a></li>
+<li><a href="#deep learning（rnn、cnn）调参经验">deep learning（rnn、cnn）调参经验</a></li>
+<li><a href="#怎么加快训练的速度">怎么加快训练的速度</a></li>
+<li><a href="http://wangxin123.com/2017/12/10/机器学习开发策略总结/">机器学习开发策略</a></li>
+</ul>
+<ul>
+<li><a href="#卷积神经网络示例">卷积神经网络示例</a></li>
+<li><a href="http://wangxin123.com/2018/01/10/卷积操作详解（填充、步长、高维卷积、卷积公式）/">卷积操作详解（填充、步长、高维卷积、卷积公式）</a></li>
+<li><a href="#为什么使用卷积">为什么使用卷积</a></li>
+<li><a href="#为什么要使用许多小卷积核如3x3,而不是几个大卷积核？">为什么要使用许多小卷积核如3x3,而不是几个大卷积核？</a></li>
+<li><a href="#为什么我们对图像使用卷积而不仅仅只使用FC层？">为什么我们对图像使用卷积而不仅仅只使用FC层？</a></li>
+<li><a href="http://wangxin123.com/2017/12/18/卷积网络的边缘检测/">卷积网络怎么进行边缘检测</a></li>
+<li><a href="#CNN的卷积核是单层的还是多层的">CNN的卷积核是单层的还是多层的</a></li>
+<li><a href="#池化层简介">池化层简介</a></li>
+<li><a href="#池化层的作用">池化层的作用</a></li>
+<li><a href="#池化为什么对平移不变性有贡献">池化为什么对平移不变性有贡献</a></li>
+<li><a href="#SPP空间金字塔池化">SPP空间金字塔池化</a></li>
+<li><a href="#全连接层的作用">全连接层的作用</a></li>
+<li><a href="#dropout随机失活">dropout随机失活</a></li>
+<li><a href="http://wangxin123.com/2017/12/19/Batch%20Normalization%20批标准化/">Batch Normalization</a></li>
+<li><a href="#CNN经典网络对比">CNN经典网络对比</a></li>
+<li><a href="http://wangxin123.com/2018/01/15/CNN经典网络总结/">CNN经典网络总结</a></li>
+</ul>
+<ul>
+<li><a href="http://wangxin123.com/2018/02/27/循环训练模型/">RNN</a></li>
+<li><a href="http://wangxin123.com/2018/02/27/循环训练模型/#GRU（门控循环单元）">GRU</a></li>
+<li><a href="http://wangxin123.com/2018/02/27/循环训练模型/#LSTM（长短期记忆）">LSTM</a></li>
+<li>Tensorflow 官网推荐的一篇<a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">伟大文章</a>，特别介绍递归神经网络和LSTM</li>
+<li><a href="#GRU与LSTM的区别">GRU与LSTM的区别</a></li>
+<li><a href="#LSTM结构推导，为什么比RNN好">LSTM结构推导，为什么比RNN好</a></li>
+<li><a href="#为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数">为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/28054589">RNN是怎么从单层网络一步一步构造的</a></li>
+</ul>
+<ul>
+<li><a href="http://wangxin123.com/2018/03/10/序列模型与注意力机制/#Seq2Seq-模型">seq2seq序列模型</a></li>
+<li><a href="http://wangxin123.com/2018/03/10/序列模型与注意力机制/#注意力模型">attention注意力模型</a></li>
+<li><a href="http://wangxin123.com/2018/03/10/序列模型与注意力机制/#语音识别">语言识别</a></li>
+<li><a href="http://wangxin123.com/2018/03/10/序列模型与注意力机制/#触发词检测">触发词检测</a></li>
+</ul>
+<ul>
+<li><a href="#什么是感知器">什么是感知器</a></li>
+<li><a href="#什么是端到端的网络">什么是端到端的网络</a></li>
+<li><a href="#上采样和下采样">上采样和下采样</a></li>
+<li><a href="#CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？">CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？</a></li>
+<li><a href="#为什么很多做人脸的Paper会最后加入一个Local Connected Conv">为什么很多做人脸的Paper会最后加入一个Local Connected Conv</a></li>
+<li><a href="#广义线性模型是怎被应用在深度学习中">广义线性模型是怎被应用在深度学习中</a></li>
+<li><a href="#Dilated Convolution空洞卷积/扩张卷积/膨胀卷积">Dilated Convolution空洞卷积/扩张卷积/膨胀卷积</a></li>
+<li><a href="#神经网络发展历史">神经网络发展历史</a></li>
+</ul>
+<ul>
+<li><a href="#文本数据抽取">文本数据抽取</a></li>
+<li>Word2Vec</li>
+<li><a href="#Word2vec之Skip-Gram模型">Word2vec之Skip-Gram模型</a></li>
+</ul>
+<ul>
+<li><a href="#迁移学习">迁移学习</a></li>
+<li><a href="http://wangxin123.com/2018/02/10/目标检测/">目标检测_吴恩达</a></li>
+<li><a href="https://blog.csdn.net/linolzhang/article/details/54344350">目标检测_RCNN系列</a></li>
+<li><a href="http://wangxin123.com/2018/01/21/人脸识别/">人脸识别</a></li>
+<li><a href="http://wangxin123.com/2018/01/27/神经风格转移/">神经风格转移</a></li>
+<li><a href="#生成对抗网络">生成对抗网络</a></li>
+<li><a href="#命名实体识别">命名实体识别</a></li>
+</ul>
+<hr>
+<h3 id="人工智能、机器学习和深度学习的关系"><a href="#人工智能、机器学习和深度学习的关系" class="headerlink" title="人工智能、机器学习和深度学习的关系"></a><h2 id="人工智能、机器学习和深度学习的关系">人工智能、机器学习和深度学习的关系</h2></h3><p>深度学习是基于传统的神经网络算法发展到多隐层的一种算法体现。<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/65.png" alt=""></p>
+<hr>
+<h3 id="什么是梯度消失和梯度爆炸，分别会引发什么问题"><a href="#什么是梯度消失和梯度爆炸，分别会引发什么问题" class="headerlink" title="什么是梯度消失和梯度爆炸，分别会引发什么问题"></a><h2 id="什么是梯度消失和梯度爆炸，分别会引发什么问题">什么是梯度消失和梯度爆炸，分别会引发什么问题</h2></h3><p>我们知道神经网络在训练过程中会利用梯度对网络的权重进行更新迭代。<br>当梯度出现指数级递减或指数递增时，称为梯度消失或者梯度爆炸。</p>
+<p>假定激活函数 $g(z) = z$, 令 $b^{[l]} = 0$，对于目标输出有：<br>$\hat{y} = W^{[L]}W^{[L-1]}…W^{[2]}W^{[1]}X$<br>1）对于 W[l]的值小于 1 的情况，激活函数的值将以指数级递减<br>2）对于 W[l]的值大于 1 的情况，激活函数的值将以指数级递增<br>同理的情况会出现在反向求导。</p>
+<p>梯度消失时，权重更新缓慢，训练难度大大增加。梯度消失相对梯度爆炸更常见。<br>梯度爆炸时，权重大幅更新，网络变得不稳定。较好的情况是网络无法利用训练数据学习，最差的情况是权值增大溢出，变成网络无法更新的 NaN 值。</p>
+<hr>
+<h3 id="如何利用初始化缓解梯度消失和爆炸"><a href="#如何利用初始化缓解梯度消失和爆炸" class="headerlink" title="如何利用初始化缓解梯度消失和爆炸"></a><h2 id="如何利用初始化缓解梯度消失和爆炸">如何利用初始化缓解梯度消失和爆炸</h2></h3><p>根据 z=w1x1+w2x2+…+wnxn+b<br>可知，当输入的数量 n 较大时，我们希望每个 wi 的值都小一些，这样它们的和得到的 z 也较小。<br>为了得到较小的 wi，设置Var(wi)=1/n，这里称为 <strong>Xavier initialization</strong>。</p>
+<p>WL = np.random.randn(WL.shape[0], WL.shape[1]) * np.sqrt(1/n)</p>
+<p>其中 n 是输入的神经元个数，即WL.shape[1]。<br><strong>这样，激活函数的输入 x 近似设置成均值为 0，标准方差为 1，神经元输出 z 的方差就正则化到 1 了。虽然没有解决梯度消失和爆炸的问题，但其在一定程度上确实减缓了梯度消失和爆炸的速度。</strong></p>
+<p>同理，也有 <strong>He Initialization</strong>。它和 Xavier initialization 唯一的区别是Var(wi)=2/n，适用于 ReLU 作为激活函数时。<br>当激活函数使用 ReLU 时，Var(wi)=2/n；当激活函数使用 tanh 时，Var(wi)=1/n。</p>
+<hr>
+<h3 id="如何确定是否出现梯度爆炸"><a href="#如何确定是否出现梯度爆炸" class="headerlink" title="如何确定是否出现梯度爆炸"></a><h2 id="如何确定是否出现梯度爆炸">如何确定是否出现梯度爆炸</h2></h3><p>信号如下：</p>
+<ul>
+<li>训练过程中，每个节点和层的误差梯度值持续超过1.0。</li>
+<li>模型不稳定，梯度显著变化，快速变大。</li>
+<li>训练过程中，模型权重变成 NaN 值。</li>
+<li>模型无法从训练数据中获得更新。</li>
+</ul>
+<hr>
+<h3 id="如何解决梯度消失和梯度膨胀"><a href="#如何解决梯度消失和梯度膨胀" class="headerlink" title="如何解决梯度消失和梯度膨胀"></a><h2 id="如何解决梯度消失和梯度膨胀">如何解决梯度消失和梯度膨胀</h2></h3><p>梯度消失和梯度爆炸都可以通过激活函数或Batch Normalization来解决。<a href="http://kyonhuang.top/Andrew-Ng-Deep-Learning-notes/#/Improving_Deep_Neural_Networks/超参数调试、Batch正则化和程序框架?id=bn-%e6%9c%89%e6%95%88%e7%9a%84%e5%8e%9f%e5%9b%a0">吴恩达：BN有效原因</a></p>
+<p>对于梯度爆炸，这里列举一些最佳实验方法：</p>
+<ol>
+<li><p>重新设计网络模型<br>在深度神经网络中，梯度爆炸可以通过重新设计层数更少的网络来解决。<br>使用更小的批尺寸对网络训练也有好处。<br>在循环神经网络中，训练过程中在更少的先前时间步上进行更新（沿时间的截断反向传播，truncated Backpropagation through time）可以缓解梯度爆炸问题。</p>
+</li>
+<li><p>使用 ReLU 激活函数<br>在深度多层感知机神经网络中，梯度爆炸的发生可能是因为激活函数，如之前很流行的 Sigmoid 和 Tanh 函数。<br>使用 ReLU 激活函数可以减少梯度爆炸。采用 ReLU 激活函数是最适合隐藏层的新实践。</p>
+</li>
+<li><p>使用长短期记忆网络<br>在循环神经网络中，梯度爆炸的发生可能是因为某种网络的训练本身就存在不稳定性，如随时间的反向传播本质上将循环网络转换成深度多层感知机神经网络。<br>使用长短期记忆（LSTM）单元和相关的门类型神经元结构可以减少梯度爆炸问题。<br>采用 LSTM 单元是适合循环神经网络的序列预测的最新最好实践。</p>
+</li>
+<li><p>使用梯度截断（Gradient Clipping）<br>在非常深且批尺寸较大的多层感知机网络和输入序列较长的 LSTM 中，仍然有可能出现梯度爆炸。如果梯度爆炸仍然出现，你可以在训练过程中检查和限制梯度的大小。这就是梯度截断。<br>处理梯度爆炸有一个简单有效的解决方案：如果梯度超过阈值，就截断它们。<br>——《Neural Network Methods in Natural Language Processing》，2017.<br>具体来说，检查误差梯度的值是否超过阈值，如果超过，则截断梯度，将梯度设置为阈值。<br>梯度截断可以一定程度上缓解梯度爆炸问题（梯度截断，即在执行梯度下降步骤之前将梯度设置为阈值）。<br>  ——《深度学习》，2016.<br>在 Keras 深度学习库中，你可以在训练之前设置优化器上的 clipnorm 或 clipvalue 参数，来使用梯度截断。<br>默认值为 clipnorm=1.0 、clipvalue=0.5。详见：<a href="https://keras.io/optimizers/。">https://keras.io/optimizers/。</a></p>
+</li>
+<li><p>使用权重正则化（Weight Regularization）<br>如果梯度爆炸仍然存在，可以尝试另一种方法，即检查网络权重的大小，并惩罚产生较大权重值的损失函数。该过程被称为权重正则化，通常使用的是 L1 惩罚项（权重绝对值）或 L2 惩罚项（权重平方）。<br>对循环权重使用 L1 或 L2 惩罚项有助于缓解梯度爆炸。<br>——On the difficulty of training recurrent neural networks，2013.<br>在 Keras 深度学习库中，你可以通过在层上设置 kernel_regularizer 参数和使用 L1 或 L2 正则化项进行权重正则化。</p>
+</li>
+</ol>
+<hr>
+<h3 id="如何解决RNN梯度爆炸和弥散的问题"><a href="#如何解决RNN梯度爆炸和弥散的问题" class="headerlink" title="如何解决RNN梯度爆炸和弥散的问题"></a><h2 id="如何解决RNN梯度爆炸和弥散的问题">如何解决RNN梯度爆炸和弥散的问题</h2></h3><p><strong>梯度爆炸</strong>：当梯度大于一定阈值的的时候，将它截断为一个较小的数。<br>下图可视化了梯度截断的效果。它展示了一个小的rnn（其中W为权值矩阵，b为bias项）的决策面。这个模型是一个一小段时间的rnn单元组成；实心箭头表明每步梯度下降的训练过程。<br>当梯度下降过程中，模型的目标函数取得了较高的误差时，梯度将被送到远离决策面的位置。截断模型产生了一个虚线，它将误差梯度拉回到离原始梯度接近的位置。<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/17.png" alt=""></p>
+<p><strong>梯度弥散</strong>：第一种方法是将随机初始化改为一个有关联的矩阵初始化。第二种方法是使用ReLU代替sigmoid函数。ReLU的导数不是0就是1.因此，神经元的梯度将始终为1，而不会当梯度传播了一定时间之后变小。</p>
+<p>基本的 RNN 不擅长捕获这种长期依赖关系， <strong>LSTM 和 GRU 都可以作为缓解梯度消失问题的方案。</strong></p>
+<hr>
+<h3 id="神经网络初始化权重为什么不能初始化为0"><a href="#神经网络初始化权重为什么不能初始化为0" class="headerlink" title="神经网络初始化权重为什么不能初始化为0"></a><h2 id="神经网络初始化权重为什么不能初始化为0">神经网络初始化权重为什么不能初始化为0</h2></h3><p>将所有权重初始化为零将无法破坏网络的对称性。这意味着每一层的每个神经元都会学到相同的东西，这样的神经元网络并不比线性分类器如逻辑回归更强大。</p>
+<p>需要注意的是，需要初始化去破坏网络对称性(symmetry)的只有W，b可以全部初始化为0。</p>
+<hr>
+<h3 id="常见的学习率衰减方法"><a href="#常见的学习率衰减方法" class="headerlink" title="常见的学习率衰减方法"></a><h2 id="常见的学习率衰减方法">常见的学习率衰减方法</h2></h3><p>如果设置一个固定的学习率 α，在最小值点附近，由于不同的 batch 中存在一定的噪声，因此不会精确收敛，而是始终在最小值周围一个较大的范围内波动。</p>
+<p>而如果随着时间慢慢减少学习率 α 的大小，在初期 α 较大时，下降的步长较大，能以较快的速度进行梯度下降；而后期逐步减小 α 的值，即减小步长，有助于算法的收敛，更容易接近最优解。</p>
+<p><strong>最常用的学习率衰减方法</strong>：<br>$\alpha = \frac{1}{1 + decay\_rate * epoch\_num} * \alpha_0$<br>其中，decay_rate为衰减率（超参数），epoch_num为将所有的训练样本完整过一遍的次数。</p>
+<p><strong>指数衰减</strong>：<br>$\alpha = 0.95^{epoch\_num} * \alpha_0$</p>
+<p><strong>其他</strong>：<br>$\alpha = \frac{k}{\sqrt{epoch\_num}} * \alpha_0$</p>
+<p><strong>离散下降</strong><br>对于较小的模型，也有人会在训练时根据进度手动调小学习率。</p>
+<hr>
+<h3 id="局部最优问题（鞍点）"><a href="#局部最优问题（鞍点）" class="headerlink" title="局部最优问题（鞍点）"></a><h2 id="局部最优问题（鞍点）">局部最优问题（鞍点）</h2></h3><p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/saddle.png" alt="鞍点"><br><strong>鞍点（saddle）是函数上的导数为零，但不是轴上局部极值的点。当我们建立一个神经网络时，通常梯度为零的点是上图所示的鞍点，而非局部最小值</strong>。</p>
+<p><strong>减少损失的难度也来自误差曲面中的鞍点，而不是局部最低点</strong>。因为在一个具有高维度空间的成本函数中，如果梯度为 0，那么在每个方向，成本函数或是凸函数，或是凹函数。而所有维度均需要是凹函数的概率极小，因此在低维度的局部最优点的情况并不适用于高维度。</p>
+<p>结论：<br>（1）在训练较大的神经网络、存在大量参数，并且成本函数被定义在较高的维度空间时，<strong>困在极差的局部最优中是不大可能的</strong>；<br>（2）<strong>鞍点附近的平稳段会使得学习非常缓慢，而这也是动量梯度下降法、RMSProp 以及 Adam 优化算法能够加速学习的原因，它们能帮助尽早走出平稳段。</strong></p>
+<hr>
+<h3 id="神经网络的优化算法"><a href="#神经网络的优化算法" class="headerlink" title="神经网络的优化算法"></a><h2 id="神经网络的优化算法">神经网络的优化算法</h2></h3><p>吴恩达优化算法章节总结链接：<a href="http://kyonhuang.top/Andrew-Ng-Deep-Learning-notes/#/Improving_Deep_Neural_Networks/优化算法">http://kyonhuang.top/Andrew-Ng-Deep-Learning-notes/#/Improving_Deep_Neural_Networks/优化算法</a></p>
+<p>深度学习难以在大数据领域发挥最大效果的一个原因是，在巨大的数据集基础上进行训练速度很慢。而优化算法能够帮助快速训练模型，大大提高效率。</p>
+<p>常见优化算法：<br>1、batch 梯度下降法，同时处理整个训练集<br>2、Mini-Batch 梯度下降法<br>（1）mini-batch 的大小为 1，即是随机梯度下降法（stochastic gradient descent），每个样本都是独立的 mini-batch<br>（2）mini-batch 的大小为 m（数据集大小），即是 batch 梯度下降法<br>（3）batch 的不同大小（size）带来的影响</p>
+<ul>
+<li>batch 梯度下降法：<ul>
+<li>对所有 m 个训练样本执行一次梯度下降，每一次迭代时间较长，训练过程慢；</li>
+<li>相对噪声低一些，幅度也大一些；</li>
+<li>成本函数总是向减小的方向下降。</li>
+</ul>
+</li>
+<li>随机梯度下降法：<ul>
+<li>对每一个训练样本执行一次梯度下降，训练速度快，但丢失了向量化带来的计算加速；</li>
+<li>有很多噪声，减小学习率可以适当；</li>
+<li>成本函数总体趋势向全局最小值靠近，但永远不会收敛，而是一直在最小值附近波动。<br>因此，选择一个1 &lt; size &lt; m的合适的大小进行 Mini-batch 梯度下降，可以实现快速学习，也应用了向量化带来的好处，且成本函数的下降处于前两者之间。</li>
+</ul>
+</li>
+</ul>
+<p>（4）mini-batch 大小的选择</p>
+<ul>
+<li>如果训练样本的大小比较小，如 m ⩽ 2000 时，选择 batch 梯度下降法；</li>
+<li>如果训练样本的大小比较大，选择 Mini-Batch 梯度下降法。为了和计算机的信息存储方式相适应，代码在 mini-batch 大小为 2 的幂次时运行要快一些。典型的大小为 26、27、…、29；</li>
+<li>mini-batch 的大小要符合 CPU/GPU 内存。<br>mini-batch 的大小也是一个重要的超变量，需要根据经验快速尝试，找到能够最有效地减少成本函数的值。</li>
+</ul>
+<p>3、了解加权平均<br>4、动量梯度下降法，是计算梯度的指数加权平均数，并利用该值来更新参数值<br>5、RMSProp算法，是在对梯度进行指数加权平均的基础上，引入平方和平方根<br>6、Adam优化算法（Adaptive Moment Estimation，自适应矩估计），基本上就是将 Momentum 和 RMSProp 算法结合在一起，通常有超越二者单独时的效果</p>
+<hr>
+<h3 id="参数和超参数"><a href="#参数和超参数" class="headerlink" title="参数和超参数"></a><h2 id="参数和超参数">参数和超参数</h2></h3><p><strong>参数</strong>即是我们在过程中想要模型学习到的信息（<strong>模型自己能计算出来的</strong>），例如 $W^{[l]}$，$b^{[l]}$。而<strong>超参数</strong>（hyper parameters）即为控制参数的输出值的一些网络信息（<strong>需要人经验判断</strong>）。超参数的改变会导致最终得到的参数 $W^{[l]}$，$b^{[l]}$ 的改变。</p>
+<p>典型的超参数有：<br>（1）学习速率：α<br>（2）迭代次数：N<br>（3）隐藏层的层数：L<br>（4）每一层的神经元个数：$n^{[1]}$，$n^{[2]}$，…<br>（5）激活函数 g(z) 的选择</p>
+<p>当开发新应用时，预先很难准确知道超参数的最优值应该是什么。因此，通常需要尝试很多不同的值。<strong>应用深度学习领域是一个很大程度基于经验的过程。</strong></p>
+<p>比如常见的梯度下降问题，好的超参数能使你尽快收敛：</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/sgd.gif" alt="sgd_good"><br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/sgd_bad.gif" alt="sgd_bad"></p>
+<hr>
+<h3 id="超参数调试处理"><a href="#超参数调试处理" class="headerlink" title="超参数调试处理"></a><h2 id="超参数调试处理">超参数调试处理</h2></h3><h4 id="重要程度排序"><a href="#重要程度排序" class="headerlink" title="重要程度排序"></a>重要程度排序</h4><p>目前已经讲到过的超参数中，重要程度依次是（仅供参考）：</p>
+<ul>
+<li>最重要：<ul>
+<li>学习率 α；</li>
+</ul>
+</li>
+<li>其次重要：<ul>
+<li>β：动量衰减参数，常设置为 0.9；</li>
+<li><h1 id="hidden-units：各隐藏层神经元个数；"><a href="#hidden-units：各隐藏层神经元个数；" class="headerlink" title="hidden units：各隐藏层神经元个数；"></a>hidden units：各隐藏层神经元个数；</h1></li>
+<li>mini-batch 的大小；</li>
+</ul>
+</li>
+<li>再次重要：<ul>
+<li>β1，β2，ϵ：Adam 优化算法的超参数，常设为 0.9、0.999、$10^{-8}$；</li>
+<li><h1 id="layers：神经网络层数"><a href="#layers：神经网络层数" class="headerlink" title="layers：神经网络层数;"></a>layers：神经网络层数;</h1></li>
+<li>decay_rate：学习衰减率；</li>
+</ul>
+</li>
+</ul>
+<h4 id="调参技巧"><a href="#调参技巧" class="headerlink" title="调参技巧"></a>调参技巧</h4><p>系统地组织超参调试过程的技巧：</p>
+<ul>
+<li><strong>随机选择点</strong>（而非均匀选取），用这些点实验超参数的效果。这样做的原因是我们提前很难知道超参数的重要程度，可以通过选择更多值来进行更多实验；</li>
+<li><strong>由粗糙到精细</strong>：聚焦效果不错的点组成的小区域，在其中更密集地取值，以此类推；</li>
+</ul>
+<h4 id="选择合适的范围"><a href="#选择合适的范围" class="headerlink" title="选择合适的范围"></a>选择合适的范围</h4><ul>
+<li>对于学习率 α，用<strong>对数标尺</strong>而非线性轴更加合理：0.0001、0.001、0.01、0.1 等，然后在这些刻度之间再随机均匀取值；</li>
+<li>对于 β，取 0.9 就相当于在 10 个值中计算平均值，而取 0.999 就相当于在 1000 个值中计算平均值。可以考虑给 1-β 取值，这样就和取学习率类似了。</li>
+</ul>
+<p>上述操作的原因是当 β 接近 1 时，即使 β 只有微小的改变，所得结果的灵敏度会有较大的变化。例如，β 从 0.9 增加到 0.9005 对结果（1/(1-β)）几乎没有影响，而 β 从 0.999 到 0.9995 对结果的影响巨大（从 1000 个值中计算平均值变为 2000 个值中计算平均值）。</p>
+<h4 id="一些建议"><a href="#一些建议" class="headerlink" title="一些建议"></a>一些建议</h4><ul>
+<li>深度学习如今已经应用到许多不同的领域。不同的应用出现相互交融的现象，<strong>某个应用领域的超参数设定有可能通用于另一领域</strong>。不同应用领域的人也应该更多地阅读其他研究领域的 paper，跨领域地寻找灵感；</li>
+<li>考虑到数据的变化或者服务器的变更等因素，建议每隔几个月至少一次，重新测试或评估超参数，来获得实时的最佳模型；</li>
+<li>根据你所拥有的计算资源来决定你训练模型的方式：<ul>
+<li>Panda（熊猫方式）：在在线广告设置或者在计算机视觉应用领域有大量的数据，但受计算能力所限，同时试验大量模型比较困难。可以采用这种方式：试验一个或一小批模型，初始化，试着让其工作运转，观察它的表现，不断调整参数；</li>
+<li>Caviar（鱼子酱方式）：拥有足够的计算机去平行试验很多模型，尝试很多不同的超参数，选取效果最好的模型；</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="CNN的卷积核是单层的还是多层的"><a href="#CNN的卷积核是单层的还是多层的" class="headerlink" title="CNN的卷积核是单层的还是多层的"></a><h2 id="CNN的卷积核是单层的还是多层的">CNN的卷积核是单层的还是多层的</h2></h3><p>描述网络模型中某层的厚度，通常用名词 <strong>通道（channel）数</strong>或者 <strong>特征图（feature map）数</strong>。不过人们更习惯把作为数据输入的<strong>前层的厚度称之为通道数</strong>（比如RGB三色图层称为输入通道数为3），把作为卷积输出的<strong>后层的厚度称之为特征图数</strong>。</p>
+<p>卷积核(filter)<strong>一般是3D多层</strong>的，除了面积参数, 比如3x3之外, 还有厚度参数H（2D的视为厚度1). 还有一个属性是卷积核的个数N。</p>
+<ul>
+<li>卷积核的厚度H，一般等于前层厚度M(输入通道数或feature map数)。特殊情况M &gt; H。</li>
+<li>卷积核的个数N，一般等于后层厚度(后层feature maps数，因为相等所以也用N表示)。</li>
+<li>卷积核通常从属于后层，为后层提供了各种查看前层特征的视角，这个视角是自动形成的。</li>
+<li>卷积核厚度等于1时为2D卷积，对应平面点相乘然后把结果加起来，相当于点积运算；</li>
+<li>卷积核厚度大于1时为3D卷积，每片分别平面点求卷积，然后把每片结果加起来，作为3D卷积结果；1x1卷积属于3D卷积的一个特例，有厚度无面积，直接把每片单个点乘以权重再相加。</li>
+</ul>
+<p>下面解释一下特殊情况的 M &gt; H：<br>实际上，除了输入数据的通道数比较少之外，<strong>中间层的feature map数很多</strong>，这样中间层算卷积会累死计算机。所以<strong>很多深度卷积网络把全部通道/特征图划分一下，每个卷积核只看其中一部分</strong>。这样整个深度网络架构是横向开始分道扬镳了，到最后才又融合。这样看来，很多网络模型的架构不完全是突发奇想，而是是被参数计算量逼得。特别是现在需要在移动设备上进行AI应用计算(也叫推断), 模型参数规模必须更小, 所以出现很多减少握手规模的卷积形式, 现在主流网络架构大都如此。</p>
+<hr>
+<h3 id="卷积神经网络示例"><a href="#卷积神经网络示例" class="headerlink" title="卷积神经网络示例"></a><h2 id="卷积神经网络示例">卷积神经网络示例</h2></h3><p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/CNN-Example.jpg" alt="CNN-Example"></p>
+<p>随着神经网络计算深度不断加深，图片的高度和宽度 n[l]H、n[l]W一般逐渐减小，而 n[l]c在增加。</p>
+<p>一个典型的卷积神经网络通常包含有三种层：<strong>卷积层</strong>（Convolution layer）、<strong>池化层</strong>（Pooling layer）、<strong>全连接层</strong>（Fully Connected layer）。仅用卷积层也有可能构建出很好的神经网络，但大部分神经网络还是会添加池化层和全连接层，它们更容易设计。</p>
+<p>在计算神经网络的层数时，通常<strong>只统计具有权重和参数的层</strong>，<strong>池化层没有需要训练的参数，所以和之前的卷积层共同计为一层</strong>。</p>
+<p>图中的 FC3 和 FC4 为全连接层，与标准的神经网络结构一致。整个神经网络各层的尺寸与参数如下表所示：</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/summary.png" alt=""></p>
+<p>推荐<a href="http://scs.ryerson.ca/~aharley/vis/conv/">一个直观感受卷积神经网络的网站</a>。</p>
+<hr>
+<h3 id="为什么使用卷积"><a href="#为什么使用卷积" class="headerlink" title="为什么使用卷积"></a><h2 id="为什么使用卷积">为什么使用卷积</h2></h3><p>相比标准神经网络，对于大量的输入数据，卷积过程有效地减少了 CNN 的参数数量，原因有以下两点：</p>
+<ul>
+<li><p><strong>参数共享（Parameter sharing）</strong>：特征检测如果适用于图片的某个区域，那么它也可能适用于图片的其他区域。即在卷积过程中，不管输入有多大，一个特征探测器（滤波器）就能对整个输入的某一特征进行探测。</p>
+</li>
+<li><p><strong>稀疏连接（Sparsity of connections）</strong>：在每一层中，由于滤波器的尺寸限制，输入和输出之间的连接是稀疏的，每个输出值只取决于输入在局部的一小部分值。<br>池化过程则在卷积后很好地聚合了特征，通过降维来减少运算量。</p>
+</li>
+</ul>
+<p>由于 CNN 参数数量较小，所需的训练样本就相对较少，因此在一定程度上不容易发生过拟合现象。并且 CNN 比较擅长捕捉区域位置偏移。即进行物体检测时，不太受物体在图片中位置的影响，增加检测的准确性和系统的健壮性。</p>
+<p>然后这篇<a href="https://zhuanlan.zhihu.com/p/23185164">文章</a>， 从感受视野的角度出发，解释了参数共享、稀疏连接、平移不变性等</p>
+<p><strong>然后卷积层可以看做全连接的一种简化形式:不全连接+不参数共享。所以全连接层的参数才如此之多。</strong></p>
+<hr>
+<h3 id="为什么要使用许多小卷积核如3x3-而不是几个大卷积核？"><a href="#为什么要使用许多小卷积核如3x3-而不是几个大卷积核？" class="headerlink" title="为什么要使用许多小卷积核如3x3,而不是几个大卷积核？"></a><h2 id="为什么要使用许多小卷积核如3x3,而不是几个大卷积核？">为什么要使用许多小卷积核如3x3,而不是几个大卷积核？</h2></h3><p>这在VGGNet的原始论文中得到了很好的解释。原因有二：首先，您可以使用几个较小的核而不是几个较大的核来获得相同的感受野并捕获更多的空间上下文，而且较小的内核计算量更少。其次，因为使用更小的核，您将使用更多的滤波器，您将能够使用更多的激活函数，从而使您的CNN学习到更具区分性的映射函数。</p>
+<p><a href="https://arxiv.org/pdf/1409.1556.pdf">https://arxiv.org/pdf/1409.1556.pdf</a></p>
+<hr>
+<h3 id="为什么我们对图像使用卷积而不仅仅只使用FC层？"><a href="#为什么我们对图像使用卷积而不仅仅只使用FC层？" class="headerlink" title="为什么我们对图像使用卷积而不仅仅只使用FC层？"></a><h2 id="为什么我们对图像使用卷积而不仅仅只使用FC层？">为什么我们对图像使用卷积而不仅仅只使用FC层？</h2></h3><p>这个答案有两部分。首先，卷积保存、编码和实际使用来自图像的空间信息。如果我们只使用FC层，我们将没有相对的空间信息。其次，卷积神经网络( CNNs )具有部分内建的平移不变性，因为每个卷积核充当其自身的滤波器/特征检测器。</p>
+<p>CNNs为什么具有平移不变性？因为CNNs是以滑动窗口的方式进行卷积，卷积过程中参数共享并且稀疏连接，那么无论目标在图像的什么位置，都能扫描到。</p>
+<hr>
+<h3 id="池化层简介"><a href="#池化层简介" class="headerlink" title="池化层简介"></a><h2 id="池化层简介">池化层简介</h2></h3><p>通过卷积层获得了图像的特征之后，理论上我们可以直接使用这些特征训练分类器（如softmax），但是这样做将面临巨大的计算量的挑战，而且容易产生过拟合的现象。为了进一步降低网络训练参数及模型的过拟合程度，我们对卷积层进行池化处理。池化常用方法为最大池化和平均池化。</p>
+<p><strong>最大池化：</strong>将输入拆分成不同的区域，输出的每个元素都是对应区域中元素的最大值，如下图所示：</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Max-Pooling.png" alt="Max-Pooling"></p>
+<p>池化过程类似于卷积过程，上图所示的池化过程中相当于使用了一个大小 <strong>f=2的滤波器，且池化步长 s=2</strong>。卷积过程中的几个计算大小的公式也都适用于池化过程。<strong>如果有多个通道，那么就对每个通道分别执行计算过程（池化不压缩通道数，卷积会压缩）</strong>。</p>
+<p><strong>对最大池化的一种直观解释是</strong>，元素值较大可能意味着池化过程之前的卷积过程提取到了某些特定的特征，池化过程中的最大化操作使得<strong>只要在一个区域内提取到某个特征，它都会保留在最大池化的输出中</strong>。但是，没有足够的证据证明这种直观解释的正确性，<strong>而最大池化被使用的主要原因是它在很多实验中的效果都很好</strong>。</p>
+<p><strong>平均池化：</strong>就是从取某个区域的最大值改为求这个区域的平均值：</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/Average-Pooling.png" alt="Average-Pooling"></p>
+<p>池化过程的特点之一是，它有一组超参数，但是并<strong>没有参数需要学习</strong>。池化过程的超参数包括滤波器的大小 f、步长 s，以及选用最大池化还是平均池化。而填充 p则很少用到。</p>
+<p>池化过程的输入维度为：</p>
+<script type="math/tex; mode=display">n_H \times n_W \times n_c</script><p>输出维度为：</p>
+<script type="math/tex; mode=display">\biggl\lfloor \frac{n_H-f}{s}+1   \biggr\rfloor \times \biggl\lfloor \frac{n_W-f}{s}+1   \biggr\rfloor \times n_c</script><hr>
+<h3 id="池化层的作用"><a href="#池化层的作用" class="headerlink" title="池化层的作用"></a><h2 id="池化层的作用">池化层的作用</h2></h3><p>通过卷积层获得了图像的特征之后，理论上我们可以直接使用这些特征训练分类器（如softmax），但是这样做将面临巨大的计算量的挑战，而且容易产生过拟合的现象。为了进一步降低网络训练参数及模型的过拟合程度，我们对卷积层进行池化处理。</p>
+<p><strong>池化层作用：</strong><br>（1）<strong>降维</strong>，提高计算速度。相对卷积操作，池化是以指数形式降维，理想情况下，<strong>还能保留显著特征</strong>。<br>（2）同时减小噪声提高所提取特征的稳健性。<br>（3）可以扩大感知野<br>（4）在图像识别领域，池化还能提供<strong>平移、旋转和尺度不变性</strong><br>（5）池化的输出是一个固定大小的矩阵，这对分类问题很重要</p>
+<hr>
+<h3 id="池化为什么对平移不变性有贡献"><a href="#池化为什么对平移不变性有贡献" class="headerlink" title="池化为什么对平移不变性有贡献"></a><h2 id="池化为什么对平移不变性有贡献">池化为什么对平移不变性有贡献</h2></h3><p>池化在丢失少量信息的情况下，会对有效信息进行最大程度的激活。以下解答摘自<a href="http://ufldl.stanford.edu/wiki/index.php/%E6%B1%A0%E5%8C%96">池化-ufldl</a>：</p>
+<p>如果人们选择图像中的连续范围作为池化区域，并且只是池化相同(重复)的隐藏单元产生的特征，那么，这些池化单元就具有平移不变性 (translation invariant)。这就意味着即使图像经历了一个小的平移之后，依然会产生相同的 (池化的) 特征。</p>
+<p>在很多任务中 (例如物体检测、声音识别)，我们都更希望得到具有平移不变性的特征，因为即使图像经过了平移，样例(图像)的标记仍然保持不变。</p>
+<p>例如，如果你处理一个MNIST数据集的数字，把它向左侧或右侧平移，那么不论最终的位置在哪里，你都会期望你的分类器仍然能够精确地将其分类为相同的数字。</p>
+<p>再例如，医学图像分割，可以查看感兴趣的区域，从而忽略不需要的区域的干扰。如看骨折，只需要将骨头所表示的特征图像（一般是一定会度值的一块区域）从背景（如肌肉，另一种灰度值）分割出来，而其它的肌肉等则不显示（为黑色）</p>
+<hr>
+<h3 id="SPP空间金字塔池化"><a href="#SPP空间金字塔池化" class="headerlink" title="SPP空间金字塔池化"></a><h2 id="SPP空间金字塔池化">SPP空间金字塔池化</h2></h3><p><strong>卷积神经网络要求输入的图像尺寸固定，这种需要会降低图像识别的精度。</strong>SPPNet（Spatial Pyramid Pooling）的初衷非常明晰，就是希望网络对输入的尺寸更加灵活，分析到卷积网络对尺寸并没有要求，<strong>固定尺寸的要求完全来源于全连接层部分，因而借助空间金字塔池化的方法来衔接两者</strong>，SPPNet在检测领域的重要贡献是避免了R-CNN的变形、重复计算等问题，在效果不衰减的情况下，大幅提高了识别速度。</p>
+<p>论文翻译：<a href="http://www.dengfanxin.cn/?p=403">Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition</a></p>
+<hr>
+<h3 id="全连接层的作用"><a href="#全连接层的作用" class="headerlink" title="全连接层的作用"></a><h2 id="全连接层的作用">全连接层的作用</h2></h3><p><strong>全连接层相对卷积层来说，就是:不稀疏连接+不参数共享。全连接层的每一个结点都与上一层的所有结点相连，用来把前边提取到的特征综合起来。由于其全相连的特性，一般全连接层的参数也是最多的，可占全网络参数的80%。</strong></p>
+<p><strong>全连接会把上一层的多维特征图转化成一个固定长度的特征向量，这个特征向量虽然丢失了图像的位置信息，但是它组合了图像中最具特点的图像特征，用于后面的Softmax分类。</strong></p>
+<p><strong>换一种说法</strong>，全连接层的作用是 <strong>将网络学习到的特征映射到样本标记空间</strong>（卷积池化层层等作用是将原始数据映射到隐层特征空间）。</p>
+<p>在实际使用中，全连接层可由卷积操作实现：对前层是全连接的全连接层可以转化为卷积核为1x1的卷积；而前层是卷积层的全连接层可以转化为卷积核为hxw的全局卷积，h和w分别为前层卷积结果的高和宽。</p>
+<p>因为传统的网络输出的都是分类，也就是几个类别的概率，甚至就是一个数，比如类别号。那么全连接层就是高度提纯的特征了，方便交给最后的分类器或者回归。</p>
+<p><strong>其实卷积神经网络中全连接层的设计，属于人们在传统特征提取+分类思维下的一种”迁移学习”思想，但后期在很多end-to-end模型中，其最初用于分类的功能被弱化了，而全连接层参数又过多，所以人们一直试图设计出各种不含全连接层又能达到相同效果的网络。</strong></p>
+<p><a href="https://www.zhihu.com/question/41037974">知乎：全连接层的作用是什么？</a></p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/20180821205029.png" alt="如果一个全连接层，输入有4*4*50个神经元结点，输出有500个结点，则一共需要4*4*50*500=400000个权值参数W和500个偏置参数b"></p>
+<hr>
+<h3 id="什么是端到端的网络"><a href="#什么是端到端的网络" class="headerlink" title="什么是端到端的网络"></a><h2 id="什么是端到端的网络">什么是端到端的网络</h2></h3><p>深度学习中最令人振奋的最新动态之一就是端到端深度学习的兴起。简而言之，以前有一些数据处理系统或者学习系统，它们需要多个阶段的处理。那么端到端深度学习就是忽略所有这些不同的阶段，用单个神经网络代替它。</p>
+<p>传统的机器学习任务经常需要分别训练多个模型（涉及人为介入的特征工程），输入数据后，无法通过一个模型直接得到结果，是非端到端的。现在的深度学习模式是【输入→（1个）模型→（直接出）结果】，模型会自动提取特征。</p>
+<p>更多详情见 吴恩达 <a href="http://www.ai-start.com/dl2017/html/lesson3-week2.html#header-n341">什么是端到端的深度学习</a></p>
+<hr>
+<h3 id="请简要介绍下tensorflow的计算图"><a href="#请简要介绍下tensorflow的计算图" class="headerlink" title="请简要介绍下tensorflow的计算图"></a><h2 id="请简要介绍下tensorflow的计算图">请简要介绍下tensorflow的计算图</h2></h3><p>Tensorflow是一个通过计算图的形式来表述计算的编程系统，计算图也叫数据流图，可以把计算图看做是一种有向图，Tensorflow中的每一个节点都是计算图上的一个Tensor, 也就是张量，而节点之间的边描述了计算之间的依赖关系(定义时)和数学操作(运算时)。如下两图表示：<br>a=x*y; b=a+z; c=tf.reduce_sum(b);<br> <img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/8.gif" alt=""></p>
+<hr>
+<h3 id="name-scope-和-variable-scope的区别"><a href="#name-scope-和-variable-scope的区别" class="headerlink" title="name_scope 和 variable_scope的区别"></a><h2 id="name_scope 和 variable_scope的区别">name_scope 和 variable_scope的区别</h2></h3><ul>
+<li><strong>name_scope：</strong> 为了更好地管理变量的命名空间而提出的。比如在 tensorboard 中，因为引入了 name_scope， Graph 看起来才井然有序。</li>
+<li><strong>variable_scope：</strong> 跟 tf.get_variable() 配合使用，实现变量共享。</li>
+</ul>
+<p>详见：<a href="https://blog.csdn.net/jacke121/article/details/77622834">https://blog.csdn.net/jacke121/article/details/77622834</a></p>
+<hr>
+<h3 id="怎么加快训练的速度"><a href="#怎么加快训练的速度" class="headerlink" title="怎么加快训练的速度"></a><h2 id="怎么加快训练的速度">怎么加快训练的速度</h2></h3><ul>
+<li>加快数据的读取速度, 具体详见 <a href="http://www.tensorfly.cn/tfdoc/how_tos/reading_data.html">数据读取</a><ul>
+<li>可以构建tensorflow计算图，然后Feeding，减少与C++后端的交互次数; </li>
+<li>或者从文件读取数据，使用多线程与管道; </li>
+<li>或者预加载数据，即在TensorFlow图中定义常量或变量来保存所有数据，仅适用于数据量比较小的情况。</li>
+</ul>
+</li>
+<li>加快收敛的速度，详解神经网络的优化算法</li>
+<li>要是服务器足够，同时设置验证多个超参，边训练边验证，用tensorflow对比查看，尽快得到满意结果</li>
+</ul>
+<hr>
+<h3 id="deep-learning（rnn、cnn）调参经验"><a href="#deep-learning（rnn、cnn）调参经验" class="headerlink" title="deep learning（rnn、cnn）调参经验"></a><h2 id="deep learning（rnn、cnn）调参经验">deep learning（rnn、cnn）调参经验</h2></h3><p>结合最近的项目经历进行整理，待处理。。<br>使用谷歌最近开源的AutoML工具包 NNI<br><a href="https://www.zhihu.com/question/25097993">知乎:深度学习调参有哪些技巧？</a></p>
+<p>一、参数初始化<br>下面几种方式,随便选一个,结果基本都差不多。但是一定要做。否则可能会减慢收敛速度，影响收敛结果，甚至造成Nan等一系列问题。<br>下面的n_in为网络的输入大小，n_out为网络的输出大小，n为n_in或(n_in+n_out)<em>0.5<br>Xavier初始法论文：<a href="http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf">http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf</a><br>He初始化论文：<a href="https://arxiv.org/abs/1502.01852">https://arxiv.org/abs/1502.01852</a><br>uniform均匀分布初始化：w = np.random.uniform(low=-scale, high=scale, size=[n_in,n_out])<br>Xavier初始法，适用于普通激活函数(tanh,sigmoid)：scale = np.sqrt(3/n)<br>He初始化，适用于ReLU：scale = np.sqrt(6/n)<br>normal高斯分布初始化：w = np.random.randn(n_in,n_out) </em> stdev # stdev为高斯分布的标准差，均值设为0<br>Xavier初始法，适用于普通激活函数 (tanh,sigmoid)：stdev = np.sqrt(n)<br>He初始化，适用于ReLU：stdev = np.sqrt(2/n)<br>svd初始化：对RNN有比较好的效果。参考论文：<a href="https://arxiv.org/abs/1312.6120">https://arxiv.org/abs/1312.6120</a></p>
+<p>二、数据预处理方式<br>zero-center ,这个挺常用的.X -= np.mean(X, axis = 0) # zero-centerX /= np.std(X, axis = 0) # normalize<br>PCA whitening,这个用的比较少.</p>
+<p>三、训练技巧<br>要做梯度归一化,即算出来的梯度除以minibatch size<br>clip c(梯度裁剪): 限制最大梯度,其实是value = sqrt(w1^2+w2^2….),如果value超过了阈值,就算一个衰减系系数,让value的值等于阈值: 5,10,15</p>
+<p>dropout对小数据防止过拟合有很好的效果,值一般设为0.5,小数据上dropout+sgd在我的大部分实验中，效果提升都非常明显.因此可能的话，建议一定要尝试一下。 dropout的位置比较有讲究, 对于RNN,建议放到输入-&gt;RNN与RNN-&gt;输出的位置.关于RNN如何用dropout,可以参考这篇论文:<a href="http://arxiv.org/abs/1409.2329">http://arxiv.org/abs/1409.2329</a></p>
+<p>adam,adadelta等,在小数据上,我这里实验的效果不如sgd, sgd收敛速度会慢一些，但是最终收敛后的结果，一般都比较好。如果使用sgd的话,可以选择从1.0或者0.1的学习率开始,隔一段时间,在验证集上检查一下,如果cost没有下降,就对学习率减半. 我看过很多论文都这么搞,我自己实验的结果也很好. 当然,也可以先用ada系列先跑,最后快收敛的时候,更换成sgd继续训练.同样也会有提升.据说adadelta一般在分类问题上效果比较好，adam在生成问题上效果比较好。</p>
+<p>除了gate之类的地方,需要把输出限制成0-1之外,尽量不要用sigmoid,可以用tanh或者relu之类的激活函数.1. sigmoid函数在-4到4的区间里，才有较大的梯度。之外的区间，梯度接近0，很容易造成梯度消失问题。2. 输入0均值，sigmoid函数的输出不是0均值的。<br>rnn的dim和embdding size,一般从128上下开始调整. batch size,一般从128左右开始调整.batch size合适最重要,并不是越大越好.</p>
+<p>word2vec初始化,在小数据上,不仅可以有效提高收敛速度,也可以可以提高结果.</p>
+<p>四、尽量对数据做shuffle<br>LSTM 的forget gate的bias,用1.0或者更大的值做初始化,可以取得更好的结果,来自这篇论文:<a href="http://jmlr.org/proceedings/papers/v37/jozefowicz15.pdf">http://jmlr.org/proceedings/papers/v37/jozefowicz15.pdf</a>, 我这里实验设成1.0,可以提高收敛速度.实际使用中,不同的任务,可能需要尝试不同的值.</p>
+<p>Batch Normalization据说可以提升效果，不过我没有尝试过，建议作为最后提升模型的手段，参考论文：Accelerating Deep Network Training by Reducing Internal Covariate Shift<br>如果你的模型包含全连接层（MLP），并且输入和输出大小一样，可以考虑将MLP替换成Highway Network,我尝试对结果有一点提升，建议作为最后提升模型的手段，原理很简单，就是给输出加了一个gate来控制信息的流动，详细介</p>
+<p>五、Ensemble<br>Ensemble是论文刷结果的终极核武器,深度学习中一般有以下几种方式<br>同样的参数,不同的初始化方式<br>不同的参数,通过cross-validation,选取最好的几组<br>同样的参数,模型训练的不同阶段，即不同迭代次数的模型。<br>不同的模型,进行线性融合. 例如RNN和传统模型.</p>
+<hr>
+<h3 id="LSTM结构推导，为什么比RNN好"><a href="#LSTM结构推导，为什么比RNN好" class="headerlink" title="LSTM结构推导，为什么比RNN好"></a><h2 id="LSTM结构推导，为什么比RNN好">LSTM结构推导，为什么比RNN好</h2></h3><p>推导forget gate，input gate，cell state， hidden information等的变化；因为LSTM有进有出且当前的cell informaton是通过input gate控制之后<strong>叠加</strong>的，<strong>RNN是叠乘</strong>，因此LSTM一定程度上可以防止梯度消失或者爆炸</p>
+<hr>
+<h3 id="为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数"><a href="#为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数" class="headerlink" title="为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数"></a><h2 id="为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数">为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数</h2></h3><p>为什么不是选择统一一种sigmoid或者tanh，而是混合使用呢这样的目的是什么<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/15.png" alt=""></p>
+<p>sigmoid 用在了各种gate上，描述每个组件应该通过多少。它的值在 0 到 1 的范围内，且大多数时间非常接近于 0 或 1，值为零意味着“不要让任何信息通过”，而值为1意味着“让所有信息都通过！”。</p>
+<p>tanh 用在了状态和输出上，是对数据的处理，这个用 ReLU 或其他激活函数也可以。</p>
+<hr>
+<h3 id="Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数"><a href="#Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数" class="headerlink" title="Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数"></a><h2 id="Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数">Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数</h2></h3><p>Maxout使用两套w,b参数，输出较大值。本质上Maxout可以看做Relu的泛化版本，因为如果一套w,b全都是0的话，那么就是普通的ReLU。Maxout可以克服Relu的缺点，但是参数数目翻倍。 </p>
+<p> <img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/12.png" alt=""></p>
+<hr>
+<h3 id="什么是激活函数，为什么要用非线性激活函数"><a href="#什么是激活函数，为什么要用非线性激活函数" class="headerlink" title="什么是激活函数，为什么要用非线性激活函数"></a><h2 id="什么是激活函数，为什么要用非线性激活函数">什么是激活函数，为什么要用非线性激活函数</h2></h3><p>如下图，在神经元中，输入的 inputs 通过加权，求和后，还被作用了一个函数，这个函数就是激活函数 Activation Function。<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/61.png" alt=""></p>
+<p><strong>不用激活函数或使用线性激活函数，和直接使用 Logistic 回归没有区别</strong>，因为无论神经网络有多少层，输出都是输入的线性组合，与没有隐藏层效果相当，就成了最原始的感知器了。</p>
+<p><strong>非线性激活函数给神经元引入了非线性因素，使得神经网络可以任意逼近任何非线性函数</strong>，这样神经网络就可以应用到众多的非线性模型中。非线性激励函数最早的想法是sigmoid函数或者tanh函数，输出有界，很容易充当下一层输入。</p>
+<hr>
+<h3 id="ReLu为什么要好过于tanh和sigmoid"><a href="#ReLu为什么要好过于tanh和sigmoid" class="headerlink" title="ReLu为什么要好过于tanh和sigmoid"></a><h2 id="ReLu为什么要好过于tanh和sigmoid">ReLu为什么要好过于tanh和sigmoid</h2></h3><p>sigmoid、tanh和RelU函数图：<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/14.png" alt=""></p>
+<p>第一，ReLU本质上是分段线性模型，前向计算和反向传播的偏导非常简单，<strong>无需指数之类操作</strong>。</p>
+<p>第二，ReLU不容易发生<strong>梯度消失</strong>问题，Tanh和Logistic激活函数在两端的时候导数容易趋近于零，多级连乘后梯度更加约等于0。</p>
+<p>第三，ReLU关闭了右边，从而会使得很多的隐层输出为0，即网络变得稀疏，起到了类似L1的正则化作用，可以在一定程度上<strong>缓解过拟合</strong>。</p>
+<p><strong>但是Relu也有自己的缺点，它缺少对数据的控制力，不像sigmoid可以把任意维度的数据压缩到0到1之间。</strong>训练过程中有些数据的维度完全没有得到控制，有的幅度到达了上千，有的依然是一个极小的小数。这样看起来，似乎sigmoid前向更靠谱，relu后向更强。那么怎么解决ReLu的振幅问题呢？可以考虑在初始化上做处理，详见 <a href="https://zhuanlan.zhihu.com/p/22028079">xavier初始化</a></p>
+<p>最后加一句，现在主流的做法，<strong>会多做一步batch normalization</strong>，尽可能保证每一层网络的输入具有相同的分布[1]。而最新的paper[2]，他们在加入bypass connection之后，发现改变batch normalization的位置会有更好的效果。</p>
+<p>[1] Ioffe S, Szegedy C. Batch normalization: Accelerating deep network training by reducing internal covariate shift[J]. arXiv preprint arXiv:1502.03167, 2015.<br>[2] He, Kaiming, et al. “Identity Mappings in Deep Residual Networks.” arXiv preprint arXiv:1603.05027 (2016). </p>
+<p>知乎链接：<a href="https://www.zhihu.com/question/29021768">请问人工神经网络中的activation function的作用具体是什么？为什么ReLu要好过于tanh和sigmoid function?</a></p>
+<hr>
+<h3 id="神经网络里的正则化为什么能防止过拟合"><a href="#神经网络里的正则化为什么能防止过拟合" class="headerlink" title="神经网络里的正则化为什么能防止过拟合"></a><h2 id="神经网络里的正则化为什么能防止过拟合">神经网络里的正则化为什么能防止过拟合</h2></h3><ul>
+<li><p>直观解释<br>正则化因子设置的足够大的情况下，为了使成本函数最小化，<strong>权重矩阵 W 就会被设置为接近于 0 的值，直观上相当于消除了很多神经元的影响</strong>，那么大的神经网络就会变成一个较小的网络。当然，实际上隐藏层的神经元依然存在，但是其影响减弱了，便不会导致过拟合。</p>
+</li>
+<li><p>数学解释<br>假设神经元中使用的激活函数为g(z) = tanh(z)（sigmoid 同理）。</p>
+</li>
+</ul>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/63.png" alt=""></p>
+<p>在加入正则化项后，当 λ 增大，导致 W[l]减小，Z[l]=W[l]a[l−1]+b[l]便会减小。<strong>由上图可知，在 z 较小（接近于 0）的区域里，tanh(z)函数近似线性</strong>，所以每层的函数就近似线性函数，整个网络就成为一个简单的近似线性的网络，因此不会发生过拟合。</p>
+<ul>
+<li>其他解释<br>在权值 w[L]变小之下，<strong>输入样本 X 随机的变化不会对神经网络模造成过大的影响</strong>，神经网络受局部噪音的影响的可能性变小。这就是正则化能够降低模型方差的原因。</li>
+</ul>
+<hr>
+<h3 id="什麽样的资料集不适合用深度学习"><a href="#什麽样的资料集不适合用深度学习" class="headerlink" title="什麽样的资料集不适合用深度学习"></a><h2 id="什麽样的资料集不适合用深度学习">什麽样的资料集不适合用深度学习</h2></h3><ul>
+<li><p><strong>数据集太小</strong>，数据样本不足时，深度学习相对其它机器学习算法，没有明显优势。</p>
+</li>
+<li><p>数据集<strong>没有局部相关特性</strong>，目前深度学习表现比较好的领域主要是图像／语音／自然语言处理等领域，这些领域的一个共性是局部相关性。图像中像素组成物体，语音信号中音位组合成单词，文本数据中单词组合成句子，这些特征元素的组合一旦被打乱，表示的含义同时也被改变。对于没有这样的局部相关性的数据集，不适于使用深度学习算法进行处理。举个例子：预测一个人的健康状况，相关的参数会有年龄、职业、收入、家庭状况等各种元素，将这些元素打乱，并不会影响相关的结果。</p>
+</li>
+</ul>
+<hr>
+<h3 id="广义线性模型是怎被应用在深度学习中"><a href="#广义线性模型是怎被应用在深度学习中" class="headerlink" title="广义线性模型是怎被应用在深度学习中"></a><h2 id="广义线性模型是怎被应用在深度学习中">广义线性模型是怎被应用在深度学习中</h2></h3><p>A Statistical View of Deep Learning (I): Recursive GLMs<br>深度学习从统计学角度，可以看做递归的广义线性模型。</p>
+<p>广义线性模型相对于经典的线性模型(y=wx+b)，核心在于引入了连接函数g(.)，形式变为：y=g−1(wx+b)。</p>
+<p>深度学习时递归的广义线性模型，神经元的激活函数，即为广义线性模型的链接函数。逻辑回归（广义线性模型的一种）的Logistic函数即为神经元激活函数中的Sigmoid函数，很多类似的方法在统计学和神经网络中的名称不一样，容易引起初学者（这里主要指我）的困惑。</p>
+<p>下图是一个对照表<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/18.png" alt=""></p>
+<hr>
+<h3 id="深度学习与传统机器学习的数据划分区别"><a href="#深度学习与传统机器学习的数据划分区别" class="headerlink" title="深度学习与传统机器学习的数据划分区别"></a><h2 id="深度学习与传统机器学习的数据划分区别">深度学习与传统机器学习的数据划分区别</h2></h3><p>对于一个需要解决的问题的样本数据，在建立模型的过程中，数据会被划分为以下几个部分：</p>
+<p>1）训练集（train set）：用训练集对算法或模型进行训练过程；<br>2）验证集（development set）：利用验证集（又称为简单交叉验证集，hold-out cross validation set）<strong>进行交叉验证，选择出最好的模型</strong>；<br>3）测试集（test set）：最后利用测试集对模型进行测试，获取模型运行的无偏估计（对学习方法进行评估）。</p>
+<p><strong>在小数据量的时代</strong>，如 100、1000、10000 的数据量大小，可以将数据集按照以下比例进行划分：</p>
+<p>1）无验证集的情况：70% / 30%；<br>2）有验证集的情况：60% / 20% / 20%；</p>
+<p>而在如今的<strong>大数据时代</strong>，对于一个问题，我们拥有的数据集的规模可能是百万级别的，所以<strong>验证集和测试集所占的比重会趋向于变得更小</strong>。</p>
+<p><strong>验证集的目的是为了验证不同的算法哪种更加有效，所以验证集只要足够大到能够验证大约 2-10 种算法哪种更好，而不需要使用 20% 的数据作为验证集。如百万数据中抽取 1 万的数据作为验证集就可以了。</strong></p>
+<p>测试集的主要目的是评估模型的效果，如在单个分类器中，往往在百万级别的数据中，我们选择其中 1000 条数据足以评估单个模型的效果。吴恩达给出的建议是：</p>
+<p>1）100 万数据量：98% / 1% / 1%；<br>2）超百万数据量：99.5% / 0.25% / 0.25%（或者99.5% / 0.4% / 0.1%）</p>
+<hr>
+<h3 id="神经网络发展历史"><a href="#神经网络发展历史" class="headerlink" title="神经网络发展历史"></a><h2 id="神经网络发展历史">神经网络发展历史</h2></h3><p>1949年Hebb提出了神经心理学学习范式——Hebbian学习理论<br>1952年，IBM的Arthur Samuel写出了西洋棋程序<br>1957年，Rosenblatt的感知器算法是第二个有着神经系统科学背景的机器学习模型.</p>
+<p>3年之后，Widrow因发明Delta学习规则而载入ML史册，该规则马上就很好的应用到了感知器的训练中<br>感知器的热度在1969被Minskey一盆冷水泼灭了。他提出了著名的XOR问题，论证了感知器在类似XOR问题的线性不可分数据的无力。</p>
+<p>尽管BP的思想在70年代就被Linnainmaa以“自动微分的翻转模式”被提出来，但直到1981年才被Werbos应用到多层感知器(MLP)中，NN新的大繁荣。</p>
+<p>1991年的Hochreiter和2001年的Hochreiter的工作，都表明在使用BP算法时，NN单元饱和之后会发生梯度损失。又发生停滞。</p>
+<p>时间终于走到了当下，随着计算资源的增长和数据量的增长。一个新的NN领域——深度学习出现了。</p>
+<p>简言之，MP模型+sgn—-&gt;单层感知机（只能线性）+sgn— Minsky 低谷 —&gt;多层感知机+BP+sigmoid—- (低谷) —&gt;深度学习+pre-training+ReLU/sigmoid</p>
+<p>换一种说法</p>
+<p>sigmoid会饱和，造成梯度消失。于是有了ReLU。<br>ReLU负半轴是死区，造成梯度变0。于是有了LeakyReLU，PReLU。<br>强调梯度和权值分布的稳定性，由此有了ELU，以及较新的SELU。<br>太深了，梯度传不下去，于是有了highway。<br>干脆连highway的参数都不要，直接变残差，于是有了ResNet。</p>
+<p>强行稳定参数的均值和方差，于是有了BatchNorm。<br>在梯度流中增加噪声，于是有了 Dropout。<br>RNN梯度不稳定，于是加几个通路和门控，于是有了LSTM。<br>LSTM简化一下，有了GRU。<br>GAN的JS散度有问题，会导致梯度消失或无效，于是有了WGAN。<br>WGAN对梯度的clip有问题，于是有了WGAN-GP。</p>
+<hr>
+<h3 id="神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的"><a href="#神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的" class="headerlink" title="神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的"></a><h2 id="神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的">神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的</h2></h3><ol>
+<li><p>非线性：即导数不是常数。这个条件是多层神经网络的基础，保证多层网络不退化成单层线性网络。这也是激活函数的意义所在。</p>
+</li>
+<li><p>几乎处处可微：可微性保证了在优化中梯度的可计算性。传统的激活函数如sigmoid等满足处处可微。对于分段线性函数比如ReLU，只满足几乎处处可微（即仅在有限个点处不可微）。对于SGD算法来说，由于几乎不可能收敛到梯度接近零的位置，有限的不可微点对于优化结果不会有很大影响[1]。</p>
+</li>
+<li><p>计算简单：非线性函数有很多。极端的说，一个多层神经网络也可以作为一个非线性函数，类似于Network In Network[2]中把它当做卷积操作的做法。但激活函数在神经网络前向的计算次数与神经元的个数成正比，因此简单的非线性函数自然更适合用作激活函数。这也是ReLU之流比其它使用Exp等操作的激活函数更受欢迎的其中一个原因。</p>
+</li>
+<li><p>非饱和性（saturation）：饱和指的是在某些区间梯度接近于零（即梯度消失），使得参数无法继续更新的问题。最经典的例子是Sigmoid，它的导数在x为比较大的正值和比较小的负值时都会接近于0。更极端的例子是阶跃函数，由于它在几乎所有位置的梯度都为0，因此处处饱和，无法作为激活函数。ReLU在x&gt;0时导数恒为1，因此对于再大的正值也不会饱和。但同时对于x&lt;0，其梯度恒为0，这时候它也会出现饱和的现象（在这种情况下通常称为dying ReLU）。Leaky ReLU[3]和PReLU[4]的提出正是为了解决这一问题。</p>
+</li>
+<li><p>单调性（monotonic）：即导数符号不变。这个性质大部分激活函数都有，除了诸如sin、cos等。个人理解，单调性使得在激活函数处的梯度方向不会经常改变，从而让训练更容易收敛。</p>
+</li>
+<li><p>输出范围有限：有限的输出范围使得网络对于一些比较大的输入也会比较稳定，这也是为什么早期的激活函数都以此类函数为主，如Sigmoid、TanH。但这导致了前面提到的梯度消失问题，而且强行让每一层的输出限制到固定范围会限制其表达能力。因此现在这类函数仅用于某些需要特定输出范围的场合，比如概率输出（此时loss函数中的log操作能够抵消其梯度消失的影响[1]）、LSTM里的gate函数。</p>
+</li>
+<li><p>接近恒等变换（identity）：即约等于x。这样的好处是使得输出的幅值不会随着深度的增加而发生显著的增加，从而使网络更为稳定，同时梯度也能够更容易地回传。这个与非线性是有点矛盾的，因此激活函数基本只是部分满足这个条件，比如TanH只在原点附近有线性区（在原点为0且在原点的导数为1），而ReLU只在x&gt;0时为线性。这个性质也让初始化参数范围的推导更为简单[5][4]。额外提一句，这种恒等变换的性质也被其他一些网络结构设计所借鉴，比如CNN中的ResNet[6]和RNN中的LSTM。</p>
+</li>
+<li><p>参数少：大部分激活函数都是没有参数的。像PReLU带单个参数会略微增加网络的大小。还有一个例外是Maxout[7]，尽管本身没有参数，但在同样输出通道数下k路Maxout需要的输入通道数是其它函数的k倍，这意味着神经元数目也需要变为k倍；但如果不考虑维持输出通道数的情况下，该激活函数又能将参数个数减少为原来的k倍。</p>
+</li>
+<li><p>归一化（normalization）：这个是最近才出来的概念，对应的激活函数是SELU[8]，主要思想是使样本分布自动归一化到零均值、单位方差的分布，从而稳定训练。在这之前，这种归一化的思想也被用于网络结构的设计，比如Batch Normalization[9]。</p>
+</li>
+</ol>
+<p>更多详情：<a href="https://www.zhihu.com/question/67366051">https://www.zhihu.com/question/67366051</a></p>
+<hr>
+<h3 id="CNN经典网络对比"><a href="#CNN经典网络对比" class="headerlink" title="CNN经典网络对比"></a><h2 id="CNN经典网络对比">CNN经典网络对比</h2></h3><p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/62.png" alt=""><br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/21.png" alt=""></p>
+<p>更多详情见：<br><a href="http://blog.csdn.net/cyh_24/article/details/51440344">从LeNet到AlexNet</a><br><a href="https://zhuanlan.zhihu.com/p/22094600">Deep Learning回顾#之LeNet、AlexNet、GoogLeNet、VGG、ResNet</a></p>
+<hr>
+<h3 id="dropout随机失活"><a href="#dropout随机失活" class="headerlink" title="dropout随机失活"></a><h2 id="dropout随机失活">dropout随机失活</h2></h3><p>dropout（随机失活）是在神经网络的隐藏层为每个神经元结点设置一个随机消除的概率，保留下来的神经元形成一个结点较少、规模较小的网络用于训练。dropout 正则化较多地被使用在计算机视觉（Computer Vision）领域。<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/64.png" alt=""></p>
+<p>对于单个神经元，其工作是接收输入并产生一些有意义的输出。但是加入了 dropout 后，输入的特征都存在被随机清除的可能，<strong>所以该神经元不会再特别依赖于任何一个输入特征，即不会给任何一个输入特征设置太大的权重</strong>。</p>
+<p><strong>因此，通过传播过程，dropout 将产生和 L2 正则化相同的收缩权重的效果。</strong></p>
+<p>对于不同的层，设置的keep_prob也不同。<strong>一般来说，神经元较少的层，会设keep_prob为 1.0，而神经元多的层则会设置比较小的keep_prob。</strong></p>
+<p><strong>dropout 的一大缺点是成本函数无法被明确定义。</strong>因为每次迭代都会随机消除一些神经元结点的影响，因此无法确保成本函数单调递减。因此，使用 dropout 时，先将keep_prob全部设置为 1.0 后运行代码，确保 J(w,b)函数单调递减，再打开 dropout。</p>
+<hr>
+<h3 id="简单说下sigmoid激活函数"><a href="#简单说下sigmoid激活函数" class="headerlink" title="简单说下sigmoid激活函数"></a><h2 id="简单说下sigmoid激活函数">简单说下sigmoid激活函数</h2></h3><p>常用的非线性激活函数有sigmoid、tanh、relu等等，前两者sigmoid/tanh比较常见于全连接层，后者relu常见于卷积层。这里先简要介绍下最基础的sigmoid函数（btw，在本博客中SVM那篇文章开头有提过）。</p>
+<p>sigmoid的函数表达式如下<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/40.png" alt=""></p>
+<p>其中z是一个线性组合，比如z可以等于：b + w1<em>x1 + w2</em>x2。通过代入很大的正数或很小的负数到g(z)函数中可知，其结果趋近于0或1。</p>
+<p>因此，sigmoid函数g(z)的图形表示如下（ 横轴表示定义域z，纵轴表示值域g(z) ）：<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/41.png" alt=""></p>
+<p>也就是说，sigmoid函数的功能是相当于把一个实数压缩至0到1之间。当z是非常大的正数时，g(z)会趋近于1，而z是非常小的负数时，则g(z)会趋近于0。</p>
+<p>压缩至0到1有何用处呢用处是这样一来便可以把激活函数看作一种“分类的概率”，比如激活函数的输出为0.9的话便可以解释为90%的概率为正样本。</p>
+<p>举个例子，如下图（图引自Stanford机器学习公开课）<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/42.png" alt=""></p>
+<p>z = b + w1<em>x1 + w2</em>x2，其中b为偏置项 假定取-30，w1、w2都取为20<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/43.png" alt=""></p>
+<p>如果x1 = 0，x2 = 0，则z = -30，g(z) = 1/( 1 + e^-z )趋近于0。此外，从上图sigmoid函数的图形上也可以看出，当z=-30的时候，g(z)的值趋近于0<br>如果x1 = 0，x2 = 1，或x1 =1,x2 = 0，则z = b + w1<em>x1 + w2</em>x2 = -30 + 20 = -10，同样，g(z)的值趋近于0<br>如果x1 = 1，x2 = 1，则z = b + w1<em>x1 + w2</em>x2 = -30 + 20<em>1 + 20</em>1 = 10，此时，g(z)趋近于1。</p>
+<p>换言之，只有x1和x2都取1的时候，g(z)→1，判定为正样本；而当只要x1或x2有一个取0的时候，g(z)→0，判定为负样本，如此达到分类的目的。</p>
+<p>综上，sigmod函数，是逻辑斯蒂回归的压缩函数，它的性质是可以把分隔平面压缩到[0,1]区间一个数（向量），在线性分割平面值为0时候正好对应sigmod值为0.5，大于0对应sigmod值大于0.5、小于0对应sigmod值小于0.5；0.5可以作为分类的阀值；exp的形式最值求解时候比较方便，用相乘形式作为logistic损失函数，使得损失函数是凸函数；不足之处是sigmod函数在y趋于0或1时候有死区，控制不好在bp形式传递loss时候容易造成梯度弥撒。</p>
+<hr>
+<h3 id="上采样和下采样"><a href="#上采样和下采样" class="headerlink" title="上采样和下采样"></a><h2 id="上采样和下采样">上采样和下采样</h2></h3><p><strong>缩小图像（或称为下采样 subsampled 和降采样 downsampled）</strong>的主要目的有两个<br>1）使得图像符合显示区域的大小<br>2）生成对应图像的缩略图。</p>
+<p><strong>放大图像（或称为上采样 upsampling 和图像插值 interpolating）</strong>的主要目的是<strong>放大原图像</strong>，从而可以显示在更高分辨率的显示设备上。</p>
+<p>上采样原理：内插值，即在原有图像像素的基础上在像素点之间采用合适的插值算法插入新的元素。</p>
+<hr>
+<h3 id="什么是感知器"><a href="#什么是感知器" class="headerlink" title="什么是感知器"></a><h2 id="什么是感知器">什么是感知器</h2></h3><p>当激活函数的 <strong>返回值是两个固定值</strong> 的时候，可以称为此时的神经网络为感知器。</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180204144443.png" alt=""><br>因为感知器的返回值只有两种情况，所以感知器只能解决二类线性可分的问题，感知器比较适合应用到模式分类问题中</p>
+<hr>
+<h3 id="神经网络隐层维度规则"><a href="#神经网络隐层维度规则" class="headerlink" title="神经网络隐层维度规则"></a><h2 id="神经网络隐层维度规则">神经网络隐层维度规则</h2></h3><p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%BB%B4%E5%BA%A6%E8%A7%84%E5%88%99.png" alt=""></p>
+<hr>
+<h3 id="偏差方差及其应对方法"><a href="#偏差方差及其应对方法" class="headerlink" title="偏差方差及其应对方法"></a><h2 id="偏差方差及其应对方法">偏差方差及其应对方法</h2></h3><p>“偏差-方差分解”（bias-variance decomposition）是解释学习算法泛化性能的一种重要工具。</p>
+<p><strong>泛化误差可分解为偏差、方差与噪声之和</strong>：</p>
+<ul>
+<li><strong>偏差</strong>：度量了学习算法的期望预测与真实结果的偏离程度，即刻画了<strong>学习算法本身的拟合能力</strong>；</li>
+<li><strong>方差</strong>：度量了同样大小的训练集的变动所导致的学习性能的变化，即<strong>刻画了数据扰动所造成的影响</strong>；</li>
+<li><strong>噪声</strong>：表达了在当前任务上任何学习算法所能够达到的期望泛化误差的下界，即刻画了学习问题本身的难度。</li>
+</ul>
+<p>偏差-方差分解说明，<strong>泛化性</strong>能是由学习<strong>算法的能力、数据的充分性</strong>以及<strong>学习任务本身的难度</strong>所共同决定的。给定学习任务，为了取得好的泛化性能，则需要使偏差较小，即能够充分拟合数据，并且使方差较小，即使得数据扰动产生的影响小。</p>
+<p>在<strong>欠拟合</strong>（underfitting）的情况下，出现<strong>高偏差</strong>（high bias）的情况，即不能很好地对数据进行分类。</p>
+<p>当模型设置的太复杂时，训练集中的一些噪声没有被排除，使得模型出现<strong>过拟合</strong>（overfitting）的情况，在验证集上出现<strong>高方差</strong>（high variance）的现象。</p>
+<p>当训练出一个模型以后，如果：</p>
+<ul>
+<li>训练集的错误率较小，而验证集的错误率却较大，说明模型存在较大方差，可能出现了过拟合；</li>
+<li>训练集和开发集的错误率都较大，且两者相当，说明模型存在较大偏差，可能出现了欠拟合；</li>
+<li>训练集错误率较大，且开发集的错误率远较训练集大，说明方差和偏差都较大，模型很差；</li>
+<li>训练集和开发集的错误率都较小，且两者的相差也较小，说明方差和偏差都较小，这个模型效果比较好。</li>
+<li>偏差和方差的权衡问题对于模型来说十分重要。</li>
+</ul>
+<p>最优误差通常也称为“贝叶斯误差”。</p>
+<h4 id="应对方法"><a href="#应对方法" class="headerlink" title="应对方法"></a><strong>应对方法</strong></h4><p>存在高偏差：</p>
+<ul>
+<li>扩大网络规模，如添加隐藏层或隐藏单元数目；</li>
+<li>寻找合适的网络架构，使用更大的 NN 结构；</li>
+<li>花费更长时间训练。</li>
+</ul>
+<p>存在高方差：</p>
+<ul>
+<li>获取更多的数据；</li>
+<li>使用正则化（regularization）技术，降低模型的复杂度；</li>
+<li>寻找更合适的网络结构。甚至使用bagging算法比如随机森林，训练多个弱模型，然后组合在一起，进行投票等</li>
+<li>不断尝试，直到找到低偏差、低方差的框架。</li>
+</ul>
+<p>在深度学习的早期阶段，没有太多方法能做到只减少偏差或方差而不影响到另外一方。而在大数据时代，深度学习对监督式学习大有裨益，使得我们不用像以前一样太过关注如何平衡偏差和方差的权衡问题，通过以上方法可以在不增加某一方的前提下减少另一方的值。</p>
+<hr>
+<h3 id="CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？"><a href="#CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？" class="headerlink" title="CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？"></a><h2 id="CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？">CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？</h2></h3><p><a href="http://link.zhihu.com/?target=https%3A//www.researchgate.net/publication/277411157_Deep_Learning">Deep Learning -Yann LeCun, Yoshua Bengio &amp; Geoffrey Hinton</a><br><a href="http://link.zhihu.com/?target=https%3A//docs.google.com/presentation/d/1TVixw6ItiZ8igjp6U17tcgoFrLSaHWQmMOwjlgQY9co/pub%3Fslide%3Did.p">Learn TensorFlow and deep learning, without a Ph.D.</a><br><a href="http://link.zhihu.com/?target=http%3A//vdisk.weibo.com/s/AoN5oNl5t04h">The Unreasonable Effectiveness of Deep Learning -LeCun 16 NIPS Keynote</a></p>
+<p>以上几个不相关问题的相关性在于，都存在局部与整体的关系，由低层次的特征经过组合，组成高层次的特征，并且得到不同特征之间的空间相关性。如下图：低层次的直线／曲线等特征，组合成为不同的形状，最后得到汽车的表示。<br> <img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/9.png" alt=""></p>
+<p>CNN抓住此共性的手段主要有四个：局部连接／权值共享／池化操作／多层次结构。<br>局部连接使网络可以提取数据的局部特征；权值共享大大降低了网络的训练难度，一个Filter只提取一个特征，在整个图片（或者语音／文本） 中进行卷积；池化操作与多层次结构一起，实现了数据的降维，将低层次的局部特征组合成为较高层次的特征，从而对整个图片进行表示。如下图：<br> <img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/10.png" alt=""></p>
+<p>上图中，如果每一个点的处理使用相同的Filter，则为全卷积，如果使用不同的Filter，则为Local-Conv。</p>
+<hr>
+<h3 id="为什么很多做人脸的Paper会最后加入一个Local-Connected-Conv"><a href="#为什么很多做人脸的Paper会最后加入一个Local-Connected-Conv" class="headerlink" title="为什么很多做人脸的Paper会最后加入一个Local Connected Conv"></a><h2 id="为什么很多做人脸的Paper会最后加入一个Local Connected Conv">为什么很多做人脸的Paper会最后加入一个Local Connected Conv</h2></h3><p>如果每一个点的处理使用相同的Filter(即参数共享)，则为全卷积，如果使用不同的Filter，则为Local-Conv(local的意思就是参数不共享)。</p>
+<p>DeepFace 先进行了两次全卷积＋一次池化，提取了低层次的边缘／纹理等特征。后接了3个Local-Conv层，这里是用Local-Conv的原因是，<strong>人脸在不同的区域存在不同的特征（眼睛／鼻子／嘴的分布位置相对固定），当不存在全局的局部特征分布时，Local-Conv更适合特征的提取。</strong>当数据集具有全局的局部特征分布时，也就是说局部特征之间有较强的相关性，适合用全卷积。</p>
+<p>“不存在全局的局部特征分布”，可以这么理解，人的鼻子和嘴是局部特征，但在全局特征(脸)中并不是广泛分布的，它们是独一无二的。所以说不存在局部连接学习了鼻子的特征，然后把特征应用到脸的其他部位。</p>
+<p>链接：<a href="http://blog.csdn.net/u014365862/article/details/77795902">http://blog.csdn.net/u014365862/article/details/77795902</a></p>
+<p>PS：为什么经常将全连接层转化为全卷积？<br>全卷积和FCN的参数一样多，之所以用全卷积，主要是为了在卷积层上实现滑动窗口，减少重复卷积的计算，在目标检测中很有用。<br>还有一种说法是为了让卷积网络在一张更大的输入图片上滑动，得到每个区域的输出。<br><a href="https://blog.csdn.net/u010548772/article/details/78582250">https://blog.csdn.net/u010548772/article/details/78582250</a><br><a href="https://blog.csdn.net/nnnnnnnnnnnny/article/details/70194432">https://blog.csdn.net/nnnnnnnnnnnny/article/details/70194432</a></p>
+<hr>
+<h3 id="Dilated-Convolution空洞卷积-扩张卷积-膨胀卷积"><a href="#Dilated-Convolution空洞卷积-扩张卷积-膨胀卷积" class="headerlink" title="Dilated Convolution空洞卷积/扩张卷积/膨胀卷积"></a><h2 id="Dilated Convolution空洞卷积/扩张卷积/膨胀卷积">Dilated Convolution空洞卷积/扩张卷积/膨胀卷积</h2></h3><p><a href="http://blog.csdn.net/guvcolie/article/details/77884530?locationNum=10&amp;fps=1">http://blog.csdn.net/guvcolie/article/details/77884530?locationNum=10&amp;fps=1</a><br><a href="https://blog.csdn.net/mao_xiao_feng/article/details/77924003">https://blog.csdn.net/mao_xiao_feng/article/details/77924003</a><br><a href="http://www.cnblogs.com/ranjiewen/p/7945249.html">http://www.cnblogs.com/ranjiewen/p/7945249.html</a></p>
+<hr>
+<h3 id="Word2vec之Skip-Gram模型"><a href="#Word2vec之Skip-Gram模型" class="headerlink" title="Word2vec之Skip-Gram模型"></a><h2 id="Word2vec之Skip-Gram模型">Word2vec之Skip-Gram模型</h2></h3><p>Word2Vec其实就是通过学习文本来用词向量的方式表征词的语义信息，即通过一个嵌入空间使得语义上相似的单词在该空间内距离很近。Embedding其实就是一个映射，将单词从原先所属的空间映射到新的多维空间中，也就是把原先词所在空间嵌入到一个新的空间中去。</p>
+<p>Word2Vec模型中，主要有Skip-Gram和CBOW两种模型，从直观上理解，Skip-Gram是给定input word来预测上下文。而CBOW是给定上下文，来预测input word。本篇文章仅讲解Skip-Gram模型。</p>
+<ul>
+<li>结构篇：<a href="https://www.leiphone.com/news/201706/PamWKpfRFEI42McI.html">https://www.leiphone.com/news/201706/PamWKpfRFEI42McI.html</a></li>
+<li>训练篇：<a href="https://www.leiphone.com/news/201706/eV8j3Nu8SMqGBnQB.html">https://www.leiphone.com/news/201706/eV8j3Nu8SMqGBnQB.html</a></li>
+<li>实现篇：<a href="https://www.leiphone.com/news/201706/QprrvzsrZCl4S2lw.html">https://www.leiphone.com/news/201706/QprrvzsrZCl4S2lw.html</a></li>
+</ul>
+<p>PS：吴恩达序列模型课程自然语言处理章节有详细讲解。</p>
+<hr>
+<h3 id="文本数据抽取"><a href="#文本数据抽取" class="headerlink" title="文本数据抽取"></a><h2 id="文本数据抽取">文本数据抽取</h2></h3><ul>
+<li><p><strong>词袋法</strong>：将文本当作一个无序的数据集合，文本特征可以采用文本中的词条T进行体现，那么文本中出现的所有词条及其出现的次数就可以体现文档的特征</p>
+</li>
+<li><p><strong>TF-IDF</strong>: 词条的重要性随着它在<strong>文件中出现的次数</strong>成<strong>正比</strong>增加，但同时会随着它在<strong>语料库中出现的频率</strong>成<strong>反比</strong>下降；也就是说词条在文本中出现的次数越多，表示该词条对该文本的重要性越高，词条在所有文本中出现的次数越少，说明这个词条对文本的重要性越高。<strong>TF(词频)指某个词条在文本中出现的次数</strong>，一般会将其进行归一化处理(该词条数量/该文档中所有词条数量)；<strong>IDF(逆向文件频率)指一个词条重要性的度量</strong>，一般计算方式为<strong>总文件数目除以包含该词语之文件的数目</strong>，再将得到的商取对数得到。TF-IDF实际上是：TF * IDF<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/tf-idf.png" alt="TF-IDF"></p>
+</li>
+</ul>
+<hr>
+<h3 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a><h2 id="迁移学习">迁移学习</h2></h3><p>深度学习中，最强大的理念之一就是，有的时候神经网络可以从一个任务中习得知识，并将这些知识应用到另一个独立的任务中。所以例如，也许你已经训练好一个神经网络，能够识别像猫这样的对象，然后使用那些知识，或者部分习得的知识去帮助您更好地阅读x射线扫描图，这就是所谓的迁移学习。</p>
+<p><strong>通常做法就是</strong>，你可以把识别猫的神经网络最后的输出层及其对应的权重删掉，然后设计一个全新的输出层，并为其重新赋予随机权重，然后让它在放射诊断数据上训练。</p>
+<p><strong>那什么时候迁移学习是有意义的？</strong>如果你想从任务学习A并迁移一些知识到任务B，那么当任务A和任务B都有同样的输入X时，迁移学习是有意义的（比如识别猫和X射线扫描时输入的都是图像）。并且当任务A的数据比任务B多得多时，迁移学习意义更大。</p>
+<ul>
+<li>更多细节详见 吴恩达的 <a href="http://www.ai-start.com/dl2017/html/lesson3-week2.html#header-n242">“迁移学习”</a> 章节讲解。</li>
+<li>TensorFlow Hub 可以实现迁移学习，GitHub 代码示例地址：<a href="https://github.com/Wasim37/models/tree/master/tutorials/image/image_retrain">图像再训练</a></li>
+</ul>
+<hr>
+<h3 id="生成对抗网络"><a href="#生成对抗网络" class="headerlink" title="生成对抗网络"></a><h2 id="生成对抗网络">生成对抗网络</h2></h3><p>GAN之所以是对抗的，是因为GAN的内部是竞争关系，一方叫generator，它的主要工作是生成图片，并且尽量使得其看上去是来自于训练样本的。另一方是discriminator，其目标是判断输入图片是否属于真实训练样本。</p>
+<p>更直白的讲，将generator想象成假币制造商，而discriminator是警察。generator目的是尽可能把假币造的跟真的一样，从而能够骗过discriminator，即生成样本并使它看上去好像来自于真实训练样本一样。</p>
+<hr>
+<h3 id="命名实体识别"><a href="#命名实体识别" class="headerlink" title="命名实体识别"></a><h2 id="命名实体识别">命名实体识别</h2></h3><p>命名实体识别(Named EntitiesRecognition, NER)是自然语言处理(Natural LanguageProcessing, NLP)的一个基础任务，常用在<strong>信息抽取、信息检索、机器翻译、问答系统</strong>中。</p>
+<p><strong>命名实体是</strong>命名实体识别的<strong>研究主体</strong>，一般包括<strong>3大类(实体类、时间类和数字类)</strong>和<strong>7小类(人名、地名、机构名、时间、日期、货币和百分比)</strong>命名实体。</p>
+<p><strong>评判一个命名实体是否被正确识别包括两个方面：</strong></p>
+<ul>
+<li>实体的边界是否正确</li>
+<li>实体的类型是否标注正确<br>主要错误类型包括文本正确，类型可能错误；反之，文本边界错误,标记的类型正确。</li>
+</ul>
+<p><strong>命名实体识别的主要技术方法分为：</strong></p>
+<ul>
+<li>基于规则和词典的方法</li>
+<li>基于统计的方法</li>
+<li>二者混合的方法等。</li>
+</ul>
+<p><strong>基于规则的方法多采用语言学专家手工构造规则模板</strong>,选用特征包括统计信息、标点符号、关键字、指示词和方向词、位置词(如尾字)、中心词等方法，以模式和字符串相匹配为主要手段，<strong>这类系统大多依赖于知识库和词典的建立。</strong></p>
+<p><strong>基于统计机器学习的方法主要包括</strong>：隐马尔可夫模型(HiddenMarkovMode,HMM)、最大熵(MaxmiumEntropy,ME)、支持向量机(Support VectorMachine,SVM)、条件随机场( ConditionalRandom Fields,CRF)等。</p>
+<ul>
+<li><a href="http://blog.csdn.net/cuixianpeng/article/details/18084807">命名实体识别方法汇总</a></li>
+<li><a href="http://www.cnblogs.com/robert-dlut/p/6847401.html">神经网络结构在命名实体识别（NER）中的应用</a></li>
+<li><a href="http://blog.csdn.net/alihonglong/article/details/52333471">统计自然语言处理梳理一：分词、命名实体识别、词性标注</a></li>
+<li>电子病历命名实体识别项目：<a href="https://github.com/Wasim37/NERuselocal">https://github.com/Wasim37/NERuselocal</a></li>
+<li>电子病历实体识别项目文档：<a href="https://pan.baidu.com/s/1Ypy2F0EHnD5FmX6L_BqWRA">https://pan.baidu.com/s/1Ypy2F0EHnD5FmX6L_BqWRA</a> 密码：3s24</li>
+<li><a href="http://blog.csdn.net/u012052268/article/details/77825981">jieba分词</a></li>
+</ul>
+</div><div class="article-tags size-small is-uppercase mb-4"><i class="fas fa-tags has-text-grey"></i> <a class="link-muted mr-2" rel="tag" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/ali-zfb.png" alt="支付宝"></span></a><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/weixin-pay.png" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2021/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><span class="level-item">机器学习笔记</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"><script src="/js/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: 'f97a32ffc3c51bf2f4626c8e8b3f93fd',
+            repo: 'blog_comment',
+            owner: 'Wasim37',
+            clientID: '55fcbea044b44e047f89',
+            clientSecret: '47addd42a9469d80bd508118ac73033915e3142c',
+            admin: ["wasim37"],
+            createIssueManually: true,
+            distractionFreeMode: false,
+            perPage: 10,
+            pagerDirection: 'last',
+            
+            
+            enableHotKey: true,
+            isLocked: false
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget toc-scroll" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><ul class="menu-list"><ul class="menu-list"><li><a class="is-flex" id="toc-item-人工智能、机器学习和深度学习的关系" href="#人工智能、机器学习和深度学习的关系"><span>人工智能、机器学习和深度学习的关系</span></a></li></ul><li><a class="is-flex" id="toc-item-人工智能、机器学习和深度学习的关系" href="#人工智能、机器学习和深度学习的关系"><span>人工智能、机器学习和深度学习的关系</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-什么是梯度消失和梯度爆炸，分别会引发什么问题" href="#什么是梯度消失和梯度爆炸，分别会引发什么问题"><span>什么是梯度消失和梯度爆炸，分别会引发什么问题</span></a></li></ul></li><li><a class="is-flex" id="toc-item-什么是梯度消失和梯度爆炸，分别会引发什么问题" href="#什么是梯度消失和梯度爆炸，分别会引发什么问题"><span>什么是梯度消失和梯度爆炸，分别会引发什么问题</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-如何利用初始化缓解梯度消失和爆炸" href="#如何利用初始化缓解梯度消失和爆炸"><span>如何利用初始化缓解梯度消失和爆炸</span></a></li></ul></li><li><a class="is-flex" id="toc-item-如何利用初始化缓解梯度消失和爆炸" href="#如何利用初始化缓解梯度消失和爆炸"><span>如何利用初始化缓解梯度消失和爆炸</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-如何确定是否出现梯度爆炸" href="#如何确定是否出现梯度爆炸"><span>如何确定是否出现梯度爆炸</span></a></li></ul></li><li><a class="is-flex" id="toc-item-如何确定是否出现梯度爆炸" href="#如何确定是否出现梯度爆炸"><span>如何确定是否出现梯度爆炸</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-如何解决梯度消失和梯度膨胀" href="#如何解决梯度消失和梯度膨胀"><span>如何解决梯度消失和梯度膨胀</span></a></li></ul></li><li><a class="is-flex" id="toc-item-如何解决梯度消失和梯度膨胀" href="#如何解决梯度消失和梯度膨胀"><span>如何解决梯度消失和梯度膨胀</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-如何解决RNN梯度爆炸和弥散的问题" href="#如何解决RNN梯度爆炸和弥散的问题"><span>如何解决RNN梯度爆炸和弥散的问题</span></a></li></ul></li><li><a class="is-flex" id="toc-item-如何解决RNN梯度爆炸和弥散的问题" href="#如何解决RNN梯度爆炸和弥散的问题"><span>如何解决RNN梯度爆炸和弥散的问题</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-神经网络初始化权重为什么不能初始化为0" href="#神经网络初始化权重为什么不能初始化为0"><span>神经网络初始化权重为什么不能初始化为0</span></a></li></ul></li><li><a class="is-flex" id="toc-item-神经网络初始化权重为什么不能初始化为0" href="#神经网络初始化权重为什么不能初始化为0"><span>神经网络初始化权重为什么不能初始化为0</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-常见的学习率衰减方法" href="#常见的学习率衰减方法"><span>常见的学习率衰减方法</span></a></li></ul></li><li><a class="is-flex" id="toc-item-常见的学习率衰减方法" href="#常见的学习率衰减方法"><span>常见的学习率衰减方法</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-局部最优问题（鞍点）" href="#局部最优问题（鞍点）"><span>局部最优问题（鞍点）</span></a></li></ul></li><li><a class="is-flex" id="toc-item-局部最优问题（鞍点）" href="#局部最优问题（鞍点）"><span>局部最优问题（鞍点）</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-神经网络的优化算法" href="#神经网络的优化算法"><span>神经网络的优化算法</span></a></li></ul></li><li><a class="is-flex" id="toc-item-神经网络的优化算法" href="#神经网络的优化算法"><span>神经网络的优化算法</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-参数和超参数" href="#参数和超参数"><span>参数和超参数</span></a></li></ul></li><li><a class="is-flex" id="toc-item-参数和超参数" href="#参数和超参数"><span>参数和超参数</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-超参数调试处理" href="#超参数调试处理"><span>超参数调试处理</span></a></li></ul></li><li><a class="is-flex" id="toc-item-超参数调试处理" href="#超参数调试处理"><span>超参数调试处理</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-重要程度排序" href="#重要程度排序"><span>重要程度排序</span></a></li></ul></li></ul><li><a class="is-flex" id="toc-item-hidden-units：各隐藏层神经元个数；" href="#hidden-units：各隐藏层神经元个数；"><span>hidden units：各隐藏层神经元个数；</span></a></li><li><a class="is-flex" id="toc-item-layers：神经网络层数" href="#layers：神经网络层数"><span>layers：神经网络层数;</span></a><ul class="menu-list"><ul class="menu-list"><li><a class="is-flex" id="toc-item-一些建议" href="#一些建议"><span>一些建议</span></a></li><li><a class="is-flex" id="toc-item-CNN的卷积核是单层的还是多层的" href="#CNN的卷积核是单层的还是多层的"><span>CNN的卷积核是单层的还是多层的</span></a></li></ul><li><a class="is-flex" id="toc-item-CNN的卷积核是单层的还是多层的" href="#CNN的卷积核是单层的还是多层的"><span>CNN的卷积核是单层的还是多层的</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-卷积神经网络示例" href="#卷积神经网络示例"><span>卷积神经网络示例</span></a></li></ul></li><li><a class="is-flex" id="toc-item-卷积神经网络示例" href="#卷积神经网络示例"><span>卷积神经网络示例</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-为什么使用卷积" href="#为什么使用卷积"><span>为什么使用卷积</span></a></li></ul></li><li><a class="is-flex" id="toc-item-为什么使用卷积" href="#为什么使用卷积"><span>为什么使用卷积</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-为什么要使用许多小卷积核如3x3-而不是几个大卷积核？" href="#为什么要使用许多小卷积核如3x3-而不是几个大卷积核？"><span>为什么要使用许多小卷积核如3x3,而不是几个大卷积核？</span></a></li></ul></li><li><a class="is-flex" id="toc-item-为什么要使用许多小卷积核如3x3,而不是几个大卷积核？" href="#为什么要使用许多小卷积核如3x3,而不是几个大卷积核？"><span>为什么要使用许多小卷积核如3x3,而不是几个大卷积核？</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-为什么我们对图像使用卷积而不仅仅只使用FC层？" href="#为什么我们对图像使用卷积而不仅仅只使用FC层？"><span>为什么我们对图像使用卷积而不仅仅只使用FC层？</span></a></li></ul></li><li><a class="is-flex" id="toc-item-为什么我们对图像使用卷积而不仅仅只使用FC层？" href="#为什么我们对图像使用卷积而不仅仅只使用FC层？"><span>为什么我们对图像使用卷积而不仅仅只使用FC层？</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-池化层简介" href="#池化层简介"><span>池化层简介</span></a></li></ul></li><li><a class="is-flex" id="toc-item-池化层简介" href="#池化层简介"><span>池化层简介</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-池化层的作用" href="#池化层的作用"><span>池化层的作用</span></a></li></ul></li><li><a class="is-flex" id="toc-item-池化层的作用" href="#池化层的作用"><span>池化层的作用</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-池化为什么对平移不变性有贡献" href="#池化为什么对平移不变性有贡献"><span>池化为什么对平移不变性有贡献</span></a></li></ul></li><li><a class="is-flex" id="toc-item-池化为什么对平移不变性有贡献" href="#池化为什么对平移不变性有贡献"><span>池化为什么对平移不变性有贡献</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-SPP空间金字塔池化" href="#SPP空间金字塔池化"><span>SPP空间金字塔池化</span></a></li></ul></li><li><a class="is-flex" id="toc-item-SPP空间金字塔池化" href="#SPP空间金字塔池化"><span>SPP空间金字塔池化</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-全连接层的作用" href="#全连接层的作用"><span>全连接层的作用</span></a></li></ul></li><li><a class="is-flex" id="toc-item-全连接层的作用" href="#全连接层的作用"><span>全连接层的作用</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-什么是端到端的网络" href="#什么是端到端的网络"><span>什么是端到端的网络</span></a></li></ul></li><li><a class="is-flex" id="toc-item-什么是端到端的网络" href="#什么是端到端的网络"><span>什么是端到端的网络</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-请简要介绍下tensorflow的计算图" href="#请简要介绍下tensorflow的计算图"><span>请简要介绍下tensorflow的计算图</span></a></li></ul></li><li><a class="is-flex" id="toc-item-请简要介绍下tensorflow的计算图" href="#请简要介绍下tensorflow的计算图"><span>请简要介绍下tensorflow的计算图</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-name-scope-和-variable-scope的区别" href="#name-scope-和-variable-scope的区别"><span>name_scope 和 variable_scope的区别</span></a></li></ul></li><li><a class="is-flex" id="toc-item-name_scope 和 variable_scope的区别" href="#name_scope 和 variable_scope的区别"><span>name_scope 和 variable_scope的区别</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-怎么加快训练的速度" href="#怎么加快训练的速度"><span>怎么加快训练的速度</span></a></li></ul></li><li><a class="is-flex" id="toc-item-怎么加快训练的速度" href="#怎么加快训练的速度"><span>怎么加快训练的速度</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-deep-learning（rnn、cnn）调参经验" href="#deep-learning（rnn、cnn）调参经验"><span>deep learning（rnn、cnn）调参经验</span></a></li></ul></li><li><a class="is-flex" id="toc-item-deep learning（rnn、cnn）调参经验" href="#deep learning（rnn、cnn）调参经验"><span>deep learning（rnn、cnn）调参经验</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-LSTM结构推导，为什么比RNN好" href="#LSTM结构推导，为什么比RNN好"><span>LSTM结构推导，为什么比RNN好</span></a></li></ul></li><li><a class="is-flex" id="toc-item-LSTM结构推导，为什么比RNN好" href="#LSTM结构推导，为什么比RNN好"><span>LSTM结构推导，为什么比RNN好</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数" href="#为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数"><span>为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数</span></a></li></ul></li><li><a class="is-flex" id="toc-item-为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数" href="#为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数"><span>为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数" href="#Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数"><span>Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数</span></a></li></ul></li><li><a class="is-flex" id="toc-item-Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数" href="#Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数"><span>Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-什么是激活函数，为什么要用非线性激活函数" href="#什么是激活函数，为什么要用非线性激活函数"><span>什么是激活函数，为什么要用非线性激活函数</span></a></li></ul></li><li><a class="is-flex" id="toc-item-什么是激活函数，为什么要用非线性激活函数" href="#什么是激活函数，为什么要用非线性激活函数"><span>什么是激活函数，为什么要用非线性激活函数</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-ReLu为什么要好过于tanh和sigmoid" href="#ReLu为什么要好过于tanh和sigmoid"><span>ReLu为什么要好过于tanh和sigmoid</span></a></li></ul></li><li><a class="is-flex" id="toc-item-ReLu为什么要好过于tanh和sigmoid" href="#ReLu为什么要好过于tanh和sigmoid"><span>ReLu为什么要好过于tanh和sigmoid</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-神经网络里的正则化为什么能防止过拟合" href="#神经网络里的正则化为什么能防止过拟合"><span>神经网络里的正则化为什么能防止过拟合</span></a></li></ul></li><li><a class="is-flex" id="toc-item-神经网络里的正则化为什么能防止过拟合" href="#神经网络里的正则化为什么能防止过拟合"><span>神经网络里的正则化为什么能防止过拟合</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-什麽样的资料集不适合用深度学习" href="#什麽样的资料集不适合用深度学习"><span>什麽样的资料集不适合用深度学习</span></a></li></ul></li><li><a class="is-flex" id="toc-item-什麽样的资料集不适合用深度学习" href="#什麽样的资料集不适合用深度学习"><span>什麽样的资料集不适合用深度学习</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-广义线性模型是怎被应用在深度学习中" href="#广义线性模型是怎被应用在深度学习中"><span>广义线性模型是怎被应用在深度学习中</span></a></li></ul></li><li><a class="is-flex" id="toc-item-广义线性模型是怎被应用在深度学习中" href="#广义线性模型是怎被应用在深度学习中"><span>广义线性模型是怎被应用在深度学习中</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-深度学习与传统机器学习的数据划分区别" href="#深度学习与传统机器学习的数据划分区别"><span>深度学习与传统机器学习的数据划分区别</span></a></li></ul></li><li><a class="is-flex" id="toc-item-深度学习与传统机器学习的数据划分区别" href="#深度学习与传统机器学习的数据划分区别"><span>深度学习与传统机器学习的数据划分区别</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-神经网络发展历史" href="#神经网络发展历史"><span>神经网络发展历史</span></a></li></ul></li><li><a class="is-flex" id="toc-item-神经网络发展历史" href="#神经网络发展历史"><span>神经网络发展历史</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的" href="#神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的"><span>神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的</span></a></li></ul></li><li><a class="is-flex" id="toc-item-神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的" href="#神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的"><span>神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-CNN经典网络对比" href="#CNN经典网络对比"><span>CNN经典网络对比</span></a></li></ul></li><li><a class="is-flex" id="toc-item-CNN经典网络对比" href="#CNN经典网络对比"><span>CNN经典网络对比</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-dropout随机失活" href="#dropout随机失活"><span>dropout随机失活</span></a></li></ul></li><li><a class="is-flex" id="toc-item-dropout随机失活" href="#dropout随机失活"><span>dropout随机失活</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-简单说下sigmoid激活函数" href="#简单说下sigmoid激活函数"><span>简单说下sigmoid激活函数</span></a></li></ul></li><li><a class="is-flex" id="toc-item-简单说下sigmoid激活函数" href="#简单说下sigmoid激活函数"><span>简单说下sigmoid激活函数</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-上采样和下采样" href="#上采样和下采样"><span>上采样和下采样</span></a></li></ul></li><li><a class="is-flex" id="toc-item-上采样和下采样" href="#上采样和下采样"><span>上采样和下采样</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-什么是感知器" href="#什么是感知器"><span>什么是感知器</span></a></li></ul></li><li><a class="is-flex" id="toc-item-什么是感知器" href="#什么是感知器"><span>什么是感知器</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-神经网络隐层维度规则" href="#神经网络隐层维度规则"><span>神经网络隐层维度规则</span></a></li></ul></li><li><a class="is-flex" id="toc-item-神经网络隐层维度规则" href="#神经网络隐层维度规则"><span>神经网络隐层维度规则</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-偏差方差及其应对方法" href="#偏差方差及其应对方法"><span>偏差方差及其应对方法</span></a></li></ul></li><li><a class="is-flex" id="toc-item-偏差方差及其应对方法" href="#偏差方差及其应对方法"><span>偏差方差及其应对方法</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-应对方法" href="#应对方法"><span>应对方法</span></a></li><li><a class="is-flex" id="toc-item-CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？" href="#CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？"><span>CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？</span></a></li></ul></li><li><a class="is-flex" id="toc-item-CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？" href="#CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？"><span>CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？为什么AlphaGo里也用了CNN？这几个不相关的问题的相似性在哪里？CNN通过什么手段抓住了这个共性？</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-为什么很多做人脸的Paper会最后加入一个Local-Connected-Conv" href="#为什么很多做人脸的Paper会最后加入一个Local-Connected-Conv"><span>为什么很多做人脸的Paper会最后加入一个Local Connected Conv</span></a></li></ul></li><li><a class="is-flex" id="toc-item-为什么很多做人脸的Paper会最后加入一个Local Connected Conv" href="#为什么很多做人脸的Paper会最后加入一个Local Connected Conv"><span>为什么很多做人脸的Paper会最后加入一个Local Connected Conv</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-Dilated-Convolution空洞卷积-扩张卷积-膨胀卷积" href="#Dilated-Convolution空洞卷积-扩张卷积-膨胀卷积"><span>Dilated Convolution空洞卷积&amp;#x2F;扩张卷积&amp;#x2F;膨胀卷积</span></a></li></ul></li><li><a class="is-flex" id="toc-item-Dilated Convolution空洞卷积/扩张卷积/膨胀卷积" href="#Dilated Convolution空洞卷积/扩张卷积/膨胀卷积"><span>Dilated Convolution空洞卷积&amp;#x2F;扩张卷积&amp;#x2F;膨胀卷积</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-Word2vec之Skip-Gram模型" href="#Word2vec之Skip-Gram模型"><span>Word2vec之Skip-Gram模型</span></a></li></ul></li><li><a class="is-flex" id="toc-item-Word2vec之Skip-Gram模型" href="#Word2vec之Skip-Gram模型"><span>Word2vec之Skip-Gram模型</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-文本数据抽取" href="#文本数据抽取"><span>文本数据抽取</span></a></li></ul></li><li><a class="is-flex" id="toc-item-文本数据抽取" href="#文本数据抽取"><span>文本数据抽取</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-迁移学习" href="#迁移学习"><span>迁移学习</span></a></li></ul></li><li><a class="is-flex" id="toc-item-迁移学习" href="#迁移学习"><span>迁移学习</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-生成对抗网络" href="#生成对抗网络"><span>生成对抗网络</span></a></li></ul></li><li><a class="is-flex" id="toc-item-生成对抗网络" href="#生成对抗网络"><span>生成对抗网络</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-命名实体识别" href="#命名实体识别"><span>命名实体识别</span></a></li></ul></li><li><a class="is-flex" id="toc-item-命名实体识别" href="#命名实体识别"><span>命名实体识别</span></a></li></ul></li></ul></div></div><script type="text/javascript" async>
+        $(document).ready(function () { //参考自 https://github.com/ppoffice/hexo-theme-icarus/pull/616/files
+            var observerTopMargin;
+            var scrollObserver;
+            var headerElems = $(".headerlink");
+            var activeTocItem;
+        
+            function initIntersectionObserver(docHeight) {
+                observerTopMargin = docHeight;
+                scrollObserver = new IntersectionObserver(scrollCallBack,
+                    {
+                        root: null,  // viewpoint
+                        rootMargin: docHeight + "px 0px -80% 0px"  // cover top 30% of viewport to the top of document
+                    })
+            }
+        
+            function scrollCallBack(entries, observer) {
+                if ($(window).scrollTop() > observerTopMargin * 0.7) { 
+                    // User somehow scroll to 70% of observerTopMargin (which is inited as 200% document height)
+                    // Observer top margin need to extend to cover all the space to the top of the document
+                    initIntersectionObserver(observerTopMargin * 2)
+                    observer.disconnect();
+                    return;
+                }
+                let toActive;
+                if (entries[0].intersectionRatio == 1) {  // enter viewed area
+                    let entry = entries.reduce((u, v) => (u.target.toc_id > v.target.toc_id ? u : v));  // get the lowest item
+                    toActive = $("#toc-item-" + $(entry.target).attr("href").substr(1));
+                } else {
+                    let entry = entries.reduce((u, v) => (u.target.toc_id < v.target.toc_id ? u : v));  // get the highest item
+                    let idx = Math.max(entry.target.toc_id - 1, 0);
+                    toActive = $("#toc-item-" + $(headerElems[idx]).attr("href").substr(1));
+                }
+                if (activeTocItem) activeTocItem.removeClass("is-current");
+                activeTocItem = toActive
+                activeTocItem.addClass("is-current");
+            }
+        
+            initIntersectionObserver($(document).height() * 2);
+            headerElems.each(function (index, obj) {
+                obj.toc_id = index;
+                scrollObserver.observe(obj);
+            })
+        });</script></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2021-01-02T14:22:00.000Z">2021-01-02</time></p><p class="title is-6"><a class="link-muted" href="/2021/01/02/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2021-01-01T14:22:00.000Z">2021-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2021/01/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-04-10T16:00:00.000Z">2020-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2020/04/11/%E4%BB%8ENB%E5%88%B0%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">从NB到语言模型</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/NLP/">NLP</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-04-10T16:00:00.000Z">2020-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2020/04/11/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/">朴素贝叶斯</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2018-07-10T14:22:00.000Z">2018-07-10</time></p><p class="title is-6"><a class="link-muted" href="/2018/07/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E5%90%B4%E6%81%A9%E8%BE%BE%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/">吴恩达目标检测课堂笔记</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/NLP/"><span class="level-start"><span class="level-item">NLP</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">机器学习</span></span><span class="level-end"><span class="level-item tag">10</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><span class="level-start"><span class="level-item">深度学习</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2021/01/"><span class="level-start"><span class="level-item">一月 2021</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/04/"><span class="level-start"><span class="level-item">四月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><a class="level is-mobile is-marginless" href="/archives/"><span class="level-start"><span class="level-item">查看全部&gt;&gt;</span></span></a></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a><p class="size-small"><span>&copy; 2020 wasim37</span>  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://wangxin123.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back-to-top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script src="/js/gallery.js" defer></script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            MathJax.Hub.Config({
+                'HTML-CSS': {
+                    matchFontHeight: false
+                },
+                SVG: {
+                    matchFontHeight: false
+                },
+                CommonHTML: {
+                    matchFontHeight: false
+                },
+                tex2jax: {
+                    inlineMath: [
+                        ['$','$'],
+                        ['\\(','\\)']
+                    ]
+                }
+            });
+        });</script><!--!--><script src="/js/main.js" defer></script><script src="/js/comment-issue-data.js" defer></script><link rel="stylesheet" href="/css/insight.css"><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="想要查找什么..."><span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>(function (window) {
+            var INSIGHT_CONFIG = {
+                TRANSLATION: {
+                    POSTS: '文章',
+                    PAGES: '页面',
+                    CATEGORIES: '分类',
+                    TAGS: '标签',
+                    UNTITLED: '(无标题)',
+                },
+                CONTENT_URL: '/content.json',
+            };
+            window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+        })(window);</script><script src="/js/insight.js" defer></script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>

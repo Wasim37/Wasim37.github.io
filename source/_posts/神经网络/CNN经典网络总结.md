@@ -2,9 +2,8 @@
 title: CNN经典网络总结
 tags:
   - CNN
-  - 经典网络
 categories:
-  - 
+  - 神经网络
 date: 2018-1-15 22:22:00
 toc: true
 mathjax: true
