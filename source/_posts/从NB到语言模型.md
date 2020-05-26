@@ -6,12 +6,11 @@ categories:
   - NLP
 date: 2020-04-11
 toc: true
-top: 100
+thumbnail: 
+recommend: 0
 mathjax: true
 
 ---
-
-# 贝叶斯
 
 <a name="n4jr6"></a>
 ## 1. 引言：朴素贝叶斯的局限性
@@ -30,6 +29,8 @@ mathjax: true
 > $$P(x_1,x_2,x_3,x_4,x_5,x_6,x_7,x_8,x_9,x_{10})$$
 > $$=P(x_1)P(x_2)P(x_3)P(x_4)P(x_5)P(x_6)P(x_7)P(x_8)P(x_9)P(x_{10})$$
 > $$=P(“我”)P(“司”)P(“可”)P(“办理”)...P(“优惠”)$$
+
+<!-- more -->
 
 上面的公式要求满足独立性假设，如果去掉独立性假设，我们应该有下面这个**恒等式，即联合概率链规则(chain rule)** ：
 > $$P(x_1,x_2,x_3,x_4,x_5,…,x_n)$$
