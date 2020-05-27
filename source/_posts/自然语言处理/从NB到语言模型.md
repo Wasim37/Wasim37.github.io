@@ -4,7 +4,7 @@ tags:
   - 贝叶斯
 categories:
   - 自然语言处理
-date: 2020-04-11
+date: 2019-04-11
 toc: true
 thumbnail: 
 recommend: 0

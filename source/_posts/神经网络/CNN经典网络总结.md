@@ -197,3 +197,9 @@ $$a^{[l+2]} = g(a^{[l]}) = ReLU(a^{[l]}) = a^{[l]}$$
 ### 经典网络对比
 
 ![](https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/62.png)
+
+![](https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/21.png)
+
+更多详情见：
+[从LeNet到AlexNet](http://blog.csdn.net/cyh_24/article/details/51440344)
+[Deep Learning回顾#之LeNet、AlexNet、GoogLeNet、VGG、ResNet](https://zhuanlan.zhihu.com/p/22094600)

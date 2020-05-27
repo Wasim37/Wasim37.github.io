@@ -10,30 +10,15 @@ mathjax: true
 
 ---
 
-持续更新中。。。
-
-<!-- more -->
-
-- [示例代码](https://github.com/Wasim37/machine_learning_code/tree/master/04%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%20SVM/notebook)
-- [SVM目标函数推导](#SVM目标函数推导)
-- [大边界的直观理解与数学解释](#大边界的直观理解与数学解释)
-- [核函数](#核函数)
-- [常用核函数及核函数的条件](#常用核函数及核函数的条件)
-- [逻辑回归、SVM和神经网络使用场景](#逻辑回归、SVM和神经网络使用场景)
-- [吴恩达SVM视频笔记](http://www.ai-start.com/ml2014/html/week7.html)
-- [支持向量机通俗导论（理解SVM的三层境界）](#支持向量机通俗导论（理解SVM的三层境界）)
-- [带核的SVM为什么能分类非线性问题](#带核的SVM为什么能分类非线性问题)
-- [SVM常见问题](https://blog.csdn.net/yanhx1204/article/details/79481003)
-
----
-
-### <h2 id="SVM目标函数推导">SVM目标函数推导</h2>
+### SVM目标函数推导
 **SVM就是寻找一个超平面，将所有的数据点尽可能的分开，而且数据点离超平面距离越远越好。**
 相对逻辑回归和神经网络，SVM在学习复杂的**非线性方程**时提供了一种更为清晰，更加强大的方式。
 
 SVM 模型可以由 LR 模型推导而来，下面是 LR 的直观理解：
 
 ![](https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/SVM/SVM_0.png)
+
+<!-- more -->
 
 LR 单个样本的损失函数：
 
@@ -64,7 +49,7 @@ $$\min_\limits{\theta}C\sum_\limits{i=1}^{m}\left[y^{(i)}{\cos}t_{1}\left(\theta
 
 ---
 
-### <h2 id="大边界的直观理解与数学解释">大边界的直观理解与数学解释</h2>
+### 大边界的直观理解与数学解释
 SVM 不仅需要能分类，还需要较高的鲁棒性，需要努力寻找一个最大间距（下图中的黑色超平面）来分离样本。所以 SVM 有时被称为**大间距分类器**。
 
 ![](https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/SVM/SVM_8.png)
@@ -105,7 +90,7 @@ $$\min_\limits{\theta}C\sum_\limits{i=1}^{m}\left[y^{(i)}{\cos}t_{1}\left(\theta
 
 ---
 
-### <h2 id="核函数">核函数</h2>
+### 核函数
 
 **SVM 在处理非线性可分问题时，会使用核函数。核函数具体怎么来的，可以概括为以下三点：**
 （1）实际中，我们会经常遇到线性不可分的样例，此时，我们的常用做法是把样例特征映射到高维空间中去
@@ -162,7 +147,7 @@ $$\min_\limits{\theta}C\sum_\limits{i=1}^{m}\left[y^{(i)}{\cos}t_{1}\left(\theta
 
 ---
 
-### <h2 id="逻辑回归、SVM和神经网络使用场景">逻辑回归、SVM和神经网络使用场景</h2>
+### 逻辑回归、SVM和神经网络使用场景
 
 由逻辑回归的目标函数可以近似推导出不带核函数的 SVM 的目标函数，所以**逻辑回归和不带核函数的 SVM 是非常相似的算法，它们通常会做相似的事情，并给出相似的结果**。但当模型的复杂度上升，比如当你有多达1万的样本时，也可能是5万，你的**特征变量数量就会非常大**。在这样一个非常常见的体系里，**不带核函数的 SVM 就会表现得尤其突出**。
 
@@ -178,14 +163,14 @@ n 为特征数，m 为训练样本数。
 
 ---
 
-### <h2 id="支持向量机通俗导论（理解SVM的三层境界）">支持向量机通俗导论（理解SVM的三层境界）</h2>
+### 支持向量机通俗导论（理解SVM的三层境界）
 在线阅读链接：http://blog.csdn.net/v_july_v/article/details/7624837
 网盘下载地址：https://pan.baidu.com/s/1htfvbzI 密码：qian
 建议下载网盘里的pdf阅读，文档附带完整书签。
 
 ---
 
-### <h2 id="常用核函数及核函数的条件">常用核函数及核函数的条件</h2>
+### 常用核函数及核函数的条件
 
 推荐一篇文章： [svm核函数的理解和选择](https://blog.csdn.net/leonis_v/article/details/50688766)
 
@@ -193,11 +178,15 @@ n 为特征数，m 为训练样本数。
 
 ---
 
-### <h2 id="带核的SVM为什么能分类非线性问题">带核的SVM为什么能分类非线性问题</h2> 
+### 带核的SVM为什么能分类非线性问题
 
 **核函数的本质是两个函数的內积，通过核函数，SVM将低维数据隐射到高维空间，在高维空间，非线性问题转化为线性问题**，详见 [核函数](#核函数)。
 ![](https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/SVM/SVM_14.png)
 
 
-
 ---
+
+### 链接相关
+- [示例代码](https://github.com/Wasim37/machine_learning_code/tree/master/04%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%20SVM/notebook)
+- [吴恩达SVM视频笔记](http://www.ai-start.com/ml2014/html/week7.html)
+- [SVM常见问题](https://blog.csdn.net/yanhx1204/article/details/79481003)

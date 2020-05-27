@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>聚类算法 - 星空str</title><meta description="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:type" content="blog"><meta property="og:title" content="Wasim37"><meta property="og:url" content="https://wangxin123.com/"><meta property="og:site_name" content="Wasim37"><meta property="og:description" content="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><meta property="article:published_time" content="2017-10-25T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-27T07:56:28.380Z"><meta property="article:author" content="Wasim37"><meta property="article:tag" content="聚类"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://wangxin123.com/"},"headline":"Wasim37","image":["https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"],"datePublished":"2017-10-25T14:22:00.000Z","dateModified":"2020-05-27T07:56:28.380Z","author":{"@type":"Person","name":"Wasim37"},"description":"ai,机器学习,深度学习,算法,leetcode,java"}</script><link rel="alternative" href="/atom.xml" title="星空str" type="application/atom+xml"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><link rel="stylesheet" href="/css/style.css"><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="/js/globalUtils.js"></script></head><body class="is-2-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2017-10-25T14:22:00.000Z">2017-10-25</time><a class="commentCountImg" href="/2017/10/25/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/#comment-container"><span class="display-none-class">4bf7bf6c585216595e9cce01d69be18b</span><img class="not-gallery-item" src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/chat.svg"> <span class="commentCount" id="4bf7bf6c585216595e9cce01d69be18b"> 0</span>    </a><span class="level-item"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/">经典模型</a></span><span class="level-item">21 分钟 读完 (大约 3129 个字)</span><span class="level-item" id="busuanzi_container_page_pv"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">聚类算法</h1><div class="content"><ul>
+<li><a href="https://github.com/Wasim37/machine_learning_code/tree/master/05%20%E8%81%9A%E7%B1%BB%20Clustering">示例代码</a></li>
+<li><a href="https://www.processon.com/view/link/5ad81e5be4b046910642bc4b">思维导图</a></li>
+<li><a href="#聚类简介">聚类简介</a></li>
+<li><a href="#kmeans">kmeans</a></li>
+<li><a href="#Mini Batch K-Means">Mini Batch K-Means</a></li>
+<li><a href="#二分KMeans算法">二分KMeans算法</a></li>
+<li><a href="#Kmeans++">Kmeans++</a></li>
+<li><a href="#层次聚类">层次聚类</a></li>
+<li><a href="#密度聚类">密度聚类</a></li>
+<li><a href="#谱聚类">谱聚类</a></li>
+</ul>
+<a id="more"></a>
+<hr>
+<h3 id="聚类简介"><a href="#聚类简介" class="headerlink" title="聚类简介"></a>聚类简介</h3><p>聚类就是对大量未知标注的数据集，按照数据 <strong>内部存在的数据特征</strong> 将数据集划分为 <strong>多个不同的类别</strong>，使 <strong>类别内的数据比较相似，类别之间的数据相似度比较小</strong>；</p>
+<p>聚类算法的<font color="red">重点是计算样本项之间的相似度，有时候也称为样本间的距离。</font></p>
+<p>聚类属于无监督学习，和分类算法的区别：<br>（1）分类算法是有监督学习，基于有标注的历史数据进行算法模型构建<br>（2）聚类算法是无监督学习，数据集中的数据是没有标注的</p>
+<p><strong>聚类算法的衡量指标:</strong></p>
+<ul>
+<li>混淆矩阵</li>
+<li>均一性</li>
+<li>完整性</li>
+<li>V-measure</li>
+<li>调整兰德系数(ARI)</li>
+<li>调整互信息(AMI)</li>
+<li>轮廓系数(Silhouette)</li>
+</ul>
+<hr>
+<h3 id="kmeans"><a href="#kmeans" class="headerlink" title="kmeans"></a>kmeans</h3><p>K-means算法，也称为K-平均或者K-均值，是一种使用广泛的最基础的聚类算法，一般作为接触聚类算法的第一个算法。</p>
+<p>假设输入样本为 T=X1, X2, …, Xm; 则 <strong>算法步骤为</strong>（使用欧几里得距离公式）：<br>（1）随机初始化 k 个类别中心 a1, a2,…ak;<br>（2）对于每个样本 Xi，将其标记为距离类别中心 aj 最近的类别 j<br>（3）更新每个类别的中心点 aj 为隶属该类别的所有样本的均值<br>（4）重复上面两步操作，直到达到某个中止条件</p>
+<p><strong>中止条件</strong>：迭代次数、最小平方误差MSE、簇中心点变化率</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%81%9A%E7%B1%BB/20180515105259.png" alt=""></p>
+<p><strong>K-means算法在迭代的过程中使用所有点的均值作为新的质点(中心点)，如果簇中存在异常点，将导致均值偏差比较严重。K-means算法是初值敏感的，选择不同的初始值可能导致不同的簇划分规则。</strong></p>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>K值是用户给定的，在进行数据处理前，K值是未知的，不同的K值得到的结果也不一样；</li>
+<li>对初始簇中心点是敏感的</li>
+<li>不适合发现非凸形状的簇或者大小差别较大的簇</li>
+<li>特殊值(离群值)对模型的影响比较大</li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li>理解容易，聚类效果不错</li>
+<li>处理大数据集的时候，该算法可以保证较好的伸缩性和高效率</li>
+<li>当簇近似高斯分布的时候，效果非常不错</li>
+</ul>
+<hr>
+<h3 id="Mini-Batch-K-Means"><a href="#Mini-Batch-K-Means" class="headerlink" title="Mini Batch K-Means"></a>Mini Batch K-Means</h3><p><strong>当需要聚类的数据量非常大的时候，效率是最重要的诉求。</strong></p>
+<p>Mini Batch K-Means算法是K-Means算法的一种优化变种，采用<font color="red">小规模的数据子集</font>(每次训练使用的数据集是在训练算法的时候随机抽取的数据子集)<font color="red">减少计算时间</font>，同时试图优化目标函数；<strong>Mini Batch K-Means算法可以减少K-Means算法的收敛时间，而且产生的结果效果只是略差于标准K-Means算法。</strong></p>
+<p>算法步骤如下：</p>
+<ul>
+<li>首先 <strong>抽取部分数据集</strong>，使用K-Means算法构建出K个聚簇点的模型</li>
+<li>继续抽取训练数据集中的部分数据集样本数据，并将其添加到模型中，分配给距离最近的聚簇中心点</li>
+<li>更新聚簇的中心点值</li>
+<li>循环迭代第二步和第三步操作，直到中心点稳定或者达到迭代次数，停止计算操作</li>
+</ul>
+<hr>
+<h3 id="二分KMeans算法"><a href="#二分KMeans算法" class="headerlink" title="二分KMeans算法"></a>二分KMeans算法</h3><p><strong>解决K-Means算法对初始簇心比较敏感的问题</strong>，二分K-Means算法是一种弱化初始质心的一种算法。</p>
+<p>具体思路步骤如下：</p>
+<ul>
+<li><strong>将所有样本数据作为一个簇放到一个队列中</strong></li>
+<li><strong>从队列中选择一个簇进行K-means算法划分，划分为两个子簇，并将子簇添加到队列中</strong></li>
+<li>循环迭代第二步操作，直到中止条件达到(聚簇数量、最小平方误差、迭代次数等)</li>
+<li>队列中的簇就是最终的分类簇集合</li>
+</ul>
+<p>从队列中 <strong>选择划分聚簇</strong> 的规则一般有两种方式；</p>
+<ul>
+<li>对所有簇计算误差和SSE(SSE也可以认为是距离函数的一种变种)，选择SSE最大的聚簇进行划分<br>操作(优选这种策略)</li>
+<li>选择样本数据量最多的簇进行划分操作</li>
+</ul>
+<font color="red">由于计算量大，二分KMeans优化算法使用的比较少</font>
+
+<hr>
+<h3 id="Kmeans"><a href="#Kmeans" class="headerlink" title="Kmeans++"></a>Kmeans++</h3><p><strong>解决K-Means算法对初始簇心比较敏感的问题，使用非常广泛。</strong></p>
+<p>K-Means++算法和K-Means算法的区别主要在于K的选择上。K-Means算法使用随机给定的方式。K-means++的思想则是：<font color="red">初始的聚类中心之间的相互距离要尽可能的远</font>。</p>
+<p>主要步骤如下：</p>
+<ul>
+<li>从输入的数据点集合中 <strong>随机选择一个点作为第一个聚类中心</strong></li>
+<li><strong>对于数据集中的每一个点x，计算它与最近聚类中心(指已选择的聚类中心)的距离D(x)</strong></li>
+<li><strong>选择一个新的数据点作为新的聚类中心，选择的原则是：D(x)较大的点，被选取作为聚类中心的概率较大</strong></li>
+<li>重复2和3直到k个聚类中心被选出来</li>
+<li>利用这k个初始的聚类中心来运行标准的k-means算法</li>
+</ul>
+<p>从上面的算法描述上可以看到，<strong>算法的关键是第3步</strong>，如何将D(x)反映到点被选择的概率上，一种算法如下(详见此地)：</p>
+<ul>
+<li>先从我们的数据库随机挑个随机点当“种子点”</li>
+<li>对于每个点，我们都计算其和最近的一个“种子点”的距离D(x)并保存在一个数组里，然后把这些距离加起来得到Sum(D(x))。</li>
+<li>然后，再取一个随机值，用权重的方式来取计算下一个“种子点”。这个算法的实现是，先取一个能落在Sum(D(x))中的随机值Random，然后用Random -= D(x)，直到其&lt;=0，此时的点就是下一个“种子点”。</li>
+<li>重复2和3直到k个聚类中心被选出来</li>
+<li>利用这k个初始的聚类中心来运行标准的k-means算法</li>
+</ul>
+<p>可以看到算法的第三步选取新中心的方法，这样就能保证距离D(x)较大的点，会被选出来作为聚类中心了。至于为什么原因很简单，如下图 所示：<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E8%81%9A%E7%B1%BB/20180515111218.png" alt=""></p>
+<p>假设A、B、C、D的D(x)如上图所示，当算法取值Sum(D(x))*random时，该值会以较大的概率落入D(x)较大的区间内，所以对应的点会以较大的概率被选中作为新的聚类中心。</p>
+<p><strong>缺点</strong>：由于聚类中心点选择过程中的内在有序性，在扩展方面存在着性能方面的问题(第k个聚类中心点的选择依赖前k-1个聚类中心点的值)</p>
+<hr>
+<h3 id="层次聚类-Hierarchical-Clustering"><a href="#层次聚类-Hierarchical-Clustering" class="headerlink" title="层次聚类 Hierarchical Clustering"></a>层次聚类 Hierarchical Clustering</h3><p><strong>k-means聚类算法的一个变体，主要是为了改进k-means算法随机选择初始质心的随机性造成聚类结果不确定性的问题。</strong></p>
+<p>层次聚类算法主要分为两大类算法：</p>
+<ul>
+<li>凝聚的层次聚类：<strong>AGNES</strong> 算法(AGglomerative NESting)==&gt;采用 <strong>自底向上</strong> 的策略。<strong>最初将每个对象作为一个簇，然后这些簇根据某些准则被一步一步合并</strong>，两个簇间的距离可以由这两个不同簇中距离最近的数据点的相似度来确定；聚类的合并过程反复进行直到所有的对象满足簇数目。</li>
+<li>分裂的层次聚类：<strong>DIANA</strong> 算法(DIvisive ANALysis)==&gt;采用 <strong>自顶向下</strong> 的策略。<strong>首先将所有对象置于一个簇中，然后按照某种既定的规则逐渐细分为越来越小的簇</strong>(比如最大的欧式距离)，直到达到某个终结条件(簇数目或者簇距离达到阈值)。</li>
+</ul>
+<p><strong>优缺点</strong></p>
+<ul>
+<li>简单，理解容易</li>
+<li>合并点/分裂点选择不太容易</li>
+<li>合并/分类的操作不能进行撤销</li>
+<li>大数据集不太适合</li>
+<li>执行效率较低O(t*n 2 )，t为迭代次数，n为样本点数</li>
+</ul>
+<hr>
+<h3 id="密度聚类"><a href="#密度聚类" class="headerlink" title="密度聚类"></a>密度聚类</h3><p><strong>解决K-Means算法只能发现凸聚类的缺点。</strong></p>
+<p><strong>密度聚类可以发现任意形状的聚类，而且对噪声数据不敏感。但是计算复杂度高，计算量大。常用算法为 DBSCAN 和 密度最大值算法。</strong></p>
+<hr>
+<h1 id="kmeans的复杂度"><a href="#kmeans的复杂度" class="headerlink" title="kmeans的复杂度"></a>kmeans的复杂度</h1><p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/34.png" alt=""></p>
+<p>时间复杂度：O(tKmn)，其中，t为迭代次数，K为簇的数目，m为记录数，n为维数<br>空间复杂度：O((m+K)n)，其中，K为簇的数目，m为记录数，n为维数</p>
+<hr>
+<h1 id="优化Kmeans"><a href="#优化Kmeans" class="headerlink" title="优化Kmeans"></a>优化Kmeans</h1><p>Kmeans总结：<br><a href="https://www.processon.com/view/link/5ad81e5be4b046910642bc4b">https://www.processon.com/view/link/5ad81e5be4b046910642bc4b</a></p>
+<p>使用kd树或者ball tree<br>将所有的观测实例构建成一颗kd树，之前每个聚类中心都是需要和每个观测点做依次距离计算，现在这些聚类中心根据kd树只需要计算附近的一个局部区域即可。</p>
+<hr>
+<h1 id="KMeans初始类簇中心点的选取"><a href="#KMeans初始类簇中心点的选取" class="headerlink" title="KMeans初始类簇中心点的选取"></a>KMeans初始类簇中心点的选取</h1><p>k-means++算法选择初始seeds的基本思想就是：初始的聚类中心之间的相互距离要尽可能的远。</p>
+<ol>
+<li>从输入的数据点集合中随机选择一个点作为第一个聚类中心</li>
+<li>对于数据集中的每一个点x，计算它与最近聚类中心(指已选择的聚类中心)的距离D(x)</li>
+<li>选择一个新的数据点作为新的聚类中心，选择的原则是：D(x)较大的点，被选取作为聚类中心的概率较大</li>
+<li>重复2和3直到k个聚类中心被选出来</li>
+<li>利用这k个初始的聚类中心来运行标准的k-means算法</li>
+</ol>
+<hr>
+<h1 id="在k-means或kNN，我们是用欧氏距离来计算最近的邻居之间的距离。为什么不用曼哈顿距离"><a href="#在k-means或kNN，我们是用欧氏距离来计算最近的邻居之间的距离。为什么不用曼哈顿距离" class="headerlink" title="在k-means或kNN，我们是用欧氏距离来计算最近的邻居之间的距离。为什么不用曼哈顿距离"></a>在k-means或kNN，我们是用欧氏距离来计算最近的邻居之间的距离。为什么不用曼哈顿距离</h1><p>闵可夫斯基距离(Minkowski)<br>（1）当p为1的时候是<strong>曼哈顿距离</strong>(Manhattan)（城市街区距离）<br>（2）当p为2的时候是<strong>欧式距离</strong>(Euclidean)（又称欧几里得度量，最常见的两点之间或多点之间的距离表示法）<br>（3）当p为无穷大的时候是<strong>切比雪夫距离</strong>(Chebyshev)</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180419192857.png" alt=""></p>
+<p><strong>不用曼哈顿距离，因为它只计算水平或垂直距离，有维度的限制</strong>。而欧氏距离可用于任何空间的距离计算。因为数据点可以存在于任何空间，所以欧氏距离是更可行的选择。</p>
+<p>但<strong>欧氏距离也有明显的缺点。它将样本不同属性（即各指标或各变量量纲）之间的差别等同看待</strong>，这一点有时不能满足实际要求。</p>
+<p>曼哈顿距离和欧式距离一般用途不同，无相互替代性。</p>
+</div><div class="article-tags size-small is-uppercase mb-4"><i class="fas fa-tags has-text-grey"></i> <a class="link-muted mr-2" rel="tag" href="/tags/%E8%81%9A%E7%B1%BB/">聚类</a></div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/ali-zfb.png" alt="支付宝"></span></a><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/weixin-pay.png" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2017/10/26/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%AE%97%E6%B3%95/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">贝叶斯算法</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2017/10/22/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/KNN/"><span class="level-item">KNN</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"><script src="/js/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: '4bf7bf6c585216595e9cce01d69be18b',
+            repo: 'blog_comment',
+            owner: 'Wasim37',
+            clientID: '55fcbea044b44e047f89',
+            clientSecret: '47addd42a9469d80bd508118ac73033915e3142c',
+            admin: ["wasim37"],
+            createIssueManually: true,
+            distractionFreeMode: false,
+            perPage: 10,
+            pagerDirection: 'last',
+            
+            
+            enableHotKey: true,
+            isLocked: false
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget toc-scroll" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><ul class="menu-list"><ul class="menu-list"><li><a class="is-flex" id="toc-item-聚类简介" href="#聚类简介"><span>聚类简介</span></a></li><li><a class="is-flex" id="toc-item-kmeans" href="#kmeans"><span>kmeans</span></a></li><li><a class="is-flex" id="toc-item-Mini-Batch-K-Means" href="#Mini-Batch-K-Means"><span>Mini Batch K-Means</span></a></li><li><a class="is-flex" id="toc-item-二分KMeans算法" href="#二分KMeans算法"><span>二分KMeans算法</span></a></li><li><a class="is-flex" id="toc-item-Kmeans" href="#Kmeans"><span>Kmeans++</span></a></li><li><a class="is-flex" id="toc-item-层次聚类-Hierarchical-Clustering" href="#层次聚类-Hierarchical-Clustering"><span>层次聚类 Hierarchical Clustering</span></a></li><li><a class="is-flex" id="toc-item-密度聚类" href="#密度聚类"><span>密度聚类</span></a></li></ul></ul><li><a class="is-flex" id="toc-item-kmeans的复杂度" href="#kmeans的复杂度"><span>kmeans的复杂度</span></a></li><li><a class="is-flex" id="toc-item-优化Kmeans" href="#优化Kmeans"><span>优化Kmeans</span></a></li><li><a class="is-flex" id="toc-item-KMeans初始类簇中心点的选取" href="#KMeans初始类簇中心点的选取"><span>KMeans初始类簇中心点的选取</span></a></li><li><a class="is-flex" id="toc-item-在k-means或kNN，我们是用欧氏距离来计算最近的邻居之间的距离。为什么不用曼哈顿距离" href="#在k-means或kNN，我们是用欧氏距离来计算最近的邻居之间的距离。为什么不用曼哈顿距离"><span>在k-means或kNN，我们是用欧氏距离来计算最近的邻居之间的距离。为什么不用曼哈顿距离</span></a></li></ul></div></div><script type="text/javascript" async>
+        $(document).ready(function () { //参考自 https://github.com/ppoffice/hexo-theme-icarus/pull/616/files
+            var observerTopMargin;
+            var scrollObserver;
+            var headerElems = $(".headerlink");
+            var activeTocItem;
+        
+            function initIntersectionObserver(docHeight) {
+                observerTopMargin = docHeight;
+                scrollObserver = new IntersectionObserver(scrollCallBack,
+                    {
+                        root: null,  // viewpoint
+                        rootMargin: docHeight + "px 0px -80% 0px"  // cover top 30% of viewport to the top of document
+                    })
+            }
+        
+            function scrollCallBack(entries, observer) {
+                if ($(window).scrollTop() > observerTopMargin * 0.7) { 
+                    // User somehow scroll to 70% of observerTopMargin (which is inited as 200% document height)
+                    // Observer top margin need to extend to cover all the space to the top of the document
+                    initIntersectionObserver(observerTopMargin * 2)
+                    observer.disconnect();
+                    return;
+                }
+                let toActive;
+                if (entries[0].intersectionRatio == 1) {  // enter viewed area
+                    let entry = entries.reduce((u, v) => (u.target.toc_id > v.target.toc_id ? u : v));  // get the lowest item
+                    toActive = $("#toc-item-" + $(entry.target).attr("href").substr(1));
+                } else {
+                    let entry = entries.reduce((u, v) => (u.target.toc_id < v.target.toc_id ? u : v));  // get the highest item
+                    let idx = Math.max(entry.target.toc_id - 1, 0);
+                    toActive = $("#toc-item-" + $(headerElems[idx]).attr("href").substr(1));
+                }
+                if (activeTocItem) activeTocItem.removeClass("is-current");
+                activeTocItem = toActive
+                activeTocItem.addClass("is-current");
+            }
+        
+            initIntersectionObserver($(document).height() * 2);
+            headerElems.each(function (index, obj) {
+                obj.toc_id = index;
+                scrollObserver.observe(obj);
+            })
+        });</script></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2019-05-21T14:22:00.000Z">2019-05-21</time></p><p class="title is-6"><a class="link-muted" href="/2019/05/21/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E6%A8%A1%E5%9E%8B%E8%B0%83%E7%A0%94/">知识追踪模型调研</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-05-01T14:22:00.000Z">2019-05-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/05/01/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/%E8%AF%95%E9%A2%98%E7%9F%A5%E8%AF%86%E7%82%B9%E6%99%BA%E8%83%BD%E6%A0%87%E6%B3%A8/">试题知识点智能标注</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">项目实践</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-04-10T16:00:00.000Z">2019-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2019/04/11/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E4%BB%8ENB%E5%88%B0%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">从NB到语言模型</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-04-05T16:00:00.000Z">2019-04-06</time></p><p class="title is-6"><a class="link-muted" href="/2019/04/06/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%B8%8E%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/">贝叶斯与垃圾邮件</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-04-03T14:22:00.000Z">2019-04-03</time></p><p class="title is-6"><a class="link-muted" href="/2019/04/03/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/">自然语言处理与词嵌入</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="level-start"><span class="level-item">特征工程</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">理论基础</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"><span class="level-start"><span class="level-item">神经网络</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">经典模型</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"><span class="level-start"><span class="level-item">自然语言处理</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/"><span class="level-start"><span class="level-item">计算机视觉</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"><span class="level-start"><span class="level-item">论文阅读</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/"><span class="level-start"><span class="level-item">项目实践</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2019/05/"><span class="level-start"><span class="level-item">五月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/04/"><span class="level-start"><span class="level-item">四月 2019</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/06/"><span class="level-start"><span class="level-item">六月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><a class="level is-mobile is-marginless" href="/archives/"><span class="level-start"><span class="level-item">查看全部&gt;&gt;</span></span></a></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a><p class="size-small"><span>&copy; 2020 wasim37</span>  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://wangxin123.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back-to-top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script src="/js/gallery.js" defer></script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            MathJax.Hub.Config({
+                'HTML-CSS': {
+                    matchFontHeight: false
+                },
+                SVG: {
+                    matchFontHeight: false
+                },
+                CommonHTML: {
+                    matchFontHeight: false
+                },
+                tex2jax: {
+                    inlineMath: [
+                        ['$','$'],
+                        ['\\(','\\)']
+                    ]
+                }
+            });
+        });</script><!--!--><script src="/js/main.js" defer></script><script src="/js/comment-issue-data.js" defer></script><link rel="stylesheet" href="/css/insight.css"><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="想要查找什么..."><span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>(function (window) {
+            var INSIGHT_CONFIG = {
+                TRANSLATION: {
+                    POSTS: '文章',
+                    PAGES: '页面',
+                    CATEGORIES: '分类',
+                    TAGS: '标签',
+                    UNTITLED: '(无标题)',
+                },
+                CONTENT_URL: '/content.json',
+            };
+            window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+        })(window);</script><script src="/js/insight.js" defer></script></body></html>

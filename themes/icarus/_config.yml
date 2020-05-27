@@ -176,7 +176,7 @@ widgets:
         position: left
         type: profile
         # Author name
-        author: 星空Str
+        author: 星空str
         # Title of the author to be shown in the profile widget
         author_title: Developer
         # Author's current location to be shown in the profile widget
