@@ -11358,10 +11358,6 @@ a.navbar-item.is-active,
   -webkit-box-shadow: unset !important;
   box-shadow: unset !important;
 }
-.toc-scroll {
-  max-height: 500px;
-  overflow: auto;
-}
 .navbar-highlight {
   background-color: #fff !important;
 }

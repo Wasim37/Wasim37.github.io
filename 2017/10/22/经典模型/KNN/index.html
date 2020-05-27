@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>KNN - 星空str</title><meta description="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:type" content="blog"><meta property="og:title" content="Wasim37"><meta property="og:url" content="https://wangxin123.com/"><meta property="og:site_name" content="Wasim37"><meta property="og:description" content="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><meta property="article:published_time" content="2017-10-22T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-26T16:13:43.248Z"><meta property="article:author" content="Wasim37"><meta property="article:tag" content="KNN"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://wangxin123.com/"},"headline":"Wasim37","image":["https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"],"datePublished":"2017-10-22T14:22:00.000Z","dateModified":"2020-05-26T16:13:43.248Z","author":{"@type":"Person","name":"Wasim37"},"description":"ai,机器学习,深度学习,算法,leetcode,java"}</script><link rel="alternative" href="/atom.xml" title="星空str" type="application/atom+xml"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><link rel="stylesheet" href="/css/style.css"><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="/js/globalUtils.js"></script></head><body class="is-2-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2017-10-22T14:22:00.000Z">2017-10-22</time><a class="commentCountImg" href="/2017/10/22/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/KNN/#comment-container"><span class="display-none-class">657991e6af2590a0acf220ca03183d3e</span><img class="not-gallery-item" src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/chat.svg"> <span class="commentCount" id="657991e6af2590a0acf220ca03183d3e"> 0</span>    </a><span class="level-item"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/">经典模型</a></span><span class="level-item">5 分钟 读完 (大约 764 个字)</span><span class="level-item" id="busuanzi_container_page_pv"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">KNN</h1><div class="content"><h3 id="简述KNN算法过程"><a href="#简述KNN算法过程" class="headerlink" title="简述KNN算法过程"></a>简述KNN算法过程</h3><p>谓k最近邻，就是k个最近的邻居的意思，说的是<strong>每个样本都可以用它最接近的k个邻居来代表</strong>。</p>
+<ol>
+<li>计算训练样本和测试样本中每个样本点的距离（常见的距离度量有欧式距离，马氏距离等）；</li>
+<li>对上面所有的距离值进行排序；</li>
+<li>选前k个最小距离的样本；</li>
+<li>根据这k个样本的标签进行投票，得到最后的分类类别；</li>
+</ol>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180514120948.png" alt=""></p>
+<p>KNN算法不仅可以用于分类，<strong>还可以用于回归。</strong><br>通过找出一个样本的k个最近邻居，将这些邻居的属性的平均值赋给该样本，就可以得到该样本的属性。<br>更有用的方法是将不同距离的邻居对该样本产生的影响给予不同的权值(weight)，如权值与距离成反比。</p>
+<hr>
+<h3 id="KNN中的K如何选取的"><a href="#KNN中的K如何选取的" class="headerlink" title="KNN中的K如何选取的"></a>KNN中的K如何选取的</h3><p>关于什么是KNN，可以查看此文：《从K近邻算法、距离度量谈到KD树、SIFT+BBF算法》（链接：<a href="http://blog.csdn.net/v_july_v/article/details/8203674）。KNN中的K值选取对K近邻算法的结果会产生重大影响。如李航博士的一书「统计学习方法」上所说：">http://blog.csdn.net/v_july_v/article/details/8203674）。KNN中的K值选取对K近邻算法的结果会产生重大影响。如李航博士的一书「统计学习方法」上所说：</a></p>
+<p>如果选择较小的K值，就相当于用较小的领域中的训练实例进行预测，“学习”近似误差会减小，只有与输入实例较近或相似的训练实例才会对预测结果起作用，与此同时带来的问题是“学习”的估计误差会增大，换句话说，<strong>K值的减小就意味着整体模型变得复杂，容易发生过拟合；</strong></p>
+<p>如果选择较大的K值，就相当于用较大领域中的训练实例进行预测，其优点是可以减少学习的估计误差，但缺点是学习的近似误差会增大。这时候，与输入实例较远（不相似的）训练实例也会对预测器作用，使预测发生错误，且<strong>K值的增大就意味着整体的模型变得简单。</strong></p>
+<p>K=N，则完全不足取，因为此时无论输入实例是什么，都只是简单的预测它属于在训练实例中最多的累，模型过于简单，忽略了训练实例中大量有用信息。</p>
+<p><strong>在实际应用中，K值一般取一个比较小的数值，例如采用交叉验证法（简单来说，就是一部分样本做训练集，一部分做测试集）来选择最优的K值。</strong></p>
+<hr>
+</div><div class="article-tags size-small is-uppercase mb-4"><i class="fas fa-tags has-text-grey"></i> <a class="link-muted mr-2" rel="tag" href="/tags/KNN/">KNN</a></div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/ali-zfb.png" alt="支付宝"></span></a><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/weixin-pay.png" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2017/10/22/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/SVM/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">SVM</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2017/10/21/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/%E5%86%B3%E7%AD%96%E6%A0%91%E3%80%81%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E5%92%8C%E6%8F%90%E5%8D%87%E7%AE%97%E6%B3%95/"><span class="level-item">决策树、随机森林和提升算法</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"><script src="/js/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: '657991e6af2590a0acf220ca03183d3e',
+            repo: 'blog_comment',
+            owner: 'Wasim37',
+            clientID: '55fcbea044b44e047f89',
+            clientSecret: '47addd42a9469d80bd508118ac73033915e3142c',
+            admin: ["wasim37"],
+            createIssueManually: true,
+            distractionFreeMode: false,
+            perPage: 10,
+            pagerDirection: 'last',
+            
+            
+            enableHotKey: true,
+            isLocked: false
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget toc-scroll" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" id="toc-item-简述KNN算法过程" href="#简述KNN算法过程"><span>简述KNN算法过程</span></a></li><li><a class="is-flex" id="toc-item-KNN中的K如何选取的" href="#KNN中的K如何选取的"><span>KNN中的K如何选取的</span></a></li></ul></div></div><script type="text/javascript" async>
+        $(document).ready(function () { //参考自 https://github.com/ppoffice/hexo-theme-icarus/pull/616/files
+            var observerTopMargin;
+            var scrollObserver;
+            var headerElems = $(".headerlink");
+            var activeTocItem;
+        
+            function initIntersectionObserver(docHeight) {
+                observerTopMargin = docHeight;
+                scrollObserver = new IntersectionObserver(scrollCallBack,
+                    {
+                        root: null,  // viewpoint
+                        rootMargin: docHeight + "px 0px -80% 0px"  // cover top 30% of viewport to the top of document
+                    })
+            }
+        
+            function scrollCallBack(entries, observer) {
+                if ($(window).scrollTop() > observerTopMargin * 0.7) { 
+                    // User somehow scroll to 70% of observerTopMargin (which is inited as 200% document height)
+                    // Observer top margin need to extend to cover all the space to the top of the document
+                    initIntersectionObserver(observerTopMargin * 2)
+                    observer.disconnect();
+                    return;
+                }
+                let toActive;
+                if (entries[0].intersectionRatio == 1) {  // enter viewed area
+                    let entry = entries.reduce((u, v) => (u.target.toc_id > v.target.toc_id ? u : v));  // get the lowest item
+                    toActive = $("#toc-item-" + $(entry.target).attr("href").substr(1));
+                } else {
+                    let entry = entries.reduce((u, v) => (u.target.toc_id < v.target.toc_id ? u : v));  // get the highest item
+                    let idx = Math.max(entry.target.toc_id - 1, 0);
+                    toActive = $("#toc-item-" + $(headerElems[idx]).attr("href").substr(1));
+                }
+                if (activeTocItem) activeTocItem.removeClass("is-current");
+                activeTocItem = toActive
+                activeTocItem.addClass("is-current");
+            }
+        
+            initIntersectionObserver($(document).height() * 2);
+            headerElems.each(function (index, obj) {
+                obj.toc_id = index;
+                scrollObserver.observe(obj);
+            })
+        });</script></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2021-01-01T16:00:00.000Z">2021-01-02</time></p><p class="title is-6"><a class="link-muted" href="/2021/01/02/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2021-01-01T16:00:00.000Z">2021-01-02</time></p><p class="title is-6"><a class="link-muted" href="/2021/01/02/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">其他</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2021-01-01T14:22:00.000Z">2021-01-01</time></p><p class="title is-6"><a class="link-muted" href="/2021/01/01/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">机器学习笔记</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-04-10T16:00:00.000Z">2020-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2020/04/11/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E4%BB%8ENB%E5%88%B0%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">从NB到语言模型</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-04-10T16:00:00.000Z">2020-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2020/04/11/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/">朴素贝叶斯</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/">经典模型</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="level-start"><span class="level-item">特征工程</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"><span class="level-start"><span class="level-item">神经网络</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">经典模型</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"><span class="level-start"><span class="level-item">自然语言处理</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/"><span class="level-start"><span class="level-item">计算机视觉</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"><span class="level-start"><span class="level-item">论文阅读</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/"><span class="level-start"><span class="level-item">项目实践</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2021/01/"><span class="level-start"><span class="level-item">一月 2021</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/04/"><span class="level-start"><span class="level-item">四月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/03/"><span class="level-start"><span class="level-item">三月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/02/"><span class="level-start"><span class="level-item">二月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><a class="level is-mobile is-marginless" href="/archives/"><span class="level-start"><span class="level-item">查看全部&gt;&gt;</span></span></a></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a><p class="size-small"><span>&copy; 2020 wasim37</span>  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://wangxin123.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back-to-top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script src="/js/gallery.js" defer></script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            MathJax.Hub.Config({
+                'HTML-CSS': {
+                    matchFontHeight: false
+                },
+                SVG: {
+                    matchFontHeight: false
+                },
+                CommonHTML: {
+                    matchFontHeight: false
+                },
+                tex2jax: {
+                    inlineMath: [
+                        ['$','$'],
+                        ['\\(','\\)']
+                    ]
+                }
+            });
+        });</script><!--!--><script src="/js/main.js" defer></script><script src="/js/comment-issue-data.js" defer></script><link rel="stylesheet" href="/css/insight.css"><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="想要查找什么..."><span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>(function (window) {
+            var INSIGHT_CONFIG = {
+                TRANSLATION: {
+                    POSTS: '文章',
+                    PAGES: '页面',
+                    CATEGORIES: '分类',
+                    TAGS: '标签',
+                    UNTITLED: '(无标题)',
+                },
+                CONTENT_URL: '/content.json',
+            };
+            window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+        })(window);</script><script src="/js/insight.js" defer></script></body></html>
