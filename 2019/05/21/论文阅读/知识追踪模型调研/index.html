@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>知识追踪模型调研 - 星空str</title><meta description="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:type" content="blog"><meta property="og:title" content="Wasim37"><meta property="og:url" content="https://wangxin123.com/"><meta property="og:site_name" content="Wasim37"><meta property="og:description" content="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><meta property="article:published_time" content="2019-05-21T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-27T08:35:53.671Z"><meta property="article:author" content="Wasim37"><meta property="article:tag" content="知识追踪"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://wangxin123.com/"},"headline":"Wasim37","image":["https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"],"datePublished":"2019-05-21T14:22:00.000Z","dateModified":"2020-05-27T08:35:53.671Z","author":{"@type":"Person","name":"Wasim37"},"description":"ai,机器学习,深度学习,算法,leetcode,java"}</script><link rel="alternative" href="/atom.xml" title="星空str" type="application/atom+xml"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><link rel="stylesheet" href="/css/style.css"><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="/js/globalUtils.js"></script></head><body class="is-2-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2019-05-21T14:22:00.000Z">2019-05-21</time><a class="commentCountImg" href="/2019/05/21/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E6%A8%A1%E5%9E%8B%E8%B0%83%E7%A0%94/#comment-container"><span class="display-none-class">d3a5973e4d8ab196b77e2f85e22e08a0</span><img class="not-gallery-item" src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/chat.svg"> <span class="commentCount" id="d3a5973e4d8ab196b77e2f85e22e08a0"> 0</span>    </a><span class="level-item"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a></span><span class="level-item">25 分钟 读完 (大约 3739 个字)</span><span class="level-item" id="busuanzi_container_page_pv"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">知识追踪模型调研</h1><div class="content"><h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>知识追踪是构建自适应系统的关键。在自适应系统中，无论是做习题路径规划，推荐，还是后期的知识图谱，都需准确评估学生的知识点掌握情况。从<a href="http://www.arxiv-sanity.com/search?q=Knowledge+Tracing">历年提交论文</a>来看，知识追踪领域相关的研究依次经历了以下几个阶段：</p>
+<ul>
+<li>IRT（Item response theory）  项目反应理论</li>
+<li>PFA评估模型</li>
+<li>BKT（Bayesin knowledge tracing） 基于贝叶斯网络的学生知识点追踪模型</li>
+<li>DKT(Deep konwledge traing)  基于深度神经网络的学生知识点追踪模型</li>
+<li>DKT+（针对DKT模型的缺点提出的增强模型）</li>
+<li>DKVMN(Dynamic Key-Value Memory Networks for Knowledge Tracing)知识追踪场景下的动态key-value记忆网络</li>
+<li>DKVMN+（针对DKVMN模型的缺点提出的增强模型）</li>
+<li>Deep-IRT（IRT+DKVMN）</li>
+</ul>
+<p>本文意在通过以上论文，分析知识追踪在教学的技术可行性，思考怎么帮助学生摒弃题海战术，高效精准提升。</p>
+<a id="more"></a>
+<hr>
+<h2 id="二、模型"><a href="#二、模型" class="headerlink" title="二、模型"></a>二、模型</h2><h3 id="1、IRT"><a href="#1、IRT" class="headerlink" title="1、IRT"></a>1、IRT</h3><p>IRT-项目反应理论<br>IRT 简单来说就是通过让被测试者做题来 <strong>区分 </strong>被测试者的 <strong>能力层次</strong>（比如很低、低、中等、高、很高等）。<br>通过模型的发展史与模型公式，可以了解到模型无法进一步精确获取每个知识点的掌握情况，只能粗略得到被测试者的能力层次，因此此算法不做深入了解。</p>
+<h3 id="2、BKT"><a href="#2、BKT" class="headerlink" title="2、BKT"></a>2、BKT</h3><p>BKT-贝叶斯知识追踪模型<br>深度学习未突破前，BKT是知识追踪最常用的一个模型，是含有隐变量的马尔可夫模型（HMM）<br>BKT通过对学生的每个知识点单独建模来了解学生特定知识点的掌握情况（模型无法表示知识点间的相关性）。</p>
+<p><strong>模型简介</strong><br>如下图，是BKT的一个模型，以及对应的4个主要参数，L0，T，G，S。模型需要根据学生以往的历史答题系列情况学习出这4个对应的参数。BKT是对不同的的知识点单独进行建模的，理论上来说，训练数据有多少个知识点，就有多少组对应的（L0，T,G,S）参数。</p>
+<p>模型用一个二元组 {掌握该知识点，没掌握该知识点} 来表示学生某个知识的掌握状态，并假设知识一旦掌握就不会被遗忘。模型还有个stop_policy准则，比如一旦某个知识点的掌握概率达到0.95，就假定学生已经学会了这项技能。导师凭此阈值来确定何时不再要求学生回答特定技能的问题。</p>
+<ul>
+<li>L0：表示学生的未开始做这道题目时，或者为开始连续这项知识点的时候，他的一个掌握程度如何（即掌握这个知识点的概率是多少），这个一般我们可以从训练数据里面求平均值获得，也可以使用经验，比如一般来说掌握的程度是对半概率，那么L0=0.5</li>
+<li>T ：表示学生经过做题练习后，知识点从不会到学会的概率</li>
+<li>G：表示学生没掌握这项知识点，但是还是蒙对的概率</li>
+<li>S：表示学生实际上掌握了这项知识点，但是还是给做错了的概率</li>
+</ul>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E8%B0%83%E7%A0%94-1.png" alt=""></p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E8%B0%83%E7%A0%94-9.png" alt=""></p>
+<p>其实可以发现，这样模型构造还是非常简单的，模型只是只是简单的针对知识点进行训练，所有的学生都是用的同一个模型。但是学生有好有坏，因此可以加个节点，不同的学生使用不同的L0。另外题目的难度也是可以应用到模型的，比如难度系数大的 G S参数就可以不一样。根据难度系数训练多组G S。</p>
+<p><strong>优缺点</strong><br>但是就算模型引入了学生未掌握知识的情况下猜对题目的概率、学生掌握知识的情况下答错题目的概率、学生的先验知识和问题的难度来扩展模型，依然存在几个问题：<br>1）学生的知识状态用二元组表示并不是很实际。<br>2）隐藏状态和练习题之间的映射模糊，很难充分预测每个练习的某个知识点概念<br>3）观测状态的二元组表示会限制题目的类型</p>
+<h3 id="3、DKT"><a href="#3、DKT" class="headerlink" title="3、DKT"></a>3、DKT</h3><p>DKT-深度神经网络知识追踪模型</p>
+<p><strong>模型简介</strong><br>深度神经网络知识追踪模型DKT的结构图：<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E8%B0%83%E7%A0%94-2.png" alt=""><br>简单起见，假设题库总共有4道习题，那么首先可以确定的输出层的节点数量为4，对应了各题回答正确的概率。接着，如果我们对输出采用one-hot编码，输入层的节点数就是<code>题目数量 * 答题结果 = 4 * 2 = 8</code>个。首先将输入层全连接到RNN的隐层，接着建立隐层到输出层的全连接，最后使用Sigmoid函数作为激活函数，一个基础的DKT模型就构建完毕了。接着为了训练模型，定义如下的损失函数:<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E8%B0%83%E7%A0%94-3.png" alt=""><br>其中y是t时刻的模型预测输出，qt+1是t+1时刻用户回答的题目ID（one-hot向量），at+1是t+1时刻的用户答题的对错, ℓ是<code>binary cross entropy</code>损失函数。</p>
+<p><strong>优缺点</strong><br>很多研究表明DKT模型在各种开源数据集上的表现基本都优于BKT。相关论文表明DKT的优势主要在于：<br><strong>1）近因效应</strong><br>在当前时间学生的做题结果是会受到近期学生在这些知识点上的表现的影响的，在BKT模型中假定学生一旦掌握某一知识点，对该知识点就不会遗忘，学生在以后做到属于该知识点的题目时往往就会表现很好。而实际上并不是这样的，时间久了，学生也可能会遗忘之前掌握的知识点。而DKT模型能很好的捕捉学生最近的表现来预测学生的做题结果，能更多的利用学生最近的表现。<br><strong>2）上下文试验序列</strong><br>学生在做题的过程中，可能是多个知识点的题较叉练习，例如学生在知识点A，B 上的做题顺序是A1−B1−A2−B2−A3−B3 。BKT只能在单个知识点建模，无法将学生这样的做题顺序给表述出来。而DKT能针对多个知识点建模，能很好的表述这样的做题顺序。<br><strong>3）知识点内在相关性</strong><br>实际情况中，知识点互相之间是具有相关性的，如最上面的图所示，X-截距、Y-截距和线性方程等之间都是具有很强的相关性的。BKT由于只能对单个知识点建模，因此无法将这些相关性表示出来。而DKT可以对多个知识点建模，且神经网络可以根据学生的做题结果获得知识点之间的关系。根据知识点内在相关性后期还能构建知识图谱。<br><strong>4）个体之间的能力差异</strong><br>DKT 能根据该学生在各个知识点上的表现情况来获得学生的平均能力（该能力能一定程度代表学生的学习能力），而BKT 由于只能在单个知识点上建模，因此无法获得学生在各知识点上的平均水平。</p>
+<p>DKT当前在学生知识点追踪上获得了良好的表现，然而其依然存在一些不足，主要有两个方面：<br><strong>1）模型没法重构当前的输入结果</strong><br><strong>2）在时间序上学生对知识点的掌握度不是连续一致，而是波动的</strong><br>针对以上两个问题，18年6月香港科技大学有人提出了DKT增强模型，解决方案： Prediction-Consistent Regularization，详见参考文献。</p>
+<h3 id="4、DKVMN"><a href="#4、DKVMN" class="headerlink" title="4、DKVMN"></a>4、DKVMN</h3><p>DKVMN-知识追踪场景下的动态key-value记忆网络</p>
+<p><strong>模型简介</strong><br>通常，KT被制定为监督序列学习问题：给定学生过去的练习情况，预测学生正确回答新练习的概率。虽然贝叶斯知识追踪（BKT）可以输出学生对某些预定义概念的掌握程度，但它缺乏提取未定义概念和模拟复杂概念状态转换的能力。深度知识追踪（DKT）利用LSTM来解决BKT的问题，DKT总结了学生在一个隐藏状态下所有概念的知识状态，这使其很难追踪学生掌握了某个概念的多少，而且很难指出学生擅长或不熟悉的概念。而DKVMN具有利用概念之间的关系以及跟踪每个概念状态的能力，它可以自动学习输入练习和基础概念之间的相关性，并为每个概念维护概念状态。在每个时间步，只有相关的状态会更新。</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E8%B0%83%E7%A0%94-4.png" alt=""></p>
+<p><strong>优缺点</strong><br>论文的实验结果：</p>
+<ul>
+<li>DKVMN在四个数据集上实验效果优于BKT,BKT+,DKT,MANNS。</li>
+<li>DKVMN的参数比DKT少。</li>
+<li>和DKT相比，DKVMN更好的解决了overfitting的问题。</li>
+<li>能利用不同练习潜在概念间的关系。</li>
+<li>直接输出学生每个概念的掌握程度。</li>
+<li>自动发现练习的潜在概念。</li>
+<li>能描述学生知识状态的变化。</li>
+</ul>
+<h3 id="5、Deep-IRT"><a href="#5、Deep-IRT" class="headerlink" title="5、Deep-IRT"></a>5、Deep-IRT</h3><p>Deep-IRT 是19年4月份的最新研究成果，是IRT与DKVMN的结合体。<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E8%B0%83%E7%A0%94-5.png" alt=""></p>
+<hr>
+<h2 id="三、结论"><a href="#三、结论" class="headerlink" title="三、结论"></a>三、结论</h2><p>诸多文献表明，预测知识点掌握情况相对较好的三个模型为 DKT、DKVMN 和 Deep-IRT，它们在四个基准数据集上的知识点掌握情况预测准确率基本在81%左右徘徊。</p>
+<p><strong>各模型的输入输出：</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><strong>模型</strong></th>
+<th style="text-align:center"><strong>输入</strong></th>
+<th style="text-align:center"><strong>输出</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DKT</td>
+<td style="text-align:center">各学生基于时间排序的答题信息</td>
+<td style="text-align:center">输出各个知识点的掌握概率</td>
+</tr>
+<tr>
+<td style="text-align:center">DKVMN</td>
+<td style="text-align:center">各学生基于时间排序的答题信息</td>
+<td style="text-align:center">1、输出各个知识点的掌握概率</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>2、挖掘各个知识点的潜在依赖关系（聚类） |<br>| Deep-IRT | 各学生基于时间排序的答题信息 | 1、输出各个知识点的掌握概率</p>
+<p>2、预测各个知识点的难度<br>3、预测各学生的能力层次 |</p>
+<p><strong>各模型的评测效果：</strong><br>  图中的 AUC 越高，预测准确率越高</p>
+<ul>
+<li>AUC = 1，代表完美分类器，准确率100%</li>
+<li>0.5 &lt; AUC &lt; 1，优于随机分类器</li>
+<li>0 &lt; AUC &lt; 0.5，差于随机分类器</li>
+</ul>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E8%B0%83%E7%A0%94-6.png" alt=""><br><strong>图1：模型预测比对</strong></p>
+<p><strong>各模型的参数比对：**</strong>从图2可以发现，DKT虽然结构简单易理解，但是参数过多，会延长训练时间，增大过拟合风险</p>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E8%B0%83%E7%A0%94-7.png" alt=""><br><strong>图2：模型参数比对</strong></p>
+<p><strong>综合各个模型的优缺点，考虑到预测效果、参数大小、训练难度、编码难度，模型选择优先级为 DKT 、DKVMN 和 Deep-IRT。</strong></p>
+<hr>
+<h2 id="四、附录"><a href="#四、附录" class="headerlink" title="四、附录"></a>四、附录</h2><h3 id="1、AI-论文"><a href="#1、AI-论文" class="headerlink" title="1、AI 论文"></a>1、AI 论文</h3><ul>
+<li><a href="">Individualized Bayesian Knowledge Tracing Models. 2013-07-09</a></li>
+<li><a href="https://arxiv.org/abs/1506.05908">Deep Knowledge Tracing. 2015-06-19</a></li>
+<li><a href="https://eric.ed.gov/?id=ED560516">From Predictive Models to Instructional Policies. 2015-06-26</a></li>
+<li><a href="http://xueshu.baidu.com/usercenter/paper/show?paperid=3847eccb1d15b68ae57c6e58c484199e&amp;site=xueshu_se">Going Deeper with Deep Knowledge Tracing. 2016</a></li>
+<li><a href="https://arxiv.org/pdf/1604.02416.pdf">How Deep is Knowledge Tracing? 2016-02-21</a></li>
+<li><a href="https://arxiv.org/abs/1611.08108v1">Dynamic Key-Value Memory Network for Knowledge Tracing. 20170217</a></li>
+<li><a href="http://xueshu.baidu.com/usercenter/paper/show?paperid=4ae2ecc40382ea93e4b106d93ef74231&amp;site=xueshu_se">Addressing Two Problems in Deep Knowledge Tracing via Prediction-Consistent Regularization. 2018-06-06</a></li>
+<li><a href="https://arxiv.org/abs/1805.10768v2">Memory-Augmented Neural Networks for Knowledge Tracing from the Perspective of Learning and Forgetting. 2018-10-01</a></li>
+<li><a href="https://arxiv.org/abs/1904.11738">Deep-IRT: Make Deep Learning Based Knowledge Tracing Explainable Using Item Response Theory. 2019-04-26</a></li>
+</ul>
+<h3 id="2、文章"><a href="#2、文章" class="headerlink" title="2、文章"></a>2、文章</h3><ul>
+<li>IRT（项目反应理论）<ul>
+<li><a href="https://www.zhihu.com/question/24671541/answer/151532194">知乎-如何通俗的理解项目反应理论？</a></li>
+<li><a href="https://blog.csdn.net/quintind/article/details/78993886">csdn-项目反应理论模型及公式简介</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_67d8f9c10100wq72.html">基于IRT的计算机自适应测评（IRT发展历史、理论介绍、常用模型、优缺点、CAT）</a></li>
+</ul>
+</li>
+<li>BKT（贝叶斯知识追踪模型）<ul>
+<li><a href="https://www.cnblogs.com/GuoJiaSheng/p/7099724.html">BKT模型简介</a></li>
+</ul>
+</li>
+<li>DKT（深度神经网络知识追踪模型）<ul>
+<li><a href="https://www.cnblogs.com/jiangxinyang/p/9732447.html">DKT简介及优缺点比较</a></li>
+<li><a href="https://blog.csdn.net/Zoe_Su/article/details/84481651">DKT相关论文解读</a></li>
+<li><a href="https://mp.weixin.qq.com/s/HrrAb05PjXRytwLIICMNMw">流利说基于 TensorFlow 的自适应系统实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s/VOEJOWyh9j_XyJMliKpkkw">扇贝应用 TensorFlow 实现深度知识追踪</a></li>
+</ul>
+</li>
+<li>DKVMN（动态key-value记忆网络）<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/55914739">知识追踪场景下的动态key-value记忆网络</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="3、项目"><a href="#3、项目" class="headerlink" title="3、项目"></a>3、项目</h3><ul>
+<li>DKT（TensorFlow+Keras）：<a href="https://github.com/Wasim37/Deep-Knowledge-Tracing">https://github.com/Wasim37/Deep-Knowledge-Tracing</a></li>
+<li>DKT+（TensorFlow）：<a href="https://github.com/ckyeungac/deep-knowledge-tracing-plus">https://github.com/ckyeungac/deep-knowledge-tracing-plus</a></li>
+<li>DKVMN（MXNet）：<a href="https://github.com/Wasim37/DKVMN">https://github.com/Wasim37/DKVMN</a></li>
+<li>DKVMN（TensorFlow）：<a href="https://github.com/Wasim37/DKVMN-1">https://github.com/Wasim37/DKVMN-1</a></li>
+</ul>
+<h3 id="4、PDF"><a href="#4、PDF" class="headerlink" title="4、PDF"></a>4、PDF</h3><ul>
+<li><a href="https://github.com/elliottzheng/CopyTranslator/blob/master/README_zh.md">PDF 阅读工具</a></li>
+<li>PDF 链接：<a href="https://pan.baidu.com/s/1wf-gbkY3mYrbz9r5K6d8kw">https://pan.baidu.com/s/1wf-gbkY3mYrbz9r5K6d8kw</a>  提取码：ynj7</li>
+</ul>
+<p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E8%B0%83%E7%A0%94-8.png" alt=""></p>
+</div><div class="article-tags size-small is-uppercase mb-4"><i class="fas fa-tags has-text-grey"></i> <a class="link-muted mr-2" rel="tag" href="/tags/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA/">知识追踪</a></div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/ali-zfb.png" alt="支付宝"></span></a><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/weixin-pay.png" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2019/05/01/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/%E8%AF%95%E9%A2%98%E7%9F%A5%E8%AF%86%E7%82%B9%E6%99%BA%E8%83%BD%E6%A0%87%E6%B3%A8/"><span class="level-item">试题知识点智能标注</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"><script src="/js/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: 'd3a5973e4d8ab196b77e2f85e22e08a0',
+            repo: 'blog_comment',
+            owner: 'Wasim37',
+            clientID: '55fcbea044b44e047f89',
+            clientSecret: '47addd42a9469d80bd508118ac73033915e3142c',
+            admin: ["wasim37"],
+            createIssueManually: true,
+            distractionFreeMode: false,
+            perPage: 10,
+            pagerDirection: 'last',
+            
+            
+            enableHotKey: true,
+            isLocked: false
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget toc-scroll" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" id="toc-item-一、前言" href="#一、前言"><span>一、前言</span></a></li><li><a class="is-flex" id="toc-item-二、模型" href="#二、模型"><span>二、模型</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-1、IRT" href="#1、IRT"><span>1、IRT</span></a></li><li><a class="is-flex" id="toc-item-2、BKT" href="#2、BKT"><span>2、BKT</span></a></li><li><a class="is-flex" id="toc-item-3、DKT" href="#3、DKT"><span>3、DKT</span></a></li><li><a class="is-flex" id="toc-item-4、DKVMN" href="#4、DKVMN"><span>4、DKVMN</span></a></li><li><a class="is-flex" id="toc-item-5、Deep-IRT" href="#5、Deep-IRT"><span>5、Deep-IRT</span></a></li></ul></li><li><a class="is-flex" id="toc-item-三、结论" href="#三、结论"><span>三、结论</span></a></li><li><a class="is-flex" id="toc-item-四、附录" href="#四、附录"><span>四、附录</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-1、AI-论文" href="#1、AI-论文"><span>1、AI 论文</span></a></li><li><a class="is-flex" id="toc-item-2、文章" href="#2、文章"><span>2、文章</span></a></li><li><a class="is-flex" id="toc-item-3、项目" href="#3、项目"><span>3、项目</span></a></li><li><a class="is-flex" id="toc-item-4、PDF" href="#4、PDF"><span>4、PDF</span></a></li></ul></li></ul></div></div><script type="text/javascript" async>
+        $(document).ready(function () { //参考自 https://github.com/ppoffice/hexo-theme-icarus/pull/616/files
+            var observerTopMargin;
+            var scrollObserver;
+            var headerElems = $(".headerlink");
+            var activeTocItem;
+        
+            function initIntersectionObserver(docHeight) {
+                observerTopMargin = docHeight;
+                scrollObserver = new IntersectionObserver(scrollCallBack,
+                    {
+                        root: null,  // viewpoint
+                        rootMargin: docHeight + "px 0px -80% 0px"  // cover top 30% of viewport to the top of document
+                    })
+            }
+        
+            function scrollCallBack(entries, observer) {
+                if ($(window).scrollTop() > observerTopMargin * 0.7) { 
+                    // User somehow scroll to 70% of observerTopMargin (which is inited as 200% document height)
+                    // Observer top margin need to extend to cover all the space to the top of the document
+                    initIntersectionObserver(observerTopMargin * 2)
+                    observer.disconnect();
+                    return;
+                }
+                let toActive;
+                if (entries[0].intersectionRatio == 1) {  // enter viewed area
+                    let entry = entries.reduce((u, v) => (u.target.toc_id > v.target.toc_id ? u : v));  // get the lowest item
+                    toActive = $("#toc-item-" + $(entry.target).attr("href").substr(1));
+                } else {
+                    let entry = entries.reduce((u, v) => (u.target.toc_id < v.target.toc_id ? u : v));  // get the highest item
+                    let idx = Math.max(entry.target.toc_id - 1, 0);
+                    toActive = $("#toc-item-" + $(headerElems[idx]).attr("href").substr(1));
+                }
+                if (activeTocItem) activeTocItem.removeClass("is-current");
+                activeTocItem = toActive
+                activeTocItem.addClass("is-current");
+            }
+        
+            initIntersectionObserver($(document).height() * 2);
+            headerElems.each(function (index, obj) {
+                obj.toc_id = index;
+                scrollObserver.observe(obj);
+            })
+        });</script></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2019-05-21T14:22:00.000Z">2019-05-21</time></p><p class="title is-6"><a class="link-muted" href="/2019/05/21/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E6%A8%A1%E5%9E%8B%E8%B0%83%E7%A0%94/">知识追踪模型调研</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-05-01T14:22:00.000Z">2019-05-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/05/01/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/%E8%AF%95%E9%A2%98%E7%9F%A5%E8%AF%86%E7%82%B9%E6%99%BA%E8%83%BD%E6%A0%87%E6%B3%A8/">试题知识点智能标注</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">项目实践</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-04-10T16:00:00.000Z">2019-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2019/04/11/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E4%BB%8ENB%E5%88%B0%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">从NB到语言模型</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-04-05T16:00:00.000Z">2019-04-06</time></p><p class="title is-6"><a class="link-muted" href="/2019/04/06/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%B8%8E%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/">贝叶斯与垃圾邮件</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-04-03T14:22:00.000Z">2019-04-03</time></p><p class="title is-6"><a class="link-muted" href="/2019/04/03/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/">自然语言处理与词嵌入</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="level-start"><span class="level-item">特征工程</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">理论基础</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"><span class="level-start"><span class="level-item">神经网络</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">经典模型</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"><span class="level-start"><span class="level-item">自然语言处理</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/"><span class="level-start"><span class="level-item">计算机视觉</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"><span class="level-start"><span class="level-item">论文阅读</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/"><span class="level-start"><span class="level-item">项目实践</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2019/05/"><span class="level-start"><span class="level-item">五月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/04/"><span class="level-start"><span class="level-item">四月 2019</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/06/"><span class="level-start"><span class="level-item">六月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><a class="level is-mobile is-marginless" href="/archives/"><span class="level-start"><span class="level-item">查看全部&gt;&gt;</span></span></a></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a><p class="size-small"><span>&copy; 2020 wasim37</span>  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://wangxin123.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back-to-top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script src="/js/gallery.js" defer></script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            MathJax.Hub.Config({
+                'HTML-CSS': {
+                    matchFontHeight: false
+                },
+                SVG: {
+                    matchFontHeight: false
+                },
+                CommonHTML: {
+                    matchFontHeight: false
+                },
+                tex2jax: {
+                    inlineMath: [
+                        ['$','$'],
+                        ['\\(','\\)']
+                    ]
+                }
+            });
+        });</script><!--!--><script src="/js/main.js" defer></script><script src="/js/comment-issue-data.js" defer></script><link rel="stylesheet" href="/css/insight.css"><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="想要查找什么..."><span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>(function (window) {
+            var INSIGHT_CONFIG = {
+                TRANSLATION: {
+                    POSTS: '文章',
+                    PAGES: '页面',
+                    CATEGORIES: '分类',
+                    TAGS: '标签',
+                    UNTITLED: '(无标题)',
+                },
+                CONTENT_URL: '/content.json',
+            };
+            window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+        })(window);</script><script src="/js/insight.js" defer></script></body></html>

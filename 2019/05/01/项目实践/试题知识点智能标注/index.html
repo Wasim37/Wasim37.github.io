@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>试题知识点智能标注 - 星空str</title><meta description="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:type" content="blog"><meta property="og:title" content="Wasim37"><meta property="og:url" content="https://wangxin123.com/"><meta property="og:site_name" content="Wasim37"><meta property="og:description" content="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><meta property="article:published_time" content="2019-05-01T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-27T08:26:48.680Z"><meta property="article:author" content="Wasim37"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://wangxin123.com/"},"headline":"Wasim37","image":["https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"],"datePublished":"2019-05-01T14:22:00.000Z","dateModified":"2020-05-27T08:26:48.680Z","author":{"@type":"Person","name":"Wasim37"},"description":"ai,机器学习,深度学习,算法,leetcode,java"}</script><link rel="alternative" href="/atom.xml" title="星空str" type="application/atom+xml"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><link rel="stylesheet" href="/css/style.css"><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="/js/globalUtils.js"></script></head><body class="is-2-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2019-05-01T14:22:00.000Z">2019-05-01</time><a class="commentCountImg" href="/2019/05/01/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/%E8%AF%95%E9%A2%98%E7%9F%A5%E8%AF%86%E7%82%B9%E6%99%BA%E8%83%BD%E6%A0%87%E6%B3%A8/#comment-container"><span class="display-none-class">899f2dc82e71f4316a145e278a954bc2</span><img class="not-gallery-item" src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/chat.svg"> <span class="commentCount" id="899f2dc82e71f4316a145e278a954bc2"> 0</span>    </a><span class="level-item"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">项目实践</a></span><span class="level-item">31 分钟 读完 (大约 4686 个字)</span><span class="level-item" id="busuanzi_container_page_pv"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">试题知识点智能标注</h1><div class="content"><h2 id="一-项目结构"><a href="#一-项目结构" class="headerlink" title="一. 项目结构"></a>一. 项目结构</h2><p>GitLab 项目地址<br>|- knowledge-automatic-tagging<br>|　　|- ckpt　　　　　　　　　　　 # 训练后的模型<br>|　　|- data　　　　　　　　　　　 # 经过预处理得到的结果数据<br>|　　|- data_process　　　　　　　 # 数据预处理代码<br>|　　|- doc　　　　　　　      # 项目细节文档<br>|　　|- models　　　　　　　　　　 # 模型代码<br>|　　|　　|- word-cnn-concat　　　 # CNN网络<br>|　　|　　|　　|- network.py　　　 # 模型网络结构<br>|　　|　　|　　|- train.py　　　　　 # 训练<br>|　　|　　|　　|- predict.py　　　　 # 验证集/测试集预测<br>|　　|　　|- word-bigru-cnn-concat　　　# bigru + cnn 网络<br>|　　|　　|　　|- network.py　　　 # 模型网络结构<br>|　　|　　|　　|- train.py　　　　　 # 训练<br>|　　|　　|　　|- predict.py　　　　 # 验证集/测试集预测<br>|　　|　　|- …             # 其他待验证模型<br>|　　|- notebook　　　　　　　 # jupyter notebook代码<br>|　　|- raw_data　　　　　　　　　 # 题库提取的原始数据集<br>|　　|- summary　　　　　　　　　 # tensorboard 数据<br>|　　|- tmp　　　　　　　　　 　   # 临时文件夹，存放测试代码<br>|　　|- data_helpers.py　　　　　　  # 数据处理函数<br>|　　|- Dockerfile　　　　　　　 # docker部署文件<br>|　　|- evaluator.py　　　　　　　   # 测评方案</p>
+<a id="more"></a>
+<hr>
+<h2 id="二-环境依赖"><a href="#二-环境依赖" class="headerlink" title="二. 环境依赖"></a>二. 环境依赖</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>环境/库</th>
+<th>版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>conda</td>
+<td>4.5.4</td>
+</tr>
+<tr>
+<td>python</td>
+<td>3.5.2</td>
+</tr>
+<tr>
+<td>jupyter notebook</td>
+<td>4.2.3</td>
+</tr>
+<tr>
+<td>tensorflow</td>
+<td>1.7.0</td>
+</tr>
+<tr>
+<td>tensorboard</td>
+<td>1.7.0</td>
+</tr>
+<tr>
+<td>word2vec</td>
+<td>0.9.4</td>
+</tr>
+<tr>
+<td>numpy</td>
+<td>1.14.0</td>
+</tr>
+<tr>
+<td>pandas</td>
+<td>0.23.1</td>
+</tr>
+<tr>
+<td>matplotlib</td>
+<td>1.5.3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="三-模型架构"><a href="#三-模型架构" class="headerlink" title="三. 模型架构"></a>三. 模型架构</h2><p>以 bigru + cnn 模型为例：<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%99%BA%E8%83%BD%E6%A0%87%E6%B3%A8-1.jpeg" alt=""></p>
+<hr>
+<h2 id="四-数据采集"><a href="#四-数据采集" class="headerlink" title="四. 数据采集"></a>四. 数据采集</h2><p>目前只采集了试题与知识点的映射数据，未考虑多维度标签，下面的文档说明以【初中数学】总集树为例：</p>
+<h3 id="all-knowledge-set"><a href="#all-knowledge-set" class="headerlink" title="all_knowledge_set"></a>all_knowledge_set</h3><ul>
+<li>存储内容：总集树中 node_type 为7的所有知识节点</li>
+<li>总行数：1154</li>
+<li>每行构成<ul>
+<li>知识点id（node_id）</li>
+<li>\t</li>
+<li>知识点名称<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">2882	相反意义的量的定义</span><br><span class="line">5751	正数的定义</span><br><span class="line">11470	负数的定义</span><br><span class="line">5682	正数大于0，负数小于0，正数大于负数</span><br><span class="line">11409	0既不是正数，也不是负数</span><br><span class="line">2731	数轴的定义</span><br><span class="line">8689	原点的定义</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="knowledge-set"><a href="#knowledge-set" class="headerlink" title="knowledge_set"></a>knowledge_set</h3><ul>
+<li>存储内容：总集树中 node_type 为7的有试题挂靠的全部知识节点</li>
+<li>总行数：1093（部分知识点没有试题挂靠）</li>
+<li>每行数据成分<ul>
+<li>知识点id（node_id）</li>
+<li>\t</li>
+<li>知识点名称<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">21545	众数的定义</span><br><span class="line">18378	平行四边形的对角相等</span><br><span class="line">17047	最简分式的定义</span><br><span class="line">19227	抽样调查的定义</span><br><span class="line">17286	二次函数a&lt;0，在对称轴右侧，y随x的增大而减小</span><br><span class="line">21781	两组直角边对应成比例的两个直角三角形相似</span><br><span class="line">17287	角的始边的定义</span><br><span class="line">9181	尺规作图：作线段的若干倍</span><br><span class="line">21306	总体的定义</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="question-title-set"><a href="#question-title-set" class="headerlink" title="question_title_set"></a>question_title_set</h3><ul>
+<li>存储内容：初中数学集团题库与分公司题库的全部试题的题干</li>
+<li>总行数：49071（含有五道小题的试题会按一定规则拆分为五行）</li>
+<li>数据预处理：传入 contentTranslate 字段，提取 latex 公式，再去除文本中的括号、下滑线、空格等无用字符</li>
+<li>每行数据成分<ul>
+<li>试题id<ul>
+<li>非子母题：试题id</li>
+<li>子母题：主试题id + “-“ + 小题试题id</li>
+</ul>
+</li>
+<li>\t</li>
+<li>试题题干<ul>
+<li>非子母题：试题题干</li>
+<li>子母题：主题干 + 小题题干<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">961	已知方程组\left\&#123;\begin&#123;align&#125;&amp;3x+my&#x3D;5\\&amp;x+ny&#x3D;4\\\end&#123;align&#125;)无解，m和n是绝对值小于10的整数，求m和n的值．</span><br><span class="line">98305	5的倒数是,A．-5,B．\frac&#123;1&#125;&#123;5&#125;,C．\sqrt&#123;5&#125;,D．5</span><br><span class="line">98304	-7的倒数为,A．7,B．\frac&#123;1&#125;&#123;7&#125;,C．-\frac&#123;1&#125;&#123;7&#125;,D．-7</span><br><span class="line">98307	一个数的倒数是它本身，则这个数一定是</span><br><span class="line">100354	已知|x-1|&#x3D;2，|y|&#x3D;3，且x与y互为相反数，求\frac&#123;1&#125;&#123;3&#125;&#123;&#123;x&#125;^&#123;2&#125;&#125;-xy-4y的值．</span><br><span class="line">98306	-2010的倒数是,A．2010,B．-\frac&#123;1&#125;&#123;2010&#125;,C．\frac&#123;1&#125;&#123;2010&#125;,D．-2010</span><br><span class="line">98309	若a+b&#x3D;0，c和d互为倒数，m的绝对值为2，求代数式\frac&#123;a+b&#125;&#123;a+b-c&#125;+m^2-cd的值</span><br><span class="line">98308	有理数a等于它的倒数，有理数b等于它的相反数，则&#123;&#123;a&#125;^&#123;2002&#125;&#125;+&#123;&#123;b&#125;^&#123;2003&#125;&#125;&#x3D;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="question-explain-set"><a href="#question-explain-set" class="headerlink" title="question_explain_set"></a>question_explain_set</h3><ul>
+<li>存储内容：初中数学集团题库与分公司题库的全部试题的解答过程</li>
+<li>总行数：49071（含有五道小题的试题会按一定规则拆分为五行）</li>
+<li>数据预处理：传入 solutionProcessTranslate 字段，提取 latex 公式，再去除文本中的括号、下滑线、空格等无用字符</li>
+<li>每行数据成分<ul>
+<li>试题id<ul>
+<li>非子母题：试题id</li>
+<li>子母题：主试题id + “-“ + 小题试题id</li>
+</ul>
+</li>
+<li>\t</li>
+<li>解答过程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">104961	∵方程组\left\&#123;\begin&#123;align&#125;&amp;3x+my&#x3D;5\\&amp;x+ny&#x3D;4\\\end&#123;align&#125;)无解，∴\frac&#123;3&#125;&#123;1&#125;&#x3D;\frac&#123;m&#125;&#123;n&#125;≠\frac&#123;5&#125;&#123;4&#125;∴m&#x3D;3n，4m\ne5n．又∵|m|&#x3D;3|n|\lt10，∴|n|\lt\frac&#123;10&#125;&#123;3&#125;∴-\frac&#123;10&#125;&#123;3&#125;\ltn\lt\frac&#123;10&#125;&#123;3&#125;，∴n的取值有-3，-2，-1，0，1，2，3；根据m&#x3D;3n有①\left\&#123;\begin&#123;array&#125;&#123;l&#125;m&#x3D;-9\n&#x3D;-3\end&#123;array&#125;)；②\left\&#123;\begin&#123;array&#125;&#123;l&#125;m&#x3D;-6\n&#x3D;-2\end&#123;array&#125;)；③\left\&#123;\begin&#123;array&#125;&#123;l&#125;m&#x3D;-3\n&#x3D;-1\end&#123;array&#125;)；④\left\&#123;\begin&#123;array&#125;&#123;l&#125;m&#x3D;0\n&#x3D;0\end&#123;array&#125;)；⑤\left\&#123;\begin&#123;array&#125;&#123;l&#125;m&#x3D;3\n&#x3D;1\end&#123;array&#125;)；⑥\left\&#123;\begin&#123;array&#125;&#123;l&#125;m&#x3D;6\n&#x3D;2\end&#123;array&#125;)；⑦\left\&#123;\begin&#123;array&#125;&#123;l&#125;m&#x3D;9\n&#x3D;3\end&#123;array&#125;)．</span><br><span class="line">98305	∵两个互为倒数的数乘积为1，∴5的倒数为\frac&#123;1&#125;&#123;5&#125;，∴选,B．</span><br><span class="line">98304	∵两个互为倒数的数乘积为1，∴-7的倒数为-\frac&#123;1&#125;&#123;7&#125;，∴选,C．</span><br><span class="line">98307	解法一：∵两个互为倒数的数乘积为1，且一个数的倒数是它本身，∴这个数为1或-1．解法二：设这个数为x，这个数的倒数为\frac&#123;1&#125;&#123;x&#125;，∵一个数的倒数是它本身，∴x&#x3D;\frac&#123;1&#125;&#123;x&#125;，∴x^2&#x3D;1，∴x&#x3D;±1．</span><br><span class="line">100354	∵|x-1|&#x3D;2，∴x-1&#x3D;±2，∴x&#x3D;3或x&#x3D;-1，又∵|y|&#x3D;3，∴y&#x3D;±3，∵x与y互为相反数，∴x&#x3D;3，y&#x3D;-3，原式&#x3D;\frac&#123;1&#125;&#123;3&#125;×3^2-3×(-3)-4×(-3)&#x3D;3+9+12&#x3D;24．</span><br><span class="line">98306	∵两个互为倒数的数乘积为1，∴-2010的倒数为-\frac&#123;1&#125;&#123;2010&#125;，∴选,B．</span><br><span class="line">98309	∵c和d互为倒数，∴c·d&#x3D;1且c≠0，又∵m的绝对值为2，∴m&#x3D;±2，∴m^2&#x3D;4，将a+b&#x3D;0，c·d&#x3D;1，m^2&#x3D;4代入原式，得原式&#x3D;\frac&#123;0&#125;&#123;0-c&#125;+4-1&#x3D;0+4-1&#x3D;3，∴代数式\frac&#123;a+b&#125;&#123;a+b-c&#125;+&#123;&#123;m&#125;^&#123;2&#125;&#125;-cd的值为3．</span><br><span class="line">98308	∵有理数a等于它的倒数，∴a&#x3D;\frac&#123;1&#125;&#123;a&#125;，∴a&#x3D;±1，又∵有理数b等于它的相反数，∴b&#x3D;-b，∴b&#x3D;0，∵&#123;(±1)&#125;^&#123;2002&#125;&#x3D;1，0^&#123;2003&#125;&#x3D;0，∴a^&#123;2002&#125;+b^&#123;2003&#125;&#x3D;1+0&#x3D;1．</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="question-knowledge-train-set"><a href="#question-knowledge-train-set" class="headerlink" title="question_knowledge_train_set"></a>question_knowledge_train_set</h3><ul>
+<li>存储内容：试题id与知识点id的对应关系</li>
+<li>总行数：49071</li>
+<li>每行数据成分<ul>
+<li>试题id<ul>
+<li>非子母题：试题id</li>
+<li>子母题：主试题id + “-“ + 小题试题id</li>
+</ul>
+</li>
+<li>\t</li>
+<li>知识点id，以逗号分隔<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">104961	14660,15999,18049,20520,16324,5842,5968,11602</span><br><span class="line">98305	4724</span><br><span class="line">98304	4724</span><br><span class="line">98307	4724</span><br><span class="line">100354	4445,22718,5264,10139</span><br><span class="line">98306	4724</span><br><span class="line">98309	4724,3758,5842</span><br><span class="line">98308	4724,5307,14333</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="五-数据分析"><a href="#五-数据分析" class="headerlink" title="五. 数据分析"></a>五. 数据分析</h2><h3 id="1、知识点试题挂靠分析"><a href="#1、知识点试题挂靠分析" class="headerlink" title="1、知识点试题挂靠分析"></a>1、知识点试题挂靠分析</h3><p><strong>知识点试题挂靠分布图</strong><br>横坐标：共1093个值，代表每个知识点<br>纵坐标：知识点试题挂靠数<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%99%BA%E8%83%BD%E6%A0%87%E6%B3%A8-2.jpeg" alt=""></p>
+<p>试题总数： 49071<br>知识点总数： 1093<br>试题挂靠数少于30的知识点约500个</p>
+<ul>
+<li>试题挂靠数 (0,10] 的知识点总数 280 </li>
+<li>试题挂靠数 (11,20] 的知识点总数 133 </li>
+<li>试题挂靠数 (21,30] 的知识点总数 89 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># 试题挂靠数超过1000的知识点</span><br><span class="line">知识点id   挂靠试题数   知识点名称</span><br><span class="line">6361 	 4109 	 解一元一次方程</span><br><span class="line">2672 	 3186 	 合并同类项的法则</span><br><span class="line">11254 	 2309 	 勾股定理的内容</span><br><span class="line">3432 	 2205 	 两直线垂直，夹角为90°</span><br><span class="line">4278 	 2135 	 加法法则</span><br><span class="line">8725 	 2122 	 去括号法则：如果括号外的因数是负数，去括号后原括号内各项的符号与原来的符号相反</span><br><span class="line">14812 	 1819 	 乘法法则</span><br><span class="line">4943 	 1720 	 三角形内角和180度</span><br><span class="line">16324 	 1682 	 解二元一次方程组</span><br><span class="line">10250 	 1676 	 等式两边乘一个数，或除以同一个不为0的数，结果仍相等</span><br><span class="line">2775 	 1671 	 去括号法则：如果括号外的因数是正数，去括号后原括号内各项的符号与原来的符号相同</span><br><span class="line">22102 	 1594 	 移项的定义</span><br><span class="line">19276 	 1579 	 解一元二次方程</span><br><span class="line">9450 	 1558 	 全等三角形对应边相等</span><br><span class="line">15999 	 1513 	 负数的绝对值等于它的相反数</span><br><span class="line">973 	 1477 	 直角三角形的定义</span><br><span class="line">10028 	 1437 	 减法法则</span><br><span class="line">12681 	 1413 	 直角三角形三边满足勾股定理</span><br><span class="line">8994 	 1333 	 完全平方公式的定义</span><br><span class="line">6673 	 1306 	 两直线平行，内错角相等</span><br><span class="line">19568 	 1221 	 因式分解提公因式法的定义</span><br><span class="line">6496 	 1090 	 等腰三角形等边对等角</span><br><span class="line">22190 	 1059 	 平方的定义</span><br><span class="line">9077 	 1013 	 两边及其夹角对应相等的两个三角形全等（SAS）</span><br></pre></td></tr></table></figure>
+<p><strong>所有知识点挂靠详情：</strong><br><a href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%99%BA%E8%83%BD%E6%A0%87%E6%B3%A8-3.jpeg">知识点试题挂靠统计.txt</a></p>
+<h3 id="2、文本长度分析"><a href="#2、文本长度分析" class="headerlink" title="2、文本长度分析"></a>2、文本长度分析</h3><p>题干长度分布如下（模型训练数据，题干取文本前220个字符）：<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%99%BA%E8%83%BD%E6%A0%87%E6%B3%A8-4.jpeg" alt=""></p>
+<p>解析长度分布如下（模型训练数据，解析取文本前600个字符）：<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%99%BA%E8%83%BD%E6%A0%87%E6%B3%A8-5.jpeg" alt=""></p>
+<h3 id="3、文本内容分析"><a href="#3、文本内容分析" class="headerlink" title="3、文本内容分析"></a>3、文本内容分析</h3><p>文本中部分字符模型无法识别，现汇总如下：<br><a href="https://www.yuque.com/attachments/yuque/0/2019/txt/158932/1547265978841-31312a84-842c-415a-a3d2-d9d77df7016e.txt?_lake_card=%7B%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2019%2Ftxt%2F158932%2F1547265978841-31312a84-842c-415a-a3d2-d9d77df7016e.txt%22%2C%22name%22%3A%22latex_replace.txt%22%2C%22size%22%3A4490%2C%22ext%22%3A%22txt%22%2C%22id%22%3A%22DRuvZ%22%2C%22card%22%3A%22file%22%7D">latex_replace.txt</a></p>
+<p><strong>文件详情：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"># 匹配文本 \t 替换内容</span><br><span class="line">\\right\|	|</span><br><span class="line">\\left\[	[</span><br><span class="line">\\right\]	]</span><br><span class="line">\\left\(	(</span><br><span class="line">\\right\)	)</span><br><span class="line">\\#xFF0C	,</span><br><span class="line">\\#x2236	:</span><br><span class="line">\\#xFF1A	：</span><br><span class="line">\\#x2235	∵</span><br><span class="line">\\#x2234	∴</span><br><span class="line">\\#x2237	∷</span><br><span class="line">\\#xFF05	％</span><br><span class="line">\\#x22A5	⊥</span><br><span class="line">\\#x2299	⊙</span><br><span class="line">\\#x2295	⊕</span><br><span class="line">\\#x2287	超集或等于</span><br><span class="line">\\#x2283	超集</span><br><span class="line">\\#x2282	子集</span><br><span class="line">\\#x226A	远小于</span><br><span class="line">\\#x2026	…</span><br><span class="line">\\#x25B5	△</span><br><span class="line">\\Delta	△</span><br><span class="line">\\#x25B1	平行四边形</span><br><span class="line">\\#x25A1	□</span><br><span class="line">\\#x2218	°</span><br><span class="line">\\#x221A	√</span><br><span class="line">\\#x2573	╳</span><br><span class="line">\\#x201C	“</span><br><span class="line">\\#x201D	”</span><br><span class="line">\\#xFF0B	＋</span><br><span class="line">.</span><br><span class="line">.</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="六-数据预处理"><a href="#六-数据预处理" class="headerlink" title="六. 数据预处理"></a>六. 数据预处理</h2><p>将题库采集到的数据解压至 /raw_data，并依次执行 /data_process 下各个py文件，不带任何参数。 各个py文件的输入与输出详情详见该目录下的 README.md</p>
+<h3 id="1-embed2ndarray-py"><a href="#1-embed2ndarray-py" class="headerlink" title="1. embed2ndarray.py"></a>1. embed2ndarray.py</h3><p>读取：sgns.baidubaike.bigram-char（百度百科词向量） 输出：data/word_embedding.npy、data/sr_word2id.pkl</p>
+<p>中文词向量网站相关：</p>
+<ul>
+<li><a href="https://ai.tencent.com/ailab/nlp/embedding.html">腾讯词向量</a></li>
+<li><a href="https://github.com/Embedding/Chinese-Word-Vectors">Chinese-Word-Vectors</a></li>
+</ul>
+<p><strong>word_embedding.npy</strong></p>
+<ul>
+<li>存储内容：sgns.baidubaike.bigram-char文件每行字符对应的词向量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">word_embedding &#x3D; np.load(&#39;..&#x2F;data&#x2F;word_embedding.npy&#39;)</span><br><span class="line">print(&quot;type：\n&quot;,type(word_embedding))</span><br><span class="line">print(&quot;shape：\n&quot;,word_embedding.shape)</span><br><span class="line">print(&quot;前五行：\n&quot;,word_embedding[0:5])</span><br><span class="line">------</span><br><span class="line">type：</span><br><span class="line"> &lt;class &#39;numpy.ndarray&#39;&gt;</span><br><span class="line">shape：</span><br><span class="line"> (635976, 300)</span><br><span class="line">前五行：</span><br><span class="line"> [[ -1.62635224e+00  -2.56559146e+00   3.39006690e-02 ...,  -1.60284120e+00</span><br><span class="line">   -1.48580317e+00  -2.40662751e-01]</span><br><span class="line"> [ -1.22683971e+00   4.26988865e-01   6.59197586e-01 ...,  -6.12283360e-01</span><br><span class="line">   -1.43853570e+00   5.54417265e-01]</span><br><span class="line"> [ -1.04500003e-01  -4.09622014e-01   2.50199996e-03 ...,   2.42422000e-01</span><br><span class="line">    5.21025002e-01   3.80490012e-02]</span><br><span class="line"> [  5.04519999e-01  -1.70580000e-01   2.63853014e-01 ...,  -2.24955007e-01</span><br><span class="line">   -5.25089987e-02   3.17232013e-01]</span><br><span class="line"> [  1.16145998e-01  -5.88518977e-01   7.13479966e-02 ...,   2.72462010e-01</span><br><span class="line">    3.07514995e-01  -2.88695008e-01]]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>sr_word2id.pkl</strong></p>
+<ul>
+<li>存储内容：sgns.baidubaike.bigram-char文件每行的char<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sr_que2id &#x3D; open(&#39;..&#x2F;data&#x2F;sr_word2id.pkl&#39;,&#39;rb&#39;)</span><br><span class="line">sr_que2id_2 &#x3D; pk.load(sr_que2id)</span><br><span class="line">print(&quot;type：\n&quot;, type(sr_que2id_2))</span><br><span class="line">print(&quot;shape：\n&quot;, sr_que2id_2.shape)</span><br><span class="line">print(&quot;前五行：\n&quot;, sr_que2id_2[:5])</span><br><span class="line">------</span><br><span class="line">type：</span><br><span class="line"> &lt;class &#39;pandas.core.series.Series&#39;&gt;</span><br><span class="line">shape：</span><br><span class="line"> (635976,)</span><br><span class="line">前五行：</span><br><span class="line">2       濲</span><br><span class="line">3     违法性</span><br><span class="line">4    莫斯基诺</span><br><span class="line">5     瓦尔纳</span><br><span class="line">6      少室</span><br><span class="line">dtype: object</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-question-and-topic-2id-py"><a href="#2-question-and-topic-2id-py" class="headerlink" title="2. question_and_topic_2id.py"></a>2. question_and_topic_2id.py</h3><p>读取：raw_data/question_knowledge_train_set.txt 输出：data/sr_question2id.pkl、data/sr_topic2id.pkl</p>
+<p><strong>sr_question2id.pkl</strong></p>
+<ul>
+<li>存储内容：试题id-序号、序号-试题id<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">f &#x3D; open(&#39;..&#x2F;data&#x2F;sr_question2id.pkl&#39;,&#39;rb&#39;)</span><br><span class="line">sr_question2id &#x3D; pickle.load(f)</span><br><span class="line">print(&quot;sr_question2id:&quot;)</span><br><span class="line">print(&quot;type：\n&quot;, type(sr_question2id))</span><br><span class="line">print(&quot;shape：\n&quot;, sr_question2id.shape)</span><br><span class="line">print(&quot;前五行：\n&quot;, sr_question2id[0:5])</span><br><span class="line">sr_id2question &#x3D; pickle.load(f)</span><br><span class="line">print(&quot;\nsr_id2question:&quot;)</span><br><span class="line">print(&quot;type：\n&quot;, type(sr_id2question))</span><br><span class="line">print(&quot;shape：\n&quot;, sr_id2question.shape)</span><br><span class="line">print(&quot;前五行：\n&quot;, sr_id2topic[0:5])</span><br><span class="line">-----</span><br><span class="line">sr_question2id:</span><br><span class="line">type：</span><br><span class="line"> &lt;class &#39;pandas.core.series.Series&#39;&gt;</span><br><span class="line">shape：</span><br><span class="line"> (100267,)</span><br><span class="line">前五行：</span><br><span class="line">104961    0</span><br><span class="line">98305     1</span><br><span class="line">98304     2</span><br><span class="line">98307     3</span><br><span class="line">100354    4</span><br><span class="line">dtype: int64</span><br><span class="line">sr_id2question:</span><br><span class="line">type：</span><br><span class="line"> &lt;class &#39;pandas.core.series.Series&#39;&gt;</span><br><span class="line">shape：</span><br><span class="line"> (100267,)</span><br><span class="line">前五行：</span><br><span class="line">0    104961</span><br><span class="line">1     98305</span><br><span class="line">2     98304</span><br><span class="line">3     98307</span><br><span class="line">4    100354</span><br><span class="line">dtype: object</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>sr_topic2id.pkl</strong></p>
+<ul>
+<li>存储内容：知识点id-序号、序号-知识点id<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">f &#x3D; open(&#39;..&#x2F;data&#x2F;sr_topic2id.pkl&#39;,&#39;rb&#39;)</span><br><span class="line">sr_topic2id &#x3D; pickle.load(f)</span><br><span class="line">print(&quot;sr_topic2id:&quot;)</span><br><span class="line">print(&quot;type：\n&quot;, type(sr_topic2id))</span><br><span class="line">print(&quot;shape：\n&quot;, sr_topic2id.shape)</span><br><span class="line">print(&quot;前五行：\n&quot;, sr_topic2id[0:5])</span><br><span class="line">sr_id2topicd &#x3D; pickle.load(f)</span><br><span class="line">print(&quot;\nsr_id2topic:&quot;)</span><br><span class="line">print(&quot;type：\n&quot;, type(sr_id2topic))</span><br><span class="line">print(&quot;shape：\n&quot;, sr_id2topic.shape)</span><br><span class="line">print(&quot;前五行：\n&quot;, sr_id2topic[0:5])</span><br><span class="line">-----</span><br><span class="line"> sr_topic2id:</span><br><span class="line"> type：</span><br><span class="line">  &lt;class &#39;pandas.core.series.Series&#39;&gt;</span><br><span class="line"> shape：</span><br><span class="line">  (1105,)</span><br><span class="line"> 前五行：</span><br><span class="line"> 6361     0</span><br><span class="line"> 2672     1</span><br><span class="line"> 11254    2</span><br><span class="line"> 4278     3</span><br><span class="line"> 3432     4</span><br><span class="line"> dtype: int64</span><br><span class="line"> </span><br><span class="line"> sr_id2topic:</span><br><span class="line"> type：</span><br><span class="line">  &lt;class &#39;pandas.core.series.Series&#39;&gt;</span><br><span class="line"> shape：</span><br><span class="line">  (1105,)</span><br><span class="line"> 前五行：</span><br><span class="line"> 0     6361</span><br><span class="line"> 1     2672</span><br><span class="line"> 2    11254</span><br><span class="line"> 3     4278</span><br><span class="line"> 4     3432</span><br><span class="line"> dtype: object</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="3-word2id-py"><a href="#3-word2id-py" class="headerlink" title="3. word2id.py"></a>3. word2id.py</h3><p>读取：data/sr_word2id.pkl、raw_data/question_set.txt 输出：data/wd_train_content.npy</p>
+<p><strong>wd_train_content.npy</strong></p>
+<ul>
+<li>存储内容：试题文本分词后每个字符对应的词向量的行号</li>
+<li>文本分词：jieba分词，精确模式<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">word_embedding &#x3D; np.load(&#39;..&#x2F;data&#x2F;wd_train_content.npy&#39;)</span><br><span class="line">print(&quot;type：\n&quot;, type(word_embedding))</span><br><span class="line">print(&quot;shape：\n&quot;, word_embedding.shape)</span><br><span class="line">print(&quot;前五行：\n&quot;, word_embedding[0:5])</span><br><span class="line">-----</span><br><span class="line">type：</span><br><span class="line"> &lt;class &#39;numpy.ndarray&#39;&gt;</span><br><span class="line">shape：</span><br><span class="line"> (100267,)</span><br><span class="line">前五行：</span><br><span class="line"> [ list([631728, 113123, 508657, 282597, 508657, 361465, 508657, 102915, 361465, 235573, 470859, 514847, 1, 275510, 169616, 471680, 103939, 508657, 508657, 514847, 6883, 275510, 384350, 471680, 195329, 508657, 508657, 508657, 147259, 361465, 235573, 470859, 508657, 259781, 304875, 343493, 464651, 432604, 383956, 196920, 452500, 298593, 42433, 500032, 330228, 359327, 464651, 576705, 432604, 383956, 196920, 330228, 426877, 394166])</span><br><span class="line"> list([103939, 330228, 244899, 452500, 146176, 103939, 508657, 7381, 361465, 483874, 470859, 361465, 103939, 470859, 508657, 223592, 361465, 103939, 470859, 103939])</span><br><span class="line"> list([146176, 134472, 330228, 244899, 172615, 134472, 508657, 7381, 361465, 483874, 470859, 361465, 134472, 470859, 146176, 508657, 7381, 361465, 483874, 470859, 361465, 134472, 470859, 146176, 134472])</span><br><span class="line"> list([357690, 553838, 330228, 244899, 452500, 382590, 381360, 464651, 191717, 498076, 553838, 15250, 452500])</span><br><span class="line"> list([631728, 508657, 282597, 359410, 6883, 146176, 483874, 508657, 259781, 359410, 471680, 127874, 464651, 508657, 282597, 359410, 100969, 508657, 259781, 359410, 471680, 212700, 464651, 446506, 6883, 400506, 100969, 6063, 541193, 464651, 576705, 508657, 7381, 361465, 483874, 470859, 361465, 212700, 470859, 361465, 361465, 6883, 470859, 576696, 361465, 127874, 470859, 470859, 146176, 230989, 146176, 1, 330228, 426877, 394166])]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="4-creat-batch-data-py"><a href="#4-creat-batch-data-py" class="headerlink" title="4. creat_batch_data.py"></a>4. creat_batch_data.py</h3><p>读取：data/wd_train_content.npy 输出：wd_train_path = ‘../data/wd-data/data_train/<em>.npz’ wd_valid_path = ‘../data/wd-data/data_valid/</em>.npz’ wd_test_path = ‘../data/wd-data/data_test/*.npy’</p>
+<p><strong>*.npy 文件</strong></p>
+<ul>
+<li>存储内容：喂给模型训练的最终数据，固定seed，按照 batch_size(128) 进行打包</li>
+<li>每个batch文件包含128个标注样本，每个样本包括 X, y 两部分</li>
+<li>X 表示每个样本的试题文本，这里对文本进行了截断，长度不足的用 0 padding到固定长度，y表示试题标注的知识点id <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">batch_data &#x3D; np.load(&#39;..&#x2F;data&#x2F;wd-data&#x2F;data_train&#x2F;0.npz&#39;)</span><br><span class="line">print(&quot;type：\n&quot;, type(batch_data))</span><br><span class="line">print(batch_data[&#39;X&#39;].shape)</span><br><span class="line">print(batch_data[&#39;y&#39;].shape)</span><br><span class="line">print(x[0:1])</span><br><span class="line">print(y[0:1])</span><br><span class="line">-----</span><br><span class="line">type：</span><br><span class="line"> &lt;class &#39;numpy.lib.npyio.NpzFile&#39;&gt;</span><br><span class="line">(128, 180)</span><br><span class="line">(128,)</span><br><span class="line">[[323920 264501      1 113123   7748 508657 282597 508657 361465 508657</span><br><span class="line">  102915 361465 380901 470859 361465 341430 470859      1 146176      1</span><br><span class="line">  471680 146176 103939 508657      1 275510      1 471680 133283 508657</span><br><span class="line">  147259 361465 380901 470859 508657 259781 304875 394166      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0</span><br><span class="line">       0      0      0      0      0      0      0      0      0      0]]</span><br><span class="line">[list([213, 151, 7, 9, 59])]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="七-模型训练"><a href="#七-模型训练" class="headerlink" title="七. 模型训练"></a>七. 模型训练</h2><ul>
+<li>数据采集：2019年01月08号</li>
+<li>样本总数：49071（大题下的每个小题拆分为单独样本）</li>
+<li>分类总数：1093（知识点总数 1154，部分知识点没有挂靠试题）</li>
+<li>学段学科：初中数学</li>
+<li>分库来源：集团题库 + 分公司题库</li>
+<li>训练环境：一块 NVidia K80 GPU，内存17.2G</li>
+<li>训练时长：迭代全部样本 80 次，耗时约 小时</li>
+<li>测评结果：准确率 2.17726, 召回率 0.64506, F1值 0.497627（具体测评方案详见 evaluator.py）</li>
+</ul>
+<p>训练过程中，训练集、验证集和测试按 8:1:1 进行拆分，模型目前尚未收敛，效果还可继续提升。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 进入相应模型目录</span><br><span class="line">cd models&#x2F;word-cnn-concat-1&#x2F;</span><br><span class="line"># 训练</span><br><span class="line">python train.py [--max_epoch 1 --max_max_epoch 6 --lr 1e-3 decay_rate 0.65 decay_step 15000 last_f1 0.4]</span><br><span class="line"># 预测</span><br><span class="line">python predict.py</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="八-模型体验"><a href="#八-模型体验" class="headerlink" title="八. 模型体验"></a>八. 模型体验</h2><p><strong>请求链接</strong>：<a href="http://knowledge.cce057087bb6b431593fffdb2d0b2ad41.cn-hangzhou.alicontainer.com">http://knowledge.cce057087bb6b431593fffdb2d0b2ad41.cn-hangzhou.alicontainer.com</a><br><strong>请求方式</strong>：POST<br><strong>请求参数</strong>：</p>
+<ul>
+<li>title（对应试题详情接口 contentTranslate 字段）</li>
+<li>explain（对应试题详情接口 explains 下的 solutionProcessTranslate 字段）</li>
+</ul>
+<p><strong>返回结果</strong>：</p>
+<ul>
+<li>title_parse（title 预处理后的文本）</li>
+<li>explain_parse（explain 预处理后的文本）</li>
+<li>predict<ul>
+<li>node_id（知识点 node_id）</li>
+<li>node_name（知识点名称）</li>
+<li>order（按知识点预测得分排序，序号越小得分越高）</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/158932/1547274366083-91f4228a-0246-4894-8d46-665a5ca191c9.png#align=left&amp;display=inline&amp;height=422&amp;originHeight=801&amp;originWidth=1571&amp;status=done&amp;style=none&amp;width=827" alt=""></p>
+<p><strong>模型说明：</strong></p>
+<ul>
+<li>模型只支持 初中数学 知识点的预测，暂不支持多维度标签，不支持小学数学与高中数学，不支持其他总集树。</li>
+<li>初中数学知识树目前有61个知识点无试题挂靠，无法预测。<strong>知识点试题挂靠详情见数据分析模块</strong>。</li>
+<li>理论上，一个知识点挂靠试题越多，预测越准确。后期随着数据量上升，准确率还会继续提升。</li>
+<li>预测知识点时，输入的题干文本需真实有意义，如果输入小学数学预测初中知识点，效果会比较差。</li>
+</ul>
+<hr>
+<h2 id="九-后续调优"><a href="#九-后续调优" class="headerlink" title="九. 后续调优"></a>九. 后续调优</h2><h3 id="数据采集"><a href="#数据采集" class="headerlink" title="数据采集"></a>数据采集</h3><ul>
+<li>除了提取题干与知识点，还需提取解析，因为解析包含知识点部分特征信息</li>
+</ul>
+<h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><ul>
+<li>剔除输入文本中的无用字符，转换latex公式中的错误字符，比如公式中的【/#xFF0C】转换为【,】。</li>
+<li>获取样本集中X长度概率分布，选择更合适的截断值。</li>
+<li>去除文本停用词（或者手动维护一个停用词表）</li>
+<li>针对数据量少，分布不均衡，采取上采样进行数据增强。文本分类常见方式为打乱语序、删除词语和同义词替换</li>
+<li>尝试剔除样本中的异常点，提升样本质量</li>
+</ul>
+<h3 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h3><ul>
+<li>由于数据量小，神经网络中间层尝试去掉dropout</li>
+<li>神经网络采用多标签分类，最后一层尝试用sigmoid替代softmax。</li>
+<li>优化评判标准，比如尝试用汉明损失替代精度、召回率和F1值。</li>
+<li>尝试其他模型，比如 rnn + bigru</li>
+<li>尝试腾讯词向量。目前由于内存原因，优先使用了体积较小的 1.6G 百度百科词向量，该词向量共计词汇635976个，用百度百科文本训练而成。但腾讯词向量更全面，也能匹配出更多的有效字符。</li>
+<li>尝试用BERT进行迁移学习，可能有奇效。今年自然语言最大突破是BERT，刷新11项纪录，其中就包括文本分类。</li>
+</ul>
+<h3 id="模型调参"><a href="#模型调参" class="headerlink" title="模型调参"></a>模型调参</h3><p>模型调参耗时，需要大量工程经验，如果耗时一段时间没有结果，解决方案是接入今年开源的自动调参服务 AutoML。阿里目前有提供服务，效果未知。调参优先级为：</p>
+<ul>
+<li>最重要：学习率 α</li>
+<li>其次重要：β（动量衰减参数）、hidden unit（各隐藏层神经元个数）、mini-batch</li>
+<li>再次重要：β1、β2、ϵ（Adam 优化算法的超参数）、layers（神经网络层数）、decay_rate（学习衰减率）</li>
+</ul>
+<hr>
+<h2 id="十-文章相关"><a href="#十-文章相关" class="headerlink" title="十. 文章相关"></a>十. 文章相关</h2><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/28923961">知乎问题多标签分类</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/25928551">淘宝商品多标签分类 </a></li>
+<li><a href="https://www.zhihu.com/question/59236897">严重数据倾斜文本分类，比如正反比1:20～100，适合什么model，查准一般要做到多少可以上线</a></li>
+<li><a href="https://www.zhihu.com/question/56662976">机器学习中，正负样本比例差距大，导致分类效果差的理论依据是什么？怎么解决正负样本不均衡问题</a></li>
+<li><a href="https://www.cnblogs.com/bymo/p/9766358.html">用 imbalanced-learn 解决样本类别分布不均衡问题</a></li>
+<li><a href="http://www.atyun.com/5376.html">多类分类与多标签分类的区别？怎么解决多标签分类问题？</a></li>
+</ul>
+</div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/ali-zfb.png" alt="支付宝"></span></a><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/weixin-pay.png" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2019/05/21/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E6%A8%A1%E5%9E%8B%E8%B0%83%E7%A0%94/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">知识追踪模型调研</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2019/04/11/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E4%BB%8ENB%E5%88%B0%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/"><span class="level-item">从NB到语言模型</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"><script src="/js/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: '899f2dc82e71f4316a145e278a954bc2',
+            repo: 'blog_comment',
+            owner: 'Wasim37',
+            clientID: '55fcbea044b44e047f89',
+            clientSecret: '47addd42a9469d80bd508118ac73033915e3142c',
+            admin: ["wasim37"],
+            createIssueManually: true,
+            distractionFreeMode: false,
+            perPage: 10,
+            pagerDirection: 'last',
+            
+            
+            enableHotKey: true,
+            isLocked: false
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget toc-scroll" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" id="toc-item-一-项目结构" href="#一-项目结构"><span>一. 项目结构</span></a></li><li><a class="is-flex" id="toc-item-二-环境依赖" href="#二-环境依赖"><span>二. 环境依赖</span></a></li><li><a class="is-flex" id="toc-item-三-模型架构" href="#三-模型架构"><span>三. 模型架构</span></a></li><li><a class="is-flex" id="toc-item-四-数据采集" href="#四-数据采集"><span>四. 数据采集</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-all-knowledge-set" href="#all-knowledge-set"><span>all_knowledge_set</span></a></li><li><a class="is-flex" id="toc-item-knowledge-set" href="#knowledge-set"><span>knowledge_set</span></a></li><li><a class="is-flex" id="toc-item-question-title-set" href="#question-title-set"><span>question_title_set</span></a></li><li><a class="is-flex" id="toc-item-question-explain-set" href="#question-explain-set"><span>question_explain_set</span></a></li><li><a class="is-flex" id="toc-item-question-knowledge-train-set" href="#question-knowledge-train-set"><span>question_knowledge_train_set</span></a></li></ul></li><li><a class="is-flex" id="toc-item-五-数据分析" href="#五-数据分析"><span>五. 数据分析</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-1、知识点试题挂靠分析" href="#1、知识点试题挂靠分析"><span>1、知识点试题挂靠分析</span></a></li><li><a class="is-flex" id="toc-item-2、文本长度分析" href="#2、文本长度分析"><span>2、文本长度分析</span></a></li><li><a class="is-flex" id="toc-item-3、文本内容分析" href="#3、文本内容分析"><span>3、文本内容分析</span></a></li></ul></li><li><a class="is-flex" id="toc-item-六-数据预处理" href="#六-数据预处理"><span>六. 数据预处理</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-1-embed2ndarray-py" href="#1-embed2ndarray-py"><span>1. embed2ndarray.py</span></a></li><li><a class="is-flex" id="toc-item-2-question-and-topic-2id-py" href="#2-question-and-topic-2id-py"><span>2. question_and_topic_2id.py</span></a></li><li><a class="is-flex" id="toc-item-3-word2id-py" href="#3-word2id-py"><span>3. word2id.py</span></a></li><li><a class="is-flex" id="toc-item-4-creat-batch-data-py" href="#4-creat-batch-data-py"><span>4. creat_batch_data.py</span></a></li></ul></li><li><a class="is-flex" id="toc-item-七-模型训练" href="#七-模型训练"><span>七. 模型训练</span></a></li><li><a class="is-flex" id="toc-item-八-模型体验" href="#八-模型体验"><span>八. 模型体验</span></a></li><li><a class="is-flex" id="toc-item-九-后续调优" href="#九-后续调优"><span>九. 后续调优</span></a><ul class="menu-list"><li><a class="is-flex" id="toc-item-数据采集" href="#数据采集"><span>数据采集</span></a></li><li><a class="is-flex" id="toc-item-数据预处理" href="#数据预处理"><span>数据预处理</span></a></li><li><a class="is-flex" id="toc-item-网络结构" href="#网络结构"><span>网络结构</span></a></li><li><a class="is-flex" id="toc-item-模型调参" href="#模型调参"><span>模型调参</span></a></li></ul></li><li><a class="is-flex" id="toc-item-十-文章相关" href="#十-文章相关"><span>十. 文章相关</span></a></li></ul></div></div><script type="text/javascript" async>
+        $(document).ready(function () { //参考自 https://github.com/ppoffice/hexo-theme-icarus/pull/616/files
+            var observerTopMargin;
+            var scrollObserver;
+            var headerElems = $(".headerlink");
+            var activeTocItem;
+        
+            function initIntersectionObserver(docHeight) {
+                observerTopMargin = docHeight;
+                scrollObserver = new IntersectionObserver(scrollCallBack,
+                    {
+                        root: null,  // viewpoint
+                        rootMargin: docHeight + "px 0px -80% 0px"  // cover top 30% of viewport to the top of document
+                    })
+            }
+        
+            function scrollCallBack(entries, observer) {
+                if ($(window).scrollTop() > observerTopMargin * 0.7) { 
+                    // User somehow scroll to 70% of observerTopMargin (which is inited as 200% document height)
+                    // Observer top margin need to extend to cover all the space to the top of the document
+                    initIntersectionObserver(observerTopMargin * 2)
+                    observer.disconnect();
+                    return;
+                }
+                let toActive;
+                if (entries[0].intersectionRatio == 1) {  // enter viewed area
+                    let entry = entries.reduce((u, v) => (u.target.toc_id > v.target.toc_id ? u : v));  // get the lowest item
+                    toActive = $("#toc-item-" + $(entry.target).attr("href").substr(1));
+                } else {
+                    let entry = entries.reduce((u, v) => (u.target.toc_id < v.target.toc_id ? u : v));  // get the highest item
+                    let idx = Math.max(entry.target.toc_id - 1, 0);
+                    toActive = $("#toc-item-" + $(headerElems[idx]).attr("href").substr(1));
+                }
+                if (activeTocItem) activeTocItem.removeClass("is-current");
+                activeTocItem = toActive
+                activeTocItem.addClass("is-current");
+            }
+        
+            initIntersectionObserver($(document).height() * 2);
+            headerElems.each(function (index, obj) {
+                obj.toc_id = index;
+                scrollObserver.observe(obj);
+            })
+        });</script></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2019-05-21T14:22:00.000Z">2019-05-21</time></p><p class="title is-6"><a class="link-muted" href="/2019/05/21/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E7%9F%A5%E8%AF%86%E8%BF%BD%E8%B8%AA%E6%A8%A1%E5%9E%8B%E8%B0%83%E7%A0%94/">知识追踪模型调研</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-05-01T14:22:00.000Z">2019-05-01</time></p><p class="title is-6"><a class="link-muted" href="/2019/05/01/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/%E8%AF%95%E9%A2%98%E7%9F%A5%E8%AF%86%E7%82%B9%E6%99%BA%E8%83%BD%E6%A0%87%E6%B3%A8/">试题知识点智能标注</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">项目实践</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-04-10T16:00:00.000Z">2019-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2019/04/11/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E4%BB%8ENB%E5%88%B0%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">从NB到语言模型</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-04-05T16:00:00.000Z">2019-04-06</time></p><p class="title is-6"><a class="link-muted" href="/2019/04/06/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%B8%8E%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/">贝叶斯与垃圾邮件</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2019-04-03T14:22:00.000Z">2019-04-03</time></p><p class="title is-6"><a class="link-muted" href="/2019/04/03/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E4%B8%8E%E8%AF%8D%E5%B5%8C%E5%85%A5/">自然语言处理与词嵌入</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="level-start"><span class="level-item">特征工程</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">理论基础</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"><span class="level-start"><span class="level-item">神经网络</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">经典模型</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"><span class="level-start"><span class="level-item">自然语言处理</span></span><span class="level-end"><span class="level-item tag">4</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/"><span class="level-start"><span class="level-item">计算机视觉</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"><span class="level-start"><span class="level-item">论文阅读</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/"><span class="level-start"><span class="level-item">项目实践</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2019/05/"><span class="level-start"><span class="level-item">五月 2019</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/04/"><span class="level-start"><span class="level-item">四月 2019</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/09/"><span class="level-start"><span class="level-item">九月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/06/"><span class="level-start"><span class="level-item">六月 2018</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><a class="level is-mobile is-marginless" href="/archives/"><span class="level-start"><span class="level-item">查看全部&gt;&gt;</span></span></a></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a><p class="size-small"><span>&copy; 2020 wasim37</span>  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://wangxin123.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back-to-top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script src="/js/gallery.js" defer></script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            MathJax.Hub.Config({
+                'HTML-CSS': {
+                    matchFontHeight: false
+                },
+                SVG: {
+                    matchFontHeight: false
+                },
+                CommonHTML: {
+                    matchFontHeight: false
+                },
+                tex2jax: {
+                    inlineMath: [
+                        ['$','$'],
+                        ['\\(','\\)']
+                    ]
+                }
+            });
+        });</script><!--!--><script src="/js/main.js" defer></script><script src="/js/comment-issue-data.js" defer></script><link rel="stylesheet" href="/css/insight.css"><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="想要查找什么..."><span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>(function (window) {
+            var INSIGHT_CONFIG = {
+                TRANSLATION: {
+                    POSTS: '文章',
+                    PAGES: '页面',
+                    CATEGORIES: '分类',
+                    TAGS: '标签',
+                    UNTITLED: '(无标题)',
+                },
+                CONTENT_URL: '/content.json',
+            };
+            window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+        })(window);</script><script src="/js/insight.js" defer></script></body></html>
