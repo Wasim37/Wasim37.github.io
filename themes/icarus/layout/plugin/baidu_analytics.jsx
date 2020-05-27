@@ -8,7 +8,7 @@ class BaiduAnalytics extends Component {
         const js = `var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
-            hm.src = "//hm.baidu.com/hm.js?060269356a8ca9046e6a13dcba6f9559";
+            hm.src = "//hm.baidu.com/hm.js?${trackingId}";
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
         })();`;
