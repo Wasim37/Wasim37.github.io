@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>激活函数 - 星空str</title><meta description="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:type" content="blog"><meta property="og:title" content="Wasim37"><meta property="og:url" content="https://wangxin123.com/"><meta property="og:site_name" content="Wasim37"><meta property="og:description" content="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><meta property="article:published_time" content="2020-03-02T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-27T02:57:51.833Z"><meta property="article:author" content="Wasim37"><meta property="article:tag" content="激活函数"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://wangxin123.com/"},"headline":"Wasim37","image":["https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"],"datePublished":"2020-03-02T14:22:00.000Z","dateModified":"2020-05-27T02:57:51.833Z","author":{"@type":"Person","name":"Wasim37"},"description":"ai,机器学习,深度学习,算法,leetcode,java"}</script><link rel="alternative" href="/atom.xml" title="星空str" type="application/atom+xml"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><link rel="stylesheet" href="/css/style.css"><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="/js/globalUtils.js"></script></head><body class="is-2-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2020-03-02T14:22:00.000Z">2020-03-02</time><a class="commentCountImg" href="/2020/03/02/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/#comment-container"><span class="display-none-class">70eddb3e36ac32c2a53a776db342486f</span><img class="not-gallery-item" src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/chat.svg"> <span class="commentCount" id="70eddb3e36ac32c2a53a776db342486f"> 0</span>    </a><span class="level-item"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></span><span class="level-item">21 分钟 读完 (大约 3207 个字)</span><span class="level-item" id="busuanzi_container_page_pv"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">激活函数</h1><div class="content"><h3 id="Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数"><a href="#Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数" class="headerlink" title="Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数"></a>Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数</h3><p>Maxout使用两套w,b参数，输出较大值。本质上Maxout可以看做Relu的泛化版本，因为如果一套w,b全都是0的话，那么就是普通的ReLU。Maxout可以克服Relu的缺点，但是参数数目翻倍。 </p>
+<p> <img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/12.png" alt=""></p>
+<a id="more"></a>
+<hr>
+<h3 id="为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数"><a href="#为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数" class="headerlink" title="为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数"></a>为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数</h3><p>为什么不是选择统一一种sigmoid或者tanh，而是混合使用呢这样的目的是什么<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/15.png" alt=""></p>
+<p>sigmoid 用在了各种gate上，描述每个组件应该通过多少。它的值在 0 到 1 的范围内，且大多数时间非常接近于 0 或 1，值为零意味着“不要让任何信息通过”，而值为1意味着“让所有信息都通过！”。</p>
+<p>tanh 用在了状态和输出上，是对数据的处理，这个用 ReLU 或其他激活函数也可以。</p>
+<hr>
+<h3 id="什么是激活函数，为什么要用非线性激活函数"><a href="#什么是激活函数，为什么要用非线性激活函数" class="headerlink" title="什么是激活函数，为什么要用非线性激活函数"></a>什么是激活函数，为什么要用非线性激活函数</h3><p>如下图，在神经元中，输入的 inputs 通过加权，求和后，还被作用了一个函数，这个函数就是激活函数 Activation Function。<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/61.png" alt=""></p>
+<p><strong>不用激活函数或使用线性激活函数，和直接使用 Logistic 回归没有区别</strong>，因为无论神经网络有多少层，输出都是输入的线性组合，与没有隐藏层效果相当，就成了最原始的感知器了。</p>
+<p><strong>非线性激活函数给神经元引入了非线性因素，使得神经网络可以任意逼近任何非线性函数</strong>，这样神经网络就可以应用到众多的非线性模型中。非线性激励函数最早的想法是sigmoid函数或者tanh函数，输出有界，很容易充当下一层输入。</p>
+<hr>
+<h3 id="ReLu为什么要好过于tanh和sigmoid"><a href="#ReLu为什么要好过于tanh和sigmoid" class="headerlink" title="ReLu为什么要好过于tanh和sigmoid"></a>ReLu为什么要好过于tanh和sigmoid</h3><p>sigmoid、tanh和RelU函数图：<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/14.png" alt=""></p>
+<p>第一，ReLU本质上是分段线性模型，前向计算和反向传播的偏导非常简单，<strong>无需指数之类操作</strong>。</p>
+<p>第二，ReLU不容易发生<strong>梯度消失</strong>问题，Tanh和Logistic激活函数在两端的时候导数容易趋近于零，多级连乘后梯度更加约等于0。</p>
+<p>第三，ReLU关闭了右边，从而会使得很多的隐层输出为0，即网络变得稀疏，起到了类似L1的正则化作用，可以在一定程度上<strong>缓解过拟合</strong>。</p>
+<p><strong>但是Relu也有自己的缺点，它缺少对数据的控制力，不像sigmoid可以把任意维度的数据压缩到0到1之间。</strong>训练过程中有些数据的维度完全没有得到控制，有的幅度到达了上千，有的依然是一个极小的小数。这样看起来，似乎sigmoid前向更靠谱，relu后向更强。那么怎么解决ReLu的振幅问题呢？可以考虑在初始化上做处理，详见 <a href="https://zhuanlan.zhihu.com/p/22028079">xavier初始化</a></p>
+<p>最后加一句，现在主流的做法，<strong>会多做一步batch normalization</strong>，尽可能保证每一层网络的输入具有相同的分布[1]。而最新的paper[2]，他们在加入bypass connection之后，发现改变batch normalization的位置会有更好的效果。</p>
+<p>[1] Ioffe S, Szegedy C. Batch normalization: Accelerating deep network training by reducing internal covariate shift[J]. arXiv preprint arXiv:1502.03167, 2015.<br>[2] He, Kaiming, et al. “Identity Mappings in Deep Residual Networks.” arXiv preprint arXiv:1603.05027 (2016). </p>
+<p>知乎链接：<a href="https://www.zhihu.com/question/29021768">请问人工神经网络中的activation function的作用具体是什么？为什么ReLu要好过于tanh和sigmoid function?</a></p>
+<hr>
+<h3 id="简单说下sigmoid激活函数"><a href="#简单说下sigmoid激活函数" class="headerlink" title="简单说下sigmoid激活函数"></a>简单说下sigmoid激活函数</h3><p>常用的非线性激活函数有sigmoid、tanh、relu等等，前两者sigmoid/tanh比较常见于全连接层，后者relu常见于卷积层。这里先简要介绍下最基础的sigmoid函数（btw，在本博客中SVM那篇文章开头有提过）。</p>
+<p>sigmoid的函数表达式如下<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/40.png" alt=""></p>
+<p>其中z是一个线性组合，比如z可以等于：b + w1<em>x1 + w2</em>x2。通过代入很大的正数或很小的负数到g(z)函数中可知，其结果趋近于0或1。</p>
+<p>因此，sigmoid函数g(z)的图形表示如下（ 横轴表示定义域z，纵轴表示值域g(z) ）：<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/41.png" alt=""></p>
+<p>也就是说，sigmoid函数的功能是相当于把一个实数压缩至0到1之间。当z是非常大的正数时，g(z)会趋近于1，而z是非常小的负数时，则g(z)会趋近于0。</p>
+<p>压缩至0到1有何用处呢用处是这样一来便可以把激活函数看作一种“分类的概率”，比如激活函数的输出为0.9的话便可以解释为90%的概率为正样本。</p>
+<p>举个例子，如下图（图引自Stanford机器学习公开课）<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/42.png" alt=""></p>
+<p>z = b + w1<em>x1 + w2</em>x2，其中b为偏置项 假定取-30，w1、w2都取为20<br><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/43.png" alt=""></p>
+<p>如果x1 = 0，x2 = 0，则z = -30，g(z) = 1/( 1 + e^-z )趋近于0。此外，从上图sigmoid函数的图形上也可以看出，当z=-30的时候，g(z)的值趋近于0<br>如果x1 = 0，x2 = 1，或x1 =1,x2 = 0，则z = b + w1<em>x1 + w2</em>x2 = -30 + 20 = -10，同样，g(z)的值趋近于0<br>如果x1 = 1，x2 = 1，则z = b + w1<em>x1 + w2</em>x2 = -30 + 20<em>1 + 20</em>1 = 10，此时，g(z)趋近于1。</p>
+<p>换言之，只有x1和x2都取1的时候，g(z)→1，判定为正样本；而当只要x1或x2有一个取0的时候，g(z)→0，判定为负样本，如此达到分类的目的。</p>
+<p>综上，sigmod函数，是逻辑斯蒂回归的压缩函数，它的性质是可以把分隔平面压缩到[0,1]区间一个数（向量），在线性分割平面值为0时候正好对应sigmod值为0.5，大于0对应sigmod值大于0.5、小于0对应sigmod值小于0.5；0.5可以作为分类的阀值；exp的形式最值求解时候比较方便，用相乘形式作为logistic损失函数，使得损失函数是凸函数；不足之处是sigmod函数在y趋于0或1时候有死区，控制不好在bp形式传递loss时候容易造成梯度弥撒。</p>
+<hr>
+<h3 id="神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的"><a href="#神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的" class="headerlink" title="神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的"></a>神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的</h3><ol>
+<li><p>非线性：即导数不是常数。这个条件是多层神经网络的基础，保证多层网络不退化成单层线性网络。这也是激活函数的意义所在。</p>
+</li>
+<li><p>几乎处处可微：可微性保证了在优化中梯度的可计算性。传统的激活函数如sigmoid等满足处处可微。对于分段线性函数比如ReLU，只满足几乎处处可微（即仅在有限个点处不可微）。对于SGD算法来说，由于几乎不可能收敛到梯度接近零的位置，有限的不可微点对于优化结果不会有很大影响[1]。</p>
+</li>
+<li><p>计算简单：非线性函数有很多。极端的说，一个多层神经网络也可以作为一个非线性函数，类似于Network In Network[2]中把它当做卷积操作的做法。但激活函数在神经网络前向的计算次数与神经元的个数成正比，因此简单的非线性函数自然更适合用作激活函数。这也是ReLU之流比其它使用Exp等操作的激活函数更受欢迎的其中一个原因。</p>
+</li>
+<li><p>非饱和性（saturation）：饱和指的是在某些区间梯度接近于零（即梯度消失），使得参数无法继续更新的问题。最经典的例子是Sigmoid，它的导数在x为比较大的正值和比较小的负值时都会接近于0。更极端的例子是阶跃函数，由于它在几乎所有位置的梯度都为0，因此处处饱和，无法作为激活函数。ReLU在x&gt;0时导数恒为1，因此对于再大的正值也不会饱和。但同时对于x&lt;0，其梯度恒为0，这时候它也会出现饱和的现象（在这种情况下通常称为dying ReLU）。Leaky ReLU[3]和PReLU[4]的提出正是为了解决这一问题。</p>
+</li>
+<li><p>单调性（monotonic）：即导数符号不变。这个性质大部分激活函数都有，除了诸如sin、cos等。个人理解，单调性使得在激活函数处的梯度方向不会经常改变，从而让训练更容易收敛。</p>
+</li>
+<li><p>输出范围有限：有限的输出范围使得网络对于一些比较大的输入也会比较稳定，这也是为什么早期的激活函数都以此类函数为主，如Sigmoid、TanH。但这导致了前面提到的梯度消失问题，而且强行让每一层的输出限制到固定范围会限制其表达能力。因此现在这类函数仅用于某些需要特定输出范围的场合，比如概率输出（此时loss函数中的log操作能够抵消其梯度消失的影响[1]）、LSTM里的gate函数。</p>
+</li>
+<li><p>接近恒等变换（identity）：即约等于x。这样的好处是使得输出的幅值不会随着深度的增加而发生显著的增加，从而使网络更为稳定，同时梯度也能够更容易地回传。这个与非线性是有点矛盾的，因此激活函数基本只是部分满足这个条件，比如TanH只在原点附近有线性区（在原点为0且在原点的导数为1），而ReLU只在x&gt;0时为线性。这个性质也让初始化参数范围的推导更为简单[5][4]。额外提一句，这种恒等变换的性质也被其他一些网络结构设计所借鉴，比如CNN中的ResNet[6]和RNN中的LSTM。</p>
+</li>
+<li><p>参数少：大部分激活函数都是没有参数的。像PReLU带单个参数会略微增加网络的大小。还有一个例外是Maxout[7]，尽管本身没有参数，但在同样输出通道数下k路Maxout需要的输入通道数是其它函数的k倍，这意味着神经元数目也需要变为k倍；但如果不考虑维持输出通道数的情况下，该激活函数又能将参数个数减少为原来的k倍。</p>
+</li>
+<li><p>归一化（normalization）：这个是最近才出来的概念，对应的激活函数是SELU[8]，主要思想是使样本分布自动归一化到零均值、单位方差的分布，从而稳定训练。在这之前，这种归一化的思想也被用于网络结构的设计，比如Batch Normalization[9]。</p>
+</li>
+</ol>
+<p>更多详情：<a href="https://www.zhihu.com/question/67366051">https://www.zhihu.com/question/67366051</a></p>
+<hr>
+</div><div class="article-tags size-small is-uppercase mb-4"><i class="fas fa-tags has-text-grey"></i> <a class="link-muted mr-2" rel="tag" href="/tags/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/">激活函数</a></div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/ali-zfb.png" alt="支付宝"></span></a><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/weixin-pay.png" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2020/03/02/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E8%BF%87%E6%8B%9F%E5%90%88%E4%B8%8E%E6%AC%A0%E6%8B%9F%E5%90%88/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">过拟合与欠拟合</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2020/03/02/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E5%8D%B7%E7%A7%AF%E5%B1%82%E3%80%81%E6%B1%A0%E5%8C%96%E5%B1%82%E5%92%8C%E5%85%A8%E8%BF%9E%E6%8E%A5%E5%B1%82%E8%AF%A6%E8%A7%A3/"><span class="level-item">卷积层、池化层和全连接层详解</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"><script src="/js/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: '70eddb3e36ac32c2a53a776db342486f',
+            repo: 'blog_comment',
+            owner: 'Wasim37',
+            clientID: '55fcbea044b44e047f89',
+            clientSecret: '47addd42a9469d80bd508118ac73033915e3142c',
+            admin: ["wasim37"],
+            createIssueManually: true,
+            distractionFreeMode: false,
+            perPage: 10,
+            pagerDirection: 'last',
+            
+            
+            enableHotKey: true,
+            isLocked: false
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget toc-scroll" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" id="toc-item-Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数" href="#Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数"><span>Sigmoid、Tanh、ReLu有什么优缺点，有没改进的激活函数</span></a></li><li><a class="is-flex" id="toc-item-为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数" href="#为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数"><span>为什么LSTM模型中既存在sigmoid又存在tanh两种激活函数</span></a></li><li><a class="is-flex" id="toc-item-什么是激活函数，为什么要用非线性激活函数" href="#什么是激活函数，为什么要用非线性激活函数"><span>什么是激活函数，为什么要用非线性激活函数</span></a></li><li><a class="is-flex" id="toc-item-ReLu为什么要好过于tanh和sigmoid" href="#ReLu为什么要好过于tanh和sigmoid"><span>ReLu为什么要好过于tanh和sigmoid</span></a></li><li><a class="is-flex" id="toc-item-简单说下sigmoid激活函数" href="#简单说下sigmoid激活函数"><span>简单说下sigmoid激活函数</span></a></li><li><a class="is-flex" id="toc-item-神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的" href="#神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的"><span>神经网络中激活函数的真正意义？一个激活函数需要具有哪些必要的属性？还有哪些属性是好的属性但不必要的</span></a></li></ul></div></div><script type="text/javascript" async>
+        $(document).ready(function () { //参考自 https://github.com/ppoffice/hexo-theme-icarus/pull/616/files
+            var observerTopMargin;
+            var scrollObserver;
+            var headerElems = $(".headerlink");
+            var activeTocItem;
+        
+            function initIntersectionObserver(docHeight) {
+                observerTopMargin = docHeight;
+                scrollObserver = new IntersectionObserver(scrollCallBack,
+                    {
+                        root: null,  // viewpoint
+                        rootMargin: docHeight + "px 0px -80% 0px"  // cover top 30% of viewport to the top of document
+                    })
+            }
+        
+            function scrollCallBack(entries, observer) {
+                if ($(window).scrollTop() > observerTopMargin * 0.7) { 
+                    // User somehow scroll to 70% of observerTopMargin (which is inited as 200% document height)
+                    // Observer top margin need to extend to cover all the space to the top of the document
+                    initIntersectionObserver(observerTopMargin * 2)
+                    observer.disconnect();
+                    return;
+                }
+                let toActive;
+                if (entries[0].intersectionRatio == 1) {  // enter viewed area
+                    let entry = entries.reduce((u, v) => (u.target.toc_id > v.target.toc_id ? u : v));  // get the lowest item
+                    toActive = $("#toc-item-" + $(entry.target).attr("href").substr(1));
+                } else {
+                    let entry = entries.reduce((u, v) => (u.target.toc_id < v.target.toc_id ? u : v));  // get the highest item
+                    let idx = Math.max(entry.target.toc_id - 1, 0);
+                    toActive = $("#toc-item-" + $(headerElems[idx]).attr("href").substr(1));
+                }
+                if (activeTocItem) activeTocItem.removeClass("is-current");
+                activeTocItem = toActive
+                activeTocItem.addClass("is-current");
+            }
+        
+            initIntersectionObserver($(document).height() * 2);
+            headerElems.each(function (index, obj) {
+                obj.toc_id = index;
+                scrollObserver.observe(obj);
+            })
+        });</script></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2021-01-01T16:00:00.000Z">2021-01-02</time></p><p class="title is-6"><a class="link-muted" href="/2021/01/02/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-04-10T16:00:00.000Z">2020-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2020/04/11/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/">朴素贝叶斯</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/">经典模型</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-04-10T16:00:00.000Z">2020-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2020/04/11/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E4%BB%8ENB%E5%88%B0%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">从NB到语言模型</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-04-10T16:00:00.000Z">2020-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2020/04/11/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/">命名实体识别</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-03-02T14:22:00.000Z">2020-03-02</time></p><p class="title is-6"><a class="link-muted" href="/2020/03/02/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E8%B0%83%E5%8F%82%E6%8A%80%E5%B7%A7/">调参技巧</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="level-start"><span class="level-item">特征工程</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">理论基础</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"><span class="level-start"><span class="level-item">神经网络</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">经典模型</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"><span class="level-start"><span class="level-item">自然语言处理</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/"><span class="level-start"><span class="level-item">计算机视觉</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"><span class="level-start"><span class="level-item">论文阅读</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/"><span class="level-start"><span class="level-item">项目实践</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2021/01/"><span class="level-start"><span class="level-item">一月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/04/"><span class="level-start"><span class="level-item">四月 2020</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/03/"><span class="level-start"><span class="level-item">三月 2020</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/11/"><span class="level-start"><span class="level-item">十一月 2019</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><a class="level is-mobile is-marginless" href="/archives/"><span class="level-start"><span class="level-item">查看全部&gt;&gt;</span></span></a></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a><p class="size-small"><span>&copy; 2020 wasim37</span>  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://wangxin123.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back-to-top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script src="/js/gallery.js" defer></script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            MathJax.Hub.Config({
+                'HTML-CSS': {
+                    matchFontHeight: false
+                },
+                SVG: {
+                    matchFontHeight: false
+                },
+                CommonHTML: {
+                    matchFontHeight: false
+                },
+                tex2jax: {
+                    inlineMath: [
+                        ['$','$'],
+                        ['\\(','\\)']
+                    ]
+                }
+            });
+        });</script><!--!--><script src="/js/main.js" defer></script><script src="/js/comment-issue-data.js" defer></script><link rel="stylesheet" href="/css/insight.css"><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="想要查找什么..."><span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>(function (window) {
+            var INSIGHT_CONFIG = {
+                TRANSLATION: {
+                    POSTS: '文章',
+                    PAGES: '页面',
+                    CATEGORIES: '分类',
+                    TAGS: '标签',
+                    UNTITLED: '(无标题)',
+                },
+                CONTENT_URL: '/content.json',
+            };
+            window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+        })(window);</script><script src="/js/insight.js" defer></script></body></html>

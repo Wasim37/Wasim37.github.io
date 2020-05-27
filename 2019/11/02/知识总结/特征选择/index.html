@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.1"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>特征选择 - 星空str</title><meta description="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:type" content="blog"><meta property="og:title" content="Wasim37"><meta property="og:url" content="https://wangxin123.com/"><meta property="og:site_name" content="Wasim37"><meta property="og:description" content="ai,机器学习,深度学习,算法,leetcode,java"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><meta property="article:published_time" content="2019-11-02T14:22:00.000Z"><meta property="article:modified_time" content="2020-05-27T01:16:50.451Z"><meta property="article:author" content="Wasim37"><meta property="article:tag" content="特征工程"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://wangxin123.com/"},"headline":"Wasim37","image":["https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/blog_avatar_lufei.png"],"datePublished":"2019-11-02T14:22:00.000Z","dateModified":"2020-05-27T01:16:50.451Z","author":{"@type":"Person","name":"Wasim37"},"description":"ai,机器学习,深度学习,算法,leetcode,java"}</script><link rel="alternative" href="/atom.xml" title="星空str" type="application/atom+xml"><link rel="icon" href="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/wu.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;amp;subset=latin,latin-ext"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><link rel="stylesheet" href="/css/style.css"><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="/js/globalUtils.js"></script></head><body class="is-2-column has-navbar-fixed-top"><nav class="navbar navbar-main is-fixed-top"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><script type="text/javascript" src="/js/theme-setting.js"></script><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2019-11-02T14:22:00.000Z">2019-11-02</time><a class="commentCountImg" href="/2019/11/02/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9/#comment-container"><span class="display-none-class">8552ceb9e311a7f667447db875004262</span><img class="not-gallery-item" src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/chat.svg"> <span class="commentCount" id="8552ceb9e311a7f667447db875004262"> 0</span>    </a><span class="level-item"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/">特征工程</a></span><span class="level-item">10 分钟 读完 (大约 1542 个字)</span><span class="level-item" id="busuanzi_container_page_pv"><i class="far fa-eye"></i>&nbsp;&nbsp;<span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">特征选择</h1><div class="content"><h1 id="机器学习中，有哪些特征选择的工程方法"><a href="#机器学习中，有哪些特征选择的工程方法" class="headerlink" title="机器学习中，有哪些特征选择的工程方法"></a>机器学习中，有哪些特征选择的工程方法</h1><p><strong>数据和特征决定了机器学习的上限，而模型和算法只是逼近这个上限而已</strong></p>
+<ul>
+<li><p><strong>计算每一个特征与响应变量的相关性</strong><br>工程上常用的手段有计算<strong>皮尔逊系数</strong>和<strong>互信息系数</strong>，<strong>皮尔逊系数只能衡量线性相关性</strong>，而**互信息系数能够很好地度量各种相关性，但是计算相对复杂一些，好在很多toolkit里边都包含了这个工具（如sklearn的MINE），得到相关性之后就可以排序选择特征了；</p>
+</li>
+<li><p><strong>构建单个特征的模型，通过模型的准确性为特征排序，借此来选择特征；</strong></p>
+</li>
+<li><p><strong>通过L1正则项来选择特征</strong><br>L1正则方法具有稀疏解的特性，因此天然具备特征选择的特性，但是要注意，L1没有选到的特征不代表不重要，原因是两个具有高相关性的特征可能只保留了一个，如果要确定哪个特征重要应再通过L2正则方法交叉检验；</p>
+</li>
+<li><p><strong>训练能够对特征打分的预选模型</strong><br>RandomForest和Logistic Regression等都能对模型的特征打分，通过打分获得相关性后再训练最终模型；</p>
+</li>
+<li><p><strong>通过特征组合后再来选择特征</strong><br>如对用户id和用户特征最组合来获得较大的特征集再来选择特征，这种做法在推荐系统和广告系统中比较常见，这也是所谓亿级甚至十亿级特征的主要来源，原因是用户数据比较稀疏，组合特征能够同时兼顾全局模型和个性化模型。</p>
+</li>
+<li><p><strong>通过深度学习来进行特征选择</strong><br>目前这种手段正在随着深度学习的流行而成为一种手段，尤其是在计算机视觉领域，原因是深度学习具有自动学习特征的能力，这也是深度学习又叫unsupervised feature learning的原因。从深度学习模型中选择某一神经层的特征后就可以用来进行最终目标模型的训练了。</p>
+</li>
+</ul>
+<a id="more"></a>
+<h1 id="如何进行特征选择"><a href="#如何进行特征选择" class="headerlink" title="如何进行特征选择"></a>如何进行特征选择</h1><p>特征选择是一个重要的数据预处理过程，主要有两个原因：一是减少特征数量、降维，使模型泛化能力更强，减少过拟合;二是增强对特征和特征值之间的理解</p>
+<p>常见的特征选择方式：</p>
+<ul>
+<li>去除方差较小的特征，比如PCA</li>
+<li>正则化。1正则化能够生成稀疏的模型。L2正则化的表现更加稳定，由于有用的特征往往对应系数非零。</li>
+<li>随机森林，对于分类问题，通常采用基尼不纯度或者信息增益，对于回归问题，通常采用的是方差或者最小二乘拟合。一般不需要feature engineering、调参等繁琐的步骤。它的两个主要问题，1是重要的特征有可能得分很低（关联特征问题），2是这种方法对特征变量类别多的特征越有利（偏向问题）。</li>
+<li>稳定性选择。是一种基于二次抽样和选择算法相结合较新的方法，选择算法可以是回归、SVM或其他类似的方法。它的主要思想是在不同的数据子集和特征子集上运行特征选择算法，不断的重复，最终汇总特征选择结果，比如可以统计某个特征被认为是重要特征的频率（被选为重要特征的次数除以它所在的子集被测试的次数）。理想情况下，重要特征的得分会接近100%。稍微弱一点的特征得分会是非0的数，而最无用的特征得分将会接近于0。</li>
+</ul>
+<hr>
+<h1 id="你知道有哪些数据处理和特征工程的处理"><a href="#你知道有哪些数据处理和特征工程的处理" class="headerlink" title="你知道有哪些数据处理和特征工程的处理"></a>你知道有哪些数据处理和特征工程的处理</h1><p><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/67.png" alt=""></p>
+<hr>
+<h1 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h1><p>1、特征向量的缺失值处理:<br>1）缺失值较多.直接将该特征舍弃掉，否则可能反倒会带入较大的noise。<br>2）缺失值较少，其余的特征缺失值都在10%以内，我们可以采取很多的方式来处理:</p>
+<ul>
+<li>把NaN直接作为一个特征，假设用0表示；</li>
+<li>连续值，用均值填充；</li>
+<li>用随机森林等算法预测填充；</li>
+</ul>
+<p>2、连续值：离散化。有的模型（如决策树）需要离散值<br>3、对定量特征二值化。核心在于设定一个阈值，大于阈值的赋值为1，小于等于阈值的赋值为0。如图像操作<br>4、皮尔逊相关系数，去除高度相关的列</p>
+<hr>
+<h1 id="数据不平衡问题"><a href="#数据不平衡问题" class="headerlink" title="数据不平衡问题"></a>数据不平衡问题</h1><ul>
+<li>采样，对小样本加噪声采样（过拟合），对大样本进行下采样（欠拟合）</li>
+<li>数据生成，利用已知样本生成新的样本（深度学习的数据增强）</li>
+<li>进行特殊的加权，如在Adaboost中或者SVM中</li>
+<li>采用对不平衡数据集不敏感的算法</li>
+<li>改变评价标准：用AUC/ROC来进行评价</li>
+<li>采用Bagging/Boosting/ensemble等方法</li>
+<li>在设计模型的时候考虑数据的先验分布</li>
+</ul>
+<p>详见：<a href="https://www.cnblogs.com/zhaokui/p/5101301.html">https://www.cnblogs.com/zhaokui/p/5101301.html</a></p>
+<p>图片数据增强（Data augmentation）：</p>
+<ul>
+<li>水平翻转</li>
+<li>随机裁剪</li>
+<li>样本不平衡, 进行 Label shuffle</li>
+<li>其他<br>平移变换；<br>旋转/仿射变换；<br>高斯噪声、模糊处理<br>对颜色的数据增强：图像亮度、饱和度、对比度变化</li>
+</ul>
+<hr>
+</div><div class="article-tags size-small is-uppercase mb-4"><i class="fas fa-tags has-text-grey"></i> <a class="link-muted mr-2" rel="tag" href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/">特征工程</a></div></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button is-info donate"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/ali-zfb.png" alt="支付宝"></span></a><a class="button is-success donate"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/weixin-pay.png" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2019/11/02/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E5%BD%92%E4%B8%80%E5%8C%96/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">归一化</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2019/11/02/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/"><span class="level-item">基础概念</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="comment-container"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"><script src="/js/gitalk.min.js"></script><script>var gitalk = new Gitalk({
+            id: '8552ceb9e311a7f667447db875004262',
+            repo: 'blog_comment',
+            owner: 'Wasim37',
+            clientID: '55fcbea044b44e047f89',
+            clientSecret: '47addd42a9469d80bd508118ac73033915e3142c',
+            admin: ["wasim37"],
+            createIssueManually: true,
+            distractionFreeMode: false,
+            perPage: 10,
+            pagerDirection: 'last',
+            
+            
+            enableHotKey: true,
+            isLocked: false
+        })
+        gitalk.render('comment-container')</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><div class="card widget toc-scroll" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" id="toc-item-机器学习中，有哪些特征选择的工程方法" href="#机器学习中，有哪些特征选择的工程方法"><span>机器学习中，有哪些特征选择的工程方法</span></a></li><li><a class="is-flex" id="toc-item-如何进行特征选择" href="#如何进行特征选择"><span>如何进行特征选择</span></a></li><li><a class="is-flex" id="toc-item-你知道有哪些数据处理和特征工程的处理" href="#你知道有哪些数据处理和特征工程的处理"><span>你知道有哪些数据处理和特征工程的处理</span></a></li><li><a class="is-flex" id="toc-item-数据预处理" href="#数据预处理"><span>数据预处理</span></a></li><li><a class="is-flex" id="toc-item-数据不平衡问题" href="#数据不平衡问题"><span>数据不平衡问题</span></a></li></ul></div></div><script type="text/javascript" async>
+        $(document).ready(function () { //参考自 https://github.com/ppoffice/hexo-theme-icarus/pull/616/files
+            var observerTopMargin;
+            var scrollObserver;
+            var headerElems = $(".headerlink");
+            var activeTocItem;
+        
+            function initIntersectionObserver(docHeight) {
+                observerTopMargin = docHeight;
+                scrollObserver = new IntersectionObserver(scrollCallBack,
+                    {
+                        root: null,  // viewpoint
+                        rootMargin: docHeight + "px 0px -80% 0px"  // cover top 30% of viewport to the top of document
+                    })
+            }
+        
+            function scrollCallBack(entries, observer) {
+                if ($(window).scrollTop() > observerTopMargin * 0.7) { 
+                    // User somehow scroll to 70% of observerTopMargin (which is inited as 200% document height)
+                    // Observer top margin need to extend to cover all the space to the top of the document
+                    initIntersectionObserver(observerTopMargin * 2)
+                    observer.disconnect();
+                    return;
+                }
+                let toActive;
+                if (entries[0].intersectionRatio == 1) {  // enter viewed area
+                    let entry = entries.reduce((u, v) => (u.target.toc_id > v.target.toc_id ? u : v));  // get the lowest item
+                    toActive = $("#toc-item-" + $(entry.target).attr("href").substr(1));
+                } else {
+                    let entry = entries.reduce((u, v) => (u.target.toc_id < v.target.toc_id ? u : v));  // get the highest item
+                    let idx = Math.max(entry.target.toc_id - 1, 0);
+                    toActive = $("#toc-item-" + $(headerElems[idx]).attr("href").substr(1));
+                }
+                if (activeTocItem) activeTocItem.removeClass("is-current");
+                activeTocItem = toActive
+                activeTocItem.addClass("is-current");
+            }
+        
+            initIntersectionObserver($(document).height() * 2);
+            headerElems.each(function (index, obj) {
+                obj.toc_id = index;
+                scrollObserver.observe(obj);
+            })
+        });</script></div><div class="card widget"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content size-small"><p><time dateTime="2021-01-01T16:00:00.000Z">2021-01-02</time></p><p class="title is-6"><a class="link-muted" href="/2021/01/02/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">深度学习笔记</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-04-10T16:00:00.000Z">2020-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2020/04/11/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/">朴素贝叶斯</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/">经典模型</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-04-10T16:00:00.000Z">2020-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2020/04/11/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E4%BB%8ENB%E5%88%B0%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">从NB到语言模型</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-04-10T16:00:00.000Z">2020-04-11</time></p><p class="title is-6"><a class="link-muted" href="/2020/04/11/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/">命名实体识别</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></p></div></article><article class="media"><div class="media-content size-small"><p><time dateTime="2020-03-02T14:22:00.000Z">2020-03-02</time></p><p class="title is-6"><a class="link-muted" href="/2020/03/02/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/%E8%B0%83%E5%8F%82%E6%8A%80%E5%B7%A7/">调参技巧</a></p><p class="is-uppercase"><i class="fas fa-folder-open has-text-grey"> </i><a class="link-muted" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/">知识总结</a></p></div></article></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/categories/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/"><span class="level-start"><span class="level-item">特征工程</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">理论基础</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/"><span class="level-start"><span class="level-item">知识总结</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"><span class="level-start"><span class="level-item">神经网络</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">经典模型</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"><span class="level-start"><span class="level-item">自然语言处理</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/"><span class="level-start"><span class="level-item">计算机视觉</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"><span class="level-start"><span class="level-item">论文阅读</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/"><span class="level-start"><span class="level-item">项目实践</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile is-marginless" href="/archives/2021/01/"><span class="level-start"><span class="level-item">一月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/04/"><span class="level-start"><span class="level-item">四月 2020</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2020/03/"><span class="level-start"><span class="level-item">三月 2020</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2019/11/"><span class="level-start"><span class="level-item">十一月 2019</span></span><span class="level-end"><span class="level-item tag">6</span></span></a></li><li><a class="level is-mobile is-marginless" href="/archives/2018/07/"><span class="level-start"><span class="level-item">七月 2018</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><a class="level is-mobile is-marginless" href="/archives/"><span class="level-start"><span class="level-item">查看全部&gt;&gt;</span></span></a></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/logo.svg" alt="星空str" height="28"></a><p class="size-small"><span>&copy; 2020 wasim37</span>  Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/wasim37"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'http://wangxin123.com',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back-to-top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script src="/js/gallery.js" defer></script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" defer></script><script>document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            MathJax.Hub.Config({
+                'HTML-CSS': {
+                    matchFontHeight: false
+                },
+                SVG: {
+                    matchFontHeight: false
+                },
+                CommonHTML: {
+                    matchFontHeight: false
+                },
+                tex2jax: {
+                    inlineMath: [
+                        ['$','$'],
+                        ['\\(','\\)']
+                    ]
+                }
+            });
+        });</script><!--!--><script src="/js/main.js" defer></script><script src="/js/comment-issue-data.js" defer></script><link rel="stylesheet" href="/css/insight.css"><div class="searchbox ins-search"><div class="searchbox-container ins-search-container"><div class="searchbox-input-wrapper"><input class="searchbox-input ins-search-input" type="text" placeholder="想要查找什么..."><span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span></div><div class="searchbox-result-wrapper ins-section-wrapper"><div class="ins-section-container"></div></div></div></div><script>(function (window) {
+            var INSIGHT_CONFIG = {
+                TRANSLATION: {
+                    POSTS: '文章',
+                    PAGES: '页面',
+                    CATEGORIES: '分类',
+                    TAGS: '标签',
+                    UNTITLED: '(无标题)',
+                },
+                CONTENT_URL: '/content.json',
+            };
+            window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+        })(window);</script><script src="/js/insight.js" defer></script></body></html>
