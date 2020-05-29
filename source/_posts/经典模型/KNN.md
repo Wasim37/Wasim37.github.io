@@ -7,6 +7,7 @@ categories:
 date: 2017-10-22 22:22:00
 toc: true
 mathjax: true
+recommend: 0
 
 ---
 
@@ -21,6 +22,7 @@ mathjax: true
 
 ![](https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E9%9B%86%E9%94%A6/20180514120948.png)
 
+<!-- more -->
 
 KNN算法不仅可以用于分类，**还可以用于回归。**
 通过找出一个样本的k个最近邻居，将这些邻居的属性的平均值赋给该样本，就可以得到该样本的属性。
