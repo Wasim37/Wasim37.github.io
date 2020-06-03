@@ -207,11 +207,6 @@ widgets:
                 icon: fas fa-rss
                 url: /atom.xml
 
-    # Recommendation links widget configurations
-    # Table of contents widget configurations
-    -
-        position: right
-        type: latest_comment
     # Recent posts widget configurations
     -
         # Where should the widget be placed, left sidebar or right sidebar
