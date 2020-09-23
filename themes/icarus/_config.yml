@@ -269,20 +269,4 @@ plugins:
 # https://ppoffice.github.io/hexo-theme-icarus/Configuration/Theme/speed-up-your-site-with-custom-cdn/
 
 
-# Comment plugin configurations
-# https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Comment/
-comment:
-    type: gitalk
-    # Disqus shortname
-#    shortname: ''
-    owner: Wasim37         # (required) GitHub user name
-    repo: blog_comment          # (required) GitHub repository name
-    client_id: 55fcbea044b44e047f89     # (required) OAuth application client id
-    client_secret: 47addd42a9469d80bd508118ac73033915e3142c # (required) OAuth application client secret
-    admin: ['wasim37']
-    create_issue_manually: true
-    distraction_free_mode: false
-    has_hot_recommend: false # 是否有热门推荐
-    has_latest_comment: false #是否有最新评论
-
 live2Dswitch: off #live2D开关 on 为打开
