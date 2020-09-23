@@ -142,9 +142,9 @@ module.exports = class extends Component {
             <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&amp;subset=latin,latin-ext"/>
             {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Itim|Lobster.css"/> */}
             <Plugins site={site} config={config} helper={helper} page={page} head={true} />
-            <link rel="stylesheet" href={url_for('/css/style.css')} />
+            <link rel="stylesheet" href={url_for('https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/style.css')} />
             <script src={cdn('jquery', '3.3.1', 'dist/jquery.min.js')}></script>
-            <script src={url_for('/js/globalUtils.js')}></script>
+            <script src={url_for('https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/globalUtils.js')}></script>
             {adsenseClientId ? <script data-ad-client={adsenseClientId}
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async={true}></script> : null}
             {config.live2Dswitch == 'on' ? <link rel="stylesheet" href={url_for('/live2d/waifu.css')}/> : null}
