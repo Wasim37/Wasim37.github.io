@@ -17,9 +17,6 @@ const PROVIDERS = {
     FONT: {
         google: 'https://fonts.googleapis.com/${ type }?family=${ fontname }',
         loli: 'https://fonts.loli.net/${ type }?family=${ fontname }'
-    },
-    ICON: {
-        fontawesome: 'https://use.fontawesome.com/releases/v5.12.0/css/all.css'
     }
 };
 
@@ -99,13 +96,5 @@ module.exports = function(hexo) {
         }
         return fontcdn.replace(/\${\s*fontname\s*}/gi, fontName)
             .replace(/\${\s*type\s*}/gi, type);
-    });
-
-    hexo.extend.helper.register('iconcdn', function() {
-        let { iconfont = 'fontawesome' } = typeof this.config.providers === 'object' ? this.config.providers : {};
-        if (iconfont in PROVIDERS.ICON) {
-            iconfont = PROVIDERS.ICON[iconfont];
-        }
-        return iconfont;
     });
 };
