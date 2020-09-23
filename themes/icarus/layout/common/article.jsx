@@ -2,7 +2,6 @@ const moment = require('moment');
 const { Component, Fragment } = require('inferno');
 const Share = require('./share');
 const Donates = require('./donates');
-const Comment = require('./comment');
 const crypto = require('crypto');
 const RecommendPosts = require('../widget/recommend_post');
 
@@ -20,12 +19,10 @@ module.exports = class extends Component {
     render() {
 
         const { config, helper, page, index, site } = this.props;
-        const { article, plugins,comment } = config;
+        const { article, plugins } = config;
         const { has_thumbnail, get_thumbnail, url_for, date, date_xml, __, _p } = helper;
 
         const language = page.lang || page.language || config.language || 'en';
-
-        const isGitalk = comment.type != 'undefined' && comment.type == 'gitalk';
 
         const id = crypto.createHash('md5').update(helper.get_path_end_str(page.path,page.uniqueId,page.title)).digest('hex');
 
@@ -54,8 +51,7 @@ module.exports = class extends Component {
                             {/* Date */}
                             <time class="level-item" dateTime={date_xml(page.date)}>{date(page.date)}</time>
 
-                            {comment.type !== 'undefined' && comment.type == 'gitalk' ?
-                                <a class="commentCountImg" href={`${url_for(page.link || page.path)}#comment-container`}><span class="display-none-class">{id}</span><img class="not-gallery-item" src={`${url_for('https://hexo-blog-wasim.oss-cn-shenzhen.aliyuncs.com/chat.svg')}`}/>&nbsp;<span class="commentCount" id={id}>&nbsp;0</span>&nbsp;&nbsp;&nbsp;&nbsp;</a> : null}
+                           
                             {/* Categories */}
                             {page.categories && page.categories.length ? <span class="level-item">
                                 {(() => {
@@ -137,8 +133,6 @@ module.exports = class extends Component {
                     </a>
                 </div> : null}
             </nav> : null}
-            {/* Comment */}
-            {!index ? <Comment config={config} page={page} helper={helper} /> : null}
         </Fragment>;
     }
 };

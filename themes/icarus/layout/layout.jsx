@@ -11,23 +11,8 @@ module.exports = class extends Component {
     render() {
         const { env, site, config, page, helper, body } = this.props;
 
-        const{ comment } = config;
-
         // =====index hot_recommend
-        var hotRecommendStr =
-            "<div class=\"card widget\">" +
-            "   <div class=\"card-content\">" +
-            "       <h3 class=\"menu-label\">热门推荐</h3><span id=\"index_hot_div\">加载中，稍等几秒...</span>" +
-            "   </div>" +
-            "</div>";
 
-        if (page.path != 'index.html'
-            || (comment.type == 'undefined'
-                || comment.type != 'gitalk'
-                || comment.has_hot_recommend == 'undefined'
-                || !comment.has_hot_recommend)) {
-            hotRecommendStr = '';
-        }
         // =====
 
         const language = page.lang || page.language || config.language;
@@ -49,7 +34,7 @@ module.exports = class extends Component {
                                 'is-8-tablet is-8-desktop is-8-widescreen': columnCount === 2,
                                 'is-8-tablet is-8-desktop is-6-widescreen': (page.layout != 'post' && page.layout != 'page') && columnCount === 3,
                                 'is-8-tablet is-8-desktop is-9-widescreen': page.layout == 'page' || page.layout == 'post'
-                            })} dangerouslySetInnerHTML={{ __html: hotRecommendStr+body }}></div>
+                            })} dangerouslySetInnerHTML={{ __html: body }}></div>
                             <Widgets site={site} config={config} helper={helper} page={page} position={'left'} />
                             { page.layout == 'page' || page.layout == 'post' ? null : <Widgets site={site} config={config} helper={helper} page={page} position={'right'} />}
                         </div>
